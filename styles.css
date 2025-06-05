@@ -12,9 +12,9 @@
     --accent: #0f3460;
     --highlight: #e94560;
     --text-light: #ffffff;
-    --text-gray: #a0a0a0;
-    --turquoise: #00d4ff;
-    --coral: #ff6b6b;
+    --text-gray: #dddddd; /*#a0a0a0*/
+    --turquoise: #fd54bb; /*original #00d4ff*/
+    --coral: #4b00ff; /*original #ff6b6b*/
     --sunset: #ff9f43;
 }
 
@@ -130,6 +130,7 @@ nav.scrolled {
     opacity: 0.8;
     filter: blur(10px);
     z-index: -1;
+    background-image: url("https://kevindesilva.de/wp-content/uploads/2025/04/Tahiti.webp");
 }
 
 @keyframes gradient-shift {
@@ -192,9 +193,9 @@ h1 {
 }
 
 .btn-secondary {
-    border: 2px solid var(--turquoise);
-    color: var(--turquoise);
-    background: transparent;
+    /*border: 2px solid var(--turquoise);*/
+    color: #f9f7f8; /*var(--turquoise);*/
+    background: #f7f7f766; /*transparent*/
 }
 
 .btn:hover {
