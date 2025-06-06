@@ -611,12 +611,14 @@
             object-fit: cover;
         }
 
+        
         /* Service Cards - Better Positioned */
         .service-cards {
             position: absolute;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 8;
         }
 
         .service-card-float {
@@ -624,13 +626,14 @@
             width: 320px;
             padding: 2rem;
             background: var(--glass-bg);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             opacity: 0;
             transform: scale(0.8) translateY(50px);
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            z-index: 9;
         }
 
         .service-card-float.visible {
@@ -649,29 +652,57 @@
             line-height: 1.5;
         }
 
-        /* Card Positioning */
-        .card-1 { top: 10%; left: 5%; }
-        .card-2 { top: 15%; right: 5%; }
-        .card-3 { bottom: 65%; left: 8%; }
-        .card-4 { bottom: 15%; right: 8%; }
+        /* Improved Card Positioning - More Visible */
+        .card-1 { 
+            top: 8%; 
+            left: 3%; 
+        }
 
-        /* Text Overlay for Journey */
-        .journey-text {
+        .card-2 { 
+            top: 12%; 
+            right: 3%; 
+        }
+
+        .card-3 { 
+            bottom: 20%; 
+            left: 5%; 
+        }
+
+        .card-4 { 
+            bottom: 12%; 
+            right: 5%; 
+        }
+
+        /* Ensure cards don't interfere with mobile */
+        @media (max-width: 768px) {
+            .desktop-journey .service-cards {
+                display: none;
+            }
+        }
+
+
+        /* Desktop Journey Text */
+        .journey-text-desktop {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            z-index: 10;
+            z-index: 15;  /* Higher z-index to appear above cards */
             opacity: 0;
             transition: all 1s ease;
         }
 
-        .journey-text.active {
+        .service-card-float:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 35px 70px rgba(0, 212, 255, 0.2);
+        }
+
+        .journey-text-desktop.active {
             opacity: 1;
         }
 
-        .journey-text h2 {
+        .journey-text-desktop h2 {
             font-size: 3rem;
             margin-bottom: 1rem;
             background: var(--gradient-primary);
@@ -680,11 +711,12 @@
             background-clip: text;
         }
 
-        .journey-text p {
+        .journey-text-desktop p {
             font-size: 1.1rem;
             color: var(--text-gray);
             max-width: 600px;
         }
+
 
         /* Services Section */
         .services-section {
@@ -878,6 +910,17 @@
 
         /* Mobile Responsiveness */
 
+        /* Desktop/Mobile Journey Toggle */
+        @media (max-width: 768px) {
+            .desktop-journey {
+                display: none !important;
+            }
+            
+            .mobile-journey {
+                display: block !important;
+            }
+        }
+
         /* Mobile hero personal image adjustment */
 
         @media (max-width: 768px) {
@@ -922,7 +965,7 @@
             }
 
             .hero-content {
-                padding: 2.5rem 2rem;
+                padding: 2.2rem 2rem;
                 margin: 0 1rem;
                 border-radius: 20px;
             }
@@ -938,45 +981,73 @@
                 text-align: center;
             }
             
-            /* Mobile Journey Section - Simplified */
+            /* Mobile Journey Section - Card + Screen Pairs */
             .journey-section {
                 height: auto;
-                padding: 4rem 0;
+                padding: 2rem 0;
             }
 
             .journey-sticky {
                 position: relative;
                 height: auto;
-                padding: 2rem 0;
+                padding: 0;
+            }
+
+            .journey-content {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 0 1rem;
             }
 
             .showcase-device {
-                width: 90vw;
-                height: 60vw;
-                max-width: 400px;
-                max-height: 300px;
-                padding: 20px;
-                margin-bottom: 3rem;
+                width: 100%;
+                max-width: 350px;
+                height: 220px;
+                padding: 15px;
+                margin: 0 auto 1rem auto;
             }
 
             .service-cards {
                 position: relative;
                 margin-top: 0;
                 height: auto;
+                display: block;
+                padding: 0;
+            }
+
+            /* Mobile Journey Items - Screen + Card Pairs */
+            .mobile-journey-item {
                 display: flex;
                 flex-direction: column;
-                gap: 2rem;
-                padding: 0 1rem;
+                align-items: center;
+                margin-bottom: 3rem;
+                width: 100%;
+                border-radius: 20px;
+                border: 1px solid var(--glass-border);
             }
 
             .service-card-float {
                 position: relative;
                 width: 100%;
-                margin-bottom: 0;
+                max-width: 350px;
+                margin: none; /*1rem auto 0 auto;*/
                 opacity: 1;
                 transform: none;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: none; /*rgba(255, 255, 255, 0.05);*/
+                border: none; /*1px solid rgba(255, 255, 255, 0.2);*/
+                padding: 1.5rem;
+            }
+
+
+            .service-card-float:hover {
+                transform: translateY(-10px);
+                border-color: rgba(0, 212, 255, 0.5);
+                box-shadow: 0 30px 60px rgba(0, 212, 255, 0.2);
+            }
+
+            .showcase-device {
+                background:none;
+                box-shadow:none;
             }
 
             .card-1, .card-2, .card-3, .card-4 {
@@ -992,23 +1063,25 @@
                 top: auto;
                 left: auto;
                 transform: none;
-                margin-top: 3rem;
+                margin: 3rem 1rem 3rem 1rem;
                 opacity: 1;
                 padding: 2rem;
                 background: var(--glass-bg);
                 backdrop-filter: blur(10px);
                 border: 1px solid var(--glass-border);
                 border-radius: 20px;
-                margin: 3rem 1rem 0 1rem;
+                max-width: 350px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .journey-text h2 {
-                font-size: 2rem;
+                font-size: 1.8rem;
                 margin-bottom: 1rem;
             }
 
             .journey-text p {
-                font-size: 1rem;
+                font-size: 0.9rem;
                 line-height: 1.6;
             }
 
@@ -1076,7 +1149,7 @@
             .hero-personal-image {
                 width: 60px;
                 height: 60px;
-                top: -10px;
+                top: -5px;
                 right: -10px;
             }
         }
@@ -1234,62 +1307,132 @@
     <section class="journey-section">
         <div class="journey-sticky">
             <div class="journey-content">
-                <!-- Central Showcase -->
-                <div class="showcase-device" id="showcase">
-                    <div class="device-screen">
-                        <div class="screen-content active" id="journey-screen-1">
-                            <img src="./via-studio-images/screens/Website App Service Overview - Vai Studio.jpg" alt="Polynesian Business Landscape" style="width: 100%; height: 100%; object-fit: cover;">
+                
+                <!-- Desktop View - Original Structure -->
+                <div class="desktop-journey" style="display: block;">
+                    <!-- Central Showcase -->
+                    <div class="showcase-device" id="showcase">
+                        <div class="device-screen">
+                            <div class="screen-content active" id="journey-screen-1">
+                                <img src="./via-studio-images/screens/Website App Service Overview - Vai Studio.jpg" alt="Polynesian Business Landscape" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="screen-content" id="journey-screen-2">
+                                <img src="./via-studio-images/screens/Website Booking Screen Vai Studio.jpg" alt="Tourism Website Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="screen-content" id="journey-screen-3">
+                                <img src="./via-studio-images/screens/Menu + App Screen - Vai Studio.jpg" alt="Restaurant Digital Solution" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="screen-content" id="journey-screen-4">
+                                <img src="./via-studio-images/screens/Digital Excellence AI - Vai Studio.jpg" alt="Modern Business Website" style="width: 100%; height: 100%; object-fit: cover; filter: opacity(40%);">
+                            </div>
                         </div>
-                        <div class="screen-content" id="journey-screen-2">
-                            <img src="./via-studio-images/screens/Website Booking Screen Vai Studio.jpg" alt="Tourism Website Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <!-- Floating Service Cards -->
+                    <div class="service-cards">
+                        <div class="service-card-float card-1" id="float-card-1">
+                            <h3 data-lang="en">🏝️ Tourism Solutions</h3>
+                            <h3 data-lang="fr">🏝️ Solutions Touristiques</h3>
+                            <p data-lang="en">Stunning booking platforms designed for French Polynesian tour operators and activity providers.</p>
+                            <p data-lang="fr">Plateformes de réservation magnifiques conçues pour les opérateurs touristiques et fournisseurs d'activités de Polynésie française.</p>
                         </div>
-                        <div class="screen-content" id="journey-screen-3">
-                            <img src="./via-studio-images/screens/Menu + App Screen - Vai Studio.jpg" alt="Restaurant Digital Solution" style="width: 100%; height: 100%; object-fit: cover;">
+                        
+                        <div class="service-card-float card-2" id="float-card-2">
+                            <h3 data-lang="en">🍽️ Restaurant Digital</h3>
+                            <h3 data-lang="fr">🍽️ Solutions Restaurants</h3>
+                            <p data-lang="en">Beautiful digital menus and ordering systems perfect for roulottes and local restaurants.</p>
+                            <p data-lang="fr">Menus numériques et systèmes de commande parfaits pour les roulottes et restaurants locaux.</p>
                         </div>
-                        <div class="screen-content" id="journey-screen-4">
-                            <img src="./via-studio-images/screens/Digital Excellence AI - Vai Studio.jpg" alt="Modern Business Website" style="width: 100%; height: 100%; object-fit: cover; filter: opacity(40%);">
+                        
+                        <div class="service-card-float card-3" id="float-card-3">
+                            <h3 data-lang="en">🚀 Business Kickstart</h3>
+                            <h3 data-lang="fr">🚀 Lancement Express</h3>
+                            <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
+                            <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement votre entreprise polynésienne sur le web.</p>
                         </div>
+                        
+                        <div class="service-card-float card-4" id="float-card-4">
+                            <h3 data-lang="en">🎨 Custom Design</h3>
+                            <h3 data-lang="fr">🎨 Design Sur Mesure</h3>
+                            <p data-lang="en">Unique websites that authentically represent your brand and island business.</p>
+                            <p data-lang="fr">Sites web uniques qui représentent authentiquement votre marque et votre entreprise insulaire.</p>
+                        </div>
+                    </div>
+
+                    <!-- Journey Text Overlay - Desktop Only -->
+                    <div class="journey-text-desktop" id="journey-text-desktop">
+                        <h2 data-lang="en">Digital Excellence</h2>
+                        <h2 data-lang="fr">Excellence Numérique</h2>
+                        <p data-lang="en">From Concept to Launch. Every project comes with a high quality design.</p>
+                        <p data-lang="fr">Du Concept au Lancement. Chaque projet bénéficie d'un design de haute qualité.</p>
                     </div>
                 </div>
 
-                <!-- Floating Service Cards -->
-                <div class="service-cards">
-                    <div class="service-card-float card-1" id="float-card-1">
-                        <h3 data-lang="en">🏝️ Tourism Solutions</h3>
-                        <h3 data-lang="fr">🏝️ Solutions Touristiques</h3>
-                        <p data-lang="en">Stunning booking platforms designed for French Polynesian tour operators and activity providers.</p>
-                        <p data-lang="fr">Plateformes de réservation magnifiques conçues pour les opérateurs touristiques et fournisseurs d'activités de Polynésie française.</p>
-                    </div>
+                <!-- Mobile View - Screen + Card Pairs -->
+                <div class="mobile-journey" style="display: none;">
+
+                    <!-- Starting Excellence Message -->
+                    <div class="journey-text">
+                        <h2 data-lang="en">Digital Excellence</h2>
+                        <h2 data-lang="fr">Excellence Numérique</h2>
+                        <p data-lang="en">From Concept to Launch. Every project comes with a high quality design.</p>
+                        <p data-lang="fr">Du Concept au Lancement. Chaque projet bénéficie d'un design de haute qualité.</p>
+                    </div>                   
                     
-                    <div class="service-card-float card-2" id="float-card-2">
-                        <h3 data-lang="en">🍽️ Restaurant Digital</h3>
-                        <h3 data-lang="fr">🍽️ Solutions Restaurants</h3>
-                        <p data-lang="en">Beautiful digital menus and ordering systems perfect for roulottes and local restaurants.</p>
-                        <p data-lang="fr">Menus numériques et systèmes de commande parfaits pour les roulottes et restaurants locaux.</p>
+                    <!-- Item 1: Tourism -->
+                    <div class="mobile-journey-item">
+                        <div class="showcase-device">
+                            <div class="device-screen">
+                                <img src="./via-studio-images/screens/Website Booking Screen Vai Studio.jpg" alt="Tourism Website" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </div>
+                        <div class="service-card-float">
+                            <h3 data-lang="en">🏝️ Tourism Solutions</h3>
+                            <h3 data-lang="fr">🏝️ Solutions Touristiques</h3>
+                            <p data-lang="en">Stunning booking platforms designed for French Polynesian tour operators and activity providers.</p>
+                            <p data-lang="fr">Plateformes de réservation magnifiques conçues pour les opérateurs touristiques et fournisseurs d'activités de Polynésie française.</p>
+                        </div>
                     </div>
-                    
-                    <div class="service-card-float card-3" id="float-card-3">
-                        <h3 data-lang="en">🚀 Business Kickstart</h3>
-                        <h3 data-lang="fr">🚀 Lancement Express</h3>
-                        <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
-                        <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement votre entreprise polynésienne sur le web.</p>
+
+                    <!-- Item 2: Restaurant -->
+                    <div class="mobile-journey-item">
+                        <div class="showcase-device">
+                            <div class="device-screen">
+                                <img src="./via-studio-images/screens/Menu + App Screen - Vai Studio.jpg" alt="Restaurant Solution" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </div>
+                        <div class="service-card-float">
+                            <h3 data-lang="en">🍽️ Restaurant Digital</h3>
+                            <h3 data-lang="fr">🍽️ Solutions Restaurants</h3>
+                            <p data-lang="en">Beautiful digital menus and ordering systems perfect for roulottes and local restaurants.</p>
+                            <p data-lang="fr">Menus numériques et systèmes de commande parfaits pour les roulottes et restaurants locaux.</p>
+                        </div>
                     </div>
-                    
-                    <div class="service-card-float card-4" id="float-card-4">
-                        <h3 data-lang="en">🎨 Custom Design</h3>
-                        <h3 data-lang="fr">🎨 Design Sur Mesure</h3>
-                        <p data-lang="en">Unique websites that authentically represent your brand and island business.</p>
-                        <p data-lang="fr">Sites web uniques qui représentent authentiquement votre marque et votre entreprise insulaire.</p>
+
+                    <!-- Item 3: Business Kickstart -->
+                    <div class="mobile-journey-item">
+                        <div class="showcase-device">
+                            <div class="device-screen">
+                                <img src="./via-studio-images/screens/Website App Service Overview - Vai Studio.jpg" alt="Business Website" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </div>
+                        <div class="service-card-float">
+                            <h3 data-lang="en">🚀 Business Kickstart</h3>
+                            <h3 data-lang="fr">🚀 Lancement Express</h3>
+                            <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
+                            <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement votre entreprise polynésienne sur le web.</p>
+                        </div>
                     </div>
+
+                    <!-- Final Excellence Message 
+                    <div class="journey-text">
+                        <h2 data-lang="en">Digital Excellence</h2>
+                        <h2 data-lang="fr">Excellence Numérique</h2>
+                        <p data-lang="en">From Concept to Launch. Every project comes with a high quality design.</p>
+                        <p data-lang="fr">Du Concept au Lancement. Chaque projet bénéficie d'un design de haute qualité.</p>
+                    </div>-->
                 </div>
 
-                <!-- Journey Text Overlay -->
-                <div class="journey-text" id="journey-text">
-                    <h2 data-lang="en">Digital Excellence</h2>
-                    <h2 data-lang="fr">Excellence Numérique</h2>
-                    <p data-lang="en">From Concept to Launch. Every project comes with a high quality design.</p>
-                    <p data-lang="fr">Du Concept au Lancement. Chaque projet bénéficie d'un design de haute qualité.</p>
-                </div>
             </div>
         </div>
     </section>
@@ -1516,9 +1659,9 @@
             
             // Update screen content based on scroll progress
             const screens = document.querySelectorAll('#journey-screen-1, #journey-screen-2, #journey-screen-3, #journey-screen-4');
-            const cards = document.querySelectorAll('.service-card-float');
+            const cards = document.querySelectorAll('.desktop-journey .service-card-float');
             const showcase = document.getElementById('showcase');
-            const journeyText = document.getElementById('journey-text');
+            const journeyTextDesktop = document.getElementById('journey-text-desktop');
             
             // Reset all screens and cards
             screens.forEach(screen => screen.classList.remove('active'));
@@ -1527,23 +1670,23 @@
             if (progress < 0.25) {
                 // Initial state
                 document.getElementById('journey-screen-1').classList.add('active');
-                journeyText.classList.remove('active');
+                if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
             } else if (progress < 0.5) {
                 // Tourism focus
                 document.getElementById('journey-screen-2').classList.add('active');
-                document.getElementById('float-card-1').classList.add('visible');
-                journeyText.classList.remove('active');
+                document.querySelector('.desktop-journey #float-card-1').classList.add('visible');
+                if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
             } else if (progress < 0.75) {
                 // Restaurant focus
                 document.getElementById('journey-screen-3').classList.add('active');
-                document.getElementById('float-card-2').classList.add('visible');
-                journeyText.classList.remove('active');
+                document.querySelector('.desktop-journey #float-card-2').classList.add('visible');
+                if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
             } else {
                 // Business/final state
                 document.getElementById('journey-screen-4').classList.add('active');
-                document.getElementById('float-card-3').classList.add('visible');
-                document.getElementById('float-card-4').classList.add('visible');
-                journeyText.classList.add('active');
+                document.querySelector('.desktop-journey #float-card-3').classList.add('visible');
+                document.querySelector('.desktop-journey #float-card-4').classList.add('visible');
+                if (journeyTextDesktop) journeyTextDesktop.classList.add('active');
             }
             
             // Subtle showcase scaling
@@ -1553,6 +1696,7 @@
                 showcase.style.transform = `scale(${scale}) rotateY(${rotation}deg)`;
             }
         }
+        
 
         // Mobile Journey - Static Display
         function initMobileJourney() {
