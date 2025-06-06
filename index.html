@@ -34,6 +34,81 @@
             line-height: 1.6;
         }
 
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile language switcher adjustment */
+        @media (max-width: 768px) {
+            .language-switcher {
+                top: 15px;
+                right: 15px;
+                padding: 0.3rem;
+                transform: scale(0.9);
+            }
+        }
+
+
+        .lang-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .lang-btn.active {
+            background: var(--gradient-primary);
+            transform: scale(1.1);
+        }
+
+        .lang-btn:hover {
+            transform: scale(1.05);
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+
+        /* Hidden content for language switching */
+        [data-lang]:not([data-lang="en"]) {
+            display: none;
+        }
+
+        body[data-current-lang="fr"] [data-lang="en"] {
+            display: none;
+        }
+
+        body[data-current-lang="fr"] [data-lang="fr"] {
+            display: block;
+        }
+
+        body[data-current-lang="fr"] .services-grid [data-lang="fr"] {
+            display: block;
+        }
+
+        body[data-current-lang="fr"] .contact-info [data-lang="fr"] {
+            display: block;
+        }
+
         /* Loading Screen */
         .loading-screen {
             position: fixed;
@@ -204,9 +279,52 @@
             width: 100%;
         }
 
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-light);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 2rem;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 0;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         /* Hero Section with Polynesian Elements */
         .hero-section {
             height: 100vh;
+            min-height: 600px;
             position: relative;
             display: flex;
             align-items: center;
@@ -221,7 +339,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('./via-studio-images/backgrounds/Moorea-Silhouette.JPG') !important;
+            background-image: url('./via-studio-images/backgrounds/Moorea-Silhouette.JPG');
             background-size: cover;
             background-position: center;
             opacity: 0.42;
@@ -269,58 +387,14 @@
             animation-delay: 0s;
         }
 
-        .shape-2 {
-            top: 60%;
-            right: 15%;
-            width: 80px;
-            height: 80px;
-            background-image: url('./via-studio-images/icons/palm-tree-2 white.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            animation-delay: -3s;
-        }
-
-        .shape-3 {
-            bottom: 30%;
-            left: 20%;
-            width: 50px;
-            height: 50px;
-            background-image: url('./via-studio-images/icons/tropical-flower.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            animation-delay: -6s;
-        }
-
-        .shape-4 {
-            top: 30%;
-            right: 30%;
-            width: 40px;
-            height: 40px;
-            background-image: url('./via-studio-images/icons/wave-pattern.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            animation-delay: -2s;
-        }
-
         /* Fallback for missing icons */
-        .shape-1:not([style*="background-image"]) {
-            background: var(--accent-blue);
-            border-radius: 50%;
-        }
-
-        .shape-2:not([style*="background-image"]) {
-            background: var(--accent-pink);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-        }
-
-        .shape-3:not([style*="background-image"]) {
-            background: var(--accent-coral);
-            transform: rotate(45deg);
-        }
-
-        .shape-4:not([style*="background-image"]) {
-            background: var(--accent-blue);
-            border-radius: 50%;
+        .shape-1:empty::before {
+            content: '🌴';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
         }
 
         @keyframes float {
@@ -337,13 +411,14 @@
             max-width: 900px;
             padding: 4rem 3rem;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(5px);
             border: 1px solid var(--glass-border);
             border-radius: 30px;
             box-shadow: 
                 0 25px 50px -12px rgba(0, 0, 0, 0.25),
                 0 0 60px rgba(0, 212, 255, 0.1);
             animation: fadeInUp 1s ease-out;
+            margin: 0 1rem;
         }
 
         /* Personal Kevin Image */
@@ -391,7 +466,7 @@
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 50px;
-            color: white /*var(--accent-blue)*/;
+            color: white;
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 2rem;
@@ -447,6 +522,7 @@
             font-size: 1rem;
             position: relative;
             overflow: hidden;
+            display: inline-block;
         }
 
         .btn-primary {
@@ -801,49 +877,187 @@
         }
 
         /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
 
-            .hero-content {
-                padding: 3rem 2rem;
-                margin: 0 1rem;
-            }
+        /* Mobile hero personal image adjustment */
+
+        @media (max-width: 768px) {
 
             .hero-personal-image {
-                width: 80px;
-                height: 80px;
-                top: -20px;
-                right: -20px;
+                width: 70px;
+                height: 70px;
+                top: -15px;
+                right: -15px;
+                border-width: 2px;
             }
-            
-            .showcase-device {
-                width: 90vw;
-                height: 60vw;
-                max-width: 600px;
-                max-height: 400px;
+
+            .language-switcher {
+                top: 10px;
+                right: 15px;
+                padding: 0.3rem;
             }
-            
-            .about-content {
-                grid-template-columns: 1fr;
+
+            .lang-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
             }
-            
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            
+
             .nav-links {
                 display: none;
             }
 
+            .mobile-menu-toggle {
+                display: flex;
+                position: absolute;
+                 right: 46%;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-content {
+                padding: 2.5rem 2rem;
+                margin: 0 1rem;
+                border-radius: 20px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+            
+            /* Mobile Journey Section - Simplified */
+            .journey-section {
+                height: auto;
+                padding: 4rem 0;
+            }
+
+            .journey-sticky {
+                position: relative;
+                height: auto;
+                padding: 2rem 0;
+            }
+
+            .showcase-device {
+                width: 90vw;
+                height: 60vw;
+                max-width: 400px;
+                max-height: 300px;
+                padding: 20px;
+                margin-bottom: 3rem;
+            }
+
+            .service-cards {
+                position: relative;
+                margin-top: 0;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
             .service-card-float {
-                width: 280px;
-                padding: 1.5rem;
+                position: relative;
+                width: 100%;
+                margin-bottom: 0;
+                opacity: 1;
+                transform: none;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .card-1, .card-2, .card-3, .card-4 {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                bottom: auto;
+            }
+
+            .journey-text {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin-top: 3rem;
+                opacity: 1;
+                padding: 2rem;
+                background: var(--glass-bg);
+                backdrop-filter: blur(10px);
+                border: 1px solid var(--glass-border);
+                border-radius: 20px;
+                margin: 3rem 1rem 0 1rem;
             }
 
             .journey-text h2 {
                 font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .journey-text p {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            /* Hide floating shapes on mobile for performance */
+            .floating-shapes {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .service-card {
+                padding: 2rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .about-text h2 {
+                font-size: 2.2rem;
+            }
+
+            .about-text p {
+                font-size: 1.1rem;
+            }
+
+            .founder-card {
+                padding: 2rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .contact-item {
+                padding: 1.5rem;
             }
 
             .loading-logo {
@@ -854,6 +1068,39 @@
             .loading-icon {
                 width: 30px;
                 height: 30px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+            .hero-personal-image {
+                width: 60px;
+                height: 60px;
+                top: -10px;
+                right: -10px;
+            }
+        }
+
+        /* Tablet Adjustments */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .showcase-device {
+                width: 70vw;
+                height: 50vw;
+                max-width: 600px;
+                max-height: 400px;
+            }
+
+            .service-card-float {
+                width: 280px;
+                padding: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 3.2rem;
+            }
+
+            .section-title {
+                font-size: 3rem;
             }
         }
 
@@ -882,7 +1129,13 @@
         }
     </style>
 </head>
-<body class="loading">
+<body class="loading" data-current-lang="en">
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang-btn="en" onclick="switchLanguage('en')" title="English">🇬🇧</button>
+        <button class="lang-btn" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français">🇫🇷</button>
+    </div>
+
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">
@@ -890,7 +1143,6 @@
         </div>
         
         <div class="loading-animation">
-            <!-- PLACEHOLDER: Polynesian loading icons here -->
             <div class="loading-icon">
                 <img src="./via-studio-images/loading/dancer male white-icon.png" alt="" onerror="this.innerHTML='🌴'">
             </div>
@@ -902,7 +1154,8 @@
             </div>
         </div>
         
-        <div class="loading-text">Crafting your digital paradise...</div>
+        <div class="loading-text" data-lang="en">Crafting your digital paradise...</div>
+        <div class="loading-text" data-lang="fr">Création de votre paradis numérique...</div>
     </div>
 
     <!-- Main Content -->
@@ -911,16 +1164,34 @@
     <nav class="navbar" id="navbar">
         <div class="nav-content">
             <div class="logo">
-                <!-- Using your existing logo path -->
                 <img src="./via-studio-images/logo/logo multicolor VAI Studio.png" alt="Vai Studio Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <div class="logo-text" style="display: none;">Vai Studio</div>
             </div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" data-lang="en">Home</a></li>
+                <li><a href="#services" data-lang="en">Services</a></li>
+                <li><a href="#about" data-lang="en">About</a></li>
+                <li><a href="#contact" data-lang="en">Contact</a></li>
+                <li><a href="#home" data-lang="fr">Accueil</a></li>
+                <li><a href="#services" data-lang="fr">Services</a></li>
+                <li><a href="#about" data-lang="fr">À propos</a></li>
+                <li><a href="#contact" data-lang="fr">Contact</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#home" data-lang="en" onclick="toggleMobileMenu()">Home</a>
+            <a href="#services" data-lang="en" onclick="toggleMobileMenu()">Services</a>
+            <a href="#about" data-lang="en" onclick="toggleMobileMenu()">About</a>
+            <a href="#contact" data-lang="en" onclick="toggleMobileMenu()">Contact</a>
+            <a href="#home" data-lang="fr" onclick="toggleMobileMenu()">Accueil</a>
+            <a href="#services" data-lang="fr" onclick="toggleMobileMenu()">Services</a>
+            <a href="#about" data-lang="fr" onclick="toggleMobileMenu()">À propos</a>
+            <a href="#contact" data-lang="fr" onclick="toggleMobileMenu()">Contact</a>
         </div>
     </nav>
 
@@ -933,9 +1204,6 @@
         
         <div class="floating-shapes">
             <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
         </div>
 
         <div class="hero-content">
@@ -946,13 +1214,18 @@
             
             <div class="hero-badge">
                 <div class="badge-icon"></div>
-                Based in French Polynesia
+                <span data-lang="en">Based in French Polynesia</span>
+                <span data-lang="fr">Basé en Polynésie française</span>
             </div>
-            <h1 class="hero-title">Transform Your Business Online</h1>
-            <p class="hero-subtitle">Stunning websites and digital solutions for Polynesian businesses.</p>
+            <h1 class="hero-title" data-lang="en">Transform Your Business Online</h1>
+            <h1 class="hero-title" data-lang="fr">Transformez Votre Entreprise en Ligne</h1>
+            <p class="hero-subtitle" data-lang="en">Stunning websites and digital solutions for Polynesian businesses.</p>
+            <p class="hero-subtitle" data-lang="fr">Sites web époustouflants et solutions numériques pour les entreprises polynésiennes.</p>
             <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Start Your Project</a>
-                <a href="#services" class="btn btn-secondary">Explore Services</a>
+                <a href="#contact" class="btn btn-primary" data-lang="en">Start Your Project</a>
+                <a href="#contact" class="btn btn-primary" data-lang="fr">Démarrer Votre Projet</a>
+                <a href="#services" class="btn btn-secondary" data-lang="en">Explore Services</a>
+                <a href="#services" class="btn btn-secondary" data-lang="fr">Découvrir les Services</a>
             </div>
         </div>
     </section>
@@ -965,7 +1238,7 @@
                 <div class="showcase-device" id="showcase">
                     <div class="device-screen">
                         <div class="screen-content active" id="journey-screen-1">
-                            <img src="./via-studio-images/screens/Modern Business Website Vai Studio.jpg" alt="Polynesian Business Landscape" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="./via-studio-images/screens/Website App Service Overview - Vai Studio.jpg" alt="Polynesian Business Landscape" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div class="screen-content" id="journey-screen-2">
                             <img src="./via-studio-images/screens/Website Booking Screen Vai Studio.jpg" alt="Tourism Website Preview" style="width: 100%; height: 100%; object-fit: cover;">
@@ -982,30 +1255,40 @@
                 <!-- Floating Service Cards -->
                 <div class="service-cards">
                     <div class="service-card-float card-1" id="float-card-1">
-                        <h3>🏝️ Tourism Solutions</h3>
-                        <p>Stunning booking platforms designed for French Polynesian tour operators and activity providers.</p>
+                        <h3 data-lang="en">🏝️ Tourism Solutions</h3>
+                        <h3 data-lang="fr">🏝️ Solutions Touristiques</h3>
+                        <p data-lang="en">Stunning booking platforms designed for French Polynesian tour operators and activity providers.</p>
+                        <p data-lang="fr">Plateformes de réservation magnifiques conçues pour les opérateurs touristiques et fournisseurs d'activités de Polynésie française.</p>
                     </div>
                     
                     <div class="service-card-float card-2" id="float-card-2">
-                        <h3>🍽️ Restaurant Digital</h3>
-                        <p>Beautiful digital menus and ordering systems perfect for roulottes and local restaurants.</p>
+                        <h3 data-lang="en">🍽️ Restaurant Digital</h3>
+                        <h3 data-lang="fr">🍽️ Solutions Restaurants</h3>
+                        <p data-lang="en">Beautiful digital menus and ordering systems perfect for roulottes and local restaurants.</p>
+                        <p data-lang="fr">Menus numériques et systèmes de commande parfaits pour les roulottes et restaurants locaux.</p>
                     </div>
                     
                     <div class="service-card-float card-3" id="float-card-3">
-                        <h3>🚀 Business Kickstart</h3>
-                        <p>Complete online presence package to get your Polynesian business online quickly.</p>
+                        <h3 data-lang="en">🚀 Business Kickstart</h3>
+                        <h3 data-lang="fr">🚀 Lancement Express</h3>
+                        <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
+                        <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement votre entreprise polynésienne sur le web.</p>
                     </div>
                     
                     <div class="service-card-float card-4" id="float-card-4">
-                        <h3>🎨 Custom Design</h3>
-                        <p>Unique websites that authentically represent your brand and island business.</p>
+                        <h3 data-lang="en">🎨 Custom Design</h3>
+                        <h3 data-lang="fr">🎨 Design Sur Mesure</h3>
+                        <p data-lang="en">Unique websites that authentically represent your brand and island business.</p>
+                        <p data-lang="fr">Sites web uniques qui représentent authentiquement votre marque et votre entreprise insulaire.</p>
                     </div>
                 </div>
 
                 <!-- Journey Text Overlay -->
                 <div class="journey-text" id="journey-text">
-                    <h2>Digital Excellence</h2>
-                    <p>From Concept to Launch. Every project comes with a high quality design.</p>
+                    <h2 data-lang="en">Digital Excellence</h2>
+                    <h2 data-lang="fr">Excellence Numérique</h2>
+                    <p data-lang="en">From Concept to Launch. Every project comes with a high quality design.</p>
+                    <p data-lang="fr">Du Concept au Lancement. Chaque projet bénéficie d'un design de haute qualité.</p>
                 </div>
             </div>
         </div>
@@ -1015,45 +1298,59 @@
     <section class="services-section" id="services">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Services That Drive Results</h2>
-                <p class="section-subtitle">From concept to launch, I provide everything your business needs in Polynesia to get the attention it deserves.</p>
+                <h2 class="section-title" data-lang="en">Services That Drive Results</h2>
+                <h2 class="section-title" data-lang="fr">Services Qui Génèrent des Résultats</h2>
+                <p class="section-subtitle" data-lang="en">From concept to launch, I provide everything your business needs in Polynesia to get the attention it deserves.</p>
+                <p class="section-subtitle" data-lang="fr">Du concept au lancement, je fournis tout ce dont votre entreprise a besoin en Polynésie pour obtenir l'attention qu'elle mérite.</p>
             </div>
             
             <div class="services-grid">
                 <div class="service-card">
                     <span class="service-icon">🌐</span>
-                    <h3>Custom Website Design</h3>
-                    <p>Beautiful, mobile-first websites built on modern platforms. Your unique vision crafted into a stunning digital presentation that tells your story and attracts ideal customers in French Polynesia.</p>
+                    <h3 data-lang="en">Custom Website Design</h3>
+                    <h3 data-lang="fr">Conception de Site Web Sur Mesure</h3>
+                    <p data-lang="en">Beautiful, mobile-first websites built on modern platforms. Your unique vision crafted into a stunning digital presentation that tells your story and attracts ideal customers in French Polynesia.</p>
+                    <p data-lang="fr">Sites web magnifiques, mobile-first, construits sur des plateformes modernes. Votre vision unique transformée en une présentation numérique époustouflante qui raconte votre histoire et attire les clients idéaux en Polynésie française.</p>
                 </div>
                 
                 <div class="service-card">
                     <span class="service-icon">🎨</span>
-                    <h3>Website Redesign & Modernization</h3>
-                    <p>Transform your existing website into a modern, engaging platform. I improve usability, mobile responsiveness, and SEO while reflecting your business quality.</p>
+                    <h3 data-lang="en">Website Redesign & Modernization</h3>
+                    <h3 data-lang="fr">Refonte et Modernisation de Sites Web</h3>
+                    <p data-lang="en">Transform your existing website into a modern, engaging platform. I improve usability, mobile responsiveness, and SEO while reflecting your business quality.</p>
+                    <p data-lang="fr">Transformez votre site web existant en une plateforme moderne et engageante. J'améliore l'utilisabilité, la réactivité mobile et le SEO tout en reflétant la qualité de votre entreprise.</p>
                 </div>
                 
                 <div class="service-card">
                     <span class="service-icon">🏝️</span>
-                    <h3>Tourism & Booking Solutions</h3>
-                    <p>Streamlined reservation systems tailored for tours, activities, and accommodations. Increase bookings with user-friendly systems designed for the Polynesian tourism market.</p>
+                    <h3 data-lang="en">Tourism & Booking Solutions</h3>
+                    <h3 data-lang="fr">Solutions Tourisme & Réservation</h3>
+                    <p data-lang="en">Streamlined reservation systems tailored for tours, activities, and accommodations. Increase bookings with user-friendly systems designed for the Polynesian tourism market.</p>
+                    <p data-lang="fr">Systèmes de réservation simplifiés adaptés aux tours, activités et hébergements. Augmentez vos réservations avec des systèmes conviviaux conçus pour le marché touristique polynésien.</p>
                 </div>
                 
                 <div class="service-card">
                     <span class="service-icon">🍽️</span>
-                    <h3>Restaurant Digital Solutions</h3>
-                    <p>Showcase your food specialities with beautiful menus, online ordering integration, and websites that make the customer say "WOW". Perfect for restaurants, cafes, and roulottes.</p>
+                    <h3 data-lang="en">Restaurant Digital Solutions</h3>
+                    <h3 data-lang="fr">Solutions Numériques pour Restaurants</h3>
+                    <p data-lang="en">Showcase your food specialities with beautiful menus, online ordering integration, and websites that make the customer say "WOW". Perfect for restaurants, cafes, and roulottes.</p>
+                    <p data-lang="fr">Mettez en valeur vos spécialités culinaires avec de beaux menus, l'intégration de commandes en ligne et des sites web qui font dire "WOW" aux clients. Parfait pour restaurants, cafés et roulottes.</p>
                 </div>
                 
                 <div class="service-card">
                     <span class="service-icon">🚀</span>
-                    <h3>Polynesian Business Kickstart</h3>
-                    <p>Everything you need to get Online fast: Beautiful website, SEO + Google Business optimization. Perfect for new or growing businesses.</p>
+                    <h3 data-lang="en">Polynesian Business Kickstart</h3>
+                    <h3 data-lang="fr">Lancement Express Polynésien</h3>
+                    <p data-lang="en">Everything you need to get Online fast: Beautiful website, SEO + Google Business optimization. Perfect for new or growing businesses.</p>
+                    <p data-lang="fr">Tout ce dont vous avez besoin pour être en ligne rapidement : Site web magnifique, SEO + optimisation Google Business. Parfait pour les nouvelles entreprises ou en croissance.</p>
                 </div>
                 
                 <div class="service-card">
                     <span class="service-icon">📱</span>
-                    <h3>Simple App Solutions</h3>
-                    <p>Extend your reach with smart apps that provide fast, user-friendly experiences. Perfect for showcasing services and engaging customers on mobile.</p>
+                    <h3 data-lang="en">Simple App Solutions</h3>
+                    <h3 data-lang="fr">Solutions d'Applications Simples</h3>
+                    <p data-lang="en">Extend your reach with smart apps that provide fast, user-friendly experiences. Perfect for showcasing services and engaging customers on mobile.</p>
+                    <p data-lang="fr">Étendez votre portée avec des applications intelligentes qui offrent des expériences rapides et conviviales. Parfait pour présenter des services et engager les clients sur mobile.</p>
                 </div>
             </div>
         </div>
@@ -1064,22 +1361,28 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <h2>Your On-Island Digital Partner</h2>
-                    <p>Hi, I'm Kevin De Silva, and with Vai Studio I bring international high quality web & app design to French Polynesia. I understand the unique needs of local businesses and the importance of an authentic online representation. Whether you're a small business, tourism operator, or restaurant owner, I'm here to elevate your online presence with international standards and Polynesian heart.</p>
-                    <p><strong>Why "Vai" Studio?</strong></p>
-                    <p><em>Vai</em> means water in Tahitian – symbolizing clarity, flow, and life-giving nature. I'm committed to helping local entrepreneurs achieve their dreams through beautiful, effective designs and digital solutions.</p>
-                    <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;">Let's Work Together</a>
+                    <h2 data-lang="en">Your On-Island Digital Partner</h2>
+                    <h2 data-lang="fr">Votre Partenaire Numérique Sur L'Île</h2>
+                    <p data-lang="en">Hi, I'm Kevin De Silva, and with Vai Studio I bring international high quality web & app design to French Polynesia. I understand the unique needs of local businesses and the importance of an authentic online representation. Whether you're a small business, tourism operator, or restaurant owner, I'm here to elevate your online presence with international standards and Polynesian heart.</p>
+                    <p data-lang="fr">Salut, je suis Kevin De Silva, et avec Vai Studio j'apporte un design web & app de haute qualité internationale en Polynésie française. Je comprends les besoins uniques des entreprises locales et l'importance d'une représentation en ligne authentique. Que vous soyez une petite entreprise, un opérateur touristique, ou propriétaire de restaurant, je suis là pour élever votre présence en ligne avec des standards internationaux et un cœur polynésien.</p>
+                    <p data-lang="en"><strong>Why "Vai" Studio?</strong></p>
+                    <p data-lang="fr"><strong>Pourquoi "Vai" Studio ?</strong></p>
+                    <p data-lang="en"><em>Vai</em> means water in Tahitian – symbolizing clarity, flow, and life-giving nature. I'm committed to helping local entrepreneurs achieve their dreams through beautiful, effective designs and digital solutions.</p>
+                    <p data-lang="fr"><em>Vai</em> signifie eau en tahitien – symbolisant la clarté, le flux et la nature vitale. Je m'engage à aider les entrepreneurs locaux à réaliser leurs rêves grâce à des designs magnifiques, efficaces et des solutions numériques.</p>
+                    <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;" data-lang="en">Let's Work Together</a>
+                    <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;" data-lang="fr">Travaillons Ensemble</a>
                 </div>
                 <div class="founder-card">
                     <div class="founder-image">
-                        <!-- Using your existing founder photo -->
                         <img src="./via-studio-images/founder/Kevin De Silva.jpeg" alt="Kevin De Silva - Founder of Vai Studio" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <h3>Kevin De Silva</h3>
-                    <p style="color: var(--accent-blue); margin-bottom: 1rem;"><strong>Creative Director</strong></p>
-                    <p style="color: var(--text-gray);">🇩🇪 German expertise. 🌍 International heart.</p>
+                    <p style="color: var(--accent-blue); margin-bottom: 1rem;"><strong data-lang="en">Creative Director</strong><strong data-lang="fr">Directeur Créatif</strong></p>
+                    <p style="color: var(--text-gray);" data-lang="en">🇩🇪 German expertise. 🌍 International heart.</p>
+                    <p style="color: var(--text-gray);" data-lang="fr">🇩🇪 Expertise allemande. 🌍 Cœur international.</p>
                     <p style="color: var(--text-gray);">
-                        <a href="kevindesilva.de/" target="_blank" style="color: var(--fbc-secondary-text); text-decoration: none;">▸ Learn more about me</a>
+                        <a href="kevindesilva.de/" target="_blank" style="color: var(--fbc-secondary-text); text-decoration: none;" data-lang="en">▸ Learn more about me</a>
+                        <a href="kevindesilva.de/" target="_blank" style="color: var(--fbc-secondary-text); text-decoration: none;" data-lang="fr">▸ En savoir plus sur moi</a>
                     </p>
                     <p style="color: var(--text-gray); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                         <a href="https://www.linkedin.com/in/kevin-desilva/" target="_blank" style="color: var(--fbc-secondary-text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
@@ -1095,24 +1398,31 @@
     <section class="contact-section" id="contact">
         <div class="container">
             <div class="contact-content">
-                <h2 class="section-title">Ready to Transform Your Business?</h2>
-                <p class="section-subtitle">Let's discuss how I can help your business shine in French Polynesia</p>
+                <h2 class="section-title" data-lang="en">Ready to Transform Your Business?</h2>
+                <h2 class="section-title" data-lang="fr">Prêt à Transformer Votre Entreprise ?</h2>
+                <p class="section-subtitle" data-lang="en">Let's discuss how I can help your business shine in French Polynesia</p>
+                <p class="section-subtitle" data-lang="fr">Discutons de la façon dont je peux aider votre entreprise à briller en Polynésie française</p>
                 
                 <!-- Using Jotform as you mentioned -->
                 <script type="text/javascript" src="https://form.jotform.com/jsform/251556126490861"></script>
                 
                 <div class="contact-info">
                     <div class="contact-item">
-                        <h3>Email Me</h3>
+                        <h3 data-lang="en">Email Me</h3>
+                        <h3 data-lang="fr">Écrivez-moi</h3>
                         <p>hello@kevindesiilva.de</p>
                     </div>
                     <div class="contact-item">
-                        <h3>Location</h3>
-                        <p>Based in Moorea, French Polynesia</p>
+                        <h3 data-lang="en">Location</h3>
+                        <h3 data-lang="fr">Localisation</h3>
+                        <p data-lang="en">Based in Moorea, French Polynesia</p>
+                        <p data-lang="fr">Basé à Moorea, Polynésie française</p>
                     </div>
                     <div class="contact-item">
-                        <h3>Response Time</h3>
-                        <p>Within 24 hours</p>
+                        <h3 data-lang="en">Response Time</h3>
+                        <h3 data-lang="fr">Temps de Réponse</h3>
+                        <p data-lang="en">Within 24 hours</p>
+                        <p data-lang="fr">Sous 24 heures</p>
                     </div>
                 </div>
             </div>
@@ -1122,14 +1432,47 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Vai Studio. Empowering businesses in French Polynesia.</p>
-            <p style="margin-top: 0.5rem; color: var(--text-gray);">Made with ❤️ in Moorea</p>
+            <p data-lang="en">&copy; 2025 Vai Studio. Empowering businesses in French Polynesia.</p>
+            <p data-lang="fr">&copy; 2025 Vai Studio. Autonomisation des entreprises en Polynésie française.</p>
+            <p style="margin-top: 0.5rem; color: var(--text-gray);" data-lang="en">Made with ❤️ in Moorea</p>
+            <p style="margin-top: 0.5rem; color: var(--text-gray);" data-lang="fr">Fait avec ❤️ à Moorea</p>
         </div>
     </footer>
 
     </div> <!-- End Main Content -->
 
     <script>
+        // Language Switching Function
+        function switchLanguage(lang) {
+            document.body.setAttribute('data-current-lang', lang);
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-lang-btn="${lang}"]`).classList.add('active');
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Store preference
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Load saved language preference
+        window.addEventListener('load', () => {
+            const savedLang = localStorage.getItem('preferred-language') || 'en';
+            if (savedLang !== 'en') {
+                switchLanguage(savedLang);
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
         // Loading Screen Management
         window.addEventListener('load', () => {
             const loadingScreen = document.getElementById('loadingScreen');
@@ -1155,7 +1498,7 @@
         // Parallax effect for hero background
         window.addEventListener('mousemove', (e) => {
             const heroBackground = document.getElementById('hero-bg');
-            if (heroBackground) {
+            if (heroBackground && window.innerWidth > 768) {
                 const x = (e.clientX / window.innerWidth) * 10;
                 const y = (e.clientY / window.innerHeight) * 10;
                 heroBackground.style.transform = `translate(${x}px, ${y}px)`;
@@ -1164,6 +1507,9 @@
 
         // Journey scroll animation
         function updateJourneyProgress() {
+            // Only run on desktop
+            if (window.innerWidth <= 768) return;
+            
             const journeySection = document.querySelector('.journey-section');
             const journeyRect = journeySection.getBoundingClientRect();
             const progress = Math.max(0, Math.min(1, -journeyRect.top / (journeyRect.height - window.innerHeight)));
@@ -1208,6 +1554,39 @@
             }
         }
 
+        // Mobile Journey - Static Display
+        function initMobileJourney() {
+            if (window.innerWidth <= 768) {
+                // Show all mobile content immediately
+                const mobileCards = document.querySelectorAll('.service-card-float');
+                const journeyText = document.getElementById('journey-text');
+                const firstScreen = document.getElementById('journey-screen-1');
+                
+                // Make sure first screen is visible
+                document.querySelectorAll('.screen-content').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                if (firstScreen) firstScreen.classList.add('active');
+                
+                // Show all cards and text
+                mobileCards.forEach(card => {
+                    card.classList.add('visible');
+                    card.style.opacity = '1';
+                    card.style.transform = 'none';
+                });
+                
+                if (journeyText) {
+                    journeyText.classList.add('active');
+                    journeyText.style.opacity = '1';
+                }
+            }
+        }
+
+        // Call on resize and load
+        window.addEventListener('resize', initMobileJourney);
+        window.addEventListener('load', initMobileJourney);
+
+
         // Smooth scrolling for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1230,7 +1609,14 @@
             updateJourneyProgress();
         });
         
-        window.addEventListener('resize', updateJourneyProgress);
+        window.addEventListener('resize', () => {
+            updateJourneyProgress();
+            // Close mobile menu on resize
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+        
         updateJourneyProgress();
 
         // Intersection Observer for animations
@@ -1252,10 +1638,37 @@
             observer.observe(el);
         });
 
-        // Enhanced floating shapes animation
-        document.querySelectorAll('.shape').forEach((shape, index) => {
-            const animationDuration = 8 + (index * 2);
-            shape.style.animationDuration = `${animationDuration}s`;
+        // Enhanced floating shapes animation (desktop only)
+        if (window.innerWidth > 768) {
+            document.querySelectorAll('.shape').forEach((shape, index) => {
+                const animationDuration = 8 + (index * 2);
+                shape.style.animationDuration = `${animationDuration}s`;
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Prevent body scroll when mobile menu is open
+        const mobileMenuObserver = new MutationObserver(() => {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+
+        mobileMenuObserver.observe(document.getElementById('mobileMenu'), {
+            attributes: true,
+            attributeFilter: ['class']
         });
     </script>
 </body>
