@@ -18,10 +18,12 @@
             --accent-blue: #00d4ff;
             --accent-pink: #ff006e;
             --accent-coral: #ff4757;
+            --accent-green: #2ed573;
             --text-light: #ffffff;
             --text-gray: #f1f1f1;
             --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #ff006e 100%);
             --gradient-secondary: linear-gradient(135deg, #ff4757 0%, #3742fa 100%);
+            --gradient-impact: linear-gradient(135deg, #2ed573 0%, #00d4ff 100%);
             --glass-bg: rgba(26, 26, 46, 0.69);
             --glass-border: rgba(0, 212, 255, 0.2);
         }
@@ -60,7 +62,6 @@
             }
         }
 
-
         .lang-btn {
             width: 35px;
             height: 35px;
@@ -86,7 +87,6 @@
             transform: scale(1.05);
             background: rgba(0, 212, 255, 0.2);
         }
-
 
         /* Hidden content for language switching */
         [data-lang]:not([data-lang="en"]) {
@@ -536,12 +536,17 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        .btn-impact {
+            background: var(--gradient-impact);
+            color: white;
+        }
+
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(0, 212, 255, 0.2);
         }
 
-        /* Scroll-triggered Animation Journey */
+        /* Scroll-triggered Animation Journey - Performance Optimized for Chrome */
         .journey-section {
             height: 300vh;
             position: relative;
@@ -579,6 +584,7 @@
                 0 50px 100px rgba(0, 0, 0, 0.3),
                 0 0 80px rgba(0, 212, 255, 0.1);
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
 
         .device-screen {
@@ -599,6 +605,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            will-change: opacity;
         }
 
         .screen-content.active {
@@ -611,10 +618,8 @@
             object-fit: cover;
         }
 
-        
         /* Service Cards - Better Positioned */
         .service-cards {
-            /*position: absolute;*/
             width: 100%;
             height: 100%;
             pointer-events: none;
@@ -634,6 +639,7 @@
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             z-index: 9;
+            will-change: transform, opacity;
         }
 
         .service-card-float.visible {
@@ -680,7 +686,6 @@
             }
         }
 
-
         /* Desktop Journey Text */
         .journey-text-desktop {
             position: absolute;
@@ -688,9 +693,10 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            z-index: 15;  /* Higher z-index to appear above cards */
+            z-index: 15;
             opacity: 0;
             transition: all 1s ease;
+            will-change: opacity;
         }
 
         .service-card-float:hover {
@@ -716,7 +722,6 @@
             color: var(--text-gray);
             max-width: 600px;
         }
-
 
         /* Services Section */
         .services-section {
@@ -807,10 +812,142 @@
             line-height: 1.6;
         }
 
+        /* Social Impact Section */
+        .social-impact-section {
+            padding: 8rem 0;
+            background: var(--secondary-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-impact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(46, 213, 115, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .social-impact-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .impact-text h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: var(--gradient-impact);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .impact-text p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .impact-highlight {
+            background: rgba(46, 213, 115, 0.1);
+            border: 1px solid rgba(46, 213, 115, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .impact-highlight h3 {
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(46, 213, 115, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-impact);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .impact-visual {
+            position: relative;
+        }
+
+        .impact-card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .impact-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(46, 213, 115, 0.5);
+            box-shadow: 0 20px 40px rgba(46, 213, 115, 0.1);
+        }
+
+        .impact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .impact-card h4 {
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .impact-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
         /* About Section */
         .about-section {
             padding: 8rem 0;
-            background: var(--secondary-dark);
+            background: var(--primary-dark);
         }
 
         .about-content {
@@ -863,7 +1000,7 @@
         /* Contact Section */
         .contact-section {
             padding: 8rem 0;
-            background: var(--primary-dark);
+            background: var(--secondary-dark);
             text-align: center;
         }
 
@@ -902,7 +1039,7 @@
 
         /* Footer */
         .footer {
-            background: var(--secondary-dark);
+            background: var(--primary-dark);
             padding: 3rem 0;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -922,9 +1059,7 @@
         }
 
         /* Mobile hero personal image adjustment */
-
         @media (max-width: 768px) {
-
             .hero-personal-image {
                 width: 70px;
                 height: 70px;
@@ -1005,6 +1140,8 @@
                 height: 220px;
                 padding: 15px;
                 margin: 0 auto 1rem auto;
+                background: none;
+                box-shadow: none;
             }
 
             .service-cards {
@@ -1030,24 +1167,18 @@
                 position: relative;
                 width: 100%;
                 max-width: 350px;
-                margin: none; /*1rem auto 0 auto;*/
+                margin: none;
                 opacity: 1;
                 transform: none;
-                background: none; /*rgba(255, 255, 255, 0.05);*/
-                border: none; /*1px solid rgba(255, 255, 255, 0.2);*/
+                background: none;
+                border: none;
                 padding: 1.5rem;
             }
-
 
             .service-card-float:hover {
                 transform: translateY(-10px);
                 border-color: rgba(0, 212, 255, 0.5);
                 box-shadow: 0 30px 60px rgba(0, 212, 255, 0.2);
-            }
-
-            .showcase-device {
-                background:none;
-                box-shadow:none;
             }
 
             .card-1, .card-2, .card-3, .card-4 {
@@ -1095,6 +1226,21 @@
                 gap: 2rem;
             }
 
+            .social-impact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .impact-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .impact-card-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
             .services-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
@@ -1112,11 +1258,11 @@
                 font-size: 1.1rem;
             }
 
-            .about-text h2 {
+            .about-text h2, .impact-text h2 {
                 font-size: 2.2rem;
             }
 
-            .about-text p {
+            .about-text p, .impact-text p {
                 font-size: 1.1rem;
             }
 
@@ -1142,7 +1288,6 @@
                 width: 30px;
                 height: 30px;
             }
-
         }
 
         @media (max-width: 480px) {
@@ -1228,7 +1373,7 @@
         </div>
         
         <div class="loading-text" data-lang="en">Crafting your digital paradise...</div>
-        <div class="loading-text" data-lang="fr">Création de votre paradis numérique...</div>
+        <div class="loading-text" data-lang="fr">On crée ton paradis numérique...</div>
     </div>
 
     <!-- Main Content -->
@@ -1243,10 +1388,12 @@
             <ul class="nav-links">
                 <li><a href="#home" data-lang="en">Home</a></li>
                 <li><a href="#services" data-lang="en">Services</a></li>
+                <li><a href="#impact" data-lang="en">Social Impact</a></li>
                 <li><a href="#about" data-lang="en">About</a></li>
                 <li><a href="#contact" data-lang="en">Contact</a></li>
                 <li><a href="#home" data-lang="fr">Accueil</a></li>
                 <li><a href="#services" data-lang="fr">Services</a></li>
+                <li><a href="#impact" data-lang="fr">Impact Social</a></li>
                 <li><a href="#about" data-lang="fr">À propos</a></li>
                 <li><a href="#contact" data-lang="fr">Contact</a></li>
             </ul>
@@ -1259,10 +1406,12 @@
         <div class="mobile-menu" id="mobileMenu">
             <a href="#home" data-lang="en" onclick="toggleMobileMenu()">Home</a>
             <a href="#services" data-lang="en" onclick="toggleMobileMenu()">Services</a>
+            <a href="#impact" data-lang="en" onclick="toggleMobileMenu()">Social Impact</a>
             <a href="#about" data-lang="en" onclick="toggleMobileMenu()">About</a>
             <a href="#contact" data-lang="en" onclick="toggleMobileMenu()">Contact</a>
             <a href="#home" data-lang="fr" onclick="toggleMobileMenu()">Accueil</a>
             <a href="#services" data-lang="fr" onclick="toggleMobileMenu()">Services</a>
+            <a href="#impact" data-lang="fr" onclick="toggleMobileMenu()">Impact Social</a>
             <a href="#about" data-lang="fr" onclick="toggleMobileMenu()">À propos</a>
             <a href="#contact" data-lang="fr" onclick="toggleMobileMenu()">Contact</a>
         </div>
@@ -1296,9 +1445,9 @@
             <p class="hero-subtitle" data-lang="fr">Sites web, applis, réservations & menus – Sois visible partout.</p>
             <div class="hero-buttons">
                 <a href="#contact" class="btn btn-primary" data-lang="en">Start Your Project</a>
-                <a href="#contact" class="btn btn-primary" data-lang="fr">Démarrer Votre Projet</a>
+                <a href="#contact" class="btn btn-primary" data-lang="fr">Commence ton projet</a>
                 <a href="#services" class="btn btn-secondary" data-lang="en">Explore Services</a>
-                <a href="#services" class="btn btn-secondary" data-lang="fr">Découvrir les Services</a>
+                <a href="#services" class="btn btn-secondary" data-lang="fr">Découvre mes services</a>
             </div>
         </div>
     </section>
@@ -1348,14 +1497,14 @@
                             <h3 data-lang="en">🚀 Business Kickstart</h3>
                             <h3 data-lang="fr">🚀 Lancement Express</h3>
                             <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
-                            <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement votre entreprise polynésienne sur le web.</p>
+                            <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement ton entreprise polynésienne sur le web.</p>
                         </div>
                         
                         <div class="service-card-float card-4" id="float-card-4">
                             <h3 data-lang="en">🎨 Custom Design</h3>
                             <h3 data-lang="fr">🎨 Design Sur Mesure</h3>
                             <p data-lang="en">Unique websites that authentically represent your brand and island business.</p>
-                            <p data-lang="fr">Sites web uniques qui représentent authentiquement votre marque et votre entreprise insulaire.</p>
+                            <p data-lang="fr">Sites web uniques qui représentent authentiquement ta marque et ton entreprise insulaire.</p>
                         </div>
                     </div>
 
@@ -1420,17 +1569,9 @@
                             <h3 data-lang="en">🚀 Business Kickstart</h3>
                             <h3 data-lang="fr">🚀 Lancement Express</h3>
                             <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
-                            <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement votre entreprise polynésienne sur le web.</p>
+                            <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement ton entreprise polynésienne sur le web.</p>
                         </div>
                     </div>
-
-                    <!-- Final Excellence Message 
-                    <div class="journey-text">
-                        <h2 data-lang="en">Digital Excellence</h2>
-                        <h2 data-lang="fr">Excellence Numérique</h2>
-                        <p data-lang="en">From Concept to Launch. Every project comes with a high quality design.</p>
-                        <p data-lang="fr">Du Concept au Lancement. Chaque projet bénéficie d'un design de haute qualité.</p>
-                    </div>-->
                 </div>
 
             </div>
@@ -1444,7 +1585,7 @@
                 <h2 class="section-title" data-lang="en">Services That Drive Results</h2>
                 <h2 class="section-title" data-lang="fr">Services Qui Génèrent des Résultats</h2>
                 <p class="section-subtitle" data-lang="en">From concept to launch, I provide everything your business needs in Polynesia to get the attention it deserves.</p>
-                <p class="section-subtitle" data-lang="fr">Du concept au lancement, je fournis tout ce dont votre entreprise a besoin en Polynésie pour obtenir l'attention qu'elle mérite.</p>
+                <p class="section-subtitle" data-lang="fr">Du concept au lancement, je fournis tout ce dont ton entreprise a besoin en Polynésie pour obtenir l'attention qu'elle mérite.</p>
             </div>
             
             <div class="services-grid">
@@ -1453,7 +1594,7 @@
                     <h3 data-lang="en">Custom Website Design</h3>
                     <h3 data-lang="fr">Conception de Site Web Sur Mesure</h3>
                     <p data-lang="en">Beautiful, mobile-first websites built on modern platforms. Your unique vision crafted into a stunning digital presentation that tells your story and attracts ideal customers in French Polynesia.</p>
-                    <p data-lang="fr">Sites web magnifiques, mobile-first, construits sur des plateformes modernes. Votre vision unique transformée en une présentation numérique époustouflante qui raconte votre histoire et attire les clients idéaux en Polynésie française.</p>
+                    <p data-lang="fr">Sites web magnifiques, mobile-first, construits sur des plateformes modernes. Ta vision unique transformée en une présentation numérique époustouflante qui raconte ton histoire et attire les clients idéaux en Polynésie française.</p>
                 </div>
                 
                 <div class="service-card">
@@ -1461,7 +1602,7 @@
                     <h3 data-lang="en">Website Redesign & Modernization</h3>
                     <h3 data-lang="fr">Refonte et Modernisation de Sites Web</h3>
                     <p data-lang="en">Transform your existing website into a modern, engaging platform. I improve usability, mobile responsiveness, and SEO while reflecting your business quality.</p>
-                    <p data-lang="fr">Transformez votre site web existant en une plateforme moderne et engageante. J'améliore l'utilisabilité, la réactivité mobile et le SEO tout en reflétant la qualité de votre entreprise.</p>
+                    <p data-lang="fr">Je transforme ton site web existant en une plateforme moderne et engageante. J'améliore l'utilisabilité, la réactivité mobile et le SEO tout en reflétant la qualité de ton entreprise.</p>
                 </div>
                 
                 <div class="service-card">
@@ -1469,7 +1610,7 @@
                     <h3 data-lang="en">Tourism & Booking Solutions</h3>
                     <h3 data-lang="fr">Solutions Tourisme & Réservation</h3>
                     <p data-lang="en">Streamlined reservation systems tailored for tours, activities, and accommodations. Increase bookings with user-friendly systems designed for the Polynesian tourism market.</p>
-                    <p data-lang="fr">Systèmes de réservation simplifiés adaptés aux tours, activités et hébergements. Augmentez vos réservations avec des systèmes conviviaux conçus pour le marché touristique polynésien.</p>
+                    <p data-lang="fr">Systèmes de réservation simplifiés adaptés aux tours, activités et hébergements. Augmente tes réservations avec des systèmes conviviaux conçus pour le marché touristique polynésien.</p>
                 </div>
                 
                 <div class="service-card">
@@ -1477,7 +1618,7 @@
                     <h3 data-lang="en">Restaurant Digital Solutions</h3>
                     <h3 data-lang="fr">Solutions Numériques pour Restaurants</h3>
                     <p data-lang="en">Showcase your food specialities with beautiful menus, online ordering integration, and websites that make the customer say "WOW". Perfect for restaurants, cafes, and roulottes.</p>
-                    <p data-lang="fr">Mettez en valeur vos spécialités culinaires avec de beaux menus, l'intégration de commandes en ligne et des sites web qui font dire "WOW" aux clients. Parfait pour restaurants, cafés et roulottes.</p>
+                    <p data-lang="fr">Mets en valeur tes spécialités culinaires avec de beaux menus, l'intégration de commandes en ligne et des sites web qui font dire "WOW" aux clients. Parfait pour restaurants, cafés et roulottes.</p>
                 </div>
                 
                 <div class="service-card">
@@ -1485,7 +1626,7 @@
                     <h3 data-lang="en">Polynesian Business Kickstart</h3>
                     <h3 data-lang="fr">Lancement Express Polynésien</h3>
                     <p data-lang="en">Everything you need to get Online fast: Beautiful website, SEO + Google Business optimization. Perfect for new or growing businesses.</p>
-                    <p data-lang="fr">Tout ce dont vous avez besoin pour être en ligne rapidement : Site web magnifique, SEO + optimisation Google Business. Parfait pour les nouvelles entreprises ou en croissance.</p>
+                    <p data-lang="fr">Tout ce dont tu as besoin pour être en ligne rapidement : Site web magnifique, SEO + optimisation Google Business. Parfait pour les nouvelles entreprises ou en croissance.</p>
                 </div>
                 
                 <div class="service-card">
@@ -1493,7 +1634,84 @@
                     <h3 data-lang="en">Simple App Solutions</h3>
                     <h3 data-lang="fr">Solutions d'Applications Simples</h3>
                     <p data-lang="en">Extend your reach with smart apps that provide fast, user-friendly experiences. Perfect for showcasing services and engaging customers on mobile.</p>
-                    <p data-lang="fr">Étendez votre portée avec des applications intelligentes qui offrent des expériences rapides et conviviales. Parfait pour présenter des services et engager les clients sur mobile.</p>
+                    <p data-lang="fr">Étends ta portée avec des applications intelligentes qui offrent des expériences rapides et conviviales. Parfait pour présenter des services et engager les clients sur mobile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Impact Section -->
+    <section class="social-impact-section" id="impact">
+        <div class="container">
+            <div class="social-impact-content">
+                <div class="impact-text">
+                    <h2 data-lang="en">Digital Growth for Good</h2>
+                    <h2 data-lang="fr">Croissance Numérique pour le Bien</h2>
+                    <p data-lang="en">Vai Studio is more than just business development – we're an accelerator for positive change in French Polynesia. I believe technology should lift up communities, not just profits.</p>
+                    <p data-lang="fr">Vai Studio c'est plus que du développement commercial – nous sommes un accélérateur de changement positif en Polynésie française. Je crois que la technologie doit élever les communautés, pas seulement les profits.</p>
+                    
+                    <div class="impact-highlight">
+                        <h3 data-lang="en">🌱 My Social Impact Commitment</h3>
+                        <h3 data-lang="fr">🌱 Mon Engagement Social</h3>
+                        <p data-lang="en"><strong>5% of all digital project revenue</strong> goes directly to social causes in Polynesia. Every website, app, and digital solution helps fund education, environmental protection, and community development.</p>
+                        <p data-lang="fr"><strong>5% de tous les revenus de projets numériques</strong> vont directement aux causes sociales en Polynésie. Chaque site web, application et solution numérique aide à financer l'éducation, la protection environnementale et le développement communautaire.</p>
+                    </div>
+
+                    <div class="impact-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">5%</div>
+                            <div class="stat-label" data-lang="en">Revenue to Social Causes</div>
+                            <div class="stat-label" data-lang="fr">Revenus aux Causes Sociales</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label" data-lang="en">Pro-bono for Nonprofits</div>
+                            <div class="stat-label" data-lang="fr">Gratuit pour les Associations</div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <p data-lang="en">I prioritize working with social impact businesses and organizations that bring real value to our island communities. Together, we can build a digital future that serves everyone.</p>
+                    <p data-lang="fr">Je privilégie le travail avec les entreprises et organisations à impact social qui apportent une vraie valeur à nos communautés insulaires. Ensemble, nous pouvons construire un avenir numérique qui sert tout le monde.</p>
+
+                    <a href="#contact" class="btn btn-impact" style="margin-top: 2rem; display: inline-block;" data-lang="en">Join the Movement</a>
+                    <a href="#contact" class="btn btn-impact" style="margin-top: 2rem; display: inline-block;" data-lang="fr">Rejoins le Mouvement</a>
+                </div>
+
+                <div class="impact-visual">
+                    <div class="impact-card-grid">
+                        <div class="impact-card">
+                            <span class="impact-icon">🌺</span>
+                            <h4 data-lang="en">Pro-bono Projects</h4>
+                            <h4 data-lang="fr">Projets Gratuits</h4>
+                            <p data-lang="en">Free digital solutions for registered nonprofits and social causes in French Polynesia</p>
+                            <p data-lang="fr">Solutions numériques gratuites pour les associations et causes sociales enregistrées en Polynésie française</p>
+                        </div>
+                        
+                        <div class="impact-card">
+                            <span class="impact-icon">🌊</span>
+                            <h4 data-lang="en">Ocean Protection</h4>
+                            <h4 data-lang="fr">Protection Océanique</h4>
+                            <p data-lang="en">Supporting marine conservation efforts through funding and digital advocacy platforms</p>
+                            <p data-lang="fr">Soutien aux efforts de conservation marine par le financement et les plateformes de plaidoyer numérique</p>
+                        </div>
+                        
+                        <div class="impact-card">
+                            <span class="impact-icon">📚</span>
+                            <h4 data-lang="en">Education Access</h4>
+                            <h4 data-lang="fr">Accès à l'Éducation</h4>
+                            <p data-lang="en">Funding digital literacy programs and educational technology for local youth</p>
+                            <p data-lang="fr">Financement de programmes de littératie numérique et de technologie éducative pour les jeunes locaux</p>
+                        </div>
+                        
+                        <div class="impact-card">
+                            <span class="impact-icon">🌱</span>
+                            <h4 data-lang="en">Sustainable Business</h4>
+                            <h4 data-lang="fr">Business Durable</h4>
+                            <p data-lang="en">Prioritizing eco-conscious businesses and sustainable tourism operators</p>
+                            <p data-lang="fr">Priorisation des entreprises éco-responsables et des opérateurs de tourisme durable</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1507,12 +1725,13 @@
                     <h2 data-lang="en">Your Digital Partner</h2>
                     <h2 data-lang="fr">Ton Allié Numérique</h2>
                     <p data-lang="en">Hi, I'm Kevin De Silva, and with Vai Studio I bring international high quality web & app design to French Polynesia. I understand the unique needs of local businesses and the importance of an authentic online representation. Whether you're a small business, tourism operator, or restaurant owner, I'm here to elevate your online presence with international standards and Polynesian heart.</p>
-                    <p data-lang="fr">Salut, je suis Kevin De Silva, et avec Vai Studio j'apporte un design web & app de haute qualité internationale en Polynésie française. Je comprends les besoins uniques des entreprises locales et l'importance d'une représentation en ligne authentique. Que vous soyez une petite entreprise, un opérateur touristique, ou propriétaire de restaurant, je suis là pour élever votre présence en ligne avec des standards internationaux et un cœur polynésien.</p>
+                    <p data-lang="fr">Salut, je suis Kevin De Silva, et avec Vai Studio j'apporte un design web & app de haute qualité internationale en Polynésie française. Je comprends les besoins uniques des entreprises locales et l'importance d'une représentation en ligne authentique. Que tu sois une petite entreprise, un opérateur touristique, ou propriétaire de restaurant, je suis là pour élever ta présence en ligne avec des standards internationaux et un cœur polynésien.</p>
                     <p data-lang="en"><strong>Why "Vai" Studio?</strong></p>
                     <p data-lang="fr"><strong>Pourquoi "Vai" Studio ?</strong></p>
                     <p data-lang="en"><em>Vai</em> means water in Tahitian – symbolizing clarity, flow, and life-giving nature. I'm committed to helping local entrepreneurs achieve their dreams through beautiful, effective designs and digital solutions.</p>
                     <p data-lang="fr"><em>Vai</em> signifie eau en tahitien – symbolisant la clarté, le flux et la nature vitale. Je m'engage à aider les entrepreneurs locaux à réaliser leurs rêves grâce à des designs magnifiques, efficaces et des solutions numériques.</p>
                     <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;" data-lang="en">Let's Go!</a>
+                    <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;" data-lang="fr">C'est parti !</a>
                 </div>
                 <div class="founder-card">
                     <div class="founder-image">
@@ -1523,11 +1742,11 @@
                     <p style="color: var(--text-gray);" data-lang="en">🇩🇪 German expertise. 🌍 International heart.</p>
                     <p style="color: var(--text-gray);" data-lang="fr">🇩🇪 Expertise allemande. 🌍 Cœur international.</p>
                     <p style="color: var(--text-gray);">
-                        <a href="https://kevindesilva.de/" target="_blank" style="color: var(--fbc-secondary-text); text-decoration: none;" data-lang="en">▸ Learn more about me</a>
-                        <a href="https://kevindesilva.de/" target="_blank" style="color: var(--fbc-secondary-text); text-decoration: none;" data-lang="fr">▸ En savoir plus sur moi</a>
+                        <a href="https://kevindesilva.de/" target="_blank" style="color: var(--text-gray); text-decoration: none;" data-lang="en">▸ Learn more about me</a>
+                        <a href="https://kevindesilva.de/" target="_blank" style="color: var(--text-gray); text-decoration: none;" data-lang="fr">▸ En savoir plus sur moi</a>
                     </p>
                     <p style="color: var(--text-gray); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                        <a href="https://www.linkedin.com/in/kevin-desilva/" target="_blank" style="color: var(--fbc-secondary-text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                        <a href="https://www.linkedin.com/in/kevin-desilva/" target="_blank" style="color: var(--text-gray); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                             <img src="./via-studio-images/icons/LinkedIn-Logo.png" alt="LinkedIn" style="width: 100px; height: auto; display: inline-block; vertical-align: middle;" onerror="this.style.display='none';">
                         </a>
                     </p>
@@ -1552,12 +1771,13 @@
                     <div class="contact-item">
                         <h3 data-lang="en">WhatsApp</h3>
                         <h3 data-lang="fr">WhatsApp</h3>
-                        <p><a href="https://wa.me/4917662636327" style="color: rgb(3, 133, 94); text-decoration: none;">▸ Chat with Me</a></p>
+                        <p><a href="https://wa.me/4917662636327" style="color: rgb(3, 133, 94); text-decoration: none;" data-lang="en">▸ Chat with Me</a></p>
+                        <p><a href="https://wa.me/4917662636327" style="color: rgb(3, 133, 94); text-decoration: none;" data-lang="fr">▸ Discute avec moi</a></p>
                     </div>
                     <div class="contact-item">
                         <h3 data-lang="en">Email Me</h3>
-                        <h3 data-lang="fr">Écrivez-moi</h3>
-                        <p>hello@kevindesiilva.de</p>
+                        <h3 data-lang="fr">Écris-moi</h3>
+                        <p>hello@kevindesilva.de</p>
                     </div>
                     <div class="contact-item">
                         <h3 data-lang="en">Location</h3>
@@ -1652,12 +1872,16 @@
             }
         });
 
-        // Journey scroll animation
+        // Optimized Journey scroll animation for Chrome
+        let ticking = false;
+        
         function updateJourneyProgress() {
             // Only run on desktop
             if (window.innerWidth <= 768) return;
             
             const journeySection = document.querySelector('.journey-section');
+            if (!journeySection) return;
+            
             const journeyRect = journeySection.getBoundingClientRect();
             const progress = Math.max(0, Math.min(1, -journeyRect.top / (journeyRect.height - window.innerHeight)));
             
@@ -1673,34 +1897,42 @@
             
             if (progress < 0.25) {
                 // Initial state
-                document.getElementById('journey-screen-1').classList.add('active');
+                document.getElementById('journey-screen-1')?.classList.add('active');
                 if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
             } else if (progress < 0.5) {
                 // Tourism focus
-                document.getElementById('journey-screen-2').classList.add('active');
-                document.querySelector('.desktop-journey #float-card-1').classList.add('visible');
+                document.getElementById('journey-screen-2')?.classList.add('active');
+                document.querySelector('.desktop-journey #float-card-1')?.classList.add('visible');
                 if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
             } else if (progress < 0.75) {
                 // Restaurant focus
-                document.getElementById('journey-screen-3').classList.add('active');
-                document.querySelector('.desktop-journey #float-card-2').classList.add('visible');
+                document.getElementById('journey-screen-3')?.classList.add('active');
+                document.querySelector('.desktop-journey #float-card-2')?.classList.add('visible');
                 if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
             } else {
                 // Business/final state
-                document.getElementById('journey-screen-4').classList.add('active');
-                document.querySelector('.desktop-journey #float-card-3').classList.add('visible');
-                document.querySelector('.desktop-journey #float-card-4').classList.add('visible');
+                document.getElementById('journey-screen-4')?.classList.add('active');
+                document.querySelector('.desktop-journey #float-card-3')?.classList.add('visible');
+                document.querySelector('.desktop-journey #float-card-4')?.classList.add('visible');
                 if (journeyTextDesktop) journeyTextDesktop.classList.add('active');
             }
             
-            // Subtle showcase scaling
-            const scale = 1 + progress * 0.05;
-            const rotation = progress * 2 - 1;
+            // Subtle showcase scaling with performance optimization
             if (showcase) {
+                const scale = 1 + progress * 0.05;
+                const rotation = progress * 2 - 1;
                 showcase.style.transform = `scale(${scale}) rotateY(${rotation}deg)`;
             }
+            
+            ticking = false;
         }
-        
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateJourneyProgress);
+                ticking = true;
+            }
+        }
 
         // Mobile Journey - Static Display
         function initMobileJourney() {
@@ -1734,7 +1966,6 @@
         window.addEventListener('resize', initMobileJourney);
         window.addEventListener('load', initMobileJourney);
 
-
         // Smooth scrolling for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1752,13 +1983,11 @@
             });
         });
 
-        // Initialize scroll effects
-        window.addEventListener('scroll', () => {
-            updateJourneyProgress();
-        });
+        // Initialize scroll effects with performance optimization
+        window.addEventListener('scroll', requestTick, { passive: true });
         
         window.addEventListener('resize', () => {
-            updateJourneyProgress();
+            requestTick();
             // Close mobile menu on resize
             if (window.innerWidth > 768) {
                 document.getElementById('mobileMenu').classList.remove('active');
@@ -1782,7 +2011,7 @@
         }, observerOptions);
 
         // Observe all service cards and sections
-        document.querySelectorAll('.service-card, .section-header, .about-content, .contact-content').forEach(el => {
+        document.querySelectorAll('.service-card, .section-header, .about-content, .contact-content, .social-impact-content').forEach(el => {
             observer.observe(el);
         });
 
@@ -1814,10 +2043,12 @@
             }
         });
 
-        mobileMenuObserver.observe(document.getElementById('mobileMenu'), {
-            attributes: true,
-            attributeFilter: ['class']
-        });
+        if (document.getElementById('mobileMenu')) {
+            mobileMenuObserver.observe(document.getElementById('mobileMenu'), {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
     </script>
 </body>
 </html>
