@@ -238,3 +238,53 @@ if (document.getElementById('mobileMenu')) {
         attributeFilter: ['class']
     });
 }
+
+
+// Enhanced Language Switching with SEO
+function switchLanguage(lang) {
+    document.body.setAttribute('data-current-lang', lang);
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`[data-lang-btn="${lang}"]`).classList.add('active');
+
+    // Update SEO Meta Tags
+    updateSEOForLanguage(lang);
+    
+    // Track language switch
+    if (typeof gtag !== 'undefined') {
+        trackLanguageSwitch(lang);
+    }
+    
+    // Store preference
+    localStorage.setItem('preferred-language', lang);
+}
+
+// Dynamic SEO Meta Tag Switching
+function updateSEOForLanguage(lang) {
+    const title = document.querySelector('title');
+    const description = document.querySelector('meta[name="description"]');
+    
+    if (lang === 'fr') {
+        // French SEO
+        title.textContent = 'VAI Studio - Création Sites Web Polynésie Française | Solutions Numériques Moorea Tahiti';
+        description.setAttribute('content', 'Conception de sites web professionnels, systèmes de réservation et solutions numériques pour entreprises polynésiennes. Basé à Moorea. Expertise internationale, authenticité polynésienne.');
+        document.documentElement.setAttribute('lang', 'fr');
+    } else {
+        // English SEO
+        title.textContent = 'VAI Studio - Web Design French Polynesia | Moorea & Tahiti Digital Solutions';
+        description.setAttribute('content', 'Professional web design, booking systems & digital solutions for French Polynesian businesses. Based in Moorea. International expertise, Polynesian authenticity.');
+        document.documentElement.setAttribute('lang', 'en');
+    }
+}
+
+// Enhanced Analytics Functions (add these if they don't exist)
+function trackLanguageSwitch(language) {
+    gtag('event', 'language_switch', {
+        'event_category': 'User Interaction',
+        'event_label': language,
+        'value': language === 'fr' ? 1 : 0
+    });
+}

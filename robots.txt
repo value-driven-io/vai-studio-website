@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vai.studio/sitemap.xml
+
+# Allow images for SEO
+User-agent: *
+Allow: /via-studio-images/
