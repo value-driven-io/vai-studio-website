@@ -81,15 +81,15 @@ body {
 }
 
 /* Hidden content for language switching */
-[data-lang]:not([data-lang="en"]) {
+[data-lang]:not([data-lang="fr"]) {
     display: none;
 }
 
-body[data-current-lang="fr"] [data-lang="en"] {
+body[data-current-lang="en"] [data-lang="fr"] {
     display: none;
 }
 
-body[data-current-lang="fr"] [data-lang="fr"] {
+body[data-current-lang="en"] [data-lang="en"] {
     display: block;
 }
 
