@@ -285,14 +285,25 @@
         </svg>
     </a>
 
-    <!-- Newsletter Floating Button -->
+    <!-- Contact Floating Button -->
+    <a href="#contact" class="contact-float" title="Contact Us" aria-label="Go to Contact Section" onclick="gtag('event', 'click', {'event_category': 'Contact', 'event_label': 'Floating Contact Button'});">
+        <svg viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+    </a>
+
+
+    <!-- Newsletter Floating Button Deactivated - Should stay even right now not used-->
+    <!--
     <div class="newsletter-float" onclick="openNewsletterPopup()" title="Subscribe to Newsletter" aria-label="Subscribe to Newsletter">
         <svg viewBox="0 0 24 24">
             <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
         </svg>
     </div>
+    -->
 
-    <!-- Newsletter Popup -->
+    <!-- Newsletter Popup Deactivated - Should stay even right now not used-->
+    <!--
     <div class="newsletter-popup-overlay" id="newsletterPopup" onclick="closeNewsletterPopup(event)">
         <div class="newsletter-popup-content" onclick="event.stopPropagation()">
             <button class="newsletter-close" onclick="closeNewsletterPopup()" aria-label="Close newsletter popup">×</button>
@@ -304,15 +315,15 @@
                 <p data-lang="fr">Reçois des conseils exclusifs, des astuces de marketing numérique local et sois le premier informé des offres spéciales pour les entreprises polynésiennes.</p>
             </div>
             
+            
             <form class="newsletter-popup-form" onsubmit="handleNewsletterPopupSignup(event)">
-                <input type="email" class="newsletter-popup-input" placeholder="Your email address / Ton adresse email" required>
-                <button type="submit" class="btn btn-primary newsletter-submit-btn">
-                    <span data-lang="en">Join Now</span>
-                    <span data-lang="fr">Rejoindre</span>
-                </button>
+                <script type="text/javascript" src="https://form.jotform.com/jsform/251590407492863"></script>
             </form>
+
+            hjhj
         </div>
     </div>
+    -->
 
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">

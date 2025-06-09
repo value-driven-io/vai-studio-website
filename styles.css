@@ -630,8 +630,54 @@ body.loading .main-content {
     100% { box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); }
 }
 
-/* Newsletter Floating Button */
-.newsletter-float {
+/* Contact Floating Button */
+.contact-float {
+    position: fixed;
+    bottom: 30px;
+    right: 100px; /* Position to the left of WhatsApp button */
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+    text-decoration: none;
+}
+
+.contact-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 40px rgba(0, 212, 255, 0.6);
+}
+
+.contact-float svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
+
+/* Mobile adjustments for floating buttons */
+@media (max-width: 768px) {
+    .contact-float {
+        width: 50px;
+        height: 50px;
+        bottom: 80px; /* Stack above WhatsApp on mobile */
+        right: 20px;
+    }
+
+    .contact-float svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* Newsletter Floating Button - Should stay even right now not used*/
+newsletter-float {
     position: fixed;
     bottom: 30px;
     right: 100px; /* Position to the left of WhatsApp button */
