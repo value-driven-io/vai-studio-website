@@ -1531,6 +1531,36 @@ newsletter-float {
     margin-bottom: 0.5rem;
 }
 
+/* JotForm wrapper fixes */
+.jotform-wrapper {
+    width: 100%;
+    overflow: visible;
+    min-height: 600px;
+}
+
+.jotform-wrapper iframe {
+    min-height: 600px !important;
+    height: auto !important;
+}
+
+/* Mobile JotForm fixes */
+@media (max-width: 768px) {
+    .jotform-wrapper {
+        min-height: 700px;
+        /*padding-bottom: 50px;*/
+    }
+    
+    .jotform-wrapper iframe {
+        min-height: 700px !important;
+        height: 700px !important;
+    }
+    
+    /* Force JotForm elements to be visible */
+    .jotform-wrapper * {
+        overflow: visible !important;
+    }
+}
+
 /* Footer */
 .footer {
     background: var(--primary-dark);
