@@ -231,7 +231,7 @@ function goToMobileSlide(slide) {
     currentMobileSlide = slide;
     const track = document.getElementById('mobileServiceTrack');
     if (track) {
-        track.style.transform = `translateX(-${slide * 100}%)`;
+        track.style.transform = `translateX(-${slide * 25}%)`; // Changed from 100% to 25%
     }
     
     // Update dots

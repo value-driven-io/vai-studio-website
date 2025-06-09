@@ -1002,6 +1002,7 @@ newsletter-float {
 }
 
 /* Mobile Service Cards Slider */
+/* Mobile Service Cards Slider */
 .mobile-service-slider {
     display: none;
     width: 100%;
@@ -1012,28 +1013,62 @@ newsletter-float {
 
 .mobile-service-track {
     display: flex;
-    transition: transform 0.3s ease; /* Reduced from 0.5s for better mobile performance */
+    transition: transform 0.3s ease;
     will-change: transform;
-    gap: 1rem; /* Add gap between cards */
+    width: 400%; /* 4 cards × 100% */
 }
 
 .mobile-service-card {
-    flex: 0 0 85%; /* Use flexbox instead of min-width */
-    max-width: 320px;
-    margin: 0 auto;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 1.5rem; /* Reduced padding for better fit */
+    flex: 0 0 25%; /* Each card takes 25% of track width */
+    width: 25%;
+    padding: 0 1rem; /* Horizontal padding for spacing */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-service-card .showcase-device {
+    width: 100%;
+    max-width: 280px;
+    height: 180px;
+    margin-bottom: 1rem;
+    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    border-radius: 15px;
+    padding: 15px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.mobile-service-card .device-screen {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.mobile-service-card .device-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-service-card h3,
+.mobile-service-card p {
+    text-align: center;
+    max-width: 280px;
+    width: 100%;
+    background: var(--glass-bg);
+    /*padding: 1rem;*/
+    border-radius: 15px;
+    margin: 0.5rem 0;
 }
 
 .mobile-service-card h3 {
     color: var(--accent-blue);
-    margin-bottom: 1rem;
     font-size: 1.3rem;
+    margin-bottom: 1rem;
 }
 
 .mobile-service-card p {
@@ -1527,6 +1562,7 @@ newsletter-float {
 
 /* Mobile hero personal image adjustment */
 @media (max-width: 768px) {
+
     .hero-personal-image {
         width: 70px;
         height: 70px;
