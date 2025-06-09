@@ -94,7 +94,7 @@
                     "@value": "Professional web design and digital solutions for French Polynesian businesses. Specializing in tourism websites, restaurant digital solutions, and booking systems."
                 },
                 "url": "https://vai.studio/",
-                "telephone": "+49-176-62636327",
+                "telephone": "+689 87269065",
                 "email": "hello@kevindesilva.de",
                 "priceRange": "$$",
                 "address": {
@@ -202,7 +202,7 @@
                 ],
                 "contactPoint": {
                     "@type": "ContactPoint",
-                    "telephone": "+49-176-62636327",
+                    "telephone": "+689 87269065",
                     "contactType": "customer service",
                     "availableLanguage": ["English", "French", "Deutsch"],
                     "areaServed": "PF"
@@ -266,7 +266,7 @@
 </head>
 <body class="loading" data-current-lang="fr">
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NRJXH53"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
     <!-- Language Switcher -->
@@ -274,6 +274,13 @@
         <button class="lang-btn" data-lang-btn="en" onclick="switchLanguage('en')" title="English" aria-label="Switch to English">🇬🇧</button>
         <button class="lang-btn active" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français" aria-label="Passer au français">🇫🇷</button>
     </div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/message/KV63JSQ3YRHFC1" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp" onclick="gtag('event', 'click', {'event_category': 'Contact', 'event_label': 'WhatsApp Float'});">
+        <svg viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.525 3.687"/>
+        </svg>
+    </a>
 
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
@@ -311,12 +318,12 @@
                 <li><a href="#services" data-lang="en">Services</a></li>
                 <li><a href="#impact" data-lang="en">Social Impact</a></li>
                 <li><a href="#about" data-lang="en">About</a></li>
-                <li><a href="#contact" data-lang="en">Contact</a></li>
                 <li><a href="#home" data-lang="fr">Accueil</a></li>
                 <li><a href="#services" data-lang="fr">Services</a></li>
                 <li><a href="#impact" data-lang="fr">Impact Social</a></li>
                 <li><a href="#about" data-lang="fr">À propos</a></li>
-                <li><a href="#contact" data-lang="fr">Contact</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
                 <span></span>
@@ -329,12 +336,12 @@
             <a href="#services" data-lang="en" onclick="toggleMobileMenu()">Services</a>
             <a href="#impact" data-lang="en" onclick="toggleMobileMenu()">Social Impact</a>
             <a href="#about" data-lang="en" onclick="toggleMobileMenu()">About</a>
-            <a href="#contact" data-lang="en" onclick="toggleMobileMenu()">Contact</a>
             <a href="#home" data-lang="fr" onclick="toggleMobileMenu()">Accueil</a>
             <a href="#services" data-lang="fr" onclick="toggleMobileMenu()">Services</a>
             <a href="#impact" data-lang="fr" onclick="toggleMobileMenu()">Impact Social</a>
             <a href="#about" data-lang="fr" onclick="toggleMobileMenu()">À propos</a>
-            <a href="#contact" data-lang="fr" onclick="toggleMobileMenu()">Contact</a>
+            <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+            <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
         </div>
     </nav>
 
@@ -379,13 +386,53 @@
         </div>
     </section>
 
+    <!-- Email Signup Section -->
+    <section class="email-signup-section" id="newsletter">
+        <div class="container">
+            <div class="email-signup-content">
+                <h2 class="section-title" data-lang="en">Digital Tips for Polynesian Businesses</h2>
+                <h2 class="section-title" data-lang="fr">Astuces Numériques pour Entreprises Polynésiennes</h2>
+                <p class="section-subtitle" data-lang="en">Get exclusive insights, local digital marketing tips, and be the first to know about special offers for French Polynesian businesses.</p>
+                <p class="section-subtitle" data-lang="fr">Reçois des conseils exclusifs, des astuces de marketing numérique local et sois le premier informé des offres spéciales pour les entreprises polynésiennes.</p>
+                
+                <div class="email-signup-form">
+                    <h3 data-lang="en">🌺 Join the Digital Paradise Community</h3>
+                    <h3 data-lang="fr">🌺 Rejoins la Communauté Paradis Numérique</h3>
+                    <p data-lang="en">Local success stories • Exclusive resources</p>
+                    <p data-lang="fr">Histoires de succès locales • Ressources exclusives</p>
+                    
+                    <form class="form-group" onsubmit="handleEmailSignup(event)">
+                        <input type="email" class="form-input" placeholder="Your email address / Ton adresse email" required>
+                        <button type="submit" class="btn btn-primary" data-lang="en">Join Now</button>
+                        <button type="submit" class="btn btn-primary" data-lang="fr">Rejoindre</button>
+                    </form>
+                    
+                    <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 1rem;" data-lang="en">
+                        No spam, unsubscribe anytime. Tips tailored for French Polynesian businesses.
+                    </p>
+                    <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 1rem;" data-lang="fr">
+                        Pas de spam, désabonnement à tout moment. Conseils adaptés aux entreprises polynésiennes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Scroll Journey Section -->
     <section class="journey-section">
         <div class="journey-sticky">
             <div class="journey-content">
                 
-                <!-- Desktop View - Original Structure -->
+                <!-- Desktop View - Enhanced with Controls -->
                 <div class="desktop-journey" style="display: block;">
+                    <!-- Journey Controls -->
+                    <div class="journey-controls">
+                        <div class="journey-dot active" onclick="goToJourneyStep(0)" data-step="0"></div>
+                        <div class="journey-dot" onclick="goToJourneyStep(1)" data-step="1"></div>
+                        <div class="journey-dot" onclick="goToJourneyStep(2)" data-step="2"></div>
+                        <div class="journey-dot" onclick="goToJourneyStep(3)" data-step="3"></div>
+                    </div>
+
                     <!-- Central Showcase -->
                     <div class="showcase-device" id="showcase">
                         <div class="device-screen">
@@ -444,59 +491,78 @@
                     </div>
                 </div>
 
-                <!-- Mobile View - Screen + Card Pairs -->
+                <!-- Mobile View - Enhanced Slider -->
                 <div class="mobile-journey" style="display: none;">
-
                     <!-- Starting Excellence Message -->
                     <div class="journey-text">
                         <h2 data-lang="en">Digital Excellence</h2>
                         <h2 data-lang="fr">Excellence Numérique</h2>
                         <p data-lang="en">From Concept to Launch. Every project comes with a high quality design.</p>
                         <p data-lang="fr">Du Concept au Lancement. Chaque projet bénéficie d'un design de haute qualité.</p>
-                    </div>                   
-                    
-                    <!-- Item 1: Tourism -->
-                    <div class="mobile-journey-item">
-                        <div class="showcase-device">
-                            <div class="device-screen">
-                                <img src="./via-studio-images/screens/Website Booking Screen Vai Studio.jpg" alt="Tourism Website French Polynesia" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                        </div>
-                        <div class="service-card-float">
-                            <h3 data-lang="en">🏝️ Tourism Solutions</h3>
-                            <h3 data-lang="fr">🏝️ Solutions Touristiques</h3>
-                            <p data-lang="en">Stunning booking platforms designed for French Polynesian tour operators and activity providers.</p>
-                            <p data-lang="fr">Plateformes de réservation magnifiques conçues pour les opérateurs touristiques et fournisseurs d'activités de Polynésie française.</p>
-                        </div>
                     </div>
 
-                    <!-- Item 2: Restaurant -->
-                    <div class="mobile-journey-item">
-                        <div class="showcase-device">
-                            <div class="device-screen">
-                                <img src="./via-studio-images/screens/Menu + App Screen - Vai Studio.jpg" alt="Restaurant Digital Menu Solution" style="width: 100%; height: 100%; object-fit: cover;">
+                    <!-- Mobile Service Slider -->
+                    <div class="mobile-service-slider">
+                        <div class="mobile-service-track" id="mobileServiceTrack">
+                            <!-- Service Card 1 -->
+                            <div class="mobile-service-card">
+                                <div class="showcase-device">
+                                    <div class="device-screen">
+                                        <img src="./via-studio-images/screens/Website Booking Screen Vai Studio.jpg" alt="Tourism Website French Polynesia" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                                <h3 data-lang="en">🏝️ Tourism Solutions</h3>
+                                <h3 data-lang="fr">🏝️ Solutions Touristiques</h3>
+                                <p data-lang="en">Stunning booking platforms designed for French Polynesian tour operators and activity providers.</p>
+                                <p data-lang="fr">Plateformes de réservation magnifiques conçues pour les opérateurs touristiques et fournisseurs d'activités de Polynésie française.</p>
                             </div>
-                        </div>
-                        <div class="service-card-float">
-                            <h3 data-lang="en">🍽️ Restaurant Digital</h3>
-                            <h3 data-lang="fr">🍽️ Solutions Restaurants</h3>
-                            <p data-lang="en">Beautiful digital menus and ordering systems perfect for roulottes and local restaurants.</p>
-                            <p data-lang="fr">Menus numériques et systèmes de commande parfaits pour les roulottes et restaurants locaux.</p>
-                        </div>
-                    </div>
 
-                    <!-- Item 3: Business Kickstart -->
-                    <div class="mobile-journey-item">
-                        <div class="showcase-device">
-                            <div class="device-screen">
-                                <img src="./via-studio-images/screens/Website App Service Overview - Vai Studio.jpg" alt="Business Website Moorea" style="width: 100%; height: 100%; object-fit: cover;">
+                            <!-- Service Card 2 -->
+                            <div class="mobile-service-card">
+                                <div class="showcase-device">
+                                    <div class="device-screen">
+                                        <img src="./via-studio-images/screens/Menu + App Screen - Vai Studio.jpg" alt="Restaurant Digital Menu Solution" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                                <h3 data-lang="en">🍽️ Restaurant Digital</h3>
+                                <h3 data-lang="fr">🍽️ Solutions Restaurants</h3>
+                                <p data-lang="en">Beautiful digital menus and ordering systems perfect for roulottes and local restaurants.</p>
+                                <p data-lang="fr">Menus numériques et systèmes de commande parfaits pour les roulottes et restaurants locaux.</p>
+                            </div>
+
+                            <!-- Service Card 3 -->
+                            <div class="mobile-service-card">
+                                <div class="showcase-device">
+                                    <div class="device-screen">
+                                        <img src="./via-studio-images/screens/Website App Service Overview - Vai Studio.jpg" alt="Business Website Moorea" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                                <h3 data-lang="en">🚀 Business Kickstart</h3>
+                                <h3 data-lang="fr">🚀 Lancement Express</h3>
+                                <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
+                                <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement ton entreprise polynésienne sur le web.</p>
+                            </div>
+
+                            <!-- Service Card 4 -->
+                            <div class="mobile-service-card">
+                                <div class="showcase-device">
+                                    <div class="device-screen">
+                                        <img src="./via-studio-images/screens/Service Screen VAI Studio.jpg" alt="Custom Design Solutions" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                </div>
+                                <h3 data-lang="en">🎨 Custom Design</h3>
+                                <h3 data-lang="fr">🎨 Design Sur Mesure</h3>
+                                <p data-lang="en">Unique websites that authentically represent your brand and island business.</p>
+                                <p data-lang="fr">Sites web uniques qui représentent authentiquement ta marque et ton entreprise insulaire.</p>
                             </div>
                         </div>
-                        <div class="service-card-float">
-                            <h3 data-lang="en">🚀 Business Kickstart</h3>
-                            <h3 data-lang="fr">🚀 Lancement Express</h3>
-                            <p data-lang="en">Complete online presence package to get your Polynesian business online quickly.</p>
-                            <p data-lang="fr">Package complet de présence en ligne pour mettre rapidement ton entreprise polynésienne sur le web.</p>
+
+                        <!-- Mobile Slider Controls -->
+                        <div class="mobile-slider-controls">
+                            <div class="mobile-dot active" onclick="goToMobileSlide(0)"></div>
+                            <div class="mobile-dot" onclick="goToMobileSlide(1)"></div>
+                            <div class="mobile-dot" onclick="goToMobileSlide(2)"></div>
+                            <div class="mobile-dot" onclick="goToMobileSlide(3)"></div>
                         </div>
                     </div>
                 </div>
@@ -567,6 +633,8 @@
         </div>
     </section>
 
+    
+
     <!-- Social Impact Section -->
     <section class="social-impact-section" id="impact">
         <div class="container">
@@ -601,8 +669,7 @@
                     <p data-lang="en">I prioritize working with social impact businesses and organizations that bring real value to our island communities. Together, we can build a digital future that serves everyone.</p>
                     <p data-lang="fr">Je privilégie le travail avec les entreprises et organisations à impact social qui apportent une vraie valeur à nos communautés insulaires. Ensemble, nous pouvons construire un avenir numérique qui sert tout le monde.</p>
 
-                    <a href="#contact" class="btn btn-impact" style="margin-top: 2rem; display: inline-block;" data-lang="en" onclick="gtag('event', 'click', {'event_category': 'Social Impact', 'event_label': 'Join Movement'});">Join the Movement</a>
-                    <a href="#contact" class="btn btn-impact" style="margin-top: 2rem; display: inline-block;" data-lang="fr" onclick="gtag('event', 'click', {'event_category': 'Impact Social', 'event_label': 'Rejoindre Mouvement'});">Rejoins le Mouvement</a>
+                    <a href="#contact" class="btn btn-impact" style="margin-top: 2rem; display: inline-block;" onclick="gtag('event', 'click', {'event_category': 'Social Impact', 'event_label': 'Join Movement'});">Join the Movement</a>
                 </div>
 
                 <div class="impact-visual">
@@ -664,8 +731,7 @@
                     <p data-lang="fr"><strong>Pourquoi "VAI" Studio ?</strong></p>
                     <p data-lang="en"><em>VAI</em> means water in Tahitian – symbolizing clarity, flow, and life-giving nature. I'm committed to helping local entrepreneurs achieve their dreams through beautiful, effective designs and digital solutions that benefit everyone.</p>
                     <p data-lang="fr"><em>VAI</em> signifie eau en tahitien – symbolisant la clarté, le flux et la nature vitale. Je m'engage à aider les entrepreneurs locaux à réaliser leurs rêves grâce à des designs magnifiques, efficaces et des solutions numériques qui profitent à tous.</p>
-                    <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;" data-lang="en" onclick="gtag('event', 'click', {'event_category': 'About', 'event_label': 'Lets Go'});">Let's Create Impact!</a>
-                    <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;" data-lang="fr" onclick="gtag('event', 'click', {'event_category': 'À propos', 'event_label': 'Allons-y'});">Créons de l'Impact !</a>
+                    <a href="#contact" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;" onclick="gtag('event', 'click', {'event_category': 'About', 'event_label': 'Lets Go'});">Contact Me</a>
                 </div>
 
                 <div class="founder-card" itemscope itemtype="https://schema.org/Person">
@@ -694,28 +760,32 @@
     <section class="contact-section" id="contact">
         <div class="container">
             <div class="contact-content">
-                <h2 class="section-title" data-lang="en">Want to bring Your Business to the next Level?</h2>
-                <h2 class="section-title" data-lang="fr">Tu veux booster ton business ?</h2>
+                <h2 class="section-title" data-lang="en">Ready for the next step?</h2>
+                <h2 class="section-title" data-lang="fr">Prêt pour l'étape suivante ?</h2>
                 <p class="section-subtitle" data-lang="en">Send me a message through the form below or contact me directly via WhatsApp or Mail.</p>
                 <p class="section-subtitle" data-lang="fr">Envoie-moi un message via le formulaire ci-dessous, ou contacte-moi directement sur WhatsApp ou par mail.</p>
+                <br>
                 
                 <!-- Contact Form with Enhanced Tracking -->
-                <div class="contact-form-container">
                     <script type="text/javascript" src="https://form.jotform.com/jsform/251556126490861"></script>
-                </div>
                 
                 <div class="contact-info" itemscope itemtype="https://schema.org/ContactPoint">
                     <div class="contact-item">
                         <h3 data-lang="en">WhatsApp</h3>
                         <h3 data-lang="fr">WhatsApp</h3>
-                        <p><a href="https://wa.me/4917662636327" style="color: rgb(3, 133, 94); text-decoration: none;" data-lang="en" itemprop="telephone" onclick="gtag('event', 'click', {'event_category': 'Contact', 'event_label': 'WhatsApp Click'});">▸ Chat with Me</a></p>
-                        <p><a href="https://wa.me/4917662636327" style="color: rgb(3, 133, 94); text-decoration: none;" data-lang="fr" itemprop="telephone" onclick="gtag('event', 'click', {'event_category': 'Contact', 'event_label': 'WhatsApp Clic'});">▸ Discute avec moi</a></p>
+                        <p><a href="https://wa.me/message/KV63JSQ3YRHFC1" style="color: rgb(3, 133, 94); text-decoration: none;" data-lang="en" itemprop="telephone" onclick="gtag('event', 'click', {'event_category': 'Contact', 'event_label': 'WhatsApp Click'});">▸ Chat with Me</a></p>
+                        <p><a href="https://wa.me/message/KV63JSQ3YRHFC1" style="color: rgb(3, 133, 94); text-decoration: none;" data-lang="fr" itemprop="telephone" onclick="gtag('event', 'click', {'event_category': 'Contact', 'event_label': 'WhatsApp Clic'});">▸ Discute avec moi</a></p>
                     </div>
-                    <div class="contact-item">
+
+                    <!-- EMAIL NOT DISPLAED ON PURPOSE 
+
+                     <div class="contact-item">
                         <h3 data-lang="en">Email Me</h3>
                         <h3 data-lang="fr">Écris-moi</h3>
                         <p><a href="mailto:hello@kevindesilva.de" itemprop="email" onclick="gtag('event', 'click', {'event_category': 'Contact', 'event_label': 'Email Click'});">hello@kevindesilva.de</a></p>
-                    </div>
+                    </div> 
+                    
+                    -->
                     <div class="contact-item">
                         <h3 data-lang="en">Location</h3>
                         <h3 data-lang="fr">Localisation</h3>
@@ -732,6 +802,91 @@
             </div>
         </div>
     </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-lang="en">Frequently Asked Questions</h2>
+                <h2 class="section-title" data-lang="fr">Questions Fréquemment Posées</h2>
+                <p class="section-subtitle" data-lang="en">Everything you need to know about working with VAI Studio</p>
+                <p class="section-subtitle" data-lang="fr">Tout ce que tu dois savoir pour travailler avec VAI Studio</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <h3 data-lang="en">Why choose VAI Studio over other web designers?</h3>
+                        <h3 data-lang="fr">Pourquoi choisir VAI Studio plutôt qu'un autre web designer ?</h3>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p data-lang="en">VAI Studio combines international design standards with deep understanding of the French Polynesian market. I'm based locally in Moorea, speak multiple languages, and every project contributes 5% to local social causes. You get world-class design that truly understands your local audience, plus the peace of mind that your investment creates positive impact in our communities.</p>
+                            <p data-lang="fr">VAI Studio combine les standards de design internationaux avec une compréhension profonde du marché polynésien. Je suis basé localement à Moorea, je parle plusieurs langues, et chaque projet contribue à 5% aux causes sociales locales. Tu obtiens un design de classe mondiale qui comprend vraiment ton audience locale, plus la tranquillité d'esprit que ton investissement crée un impact positif dans nos communautés.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <h3 data-lang="en">Do you work with businesses outside Moorea/Tahiti?</h3>
+                        <h3 data-lang="fr">Travailles-tu avec des entreprises en dehors de Moorea/Tahiti ?</h3>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p data-lang="en">Absolutely! While I'm physically based in Moorea, I work with businesses across all of French Polynesia including Bora Bora, Rangiroa, Marquesas, and other islands. I also work with international businesses that serve French Polynesian customers. All projects can be managed remotely with regular video calls, and I can travel to other islands for larger projects when needed.</p>
+                            <p data-lang="fr">Absolument ! Bien que je sois physiquement basé à Moorea, je travaille avec des entreprises dans toute la Polynésie française y compris Bora Bora, Rangiroa, les Marquises et d'autres îles. Je travaille aussi avec des entreprises internationales qui servent la clientèle polynésienne. Tous les projets peuvent être gérés à distance avec des appels vidéo réguliers, et je peux me déplacer sur d'autres îles pour de plus gros projets si nécessaire.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <h3 data-lang="en">What's included in the 5% social impact contribution?</h3>
+                        <h3 data-lang="fr">Qu'est-ce qui est inclus dans la contribution de 5% à l'impact social ?</h3>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p data-lang="en">5% of every project's revenue goes directly to verified local causes including marine conservation, education programs for youth, digital literacy initiatives, and community development projects in French Polynesia. You'll receive transparency reports showing exactly where your contribution went and the impact it created. Additionally, I provide 100% pro-bono services to registered non-profits working on social causes.</p>
+                            <p data-lang="fr">5% des revenus de chaque projet vont directement à des causes locales vérifiées incluant la conservation marine, les programmes éducatifs pour les jeunes, les initiatives de littératie numérique, et les projets de développement communautaire en Polynésie française. Tu recevras des rapports de transparence montrant exactement où ta contribution est allée et l'impact qu'elle a créé. De plus, je fournis des services 100% gratuits aux associations enregistrées travaillant sur des causes sociales.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <h3 data-lang="en">How long does a typical project take?</h3>
+                        <h3 data-lang="fr">Combien de temps prend un projet typique ?</h3>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p data-lang="en">Project timelines vary based on complexity: Polynesian Business Kickstart (1-2 weeks), Custom Website Design (3-6 weeks), Restaurant Digital Solutions (2-4 weeks), and Tourism Booking Systems (4-8 weeks). Complex projects with multiple integrations may take longer. I always provide detailed timelines during our initial consultation and keep you updated throughout the process with regular check-ins.</p>
+                            <p data-lang="fr">Les délais de projet varient selon la complexité : Lancement Express Polynésien (1-2 semaines), Conception de Site Web Sur Mesure (3-6 semaines), Solutions Numériques Restaurant (2-4 semaines), et Systèmes de Réservation Tourisme (4-8 semaines). Les projets complexes avec plusieurs intégrations peuvent prendre plus de temps. Je fournis toujours des délais détaillés lors de notre consultation initiale et te tiens informé tout au long du processus avec des points réguliers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        <h3 data-lang="en">Do you provide ongoing support after launch?</h3>
+                        <h3 data-lang="fr">Fournis-tu un support continu après le lancement ?</h3>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p data-lang="en">Yes! Every project includes training so you can manage basic updates yourself, plus 30 days of complimentary support after launch. For ongoing needs, I offer flexible maintenance packages including content updates, security monitoring, performance optimization, and feature additions. I'm also available for consultation calls whenever you need strategic digital advice for your business growth.</p>
+                            <p data-lang="fr">Oui ! Chaque projet inclut une formation pour que tu puisses gérer les mises à jour de base toi-même, plus 30 jours de support gratuit après le lancement. Pour les besoins continus, j'offre des packages de maintenance flexibles incluant les mises à jour de contenu, la surveillance de sécurité, l'optimisation des performances, et l'ajout de fonctionnalités. Je suis aussi disponible pour des appels de consultation quand tu as besoin de conseils stratégiques numériques pour la croissance de ton entreprise.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <!-- Footer -->
     <footer class="footer" itemscope itemtype="https://schema.org/WPFooter">
@@ -809,14 +964,70 @@
             {
                 "@type": "ListItem",
                 "position": 3,
+                "name": "FAQ",
+                "item": "https://vai.studio/#faq"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
                 "name": "About",
                 "item": "https://vai.studio/#about"
             },
             {
                 "@type": "ListItem",
-                "position": 4,
+                "position": 5,
                 "name": "Contact",
                 "item": "https://vai.studio/#contact"
+            }
+        ]
+    }
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why choose VAI Studio over other web designers?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "VAI Studio combines international design standards with deep understanding of the French Polynesian market. I'm based locally in Moorea, speak multiple languages, and every project contributes 5% to local social causes. You get world-class design that truly understands your local audience, plus the peace of mind that your investment creates positive impact in our communities."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do you work with businesses outside Moorea/Tahiti?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! While I'm physically based in Moorea, I work with businesses across all of French Polynesia including Bora Bora, Rangiroa, Marquesas, and other islands. I also work with international businesses that serve French Polynesian customers. All projects can be managed remotely with regular video calls, and I can travel to other islands for larger projects when needed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What's included in the 5% social impact contribution?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "5% of every project's revenue goes directly to verified local causes including marine conservation, education programs for youth, digital literacy initiatives, and community development projects in French Polynesia. You'll receive transparency reports showing exactly where your contribution went and the impact it created. Additionally, I provide 100% pro-bono services to registered non-profits working on social causes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does a typical project take?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Project timelines vary based on complexity: Polynesian Business Kickstart (1-2 weeks), Custom Website Design (3-6 weeks), Restaurant Digital Solutions (2-4 weeks), and Tourism Booking Systems (4-8 weeks). Complex projects with multiple integrations may take longer. I always provide detailed timelines during our initial consultation and keep you updated throughout the process with regular check-ins."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do you provide ongoing support after launch?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Every project includes training so you can manage basic updates yourself, plus 30 days of complimentary support after launch. For ongoing needs, I offer flexible maintenance packages including content updates, security monitoring, performance optimization, and feature additions. I'm also available for consultation calls whenever you need strategic digital advice for your business growth."
+                }
             }
         ]
     }
