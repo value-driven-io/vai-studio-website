@@ -1512,7 +1512,7 @@ body.loading .main-content {
     .mobile-menu-toggle {
         display: flex;
         position: absolute;
-        right: 0;
+        right: 45%;
         top: 50%;
         transform: translateY(-50%);
         z-index: 1001;
@@ -1588,9 +1588,9 @@ body.loading .main-content {
 
     .showcase-device {
         width: 100%;
-        max-width: 350px;
-        height: 220px;
-        padding: 15px;
+        /*max-width: 350px;*/
+        height: auto; /*220px;*/
+        padding: 10px;
         margin: 0 auto 1rem auto;
         background: none;
         box-shadow: none;
