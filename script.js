@@ -342,6 +342,66 @@ function handleEmailSignup(event) {
     event.target.reset();
 }
 
+
+// Newsletter Popup Functions
+function openNewsletterPopup() {
+    const popup = document.getElementById('newsletterPopup');
+    popup.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Track popup open
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'newsletter_popup_open', {
+            'event_category': 'Newsletter',
+            'event_label': 'Popup Opened',
+            'value': 1
+        });
+    }
+}
+
+function closeNewsletterPopup(event) {
+    const popup = document.getElementById('newsletterPopup');
+    
+    // Only close if clicking overlay or close button, not the content
+    if (!event || event.target === popup || event.target.classList.contains('newsletter-close')) {
+        popup.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+function handleNewsletterPopupSignup(event) {
+    event.preventDefault();
+    const email = event.target.querySelector('input[type="email"]').value;
+    
+    // Track email signup
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'email_signup', {
+            'event_category': 'Lead Generation',
+            'event_label': 'Newsletter Popup Signup',
+            'value': 1
+        });
+    }
+    
+    // Show success message
+    const successMessage = document.body.getAttribute('data-current-lang') === 'fr' ? 
+        'Merci ! Tu recevras bientôt nos conseils numériques.' : 
+        'Thank you! You\'ll receive our digital tips soon.';
+    
+    alert(successMessage);
+    
+    // Clear form and close popup
+    event.target.reset();
+    closeNewsletterPopup();
+}
+
+// Close popup with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeNewsletterPopup();
+    }
+});
+
+
 // Optimized Journey scroll animation for Chrome
 let ticking = false;
 

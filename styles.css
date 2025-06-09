@@ -630,6 +630,168 @@ body.loading .main-content {
     100% { box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); }
 }
 
+/* Newsletter Floating Button */
+.newsletter-float {
+    position: fixed;
+    bottom: 30px;
+    right: 100px; /* Position to the left of WhatsApp button */
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
+    z-index: 1000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.newsletter-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 40px rgba(0, 212, 255, 0.6);
+}
+
+.newsletter-float svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
+
+/* Newsletter Popup */
+.newsletter-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.newsletter-popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.newsletter-popup-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: popupSlideIn 0.3s ease;
+}
+
+@keyframes popupSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.newsletter-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.newsletter-close:hover {
+    color: var(--accent-blue);
+    transform: scale(1.1);
+}
+
+.newsletter-popup-header h3 {
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.newsletter-popup-header p {
+    color: var(--text-gray);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.newsletter-popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.newsletter-popup-input {
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.newsletter-popup-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-popup-input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.newsletter-submit-btn {
+    align-self: center;
+    min-width: 150px;
+}
+
+/* Mobile adjustments for floating buttons */
+@media (max-width: 768px) {
+    .newsletter-float {
+        width: 50px;
+        height: 50px;
+        bottom: 80px; /* Stack above WhatsApp on mobile */
+        right: 20px;
+    }
+
+    .newsletter-float svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .newsletter-popup-content {
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .newsletter-popup-header h3 {
+        font-size: 1.2rem;
+    }
+}
+
 /* Scroll-triggered Animation Journey - Performance Optimized for Chrome */
 .journey-section {
     height: 300vh;

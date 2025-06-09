@@ -285,6 +285,35 @@
         </svg>
     </a>
 
+    <!-- Newsletter Floating Button -->
+    <div class="newsletter-float" onclick="openNewsletterPopup()" title="Subscribe to Newsletter" aria-label="Subscribe to Newsletter">
+        <svg viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+    </div>
+
+    <!-- Newsletter Popup -->
+    <div class="newsletter-popup-overlay" id="newsletterPopup" onclick="closeNewsletterPopup(event)">
+        <div class="newsletter-popup-content" onclick="event.stopPropagation()">
+            <button class="newsletter-close" onclick="closeNewsletterPopup()" aria-label="Close newsletter popup">×</button>
+            
+            <div class="newsletter-popup-header">
+                <h3 data-lang="en">🌺 Join the Digital Community Polynesia</h3>
+                <h3 data-lang="fr">🌺 Rejoins la Communauté Numérique Polynésie</h3>
+                <p data-lang="en">Get exclusive insights, local digital marketing tips, and be the first to know about special offers for French Polynesian businesses.</p>
+                <p data-lang="fr">Reçois des conseils exclusifs, des astuces de marketing numérique local et sois le premier informé des offres spéciales pour les entreprises polynésiennes.</p>
+            </div>
+            
+            <form class="newsletter-popup-form" onsubmit="handleNewsletterPopupSignup(event)">
+                <input type="email" class="newsletter-popup-input" placeholder="Your email address / Ton adresse email" required>
+                <button type="submit" class="btn btn-primary newsletter-submit-btn">
+                    <span data-lang="en">Join Now</span>
+                    <span data-lang="fr">Rejoindre</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">
@@ -388,36 +417,7 @@
             <span>création site web Moorea, concepteur web Tahiti, développement site internet Polynésie française, solutions numériques entreprises polynésiennes, web designer Moorea, systèmes réservation tourisme Polynésie, menus numériques restaurant Tahiti</span>
         </div>
     </section>
-
-    <!-- Email Signup Section -->
-    <section class="email-signup-section" id="newsletter">
-        <div class="container">
-            <div class="email-signup-content">
-                <h2 class="section-title" data-lang="en">Digital Tips for Polynesian Businesses</h2>
-                <h2 class="section-title" data-lang="fr">Astuces Numériques pour Entreprises Polynésiennes</h2>
-                <p class="section-subtitle" data-lang="en">Get exclusive insights, local digital marketing tips, and be the first to know about special offers for French Polynesian businesses.</p>
-                <p class="section-subtitle" data-lang="fr">Reçois des conseils exclusifs, des astuces de marketing numérique local et sois le premier informé des offres spéciales pour les entreprises polynésiennes.</p>
-                
-                <div class="email-signup-form">
-                    <h3 data-lang="en">🌺 Join the Digital Community Polynesia</h3>
-                    <h3 data-lang="fr">🌺 Rejoins la Communauté Numérique Polynésie</h3>
-                    
-                    <form class="form-group" onsubmit="handleEmailSignup(event)">
-                        <input type="email" class="form-input" placeholder="Your email address / Ton adresse email" required>
-                        <button type="submit" class="btn btn-primary" data-lang="en">Join Now</button>
-                        <button type="submit" class="btn btn-primary" data-lang="fr">Rejoindre</button>
-                    </form>
-                    
-                    <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 1rem;" data-lang="en">
-                        Local success stories • Exclusive resources
-                    </p>
-                    <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 1rem;" data-lang="fr">
-                        Histoires de succès locales • Ressources exclusives
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- Scroll Journey Section -->
     <section class="journey-section">
