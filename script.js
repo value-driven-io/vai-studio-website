@@ -1,3 +1,70 @@
+// Throttle function to limit how often functions can be called
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+// Safe localStorage wrapper with fallback
+const SafeStorage = {
+    setItem: function(key, value) {
+        try {
+            localStorage.setItem(key, value);
+            return true;
+        } catch (e) {
+            console.warn('localStorage not available');
+            return false;
+        }
+    },
+    
+    getItem: function(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            console.warn('localStorage not available');
+            return null;
+        }
+    }
+};
+
+// Timer management to prevent memory leaks
+class TimerManager {
+    constructor() {
+        this.timers = new Map();
+    }
+    
+    startTimer(name, callback, interval) {
+        this.clearTimer(name);
+        const timerId = setInterval(callback, interval);
+        this.timers.set(name, timerId);
+        return timerId;
+    }
+    
+    clearTimer(name) {
+        if (this.timers.has(name)) {
+            clearInterval(this.timers.get(name));
+            this.timers.delete(name);
+        }
+    }
+    
+    clearAllTimers() {
+        this.timers.forEach((timerId) => clearInterval(timerId));
+        this.timers.clear();
+    }
+}
+
+const timerManager = new TimerManager();
+
+let maxScroll = 0;
+
+
 // Language Switching Function
 function switchLanguage(lang) {
     document.body.setAttribute('data-current-lang', lang);
@@ -19,8 +86,8 @@ function switchLanguage(lang) {
         trackLanguageSwitch(lang);
     }
     
-    // Store preference (avoid localStorage for Claude.ai compatibility)
-    // localStorage.setItem('preferred-language', lang);
+    // Store preference safely
+    SafeStorage.setItem('preferred-language', lang);
 }
 
 // Dynamic SEO Meta Tag Switching
@@ -41,12 +108,12 @@ function updateSEOForLanguage(lang) {
     }
 }
 
-// Load saved language preference (commented out for Claude.ai compatibility)
+// Load saved language preference
 window.addEventListener('load', () => {
-    // const savedLang = localStorage.getItem('preferred-language') || 'en';
-    // if (savedLang !== 'en') {
-    //     switchLanguage(savedLang);
-    // }
+    const savedLang = SafeStorage.getItem('preferred-language') || 'fr';
+    if (savedLang && savedLang !== document.body.getAttribute('data-current-lang')) {
+        switchLanguage(savedLang);
+    }
 });
 
 // Mobile Menu Toggle
@@ -132,10 +199,9 @@ function goToJourneyStep(step) {
 }
 
 // Auto-advance journey on desktop
-let journeyInterval;
 function startJourneyAutoplay() {
     if (window.innerWidth > 768) {
-        journeyInterval = setInterval(() => {
+        timerManager.startTimer('journey', () => {
             currentJourneyStep = (currentJourneyStep + 1) % 4;
             goToJourneyStep(currentJourneyStep);
         }, 4000);
@@ -143,10 +209,7 @@ function startJourneyAutoplay() {
 }
 
 function stopJourneyAutoplay() {
-    if (journeyInterval) {
-        clearInterval(journeyInterval);
-        journeyInterval = null;
-    }
+    timerManager.clearTimer('journey');
 }
 
 // Start autoplay when journey section is visible
@@ -187,10 +250,9 @@ function goToMobileSlide(slide) {
 }
 
 // Auto-advance mobile slider
-let mobileSliderInterval;
 function startMobileSliderAutoplay() {
     if (window.innerWidth <= 768) {
-        mobileSliderInterval = setInterval(() => {
+        timerManager.startTimer('mobileSlider', () => {
             currentMobileSlide = (currentMobileSlide + 1) % totalMobileSlides;
             goToMobileSlide(currentMobileSlide);
         }, 3000);
@@ -198,10 +260,7 @@ function startMobileSliderAutoplay() {
 }
 
 function stopMobileSliderAutoplay() {
-    if (mobileSliderInterval) {
-        clearInterval(mobileSliderInterval);
-        mobileSliderInterval = null;
-    }
+    timerManager.clearTimer('mobileSlider');
 }
 
 // Touch handling for mobile slider
@@ -288,7 +347,7 @@ let ticking = false;
 
 function updateJourneyProgress() {
     // Only run on desktop and if not in manual control mode
-    if (window.innerWidth <= 768 || journeyInterval) return;
+    if (window.innerWidth <= 768) return;
     
     const journeySection = document.querySelector('.journey-section');
     if (!journeySection) return;
@@ -389,25 +448,58 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Initialize scroll effects with performance optimization
-window.addEventListener('scroll', requestTick, { passive: true });
 
-window.addEventListener('resize', () => {
-    requestTick();
-    // Close mobile menu on resize
+// Optimized scroll handlers
+const optimizedNavbarScroll = throttle(() => {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+}, 16);
+
+const optimizedJourneyUpdate = throttle(() => {
+    updateJourneyProgress();
+}, 16);
+
+const optimizedScrollDepth = throttle(() => {
+    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    if (scrollPercent > maxScroll) {
+        maxScroll = scrollPercent;
+        if (maxScroll % 25 === 0 && maxScroll > 0) {
+            gtag('event', 'scroll', {
+                'event_category': 'Engagement',
+                'event_label': 'Scroll Depth',
+                'value': maxScroll
+            });
+        }
+    }
+}, 1000);
+
+// Initialize scroll effects with performance optimization
+window.addEventListener('scroll', optimizedNavbarScroll, { passive: true });
+window.addEventListener('scroll', optimizedJourneyUpdate, { passive: true });
+window.addEventListener('scroll', optimizedScrollDepth, { passive: true });
+
+
+// Enhanced resize handler with proper cleanup
+function handleResize() {
+    timerManager.clearAllTimers();
+    
     if (window.innerWidth > 768) {
-        document.getElementById('mobileMenu').classList.remove('active');
-        // Switch to desktop journey controls
-        stopMobileSliderAutoplay();
-        if (document.querySelector('.journey-section').getBoundingClientRect().top < window.innerHeight) {
+        document.getElementById('mobileMenu')?.classList.remove('active');
+        const journeySection = document.querySelector('.journey-section');
+        if (journeySection && journeySection.getBoundingClientRect().top < window.innerHeight) {
             startJourneyAutoplay();
         }
     } else {
-        // Switch to mobile slider
-        stopJourneyAutoplay();
         startMobileSliderAutoplay();
     }
-});
+}
+
+const throttledResize = throttle(handleResize, 250);
+window.addEventListener('resize', throttledResize);
 
 updateJourneyProgress();
 
@@ -474,21 +566,6 @@ function trackLanguageSwitch(language) {
     });
 }
 
-// Track scroll depth for engagement
-let maxScroll = 0;
-window.addEventListener('scroll', function() {
-    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-    if (scrollPercent > maxScroll) {
-        maxScroll = scrollPercent;
-        if (maxScroll % 25 === 0 && maxScroll > 0) { // Track at 25%, 50%, 75%, 100%
-            gtag('event', 'scroll', {
-                'event_category': 'Engagement',
-                'event_label': 'Scroll Depth',
-                'value': maxScroll
-            });
-        }
-    }
-});
 
 // Track service card interactions
 document.querySelectorAll('.service-card').forEach((card, index) => {
@@ -532,5 +609,14 @@ if ('IntersectionObserver' in window) {
     document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img);
     });
+
+    // Cleanup on page unload to prevent memory leaks
+    window.addEventListener('beforeunload', () => {
+        timerManager.clearAllTimers();
+        if (journeyObserver) {
+            journeyObserver.disconnect();
+        }
+    });
+
 }
 

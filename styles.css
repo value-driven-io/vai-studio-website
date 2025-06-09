@@ -804,20 +804,22 @@ body.loading .main-content {
 
 .mobile-service-track {
     display: flex;
-    transition: transform 0.5s ease;
+    transition: transform 0.3s ease; /* Reduced from 0.5s for better mobile performance */
     will-change: transform;
+    gap: 1rem; /* Add gap between cards */
 }
 
 .mobile-service-card {
-    min-width: 90%;
-    max-width: 350px;
-    margin: 0 5%;
+    flex: 0 0 85%; /* Use flexbox instead of min-width */
+    max-width: 320px;
+    margin: 0 auto;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1.5rem; /* Reduced padding for better fit */
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box; /* Ensure padding is included in width */
 }
 
 .mobile-service-card h3 {
@@ -1341,10 +1343,41 @@ body.loading .main-content {
         display: none;
     }
 
+    .nav-content {
+        position: relative;
+    }
+    
     .mobile-menu-toggle {
         display: flex;
         position: absolute;
-         right: 46%;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1001;
+    }
+    
+    .logo {
+        max-width: calc(100% - 60px);
+    }
+    
+    .mobile-menu {
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    .mobile-menu.active {
+        max-height: 400px;
+        display: block;
+    }
+    
+    .mobile-menu a {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
     }
 
     .hero-title {
@@ -1634,4 +1667,102 @@ body.loading .main-content {
     font-size: 1.1rem;
     text-align: center;
     padding: 2rem;
+}
+
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+    /* Reduce expensive backdrop filters on mobile */
+    .hero-content {
+        backdrop-filter: blur(2px);
+        background: rgba(26, 26, 46, 0.85);
+    }
+    
+    .service-card-float,
+    .mobile-service-card {
+        backdrop-filter: none;
+        background: rgba(26, 26, 46, 0.9);
+    }
+    
+    .email-signup-form,
+    .contact-form-container {
+        backdrop-filter: none;
+        background: rgba(26, 26, 46, 0.9);
+    }
+    
+    .navbar {
+        backdrop-filter: blur(4px);
+    }
+    
+    .mobile-menu {
+        backdrop-filter: blur(8px);
+    }
+    
+    .language-switcher {
+        backdrop-filter: blur(5px);
+    }
+    
+    /* Disable expensive animations on mobile */
+    .floating-shapes,
+    .hero-background {
+        transform: none !important;
+        animation: none !important;
+    }
+    
+    .journey-text {
+        backdrop-filter: blur(3px);
+        background: rgba(26, 26, 46, 0.9);
+    }
+    
+    /* Simplified animations */
+    .hero-content,
+    .hero-personal-image,
+    .hero-badge,
+    .loading-animation,
+    .loading-logo {
+        animation: none;
+    }
+    
+    .service-card:hover,
+    .impact-card:hover {
+        transform: translateY(-5px);
+        transition: transform 0.2s ease;
+    }
+    
+    .btn:hover {
+        transform: translateY(-1px);
+        transition: transform 0.2s ease;
+    }
+    
+    .faq-answer {
+        transition: max-height 0.2s ease;
+    }
+    
+    .faq-icon {
+        transition: transform 0.2s ease;
+    }
+}
+
+/* Performance improvements for all devices */
+.service-card-float {
+    will-change: auto;
+}
+
+.service-card-float.visible {
+    will-change: transform, opacity;
+}
+
+.screen-content {
+    will-change: auto;
+}
+
+.screen-content.active {
+    will-change: opacity;
+}
+
+/* Hide Moorea background on mobile */
+@media (max-width: 768px) {
+    .moorea-background {
+        display: none;
+    }
 }
