@@ -1240,6 +1240,12 @@ newsletter-float {
     padding: 0 2rem;
 }
 
+@media screen and (max-width: 768px) {
+    .faq-container {
+        padding: 0 1rem;
+    }
+}
+
 .faq-item {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1288,14 +1294,60 @@ newsletter-float {
     transition: max-height 0.3s ease;
 }
 
-.faq-item.active .faq-answer {
-    max-height: 200px;
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
-.faq-answer-content {
-    padding: 0 2rem 2rem 2rem;
-    color: var(--text-gray);
-    line-height: 1.6;
+.faq-item.active .faq-answer {
+    max-height: none; /* Remove height restriction */
+    max-height: 500px; /* Fallback for older browsers */
+}
+
+/* Better mobile FAQ handling */
+@media (max-width: 768px) {
+    .faq-item.active .faq-answer {
+        max-height: none; /* Remove all height restrictions */
+        overflow: visible; /* Ensure content is fully visible */
+    }
+    
+    .faq-answer {
+        transition: max-height 0.2s ease; /* Faster transition on mobile */
+    }
+    
+    .faq-answer-content {
+        padding: 0 1rem 1.5rem 1rem; /* Reduced padding */
+        font-size: 0.9rem; /* Slightly smaller text */
+        line-height: 1.6; /* Better readability */
+    }
+}
+
+/* Enhanced mobile FAQ styling */
+@media (max-width: 768px) {
+    .faq-container {
+        padding: 0 1rem; /* You already have this */
+    }
+    
+    .faq-item {
+        margin-bottom: 0.5rem; /* Reduce space between items */
+        border-radius: 10px; /* Smaller border radius */
+    }
+    
+    .faq-question {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .faq-question h3 {
+        word-wrap: break-word; /* Handle long words */
+        overflow-wrap: break-word;
+    }
+    
+    /* Ensure FAQ doesn't interfere with floating buttons */
+    .faq-section {
+        padding-bottom: 10rem; /* Extra bottom padding */
+    }
 }
 
 /* Social Impact Section */
