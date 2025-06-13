@@ -1,3 +1,6 @@
+// Homepage JavaScript - Interactive/Auto-rotating Services Showcase
+// Mobile-First with Performance Optimizations
+
 // Throttle function to limit how often functions can be called
 function throttle(func, limit) {
     let inThrottle;
@@ -61,9 +64,7 @@ class TimerManager {
 }
 
 const timerManager = new TimerManager();
-
 let maxScroll = 0;
-
 
 // Language Switching Function
 function switchLanguage(lang) {
@@ -73,7 +74,7 @@ function switchLanguage(lang) {
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    document.querySelector(`[data-lang-btn="${lang}"]`).classList.add('active');
+    document.querySelector(`[data-lang-btn="${lang}"]`)?.classList.add('active');
 
     // Update HTML lang attribute
     document.documentElement.lang = lang;
@@ -90,36 +91,30 @@ function switchLanguage(lang) {
     SafeStorage.setItem('preferred-language', lang);
 }
 
-// Dynamic SEO Meta Tag Switching
+// Dynamic SEO Meta Tag Switching for Homepage
 function updateSEOForLanguage(lang) {
     const title = document.querySelector('title');
     const description = document.querySelector('meta[name="description"]');
     
     if (lang === 'fr') {
-        // French SEO
-        title.textContent = 'VAI Studio - Création Sites Web Polynésie Française | Solutions Numériques Moorea Tahiti';
-        description.setAttribute('content', 'Conception de sites web professionnels, systèmes de réservation et solutions numériques pour entreprises polynésiennes. Basé à Moorea. Expertise internationale, authenticité polynésienne.');
+        // French SEO for Homepage
+        title.textContent = 'VAI Studio - Création Sites Web Polynésie Française | Design Web Moorea & Tahiti';
+        description.setAttribute('content', 'Solutions web professionnelles pour entreprises polynésiennes. Sites tourisme, restaurants, systèmes réservation. Qualité internationale, prix locaux - Basé à Moorea.');
         document.documentElement.setAttribute('lang', 'fr');
     } else {
-        // English SEO
+        // English SEO for Homepage
         title.textContent = 'VAI Studio - Web Design French Polynesia | Moorea & Tahiti Digital Solutions';
-        description.setAttribute('content', 'Professional web design, booking systems & digital solutions for French Polynesian businesses. Based in Moorea. International expertise, Polynesian authenticity.');
+        description.setAttribute('content', 'Professional web solutions for French Polynesian businesses. Tourism sites, restaurants, booking systems. International quality, local prices - Based in Moorea.');
         document.documentElement.setAttribute('lang', 'en');
     }
 }
 
-// Load saved language preference
-window.addEventListener('load', () => {
-    const savedLang = SafeStorage.getItem('preferred-language') || 'fr';
-    if (savedLang && savedLang !== document.body.getAttribute('data-current-lang')) {
-        switchLanguage(savedLang);
-    }
-});
-
 // Mobile Menu Toggle
 function toggleMobileMenu() {
     const mobileMenu = document.getElementById('mobileMenu');
-    mobileMenu.classList.toggle('active');
+    if (mobileMenu) {
+        mobileMenu.classList.toggle('active');
+    }
 }
 
 // Loading Screen Management
@@ -134,15 +129,25 @@ window.addEventListener('load', () => {
     }, 1500);
 });
 
-// Navbar scroll effect
-window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
+// Load saved language preference
+window.addEventListener('load', () => {
+    const savedLang = SafeStorage.getItem('preferred-language') || 'fr';
+    if (savedLang && savedLang !== document.body.getAttribute('data-current-lang')) {
+        switchLanguage(savedLang);
     }
 });
+
+// Navbar scroll effect
+window.addEventListener('scroll', throttle(() => {
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    }
+}, 16));
 
 // Parallax effect for hero background (desktop only)
 window.addEventListener('mousemove', (e) => {
@@ -154,342 +159,468 @@ window.addEventListener('mousemove', (e) => {
     }
 });
 
-// Enhanced Journey Controls - Desktop
-let currentJourneyStep = 0;
 
-function goToJourneyStep(step) {
-    currentJourneyStep = step;
-    
-    // Update dots
-    document.querySelectorAll('.journey-dot').forEach((dot, index) => {
-        dot.classList.toggle('active', index === step);
-    });
-    
-    // Update screens
-    document.querySelectorAll('.screen-content').forEach((screen, index) => {
-        screen.classList.toggle('active', index === step);
-    });
-    
-    // Update floating cards
-    document.querySelectorAll('.service-card-float').forEach(card => {
-        card.classList.remove('visible');
-    });
-    
-    // Show appropriate cards based on step
-    if (step === 1) {
-        document.querySelector('#float-card-1')?.classList.add('visible');
-    } else if (step === 2) {
-        document.querySelector('#float-card-2')?.classList.add('visible');
-    } else if (step === 3) {
-        document.querySelector('#float-card-3')?.classList.add('visible');
-        document.querySelector('#float-card-4')?.classList.add('visible');
-        document.querySelector('#journey-text-desktop')?.classList.add('active');
-    } else {
-        document.querySelector('#journey-text-desktop')?.classList.remove('active');
-    }
-    
-    // Track journey interaction
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'journey_step', {
-            'event_category': 'User Interaction',
-            'event_label': `Step ${step}`,
-            'value': step
-        });
-    }
-}
+// =================================================
+// ENHANCED JOURNEY EXPERIENCE CLASS (Corrected)
+// =================================================
 
-// Auto-advance journey on desktop
-function startJourneyAutoplay() {
-    if (window.innerWidth > 768) {
-        timerManager.startTimer('journey', () => {
-            currentJourneyStep = (currentJourneyStep + 1) % 4;
-            goToJourneyStep(currentJourneyStep);
-        }, 4000);
-    }
-}
+/**
+ * Manages all interactivity for the "Journey" section.
+ */
+class EnhancedJourneyExperience {
+    constructor() {
+        this.elements = {
+            section: document.querySelector('.journey-experience-section'),
+            heroButtons: document.querySelectorAll('.hero-journey-btn'),
+            textSteps: document.querySelectorAll('.journey-step'),
+            screens: document.querySelectorAll('.journey-screen'),
+            dots: document.querySelectorAll('.progress-dot'),
+            paths: document.querySelectorAll('.journey-path'),
+        };
 
-function stopJourneyAutoplay() {
-    timerManager.clearTimer('journey');
-}
-
-// Start autoplay when journey section is visible
-const journeyObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && window.innerWidth > 768) {
-            startJourneyAutoplay();
-        } else {
-            stopJourneyAutoplay();
+        if (!this.elements.section) {
+            console.log('Journey section not found, skipping initialization.');
+            return;
         }
-    });
-});
 
-// Mobile Service Slider
-let currentMobileSlide = 0;
-const totalMobileSlides = 4;
+        this.currentJourney = 'tourism'; // Default journey
+        this.isDesktop = window.innerWidth > 768;
 
-function goToMobileSlide(slide) {
-    currentMobileSlide = slide;
-    const track = document.getElementById('mobileServiceTrack');
-    if (track) {
-        track.style.transform = `translateX(-${slide * 25}%)`; // Changed from 100% to 25%
+        this.init();
     }
-    
-    // Update dots
-    document.querySelectorAll('.mobile-dot').forEach((dot, index) => {
-        dot.classList.toggle('active', index === slide);
-    });
-    
-    // Track mobile slider interaction
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'mobile_slider', {
-            'event_category': 'User Interaction',
-            'event_label': `Slide ${slide}`,
-            'value': slide
+
+    init() {
+        // Set a default journey on page load.
+        this.selectJourney(this.currentJourney, true);
+
+        // Add event listeners for hero buttons.
+        this.elements.heroButtons.forEach(btn => {
+            btn.addEventListener('click', () => this.selectJourney(btn.dataset.journey));
         });
-    }
-}
 
-// Auto-advance mobile slider
-function startMobileSliderAutoplay() {
-    if (window.innerWidth <= 768) {
-        timerManager.startTimer('mobileSlider', () => {
-            currentMobileSlide = (currentMobileSlide + 1) % totalMobileSlides;
-            goToMobileSlide(currentMobileSlide);
-        }, 3000);
-    }
-}
-
-function stopMobileSliderAutoplay() {
-    timerManager.clearTimer('mobileSlider');
-}
-
-// Touch handling for mobile slider
-let touchStartX = 0;
-let touchEndX = 0;
-
-function handleTouchStart(e) {
-    touchStartX = e.touches[0].clientX;
-    stopMobileSliderAutoplay();
-}
-
-function handleTouchEnd(e) {
-    touchEndX = e.changedTouches[0].clientX;
-    handleSwipe();
-    // Restart autoplay after touch interaction
-    setTimeout(startMobileSliderAutoplay, 2000);
-}
-
-function handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = touchStartX - touchEndX;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0 && currentMobileSlide < totalMobileSlides - 1) {
-            // Swipe left - next slide
-            goToMobileSlide(currentMobileSlide + 1);
-        } else if (diff < 0 && currentMobileSlide > 0) {
-            // Swipe right - previous slide
-            goToMobileSlide(currentMobileSlide - 1);
-        }
-    }
-}
-
-// FAQ Toggle Function
-function toggleFAQ(faqItem) {
-    const isActive = faqItem.classList.contains('active');
-    
-    // Close all FAQ items
-    document.querySelectorAll('.faq-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Open clicked item if it wasn't active
-    if (!isActive) {
-        faqItem.classList.add('active');
-        
-        // Track FAQ interaction
-        const question = faqItem.querySelector('h3').textContent;
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'faq_interaction', {
-                'event_category': 'FAQ',
-                'event_label': question,
-                'value': 1
+        // Setup desktop-specific features.
+        if (this.isDesktop) {
+            this.setupStepObserver();
+            this.elements.dots.forEach(dot => {
+                dot.addEventListener('click', () => this.scrollToStep(dot.dataset.step));
             });
         }
     }
+    
+    selectJourney(journey, isInitialLoad = false) {
+        this.currentJourney = journey;
+
+        this.elements.heroButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.journey === journey));
+        this.elements.paths.forEach(path => path.classList.toggle('active', path.dataset.journey === journey));
+
+        // Always reset to the first step when a new journey is selected
+        this.updateScreenAndProgress(1); 
+
+        if (this.isDesktop && !isInitialLoad) {
+            this.elements.section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    setupStepObserver() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -40% 0px',
+            threshold: 0.1,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const stepEl = entry.target;
+                    // Ensure we only act on steps within the *active* journey path
+                    if (stepEl.closest('.journey-path.active')) {
+                        const stepNumber = this.getStepNumber(stepEl.dataset.step);
+                        this.updateScreenAndProgress(stepNumber);
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        this.elements.textSteps.forEach(step => observer.observe(step));
+    }
+
+    updateScreenAndProgress(stepNumber) {
+        const stepName = this.getStepName(stepNumber);
+
+        const targetScreen = document.querySelector(`.journey-screen[data-journey="${this.currentJourney}"][data-step="${stepName}"]`);
+        this.elements.screens.forEach(s => s.classList.remove('active'));
+        if (targetScreen) targetScreen.classList.add('active');
+
+        this.elements.dots.forEach(dot => dot.classList.toggle('active', parseInt(dot.dataset.step) === stepNumber));
+
+        if (this.isDesktop) {
+            const activePath = document.querySelector(`.journey-path[data-journey="${this.currentJourney}"]`);
+            activePath?.querySelectorAll('.journey-step').forEach(step => {
+                step.classList.toggle('active-step', step.dataset.step === stepName);
+            });
+        }
+    }
+
+    scrollToStep(stepNumber) {
+        const stepName = this.getStepName(stepNumber);
+        const targetStep = document.querySelector(`.journey-path.active .journey-step[data-step="${stepName}"]`);
+        if (targetStep) {
+            targetStep.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    // --- Helper Functions ---
+    getStepName = (num) => ({ 1: 'problem', 2: 'solution', 3: 'result' }[num]);
+    getStepNumber = (name) => ({ 'problem': 1, 'solution': 2, 'result': 3 }[name]);
 }
 
-// Email Signup Handler
-function handleEmailSignup(event) {
-    event.preventDefault();
-    const email = event.target.querySelector('input[type="email"]').value;
-    
-    // Track email signup
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'email_signup', {
-            'event_category': 'Lead Generation',
-            'event_label': 'Newsletter Signup',
-            'value': 1
+
+// =================================================
+// ENHANCED HOMEPAGE INITIALIZATION
+// =================================================
+
+// Initialize the enhanced journey experience
+let enhancedJourneyExperience;
+
+// Enhanced homepage tracking
+function initEnhancedHomepageTracking() {
+    // Track hero journey interactions
+    const heroJourneyButtons = document.querySelectorAll('.hero-journey-btn');
+    heroJourneyButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            const journey = this.getAttribute('data-journey');
+            const journeyTitle = this.querySelector('.journey-title').textContent;
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'hero_journey_button_click', {
+                    'event_category': 'Hero Interaction',
+                    'event_label': `${journey}: ${journeyTitle}`,
+                    'value': index + 1
+                });
+            }
         });
-    }
-    
-    // Here you would integrate with your email service (JotForm)
-    alert(document.body.getAttribute('data-current-lang') === 'fr' ? 
-        'Merci ! Tu recevras bientôt nos conseils numériques.' : 
-        'Thank you! You\'ll receive our digital tips soon.');
-    
-    // Clear form
-    event.target.reset();
-}
-
-
-// Newsletter Popup Functions
-function openNewsletterPopup() {
-    const popup = document.getElementById('newsletterPopup');
-    popup.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    
-    // Track popup open
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'newsletter_popup_open', {
-            'event_category': 'Newsletter',
-            'event_label': 'Popup Opened',
-            'value': 1
-        });
-    }
-}
-
-function closeNewsletterPopup(event) {
-    const popup = document.getElementById('newsletterPopup');
-    
-    // Only close if clicking overlay or close button, not the content
-    if (!event || event.target === popup || event.target.classList.contains('newsletter-close')) {
-        popup.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-function handleNewsletterPopupSignup(event) {
-    event.preventDefault();
-    const email = event.target.querySelector('input[type="email"]').value;
-    
-    // Track email signup
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'email_signup', {
-            'event_category': 'Lead Generation',
-            'event_label': 'Newsletter Popup Signup',
-            'value': 1
-        });
-    }
-    
-    // Show success message
-    const successMessage = document.body.getAttribute('data-current-lang') === 'fr' ? 
-        'Merci ! Tu recevras bientôt nos conseils numériques.' : 
-        'Thank you! You\'ll receive our digital tips soon.';
-    
-    alert(successMessage);
-    
-    // Clear form and close popup
-    event.target.reset();
-    closeNewsletterPopup();
-}
-
-// Close popup with Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeNewsletterPopup();
-    }
-});
-
-
-// Optimized Journey scroll animation for Chrome
-let ticking = false;
-
-function updateJourneyProgress() {
-    // Only run on desktop and if not in manual control mode
-    if (window.innerWidth <= 768) return;
-    
-    const journeySection = document.querySelector('.journey-section');
-    if (!journeySection) return;
-    
-    const journeyRect = journeySection.getBoundingClientRect();
-    const progress = Math.max(0, Math.min(1, -journeyRect.top / (journeyRect.height - window.innerHeight)));
-    
-    // Update screen content based on scroll progress
-    const screens = document.querySelectorAll('#journey-screen-1, #journey-screen-2, #journey-screen-3, #journey-screen-4');
-    const cards = document.querySelectorAll('.desktop-journey .service-card-float');
-    const showcase = document.getElementById('showcase');
-    const journeyTextDesktop = document.getElementById('journey-text-desktop');
-    
-    // Reset all screens and cards
-    screens.forEach(screen => screen.classList.remove('active'));
-    cards.forEach(card => card.classList.remove('visible'));
-    
-    let step = 0;
-    if (progress < 0.25) {
-        step = 0;
-        document.getElementById('journey-screen-1')?.classList.add('active');
-        if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
-    } else if (progress < 0.5) {
-        step = 1;
-        document.getElementById('journey-screen-2')?.classList.add('active');
-        document.querySelector('.desktop-journey #float-card-1')?.classList.add('visible');
-        if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
-    } else if (progress < 0.75) {
-        step = 2;
-        document.getElementById('journey-screen-3')?.classList.add('active');
-        document.querySelector('.desktop-journey #float-card-2')?.classList.add('visible');
-        if (journeyTextDesktop) journeyTextDesktop.classList.remove('active');
-    } else {
-        step = 3;
-        document.getElementById('journey-screen-4')?.classList.add('active');
-        document.querySelector('.desktop-journey #float-card-3')?.classList.add('visible');
-        document.querySelector('.desktop-journey #float-card-4')?.classList.add('visible');
-        if (journeyTextDesktop) journeyTextDesktop.classList.add('active');
-    }
-    
-    // Update dots
-    document.querySelectorAll('.journey-dot').forEach((dot, index) => {
-        dot.classList.toggle('active', index === step);
     });
     
-    // Subtle showcase scaling with performance optimization
-    if (showcase) {
-        const scale = 1 + progress * 0.05;
-        const rotation = progress * 2 - 1;
-        showcase.style.transform = `scale(${scale}) rotateY(${rotation}deg)`;
-    }
-    
-    ticking = false;
+    // Track journey CTA interactions
+    const journeyCTAs = document.querySelectorAll('.journey-cta .btn');
+    journeyCTAs.forEach((cta, index) => {
+        cta.addEventListener('click', function() {
+            const journeySection = this.closest('.journey-path');
+            const journey = journeySection ? journeySection.getAttribute('data-journey') : 'unknown';
+            const buttonText = this.textContent.trim();
+            const isSecondary = this.classList.contains('btn-secondary');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'enhanced_journey_cta_click', {
+                    'event_category': 'Journey CTA',
+                    'event_label': `${journey} - ${buttonText}`,
+                    'value': isSecondary ? 0 : 1
+                });
+            }
+        });
+    });
 }
 
-function requestTick() {
-    if (!ticking) {
-        requestAnimationFrame(updateJourneyProgress);
-        ticking = true;
-    }
+// Enhanced scroll depth tracking
+function initEnhancedScrollTracking() {
+    let maxScroll = 0;
+    const scrollTracker = throttle(() => {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        if (scrollPercent > maxScroll) {
+            maxScroll = scrollPercent;
+            if (maxScroll % 25 === 0 && maxScroll > 0) {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'enhanced_scroll_depth', {
+                        'event_category': 'Enhanced Homepage',
+                        'event_label': 'Scroll Depth',
+                        'value': maxScroll
+                    });
+                }
+            }
+        }
+    }, 1000);
+    
+    window.addEventListener('scroll', scrollTracker, { passive: true });
 }
 
-// Initialize components when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Add touch listeners to mobile slider
-    const mobileSlider = document.querySelector('.mobile-service-slider');
-    if (mobileSlider) {
-        mobileSlider.addEventListener('touchstart', handleTouchStart, {passive: true});
-        mobileSlider.addEventListener('touchend', handleTouchEnd, {passive: true});
-    }
-    
-    // Initialize mobile slider autoplay
+// Mobile journey experience handling
+function initMobileJourneyExperience() {
     if (window.innerWidth <= 768) {
-        startMobileSliderAutoplay();
+        // On mobile, journey experience is simplified
+        const heroJourneyButtons = document.querySelectorAll('.hero-journey-btn');
+        const journeyPaths = document.querySelectorAll('.journey-path');
+        
+        heroJourneyButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const journey = this.getAttribute('data-journey');
+                
+                // Update active states
+                heroJourneyButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show selected journey
+                journeyPaths.forEach(path => {
+                    path.classList.remove('active');
+                    if (path.getAttribute('data-journey') === journey) {
+                        path.classList.add('active');
+                    }
+                });
+                
+                // Update screens
+                const screens = document.querySelectorAll('.journey-screen');
+                screens.forEach(screen => {
+                    screen.classList.remove('active');
+                    if (screen.getAttribute('data-journey') === journey && 
+                        screen.getAttribute('data-step') === 'problem') {
+                        screen.classList.add('active');
+                    }
+                });
+            });
+        });
+    }
+}
+
+// Utility throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+// Initialize Journey Experience
+let journeyExperience;
+
+// =================================================
+// HOMEPAGE JOURNEY SPECIFIC FUNCTIONS
+// =================================================
+
+// Enhanced CTA tracking for journey buttons
+function initJourneyCTATracking() {
+    // Track journey CTA clicks
+    document.querySelectorAll('.journey-cta .btn').forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            const journeySection = this.closest('.journey-path');
+            const journey = journeySection ? journeySection.getAttribute('data-journey') : 'unknown';
+            const buttonText = this.textContent.trim();
+            const isSecondary = this.classList.contains('btn-secondary');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'journey_cta_click', {
+                    'event_category': 'Journey CTA',
+                    'event_label': `${journey} - ${buttonText}`,
+                    'value': isSecondary ? 0 : 1
+                });
+            }
+        });
+    });
+    
+    // Track pricing info views
+    const pricingElements = document.querySelectorAll('.pricing-info');
+    if (pricingElements.length > 0) {
+        const pricingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const journeySection = entry.target.closest('.journey-path');
+                    const journey = journeySection ? journeySection.getAttribute('data-journey') : 'unknown';
+                    
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'pricing_view', {
+                            'event_category': 'Journey Experience',
+                            'event_label': `${journey} pricing viewed`,
+                            'value': 1
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.8 });
+        
+        pricingElements.forEach(element => {
+            pricingObserver.observe(element);
+        });
+    }
+}
+
+// Journey completion tracking
+function trackJourneyCompletion() {
+    const resultSections = document.querySelectorAll('.journey-section[data-step="result"]');
+    
+    if (resultSections.length > 0) {
+        const completionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const journeySection = entry.target.closest('.journey-path');
+                    const journey = journeySection ? journeySection.getAttribute('data-journey') : 'unknown';
+                    
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'journey_completion', {
+                            'event_category': 'Journey Experience',
+                            'event_label': `${journey} journey completed`,
+                            'value': 3
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.7 });
+        
+        resultSections.forEach(section => {
+            completionObserver.observe(section);
+        });
+    }
+}
+
+// Enhanced scroll depth tracking for journey sections
+const optimizedJourneyScrollDepth = throttle(() => {
+    if (!journeyExperience || !journeyExperience.isJourneyVisible()) return;
+    
+    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    if (scrollPercent > maxScroll) {
+        maxScroll = scrollPercent;
+        if (maxScroll % 25 === 0 && maxScroll > 0) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'journey_scroll_depth', {
+                    'event_category': 'Journey Engagement',
+                    'event_label': 'Journey Scroll Depth',
+                    'value': maxScroll
+                });
+            }
+        }
+    }
+}, 1000);
+
+window.addEventListener('scroll', optimizedJourneyScrollDepth, { passive: true });
+
+// =================================================
+// HOMEPAGE SPECIFIC FUNCTIONS
+// =================================================
+
+// Enhanced Analytics Functions
+function trackLanguageSwitch(language) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'language_switch', {
+            'event_category': 'User Interaction',
+            'event_label': language,
+            'value': language === 'fr' ? 1 : 0
+        });
+    }
+}
+
+// Homepage interaction tracking
+function initHomepageTracking() {
+    // Track hero CTA clicks
+    const heroCTAs = document.querySelectorAll('.hero-buttons .btn');
+    heroCTAs.forEach((cta, index) => {
+        cta.addEventListener('click', function() {
+            const buttonText = this.textContent.trim();
+            const buttonType = this.classList.contains('btn-primary') ? 'Primary' : 'Secondary';
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'hero_cta_click', {
+                    'event_category': 'Homepage CTA',
+                    'event_label': `${buttonType}: ${buttonText}`,
+                    'value': index + 1
+                });
+            }
+        });
+    });
+    
+    // Track social impact teaser interactions
+    const impactTeaser = document.querySelector('.social-impact-teaser');
+    if (impactTeaser) {
+        let impactViewed = false;
+        
+        const impactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !impactViewed) {
+                    impactViewed = true;
+                    
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'impact_teaser_view', {
+                            'event_category': 'Homepage Engagement',
+                            'event_label': 'Social Impact Teaser',
+                            'value': 1
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        impactObserver.observe(impactTeaser);
+        
+        // Track impact CTA click
+        const impactCTA = impactTeaser.querySelector('.btn-impact');
+        if (impactCTA) {
+            impactCTA.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'impact_cta_click', {
+                        'event_category': 'Homepage CTA',
+                        'event_label': 'Social Impact Learn More',
+                        'value': 1
+                    });
+                }
+            });
+        }
     }
     
-    // Observe journey section for desktop autoplay
-    const journeySection = document.querySelector('.journey-section');
-    if (journeySection) {
-        journeyObserver.observe(journeySection);
+    // Track about teaser interactions
+    const aboutTeaser = document.querySelector('.about-teaser');
+    if (aboutTeaser) {
+        const aboutCTA = aboutTeaser.querySelector('.btn-secondary');
+        if (aboutCTA) {
+            aboutCTA.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'about_cta_click', {
+                        'event_category': 'Homepage CTA',
+                        'event_label': 'Learn More About Kevin',
+                        'value': 1
+                    });
+                }
+            });
+        }
     }
-});
+    
+    // Track final CTA interactions
+    const finalCTAs = document.querySelectorAll('.final-cta-buttons .btn');
+    finalCTAs.forEach((cta, index) => {
+        cta.addEventListener('click', function() {
+            const buttonText = this.textContent.trim();
+            const buttonType = this.classList.contains('btn-primary') ? 'Primary' : 'Secondary';
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'final_cta_click', {
+                    'event_category': 'Homepage CTA',
+                    'event_label': `${buttonType}: ${buttonText}`,
+                    'value': index + 1
+                });
+            }
+        });
+    });
+}
+
+// Track scroll depth for engagement
+const optimizedScrollDepth = throttle(() => {
+    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    if (scrollPercent > maxScroll) {
+        maxScroll = scrollPercent;
+        if (maxScroll % 25 === 0 && maxScroll > 0) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'scroll_depth_homepage', {
+                    'event_category': 'Homepage Engagement',
+                    'event_label': 'Scroll Depth',
+                    'value': maxScroll
+                });
+            }
+        }
+    }
+}, 1000);
+
+window.addEventListener('scroll', optimizedScrollDepth, { passive: true });
 
 // Smooth scrolling for navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -497,7 +628,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            const navHeight = document.getElementById('navbar').offsetHeight;
+            const navHeight = document.getElementById('navbar')?.offsetHeight || 80;
             const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
             
             window.scrollTo({
@@ -508,60 +639,39 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-
-// Optimized scroll handlers
-const optimizedNavbarScroll = throttle(() => {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
+// Enhanced smooth scrolling with journey awareness
+function smoothScrollToSection(targetId) {
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    
+    const navHeight = document.getElementById('navbar')?.offsetHeight || 80;
+    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+    
+    // If scrolling to journey experience, reset to first step
+    if (targetId === '#journey-experience' && journeyExperience) {
+        journeyExperience.scrollToStep(1);
     } else {
-        navbar.classList.remove('scrolled');
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
     }
-}, 16);
-
-const optimizedJourneyUpdate = throttle(() => {
-    updateJourneyProgress();
-}, 16);
-
-const optimizedScrollDepth = throttle(() => {
-    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-    if (scrollPercent > maxScroll) {
-        maxScroll = scrollPercent;
-        if (maxScroll % 25 === 0 && maxScroll > 0) {
-            gtag('event', 'scroll', {
-                'event_category': 'Engagement',
-                'event_label': 'Scroll Depth',
-                'value': maxScroll
-            });
-        }
-    }
-}, 1000);
-
-// Initialize scroll effects with performance optimization
-window.addEventListener('scroll', optimizedNavbarScroll, { passive: true });
-window.addEventListener('scroll', optimizedJourneyUpdate, { passive: true });
-window.addEventListener('scroll', optimizedScrollDepth, { passive: true });
-
+}
 
 // Enhanced resize handler with proper cleanup
 function handleResize() {
     timerManager.clearAllTimers();
     
-    if (window.innerWidth > 768) {
-        document.getElementById('mobileMenu')?.classList.remove('active');
-        const journeySection = document.querySelector('.journey-section');
-        if (journeySection && journeySection.getBoundingClientRect().top < window.innerHeight) {
-            startJourneyAutoplay();
-        }
-    } else {
-        startMobileSliderAutoplay();
+    // Restart services showcase if visible
+    if (servicesShowcase && servicesShowcase.isVisible) {
+        setTimeout(() => {
+            servicesShowcase.resumeAutoRotate();
+        }, 500);
     }
 }
 
 const throttledResize = throttle(handleResize, 250);
 window.addEventListener('resize', throttledResize);
-
-updateJourneyProgress();
 
 // Intersection Observer for animations
 const observerOptions = {
@@ -576,19 +686,6 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 }, observerOptions);
-
-// Observe all service cards and sections
-document.querySelectorAll('.service-card, .section-header, .about-content, .contact-content, .social-impact-content, .faq-item').forEach(el => {
-    observer.observe(el);
-});
-
-// Enhanced floating shapes animation (desktop only)
-if (window.innerWidth > 768) {
-    document.querySelectorAll('.shape').forEach((shape, index) => {
-        const animationDuration = 8 + (index * 2);
-        shape.style.animationDuration = `${animationDuration}s`;
-    });
-}
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
@@ -617,27 +714,13 @@ if (document.getElementById('mobileMenu')) {
     });
 }
 
-// Enhanced Analytics Functions
-function trackLanguageSwitch(language) {
-    gtag('event', 'language_switch', {
-        'event_category': 'User Interaction',
-        'event_label': language,
-        'value': language === 'fr' ? 1 : 0
+// Enhanced floating shapes animation (desktop only)
+if (window.innerWidth > 768) {
+    document.querySelectorAll('.shape').forEach((shape, index) => {
+        const animationDuration = 8 + (index * 2);
+        shape.style.animationDuration = `${animationDuration}s`;
     });
 }
-
-
-// Track service card interactions
-document.querySelectorAll('.service-card').forEach((card, index) => {
-    card.addEventListener('click', function() {
-        const serviceName = card.querySelector('h3').textContent;
-        gtag('event', 'service_interest', {
-            'event_category': 'Services',
-            'event_label': serviceName,
-            'value': index + 1
-        });
-    });
-});
 
 // Performance optimizations for mobile
 if (window.innerWidth <= 768) {
@@ -669,14 +752,179 @@ if ('IntersectionObserver' in window) {
     document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img);
     });
-
-    // Cleanup on page unload to prevent memory leaks
-    window.addEventListener('beforeunload', () => {
-        timerManager.clearAllTimers();
-        if (journeyObserver) {
-            journeyObserver.disconnect();
-        }
-    });
-
 }
 
+
+// =================================================
+// ENHANCED HOMEPAGE FUNCTIONS
+// =================================================
+
+// Enhanced homepage tracking
+function initEnhancedHomepageTracking() {
+    // Track hero journey interactions
+    const heroJourneyButtons = document.querySelectorAll('.hero-journey-btn');
+    heroJourneyButtons.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+            const journey = this.getAttribute('data-journey');
+            const journeyTitle = this.querySelector('.journey-title').textContent;
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'hero_journey_button_click', {
+                    'event_category': 'Hero Interaction',
+                    'event_label': `${journey}: ${journeyTitle}`,
+                    'value': index + 1
+                });
+            }
+        });
+    });
+    
+    // Track journey CTA interactions
+    const journeyCTAs = document.querySelectorAll('.journey-cta .btn');
+    journeyCTAs.forEach((cta, index) => {
+        cta.addEventListener('click', function() {
+            const journeySection = this.closest('.journey-path');
+            const journey = journeySection ? journeySection.getAttribute('data-journey') : 'unknown';
+            const buttonText = this.textContent.trim();
+            const isSecondary = this.classList.contains('btn-secondary');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'enhanced_journey_cta_click', {
+                    'event_category': 'Journey CTA',
+                    'event_label': `${journey} - ${buttonText}`,
+                    'value': isSecondary ? 0 : 1
+                });
+            }
+        });
+    });
+}
+
+// Enhanced scroll depth tracking
+function initEnhancedScrollTracking() {
+    let maxScroll = 0;
+    const scrollTracker = throttle(() => {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        if (scrollPercent > maxScroll) {
+            maxScroll = scrollPercent;
+            if (maxScroll % 25 === 0 && maxScroll > 0) {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'enhanced_scroll_depth', {
+                        'event_category': 'Enhanced Homepage',
+                        'event_label': 'Scroll Depth',
+                        'value': maxScroll
+                    });
+                }
+            }
+        }
+    }, 1000);
+    
+    window.addEventListener('scroll', scrollTracker, { passive: true });
+}
+
+// Mobile journey experience handling
+function initMobileJourneyExperience() {
+    if (window.innerWidth <= 768) {
+        // On mobile, journey experience is simplified
+        const heroJourneyButtons = document.querySelectorAll('.hero-journey-btn');
+        const journeyPaths = document.querySelectorAll('.journey-path');
+        
+        heroJourneyButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const journey = this.getAttribute('data-journey');
+                
+                // Update active states
+                heroJourneyButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show selected journey
+                journeyPaths.forEach(path => {
+                    path.classList.remove('active');
+                    if (path.getAttribute('data-journey') === journey) {
+                        path.classList.add('active');
+                    }
+                });
+                
+                // Update screens
+                const screens = document.querySelectorAll('.journey-screen');
+                screens.forEach(screen => {
+                    screen.classList.remove('active');
+                    if (screen.getAttribute('data-journey') === journey && 
+                        screen.getAttribute('data-step') === 'problem') {
+                        screen.classList.add('active');
+                    }
+                });
+            });
+        });
+    }
+}
+
+// Utility throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+
+// =================================================
+// INITIALIZATION
+// =================================================
+
+// Initialize everything when DOM is ready
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Homepage loaded - Initializing enhanced journey experience');
+    
+    // Initialize Enhanced Journey Experience
+    enhancedJourneyExperience = new EnhancedJourneyExperience();
+    
+    // Initialize enhanced tracking
+    initEnhancedHomepageTracking();
+    initEnhancedScrollTracking();
+    initMobileJourneyExperience();
+    
+    // Initialize existing homepage tracking
+    initHomepageTracking();
+    
+    // Observe elements for fade-in animations
+    document.querySelectorAll('.impact-teaser-content, .about-teaser-content, .final-cta-content').forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Track homepage load
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            'page_title': 'Homepage with Journey Experience',
+            'page_location': window.location.href,
+            'event_category': 'Homepage'
+        });
+    }
+});
+
+// Cleanup on page unload to prevent memory leaks
+window.addEventListener('beforeunload', () => {
+    if (enhancedJourneyExperience) {
+        enhancedJourneyExperience.destroy();
+    }
+    timerManager.clearAllTimers();
+    
+    // Cleanup observers
+    if (observer) {
+        observer.disconnect();
+    }
+});
+
+// Export for potential external use
+if (typeof window !== 'undefined') {
+    window.VAIStudio = {
+        enhancedJourneyExperience: enhancedJourneyExperience,
+        switchLanguage: switchLanguage,
+        toggleMobileMenu: toggleMobileMenu
+    };
+}
