@@ -444,6 +444,15 @@
     will-change: auto;
 }
 
+
+/* XXXXXX */
+@media (max-width: 768px) {
+.journey-screen:not(.active),
+.journey-step:not(.active) {
+    opacity: 1;
+}
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
     .journey-screen,

@@ -511,7 +511,7 @@
     }
 }
 
-/* Feature Toggle Button - Minimal */
+/* XXXXXX Feature Toggle Button - Minimal */
 .features-toggle {
     background: none;
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -523,6 +523,7 @@
     margin: 0.5rem 0 1.5rem 0;
     transition: all 0.2s ease;
     font-weight: 500;
+    display:none;
 }
 
 .features-toggle:hover {
