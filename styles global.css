@@ -18,6 +18,7 @@
     --gradient-secondary: linear-gradient(135deg, #ff4757 0%, #3742fa 100%);
     --gradient-impact: linear-gradient(135deg, #2ed573 0%, #00d4ff 100%);
     --gradient-pricing: linear-gradient(135deg, hsl(59, 67%, 51%) 0%, #00d4ff 100%);
+    --gradient-negative: linear-gradient(135deg, hsl(59, 67%, 51%) 0%, #ff4757 100%);
     --glass-bg: rgba(26, 26, 46, 0.69);
     --glass-border: rgba(0, 212, 255, 0.2);
     --nav-height: 80px; /* Added for easier management */

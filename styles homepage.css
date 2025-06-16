@@ -221,16 +221,61 @@
 
 /* Step Content Styling */
 .step-indicator { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-.step-number { width: 60px; height: 60px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; color: white; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3); }
-.step-label { font-size: 0.9rem; font-weight: 600; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.5px; }
-.section-title { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.step-number { 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    background: var(--gradient-primary); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 1.4rem; 
+    font-weight: 800; 
+    color: white; 
+    flex-shrink: 0; 
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3); 
+}
+
+.step-label { 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    color: var(--accent-blue); 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+}
+
+.section-title { 
+    font-size: 2.5rem; 
+    font-weight: 800; 
+    line-height: 1.2; 
+    margin-bottom: 1.5rem; 
+    background: var(--gradient-primary); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    background-clip: text; 
+}
+
 .section-description { font-size: 1.1rem; color: var(--text-gray); line-height: 1.6; margin-bottom: 2rem; }
+
 .problem-stats, .result-benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
-.stat-item, .benefit-item { padding: 1.5rem; text-align: center; transition: all 0.3s ease; border-radius: 15px; }
-.stat-item { background: rgba(255, 0, 110, 0.1); border: 1px solid rgba(255, 0, 110, 0.2); }
+
+.stat-item, .benefit-item { 
+    padding: 1.5rem; 
+    text-align: center; 
+    transition: all 0.3s ease; 
+    border-radius: 15px; }
+
+.stat-item { 
+    background: rgba(255, 0, 110, 0.1); 
+    border: 1px solid rgba(255, 0, 110, 0.2); }
+
 .benefit-item { background: rgba(46, 213, 115, 0.1); border: 1px solid rgba(46, 213, 115, 0.2); }
 .stat-number, .benefit-number { font-size: 2rem; font-weight: 800; display: block; margin-bottom: 0.5rem; }
-.stat-number { color: var(--accent-pink); }
+
+.stat-number { 
+    color: var(--accent-pink); }
+
 .benefit-number { color: var(--accent-green); font-size: 2.5rem; }
 .solution-features { display: flex; gap: 1rem; flex-wrap: wrap; margin: 2rem 0; }
 .feature-item { background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 25px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-light); font-weight: 500; }
@@ -626,7 +671,7 @@
 .stat-number {
     font-size: 2.5rem;
     font-weight: 800;
-    background: var(--gradient-impact);
+    background: var(--gradient-negative);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
