@@ -305,16 +305,17 @@
     /* Mobile: Make device container sticky */
     .journey-device-container {
     display: flex; /* Re-enable the container */
-    position: sticky; /* The magic property! */
+    position: sticky; 
     top: 50px; /* Stick it below your navbar. Adjust this value if your nav height changes. */
     z-index: 10; /* Ensure it sticks above the text content. */
     width: 100%;
     height: auto; /* Let content decide height */
-    padding-top: 1rem; /* Give it some space from the navbar */
+    padding-top: 1rem;
     padding-bottom: 1rem;
-    margin-bottom: 0; /* Not needed */
+    margin-bottom: 0;
     background: var(--primary-dark);
     border-bottom: 1px solid var(--glass-border);
+    border-radius:32px;
     }
     
     .journey-device-mockup {
