@@ -1,5 +1,5 @@
-/* Homepage Specific Styles - homepage-styles.css */
-/* Mobile First Design - Builds on top of styles.css */
+/* Homepage Specific Styles*/
+/* Mobile First Design - Builds on top of styles global.css */
 
 /* Homepage Enhanced CSS Variables */
 :root {
@@ -313,18 +313,24 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
     margin-bottom: 0;
-    background: var(--primary-dark);
+    background: #0a0a1af2;
     border-bottom: 1px solid var(--glass-border);
     border-radius:32px;
     }
     
     .journey-device-mockup {
     width: 100%;
-    max-width: 280px; 
-    height: 180px;  
+    max-width: 180px; 
+    height: 200px;  
     padding: 10px;
     margin: 0 auto;
-}
+    }
+
+    .progress-dots { 
+    display: flex; 
+    gap: 1rem; 
+    padding-bottom:10px;
+    }
     
     /* Mobile: Text container becomes normal flow */
     .journey-text-container {
@@ -370,6 +376,7 @@
     
     .progress-labels {
         font-size: 0.8rem;
+        display:none;
     }
     
     /* Hero journey selector mobile */

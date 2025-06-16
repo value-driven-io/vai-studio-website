@@ -840,7 +840,6 @@ function throttle(func, limit) {
 // =================================================
 
 // Initialize everything when DOM is ready
-// Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Homepage loaded - Initializing enhanced journey experience');
     
