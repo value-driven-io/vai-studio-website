@@ -409,8 +409,8 @@
 
 @media (max-width: 480px) {
     .journey-device-mockup {
-        width: 250px;
-        height: 180px;
+        width: 150px;
+        height: 150px;
         padding: 10px;
     }
     
