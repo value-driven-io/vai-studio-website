@@ -412,8 +412,8 @@ body.loading .main-content {
     position: relative;
     z-index: 5;
     text-align: center;
-    max-width: 900px;
-    padding: 4rem 3rem;
+    /*max-width: 900px;*/
+    padding: 3rem 2rem;
     background: var(--glass-bg);
     backdrop-filter: blur(5px);
     border: 1px solid var(--glass-border);
@@ -422,7 +422,7 @@ body.loading .main-content {
         0 25px 50px -12px rgba(0, 0, 0, 0.25),
         0 0 60px rgba(0, 212, 255, 0.1);
     animation: fadeInUp 1s ease-out;
-    margin: 0 1rem;
+    margin: 0 2rem;
 }
 
 /* Personal Kevin Image */
@@ -908,7 +908,7 @@ body.loading .main-content {
     border: 1px solid rgba(46, 213, 115, 0.3);
     border-radius: 15px;
     padding: 2rem;
-    margin: 2rem 0;
+    /*margin: 2rem 0;*/
 }
 
 .impact-highlight h3 {
@@ -2208,8 +2208,8 @@ body.loading .main-content {
     position: relative;
     z-index: 5;
     text-align: center;
-    max-width: 900px;
-    padding: 4rem 3rem;
+    /*max-width: 900px;*/
+    padding: 3rem 2rem;
     background: var(--glass-bg);
     backdrop-filter: blur(5px);
     border: 1px solid var(--glass-border);
@@ -2218,7 +2218,7 @@ body.loading .main-content {
         0 25px 50px -12px rgba(0, 0, 0, 0.25),
         0 0 60px rgba(0, 212, 255, 0.1);
     animation: fadeInUp 1s ease-out;
-    margin: 0 1rem;
+    margin: 0 2rem;
 }
 
 /* Personal Kevin Image */
@@ -2681,7 +2681,7 @@ body.loading .main-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .impact-text h2 {
@@ -2751,6 +2751,7 @@ body.loading .main-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
+    margin-top:2em;
 }
 
 .impact-card {
@@ -3399,6 +3400,7 @@ body.loading .main-content {
     .impact-card-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+        margin-top:0;
     }
 
     .services-grid {
@@ -3489,6 +3491,10 @@ body.loading .main-content {
         height: 60px;
         top: -5px;
         right: -10px;
+    }
+
+    .hero-subtitle {
+        display:none;
     }
 }
 

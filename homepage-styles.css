@@ -36,7 +36,7 @@
 
 .hero-journey-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;
     max-width: 1000px;
     margin: 0 auto 1rem;
@@ -138,9 +138,9 @@
     background: var(--primary-dark);
     position: relative;
     display: flex;
-    /* Use padding to ensure space for sticky element */
     padding-top: 5vh;
     padding-bottom: 5vh;
+    border-top:1px solid (var(--glass-border));
 }
 
 /* === NEW: Sticky Container for the Device === */
@@ -368,7 +368,7 @@
     
     /* Hero journey selector mobile */
     .hero-journey-options {
-        grid-template-columns: 1fr;
+        grid-template-columns: auto auto;
         gap: 0.8rem;
     }
     
