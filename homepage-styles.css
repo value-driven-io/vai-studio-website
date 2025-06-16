@@ -301,32 +301,36 @@
     }
     
     /* Mobile: Fixed device becomes normal flow */
+
+    /* Mobile: Make device container sticky */
     .journey-device-container {
-        position: relative;
-        right: auto;
-        top: auto;
-        transform: none;
-        width: 100%;
-        max-width: 300px;
-        height: auto;
-        margin-bottom: 2rem;
-        order: 1;
-        display:none;
+    display: flex; /* Re-enable the container */
+    position: sticky; /* The magic property! */
+    top: 50px; /* Stick it below your navbar. Adjust this value if your nav height changes. */
+    z-index: 10; /* Ensure it sticks above the text content. */
+    width: 100%;
+    height: auto; /* Let content decide height */
+    padding-top: 1rem; /* Give it some space from the navbar */
+    padding-bottom: 1rem;
+    margin-bottom: 0; /* Not needed */
+    background: var(--primary-dark);
+    border-bottom: 1px solid var(--glass-border);
     }
     
     .journey-device-mockup {
-        width: 280px;
-        height: 200px;
-        padding: 12px;
-        margin: 0 auto;
-    }
+    width: 100%;
+    max-width: 280px; 
+    height: 180px;  
+    padding: 10px;
+    margin: 0 auto;
+}
     
     /* Mobile: Text container becomes normal flow */
     .journey-text-container {
-        width: 100%;
-        min-height: auto;
-        padding: 0 1rem;
-        order: 2;
+    width: 100%;
+    min-height: auto;
+    padding: 0 1rem;
+    order: 2;
     }
     
     .journey-step {
@@ -445,14 +449,6 @@
     will-change: auto;
 }
 
-
-/* XXXXXX */
-@media (max-width: 768px) {
-.journey-screen:not(.active),
-.journey-step:not(.active) {
-    opacity: 1;
-}
-}
 
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {

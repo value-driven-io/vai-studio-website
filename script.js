@@ -198,13 +198,13 @@ class EnhancedJourneyExperience {
             btn.addEventListener('click', () => this.selectJourney(btn.dataset.journey));
         });
 
-        // Setup desktop-specific features.
-        if (this.isDesktop) {
+        // Setup desktop-specific features and now mobile too
+        
             this.setupStepObserver();
             this.elements.dots.forEach(dot => {
                 dot.addEventListener('click', () => this.scrollToStep(dot.dataset.step));
             });
-        }
+        
     }
     
     selectJourney(journey, isInitialLoad = false) {
@@ -253,12 +253,11 @@ class EnhancedJourneyExperience {
 
         this.elements.dots.forEach(dot => dot.classList.toggle('active', parseInt(dot.dataset.step) === stepNumber));
 
-        if (this.isDesktop) {
+        // Dimmer for mobile and desktop
             const activePath = document.querySelector(`.journey-path[data-journey="${this.currentJourney}"]`);
             activePath?.querySelectorAll('.journey-step').forEach(step => {
                 step.classList.toggle('active-step', step.dataset.step === stepName);
             });
-        }
     }
 
     scrollToStep(stepNumber) {
@@ -343,42 +342,6 @@ function initEnhancedScrollTracking() {
     window.addEventListener('scroll', scrollTracker, { passive: true });
 }
 
-// Mobile journey experience handling
-function initMobileJourneyExperience() {
-    if (window.innerWidth <= 768) {
-        // On mobile, journey experience is simplified
-        const heroJourneyButtons = document.querySelectorAll('.hero-journey-btn');
-        const journeyPaths = document.querySelectorAll('.journey-path');
-        
-        heroJourneyButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const journey = this.getAttribute('data-journey');
-                
-                // Update active states
-                heroJourneyButtons.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Show selected journey
-                journeyPaths.forEach(path => {
-                    path.classList.remove('active');
-                    if (path.getAttribute('data-journey') === journey) {
-                        path.classList.add('active');
-                    }
-                });
-                
-                // Update screens
-                const screens = document.querySelectorAll('.journey-screen');
-                screens.forEach(screen => {
-                    screen.classList.remove('active');
-                    if (screen.getAttribute('data-journey') === journey && 
-                        screen.getAttribute('data-step') === 'problem') {
-                        screen.classList.add('active');
-                    }
-                });
-            });
-        });
-    }
-}
 
 // Utility throttle function
 function throttle(func, limit) {
@@ -887,7 +850,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize enhanced tracking
     initEnhancedHomepageTracking();
     initEnhancedScrollTracking();
-    initMobileJourneyExperience();
     
     // Initialize existing homepage tracking
     initHomepageTracking();
