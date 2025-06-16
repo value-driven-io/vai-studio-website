@@ -311,6 +311,7 @@
         height: auto;
         margin-bottom: 2rem;
         order: 1;
+        display:none;
     }
     
     .journey-device-mockup {
