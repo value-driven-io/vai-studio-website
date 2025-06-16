@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.elements = {
                 section: document.querySelector('.journey-experience-section'),
                 heroButtons: document.querySelectorAll('.hero-journey-btn'),
+                deviceButtons: document.querySelectorAll('.device-journey-btn'), // New selector
                 textSteps: document.querySelectorAll('.journey-step'),
                 screens: document.querySelectorAll('.journey-screen'),
                 dots: document.querySelectorAll('.progress-dot'),
@@ -49,7 +50,11 @@ document.addEventListener('DOMContentLoaded', function() {
         init() {
             this.selectJourney(this.currentJourney, true);
 
+            // Add event listeners for BOTH sets of journey buttons
             this.elements.heroButtons.forEach(btn => {
+                btn.addEventListener('click', () => this.selectJourney(btn.dataset.journey));
+            });
+            this.elements.deviceButtons.forEach(btn => {
                 btn.addEventListener('click', () => this.selectJourney(btn.dataset.journey));
             });
             
@@ -64,7 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!journey) return;
             this.currentJourney = journey;
 
+            // Sync BOTH sets of buttons
             this.elements.heroButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.journey === journey));
+            this.elements.deviceButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.journey === journey));
+            
             this.elements.paths.forEach(path => path.classList.toggle('active', path.dataset.journey === journey));
 
             // Reset to the first step when a new journey is selected

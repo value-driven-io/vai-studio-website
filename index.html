@@ -252,7 +252,7 @@
                     <li><a href="./services/">Services & Prices</a></li>
                     <li><a href="./contact/">Contact</a></li>
                 </ul>
-                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -370,6 +370,15 @@
                 
                 <!-- Sticky Device Container (Right Side) -->
                 <div class="journey-device-container">
+
+                    <!-- NEW: Journey Selector for within the device container -->
+                    <div class="journey-device-selector">
+                        <button class="device-journey-btn" data-journey="tourism" aria-label="Switch to Tourism Journey">🐋</button>
+                        <button class="device-journey-btn" data-journey="restaurant" aria-label="Switch to Restaurant Journey">🍽️</button>
+                        <button class="device-journey-btn" data-journey="startup" aria-label="Switch to Custom Brand Journey">🎨</button>
+                        <button class="device-journey-btn" data-journey="custom" aria-label="Switch to Business Solutions Journey">🚀</button>
+                    </div>
+
                     <div class="journey-device-mockup">
                         <div class="journey-device-screen">
                             <!-- Tourism Screens -->

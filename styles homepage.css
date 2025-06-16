@@ -152,7 +152,7 @@
     /* Layout */
     width: 45%;
     height: 90vh; /* Make it almost full-height */
-    max-height: 600px;
+    max-height: 700px;
     padding-left: 5%;
     
     /* Child layout */
@@ -160,10 +160,47 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
     
     /* Performance */
     will-change: transform;
+}
+
+/* === NEW: Journey Device Selector === */
+.journey-device-selector {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 25px;
+    backdrop-filter: blur(5px);
+    margin-bottom: 0.5rem; /* Space between selector and device */
+}
+
+.device-journey-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.device-journey-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.device-journey-btn.active {
+    border-color: var(--accent-blue);
+    background: rgba(0, 212, 255, 0.15);
+    transform: scale(1.1);
 }
 
 .journey-device-mockup {
@@ -188,7 +225,9 @@
 .placeholder-content { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1)); color: var(--text-gray); font-size: 1.3rem; font-weight: 600; text-align: center; line-height: 1.4; border-radius: 13px; }
 
 /* Progress Indicator */
-.journey-progress-indicator { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.journey-progress-indicator { 
+    display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
 .progress-dots { display: flex; gap: 1rem; }
 .progress-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transition: all 0.3s ease; position: relative; cursor: pointer; border: none; }
 .progress-dot.active { background: var(--accent-blue); transform: scale(1.3); box-shadow: 0 0 15px rgba(0, 212, 255, 0.5); }
