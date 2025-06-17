@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hors ligne - Last Minute Tours PF</title>
+    <style>
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f9fafb;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .offline-content {
+            max-width: 400px;
+        }
+        
+        h1 {
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #0891b2;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-content">
+        <div class="icon">📵</div>
+        <h1>Vous êtes hors ligne</h1>
+        <p>Impossible de charger les tours disponibles. Vérifiez votre connexion internet et réessayez.</p>
+        <a href="/" class="btn" onclick="window.location.reload()">Réessayer</a>
+    </div>
+</body>
+</html>

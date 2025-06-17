@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Minute Tours PF - Économisez jusqu'à 50%</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0891b2">
+    <link rel="manifest" href="/lastminute-app/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/lastminute-app/css/styles.css">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://api.airtable.com">
+</head>
+<body>
+    <!-- App Shell -->
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="logo">🏝️ Last Minute Tours PF</h1>
+                <button class="filter-btn" onclick="toggleFilters()">
+                    <svg width="20" height="20"><!-- Filter icon --></svg>
+                    Filtrer
+                </button>
+            </div>
+        </header>
+
+        <!-- Filter Section (Hidden by default) -->
+        <section id="filters" class="filters hidden">
+            <div class="filter-group">
+                <label>Type de tour</label>
+                <select id="tourType" onchange="filterTours()">
+                    <option value="">Tous</option>
+                    <option value="Whale Watching">🐋 Observation Baleines</option>
+                    <option value="Diving">🤿 Plongée</option>
+                    <option value="Cultural">🗿 Culturel</option>
+                    <option value="Lagoon">🏊 Lagon</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Date</label>
+                <select id="tourDate" onchange="filterTours()">
+                    <option value="today">Aujourd'hui</option>
+                    <option value="tomorrow">Demain</option>
+                    <option value="week">Cette semaine</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Île</label>
+                <select id="island" onchange="filterTours()">
+                    <option value="">Toutes</option>
+                    <option value="Moorea">Moorea</option>
+                    <option value="Tahiti">Tahiti</option>
+                    <option value="Bora Bora">Bora Bora</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Chargement des offres...</p>
+        </div>
+
+        <!-- Tours Grid -->
+        <main id="toursGrid" class="tours-grid">
+            <!-- Tours will be dynamically inserted here -->
+        </main>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state hidden">
+            <img src="images/empty-beach.svg" alt="Pas de tours">
+            <h2>Aucune offre disponible</h2>
+            <p>Revenez plus tard ou modifiez vos filtres</p>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal hidden">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeBookingModal()">×</button>
+            <h2 id="modalTourName"></h2>
+            
+            <form id="bookingForm" onsubmit="submitBooking(event)">
+                <div class="form-group">
+                    <label>Nombre d'adultes</label>
+                    <input type="number" id="numAdults" min="1" value="1" onchange="updatePrice()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Nombre d'enfants</label>
+                    <input type="number" id="numChildren" min="0" value="0" onchange="updatePrice()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Votre nom</label>
+                    <input type="text" id="customerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>WhatsApp</label>
+                    <input type="tel" id="customerWhatsApp" required placeholder="+689 87 XX XX XX">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="customerEmail" required>
+                </div>
+                
+                <div class="price-summary">
+                    <h3>Total: <span id="totalPrice">0 XPF</span></h3>
+                    <p class="price-note">Inclut 10% de frais de service</p>
+                </div>
+                
+                <button type="submit" class="btn-primary">
+                    Réserver via WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/lastminute-app/js/api.js"></script>
+    <script src="/lastminute-app/js/app.js"></script>
+    <script src="/lastminute-app/js/config.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+/* CSS Variables */
+:root {
+    --primary: #0891b2;
+    --primary-dark: #0e7490;
+    --secondary: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-600: #4b5563;
+    --gray-900: #111827;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    line-height: 1.5;
+}
+
+/* App Header */
+.app-header {
+    background: white;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--gray-100);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.filter-btn:hover {
+    background: var(--gray-200);
+}
+
+/* Filters Section */
+.filters {
+    background: white;
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.filters.hidden {
+    display: none;
+}
+
+.filter-group {
+    margin-bottom: 1rem;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--gray-600);
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.375rem;
+    background: white;
+    font-size: 1rem;
+}
+
+/* Tours Grid */
+.tours-grid {
+    padding: 1rem;
+    display: grid;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Tour Card */
+.tour-card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.tour-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.tour-discount {
+    background: var(--danger);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.tour-header {
+    padding: 1rem;
+}
+
+.tour-type {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary);
+    color: white;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.tour-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.tour-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.tour-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.tour-body {
+    padding: 0 1rem 1rem;
+}
+
+.tour-info {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.tour-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.price-original {
+    text-decoration: line-through;
+    color: var(--gray-600);
+    font-size: 0.875rem;
+}
+
+.price-discount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--success);
+}
+
+.spots-remaining {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--secondary);
+    color: white;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.btn-book {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-book:hover {
+    background: var(--primary-dark);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 1rem;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    background: var(--gray-100);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content h2 {
+    padding: 1.5rem 1.5rem 1rem;
+}
+
+#bookingForm {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.price-summary {
+    background: var(--gray-50);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.price-summary h3 {
+    color: var(--success);
+    margin-bottom: 0.25rem;
+}
+
+.price-note {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 3rem;
+}
+
+.spinner {
+    width: 3rem;
+    height: 3rem;
+    border: 3px solid var(--gray-200);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+}
+
+.empty-state img {
+    max-width: 200px;
+    margin: 0 auto 1rem;
+    opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (min-width: 640px) {
+    .tours-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .filters {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    
+    .filter-group {
+        flex: 1;
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .tours-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* PWA Install Prompt */
+.install-prompt {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 200;
+}
+
+.install-prompt.hidden {
+    display: none;
+}
