@@ -430,6 +430,11 @@
 }
 
 .solution-badge.popular {
+    color: var(--accent-coral);
+    border-color: rgba(213, 191, 46, 0.2);
+}
+
+.solution-badge.solution-badge.community {
     color: var(--accent-green);
     border-color: rgba(46, 213, 115, 0.2);
 }
@@ -711,7 +716,7 @@
     }
     
     .core-solutions-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 2.5rem;
     }
     
