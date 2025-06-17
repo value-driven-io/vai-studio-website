@@ -175,7 +175,15 @@
     border: 1px solid var(--glass-border);
     border-radius: 25px;
     backdrop-filter: blur(5px);
-    /*margin-bottom: 0.5rem;  Space between selector and device */
+    margin-bottom: 0.5rem; 
+}
+
+
+@media screen and (max-width: 768px) {
+    .journey-device-selector {
+        margin-bottom: 0rem; /* Remove bottom margin on mobile */
+    }
+    
 }
 
 .device-journey-btn {
