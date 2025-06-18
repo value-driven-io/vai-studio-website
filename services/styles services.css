@@ -1127,6 +1127,9 @@
     background: var(--secondary-dark);
     position: relative;
     overflow: hidden;
+    border-top: aqua;
+    border-top-width: medium;
+    border-top-style: inset;
 }
 
 .investment-process-section::before {
