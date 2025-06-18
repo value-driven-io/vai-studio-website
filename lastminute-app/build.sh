@@ -1,0 +1,9 @@
+#!/bin/bash
+cat > lastminute-app/js/config.js << EOF
+window.APP_CONFIG = {
+    AIRTABLE_PAT: '${AIRTABLE_PAT}',
+    AIRTABLE_BASE_ID: '${AIRTABLE_BASE_ID}',
+    N8N_WEBHOOK_URL: '${N8N_WEBHOOK_URL}',
+    WHATSAPP_BUSINESS_NUMBER: '${WHATSAPP_BUSINESS_NUMBER}'
+};
+EOF

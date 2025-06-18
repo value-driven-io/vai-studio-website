@@ -1,5 +1,5 @@
 // Airtable Configuration
-const AIRTABLE_API_KEY = 'patT5rqzkMcbRFvj9'; // Replace with your key
+const AIRTABLE_API_KEY = 'patfM6J8Dg5AFHvzI.50c98d865c7c18d95fb0899ace441e56ee85ce10912578de49587cdb6fd6e64f'; // Replace with your key
 const AIRTABLE_BASE_ID = 'appIPcXHBXBXu32Eb'; // Replace with your base ID
 const AIRTABLE_ENDPOINT = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}`;
 
@@ -130,14 +130,14 @@ const API = {
 
     // Trigger n8n webhook
     async triggerBookingNotification(bookingId) {
-        try {
-            const response = await fetch('https://your-n8n-domain.com/webhook/new-booking', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ booking_id: bookingId })
-                });
+    try {
+        const response = await fetch('https://https://value-driven-io.onrender.com/webhook/new-booking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ booking_id: bookingId })
+        });
            
            if (!response.ok) {
                console.error('Failed to trigger n8n webhook');
@@ -147,3 +147,29 @@ const API = {
        }
    }
 };
+
+
+// Add this temporary test function to api.js
+async function testAirtableConnection() {
+    try {
+        const response = await fetch(`${AIRTABLE_ENDPOINT}/Tours?maxRecords=1`, {
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_PAT}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            console.log('✅ Airtable connection successful!');
+            const data = await response.json();
+            console.log('Records found:', data.records.length);
+        } else {
+            console.error('❌ Airtable connection failed:', response.status);
+        }
+    } catch (error) {
+        console.error('❌ Connection error:', error);
+    }
+}
+
+// Call it once on page load for testing
+// testAirtableConnection();
