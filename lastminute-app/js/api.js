@@ -14,19 +14,62 @@ const API = {
     // Fetch available tours
     async fetchTours(filters = {}) {
         try {
+
             let filterFormula = `AND(status = 'Active', available_spots > 0)`;
-            
-            // Add date filter
+
+            // Helper to create a local date string (YYYY-MM-DD) to fix timezone issues
+            const getLocalDateString = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            // Helper to correctly add a new condition to the formula string
+            const addCondition = (newCondition) => {
+                // This removes the last ')' and adds the new condition before adding the ')' back
+                filterFormula = `${filterFormula.slice(0, -1)}, ${newCondition})`;
+            };
+
+
+            // Add date filter using our helpers
             if (filters.date === 'today') {
-                // filterFormula = `AND(${filterFormula}, date = TODAY())`;  //  OUT
+                const todayStr = getLocalDateString(new Date());
+                // Must set the timezone to 'Pacific/Tahiti' before formatting the date
+                // This ensures the formula's "day" matches the user's "day"
+                addCondition(`DATETIME_FORMAT(SET_TIMEZONE(date, 'Pacific/Tahiti'), 'YYYY-MM-DD') = '${todayStr}'`);
             } else if (filters.date === 'tomorrow') {
-                // filterFormula = `AND(${filterFormula}, date = DATEADD(TODAY(), 1, 'days'))`;  //  OUT
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const tomorrowStr = getLocalDateString(tomorrow);
+                // Apply the same timezone fix here
+                addCondition(`DATETIME_FORMAT(SET_TIMEZONE(date, 'Pacific/Tahiti'), 'YYYY-MM-DD') = '${tomorrowStr}'`);
             }
-            
+            else if (filters.date === 'week') {
+                const todayStr = getLocalDateString(new Date());
+                const endOfWeek = new Date();
+                endOfWeek.setDate(endOfWeek.getDate() + 7);
+                const endStr = getLocalDateString(endOfWeek);
+
+                // This creates a variable holding our complex formula part, for readability
+                const localDateField = `DATETIME_FORMAT(SET_TIMEZONE(date, 'Pacific/Tahiti'), 'YYYY-MM-DD')`;
+
+                // These lines use standard Javascript template literals (backticks ``)
+                addCondition(`${localDateField} >= '${todayStr}'`);
+                addCondition(`${localDateField} <= '${endStr}'`);
+            }
+
             // Add tour type filter
             if (filters.tourType) {
-                filterFormula = `AND(${filterFormula}, tour_type = '${filters.tourType}')`;
+                addCondition(`tour_type = '${filters.tourType}'`);
             }
+
+            // Add island filter (this connects the UI to the API call)
+            if (filters.island) {
+                // IMPORTANT: Requires the 'operator_island' lookup field in Airtable.
+                addCondition(`operator_island = '${filters.island}'`);
+            }
+            // [END OF NEW BLOCK]
 
             const params = new URLSearchParams({
                 filterByFormula: filterFormula,

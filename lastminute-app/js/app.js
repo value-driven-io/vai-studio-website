@@ -8,7 +8,7 @@ let currentTours = [];
 let selectedTour = null;
 let filters = {
     tourType: '',
-    date: 'today',
+    date: 'week', // Set default to 'week'
     island: ''
 };
 
@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function initializeApp() {
+    // This makes the dropdown match our default state on page load
+    document.getElementById('tourDate').value = filters.date;
+
     try {
         await loadTours();
         setupEventListeners();
@@ -41,7 +44,10 @@ async function initializeApp() {
 // Load Tours
 async function loadTours() {
     showLoading(true);
-    
+    // Explicitly hide both main content areas before fetching
+    elements.toursGrid.classList.add('hidden');
+    elements.emptyState.classList.add('hidden');
+
     try {
         currentTours = await API.fetchTours(filters);
         renderTours(currentTours);
@@ -59,47 +65,53 @@ function renderTours(tours) {
         showEmptyState();
         return;
     }
-    
+
     elements.emptyState.classList.add('hidden');
     elements.toursGrid.innerHTML = tours.map(tour => createTourCard(tour)).join('');
+
+    elements.toursGrid.classList.remove('hidden');
 }
 
 // Create Tour Card HTML
 function createTourCard(tour) {
     const { fields } = tour;
     const operator = tour.operator?.fields || {};
-    const discountPercent = Math.round((1 - (fields.discount_price_adult / fields.original_price_adult)) * 100);
-    
+    // Check if original price exists and is not zero to avoid division by zero
+    const discountPercent = (fields.original_price_adult && fields.discount_price_adult)
+        ? Math.round((1 - (fields.discount_price_adult / fields.original_price_adult)) * 100)
+        : 0;
+
     return `
         <article class="tour-card" onclick="openBookingModal('${tour.id}')">
-            ${discountPercent > 0 ? `<div class="tour-discount">-${discountPercent}%</div>` : ''}
+            ${discountPercent > 1 ? `<div class="tour-discount">-${discountPercent}%</div>` : ''}
             
             <div class="tour-header">
-                <span class="tour-type">${getTourTypeEmoji(fields.tour_type)} ${fields.tour_type}</span>
+                <span class="tour-type">${getTourTypeEmoji(fields.tour_type)} ${fields.tour_type || 'Excursion'}</span>
                 <h3 class="tour-title">${fields.tour_name}</h3>
                 <div class="tour-meta">
-                    <span class="tour-meta-item">📅 ${formatDate(fields.date)}</span>
-                    <span class="tour-meta-item">⏰ ${fields.time_slot}</span>
+                    <span>📅 ${formatDate(fields.date)}</span>
+                    <span>|</span>
+                    <span>⏰ ${fields.time_slot}</span>
                 </div>
             </div>
             
             <div class="tour-body">
                 <div class="tour-info">
-                    <div class="info-item">📍 ${fields.meeting_point || operator.island || 'Moorea'}</div>
-                    <div class="info-item">🏢 ${operator.company_name || 'Opérateur vérifié'}</div>
-                    <div class="info-item">🌐 ${(fields.languages || []).join(', ')}</div>
-                    ${fields.whale_regulation_compliant ? '<div class="info-item">✅ Conforme réglementation 2025</div>' : ''}
+                    <div class="info-item">📍 <strong>Location:</strong> ${fields.meeting_point || operator.island || 'Not specified'}</div>
+                    <div class="info-item">🏢 <strong>Operator:</strong> ${operator.company_name || 'Verified'}</div>
+                    <div class="info-item">🌐 <strong>Languages:</strong> ${(fields.languages || ['N/A']).join(', ')}</div>
+                    ${fields.whale_regulation_compliant ? '<div class="info-item">✅ Complies with Whale Regulations</div>' : ''}
                 </div>
                 
-                <div class="tour-price">
-                    <span class="price-original">${formatPrice(fields.original_price_adult)}</span>
-                    <span class="price-discount">${formatPrice(fields.discount_price_adult)}</span>
+                <div class="tour-footer">
+                    <div class="tour-price">
+                        ${fields.original_price_adult > fields.discount_price_adult ? `<div class="price-original">${formatPrice(fields.original_price_adult)}</div>` : ''}
+                        <div class="price-discount">${formatPrice(fields.discount_price_adult)}</div>
+                    </div>
+                    <span class="spots-remaining">${fields.available_spots} places</span>
                 </div>
-                
-                <span class="spots-remaining">${fields.available_spots} places restantes</span>
-                
-                <button class="btn-book">Réserver maintenant</button>
             </div>
+             <button class="btn-book">Book Now</button>
         </article>
     `;
 }
@@ -273,7 +285,6 @@ function getTourTypeEmoji(type) {
 
 function showLoading(show) {
     elements.loading.classList.toggle('hidden', !show);
-    elements.toursGrid.classList.toggle('hidden', show);
 }
 
 function showEmptyState() {
