@@ -1,3 +1,8 @@
+// Add this at the TOP of app.js temporarily
+console.log('Config loaded:', window.APP_CONFIG);
+testAirtableConnection();
+
+
 // App State
 let currentTours = [];
 let selectedTour = null;
@@ -320,7 +325,7 @@ function setupEventListeners() {
 async function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         try {
-            await navigator.serviceWorker.register('/lastminute-app/js/sw.js', {
+            await navigator.serviceWorker.register('/lastminute-app/sw.js', {
                 scope: '/lastminute-app/'
             });
             console.log('Service Worker registered');

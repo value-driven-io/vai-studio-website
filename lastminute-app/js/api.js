@@ -1,10 +1,9 @@
-// Airtable Configuration
-const AIRTABLE_API_KEY = 'patfM6J8Dg5AFHvzI.50c98d865c7c18d95fb0899ace441e56ee85ce10912578de49587cdb6fd6e64f'; // Replace with your key
-const AIRTABLE_BASE_ID = 'appIPcXHBXBXu32Eb'; // Replace with your base ID
+// Airtable Configuration - Get from config.js
+const AIRTABLE_PAT = window.APP_CONFIG.AIRTABLE_PAT;
+const AIRTABLE_BASE_ID = window.APP_CONFIG.AIRTABLE_BASE_ID;
 const AIRTABLE_ENDPOINT = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}`;
 
 // Headers for Airtable requests
-const AIRTABLE_PAT = window.APP_CONFIG.AIRTABLE_PAT;
 const headers = {
     'Authorization': `Bearer ${AIRTABLE_PAT}`,
     'Content-Type': 'application/json'
@@ -19,9 +18,9 @@ const API = {
             
             // Add date filter
             if (filters.date === 'today') {
-                filterFormula = `AND(${filterFormula}, date = TODAY())`;
+                // filterFormula = `AND(${filterFormula}, date = TODAY())`;  //  OUT
             } else if (filters.date === 'tomorrow') {
-                filterFormula = `AND(${filterFormula}, date = DATEADD(TODAY(), 1, 'days'))`;
+                // filterFormula = `AND(${filterFormula}, date = DATEADD(TODAY(), 1, 'days'))`;  //  OUT
             }
             
             // Add tour type filter
@@ -31,12 +30,16 @@ const API = {
 
             const params = new URLSearchParams({
                 filterByFormula: filterFormula,
-                sort: JSON.stringify([{field: "date", direction: "asc"}, {field: "time_slot", direction: "asc"}])
+                // sort: JSON.stringify([{field: "date", direction: "asc"}, {field: "time_slot", direction: "asc"}]) //
             });
 
             const response = await fetch(`${AIRTABLE_ENDPOINT}/Tours?${params}`, { headers });
             
-            if (!response.ok) throw new Error('Failed to fetch tours');
+            if (!response.ok) {
+                const errorData = await response.text();
+                console.error('Airtable error:', errorData);
+                throw new Error('Failed to fetch tours');
+            }
             
             const data = await response.json();
             
@@ -130,27 +133,30 @@ const API = {
 
     // Trigger n8n webhook
     async triggerBookingNotification(bookingId) {
-    try {
-        const response = await fetch('https://https://value-driven-io.onrender.com/webhook/new-booking', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ booking_id: bookingId })
-        });
-           
-           if (!response.ok) {
-               console.error('Failed to trigger n8n webhook');
-           }
-       } catch (error) {
-           console.error('Error triggering webhook:', error);
-       }
-   }
+        try {
+            const response = await fetch(window.APP_CONFIG.N8N_WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ booking_id: bookingId })
+            });
+            
+            if (!response.ok) {
+                console.error('Failed to trigger n8n webhook');
+            }
+        } catch (error) {
+            console.error('Error triggering webhook:', error);
+        }
+    }
 };
 
-
-// Add this temporary test function to api.js
+// Test function
 async function testAirtableConnection() {
+    console.log('Testing Airtable connection...');
+    console.log('PAT:', AIRTABLE_PAT ? 'Found' : 'Missing');
+    console.log('Base ID:', AIRTABLE_BASE_ID);
+    
     try {
         const response = await fetch(`${AIRTABLE_ENDPOINT}/Tours?maxRecords=1`, {
             headers: {
@@ -165,11 +171,13 @@ async function testAirtableConnection() {
             console.log('Records found:', data.records.length);
         } else {
             console.error('❌ Airtable connection failed:', response.status);
+            const errorText = await response.text();
+            console.error('Error details:', errorText);
         }
     } catch (error) {
         console.error('❌ Connection error:', error);
     }
 }
 
-// Call it once on page load for testing
+// Uncomment to test
 // testAirtableConnection();
