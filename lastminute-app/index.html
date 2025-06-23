@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="/lastminute-app/css/styles.css">
     
     <!-- Preconnect -->
-    <link rel="preconnect" href="https://api.airtable.com">
+    <link rel="preconnect" href="https://rizqwxcmpzhdmqjjqgyw.supabase.co">
+
 </head>
 <body>
     <!-- App Shell -->
@@ -39,29 +40,36 @@
                 <select id="tourType" onchange="filterTours()">
                     <option value="">All</option>
                     <option value="Whale Watching">🐋 Whale Watching</option>
-                    <option value="Diving">🤿 Diving</option>
+                    <option value="Snorkeling">🤿 Snorkeling</option>
+                    <option value="Lagoon Tour">⛵ Lagoon Tour</option>
+                    <option value="Hike">🥾 Hike</option>
                     <option value="Cultural">🗿 Cultural</option>
-                    <option value="Lagoon">🏊 Lagoon</option>
+                    <option value="Adrenalin">🪂 Adrenalin</option>
+                    <option value="Mindfulness">🧘 Mindfulness</option>
+                    <option value="Diving">🐢 Diving</option>
                 </select>
             </div>
             
             <div class="filter-group">
                 <label>Date</label>
                 <select id="tourDate" onchange="filterTours()">
-                    <option value="today">today</option>
-                    <option value="tomorrow">tomorrow</option>
-                    <option value="week">this week</option>
+                    <option value="today">Today</option>
+                    <option value="tomorrow">Tomorrow</option>
+                    <option value="week">This week</option>
                 </select>
             </div>
             
             <div class="filter-group">
                 <label>Island</label>
                 <select id="island" onchange="filterTours()">
-                    <option value="">All</option>
-                    <option value="Moorea">Moorea</option>
-                    <option value="Tahiti">Tahiti</option>
-                    <option value="Bora Bora">Bora Bora</option>
-                    <option value="Huahine">Huahine</option>
+                    <option value="">All Islands</option>
+                    <option value="Tahiti">🏝️ Tahiti</option>
+                    <option value="Moorea">🌺 Moorea</option>
+                    <option value="Bora Bora">🏖️ Bora Bora</option>
+                    <option value="Huahine">🌴 Huahine</option>
+                    <option value="Raiatea">⛰️ Raiatea</option>
+                    <option value="Taha'a">🥥 Taha'a</option>
+                    <option value="Maupiti">🐚 Maupiti</option>
                 </select>
             </div>
         </section>
@@ -95,27 +103,27 @@
             <form id="bookingForm" onsubmit="submitBooking(event)">
                 <div class="form-group">
                     <label>Number of adults</label>
-                    <input type="number" id="numAdults" min="1" value="1" onchange="updatePrice()">
+                    <input type="number" id="numAdults" name="numAdults" min="1" value="1" onchange="updatePrice()">
                 </div>
                 
                 <div class="form-group">
                     <label>Number of children</label>
-                    <input type="number" id="numChildren" min="0" value="0" onchange="updatePrice()">
+                    <input type="number" id="numChildren" name="numChildren" min="0" value="0" onchange="updatePrice()">
                 </div>
                 
                 <div class="form-group">
                     <label>Your name</label>
-                    <input type="text" id="customerName" required>
+                    <input type="text" id="customerName" name="customerName" required>
                 </div>
                 
                 <div class="form-group">
                     <label>WhatsApp</label>
-                    <input type="tel" id="customerWhatsApp" required placeholder="+689 XX XX XX XX">
+                    <input type="tel" id="customerWhatsApp" name="customerWhatsApp" required placeholder="+689 XX XX XX XX">
                 </div>
                 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="customerEmail" required>
+                    <input type="email" id="customerEmail" name="customerEmail" required>
                 </div>
                 
                 <div class="price-summary">

@@ -1,6 +1,6 @@
 // Add this at the TOP of app.js temporarily
 console.log('Config loaded:', window.APP_CONFIG);
-testAirtableConnection();
+testSupabaseConnection(); 
 
 
 // App State
@@ -37,7 +37,7 @@ async function initializeApp() {
         await loadTours();
         setupEventListeners();
     } catch (error) {
-        showError('Impossible de charger les tours. Veuillez réessayer.');
+        showError('Unable to load tours. Please try again.');
     }
 }
 
@@ -171,7 +171,7 @@ async function submitBooking(event) {
     
     const formData = new FormData(event.target);
     const bookingData = {
-        tour_id: [selectedTour.id],
+        tour_id: selectedTour.id, 
         customer_name: formData.get('customerName'),
         customer_email: formData.get('customerEmail'),
         customer_phone: formData.get('customerWhatsApp'),
@@ -185,18 +185,18 @@ async function submitBooking(event) {
     // Validate total participants
     const totalParticipants = bookingData.num_adults + bookingData.num_children;
     if (totalParticipants > selectedTour.fields.available_spots) {
-        alert(`Désolé, seulement ${selectedTour.fields.available_spots} places disponibles.`);
+        alert(`Sorry, only ${selectedTour.fields.available_spots} spots available.`);
         return;
     }
     
     // For whale tours, check group size compliance
     if (selectedTour.fields.whale_regulation_compliant && totalParticipants > 6) {
-        alert('Les tours d\'observation des baleines sont limités à 6 personnes maximum (réglementation 2025).');
+        alert('Whale watching tours are limited to 6 people maximum (2025 regulation).');
         return;
     }
     
     try {
-        // Create booking in Airtable
+        // Create booking in Supabase
         const booking = await API.createBooking(bookingData);
         
         // Generate WhatsApp message
@@ -208,35 +208,35 @@ async function submitBooking(event) {
         
         // Close modal and refresh tours
         closeBookingModal();
-        showSuccessMessage('Réservation créée! Confirmez via WhatsApp.');
+        showSuccessMessage('Booking created! Confirm via WhatsApp.');
         await loadTours();
         
     } catch (error) {
         console.error('Booking error:', error);
-        alert('Erreur lors de la réservation. Veuillez réessayer.');
+        alert('Booking error. Please try again.');
     }
 }
 
 // Generate WhatsApp Message
 function generateWhatsAppMessage(booking, tour) {
-    const { fields: bookingFields } = booking;
-    const { fields: tourFields } = tour;
-    const operator = tour.operator?.fields || {};
+    const bookingData = booking; // Direct properties
+    const tourData = tour.fields; // Your tour still has .fields structure
+    const operatorData = tour.operator.fields; // Operator still has .fields structure
     
     return `🎉 NOUVELLE RÉSERVATION - Last Minute Tours PF
 
-📋 Référence: ${booking.id}
-🚢 Tour: ${tourFields.tour_name}
-📅 Date: ${formatDate(tourFields.date)}
-⏰ Heure: ${tourFields.time_slot}
+📋 Référence: ${booking.booking_reference || booking.id}
+🚢 Tour: ${tourData.tour_name}
+📅 Date: ${formatDate(tourData.date)}
+⏰ Heure: ${tourData.time_slot}
 
-👤 Client: ${bookingFields.customer_name}
-📱 Contact: ${bookingFields.customer_phone}
-👥 Participants: ${bookingFields.num_adults} adultes, ${bookingFields.num_children} enfants
+👤 Client: ${bookingData.customer_name}
+📱 Contact: ${bookingData.customer_phone}
+👥 Participants: ${bookingData.num_adults} adultes, ${bookingData.num_children} enfants
 
-💰 Total: ${formatPrice(bookingFields.total_price || 0)}
+💰 Total: ${formatPrice(bookingData.total_amount || bookingData.subtotal + bookingData.commission_amount)}
 
-Merci de confirmer cette réservation dans les 30 minutes.
+Merci de confirmer cette réservation dans les 60 minutes.
 
 ---
 Last Minute Tours PF
@@ -260,9 +260,22 @@ function filterTours() {
 
 // Utility Functions
 function formatDate(dateString) {
-    const date = new Date(dateString);
+    // IMPORTANT: Parse the date as a local date, not UTC
+    // Split '2025-06-23' into parts to avoid timezone conversion
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day); // month - 1 because JS months are 0-indexed
+    
     const options = { day: 'numeric', month: 'short' };
-    return date.toLocaleDateString('fr-FR', options);
+    // Change to English locale 
+    return date.toLocaleDateString('en-US', options);
+}
+
+// Alternative: Simple function that always shows the actual date
+function formatDateSimple(dateString) {
+    const [year, month, day] = dateString.split('-');
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${parseInt(day)} ${monthNames[parseInt(month) - 1]}`;
 }
 
 function formatPrice(price) {

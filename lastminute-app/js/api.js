@@ -1,144 +1,321 @@
-// Airtable Configuration - Get from config.js
-const AIRTABLE_PAT = window.APP_CONFIG.AIRTABLE_PAT;
-const AIRTABLE_BASE_ID = window.APP_CONFIG.AIRTABLE_BASE_ID;
-const AIRTABLE_ENDPOINT = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}`;
+// ===================================================================
+// SUPABASE API CLIENT
+// Replaces Airtable with PostgreSQL + real-time capabilities
+// ===================================================================
 
-// Headers for Airtable requests
-const headers = {
-    'Authorization': `Bearer ${AIRTABLE_PAT}`,
-    'Content-Type': 'application/json'
-};
+// Supabase Configuration
+const SUPABASE_URL = window.APP_CONFIG.SUPABASE_URL;
+const SUPABASE_ANON_KEY = window.APP_CONFIG.SUPABASE_ANON_KEY;
 
-// API Functions
+// Simple Supabase client (no external library needed for basic operations)
+class SupabaseClient {
+    constructor(url, key) {
+        this.url = url;
+        this.headers = {
+            'apikey': key,
+            'Authorization': `Bearer ${key}`,
+            'Content-Type': 'application/json'
+        };
+    }
+
+    // Generic query method
+    async query(table, options = {}) {
+        let url = `${this.url}/rest/v1/${table}`;
+        const params = new URLSearchParams();
+
+        // Add select columns
+        if (options.select) {
+            params.append('select', options.select);
+        }
+
+        // Add filters - IMPROVED to handle multiple conditions on same field
+        if (options.filters) {
+            Object.entries(options.filters).forEach(([key, value]) => {
+                // Handle multiple conditions on same field (like date ranges)
+                if (key.includes('.')) {
+                    // Remove the suffix (.1, .2, etc.) for the actual parameter name
+                    const actualKey = key.split('.')[0];
+                    params.append(actualKey, value);
+                } else {
+                    params.append(key, value);
+                }
+            });
+        }
+
+        // Add ordering
+        if (options.order) {
+            params.append('order', options.order);
+        }
+
+        // Add limit
+        if (options.limit) {
+            params.append('limit', options.limit);
+        }
+
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+
+        console.log('Supabase query URL:', url); // Debug log
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: this.headers
+        });
+
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`Supabase query failed: ${error}`);
+        }
+
+        return response.json();
+    }
+
+    // Insert data
+    async insert(table, data) {
+        const response = await fetch(`${this.url}/rest/v1/${table}`, {
+            method: 'POST',
+            headers: {
+                ...this.headers,
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`Supabase insert failed: ${error}`);
+        }
+
+        return response.json();
+    }
+
+    // Update data
+    async update(table, filters, data) {
+        let url = `${this.url}/rest/v1/${table}`;
+        const params = new URLSearchParams();
+        
+        Object.entries(filters).forEach(([key, value]) => {
+            params.append(key, `eq.${value}`);
+        });
+
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+
+        const response = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                ...this.headers,
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`Supabase update failed: ${error}`);
+        }
+
+        return response.json();
+    }
+}
+
+// Initialize Supabase client
+const supabase = new SupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ===================================================================
+// API FUNCTIONS (Updated for Supabase)
+// ===================================================================
+
 const API = {
-    // Fetch available tours
+    // Fetch available tours with operator information
     async fetchTours(filters = {}) {
         try {
+            console.log('Fetching tours with filters:', filters);
 
-            let filterFormula = `AND(status = 'Active', available_spots > 0)`;
+            // Build the query using our optimized view
+            let queryFilters = {};
+            let orderBy = 'tour_date,time_slot';
 
-            // Helper to create a local date string (YYYY-MM-DD) to fix timezone issues
-            const getLocalDateString = (date) => {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
+            // FIXED: Date filtering with proper timezone handling for French Polynesia
+            const getPolynesianaDate = (offsetDays = 0) => {
+                const now = new Date();
+                // Get current time in French Polynesia (UTC-10)
+                const polynesianTime = new Date(now.getTime() - (10 * 60 * 60 * 1000));
+                polynesianTime.setDate(polynesianTime.getDate() + offsetDays);
+                const year = polynesianTime.getFullYear();
+                const month = String(polynesianTime.getMonth() + 1).padStart(2, '0');
+                const day = String(polynesianTime.getDate()).padStart(2, '0');
                 return `${year}-${month}-${day}`;
             };
-
-            // Helper to correctly add a new condition to the formula string
-            const addCondition = (newCondition) => {
-                // This removes the last ')' and adds the new condition before adding the ')' back
-                filterFormula = `${filterFormula.slice(0, -1)}, ${newCondition})`;
-            };
-
-
-            // Add date filter using our helpers
+            
             if (filters.date === 'today') {
-                const todayStr = getLocalDateString(new Date());
-                // Must set the timezone to 'Pacific/Tahiti' before formatting the date
-                // This ensures the formula's "day" matches the user's "day"
-                addCondition(`DATETIME_FORMAT(SET_TIMEZONE(date, 'Pacific/Tahiti'), 'YYYY-MM-DD') = '${todayStr}'`);
+                const todayInPolynesia = getPolynesianaDate(0);
+                console.log('Today in Polynesia:', todayInPolynesia);
+                queryFilters['tour_date'] = `eq.${todayInPolynesia}`;
             } else if (filters.date === 'tomorrow') {
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                const tomorrowStr = getLocalDateString(tomorrow);
-                // Apply the same timezone fix here
-                addCondition(`DATETIME_FORMAT(SET_TIMEZONE(date, 'Pacific/Tahiti'), 'YYYY-MM-DD') = '${tomorrowStr}'`);
-            }
-            else if (filters.date === 'week') {
-                const todayStr = getLocalDateString(new Date());
-                const endOfWeek = new Date();
-                endOfWeek.setDate(endOfWeek.getDate() + 7);
-                const endStr = getLocalDateString(endOfWeek);
-
-                // This creates a variable holding our complex formula part, for readability
-                const localDateField = `DATETIME_FORMAT(SET_TIMEZONE(date, 'Pacific/Tahiti'), 'YYYY-MM-DD')`;
-
-                // These lines use standard Javascript template literals (backticks ``)
-                addCondition(`${localDateField} >= '${todayStr}'`);
-                addCondition(`${localDateField} <= '${endStr}'`);
+                const tomorrowInPolynesia = getPolynesianaDate(1);
+                console.log('Tomorrow in Polynesia:', tomorrowInPolynesia);
+                queryFilters['tour_date'] = `eq.${tomorrowInPolynesia}`;
+            } else if (filters.date === 'week') {
+                const todayInPolynesia = getPolynesianaDate(0);
+                const weekFromNowInPolynesia = getPolynesianaDate(7);
+                console.log('Week range in Polynesia:', todayInPolynesia, 'to', weekFromNowInPolynesia);
+                
+                // FIXED: Correct syntax for range queries in Supabase
+                // We need to add multiple filters to the filters object
+                queryFilters['tour_date'] = `gte.${todayInPolynesia}`;
+                queryFilters['tour_date.1'] = `lte.${weekFromNowInPolynesia}`; // Use different key for second condition
             }
 
-            // Add tour type filter
+            
+
+            // Tour type filtering
             if (filters.tourType) {
-                addCondition(`tour_type = '${filters.tourType}'`);
+                queryFilters['tour_type'] = `eq.${filters.tourType}`;
             }
 
-            // Add island filter (this connects the UI to the API call)
+            // Island filtering (through operator)
             if (filters.island) {
-                // IMPORTANT: Requires the 'operator_island' lookup field in Airtable.
-                addCondition(`operator_island = '${filters.island}'`);
+                queryFilters['operator_island'] = `eq.${filters.island}`;
             }
-            // [END OF NEW BLOCK]
 
-            const params = new URLSearchParams({
-                filterByFormula: filterFormula,
-                // sort: JSON.stringify([{field: "date", direction: "asc"}, {field: "time_slot", direction: "asc"}]) //
+            // Use our optimized view that joins tours + operators
+            const tours = await supabase.query('active_tours_with_operators', {
+                filters: queryFilters,
+                order: orderBy
             });
 
-            const response = await fetch(`${AIRTABLE_ENDPOINT}/Tours?${params}`, { headers });
-            
-            if (!response.ok) {
-                const errorData = await response.text();
-                console.error('Airtable error:', errorData);
-                throw new Error('Failed to fetch tours');
-            }
-            
-            const data = await response.json();
-            
-            // Fetch operator details for each tour
-            const toursWithOperators = await Promise.all(
-                data.records.map(async (tour) => {
-                    if (tour.fields.operator_id && tour.fields.operator_id[0]) {
-                        const operator = await this.fetchOperator(tour.fields.operator_id[0]);
-                        return { ...tour, operator };
+            console.log(`Found ${tours.length} tours`);
+
+            // Transform data to match your frontend expectations
+            return tours.map(tour => ({
+                id: tour.id,
+                fields: {
+                    // Basic tour info
+                    tour_name: tour.tour_name,
+                    tour_type: tour.tour_type,
+                    description: tour.description,
+                    
+                    // Scheduling
+                    date: tour.tour_date,
+                    time_slot: tour.time_slot,
+                    
+                    // Pricing
+                    original_price_adult: tour.original_price_adult,
+                    discount_price_adult: tour.discount_price_adult,
+                    discount_price_child: tour.discount_price_child,
+                    
+                    // Availability
+                    available_spots: tour.available_spots,
+                    max_capacity: tour.max_capacity,
+                    
+                    // Location
+                    meeting_point: tour.meeting_point,
+                    
+                    // Features
+                    languages: tour.languages || ['French'],
+                    whale_regulation_compliant: tour.whale_regulation_compliant,
+                    equipment_included: tour.equipment_included,
+                    food_included: tour.food_included,
+                    drinks_included: tour.drinks_included,
+                    
+                    // Requirements
+                    requirements: tour.requirements,
+                    fitness_level: tour.fitness_level
+                },
+                operator: {
+                    fields: {
+                        company_name: tour.company_name,
+                        island: tour.operator_island,
+                        whatsapp_number: tour.whatsapp_number,
+                        average_rating: tour.operator_rating
                     }
-                    return tour;
-                })
-            );
-            
-            return toursWithOperators;
+                }
+            }));
+
         } catch (error) {
             console.error('Error fetching tours:', error);
             throw error;
         }
     },
 
-    // Fetch single operator
-    async fetchOperator(operatorId) {
-        try {
-            const response = await fetch(`${AIRTABLE_ENDPOINT}/Operators/${operatorId}`, { headers });
-            if (!response.ok) throw new Error('Failed to fetch operator');
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching operator:', error);
-            return null;
-        }
-    },
-
-    // Create booking
+    // Create a new booking
     async createBooking(bookingData) {
         try {
-            const response = await fetch(`${AIRTABLE_ENDPOINT}/Bookings`, {
-                method: 'POST',
-                headers,
-                body: JSON.stringify({
-                    fields: bookingData
-                })
+            console.log('Creating booking:', bookingData);
+
+            // Generate unique booking reference
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            const bookingReference = `VAI-${dateStr}-${randomNum}`;
+
+            // Calculate pricing
+            const tour = await supabase.query('tours', {
+                filters: { 'id': `eq.${bookingData.tour_id}` }
             });
 
-            if (!response.ok) throw new Error('Failed to create booking');
+            if (!tour || tour.length === 0) {
+                throw new Error('Tour not found');
+            }
+
+            const tourData = tour[0];
+            const adultPrice = tourData.discount_price_adult;
+            const childPrice = tourData.discount_price_child || (adultPrice * 0.5);
             
-            const data = await response.json();
-            
-            // Update available spots
-            await this.updateTourSpots(bookingData.tour_id[0], bookingData.num_adults + bookingData.num_children);
-            
+            const subtotal = (bookingData.num_adults * adultPrice) + 
+                           (bookingData.num_children * childPrice);
+            const commissionAmount = Math.round(subtotal * window.APP_CONFIG.COMMISSION_RATE);
+
+            // Prepare booking data for database
+            const dbBookingData = {
+                tour_id: bookingData.tour_id,
+                operator_id: tourData.operator_id,
+                
+                // Customer info
+                customer_name: bookingData.customer_name,
+                customer_email: bookingData.customer_email,
+                customer_phone: bookingData.customer_phone,
+                customer_whatsapp: bookingData.customer_whatsapp,
+                
+                // Booking details
+                num_adults: bookingData.num_adults,
+                num_children: bookingData.num_children,
+                
+                // Pricing
+                adult_price: adultPrice,
+                child_price: childPrice,
+                subtotal: subtotal,
+                commission_amount: commissionAmount,
+                
+                // Status
+                booking_status: 'pending',
+                payment_status: 'pending',
+                booking_reference: bookingReference,
+                
+                // Set confirmation deadline (60 minutes from now)
+                confirmation_deadline: new Date(Date.now() + 60 * 60 * 1000).toISOString()
+            };
+
+            // Create the booking
+            const booking = await supabase.insert('bookings', dbBookingData);
+
+            if (!booking || booking.length === 0) {
+                throw new Error('Failed to create booking');
+            }
+
+            console.log('Booking created:', booking[0]);
+
+            // Update tour available spots
+            await this.updateTourSpots(bookingData.tour_id, bookingData.num_adults + bookingData.num_children);
+
             // Trigger n8n webhook for notifications
-            await this.triggerBookingNotification(data.id);
-            
-            return data;
+            await this.triggerBookingNotification(booking[0].id);
+
+            return booking[0];
+
         } catch (error) {
             console.error('Error creating booking:', error);
             throw error;
@@ -148,33 +325,37 @@ const API = {
     // Update tour available spots
     async updateTourSpots(tourId, spotsBooked) {
         try {
-            // First get current spots
-            const tourResponse = await fetch(`${AIRTABLE_ENDPOINT}/Tours/${tourId}`, { headers });
-            const tour = await tourResponse.json();
-            
-            const newAvailableSpots = tour.fields.available_spots - spotsBooked;
-            
-            const response = await fetch(`${AIRTABLE_ENDPOINT}/Tours/${tourId}`, {
-                method: 'PATCH',
-                headers,
-                body: JSON.stringify({
-                    fields: {
-                        available_spots: newAvailableSpots,
-                        status: newAvailableSpots <= 0 ? 'Sold Out' : 'Active'
-                    }
-                })
+            // Get current tour data
+            const tours = await supabase.query('tours', {
+                filters: { 'id': `eq.${tourId}` }
             });
 
-            if (!response.ok) throw new Error('Failed to update tour spots');
-            
-            return await response.json();
+            if (!tours || tours.length === 0) {
+                throw new Error('Tour not found for spot update');
+            }
+
+            const tour = tours[0];
+            const newAvailableSpots = tour.available_spots - spotsBooked;
+            const newStatus = newAvailableSpots <= 0 ? 'sold_out' : 'active';
+
+            // Update the tour
+            await supabase.update('tours', 
+                { 'id': tourId }, 
+                { 
+                    available_spots: newAvailableSpots,
+                    status: newStatus
+                }
+            );
+
+            console.log(`Updated tour ${tourId}: ${newAvailableSpots} spots remaining`);
+
         } catch (error) {
             console.error('Error updating tour spots:', error);
             throw error;
         }
     },
 
-    // Trigger n8n webhook
+    // Trigger n8n webhook for notifications
     async triggerBookingNotification(bookingId) {
         try {
             const response = await fetch(window.APP_CONFIG.N8N_WEBHOOK_URL, {
@@ -182,45 +363,63 @@ const API = {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ booking_id: bookingId })
+                body: JSON.stringify({ 
+                    booking_id: bookingId,
+                    platform: 'vai-tickets',
+                    source: 'supabase'
+                })
             });
-            
+
             if (!response.ok) {
-                console.error('Failed to trigger n8n webhook');
+                console.warn('n8n webhook failed, but booking was created successfully');
+                console.warn('Webhook status:', response.status, response.statusText);
+            } else {
+                console.log('n8n webhook triggered successfully');
             }
+
         } catch (error) {
-            console.error('Error triggering webhook:', error);
+            // IMPROVED: Don't let webhook errors break the booking flow
+            console.warn('n8n webhook error (booking still created successfully):', error.message);
+            // Webhook failure is not critical - booking was already saved
         }
     }
 };
 
-// Test function
-async function testAirtableConnection() {
-    console.log('Testing Airtable connection...');
-    console.log('PAT:', AIRTABLE_PAT ? 'Found' : 'Missing');
-    console.log('Base ID:', AIRTABLE_BASE_ID);
-    
+// ===================================================================
+// CONNECTION TEST FUNCTION
+// ===================================================================
+async function testSupabaseConnection() {
+    console.log('Testing Supabase connection...');
+    console.log('URL:', SUPABASE_URL);
+    console.log('Key:', SUPABASE_ANON_KEY ? 'Found' : 'Missing');
+
     try {
-        const response = await fetch(`${AIRTABLE_ENDPOINT}/Tours?maxRecords=1`, {
+        // Test basic connection
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/tours?limit=1`, {
             headers: {
-                'Authorization': `Bearer ${AIRTABLE_PAT}`,
-                'Content-Type': 'application/json'
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
             }
         });
-        
+
         if (response.ok) {
-            console.log('✅ Airtable connection successful!');
             const data = await response.json();
-            console.log('Records found:', data.records.length);
+            console.log('✅ Supabase connection successful!');
+            console.log(`Found ${data.length} tour(s) in test query`);
+            
+            // Test the optimized view
+            const viewTest = await supabase.query('active_tours_with_operators', { limit: 3 });
+            console.log(`✅ View test: Found ${viewTest.length} active tours`);
+            
         } else {
-            console.error('❌ Airtable connection failed:', response.status);
+            console.error('❌ Supabase connection failed:', response.status);
             const errorText = await response.text();
             console.error('Error details:', errorText);
         }
     } catch (error) {
-        console.error('❌ Connection error:', error);
+        console.error('❌ Connection test error:', error);
     }
 }
 
-// Uncomment to test
-// testAirtableConnection();
+// Auto-test connection when this file loads
+testSupabaseConnection();
