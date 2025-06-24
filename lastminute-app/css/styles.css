@@ -413,8 +413,24 @@ body {
     color: var(--text-gray);
 }
 
+/* === 8. LOGO TOP === */
 
-/* === 8. RESPONSIVE DESIGN === */
+.logo-section {
+    margin: 0 auto 20px;
+    text-align: center;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    filter: brightness(1.1); 
+}
+
+
+
+/* === 9. RESPONSIVE DESIGN === */
 @media (min-width: 640px) {
     .tours-grid {
         grid-template-columns: repeat(2, 1fr);
