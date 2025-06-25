@@ -95,9 +95,7 @@ function App() {
     { code: 'French', flag: '🇫🇷' },
     { code: 'English', flag: '🇬🇧' },
     { code: 'German', flag: '🇩🇪' },
-    { code: 'Spanish', flag: '🇪🇸' },
-    { code: 'Italian', flag: '🇮🇹' },
-    { code: 'Japanese', flag: '🇯🇵' }
+    { code: 'Spanish', flag: '🇪🇸' }
   ]
 
   // Load tours and stats when operator is authenticated
