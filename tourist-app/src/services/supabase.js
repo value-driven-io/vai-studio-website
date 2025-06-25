@@ -15,7 +15,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase configuration missing')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false
+  }
+})
 
 // Tour Discovery Service
 export const tourService = {
