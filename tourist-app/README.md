@@ -56,4 +56,4 @@ The app connects to your existing Supabase schema:
 ## 📞 Support
 
 WhatsApp: +68987269065
-Email: contact@vai.studio
+Email: hello@vai.studio
