@@ -425,8 +425,8 @@ body.loading .main-content {
     height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid rgba(0, 212, 255, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    /*border: 3px solid rgba(0, 212, 255, 0.3);*/
+    /*box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);*/
     animation: personalFloat 3s ease-in-out infinite;
 }
 
@@ -1229,9 +1229,9 @@ body.loading .main-content {
     .hero-personal-image {
         width: 70px;
         height: 70px;
-        top: -15px;
-        right: -15px;
-        border-width: 2px;
+        top: -10px;
+        right: -10px;
+        /*border-width: 2px;*/
     }
     
     .hero-title {
@@ -1429,10 +1429,10 @@ body.loading .main-content {
 
 @media (max-width: 480px) {
     .hero-personal-image {
-        width: 60px;
-        height: 60px;
-        top: -5px;
-        right: -10px;
+        width: 70px;
+        height: 70px;
+        top: 0px;
+        right: 0px;
     }
 
     .hero-subtitle {
