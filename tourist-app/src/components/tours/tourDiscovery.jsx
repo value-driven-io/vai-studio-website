@@ -217,6 +217,7 @@ const TourDiscovery = () => {
               <option value="Moorea">Moorea</option>
               <option value="Tahiti">Tahiti</option>
               <option value="Bora Bora">Bora Bora</option>
+              <option value="Huahine">Huahine</option>
             </select>
             
             <select 
@@ -225,10 +226,14 @@ const TourDiscovery = () => {
               onChange={(e) => setFilters({...filters, tourType: e.target.value})}
             >
               <option value="all">🎯 All Tours</option>
-              <option value="Whale Watching">🐋 Whale Watching</option>
+              <option value="Adrenalin">🪂 Adrenalin</option>
+              <option value="Cultural">🌺 Cultural</option>
               <option value="Diving">🤿 Diving</option>
-              <option value="Cultural Experience">🌺 Cultural</option>
-              <option value="Water Sports">🏄 Adventure</option>
+              <option value="Hike">🥾 Hike</option>
+              <option value="Lagoon Tour">🚤 Lagoon Tour</option>
+              <option value="Mindfulness">🧘 Mindfulness</option>
+              <option value="Whale Watching">🐋 Whale Watching</option>
+              <option value="Snorkeling">🐢 Snorkeling</option>
             </select>
             
             <select 
