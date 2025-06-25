@@ -90,7 +90,7 @@ function App() {
     'Expert only'
   ]
 
-  // Available languages
+  // Available languages (more can be added)
   const availableLanguages = [
     { code: 'French', flag: '🇫🇷' },
     { code: 'English', flag: '🇬🇧' },
