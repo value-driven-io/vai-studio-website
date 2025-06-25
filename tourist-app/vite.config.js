@@ -116,6 +116,10 @@ export default defineConfig({
     global: 'globalThis',
   },
 
+  define: {
+    'process.env': process.env
+  },
+
   // --- Development Server Settings ---
   server: {
     host: '0.0.0.0', // Accessible on your local network
