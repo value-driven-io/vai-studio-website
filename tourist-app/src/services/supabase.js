@@ -1,3 +1,8 @@
+console.log('Environment check:')
+console.log('URL exists:', !!import.meta.env.VITE_SUPABASE_URL)
+console.log('KEY exists:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
+console.log('All env vars:', import.meta.env)
+
 // src/services/supabase.js
 import { createClient } from '@supabase/supabase-js'
 
