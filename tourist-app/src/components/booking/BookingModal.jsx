@@ -1,6 +1,6 @@
 // src/components/booking/BookingModal.jsx
 import React, { useState } from 'react'
-import { X, Calendar, Clock, Users, MapPin, CheckCircle, Loader2 } from 'lucide-react'
+import { X, Calendar, Clock, Users, MapPin, CheckCircle, Loader2, Phone, Mail, MessageCircle } from 'lucide-react'
 import { bookingService } from '../../services/supabase'
 import toast from 'react-hot-toast'
 
@@ -19,6 +19,23 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   const [loading, setLoading] = useState(false)
   const [bookingComplete, setBookingComplete] = useState(false)
   const [bookingResult, setBookingResult] = useState(null)
+
+  if (!isOpen || !tour) return null
+
+  const calculateTotal = () => {
+    const adultTotal = formData.num_adults * tour.discount_price_adult
+    const childPrice = tour.discount_price_child || Math.round(tour.discount_price_adult * 0.7)
+    const childTotal = formData.num_children * childPrice
+    const subtotal = adultTotal + childTotal
+    const commission = Math.round(subtotal * 0.10)
+    return {
+      subtotal,
+      commission,
+      total: subtotal + commission
+    }
+  }
+
+  const totals = calculateTotal()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -48,6 +65,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         (update) => {
           if (update.new.booking_status === 'confirmed') {
             toast.success('Your booking has been confirmed!')
+          } else if (update.new.booking_status === 'declined') {
+            toast.error(`Booking declined: ${update.new.decline_reason || 'No reason provided'}`)
           }
         }
       )
@@ -65,75 +84,53 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     }
   }
 
-  const totalParticipants = formData.num_adults + formData.num_children
-  const adultTotal = formData.num_adults * tour.discount_price_adult
-  const childTotal = formData.num_children * (tour.discount_price_child || Math.round(tour.discount_price_adult * 0.7))
-  const subtotal = adultTotal + childTotal
-  const commission = Math.round(subtotal * 0.10)
-  const totalPrice = subtotal + commission
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
 
-  if (!isOpen || !tour) return null
-
-  // Booking Success Screen
+  // Success view after booking is submitted
   if (bookingComplete && bookingResult) {
     return (
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <div className="bg-vai-lagoon rounded-2xl max-w-md w-full border border-slate-700">
-          <div className="p-6 text-center">
-            <div className="w-16 h-16 bg-vai-bamboo/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-vai-bamboo" />
-            </div>
-            
-            <h3 className="text-2xl font-bold text-vai-pearl mb-2">Booking Requested!</h3>
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="bg-slate-800 rounded-2xl p-6 max-w-md w-full border border-slate-700">
+          <div className="text-center">
+            <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">Booking Request Sent!</h3>
             <p className="text-slate-300 mb-4">
-              Your booking request has been sent to the operator. You'll receive confirmation within 60 minutes.
+              Your booking reference: <span className="font-mono text-blue-400">{bookingResult.booking_reference}</span>
             </p>
-            
-            <div className="bg-slate-800/50 rounded-lg p-4 mb-6 text-left">
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Booking Reference:</span>
-                  <span className="text-vai-pearl font-mono">{bookingResult.booking_reference}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Tour:</span>
-                  <span className="text-vai-pearl">{tour.tour_name}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Date & Time:</span>
-                  <span className="text-vai-pearl">
-                    {new Date(tour.tour_date).toLocaleDateString('fr-FR')} at {tour.time_slot}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Total Amount:</span>
-                  <span className="text-vai-pearl font-bold">
-                    {new Intl.NumberFormat('fr-FR').format(totalPrice)} XPF
-                  </span>
-                </div>
-              </div>
+            <div className="bg-slate-700/50 rounded-lg p-4 mb-4 text-left">
+              <h4 className="font-semibold text-white mb-2">What happens next?</h4>
+              <ul className="text-sm text-slate-300 space-y-1">
+                <li>• You'll receive a confirmation email within minutes</li>
+                <li>• The operator has 60 minutes to confirm your booking</li>
+                <li>• Once confirmed, you'll get operator contact details</li>
+                <li>• Check your email for updates</li>
+              </ul>
             </div>
-
-            <div className="space-y-3">
-              <div className="bg-vai-coral/10 border border-vai-coral/30 rounded-lg p-3">
-                <p className="text-vai-coral text-sm">
-                  📱 The operator will contact you via WhatsApp at {formData.customer_whatsapp}
-                </p>
-              </div>
-
-              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
-                <p className="text-yellow-300 text-sm">
-                  ⏰ If no response within 60 minutes, our team will assist you automatically
-                </p>
-              </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setBookingComplete(false)
+                  setBookingResult(null)
+                  onClose()
+                }}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
+              >
+                Close
+              </button>
+              <a
+                href={`https://wa.me/68987269065?text=Hi! I have a question about my booking ${bookingResult.booking_reference}`}
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Support
+              </a>
             </div>
-
-            <button 
-              onClick={onClose}
-              className="w-full bg-vai-coral hover:shadow-vai-glow text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 mt-6"
-            >
-              Continue Browsing
-            </button>
           </div>
         </div>
       </div>
@@ -141,202 +138,210 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-vai-lagoon rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-slate-700">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-slate-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-700">
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-slate-700">
-          <h2 className="text-xl font-bold text-vai-pearl">Book Your Adventure</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-vai-pearl">
-            <X size={24} />
+        <div className="sticky top-0 bg-slate-800 p-6 border-b border-slate-700 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-white">Book Your Tour</h2>
+          <button
+            onClick={onClose}
+            className="p-2 text-slate-400 hover:text-white transition-colors"
+          >
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tour Info */}
-        <div className="p-4 border-b bg-slate-800/30">
-          <h3 className="font-bold text-lg mb-2 text-vai-pearl">{tour.tour_name}</h3>
-          <div className="space-y-1 text-sm text-slate-300">
+        <div className="p-6 border-b border-slate-700">
+          <h3 className="text-lg font-semibold text-white mb-2">{tour.tour_name}</h3>
+          <div className="grid grid-cols-2 gap-4 text-sm text-slate-300">
             <div className="flex items-center gap-2">
-              <Calendar size={16} />
-              <span>{new Date(tour.tour_date).toLocaleDateString('fr-FR')}</span>
+              <Calendar className="w-4 h-4" />
+              {new Date(tour.tour_date).toLocaleDateString()}
             </div>
             <div className="flex items-center gap-2">
-              <Clock size={16} />
-              <span>{tour.time_slot}</span>
+              <Clock className="w-4 h-4" />
+              {tour.time_slot}
             </div>
             <div className="flex items-center gap-2">
-              <MapPin size={16} />
-              <span>{tour.meeting_point}</span>
+              <MapPin className="w-4 h-4" />
+              {tour.meeting_point}
+            </div>
+            <div className="flex items-center gap-2">
+              <Users className="w-4 h-4" />
+              {tour.available_spots} spots available
             </div>
           </div>
         </div>
 
         {/* Booking Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6">
           {/* Contact Information */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-vai-pearl">Contact Information</h4>
-            
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
-                Full Name *
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
-                value={formData.customer_name}
-                onChange={(e) => setFormData({...formData, customer_name: e.target.value})}
-              />
-            </div>
+          <div className="mb-6">
+            <h4 className="text-md font-semibold text-white mb-3">Contact Information</h4>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.customer_name}
+                  onChange={(e) => handleInputChange('customer_name', e.target.value)}
+                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  placeholder="Enter your full name"
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
-                Email Address *
-              </label>
-              <input
-                type="email"
-                required
-                className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
-                value={formData.customer_email}
-                onChange={(e) => setFormData({...formData, customer_email: e.target.value})}
-              />
-            </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.customer_email}
+                  onChange={(e) => handleInputChange('customer_email', e.target.value)}
+                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  placeholder="your@email.com"
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
-                WhatsApp Number *
-              </label>
-              <input
-                type="tel"
-                required
-                placeholder="+689 87 12 34 56"
-                className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
-                value={formData.customer_whatsapp}
-                onChange={(e) => setFormData({...formData, customer_whatsapp: e.target.value})}
-              />
-              <p className="text-xs text-slate-400 mt-1">Operator will contact you here for confirmation</p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
-                Phone Number (Optional)
-              </label>
-              <input
-                type="tel"
-                className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
-                value={formData.customer_phone}
-                onChange={(e) => setFormData({...formData, customer_phone: e.target.value})}
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={formData.customer_phone}
+                    onChange={(e) => handleInputChange('customer_phone', e.target.value)}
+                    className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="+689..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                    WhatsApp Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={formData.customer_whatsapp}
+                    onChange={(e) => handleInputChange('customer_whatsapp', e.target.value)}
+                    className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="+689..."
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Participants */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-vai-pearl">Participants</h4>
-            
+          <div className="mb-6">
+            <h4 className="text-md font-semibold text-white mb-3">Participants</h4>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">
                   Adults
                 </label>
                 <select
-                  className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
                   value={formData.num_adults}
-                  onChange={(e) => setFormData({...formData, num_adults: parseInt(e.target.value)})}
+                  onChange={(e) => handleInputChange('num_adults', parseInt(e.target.value))}
+                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 >
-                  {[1,2,3,4,5,6,7,8].map(num => (
-                    <option key={num} value={num}>{num}</option>
+                  {[...Array(tour.available_spots)].map((_, i) => (
+                    <option key={i + 1} value={i + 1}>{i + 1}</option>
                   ))}
                 </select>
               </div>
-              
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">
                   Children
                 </label>
                 <select
-                  className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
                   value={formData.num_children}
-                  onChange={(e) => setFormData({...formData, num_children: parseInt(e.target.value)})}
+                  onChange={(e) => handleInputChange('num_children', parseInt(e.target.value))}
+                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 >
-                  {[0,1,2,3,4,5,6].map(num => (
-                    <option key={num} value={num}>{num}</option>
+                  {[...Array(Math.max(0, tour.available_spots - formData.num_adults + 1))].map((_, i) => (
+                    <option key={i} value={i}>{i}</option>
                   ))}
                 </select>
               </div>
             </div>
-
-            {totalParticipants > tour.available_spots && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
-                <p className="text-red-400 text-sm">
-                  ⚠️ Only {tour.available_spots} spots available. Please reduce participants.
-                </p>
-              </div>
-            )}
           </div>
 
           {/* Special Requirements */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-vai-pearl">Additional Information</h4>
-            
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
-                Special Requirements (Optional)
-              </label>
-              <textarea
-                className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 h-20 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
-                placeholder="Any special requests or requirements..."
-                value={formData.special_requirements}
-                onChange={(e) => setFormData({...formData, special_requirements: e.target.value})}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
-                Dietary Restrictions (Optional)
-              </label>
-              <textarea
-                className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 h-16 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
-                placeholder="Allergies, vegetarian, vegan, etc."
-                value={formData.dietary_restrictions}
-                onChange={(e) => setFormData({...formData, dietary_restrictions: e.target.value})}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
-                Accessibility Needs (Optional)
-              </label>
-              <textarea
-                className="w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 h-16 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral"
-                placeholder="Mobility assistance, visual/hearing needs, etc."
-                value={formData.accessibility_needs}
-                onChange={(e) => setFormData({...formData, accessibility_needs: e.target.value})}
-              />
+          <div className="mb-6">
+            <h4 className="text-md font-semibold text-white mb-3">Special Requirements (Optional)</h4>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Special Requirements
+                </label>
+                <textarea
+                  value={formData.special_requirements}
+                  onChange={(e) => handleInputChange('special_requirements', e.target.value)}
+                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  rows="2"
+                  placeholder="Any special needs or requests..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Dietary Restrictions
+                </label>
+                <input
+                  type="text"
+                  value={formData.dietary_restrictions}
+                  onChange={(e) => handleInputChange('dietary_restrictions', e.target.value)}
+                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  placeholder="Allergies, vegetarian, etc."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">
+                  Accessibility Needs
+                </label>
+                <input
+                  type="text"
+                  value={formData.accessibility_needs}
+                  onChange={(e) => handleInputChange('accessibility_needs', e.target.value)}
+                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  placeholder="Mobility aids, assistance needed, etc."
+                />
+              </div>
             </div>
           </div>
 
           {/* Price Summary */}
-          <div className="bg-slate-800/50 p-4 rounded-lg space-y-2">
-            <h4 className="font-bold text-vai-pearl">Price Summary</h4>
-            <div className="space-y-1 text-sm">
+          <div className="mb-6 bg-slate-700/30 rounded-lg p-4">
+            <h4 className="text-md font-semibold text-white mb-3">Price Summary</h4>
+            <div className="space-y-2 text-sm">
               <div className="flex justify-between text-slate-300">
-                <span>Adults ({formData.num_adults} × {new Intl.NumberFormat('fr-FR').format(tour.discount_price_adult)} XPF)</span>
-                <span>{new Intl.NumberFormat('fr-FR').format(adultTotal)} XPF</span>
+                <span>{formData.num_adults} Adult{formData.num_adults > 1 ? 's' : ''} × {new Intl.NumberFormat('fr-FR').format(tour.discount_price_adult)} XPF</span>
+                <span>{new Intl.NumberFormat('fr-FR').format(formData.num_adults * tour.discount_price_adult)} XPF</span>
               </div>
               {formData.num_children > 0 && (
                 <div className="flex justify-between text-slate-300">
-                  <span>Children ({formData.num_children} × {new Intl.NumberFormat('fr-FR').format(tour.discount_price_child || Math.round(tour.discount_price_adult * 0.7))} XPF)</span>
-                  <span>{new Intl.NumberFormat('fr-FR').format(childTotal)} XPF</span>
+                  <span>{formData.num_children} Child{formData.num_children > 1 ? 'ren' : ''} × {new Intl.NumberFormat('fr-FR').format(tour.discount_price_child || Math.round(tour.discount_price_adult * 0.7))} XPF</span>
+                  <span>{new Intl.NumberFormat('fr-FR').format(formData.num_children * (tour.discount_price_child || Math.round(tour.discount_price_adult * 0.7)))} XPF</span>
                 </div>
               )}
-              <div className="flex justify-between text-slate-300">
-                <span>Platform Fee (10%)</span>
-                <span>{new Intl.NumberFormat('fr-FR').format(commission)} XPF</span>
+              <div className="flex justify-between text-slate-300 border-t border-slate-600 pt-2">
+                <span>Subtotal</span>
+                <span>{new Intl.NumberFormat('fr-FR').format(totals.subtotal)} XPF</span>
               </div>
-              <div className="border-t border-slate-600 pt-2 flex justify-between font-bold text-vai-pearl">
+              <div className="flex justify-between text-slate-400 text-xs">
+                <span>Platform fee (10%)</span>
+                <span>{new Intl.NumberFormat('fr-FR').format(totals.commission)} XPF</span>
+              </div>
+              <div className="flex justify-between text-white font-semibold text-lg border-t border-slate-600 pt-2">
                 <span>Total</span>
-                <span>{new Intl.NumberFormat('fr-FR').format(totalPrice)} XPF</span>
+                <span>{new Intl.NumberFormat('fr-FR').format(totals.total)} XPF</span>
               </div>
             </div>
           </div>
@@ -344,8 +349,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={loading || totalParticipants > tour.available_spots}
-            className="w-full bg-vai-coral hover:shadow-vai-glow text-white py-3 rounded-xl font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            disabled={loading || formData.num_adults + formData.num_children > tour.available_spots}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -353,15 +358,17 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 Sending Request...
               </>
             ) : (
-              'Request Booking'
+              <>
+                <CheckCircle className="w-5 h-5" />
+                Request Booking
+              </>
             )}
           </button>
 
-          <div className="text-center">
-            <p className="text-xs text-slate-400">
-              By booking, you agree to our terms of service. Payment is collected by the operator upon confirmation.
-            </p>
-          </div>
+          <p className="text-xs text-slate-400 mt-3 text-center">
+            By booking, you agree to our terms and conditions. 
+            You'll receive confirmation within 60 minutes.
+          </p>
         </form>
       </div>
     </div>

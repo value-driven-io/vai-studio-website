@@ -13,8 +13,8 @@ export default defineConfig({
 
       // --- Web App Manifest ---
       manifest: {
-        name: 'VAI-Tickets - Discover French Polynesia',
-        short_name: 'VAI-Tickets',
+        name: 'VAI Tickets - Discover French Polynesia',
+        short_name: 'VAI Tickets',
         description: 'Last-minute tour bookings in French Polynesia',
         theme_color: '#3b82f6',
         background_color: '#0f172a',

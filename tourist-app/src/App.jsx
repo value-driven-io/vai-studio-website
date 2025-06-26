@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import TourDiscovery from './components/tours/tourDiscovery'
-import BookingStatus from './components/booking/BookingStatus'
+import Bookings from './components/booking/Bookings'
 import UserProfile from './components/user/UserProfile'
 import Navigation from './components/layout/Navigation'
 import { useBookingStore } from './stores/bookingStore'
@@ -54,7 +54,7 @@ function App() {
       <div className="min-h-screen bg-vai-gradient">
         <Routes>
           <Route path="/" element={<TourDiscovery />} />
-          <Route path="/bookings" element={<BookingStatus />} />
+          <Route path="/bookings" element={<Bookings />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
