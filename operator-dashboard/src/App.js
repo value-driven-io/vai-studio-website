@@ -6,16 +6,17 @@ import {
   MessageCircle, Phone, Mail, Timer, RefreshCw, Eye,
   User, Loader2
 } from 'lucide-react'
+import { useAuth } from './hooks/useAuth'
+import Login from './components/Login'
 
-// You'll need to create this supabase service file for the operator dashboard
-// For now, I'll include the service functions at the bottom
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
 
-
-
 function App() {
-  // Existing state
+  // ALL HOOKS MUST BE AT THE TOP - BEFORE ANY EARLY RETURNS
+  const { operator, loading: authLoading, login, logout, isAuthenticated } = useAuth()
+  
+  // All state hooks
   const [tours, setTours] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -26,14 +27,10 @@ function App() {
     confirmedBookings: 0,
     totalRevenue: 0
   })
-
-  // New state for booking management
   const [pendingBookings, setPendingBookings] = useState([])
   const [bookingsLoading, setBookingsLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('tours') // 'tours' or 'bookings'
   const [processingBooking, setProcessingBooking] = useState(null)
-
-  // Form data state
   const [formData, setFormData] = useState({
     tour_name: '',
     tour_type: 'Whale Watching',
@@ -56,6 +53,7 @@ function App() {
     restrictions: ''
   })
 
+  // Constants and arrays
   const tourTypes = [
     'Whale Watching', 'Snorkeling', 'Lagoon Tour', 'Hike', 
     'Cultural', 'Adrenalin', 'Mindfulness', 'Diving'
@@ -69,21 +67,24 @@ function App() {
     { value: '20:00', label: '20:00 - Night' }
   ]
 
-  // Fetch data on component mount
+  // useEffect hook - must be with other hooks
   useEffect(() => {
-    fetchTours()
-    fetchStats()
-    fetchPendingBookings()
-    
-    // Set up polling for real-time updates
-    const interval = setInterval(() => {
-      fetchPendingBookings()
+    if (isAuthenticated && operator?.id) {
+      fetchTours()
       fetchStats()
-    }, 30000) // Poll every 30 seconds
+      fetchPendingBookings()
+      
+      // Set up polling for real-time updates
+      const interval = setInterval(() => {
+        fetchPendingBookings()
+        fetchStats()
+      }, 30000) // Poll every 30 seconds
 
-    return () => clearInterval(interval)
-  }, [])
+      return () => clearInterval(interval)
+    }
+  }, [isAuthenticated, operator?.id])
 
+  // Function definitions
   const fetchTours = async () => {
     if (!operator?.id) return
     
@@ -240,7 +241,6 @@ function App() {
     }
   }
 
-  // Your existing form handlers...
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
@@ -267,13 +267,37 @@ function App() {
     }
   }
 
+  // EARLY RETURNS - ONLY AFTER ALL HOOKS
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return <Login onLogin={login} loading={authLoading} />
+  }
+
+  // MAIN COMPONENT RENDER
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">VAI Tickets - Operator Dashboard</h1>
-          <p className="text-slate-400">Manage your tours and bookings</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">VAI Tickets - Operator Dashboard</h1>
+              <p className="text-slate-400">Welcome, {operator?.company_name}</p>
+            </div>
+            <button
+              onClick={logout}
+              className="px-4 py-2 text-slate-400 hover:text-white transition-colors border border-slate-600 rounded-lg"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* Navigation Tabs */}
@@ -406,9 +430,9 @@ function App() {
                             <div className="flex items-center gap-4 text-sm text-slate-300">
                               <span>Ref: {booking.booking_reference}</span>
                               <span>•</span>
-                              <span>{booking.total_participants} participant{booking.total_participants > 1 ? 's' : ''}</span>
+                              <span>{booking.num_adults + booking.num_children} participant{(booking.num_adults + booking.num_children) > 1 ? 's' : ''}</span>
                               <span>•</span>
-                              <span>{formatPrice(booking.subtotal + booking.commission_amount)}</span>
+                              <span>{formatPrice((booking.subtotal || 0) + (booking.commission_amount || 0))}</span>
                             </div>
                           </div>
                           <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
@@ -425,15 +449,15 @@ function App() {
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-slate-300">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4" />
-                            {formatDate(booking.tour_date)}
+                            {booking.tour_date ? formatDate(booking.tour_date) : 'Date TBD'}
                           </div>
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4" />
-                            {booking.time_slot}
+                            {booking.time_slot || 'Time TBD'}
                           </div>
                           <div className="flex items-center gap-2">
                             <MapPin className="w-4 h-4" />
-                            {booking.meeting_point}
+                            {booking.meeting_point || 'Location TBD'}
                           </div>
                           <div className="flex items-center gap-2">
                             <User className="w-4 h-4" />
@@ -538,7 +562,7 @@ function App() {
           </div>
         )}
 
-        {/* Tours Management Tab (your existing content) */}
+        {/* Tours Management Tab */}
         {activeTab === 'tours' && (
           <div className="space-y-6">
             {/* Actions */}
@@ -552,13 +576,79 @@ function App() {
               </button>
             </div>
 
-            {/* Your existing tour form and list code would go here */}
-            {/* For brevity, I'm not including all the existing tour management code */}
-            {/* But you would copy it from your current App.js */}
-            
+            {/* Tours List */}
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
               <h2 className="text-xl font-semibold text-white mb-6">Your Tours</h2>
-              <p className="text-slate-400">Your existing tour management interface goes here...</p>
+              
+              {loading ? (
+                <div className="text-center py-8">
+                  <Loader2 className="w-8 h-8 animate-spin text-blue-400 mx-auto mb-4" />
+                  <div className="text-slate-400">Loading tours...</div>
+                </div>
+              ) : tours.length === 0 ? (
+                <div className="text-center py-8">
+                  <div className="text-slate-400 mb-4">No tours created yet</div>
+                  <button
+                    onClick={() => setShowForm(true)}
+                    className="text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    Create your first tour
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {tours.map((tour) => (
+                    <div key={tour.id} className="bg-slate-700/30 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-lg font-semibold text-white">{tour.tour_name}</h3>
+                            <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-sm">
+                              {tour.tour_type}
+                            </span>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-slate-300">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4" />
+                              {formatDate(tour.tour_date)}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-4 h-4" />
+                              {tour.time_slot}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Users className="w-4 h-4" />
+                              {tour.available_spots}/{tour.max_capacity} spots
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <DollarSign className="w-4 h-4" />
+                              {formatPrice(tour.discount_price_adult)}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 ml-4">
+                          <button
+                            onClick={() => handleEdit(tour)}
+                            className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-600/50 rounded transition-all"
+                            title="Edit tour"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(tour.id)}
+                            className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-600/50 rounded transition-all"
+                            title="Delete tour"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
