@@ -16,6 +16,7 @@ import {
 import { useAuth } from './hooks/useAuth'
 import Login from './components/Login'
 import { operatorService } from './lib/supabase'
+import Navigation from './components/Navigation'
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
@@ -42,7 +43,7 @@ function App() {
   const [allBookings, setAllBookings] = useState([])
   const [filteredBookings, setFilteredBookings] = useState([])
   const [bookingsLoading, setBookingsLoading] = useState(false)
-  const [activeTab, setActiveTab] = useState('tours')
+  const [activeTab, setActiveTab] = useState('dashboard')
   const [bookingFilter, setBookingFilter] = useState('all') // 'all', 'pending', 'confirmed', 'declined', 'completed'
   const [timeFilter, setTimeFilter] = useState('all') // 'all', 'today', 'tomorrow', 'week'
   const [searchTerm, setSearchTerm] = useState('')
@@ -690,7 +691,7 @@ const validateForm = () => {
 
   // MAIN COMPONENT RENDER
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-4 md:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-4 md:p-6 pb-20">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -708,34 +709,6 @@ const validateForm = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex gap-2 md:gap-4 mb-6 overflow-x-auto">
-          <button
-            onClick={() => setActiveTab('tours')}
-            className={`px-4 md:px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
-              activeTab === 'tours'
-                ? 'bg-blue-600 text-white'
-                : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
-            }`}
-          >
-            Tours Management
-          </button>
-          <button
-            onClick={() => setActiveTab('bookings')}
-            className={`px-4 md:px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap relative ${
-              activeTab === 'bookings'
-                ? 'bg-orange-600 text-white'
-                : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
-            }`}
-          >
-            Booking Management
-            {stats.pendingBookings > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                {stats.pendingBookings}
-              </span>
-            )}
-          </button>
-        </div>
 
         {/* Booking Management Tab */}
         {activeTab === 'bookings' && (
@@ -1175,7 +1148,7 @@ const validateForm = () => {
         )}
 
         {/* Enhanced Tours Management Tab */}
-{activeTab === 'tours' && (
+{activeTab === 'dashboard' && (
   <div className="space-y-6">
     {/* Enhanced Header */}
     <div className="flex items-center justify-between">
@@ -2168,6 +2141,31 @@ const validateForm = () => {
       </div>
     )}
 
+  // CREATE TAB
+
+        {/* Create Tab */}
+        {activeTab === 'create' && (
+          <div className="space-y-6">
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
+              <h2 className="text-xl font-bold text-white mb-4">Create New Tour</h2>
+              <p className="text-slate-400">Tour creation form will go here...</p>
+            </div>
+          </div>
+        )}
+
+  // PROFILE TAB
+
+        {/* Profile Tab */}
+        {activeTab === 'profile' && (
+          <div className="space-y-6">
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
+              <h2 className="text-xl font-bold text-white mb-4">Profile & Settings</h2>
+              <p className="text-slate-400">Profile management coming soon...</p>
+            </div>
+          </div>
+        )}
+    
+
         {/* Decline Modal */}
         {showDeclineModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -2220,6 +2218,9 @@ const validateForm = () => {
             </div>
           </div>
         )}
+
+        <Navigation activeTab={activeTab} setActiveTab={setActiveTab} stats={stats} />
+        
       </div>
     </div>
   )
