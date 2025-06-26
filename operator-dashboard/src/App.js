@@ -5,10 +5,17 @@ import {
   DollarSign, CheckCircle, XCircle, AlertCircle,
   MessageCircle, Phone, Timer, RefreshCw,
   User, Loader2, Filter, Search, Star,
-  Clock3, Award, Lock, Unlock, BarChart3
+  Clock3, Award, Lock, Unlock, BarChart3,
+  
+  // NEW ICONS:
+  Save, X, Eye, EyeOff, Calculator, Percent, 
+  Globe, Shield, Utensils, Camera, Heart, 
+  Sun, Moon, Copy, RotateCcw, Settings, Info, 
+  ChevronDown, ChevronUp, Waves, Mountain
 } from 'lucide-react'
 import { useAuth } from './hooks/useAuth'
 import Login from './components/Login'
+import { operatorService } from './lib/supabase'
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
@@ -45,36 +52,139 @@ function App() {
 
   // Form data state
   const [formData, setFormData] = useState({
+
+    // Basic Info
     tour_name: '',
     tour_type: 'Whale Watching',
     description: '',
+    
+    // Schedule & Duration  
     tour_date: '',
     time_slot: '09:00',
     duration_hours: 3,
+    
+    // Capacity & Pricing
     max_capacity: 8,
     available_spots: 8,
     original_price_adult: 8000,
     discount_price_adult: 6400,
     discount_price_child: 4480,
     discount_percentage: 20,
+    
+    // Location & Pickup
     meeting_point: '',
     pickup_available: false,
+    pickup_locations: [],
+    
+    // Inclusions & Services
     equipment_included: false,
     food_included: false,
-    whale_regulation_compliant: true,
+    drinks_included: false,
+    languages: ['French'],
+    
+    // Requirements & Restrictions
+    min_age: null,
+    max_age: null,
+    fitness_level: 'All levels',
     requirements: '',
-    restrictions: ''
+    restrictions: '',
+    
+    // Compliance & Safety
+    whale_regulation_compliant: true,
+    max_whale_group_size: 6,
+    weather_dependent: true,
+    backup_plan: '',
+    
+    // Booking Settings
+    auto_close_hours: 2,
+    booking_deadline: null,
+    special_notes: ''
+
   })
 
-  // Constants
-  const tourTypes = ['Whale Watching', 'Snorkeling', 'Lagoon Tour', 'Hike', 'Cultural', 'Adrenalin', 'Mindfulness', 'Diving']
+    // Enhanced tour form
+    const [showPreview, setShowPreview] = useState(false)
+    const [validationErrors, setValidationErrors] = useState({})
+    const [expandedSections, setExpandedSections] = useState({
+      basic: true,
+      schedule: true,
+      pricing: true,
+      location: false,
+      inclusions: false,
+      requirements: false,
+      compliance: false
+    })
+
+    // Constants
+    const tourTypes = [
+    { value: 'Whale Watching', icon: '🐋', color: 'bg-blue-500' },
+    { value: 'Snorkeling', icon: '🤿', color: 'bg-cyan-500' },
+    { value: 'Lagoon Tour', icon: '🏝️', color: 'bg-teal-500' },
+    { value: 'Hike', icon: '🥾', color: 'bg-green-500' },
+    { value: 'Cultural', icon: '🗿', color: 'bg-amber-500' },
+    { value: 'Adrenalin', icon: '🪂', color: 'bg-red-500' },
+    { value: 'Diving', icon: '🤿', color: 'bg-indigo-500' },
+    { value: 'Mindfulness', icon: '🧘', color: 'bg-purple-500' }
+  ]
+
   const timeSlots = [
-    { value: '06:00', label: '06:00 - Sunrise' },
-    { value: '09:00', label: '09:00 - Morning' },
-    { value: '14:00', label: '14:00 - Afternoon' },
-    { value: '17:30', label: '17:30 - Sunset' },
+    { value: '06:00', label: '06:00 - Sunrise', popular: true },
+    { value: '09:00', label: '09:00 - Morning', popular: true },
+    { value: '12:00', label: '12:00 - Midday' },
+    { value: '14:00', label: '14:00 - Afternoon', popular: true },
+    { value: '17:30', label: '17:30 - Sunset', popular: true },
     { value: '20:00', label: '20:00 - Night' }
   ]
+
+  const fitnessLevels = [
+    { value: 'All levels', description: 'Suitable for everyone', color: 'text-green-400' },
+    { value: 'Easy', description: 'Minimal physical effort', color: 'text-blue-400' },
+    { value: 'Moderate', description: 'Some physical activity', color: 'text-yellow-400' },
+    { value: 'Challenging', description: 'Good fitness required', color: 'text-orange-400' },
+    { value: 'Expert only', description: 'Excellent fitness needed', color: 'text-red-400' }
+  ]
+
+  const availableLanguages = [
+    { code: 'French', flag: '🇫🇷', name: 'Français' },
+    { code: 'English', flag: '🇬🇧', name: 'English' },
+    { code: 'German', flag: '🇩🇪', name: 'Deutsch' },
+    { code: 'Spanish', flag: '🇪🇸', name: 'Español' },
+    { code: 'Italian', flag: '🇮🇹', name: 'Italiano' },
+    { code: 'Japanese', flag: '🇯🇵', name: '日本語' }
+  ]
+
+  // Enhanced utility functions
+  const calculateDiscountPercentage = (original, discounted) => {
+    if (!original || !discounted) return 0
+    return Math.round(((original - discounted) / original) * 100)
+  }
+
+  const generateBookingDeadline = (tourDate, timeSlot, autoCloseHours) => {
+    if (!tourDate || !timeSlot) return null
+    const tourDateTime = new Date(`${tourDate}T${timeSlot}:00`)
+    return new Date(tourDateTime.getTime() - (autoCloseHours * 60 * 60 * 1000))
+  }
+
+  const getQuickDates = () => {
+    const dates = []
+    const today = new Date()
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today)
+      date.setDate(date.getDate() + i)
+      dates.push({
+        date: date.toISOString().split('T')[0],
+        label: i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+      })
+    }
+    return dates
+  }
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
 
   // useEffect hook
   useEffect(() => {
@@ -325,29 +435,248 @@ function App() {
     return booking.booking_status === 'confirmed' || booking.booking_status === 'completed'
   }
 
-  // Form handlers (simplified for this example)
+// Form handlers 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+  setFormData(prev => {
+    const newData = { ...prev, [field]: value }
+    
+    // Auto-calculate related fields
+    if (field === 'original_price_adult' || field === 'discount_price_adult') {
+        const percentage = calculateDiscountPercentage(
+          field === 'original_price_adult' ? value : newData.original_price_adult,
+          field === 'discount_price_adult' ? value : newData.discount_price_adult
+        )
+        newData.discount_percentage = percentage
+        
+        // Auto-calculate child price (70% of adult discount price)
+        if (field === 'discount_price_adult') {
+          newData.discount_price_child = Math.round(value * 0.7)
+        }
+      }
+      
+      if (field === 'discount_percentage') {
+        const discountPrice = Math.round(newData.original_price_adult * (1 - value / 100))
+        newData.discount_price_adult = discountPrice
+        newData.discount_price_child = Math.round(discountPrice * 0.7)
+      }
+      
+      if (field === 'max_capacity') {
+        newData.available_spots = value
+      }
+      
+      if (['tour_date', 'time_slot', 'auto_close_hours'].includes(field)) {
+        newData.booking_deadline = generateBookingDeadline(
+          field === 'tour_date' ? value : newData.tour_date,
+          field === 'time_slot' ? value : newData.time_slot,
+          field === 'auto_close_hours' ? value : newData.auto_close_hours
+        )
+    }
+    
+    // Auto-check whale compliance for whale watching tours
+    if (field === 'tour_type' && value === 'Whale Watching') {
+      newData.whale_regulation_compliant = true
+    }
+    
+    return newData
+  })
+  
+  // Clear validation error for this field
+  if (validationErrors[field]) {
+    setValidationErrors(prev => ({ ...prev, [field]: null }))
+  }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Creating tour:', formData)
+    
+    if (!validateForm()) {
+      alert('Please fix the errors in the form')
+      return
+    }
+    
+    try {
+      setLoading(true)
+      
+      const tourData = {
+        ...formData,
+        operator_id: operator.id,
+        status: 'active',
+        created_by_operator: true
+      }
+
+      if (editingTour) {
+        await operatorService.updateTour(editingTour.id, tourData)
+        alert('Tour updated successfully!')
+      } else {
+        await operatorService.createTour(tourData)
+        alert('Tour created successfully!')
+      }
+      
+      resetForm()
+      fetchTours()
+      fetchAllBookings() // Refresh stats too
+    } catch (error) {
+      console.error('Error saving tour:', error)
+      alert('Error saving tour. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleEdit = (tour) => {
     setEditingTour(tour)
-    setFormData(tour)
+    setFormData({
+      tour_name: tour.tour_name || '',
+      tour_type: tour.tour_type || 'Whale Watching',
+      description: tour.description || '',
+      tour_date: tour.tour_date || '',
+      time_slot: tour.time_slot || '09:00',
+      duration_hours: tour.duration_hours || 3,
+      max_capacity: tour.max_capacity || 8,
+      available_spots: tour.available_spots || 8,
+      original_price_adult: tour.original_price_adult || 8000,
+      discount_price_adult: tour.discount_price_adult || 6400,
+      discount_price_child: tour.discount_price_child || 4480,
+      discount_percentage: tour.discount_percentage || 20,
+      meeting_point: tour.meeting_point || '',
+      pickup_available: tour.pickup_available || false,
+      pickup_locations: tour.pickup_locations || [],
+      equipment_included: tour.equipment_included || false,
+      food_included: tour.food_included || false,
+      drinks_included: tour.drinks_included || false,
+      languages: tour.languages || ['French'],
+      min_age: tour.min_age || null,
+      max_age: tour.max_age || null,
+      fitness_level: tour.fitness_level || 'All levels',
+      requirements: tour.requirements || '',
+      restrictions: tour.restrictions || '',
+      whale_regulation_compliant: tour.whale_regulation_compliant ?? true,
+      max_whale_group_size: tour.max_whale_group_size || 6,
+      weather_dependent: tour.weather_dependent ?? true,
+      backup_plan: tour.backup_plan || '',
+      auto_close_hours: tour.auto_close_hours || 2,
+      booking_deadline: tour.booking_deadline || null,
+      special_notes: tour.special_notes || ''
+    })
     setShowForm(true)
   }
 
-  const handleDelete = (tourId) => {
-    if (window.confirm('Are you sure you want to delete this tour?')) {
-      console.log('Deleting tour:', tourId)
+  const handleDelete = async (tourId) => {
+    if (window.confirm('Are you sure you want to delete this tour? This action cannot be undone.')) {
+      try {
+        setLoading(true)
+        await operatorService.deleteTour(tourId)
+        await fetchTours() // Refresh the list
+        alert('Tour deleted successfully!')
+      } catch (error) {
+        console.error('Error deleting tour:', error)
+        alert('Error deleting tour. Please try again.')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
-  // EARLY RETURNS - ONLY AFTER ALL HOOKS
+  // Enhanced form handlers
+  const handleLanguageToggle = (languageCode) => {
+    const currentLanguages = formData.languages || []
+    if (currentLanguages.includes(languageCode)) {
+      if (currentLanguages.length > 1) {
+        handleInputChange('languages', currentLanguages.filter(lang => lang !== languageCode))
+      }
+    } else {
+      handleInputChange('languages', [...currentLanguages, languageCode])
+    }
+  }
+
+  const handlePickupLocationAdd = (location) => {
+    if (location.trim() && !formData.pickup_locations.includes(location.trim())) {
+      handleInputChange('pickup_locations', [...formData.pickup_locations, location.trim()])
+    }
+  }
+
+  const handlePickupLocationRemove = (index) => {
+    const newLocations = formData.pickup_locations.filter((_, i) => i !== index)
+    handleInputChange('pickup_locations', newLocations)
+  }
+
+  const validateForm = () => {
+    const errors = {}
+    
+    if (!formData.tour_name.trim()) errors.tour_name = 'Tour name is required'
+    if (!formData.description.trim()) errors.description = 'Description is required'
+    if (!formData.tour_date) errors.tour_date = 'Tour date is required'
+    if (!formData.meeting_point.trim()) errors.meeting_point = 'Meeting point is required'
+    if (formData.max_capacity < 1) errors.max_capacity = 'Capacity must be at least 1'
+    if (formData.original_price_adult < 1000) errors.original_price_adult = 'Price too low'
+    if (formData.discount_price_adult >= formData.original_price_adult) {
+      errors.discount_price_adult = 'Discount price must be less than original price'
+    }
+    
+    const today = new Date().toISOString().split('T')[0]
+    if (formData.tour_date && formData.tour_date < today) {
+      errors.tour_date = 'Tour date cannot be in the past'
+    }
+    
+    setValidationErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
+  const handleDuplicate = (tour) => {
+    const duplicatedTour = {
+      ...tour,
+      tour_name: `${tour.tour_name} (Copy)`,
+      tour_date: '',
+      id: `tour_${Date.now()}_copy`
+    }
+    setEditingTour(null)
+    setFormData(duplicatedTour)
+    setShowForm(true)
+  }
+
+  // resetForm FUNCTION
+
+  const resetForm = () => {
+  setFormData({
+    tour_name: '',
+    tour_type: 'Whale Watching',
+    description: '',
+    tour_date: '',
+    time_slot: '09:00',
+    duration_hours: 3,
+    max_capacity: 8,
+    available_spots: 8,
+    original_price_adult: 8000,
+    discount_price_adult: 6400,
+    discount_price_child: 4480,
+    discount_percentage: 20,
+    meeting_point: '',
+    pickup_available: false,
+    pickup_locations: [],
+    equipment_included: false,
+    food_included: false,
+    drinks_included: false,
+    languages: ['French'],
+    min_age: null,
+    max_age: null,
+    fitness_level: 'All levels',
+    requirements: '',
+    restrictions: '',
+    whale_regulation_compliant: true,
+    max_whale_group_size: 6,
+    weather_dependent: true,
+    backup_plan: '',
+    auto_close_hours: 2,
+    booking_deadline: null,
+    special_notes: ''
+  })
+  setEditingTour(null)
+  setShowForm(false)
+  setValidationErrors({})
+  setShowPreview(false)
+}
+
+// EARLY RETURNS - ONLY AFTER ALL HOOKS
   if (authLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
@@ -846,96 +1175,782 @@ function App() {
           </div>
         )}
 
-        {/* Tours Management Tab */}
-        {activeTab === 'tours' && (
-          <div className="space-y-6">
-            {/* Actions */}
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowForm(true)}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all"
-              >
-                <Plus className="w-5 h-5" />
-                Create New Tour
-              </button>
+        {/* Enhanced Tours Management Tab */}
+{activeTab === 'tours' && (
+  <div className="space-y-6">
+    {/* Enhanced Header */}
+    <div className="flex items-center justify-between">
+      <div>
+        <h2 className="text-2xl font-bold text-white mb-2">Tour Management</h2>
+        <p className="text-slate-400">Create and manage your tour offerings</p>
+      </div>
+      <div className="flex gap-3">
+        <button
+          onClick={() => setShowForm(true)}
+          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
+        >
+          <Plus className="w-5 h-5" />
+          Create New Tour
+        </button>
+      </div>
+    </div>
+
+    {/* Enhanced Tour Creation Form */}
+    {showForm && (
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700 overflow-hidden">
+            {/* Form Header */}
+            <div className="flex items-center justify-between p-6 border-b border-slate-700 bg-gradient-to-r from-slate-800 to-slate-700">
+              <div>
+                <h3 className="text-xl font-semibold text-white">
+                  {editingTour ? 'Edit Tour' : 'Create New Tour'}
+                </h3>
+                <p className="text-slate-400 mt-1">
+                  {editingTour ? 'Update your existing tour details' : 'Set up a new tour experience for travelers'}
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowPreview(!showPreview)}
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
+                >
+                  {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPreview ? 'Hide Preview' : 'Preview'}
+                </button>
+                <button
+                  onClick={resetForm}
+                  className="text-slate-400 hover:text-white transition-colors p-2"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
             </div>
 
-            {/* Tours List */}
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-              <h2 className="text-xl font-semibold text-white mb-6">Your Tours</h2>
-              
-              {loading ? (
-                <div className="text-center py-8">
-                  <Loader2 className="w-8 h-8 animate-spin text-blue-400 mx-auto mb-4" />
-                  <div className="text-slate-400">Loading tours...</div>
-                </div>
-              ) : tours.length === 0 ? (
-                <div className="text-center py-8">
-                  <div className="text-slate-400 mb-4">No tours created yet</div>
-                  <button
-                    onClick={() => setShowForm(true)}
-                    className="text-blue-400 hover:text-blue-300 transition-colors"
-                  >
-                    Create your first tour
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {tours.map((tour) => (
-                    <div key={tour.id} className="bg-slate-700/30 rounded-lg p-4 border border-slate-600">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-lg font-semibold text-white">{tour.tour_name}</h3>
-                            <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-sm">
-                              {tour.tour_type}
-                            </span>
+            <form onSubmit={handleSubmit} className="p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Form Content */}
+                <div className="lg:col-span-2 space-y-6">
+                  
+                  {/* Basic Information Section */}
+                  <div className="border border-slate-600 rounded-lg overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => toggleSection('basic')}
+                      className="w-full flex items-center justify-between p-4 bg-slate-700/30 hover:bg-slate-700/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Info className="w-5 h-5 text-blue-400" />
+                        <h4 className="text-md font-medium text-slate-300">Basic Information</h4>
+                      </div>
+                      {expandedSections.basic ? (
+                        <ChevronUp className="w-5 h-5 text-slate-400" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-slate-400" />
+                      )}
+                    </button>
+                    {expandedSections.basic && (
+                      <div className="p-4 bg-slate-800/20 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                              Tour Name *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.tour_name}
+                              onChange={(e) => handleInputChange('tour_name', e.target.value)}
+                              className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white placeholder-slate-400 transition-colors ${
+                                validationErrors.tour_name ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                              }`}
+                              placeholder="e.g., Whale Watching Sunset Adventure"
+                            />
+                            {validationErrors.tour_name && (
+                              <p className="text-red-400 text-sm mt-1">{validationErrors.tour_name}</p>
+                            )}
                           </div>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-slate-300">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4" />
-                              {formatDate(tour.tour_date)}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="w-4 h-4" />
-                              {tour.time_slot}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4" />
-                              {tour.available_spots}/{tour.max_capacity} spots
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <DollarSign className="w-4 h-4" />
-                              {formatPrice(tour.discount_price_adult)}
+
+                          <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                              Tour Type
+                            </label>
+                            <div className="grid grid-cols-2 gap-2">
+                              {tourTypes.map(type => (
+                                <button
+                                  key={type.value}
+                                  type="button"
+                                  onClick={() => handleInputChange('tour_type', type.value)}
+                                  className={`flex items-center gap-2 p-3 rounded-lg border transition-all ${
+                                    formData.tour_type === type.value
+                                      ? `${type.color} border-transparent text-white`
+                                      : 'bg-slate-700/50 border-slate-600 text-slate-300 hover:border-slate-500'
+                                  }`}
+                                >
+                                  <span className="text-lg">{type.icon}</span>
+                                  <span className="text-sm font-medium">{type.value}</span>
+                                </button>
+                              ))}
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex gap-2 ml-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">
+                            Description *
+                          </label>
+                          <textarea
+                            value={formData.description}
+                            onChange={(e) => handleInputChange('description', e.target.value)}
+                            className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white placeholder-slate-400 transition-colors ${
+                              validationErrors.description ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                            }`}
+                            rows="4"
+                            placeholder="Describe your tour experience in detail. What makes it special? What will participants see and do?"
+                          />
+                          {validationErrors.description && (
+                            <p className="text-red-400 text-sm mt-1">{validationErrors.description}</p>
+                          )}
+                          <p className="text-slate-500 text-sm mt-1">
+                            {formData.description.length}/500 characters
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Schedule & Duration Section */}
+                  <div className="border border-slate-600 rounded-lg overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => toggleSection('schedule')}
+                      className="w-full flex items-center justify-between p-4 bg-slate-700/30 hover:bg-slate-700/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Calendar className="w-5 h-5 text-green-400" />
+                        <h4 className="text-md font-medium text-slate-300">Schedule & Duration</h4>
+                      </div>
+                      {expandedSections.schedule ? (
+                        <ChevronUp className="w-5 h-5 text-slate-400" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-slate-400" />
+                      )}
+                    </button>
+                    {expandedSections.schedule && (
+                      <div className="p-4 bg-slate-800/20 space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">
+                            Quick Date Selection
+                          </label>
+                          <div className="grid grid-cols-3 lg:grid-cols-7 gap-2 mb-4">
+                            {getQuickDates().map(({ date, label }) => (
+                              <button
+                                key={date}
+                                type="button"
+                                onClick={() => handleInputChange('tour_date', date)}
+                                className={`p-2 rounded-lg border text-sm font-medium transition-all ${
+                                  formData.tour_date === date
+                                    ? 'bg-blue-500 border-blue-500 text-white'
+                                    : 'bg-slate-700/50 border-slate-600 text-slate-300 hover:border-slate-500'
+                                }`}
+                              >
+                                {label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                              Custom Date *
+                            </label>
+                            <input
+                              type="date"
+                              value={formData.tour_date}
+                              onChange={(e) => handleInputChange('tour_date', e.target.value)}
+                              min={new Date().toISOString().split('T')[0]}
+                              className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
+                                validationErrors.tour_date ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                              }`}
+                            />
+                            {validationErrors.tour_date && (
+                              <p className="text-red-400 text-sm mt-1">{validationErrors.tour_date}</p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                              Time Slot *
+                            </label>
+                            <select
+                              value={formData.time_slot}
+                              onChange={(e) => handleInputChange('time_slot', e.target.value)}
+                              className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                            >
+                              {timeSlots.map(slot => (
+                                <option key={slot.value} value={slot.value}>
+                                  {slot.label} {slot.popular ? '⭐' : ''}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                              Duration (hours)
+                            </label>
+                            <input
+                              type="number"
+                              value={formData.duration_hours}
+                              onChange={(e) => handleInputChange('duration_hours', parseFloat(e.target.value))}
+                              className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                              min="0.5"
+                              max="12"
+                              step="0.5"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Pricing Strategy Section */}
+                  <div className="border border-slate-600 rounded-lg overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => toggleSection('pricing')}
+                      className="w-full flex items-center justify-between p-4 bg-slate-700/30 hover:bg-slate-700/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <DollarSign className="w-5 h-5 text-yellow-400" />
+                        <h4 className="text-md font-medium text-slate-300">Pricing Strategy</h4>
+                      </div>
+                      {expandedSections.pricing ? (
+                        <ChevronUp className="w-5 h-5 text-slate-400" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-slate-400" />
+                      )}
+                    </button>
+                    {expandedSections.pricing && (
+                      <div className="p-4 bg-slate-800/20 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                              Max Capacity *
+                            </label>
+                            <input
+                              type="number"
+                              value={formData.max_capacity}
+                              onChange={(e) => handleInputChange('max_capacity', parseInt(e.target.value))}
+                              className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
+                                validationErrors.max_capacity ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                              }`}
+                              min="1"
+                              max="50"
+                            />
+                            {validationErrors.max_capacity && (
+                              <p className="text-red-400 text-sm mt-1">{validationErrors.max_capacity}</p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                              Available Spots
+                            </label>
+                            <input
+                              type="number"
+                              value={formData.available_spots}
+                              onChange={(e) => handleInputChange('available_spots', parseInt(e.target.value))}
+                              className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                              min="0"
+                              max={formData.max_capacity}
+                            />
+                            <p className="text-slate-400 text-sm mt-1">
+                              Spots available for this specific tour instance
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="bg-slate-700/30 rounded-lg p-4">
+                          <h5 className="text-white font-medium mb-3 flex items-center gap-2">
+                            <Calculator className="w-4 h-4" />
+                            Smart Pricing Calculator
+                          </h5>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-slate-300 mb-2">
+                                Original Price (Adult) *
+                              </label>
+                              <input
+                                type="number"
+                                value={formData.original_price_adult}
+                                onChange={(e) => handleInputChange('original_price_adult', parseInt(e.target.value))}
+                                className={`w-full p-3 bg-slate-600/50 border rounded-lg text-white transition-colors ${
+                                  validationErrors.original_price_adult ? 'border-red-500' : 'border-slate-500 focus:border-blue-400'
+                                }`}
+                                min="1000"
+                                step="500"
+                              />
+                              <p className="text-slate-400 text-xs mt-1">{formatPrice(formData.original_price_adult)}</p>
+                              {validationErrors.original_price_adult && (
+                                <p className="text-red-400 text-sm mt-1">{validationErrors.original_price_adult}</p>
+                              )}
+                            </div>
+
+                            <div>
+                              <label className="block text-sm font-medium text-slate-300 mb-2">
+                                Discount %
+                              </label>
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="range"
+                                  min="10"
+                                  max="60"
+                                  value={formData.discount_percentage}
+                                  onChange={(e) => handleInputChange('discount_percentage', parseInt(e.target.value))}
+                                  className="flex-1"
+                                />
+                                <span className="text-white font-medium w-12 text-center">
+                                  {formData.discount_percentage}%
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2 mt-2">
+                                <Percent className="w-4 h-4 text-slate-400" />
+                                <span className="text-slate-300 text-sm">
+                                  {formData.discount_percentage < 20 ? 'Conservative' : 
+                                  formData.discount_percentage < 35 ? 'Moderate' : 
+                                  formData.discount_percentage < 50 ? 'Aggressive' : 'Deep Discount'}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="block text-sm font-medium text-slate-300 mb-2">
+                                Discount Price (Adult) *
+                              </label>
+                              <input
+                                type="number"
+                                value={formData.discount_price_adult}
+                                onChange={(e) => handleInputChange('discount_price_adult', parseInt(e.target.value))}
+                                className={`w-full p-3 bg-slate-600/50 border rounded-lg text-white transition-colors ${
+                                  validationErrors.discount_price_adult ? 'border-red-500' : 'border-slate-500 focus:border-blue-400'
+                                }`}
+                                min="500"
+                                step="100"
+                              />
+                              <p className="text-slate-400 text-xs mt-1">{formatPrice(formData.discount_price_adult)}</p>
+                              {validationErrors.discount_price_adult && (
+                                <p className="text-red-400 text-sm mt-1">{validationErrors.discount_price_adult}</p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mt-4 p-3 bg-slate-600/30 rounded-lg">
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-slate-300">Child Price (Auto-calculated):</span>
+                              <span className="text-green-400 font-medium">{formatPrice(formData.discount_price_child)}</span>
+                            </div>
+                            <div className="flex items-center justify-between text-sm mt-1">
+                              <span className="text-slate-300">Your Revenue (per adult, after 10% commission):</span>
+                              <span className="text-blue-400 font-medium">{formatPrice(Math.round(formData.discount_price_adult * 0.9))}</span>
+                            </div>
+                            <div className="flex items-center justify-between text-sm mt-1">
+                              <span className="text-slate-300">Potential Revenue (if full):</span>
+                              <span className="text-purple-400 font-medium">{formatPrice(Math.round(formData.discount_price_adult * 0.9 * formData.max_capacity))}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+
+                {/* Preview Sidebar */}
+                {showPreview && (
+                  <div className="lg:col-span-1">
+                    <div className="sticky top-6">
+                      <div className="bg-slate-700/30 rounded-xl p-4 border border-slate-600">
+                        <h4 className="text-white font-medium mb-4 flex items-center gap-2">
+                          <Eye className="w-4 h-4" />
+                          Tourist View Preview
+                        </h4>
+                        
+                        {/* Mock tour card preview */}
+                        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-4 border border-slate-600">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg">
+                                {tourTypes.find(t => t.value === formData.tour_type)?.icon || '🎯'}
+                              </span>
+                              <span className="text-xs text-slate-400 uppercase tracking-wide">
+                                {formData.tour_type}
+                              </span>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-xs text-slate-400 line-through">
+                                {formatPrice(formData.original_price_adult)}
+                              </div>
+                              <div className="text-green-400 font-bold">
+                                {formatPrice(formData.discount_price_adult)}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <h5 className="text-white font-semibold mb-2 line-clamp-2">
+                            {formData.tour_name || 'Tour Name'}
+                          </h5>
+                          
+                          <p className="text-slate-300 text-sm mb-3 line-clamp-3">
+                            {formData.description || 'Tour description will appear here...'}
+                          </p>
+                          
+                          <div className="space-y-2 text-xs text-slate-400">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-3 h-3" />
+                              {formData.tour_date ? new Date(formData.tour_date).toLocaleDateString() : 'Date TBD'}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-3 h-3" />
+                              {formData.time_slot} • {formData.duration_hours}h
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Users className="w-3 h-3" />
+                              {formData.available_spots}/{formData.max_capacity} spots
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <MapPin className="w-3 h-3" />
+                              {formData.meeting_point || 'Meeting point TBD'}
+                            </div>
+                          </div>
+                          
+                          <div className="mt-3 pt-3 border-t border-slate-600">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-slate-400">
+                                -{formData.discount_percentage}% discount
+                              </span>
+                              <span className="text-xs text-green-400 font-medium">
+                                Last minute deal!
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Validation Status */}
+                        <div className="mt-4 p-3 rounded-lg bg-slate-600/30">
+                          <h6 className="text-white text-sm font-medium mb-2">Form Status</h6>
+                          <div className="space-y-1 text-xs">
+                            <div className={`flex items-center gap-2 ${formData.tour_name ? 'text-green-400' : 'text-red-400'}`}>
+                              {formData.tour_name ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                              Tour name {formData.tour_name ? 'set' : 'missing'}
+                            </div>
+                            <div className={`flex items-center gap-2 ${formData.description ? 'text-green-400' : 'text-red-400'}`}>
+                              {formData.description ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                              Description {formData.description ? 'provided' : 'missing'}
+                            </div>
+                            <div className={`flex items-center gap-2 ${formData.tour_date ? 'text-green-400' : 'text-red-400'}`}>
+                              {formData.tour_date ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                              Date {formData.tour_date ? 'selected' : 'missing'}
+                            </div>
+                            <div className={`flex items-center gap-2 ${formData.meeting_point ? 'text-green-400' : 'text-red-400'}`}>
+                              {formData.meeting_point ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                              Meeting point {formData.meeting_point ? 'set' : 'missing'}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Form Actions */}
+              <div className="flex items-center justify-between pt-6 mt-6 border-t border-slate-700">
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={resetForm}
+                    className="flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-white transition-colors"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    Reset Form
+                  </button>
+                  {editingTour && (
+                    <button
+                      type="button"
+                      onClick={() => handleDuplicate(editingTour)}
+                      className="flex items-center gap-2 px-4 py-2 text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      <Copy className="w-4 h-4" />
+                      Duplicate
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={resetForm}
+                    className="px-6 py-3 text-slate-300 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all transform hover:scale-105"
+                  >
+                    {loading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4" />
+                        {editingTour ? 'Update Tour' : 'Create Tour'}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* Enhanced Tours List - keep your existing tours list here */}
+        <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
+          <div className="p-6 border-b border-slate-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-semibold text-white">Your Tours</h3>
+                <p className="text-slate-400 mt-1">Manage your tour offerings and track performance</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="text-sm text-slate-400">
+                  {tours.length} tour{tours.length !== 1 ? 's' : ''} total
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <div className="text-slate-400">Loading tours...</div>
+              </div>
+            ) : tours.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-slate-400" />
+                </div>
+                <h4 className="text-white font-medium mb-2">No tours created yet</h4>
+                <p className="text-slate-400 mb-4">Start by creating your first tour experience</p>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                  Create Your First Tour
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {tours.map((tour) => {
+                  const tourType = tourTypes.find(t => t.value === tour.tour_type) || tourTypes[0]
+                  const isUpcoming = new Date(tour.tour_date) >= new Date()
+                  const bookedSpots = tour.max_capacity - tour.available_spots
+                  const occupancyRate = Math.round((bookedSpots / tour.max_capacity) * 100)
+                  
+                  return (
+                    <div key={tour.id} className="bg-slate-700/30 rounded-xl p-6 border border-slate-600 hover:border-slate-500 transition-all">
+                      {/* Tour Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className={`w-10 h-10 ${tourType.color} rounded-lg flex items-center justify-center text-white text-lg`}>
+                              {tourType.icon}
+                            </div>
+                            <div>
+                              <h4 className="text-lg font-semibold text-white">{tour.tour_name}</h4>
+                              <div className="flex items-center gap-3 text-sm text-slate-400">
+                                <span className="capitalize">{tour.tour_type}</span>
+                                <span>•</span>
+                                <span>{tour.duration_hours}h duration</span>
+                                {!isUpcoming && (
+                                  <>
+                                    <span>•</span>
+                                    <span className="text-red-400">Past tour</span>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 ml-4">
+                          <button
+                            onClick={() => handleDuplicate(tour)}
+                            className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-600/50 rounded-lg transition-all"
+                            title="Duplicate tour"
+                          >
+                            <Copy className="w-4 h-4" />
+                          </button>
                           <button
                             onClick={() => handleEdit(tour)}
-                            className="p-2 text-slate-400 hover:text-blue-400 hover:bg-slate-600/50 rounded transition-all"
+                            className="p-2 text-slate-400 hover:text-green-400 hover:bg-slate-600/50 rounded-lg transition-all"
                             title="Edit tour"
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDelete(tour.id)}
-                            className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-600/50 rounded transition-all"
+                            className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-600/50 rounded-lg transition-all"
                             title="Delete tour"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
+
+                      {/* Tour Details Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                        <div className="flex items-center gap-3">
+                          <Calendar className="w-5 h-5 text-slate-400" />
+                          <div>
+                            <div className="text-white font-medium">
+                              {new Date(tour.tour_date).toLocaleDateString('en-US', { 
+                                weekday: 'short', 
+                                month: 'short', 
+                                day: 'numeric' 
+                              })}
+                            </div>
+                            <div className="text-slate-400 text-sm">{tour.time_slot}</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <Users className="w-5 h-5 text-slate-400" />
+                          <div>
+                            <div className="text-white font-medium">
+                              {bookedSpots}/{tour.max_capacity} booked
+                            </div>
+                            <div className="text-slate-400 text-sm">
+                              {occupancyRate}% occupancy
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <DollarSign className="w-5 h-5 text-slate-400" />
+                          <div>
+                            <div className="text-white font-medium">
+                              {formatPrice(tour.discount_price_adult)}
+                            </div>
+                            <div className="text-slate-400 text-sm">
+                              -{tour.discount_percentage || 0}% off
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <MapPin className="w-5 h-5 text-slate-400" />
+                          <div>
+                            <div className="text-white font-medium truncate">
+                              {tour.meeting_point}
+                            </div>
+                            <div className="text-slate-400 text-sm">
+                              {tour.pickup_available ? 'Pickup available' : 'No pickup'}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tour Features */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {tour.equipment_included && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">
+                            <Camera className="w-3 h-3" />
+                            Equipment
+                          </span>
+                        )}
+                        {tour.food_included && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-300 rounded-full text-xs">
+                            <Utensils className="w-3 h-3" />
+                            Food
+                          </span>
+                        )}
+                        {tour.drinks_included && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">
+                            <Waves className="w-3 h-3" />
+                            Drinks
+                          </span>
+                        )}
+                        {tour.whale_regulation_compliant && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-xs">
+                            <Shield className="w-3 h-3" />
+                            Compliant
+                          </span>
+                        )}
+                        {tour.languages && tour.languages.length > 1 && (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">
+                            <Globe className="w-3 h-3" />
+                            {tour.languages.length} languages
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Occupancy Progress Bar */}
+                      <div className="mb-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm text-slate-400">Booking Progress</span>
+                          <span className="text-sm text-slate-300">{occupancyRate}%</span>
+                        </div>
+                        <div className="w-full bg-slate-700 rounded-full h-2">
+                          <div 
+                            className={`h-2 rounded-full transition-all duration-300 ${
+                              occupancyRate >= 90 ? 'bg-red-500' :
+                              occupancyRate >= 70 ? 'bg-yellow-500' :
+                              occupancyRate >= 40 ? 'bg-blue-500' :
+                              'bg-green-500'
+                            }`}
+                            style={{ width: `${occupancyRate}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Revenue Projection */}
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="text-slate-400">
+                          Revenue: {formatPrice(bookedSpots * tour.discount_price_adult * 0.9)} / {formatPrice(tour.max_capacity * tour.discount_price_adult * 0.9)}
+                        </div>
+                        <div className="flex items-center gap-4">
+                          {tour.status === 'active' && isUpcoming && (
+                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-300 rounded-full text-xs">
+                              <CheckCircle className="w-3 h-3" />
+                              Active
+                            </span>
+                          )}
+                          {!isUpcoming && (
+                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-slate-500/20 text-slate-400 rounded-full text-xs">
+                              <Clock className="w-3 h-3" />
+                              Completed
+                            </span>
+                          )}
+                          <span className="text-slate-500 text-xs">
+                            Updated {new Date(tour.updated_at || tour.created_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      </div>
+    )}
 
         {/* Decline Modal */}
         {showDeclineModal && (
