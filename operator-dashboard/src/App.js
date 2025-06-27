@@ -737,9 +737,16 @@ const validateForm = () => {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold mb-2">VAI Tickets - Operator Dashboard</h1>
-              <p className="text-slate-400">Welcome back, {operator?.company_name}</p>
+            <div className="flex items-center gap-4">
+              <img 
+                src="https://vai.studio/via-studio-images/logo/VAI - Logo Multicolor 2025.png" 
+                alt="VAI Studio Logo" 
+                className="w-12 h-12 md:w-16 md:h-16 object-contain"
+              />
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">Operator Dashboard</h1>
+                <p className="text-slate-400">Ia ora na, {operator?.company_name} 🌸</p>
+              </div>
             </div>
             <button
               onClick={logout}
