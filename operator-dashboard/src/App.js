@@ -50,6 +50,8 @@ function App() {
   const [processingBooking, setProcessingBooking] = useState(null)
   const [showDeclineModal, setShowDeclineModal] = useState(null)
   const [declineReason, setDeclineReason] = useState('')
+  const [expandedBookings, setExpandedBookings] = useState({})
+  const [sortBy, setSortBy] = useState('created_at')
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -203,8 +205,43 @@ function App() {
   }, [isAuthenticated, operator?.id])
 
   // Filter bookings when filters change
-  useEffect(() => {
-    applyFilters()
+    useEffect(() => {
+    let filtered = [...allBookings]
+    
+    // Status filter
+    if (bookingFilter !== 'all') {
+      filtered = filtered.filter(booking => booking.booking_status === bookingFilter)
+    }
+    
+    // Time filter
+    if (timeFilter !== 'all') {
+      const today = new Date().toISOString().split('T')[0]
+      const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      const weekFromNow = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      
+      switch (timeFilter) {
+        case 'today':
+          filtered = filtered.filter(b => b.tours?.tour_date === today)
+          break
+        case 'tomorrow':
+          filtered = filtered.filter(b => b.tours?.tour_date === tomorrow)
+          break
+        case 'week':
+          filtered = filtered.filter(b => b.tours?.tour_date <= weekFromNow)
+          break
+      }
+    }
+    
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(booking => 
+        booking.booking_reference?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.tours?.tour_name?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+    
+    setFilteredBookings(filtered)
   }, [allBookings, bookingFilter, timeFilter, searchTerm])
 
   // API Functions
@@ -261,6 +298,7 @@ function App() {
       confirmedBookings: bookings.filter(b => b.booking_status === 'confirmed').length,
       declinedBookings: bookings.filter(b => b.booking_status === 'declined').length,
       completedBookings: bookings.filter(b => b.booking_status === 'completed').length,
+      activeTours: tours.filter(t => t.status === 'active' && new Date(t.tour_date) >= new Date()).length,
       totalRevenue: bookings
         .filter(b => b.booking_status === 'confirmed' || b.booking_status === 'completed')
         .reduce((sum, b) => sum + (b.subtotal || 0), 0)
@@ -717,92 +755,90 @@ const validateForm = () => {
         {activeTab === 'bookings' && (
           <div className="space-y-6">
             {/* Enhanced Clickable Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <button
-                onClick={() => setBookingFilter('all')}
-                className={`bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border transition-all hover:scale-105 ${
-                  bookingFilter === 'all' ? 'border-blue-500 bg-blue-500/10' : 'border-slate-700 hover:border-slate-600'
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center">
-                    <BarChart3 className="w-4 h-4 text-white" />
-                  </div>
-                  <h3 className="text-slate-300 font-medium text-sm">Total</h3>
-                </div>
-                <p className="text-xl font-bold text-white">{stats.totalBookings}</p>
-              </button>
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-4">
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                  {/* Total */}
+                  <button
+                    onClick={() => setBookingFilter('all')}
+                    className={`text-center p-3 rounded-lg transition-all hover:scale-105 ${
+                      bookingFilter === 'all' 
+                        ? 'bg-blue-500/20 border border-blue-500/30' 
+                        : 'bg-slate-700/30 border border-transparent hover:border-slate-600'
+                    }`}
+                  >
+                    <div className="text-lg font-bold text-white">{stats.totalBookings || 0}</div>
+                    <div className="text-xs text-slate-400">Total</div>
+                  </button>
 
-              <button
-                onClick={() => setBookingFilter('pending')}
-                className={`bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border transition-all hover:scale-105 ${
-                  bookingFilter === 'pending' ? 'border-yellow-500 bg-yellow-500/10' : 'border-slate-700 hover:border-slate-600'
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center">
-                    <Clock3 className="w-4 h-4 text-white" />
-                  </div>
-                  <h3 className="text-slate-300 font-medium text-sm">Pending</h3>
-                </div>
-                <p className="text-xl font-bold text-white">{stats.pendingBookings}</p>
-              </button>
+                  {/* Pending */}
+                  <button
+                    onClick={() => setBookingFilter('pending')}
+                    className={`text-center p-3 rounded-lg transition-all hover:scale-105 ${
+                      bookingFilter === 'pending' 
+                        ? 'bg-orange-500/20 border border-orange-500/30' 
+                        : 'bg-slate-700/30 border border-transparent hover:border-slate-600'
+                    }`}
+                  >
+                    <div className="text-lg font-bold text-white">{stats.pendingBookings || 0}</div>
+                    <div className="text-xs text-orange-400">Pending</div>
+                  </button>
 
-              <button
-                onClick={() => setBookingFilter('confirmed')}
-                className={`bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border transition-all hover:scale-105 ${
-                  bookingFilter === 'confirmed' ? 'border-green-500 bg-green-500/10' : 'border-slate-700 hover:border-slate-600'
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-white" />
-                  </div>
-                  <h3 className="text-slate-300 font-medium text-sm">Confirmed</h3>
-                </div>
-                <p className="text-xl font-bold text-white">{stats.confirmedBookings}</p>
-              </button>
+                  {/* Confirmed */}
+                  <button
+                    onClick={() => setBookingFilter('confirmed')}
+                    className={`text-center p-3 rounded-lg transition-all hover:scale-105 ${
+                      bookingFilter === 'confirmed' 
+                        ? 'bg-green-500/20 border border-green-500/30' 
+                        : 'bg-slate-700/30 border border-transparent hover:border-slate-600'
+                    }`}
+                  >
+                    <div className="text-lg font-bold text-white">{stats.confirmedBookings || 0}</div>
+                    <div className="text-xs text-green-400">Confirmed</div>
+                  </button>
 
-              <button
-                onClick={() => setBookingFilter('declined')}
-                className={`bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border transition-all hover:scale-105 ${
-                  bookingFilter === 'declined' ? 'border-red-500 bg-red-500/10' : 'border-slate-700 hover:border-slate-600'
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
-                    <XCircle className="w-4 h-4 text-white" />
-                  </div>
-                  <h3 className="text-slate-300 font-medium text-sm">Declined</h3>
-                </div>
-                <p className="text-xl font-bold text-white">{stats.declinedBookings}</p>
-              </button>
+                  {/* Declined */}
+                  <button
+                    onClick={() => setBookingFilter('declined')}
+                    className={`text-center p-3 rounded-lg transition-all hover:scale-105 ${
+                      bookingFilter === 'declined' 
+                        ? 'bg-red-500/20 border border-red-500/30' 
+                        : 'bg-slate-700/30 border border-transparent hover:border-slate-600'
+                    }`}
+                  >
+                    <div className="text-lg font-bold text-white">{stats.declinedBookings || 0}</div>
+                    <div className="text-xs text-red-400">Declined</div>
+                  </button>
 
-              <button
-                onClick={() => setBookingFilter('completed')}
-                className={`bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border transition-all hover:scale-105 ${
-                  bookingFilter === 'completed' ? 'border-blue-500 bg-blue-500/10' : 'border-slate-700 hover:border-slate-600'
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                    <Award className="w-4 h-4 text-white" />
-                  </div>
-                  <h3 className="text-slate-300 font-medium text-sm">Completed</h3>
-                </div>
-                <p className="text-xl font-bold text-white">{stats.completedBookings}</p>
-              </button>
+                  {/* Completed */}
+                  <button
+                    onClick={() => setBookingFilter('completed')}
+                    className={`text-center p-3 rounded-lg transition-all hover:scale-105 ${
+                      bookingFilter === 'completed' 
+                        ? 'bg-blue-500/20 border border-blue-500/30' 
+                        : 'bg-slate-700/30 border border-transparent hover:border-slate-600'
+                    }`}
+                  >
+                    <div className="text-lg font-bold text-white">{stats.completedBookings || 0}</div>
+                    <div className="text-xs text-blue-400">Completed</div>
+                  </button>
 
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                    <DollarSign className="w-4 h-4 text-white" />
-                  </div>
-                  <h3 className="text-slate-300 font-medium text-sm">Revenue</h3>
+                  {/* Active Tours */}
+                    <button
+                      onClick={() => {
+                        if (stats.activeTours > 0) {
+                          setActiveTab('tours')
+                        } else {
+                          setActiveTab('create')
+                        }
+                      }}
+                      className="text-center p-3 rounded-lg bg-slate-700/30 border border-transparent hover:border-slate-600 transition-all hover:scale-105"
+                    >
+                      <div className="text-lg font-bold text-white">{stats.activeTours || 0}</div>
+                      <div className="text-xs text-purple-400">Active</div>
+                    </button>
                 </div>
-                <p className="text-lg font-bold text-white">{formatPrice(stats.totalRevenue)}</p>
               </div>
-            </div>
+            
 
             {/* Filters and Search */}
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
@@ -888,7 +924,7 @@ const validateForm = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {filteredBookings.map((booking) => {
+                {(filteredBookings.length > 0 ? filteredBookings : allBookings).map((booking) => {
                   const deadline = getTimeUntilDeadline(booking.confirmation_deadline)
                   const showDetails = shouldShowCustomerDetails(booking)
                   
