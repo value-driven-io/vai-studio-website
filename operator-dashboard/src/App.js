@@ -11,6 +11,7 @@ import Header from './components/Header'
 import DashboardTab from './components/DashboardTab'
 import CreateTab from './components/CreateTab'
 import BookingsTab from './components/BookingsTab'
+import ProfileTab from './components/ProfileTab'
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
@@ -822,14 +823,9 @@ const validateForm = () => {
 
         {/* Profile Tab */}
         {activeTab === 'profile' && (
-          <div className="space-y-6">
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
-              <h2 className="text-xl font-bold text-white mb-4">Profile & Settings</h2>
-              <p className="text-slate-400">Profile management coming soon...</p>
-            </div>
-          </div>
+          <ProfileTab />
         )}
-    
+            
 
         {/* Decline Modal */}
         {showDeclineModal && (
