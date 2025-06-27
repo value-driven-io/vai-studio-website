@@ -44,7 +44,6 @@ export const operatorService = {
 
   // Create new tour
     async createTour(tourData) {
-    // Remove discount_percentage since it's a generated column
     const { discount_percentage, ...cleanTourData } = tourData;
     
     const { data, error } = await supabase
@@ -60,7 +59,7 @@ export const operatorService = {
     
     if (error) throw error
     return data
-    },
+  },
 
   // Update tour
   async updateTour(tourId, tourData) {
