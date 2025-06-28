@@ -823,7 +823,9 @@ const validateForm = () => {
 
         {/* Profile Tab */}
         {activeTab === 'profile' && (
-          <ProfileTab />
+          <ProfileTab 
+          setActiveTab={setActiveTab}
+          />
         )}
             
 
