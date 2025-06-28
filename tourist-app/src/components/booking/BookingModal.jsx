@@ -1,7 +1,7 @@
 // src/components/booking/BookingModal.jsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { X, Calendar, Clock, Users, MapPin, CheckCircle, Loader2, Phone, Mail, MessageCircle } from 'lucide-react'
-import { bookingService } from '../../services/supabase'
+import { bookingService, supabase } from '../../services/supabase'
 import toast from 'react-hot-toast'
 
 const BookingModal = ({ tour, isOpen, onClose }) => {
@@ -19,23 +19,59 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   const [loading, setLoading] = useState(false)
   const [bookingComplete, setBookingComplete] = useState(false)
   const [bookingResult, setBookingResult] = useState(null)
+  const [commissionRate, setCommissionRate] = useState(10) // 🔥 NEW: Store commission rate
+
+  // 🔥 NEW: Fetch commission rate when modal opens
+  useEffect(() => {
+    if (isOpen && tour?.operator_id) {
+      fetchCommissionRate()
+    }
+  }, [isOpen, tour?.operator_id])
+
+  const fetchCommissionRate = async () => {
+    try {
+      const { data: operatorData, error } = await supabase
+        .from('operators')
+        .select('commission_rate')
+        .eq('id', tour.operator_id)
+        .single()
+
+      if (error) {
+        console.error('Error fetching commission rate:', error)
+        setCommissionRate(10) // fallback
+      } else {
+        setCommissionRate(operatorData?.commission_rate || 10)
+        console.log('Commission rate fetched:', operatorData?.commission_rate) // 🔥 DEBUG
+      }
+    } catch (error) {
+      console.error('Commission rate fetch error:', error)
+      setCommissionRate(10) // fallback
+    }
+  }
 
   if (!isOpen || !tour) return null
 
+  // 🔥 FIXED: Now synchronous function using stored commission rate
   const calculateTotal = () => {
     const adultTotal = formData.num_adults * tour.discount_price_adult
     const childPrice = tour.discount_price_child || Math.round(tour.discount_price_adult * 0.7)
     const childTotal = formData.num_children * childPrice
     const subtotal = adultTotal + childTotal
-    const commission = Math.round(subtotal * 0.10)
+    const commission = Math.round(subtotal * (commissionRate / 100))
+    
     return {
       subtotal,
       commission,
+      commissionRate,
       total: subtotal + commission
     }
   }
 
   const totals = calculateTotal()
+
+   // For Debugging 
+  console.log('Current commission rate:', commissionRate)
+  console.log('Calculated totals:', totals)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -336,7 +372,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 <span>{new Intl.NumberFormat('fr-FR').format(totals.subtotal)} XPF</span>
               </div>
               <div className="flex justify-between text-slate-400 text-xs">
-                <span>Platform fee (10%)</span>
+                <span>Platform fee ({totals.commissionRate}%)</span>
                 <span>{new Intl.NumberFormat('fr-FR').format(totals.commission)} XPF</span>
               </div>
               <div className="flex justify-between text-white font-semibold text-lg border-t border-slate-600 pt-2">

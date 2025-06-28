@@ -223,8 +223,8 @@ const ProfileTab = ({ setActiveTab }) => {
         confirmed_bookings: confirmedBookings,
         completed_bookings: bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0,
         total_revenue: totalRevenue, // Keep for commission calculation
-        total_commission: totalRevenue * ((operator.commission_rate || 10) / 100),
-        operator_revenue: totalRevenue * (1 - ((operator.commission_rate || 10) / 100)), // ADD THIS - what operator actually keeps
+        total_commission: totalRevenue * ((operator.commission_rate) / 100),
+        operator_revenue: totalRevenue * (1 - ((operator.commission_rate) / 100)),
         avg_response_time_hours: 2
         }
 
