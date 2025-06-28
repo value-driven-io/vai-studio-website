@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { 
   Building2, MapPin, Phone, Mail, ChevronDown, ChevronUp,
-  Award, Clock, CheckCircle, AlertCircle, Info, Plus,
-  Shield, Star, HelpCircle, TrendingUp, Target,
-  Edit3, Save, X, Globe, Loader, MessageCircle,
-  ExternalLink, Zap, BarChart3, CalendarDays, Eye,
-  CreditCard, Sun, CloudRain, Wind, RefreshCw, Search,
-  Users, DollarSign, ArrowUpRight, Lightbulb
+  Award, CheckCircle, Info, Plus, Shield, Star, HelpCircle, 
+  TrendingUp, Target, Edit3, Save, X, Globe, Loader, MessageCircle,
+  Zap, CreditCard, RefreshCw, Search, Users, DollarSign, 
+  Lightbulb, Clock
 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
@@ -133,12 +131,10 @@ const ProfileTab = ({ setActiveTab }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editData, setEditData] = useState({})
   const [stats, setStats] = useState(null)
-  const [tours, setTours] = useState([])
   const [performance, setPerformance] = useState(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saveMessage, setSaveMessage] = useState('')
-  const [weatherData, setWeatherData] = useState(null)
   const [refreshing, setRefreshing] = useState(false)
 
   // Memoized profile completeness calculation
@@ -200,53 +196,72 @@ const ProfileTab = ({ setActiveTab }) => {
   }, [operator, stats, profileCompleteness])
 
   // Dashboard data loading
-  const loadDashboardData = useCallback(async () => {
+    const loadDashboardData = useCallback(async () => {
     if (!operator?.id) return
 
     try {
-      setLoading(true)
+        setLoading(true)
 
-      // Load basic stats
-      const { data: summaryData } = await supabase
-        .from('booking_summary')
-        .select('*')
-        .eq('operator_id', operator.id)
-        .single()
-
-      if (summaryData) {
-        setStats(summaryData)
-      }
-
-      // Calculate performance metrics
-      const { data: bookingsData } = await supabase
+        // Use direct queries instead of booking_summary table
+        const { data: bookingsData, error: bookingsError } = await supabase
         .from('bookings')
         .select('*')
         .eq('operator_id', operator.id)
-        .gte('created_at', new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString())
 
-      const responseTime = summaryData?.avg_response_time_hours || 0
-      const completionRate = summaryData?.total_bookings > 0 ? 
-        Math.round((summaryData.confirmed_bookings / summaryData.total_bookings) * 100) : 0
+        const { data: toursData, error: toursError } = await supabase
+        .from('tours')
+        .select('*')
+        .eq('operator_id', operator.id)
 
-      const monthlyBookings = bookingsData?.length || 0
-      const monthlyRevenue = bookingsData
+        if (bookingsError) console.warn('No bookings found:', bookingsError)
+        if (toursError) console.warn('No tours found:', toursError)
+
+        // Calculate stats from real data
+        const totalBookings = bookingsData?.length || 0
+        const confirmedBookings = bookingsData?.filter(b => b.booking_status === 'confirmed').length || 0
+        const totalRevenue = bookingsData
         ?.filter(b => b.booking_status === 'confirmed')
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
+        
+        // Use operator data for other fields
+        const calculatedStats = {
+        total_bookings: totalBookings,
+        confirmed_bookings: confirmedBookings,
+        total_revenue: totalRevenue,
+        total_commission: totalRevenue * ((operator.commission_rate || 10) / 100),
+        avg_response_time_hours: 2 // Default value, can be calculated later
+        }
 
-      setPerformance({
+        setStats(calculatedStats)
+
+        const responseTime = calculatedStats.avg_response_time_hours
+        const completionRate = totalBookings > 0 ? Math.round((confirmedBookings / totalBookings) * 100) : 0
+        const monthlyBookings = totalBookings
+        const monthlyRevenue = totalRevenue
+
+        setPerformance({
         responseTime,
         completionRate,
         monthlyBookings,
         monthlyRevenue,
         businessHealthScore
-      })
+        })
 
     } catch (error) {
-      console.error('Error loading dashboard data:', error)
+        console.error('Error loading dashboard data:', error)
+        // Set empty stats if error
+        setStats({
+        total_bookings: 0,
+        confirmed_bookings: 0,
+        total_revenue: 0,
+        total_commission: 0,
+        avg_response_time_hours: 0
+        })
     } finally {
-      setLoading(false)
+        setLoading(false)
     }
-  }, [operator?.id, operator?.average_rating, businessHealthScore])
+    }, [operator?.id, operator?.commission_rate, businessHealthScore])
+
 
   // Refresh function
   const handleRefresh = useCallback(async () => {
