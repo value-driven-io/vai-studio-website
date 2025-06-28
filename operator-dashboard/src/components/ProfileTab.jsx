@@ -118,7 +118,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
 }
 
 const ProfileTab = ({ setActiveTab }) => {
-  const { operator, login } = useAuth()
+  const { operator } = useAuth()
   const [expandedSections, setExpandedSections] = useState({
     business: window.innerWidth >= 1024,
     credentials: window.innerWidth >= 1024,
@@ -208,28 +208,24 @@ const ProfileTab = ({ setActiveTab }) => {
         .select('*')
         .eq('operator_id', operator.id)
 
-        const { data: toursData, error: toursError } = await supabase
-        .from('tours')
-        .select('*')
-        .eq('operator_id', operator.id)
-
         if (bookingsError) console.warn('No bookings found:', bookingsError)
-        if (toursError) console.warn('No tours found:', toursError)
 
         // Calculate stats from real data
         const totalBookings = bookingsData?.length || 0
         const confirmedBookings = bookingsData?.filter(b => b.booking_status === 'confirmed').length || 0
         const totalRevenue = bookingsData
-        ?.filter(b => b.booking_status === 'confirmed')
+        ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
         
         // Use operator data for other fields
         const calculatedStats = {
         total_bookings: totalBookings,
         confirmed_bookings: confirmedBookings,
-        total_revenue: totalRevenue,
+        completed_bookings: bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0,
+        total_revenue: totalRevenue, // Keep for commission calculation
         total_commission: totalRevenue * ((operator.commission_rate || 10) / 100),
-        avg_response_time_hours: 2 // Default value, can be calculated later
+        operator_revenue: totalRevenue * (1 - ((operator.commission_rate || 10) / 100)), // ADD THIS - what operator actually keeps
+        avg_response_time_hours: 2
         }
 
         setStats(calculatedStats)
@@ -909,21 +905,21 @@ const ProfileTab = ({ setActiveTab }) => {
               <div className="space-y-4">
                 {/* Commission Overview */}
                 <div className="bg-slate-700/30 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-slate-400">Commission Rate</span>
-                    <span className="text-white font-semibold">{operator.commission_rate}%</span>
-                  </div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-slate-400">Platform Fee</span>
-                    <span className="text-white font-semibold">{formatCurrency(stats?.total_commission || 0)}</span>
-                  </div>
-                  <div className="w-full bg-slate-600 h-px my-3"></div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-400">Your Earnings</span>
-                    <span className="text-green-400 font-bold text-lg">
-                      {formatCurrency((stats?.total_revenue || 0) - (stats?.total_commission || 0))}
-                    </span>
-                  </div>
+                    <div className="flex items-center justify-between mb-2">
+                        <span className="text-slate-400">Commission Rate</span>
+                        <span className="text-white font-semibold">{operator.commission_rate}%</span>
+                    </div>
+                    <div className="flex items-center justify-between mb-2">
+                        <span className="text-slate-400">Commission Owed</span>
+                        <span className="text-orange-400 font-semibold">{formatCurrency(stats?.total_commission || 0)}</span>
+                    </div>
+                    <div className="w-full bg-slate-600 h-px my-3"></div>
+                    <div className="flex items-center justify-between">
+                        <span className="text-slate-400">Your Revenue</span>
+                        <span className="text-green-400 font-bold text-lg">
+                        {formatCurrency(stats?.operator_revenue || 0)}
+                        </span>
+                    </div>
                 </div>
 
                 {/* Recent Tour Performance */}
@@ -934,30 +930,27 @@ const ProfileTab = ({ setActiveTab }) => {
                   </h4>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <p className="text-slate-400 text-sm">Tours Completed</p>
-                      <p className="text-white font-bold">{stats?.confirmed_bookings || 0}</p>
+                        <p className="text-slate-400 text-sm">VAI Bookings</p>
+                        <p className="text-white font-bold">{stats?.completed_bookings || 0}</p>
                     </div>
                     <div>
-                      <p className="text-slate-400 text-sm">Total Revenue</p>
-                      <p className="text-green-400 font-bold">{formatCurrency(stats?.total_revenue || 0)}</p>
+                        <p className="text-slate-400 text-sm">Your Revenue</p>
+                        <p className="text-green-400 font-bold">{formatCurrency(stats?.operator_revenue || 0)}</p>
                     </div>
                     <div>
-                      <p className="text-slate-400 text-sm">Avg per Tour</p>
-                      <p className="text-white font-bold">
-                        {stats?.confirmed_bookings > 0 ? 
-                          formatCurrency((stats?.total_revenue || 0) / stats.confirmed_bookings) : 
-                          formatCurrency(0)
+                        <p className="text-slate-400 text-sm">Avg per Booking</p>
+                        <p className="text-white font-bold">
+                        {stats?.completed_bookings > 0 ? 
+                            formatCurrency((stats?.operator_revenue || 0) / stats.completed_bookings) : 
+                            formatCurrency(0)
                         }
-                      </p>
-                    </div>
-                        <div>
-                        <p className="text-slate-400 text-sm">Growth</p>
-                        <p className="text-slate-400 font-bold flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            Coming Soon
                         </p>
-                        </div>
-                  </div>
+                    </div>
+                    <div>
+                        <p className="text-slate-400 text-sm">Commission Paid</p>
+                        <p className="text-slate-400 font-bold">{formatCurrency(stats?.total_commission || 0)}</p>
+                    </div>
+                    </div>
                 </div>
 
                 <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
