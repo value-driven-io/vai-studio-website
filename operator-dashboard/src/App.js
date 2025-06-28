@@ -16,8 +16,13 @@ import ProfileTab from './components/ProfileTab'
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
 
+  // Helper Function Round Up
+  const roundUpToNearestHundred = (price) => {
+    return Math.ceil(price / 100) * 100
+  }
+
   // Function to lock commission rate when booking is confirmed
-  
+
   const lockBookingCommission = async (bookingId) => {
     try {
       // First, check if commission is already locked
@@ -544,11 +549,28 @@ function App() {
           newData.discount_price_child = Math.round(value * 0.7)
         }
       }
-      
+
       if (field === 'discount_percentage') {
-        const discountPrice = Math.round(newData.original_price_adult * (1 - value / 100))
-        newData.discount_price_adult = discountPrice
-        newData.discount_price_child = Math.round(discountPrice * 0.7)
+        const rawDiscountPrice = Math.round(newData.original_price_adult * (1 - value / 100))
+        // Round UP to nearest 100
+        const roundedDiscountPrice = roundUpToNearestHundred(rawDiscountPrice)
+        
+        newData.discount_price_adult = roundedDiscountPrice
+        newData.discount_price_child = Math.round(roundedDiscountPrice * 0.7)
+      }
+
+      if (field === 'original_price_adult') {
+        const rawDiscountPrice = Math.round(value * (1 - newData.discount_percentage / 100))
+        
+        // Round UP to nearest 100
+        const roundedDiscountPrice = roundUpToNearestHundred(rawDiscountPrice)
+        
+        newData.discount_price_adult = roundedDiscountPrice
+        newData.discount_price_child = Math.round(roundedDiscountPrice * 0.7)
+        
+        // Recalculate actual discount percentage based on rounded price
+        const actualDiscountPercentage = Math.round(((value - roundedDiscountPrice) / value) * 100)
+        newData.discount_percentage = actualDiscountPercentage
       }
       
       if (field === 'max_capacity') {
@@ -580,9 +602,33 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    if (!validateForm()) {
-      alert('Please fix the errors in the form')
-      return
+    const validateForm = () => {
+      const errors = {}
+      
+      if (!formData.tour_name.trim()) errors.tour_name = 'Tour name is required'
+      if (!formData.description.trim()) errors.description = 'Description is required'
+      if (!formData.tour_date) errors.tour_date = 'Tour date is required'
+      if (!formData.meeting_point.trim()) errors.meeting_point = 'Meeting point is required'
+      if (formData.max_capacity < 1) errors.max_capacity = 'Capacity must be at least 1'
+      if (formData.original_price_adult < 1000) errors.original_price_adult = 'Price too low'
+      
+      // Add 100-increment validation
+      if (formData.original_price_adult % 100 !== 0) {
+        errors.original_price_adult = 'Price must be a multiple of 100 (e.g., 5600, 7200, 8500)'
+      }
+      
+      // Fix the discount price validation for 0% discount
+      if (formData.discount_percentage > 0 && formData.discount_price_adult >= formData.original_price_adult) {
+        errors.discount_price_adult = 'Discount price must be less than original price'
+      }
+      
+      const today = new Date().toISOString().split('T')[0]
+      if (formData.tour_date && formData.tour_date < today) {
+        errors.tour_date = 'Tour date cannot be in the past'
+      }
+      
+      setValidationErrors(errors)
+      return Object.keys(errors).length === 0
     }
     
     try {

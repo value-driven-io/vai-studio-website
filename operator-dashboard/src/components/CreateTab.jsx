@@ -345,23 +345,27 @@ const CreateTab = ({
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                   <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-2">
-                                      Regular Price (Adult) *
+                                        Regular Price (Adult) *
                                     </label>
                                     <input
-                                      type="number"
-                                      value={formData.original_price_adult}
-                                      onChange={(e) => handleInputChange('original_price_adult', parseInt(e.target.value))}
-                                      className={`w-full p-3 bg-slate-600/50 border rounded-lg text-white transition-colors ${
+                                        type="number"
+                                        value={formData.original_price_adult}
+                                        onChange={(e) => handleInputChange('original_price_adult', parseInt(e.target.value))}
+                                        className={`w-full p-3 bg-slate-600/50 border rounded-lg text-white transition-colors ${
                                         validationErrors.original_price_adult ? 'border-red-500' : 'border-slate-500 focus:border-blue-400'
-                                      }`}
-                                      min="1000"
-                                      step="500"
+                                        }`}
+                                        min="1000"
+                                        step="100"
+                                        placeholder="e.g., 5600, 7200, 8500"
                                     />
                                     <p className="text-slate-400 text-xs mt-1">{formatPrice(formData.original_price_adult)}</p>
+                                    <p className="text-xs text-slate-500 mt-1">
+                                        💡 Only values ending in 00 allowed (e.g., 5600, 7200, 8500)
+                                    </p>
                                     {validationErrors.original_price_adult && (
-                                      <p className="text-red-400 text-sm mt-1">{validationErrors.original_price_adult}</p>
+                                        <p className="text-red-400 text-sm mt-1">{validationErrors.original_price_adult}</p>
                                     )}
-                                  </div>
+                                    </div>
 
                                   <div>
                                     <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -407,6 +411,9 @@ const CreateTab = ({
                                       step="100"
                                     />
                                     <p className="text-slate-400 text-xs mt-1">{formatPrice(formData.discount_price_adult)}</p>
+                                        <p className="text-xs text-slate-400 mt-1">
+                                            💡 Prices automatically rounded up to nearest 100 XPF for professional appearance
+                                        </p>
                                     {validationErrors.discount_price_adult && (
                                       <p className="text-red-400 text-sm mt-1">{validationErrors.discount_price_adult}</p>
                                     )}
