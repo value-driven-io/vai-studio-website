@@ -117,22 +117,25 @@ const CreateTab = ({
                             <div className="p-4 bg-slate-800/20 space-y-4">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                                    Tour Name *
-                                  </label>
-                                  <input
-                                    type="text"
-                                    value={formData.tour_name}
-                                    onChange={(e) => handleInputChange('tour_name', e.target.value)}
-                                    className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white placeholder-slate-400 transition-colors ${
-                                      validationErrors.tour_name ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
-                                    }`}
-                                    placeholder="e.g., Whale Watching Sunset Adventure"
-                                  />
-                                  {validationErrors.tour_name && (
-                                    <p className="text-red-400 text-sm mt-1">{validationErrors.tour_name}</p>
-                                  )}
-                                </div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                                        Tour Name *
+                                        <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help" title="Make it catchy! Examples: 'Sunset Whale Watching', 'Secret Lagoon Snorkel Adventure'">
+                                        💡
+                                        </span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.tour_name}
+                                        onChange={(e) => handleInputChange('tour_name', e.target.value)}
+                                        className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
+                                        validationErrors.tour_name ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                                        }`}
+                                        placeholder="e.g., Morning Whale Watching Adventure"
+                                    />
+                                    {validationErrors.tour_name && (
+                                        <p className="text-red-400 text-sm mt-1">{validationErrors.tour_name}</p>
+                                    )}
+                                    </div>
 
                                 <div>
                                   <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -260,19 +263,28 @@ const CreateTab = ({
                                 </div>
 
                                 <div>
-                                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                                    Duration (hours)
-                                  </label>
-                                  <input
-                                    type="number"
-                                    value={formData.duration_hours}
-                                    onChange={(e) => handleInputChange('duration_hours', parseFloat(e.target.value))}
-                                    className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                                    min="0.5"
-                                    max="12"
-                                    step="0.5"
-                                  />
-                                </div>
+                                    <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                                        Duration (hours)
+                                        <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help" title="Include travel time to/from activity location. Half-day tours: 3-4h, Full-day: 6-8h">
+                                        ⏱️
+                                        </span>
+                                    </label>
+                                    <input
+                                        type="number"
+                                        value={formData.duration_hours}
+                                        onChange={(e) => handleInputChange('duration_hours', parseFloat(e.target.value))}
+                                        className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
+                                        validationErrors.duration_hours ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                                        }`}
+                                        min="0.5"
+                                        max="12"
+                                        step="0.5"
+                                        placeholder="e.g., 3.5"
+                                    />
+                                    {validationErrors.duration_hours && (
+                                        <p className="text-red-400 text-sm mt-1">{validationErrors.duration_hours}</p>
+                                    )}
+                                    </div>
                               </div>
                             </div>
                           )}
@@ -472,22 +484,25 @@ const CreateTab = ({
                           {expandedSections.location && (
                             <div className="p-4 bg-slate-800/20 space-y-4">
                               <div>
-                                <label className="block text-sm font-medium text-slate-300 mb-2">
-                                  Meeting Point *
+                                <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                                    Meeting Point *
+                                    <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help" title="Be specific! Include GPS coordinates or hotel names for easy finding">
+                                    📍
+                                    </span>
                                 </label>
                                 <input
-                                  type="text"
-                                  value={formData.meeting_point}
-                                  onChange={(e) => handleInputChange('meeting_point', e.target.value)}
-                                  className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white placeholder-slate-400 transition-colors ${
+                                    type="text"
+                                    value={formData.meeting_point}
+                                    onChange={(e) => handleInputChange('meeting_point', e.target.value)}
+                                    className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
                                     validationErrors.meeting_point ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
-                                  }`}
-                                  placeholder="e.g., Marina de Moorea, Dock 3"
+                                    }`}
+                                    placeholder="e.g., Vaiare Ferry Terminal - Main Entrance, or InterContinental Thalasso Spa Dock"
                                 />
                                 {validationErrors.meeting_point && (
-                                  <p className="text-red-400 text-sm mt-1">{validationErrors.meeting_point}</p>
+                                    <p className="text-red-400 text-sm mt-1">{validationErrors.meeting_point}</p>
                                 )}
-                              </div>
+                                </div>
 
                               <div>
                                 <label className="flex items-center gap-2 mb-3">
