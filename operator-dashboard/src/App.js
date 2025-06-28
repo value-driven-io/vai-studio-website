@@ -16,6 +16,53 @@ import ProfileTab from './components/ProfileTab'
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
 
+  // Function to lock commission rate when booking is confirmed
+  
+  const lockBookingCommission = async (bookingId) => {
+    try {
+      // First, check if commission is already locked
+      const checkResponse = await fetch(`${supabaseUrl}/rest/v1/bookings?select=commission_locked_at&id=eq.${bookingId}`, {
+        headers: {
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`
+        }
+      })
+      
+      const bookingData = await checkResponse.json()
+      
+      // Only lock if not already locked
+      if (!bookingData[0]?.commission_locked_at) {
+        const updateData = {
+          commission_locked_at: new Date().toISOString()
+        }
+
+        const response = await fetch(`${supabaseUrl}/rest/v1/bookings?id=eq.${bookingId}`, {
+          method: 'PATCH',
+          headers: {
+            'apikey': supabaseAnonKey,
+            'Authorization': `Bearer ${supabaseAnonKey}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(updateData)
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to lock commission rate')
+        }
+
+        console.log('✅ Commission rate locked for booking:', bookingId)
+      } else {
+        console.log('ℹ️ Commission already locked for booking:', bookingId)
+      }
+      
+      return true
+    } catch (error) {
+      console.error('Error locking commission rate:', error)
+      return false
+    }
+  }
+
 function App() {
   // ALL HOOKS MUST BE AT THE TOP
   const { operator, loading: authLoading, login, logout, isAuthenticated } = useAuth()
@@ -352,6 +399,16 @@ function App() {
 
       if (action === 'confirmed') {
         updateData.confirmed_at = new Date().toISOString()
+        
+        // Lock commission rate when confirming
+        await lockBookingCommission(bookingId)
+        
+      } else if (action === 'completed') {
+        updateData.completed_at = new Date().toISOString()
+        
+        // Lock commission rate when marking complete
+        await lockBookingCommission(bookingId)
+        
       } else if (action === 'declined') {
         updateData.cancelled_at = new Date().toISOString()
         updateData.decline_reason = reason

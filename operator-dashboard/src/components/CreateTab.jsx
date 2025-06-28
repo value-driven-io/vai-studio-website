@@ -419,17 +419,19 @@ const CreateTab = ({
                                     <span className="text-green-400 font-medium">{formatPrice(formData.discount_price_child)}</span>
                                   </div>
                                   <div className="flex items-center justify-between text-sm mt-1">
-                                    <span className="text-slate-300">Your Revenue (per adult, after {operator?.commission_rate || 0}% commission):</span>
+                                    <span className="text-slate-300">Your Revenue (per adult, after {operator?.commission_rate || 10}% commission):</span>
                                     <span className="text-blue-400 font-medium">
-                                    {formatPrice(Math.round(formData.discount_price_adult * (1 - (operator?.commission_rate || 0) / 100)))}
+                                        {formatPrice(Math.round(formData.discount_price_adult * (1 - (operator?.commission_rate || 10) / 100)))}
                                     </span>
-                                  </div>
-                                  <div className="flex items-center justify-between text-sm mt-1">
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm mt-1">
                                     <span className="text-slate-300">Potential Revenue (if full):</span>
-                                     <span className="text-purple-400 font-medium">
-                                    {formatPrice(Math.round(formData.discount_price_adult * (1 - (operator?.commission_rate || 0) / 100) * formData.max_capacity))}
+                                    <span className="text-purple-400 font-medium">
+                                        {formatPrice(Math.round(
+                                        formData.discount_price_adult * (1 - (operator?.commission_rate || 10) / 100) * formData.max_capacity
+                                        ))}
                                     </span>
-                                  </div>
+                                    </div>
                                   {formData.discount_percentage === 0 && (
                                     <div className="mt-2 p-2 bg-blue-500/10 border border-blue-500/20 rounded">
                                       <p className="text-blue-300 text-xs">

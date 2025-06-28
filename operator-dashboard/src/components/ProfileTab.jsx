@@ -213,25 +213,36 @@ const ProfileTab = ({ setActiveTab }) => {
         // Calculate stats from real data
         const totalBookings = bookingsData?.length || 0
         const confirmedBookings = bookingsData?.filter(b => b.booking_status === 'confirmed').length || 0
+        const completedBookings = bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0
+        
+        // Use actual stored commission amounts, not recalculated values
         const totalRevenue = bookingsData
         ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
         
-        // Use operator data for other fields
+        // Use stored commission_amount from each booking
+        const totalCommission = bookingsData
+        ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
+        ?.reduce((sum, b) => sum + (b.commission_amount || 0), 0) || 0
+        
+        // Calculate operator revenue using actual commission amounts
+        const operatorRevenue = totalRevenue - totalCommission
+        
         const calculatedStats = {
         total_bookings: totalBookings,
         confirmed_bookings: confirmedBookings,
-        completed_bookings: bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0,
-        total_revenue: totalRevenue, // Keep for commission calculation
-        total_commission: totalRevenue * ((operator.commission_rate) / 100),
-        operator_revenue: totalRevenue * (1 - ((operator.commission_rate) / 100)),
+        completed_bookings: completedBookings,
+        total_revenue: totalRevenue,
+        total_commission: totalCommission, // ✅ Uses stored amounts
+        operator_revenue: operatorRevenue, // ✅ Uses actual deductions
         avg_response_time_hours: 2
         }
 
         setStats(calculatedStats)
 
         const responseTime = calculatedStats.avg_response_time_hours
-        const completionRate = totalBookings > 0 ? Math.round((confirmedBookings / totalBookings) * 100) : 0
+        const completionRate = totalBookings > 0 ? 
+        Math.round((confirmedBookings / totalBookings) * 100) : 0
         const monthlyBookings = totalBookings
         const monthlyRevenue = totalRevenue
 
@@ -251,12 +262,14 @@ const ProfileTab = ({ setActiveTab }) => {
         confirmed_bookings: 0,
         total_revenue: 0,
         total_commission: 0,
+        operator_revenue: 0,
         avg_response_time_hours: 0
         })
     } finally {
         setLoading(false)
     }
-    }, [operator?.id, operator?.commission_rate, businessHealthScore])
+    }, [operator?.id, businessHealthScore])
+
 
 
   // Refresh function
