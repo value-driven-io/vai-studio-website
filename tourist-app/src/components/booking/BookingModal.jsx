@@ -93,24 +93,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       setBookingResult(result)
       setBookingComplete(true)
       
-      toast.success('Booking request sent! You\'ll receive confirmation shortly.')
+      toast.success('Booking request sent! You\'ll receive email confirmation shortly.')
       
-      // Optional: Start listening for status updates
-      const subscription = bookingService.subscribeToBookingUpdates(
-        formData.customer_email,
-        (update) => {
-          if (update.new.booking_status === 'confirmed') {
-            toast.success('Your booking has been confirmed!')
-          } else if (update.new.booking_status === 'declined') {
-            toast.error(`Booking declined: ${update.new.decline_reason || 'No reason provided'}`)
-          }
-        }
-      )
-
-      // Clean up subscription after 5 minutes
-      setTimeout(() => {
-        subscription.unsubscribe()
-      }, 5 * 60 * 1000)
+    // Real-time updates disabled for MVP - users will get email notifications 
+    console.log('Booking created successfully, user will receive email updates')
 
     } catch (error) {
       console.error('Booking error:', error)
@@ -141,10 +127,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <div className="bg-slate-700/50 rounded-lg p-4 mb-4 text-left">
               <h4 className="font-semibold text-white mb-2">What happens next?</h4>
               <ul className="text-sm text-slate-300 space-y-1">
-                <li>• You'll receive a confirmation email within minutes</li>
-                <li>• The operator has 60 minutes to confirm your booking</li>
+                <li>• You'll receive a confirmation of your request via email</li>
+                <li>• The operator now needs to confirm your booking</li>
                 <li>• Once confirmed, you'll get operator contact details</li>
-                <li>• Check your email for updates</li>
+                <li>• Note: Payment will be done with the operator</li>
+                <li>• Check your email for updates! 🤙</li>
               </ul>
             </div>
             <div className="flex gap-3">
@@ -323,7 +310,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   onChange={(e) => handleInputChange('special_requirements', e.target.value)}
                   className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   rows="2"
-                  placeholder="Any special needs or requests..."
+                  placeholder="Different Pick-up spot, any special requests..."
                 />
               </div>
               <div>

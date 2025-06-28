@@ -111,68 +111,167 @@ export const tourService = {
 // Booking Service
 export const bookingService = {
   // Create new booking - this triggers your n8n workflow
-  // Create new booking - this triggers your n8n workflow
-async createBooking(bookingData) {
-  try {
-    // 🔥 NEW: Get operator's current commission rate from database
-    const { data: operatorData, error: operatorError } = await supabase
-      .from('operators')
-      .select('commission_rate')
-      .eq('id', bookingData.operator_id)
-      .single()
+  async createBooking(bookingData) {
+    try {
+      // Get operator's current commission rate from database
+      const { data: operatorData, error: operatorError } = await supabase
+        .from('operators')
+        .select('commission_rate')
+        .eq('id', bookingData.operator_id)
+        .single()
 
-    if (operatorError) {
-      console.error('Error fetching operator commission rate:', operatorError)
-      throw new Error('Unable to retrieve commission rate')
+      if (operatorError) {
+        console.error('Error fetching operator commission rate:', operatorError)
+        throw new Error('Unable to retrieve commission rate')
+      }
+
+      const commissionRate = operatorData.commission_rate || 10.00 // fallback to 10%
+
+      // Calculate totals with dynamic commission rate
+      const adultTotal = bookingData.num_adults * bookingData.adult_price
+      const childTotal = bookingData.num_children * (bookingData.child_price || Math.round(bookingData.adult_price * 0.7))
+      const subtotal = adultTotal + childTotal
+      
+      // FIXED: Use dynamic commission rate instead of hard-coded 10%
+      const commissionAmount = Math.round(subtotal * (commissionRate / 100))
+      const totalAmount = subtotal + commissionAmount
+
+      // Generate booking reference
+      const now = Date.now()
+      const dateStr = new Date().toISOString().slice(2, 10).replace(/-/g, '')
+      const bookingReference = `VAI-${now}-${dateStr}`
+
+      const bookingPayload = {
+        ...bookingData,
+        subtotal,
+        commission_amount: commissionAmount,
+        applied_commission_rate: commissionRate, // Store the rate used
+        booking_reference: bookingReference,
+        booking_status: 'pending',
+        payment_status: 'pending',
+        confirmation_deadline: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
+        webhook_sent: false,
+        whatsapp_sent: false,
+        email_sent: false,
+        commission_locked_at: null // Not locked until confirmed
+      }
+
+      // Insert booking
+      const { data, error } = await supabase
+        .from('bookings')
+        .insert([bookingPayload])
+        .select()
+        .single()
+
+      if (error) throw error
+
+      return data
+
+    } catch (error) {
+      console.error('Booking creation error:', error)
+      throw error
     }
+  },
 
-    const commissionRate = operatorData.commission_rate || 10.00 // fallback to 10%
+  // 🔥 MISSING FUNCTIONS - ADD THESE:
 
-    // Calculate totals with dynamic commission rate
-    const adultTotal = bookingData.num_adults * bookingData.adult_price
-    const childTotal = bookingData.num_children * (bookingData.child_price || Math.round(bookingData.adult_price * 0.7))
-    const subtotal = adultTotal + childTotal
-    
-    // ✅ FIXED: Use dynamic commission rate instead of hard-coded 10%
-    const commissionAmount = Math.round(subtotal * (commissionRate / 100))
-    const totalAmount = subtotal + commissionAmount
-
-    // Generate booking reference
-    const now = Date.now()
-    const dateStr = new Date().toISOString().slice(2, 10).replace(/-/g, '')
-    const bookingReference = `VAI-${now}-${dateStr}`
-
-    const bookingPayload = {
-      ...bookingData,
-      subtotal,
-      commission_amount: commissionAmount,
-      applied_commission_rate: commissionRate, // 🔥 NEW: Store the rate used
-      booking_reference: bookingReference,
-      booking_status: 'pending',
-      payment_status: 'pending',
-      confirmation_deadline: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
-      webhook_sent: false,
-      whatsapp_sent: false,
-      email_sent: false,
-      commission_locked_at: null // 🔥 NEW: Not locked until confirmed
-    }
-
-    // Insert booking
+  // Get user's bookings
+  async getUserBookings(customerEmail) {
     const { data, error } = await supabase
       .from('bookings')
-      .insert([bookingPayload])
-      .select()
+      .select(`
+        *,
+        tours:tour_id (
+          tour_name,
+          tour_date,
+          time_slot,
+          meeting_point,
+          tour_type,
+          duration_hours
+        ),
+        operators:operator_id (
+          company_name,
+          whatsapp_number,
+          phone,
+          contact_person
+        )
+      `)
+      .eq('customer_email', customerEmail)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching user bookings:', error)
+      throw error
+    }
+    
+    return data || []
+  },
+
+  // Get booking by reference
+  async getBookingByReference(bookingReference) {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select(`
+        *,
+        tours:tour_id (
+          tour_name,
+          tour_date,
+          time_slot,
+          meeting_point,
+          tour_type,
+          duration_hours
+        ),
+        operators:operator_id (
+          company_name,
+          whatsapp_number,
+          phone,
+          contact_person
+        )
+      `)
+      .eq('booking_reference', bookingReference)
       .single()
 
-    if (error) throw error
-
+    if (error) {
+      console.error('Error fetching booking by reference:', error)
+      throw error
+    }
+    
     return data
+  },
 
-  } catch (error) {
-    console.error('Booking creation error:', error)
-    throw error
+  // Subscribe to booking status updates
+  subscribeToBookingUpdates(customerEmail, callback) {
+    return supabase
+      .channel('booking-updates')
+      .on(
+        'postgres_changes',
+        { 
+          event: 'UPDATE', 
+          schema: 'public', 
+          table: 'bookings',
+          filter: `customer_email=eq.${customerEmail}`
+        },
+        (payload) => callback(payload)
+      )
+      .subscribe()
+  },
+
+  // Subscribe to specific booking updates by reference
+  subscribeToBookingByReference(bookingReference, callback) {
+    return supabase
+      .channel(`booking-${bookingReference}`)
+      .on(
+        'postgres_changes',
+        { 
+          event: 'UPDATE', 
+          schema: 'public', 
+          table: 'bookings',
+          filter: `booking_reference=eq.${bookingReference}`
+        },
+        (payload) => callback(payload)
+      )
+      .subscribe()
   }
-},
 }
 
 // Operator Service (for operator dashboard)
