@@ -209,6 +209,18 @@ function App() {
     return Math.round(((original - discounted) / original) * 100)
   }
 
+    const getTodayInPolynesia = () => {
+    const polynesiaTZ = 'Pacific/Tahiti'
+    const today = new Date()
+    const polynesiaToday = new Date(today.toLocaleString("en-US", {timeZone: polynesiaTZ}))
+    
+    const year = polynesiaToday.getFullYear()
+    const month = String(polynesiaToday.getMonth() + 1).padStart(2, '0')
+    const day = String(polynesiaToday.getDate()).padStart(2, '0')
+    
+    return `${year}-${month}-${day}`
+  }
+
   const generateBookingDeadline = (tourDate, timeSlot, autoCloseHours) => {
     if (!tourDate || !timeSlot) return null
     const tourDateTime = new Date(`${tourDate}T${timeSlot}:00`)
@@ -217,15 +229,47 @@ function App() {
 
   const getQuickDates = () => {
     const dates = []
+    
+    // FIXED: Use French Polynesia timezone consistently
+    const polynesiaTZ = 'Pacific/Tahiti' // UTC-10
+    
+    // Get current date in French Polynesia timezone
     const today = new Date()
+    const polynesiaToday = new Date(today.toLocaleString("en-US", {timeZone: polynesiaTZ}))
+    
     for (let i = 0; i < 7; i++) {
-      const date = new Date(today)
-      date.setDate(date.getDate() + i)
+      // Create date in Polynesia timezone
+      const date = new Date(polynesiaToday)
+      date.setDate(polynesiaToday.getDate() + i)
+      
+      // Format date as YYYY-MM-DD in local Polynesia timezone
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      const dateString = `${year}-${month}-${day}`
+      
+      // Create label
+      let label
+      if (i === 0) {
+        label = 'Today'
+      } else if (i === 1) {
+        label = 'Tomorrow'
+      } else {
+        // Format as "Mon, Jun 30"
+        label = date.toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+          timeZone: polynesiaTZ
+        })
+      }
+      
       dates.push({
-        date: date.toISOString().split('T')[0],
-        label: i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+        date: dateString,
+        label: label
       })
     }
+    
     return dates
   }
 
@@ -1001,6 +1045,9 @@ function App() {
             availableLanguages={availableLanguages}
             handleLanguageToggle={handleLanguageToggle}
             handleDuplicate={handleDuplicate}
+            tours={tours}
+            handleEdit={handleEdit}
+            getTodayInPolynesia={getTodayInPolynesia}
           />
         )}
           

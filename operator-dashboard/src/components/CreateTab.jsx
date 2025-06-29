@@ -5,8 +5,31 @@ import {
   Save, X, Eye, EyeOff, Calculator, Percent, 
   Globe, Utensils, Camera, Heart, 
   Copy, RotateCcw, Info, 
-  ChevronDown, ChevronUp, Waves
+  ChevronDown, ChevronUp, Waves, Edit2, Trash2,
+  Filter, Search
 } from 'lucide-react'
+
+// Logic for editing tours
+const canEditTour = (tour) => {
+  // Cannot edit cancelled tours
+  if (tour.status === 'cancelled') return false
+  
+  // Cannot edit past tours
+  const tourDateTime = new Date(`${tour.tour_date}T${tour.time_slot}:00`)
+  const now = new Date()
+  const isPastTour = tourDateTime < now
+  if (isPastTour) return false
+  
+  // GRACE PERIOD: Cannot edit if tour is within 24 hours
+  const hoursUntilTour = (tourDateTime - now) / (1000 * 60 * 60)
+  if (hoursUntilTour < 24) return false
+  
+  // Cannot edit if tour has bookings (available_spots < max_capacity means bookings exist)
+  const hasBookings = tour.available_spots < tour.max_capacity
+  if (hasBookings) return false
+  
+  return true
+}
 
 // FIXED: Add proper Tooltip component
 const Tooltip = ({ children, content, position = 'top' }) => {
@@ -20,7 +43,6 @@ const Tooltip = ({ children, content, position = 'top' }) => {
       height: window.innerHeight
     }
     
-    // Auto-adjust position based on viewport
     let newPosition = position
     if (position === 'top' && rect.top < 100) newPosition = 'bottom'
     if (position === 'bottom' && rect.bottom > viewport.height - 100) newPosition = 'top'
@@ -36,7 +58,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setIsVisible(false)}
-        onClick={() => setIsVisible(!isVisible)} // FIXED: Add click for mobile
+        onClick={() => setIsVisible(!isVisible)}
         className="cursor-help"
       >
         {children}
@@ -88,28 +110,60 @@ const CreateTab = ({
   availableLanguages,
   handleLanguageToggle,
   handleDuplicate,
-  // FIXED: Add validation props
-  validateForm
+  validateForm,
+  tours,
+  handleEdit,
+  getTodayInPolynesia
 }) => {
 
   // FIXED: Enhanced input change handler with real-time validation
   const handleFieldChange = (field, value) => {
     handleInputChange(field, value)
-    // FIXED: Trigger validation after a short delay to avoid excessive calls
-    setTimeout(() => {
-      if (validateForm) {
-        validateForm(field) // Pass field to validate only that field
+    // FIXED: For date field, validate immediately without delay
+    if (field === 'tour_date') {
+      // Clear the error immediately when a valid date is selected
+      if (value && validationErrors.tour_date) {
+        setTimeout(() => {
+          if (validateForm) {
+            validateForm(field)
+          }
+        }, 100) // Shorter delay for date field
       }
-    }, 300)
+    } else {
+      // Other fields use normal delay
+      setTimeout(() => {
+        if (validateForm) {
+          validateForm(field)
+        }
+      }, 300)
+    }
   }
+
+  // NEW: State for tour management
+  const [tourFilter, setTourFilter] = useState('all') // 'all', 'upcoming', 'past'
+  const [tourSearch, setTourSearch] = useState('')
+
+  // NEW: Filter tours based on filter and search
+  const filteredTours = tours.filter(tour => {
+    const matchesFilter = 
+      tourFilter === 'all' || 
+      (tourFilter === 'upcoming' && new Date(tour.tour_date) >= new Date()) ||
+      (tourFilter === 'past' && new Date(tour.tour_date) < new Date())
+    
+    const matchesSearch = !tourSearch || 
+      tour.tour_name.toLowerCase().includes(tourSearch.toLowerCase()) ||
+      tour.tour_type.toLowerCase().includes(tourSearch.toLowerCase())
+    
+    return matchesFilter && matchesSearch
+  })
 
   return (
     <div className="space-y-6">
       {/* Create Tab Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">Create New Tour</h2>
-          <p className="text-slate-400">Set up a new tour experience for travelers</p>
+          <h2 className="text-2xl font-bold text-white mb-2">Create & Manage Tours</h2>
+          <p className="text-slate-400">Create new tours or manage your existing ones</p>
         </div>
         <div className="flex gap-3">
           {!showForm && (
@@ -184,7 +238,6 @@ const CreateTab = ({
                         <div>
                           <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                             Tour Name *
-                            {/* FIXED: Replace title attribute with Tooltip component */}
                             <Tooltip content="Make it catchy! Examples: 'Sunset Whale Watching', 'Secret Lagoon Snorkel Adventure'">
                               <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
                                 💡
@@ -200,7 +253,6 @@ const CreateTab = ({
                             }`}
                             placeholder="e.g., Morning Whale Watching Adventure"
                           />
-                          {/* FIXED: Enhanced error message display */}
                           {validationErrors.tour_name && (
                             <div className="flex items-center gap-2 mt-1">
                               <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -246,7 +298,6 @@ const CreateTab = ({
                           rows="4"
                           placeholder="Describe your tour experience in detail. What makes it special? What will participants see and do?"
                         />
-                        {/* FIXED: Enhanced error message display */}
                         {validationErrors.description && (
                           <div className="flex items-center gap-2 mt-1">
                             <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -311,12 +362,11 @@ const CreateTab = ({
                             type="date"
                             value={formData.tour_date}
                             onChange={(e) => handleFieldChange('tour_date', e.target.value)}
-                            min={new Date().toISOString().split('T')[0]}
+                            min={getTodayInPolynesia()}
                             className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
                               validationErrors.tour_date ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                             }`}
                           />
-                          {/* FIXED: Enhanced error message display */}
                           {validationErrors.tour_date && (
                             <div className="flex items-center gap-2 mt-1">
                               <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -345,7 +395,6 @@ const CreateTab = ({
                         <div>
                           <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                             Duration (hours)
-                            {/* FIXED: Replace title attribute with Tooltip component */}
                             <Tooltip content="Include travel time to/from activity location. Half-day tours: 3-4h, Full-day: 6-8h">
                               <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
                                 ⏱️
@@ -364,7 +413,6 @@ const CreateTab = ({
                             step="0.5"
                             placeholder="e.g., 3.5"
                           />
-                          {/* FIXED: Enhanced error message display */}
                           {validationErrors.duration_hours && (
                             <div className="flex items-center gap-2 mt-1">
                               <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -411,7 +459,6 @@ const CreateTab = ({
                             min="1"
                             max="50"
                           />
-                          {/* FIXED: Enhanced error message display */}
                           {validationErrors.max_capacity && (
                             <div className="flex items-center gap-2 mt-1">
                               <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -464,7 +511,6 @@ const CreateTab = ({
                             <p className="text-xs text-slate-500 mt-1">
                               💡 Only values ending in 00 allowed (e.g., 5600, 7200, 8500)
                             </p>
-                            {/* FIXED: Enhanced error message display */}
                             {validationErrors.original_price_adult && (
                               <div className="flex items-center gap-2 mt-1">
                                 <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -520,7 +566,6 @@ const CreateTab = ({
                             <p className="text-xs text-slate-400 mt-1">
                               💡 Prices automatically rounded up to nearest 100 XPF for professional appearance
                             </p>
-                            {/* FIXED: Enhanced error message display */}
                             {validationErrors.discount_price_adult && (
                               <div className="flex items-center gap-2 mt-1">
                                 <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -584,7 +629,6 @@ const CreateTab = ({
                       <div>
                         <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                           Meeting Point *
-                          {/* FIXED: Replace title attribute with Tooltip component */}
                           <Tooltip content="Be specific! Include GPS coordinates or hotel names for easy finding">
                             <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
                               📍
@@ -600,7 +644,6 @@ const CreateTab = ({
                           }`}
                           placeholder="e.g., Vaiare Ferry Terminal - Main Entrance, or InterContinental Thalasso Spa Dock"
                         />
-                        {/* FIXED: Enhanced error message display */}
                         {validationErrors.meeting_point && (
                           <div className="flex items-center gap-2 mt-1">
                             <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -871,6 +914,21 @@ const CreateTab = ({
                             Meeting point {formData.meeting_point ? 'set' : 'missing'}
                           </div>
                         </div>
+                        
+                        {/* FIXED: Show current validation errors in preview */}
+                        {Object.keys(validationErrors).length > 0 && (
+                          <div className="border-t border-slate-600 pt-2 mt-2">
+                            <h6 className="text-sm font-medium text-red-400 mb-1">Issues to Fix:</h6>
+                            <div className="space-y-1">
+                              {Object.entries(validationErrors).map(([field, error]) => (
+                                <div key={field} className="text-xs text-red-400 flex items-center gap-1">
+                                  <AlertCircle className="w-2 h-2" />
+                                  {error}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -931,67 +989,234 @@ const CreateTab = ({
           </form>
         </div>
       ) : (
-        /* Show this when no form is open */
-        <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-8 text-center">
-          <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Plus className="w-8 h-8 text-blue-400" />
-          </div>
-          <h3 className="text-xl font-semibold text-white mb-2">Ready to Create a Tour?</h3>
-          <p className="text-slate-400 mb-6">Click the button above to start creating your next tour experience</p>
-          
+        /* NEW: Tour Management Section when no form is open */
+        <div className="space-y-6">
           {/* Quick Tour Templates */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <button
-              onClick={() => {
-                setFormData({
-                  ...formData,
-                  tour_type: 'Whale Watching',
-                  tour_name: 'Whale Watching Experience',
-                  duration_hours: 3,
-                  whale_regulation_compliant: true
-                })
-                setShowForm(true)
-              }}
-              className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
-            >
-              <div className="text-2xl mb-2">🐋</div>
-              <h4 className="text-white font-medium">Whale Watching</h4>
-              <p className="text-slate-400 text-sm">3-hour certified experience</p>
-            </button>
-            
-            <button
-              onClick={() => {
-                setFormData({
-                  ...formData,
-                  tour_type: 'Lagoon Tour',
-                  tour_name: 'Lagoon Discovery',
-                  duration_hours: 4
-                })
-                setShowForm(true)
-              }}
-              className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
-            >
-              <div className="text-2xl mb-2">🏝️</div>
-              <h4 className="text-white font-medium">Lagoon Tour</h4>
-              <p className="text-slate-400 text-sm">4-hour island exploration</p>
-            </button>
-            
-            <button
-              onClick={() => {
-                setFormData({
-                  ...formData,
-                  tour_type: 'Sunset Tour',
-                  tour_name: 'Sunset Cruise',
-                  duration_hours: 2.5
-                })
-                setShowForm(true)
-              }}
-              className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
-            >
-              <div className="text-2xl mb-2">🌅</div>
-              <h4 className="text-white font-medium">Sunset Tour</h4>
-              <p className="text-slate-400 text-sm">2.5-hour romantic cruise</p>
-            </button>
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Quick Start Templates</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <button
+                onClick={() => {
+                  setFormData({
+                    ...formData,
+                    tour_type: 'Whale Watching',
+                    tour_name: 'Whale Watching Experience',
+                    duration_hours: 3,
+                    whale_regulation_compliant: true
+                  })
+                  setShowForm(true)
+                }}
+                className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
+              >
+                <div className="text-2xl mb-2">🐋</div>
+                <h4 className="text-white font-medium">Whale Watching</h4>
+                <p className="text-slate-400 text-sm">3-hour certified experience</p>
+              </button>
+              
+              <button
+                onClick={() => {
+                  setFormData({
+                    ...formData,
+                    tour_type: 'Lagoon Tour',
+                    tour_name: 'Lagoon Discovery',
+                    duration_hours: 4
+                  })
+                  setShowForm(true)
+                }}
+                className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
+              >
+                <div className="text-2xl mb-2">🏝️</div>
+                <h4 className="text-white font-medium">Lagoon Tour</h4>
+                <p className="text-slate-400 text-sm">4-hour island exploration</p>
+              </button>
+              
+              <button
+                onClick={() => {
+                  setFormData({
+                    ...formData,
+                    tour_type: 'Sunset Tour',
+                    tour_name: 'Sunset Cruise',
+                    duration_hours: 2.5
+                  })
+                  setShowForm(true)
+                }}
+                className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
+              >
+                <div className="text-2xl mb-2">🌅</div>
+                <h4 className="text-white font-medium">Sunset Tour</h4>
+                <p className="text-slate-400 text-sm">2.5-hour romantic cruise</p>
+              </button>
+            </div>
+          </div>
+
+          {/* NEW: Existing Tours Management */}
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
+            <div className="p-6 border-b border-slate-700">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Your Tours</h3>
+                  <p className="text-slate-400 text-sm">Manage and edit your existing tours</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-white">{tours.length}</div>
+                  <div className="text-slate-400 text-sm">Total Tours</div>
+                </div>
+              </div>
+
+              {/* Filter and Search */}
+              <div className="flex gap-4 mb-4">
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setTourFilter('all')}
+                    className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                      tourFilter === 'all' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    All ({tours.length})
+                  </button>
+                  <button
+                    onClick={() => setTourFilter('upcoming')}
+                    className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                      tourFilter === 'upcoming' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    Upcoming ({tours.filter(t => new Date(t.tour_date) >= new Date()).length})
+                  </button>
+                  <button
+                    onClick={() => setTourFilter('past')}
+                    className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                      tourFilter === 'past' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    Past ({tours.filter(t => new Date(t.tour_date) < new Date()).length})
+                  </button>
+                </div>
+                
+                <div className="flex-1 max-w-md">
+                  <div className="relative">
+                    <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search tours..."
+                      value={tourSearch}
+                      onChange={(e) => setTourSearch(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tours List */}
+            <div className="max-h-96 overflow-y-auto">
+              {filteredTours.length === 0 ? (
+                <div className="text-center py-8">
+                  <div className="text-slate-400 mb-2">No tours found</div>
+                  <button
+                    onClick={() => setShowForm(true)}
+                    className="text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    Create your first tour
+                  </button>
+                </div>
+              ) : (
+                <div className="divide-y divide-slate-700">
+                  {filteredTours.map((tour) => {
+                    const bookedSpots = tour.max_capacity - tour.available_spots
+                    const occupancyRate = Math.round((bookedSpots / tour.max_capacity) * 100)
+                    const isUpcoming = new Date(tour.tour_date) >= new Date()
+                    
+                    return (
+                      <div key={tour.id} className="p-4 hover:bg-slate-700/30 transition-colors">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <span className="text-lg">
+                                {tourTypes.find(t => t.value === tour.tour_type)?.icon || '🎯'}
+                              </span>
+                              <div>
+                                <h4 className="text-white font-medium">{tour.tour_name}</h4>
+                                <p className="text-slate-400 text-sm">
+                                  {new Date(tour.tour_date).toLocaleDateString()} • {tour.time_slot} • {tour.duration_hours}h
+                                </p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-4 text-sm">
+                              <div className="flex items-center gap-1">
+                                <Users className="w-3 h-3 text-slate-400" />
+                                <span className="text-slate-300">{bookedSpots}/{tour.max_capacity}</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <DollarSign className="w-3 h-3 text-slate-400" />
+                                <span className="text-slate-300">{formatPrice(tour.discount_price_adult)}</span>
+                              </div>
+                              <div className={`px-2 py-1 rounded text-xs ${
+                                isUpcoming ? 'bg-green-500/20 text-green-400' : 'bg-slate-500/20 text-slate-400'
+                              }`}>
+                                {isUpcoming ? 'Upcoming' : 'Completed'}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <div className={`px-2 py-1 rounded text-xs font-medium ${
+                              occupancyRate >= 90 ? 'bg-red-500/20 text-red-400' :
+                              occupancyRate >= 70 ? 'bg-yellow-500/20 text-yellow-400' :
+                              occupancyRate >= 40 ? 'bg-blue-500/20 text-blue-400' :
+                              'bg-green-500/20 text-green-400'
+                            }`}>
+                              {occupancyRate}%
+                            </div>
+                            
+                            <div className="flex gap-1">
+                              <Tooltip content="Duplicate this tour">
+                                <button
+                                  onClick={() => handleDuplicate(tour)}
+                                  className="p-2 text-slate-400 hover:text-blue-400 transition-colors"
+                                >
+                                  <Copy className="w-4 h-4" />
+                                </button>
+                              </Tooltip>
+                              
+                                {canEditTour(tour) ? (
+                                <Tooltip content="Edit tour">
+                                    <button onClick={() => handleEdit(tour)} className="p-2 text-slate-400 hover:text-green-400 transition-colors">
+                                    <Edit2 className="w-4 h-4" />
+                                    </button>
+                                </Tooltip>
+                                ) : (
+                                <Tooltip content={`Cannot edit: ${
+                                    tour.status === 'cancelled' ? 'Tour cancelled' :
+                                    new Date(`${tour.tour_date}T${tour.time_slot}:00`) < new Date() ? 'Tour completed' :
+                                    (new Date(`${tour.tour_date}T${tour.time_slot}:00`) - new Date()) / (1000 * 60 * 60) < 24 ? 'Within 24h of tour' :
+                                    'Has bookings'
+                                }`}>
+                                    <span className="p-2 text-slate-400 opacity-50 cursor-not-allowed inline-block">
+                                    <Edit2 className="w-4 h-4" />
+                                    </span>
+                                </Tooltip>
+                                )}
+                              
+                              {isUpcoming && (
+                                <Tooltip content="Delete tour">
+                                  <button
+                                    onClick={() => handleDelete(tour.id)}
+                                    className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </Tooltip>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
