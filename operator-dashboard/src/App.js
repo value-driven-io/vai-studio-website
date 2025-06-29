@@ -602,33 +602,12 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    const validateForm = () => {
-      const errors = {}
-      
-      if (!formData.tour_name.trim()) errors.tour_name = 'Tour name is required'
-      if (!formData.description.trim()) errors.description = 'Description is required'
-      if (!formData.tour_date) errors.tour_date = 'Tour date is required'
-      if (!formData.meeting_point.trim()) errors.meeting_point = 'Meeting point is required'
-      if (formData.max_capacity < 1) errors.max_capacity = 'Capacity must be at least 1'
-      if (formData.original_price_adult < 1000) errors.original_price_adult = 'Price too low'
-      
-      // Add 100-increment validation
-      if (formData.original_price_adult % 100 !== 0) {
-        errors.original_price_adult = 'Price must be a multiple of 100 (e.g., 5600, 7200, 8500)'
-      }
-      
-      // Fix the discount price validation for 0% discount
-      if (formData.discount_percentage > 0 && formData.discount_price_adult >= formData.original_price_adult) {
-        errors.discount_price_adult = 'Discount price must be less than original price'
-      }
-      
-      const today = new Date().toISOString().split('T')[0]
-      if (formData.tour_date && formData.tour_date < today) {
-        errors.tour_date = 'Tour date cannot be in the past'
-      }
-      
-      setValidationErrors(errors)
-      return Object.keys(errors).length === 0
+    // Run full validation using the main validateForm function
+    const isValid = validateForm()
+    
+    if (!isValid) {
+      // Don't submit if there are validation errors
+      return
     }
     
     try {
@@ -740,80 +719,105 @@ function App() {
     handleInputChange('pickup_locations', newLocations)
   }
 
-  const validateForm = () => {
+  const validateForm = (specificField = null) => {
     const errors = {}
     
-    // Basic Info Validation
-    if (!formData.tour_name.trim()) {
-      errors.tour_name = 'Tour name is required - make it descriptive for customers'
-    } else if (formData.tour_name.length < 5) {
-      errors.tour_name = 'Tour name too short - minimum 5 characters for better marketing'
-    }
+    // Only validate specific field if provided, otherwise validate all
+    const fieldsToValidate = specificField ? [specificField] : [
+      'tour_name', 'description', 'tour_date', 'meeting_point', 
+      'max_capacity', 'original_price_adult', 'duration_hours'
+    ]
     
-    if (!formData.description.trim()) {
-      errors.description = 'Description is required - help customers understand your tour'
-    } else if (formData.description.length < 20) {
-      errors.description = 'Description too short - add more details to attract bookings (minimum 20 characters)'
-    }
-    
-    // Date & Time Validation
-    if (!formData.tour_date) {
-      errors.tour_date = 'Tour date is required - when will this tour happen?'
-    } else {
-      const today = new Date().toISOString().split('T')[0]
-      if (formData.tour_date < today) {
-        errors.tour_date = 'Tour date cannot be in the past - please select today or a future date'
+    fieldsToValidate.forEach(field => {
+      switch (field) {
+        case 'tour_name':
+          if (!formData.tour_name.trim()) {
+            errors.tour_name = 'Tour name is required - make it descriptive for customers'
+          } else if (formData.tour_name.length < 5) {
+            errors.tour_name = 'Tour name too short - minimum 5 characters for better marketing'
+          } else if (formData.tour_name.length > 100) {
+            errors.tour_name = 'Tour name too long - maximum 100 characters'
+          }
+          break
+          
+        case 'description':
+          if (!formData.description.trim()) {
+            errors.description = 'Description is required - help customers understand your tour'
+          } else if (formData.description.length < 20) {
+            errors.description = 'Description too short - add more details to attract bookings (minimum 20 characters)'
+          } else if (formData.description.length > 500) {
+            errors.description = 'Description too long - maximum 500 characters'
+          }
+          break
+          
+        case 'tour_date':
+          if (!formData.tour_date) {
+            errors.tour_date = 'Tour date is required - when will this tour happen?'
+          } else {
+            const today = new Date().toISOString().split('T')[0]
+            if (formData.tour_date < today) {
+              errors.tour_date = 'Tour date cannot be in the past - please select today or a future date'
+            }
+            
+            const selectedDate = new Date(formData.tour_date)
+            const maxDate = new Date()
+            maxDate.setDate(maxDate.getDate() + 30) // 30 days from now
+            if (selectedDate > maxDate) {
+              errors.tour_date = 'Tours can only be scheduled up to 30 days in advance'
+            }
+          }
+          break
+          
+        case 'meeting_point':
+          if (!formData.meeting_point.trim()) {
+            errors.meeting_point = 'Meeting point is required - where will customers meet you?'
+          } else if (formData.meeting_point.length < 10) {
+            errors.meeting_point = 'Please provide a more detailed meeting point location'
+          }
+          break
+          
+        case 'max_capacity':
+          if (formData.max_capacity < 1) {
+            errors.max_capacity = 'Capacity must be at least 1 person'
+          } else if (formData.max_capacity > 50) {
+            errors.max_capacity = 'Maximum capacity is 50 people for safety reasons'
+          }
+          
+          if (formData.available_spots > formData.max_capacity) {
+            errors.available_spots = 'Available spots cannot exceed maximum capacity'
+          }
+          break
+          
+        case 'original_price_adult':
+          if (formData.original_price_adult < 1000) {
+            errors.original_price_adult = 'Minimum price is 1,000 XPF - French Polynesia tourism standards'
+          } else if (formData.original_price_adult > 50000) {
+            errors.original_price_adult = 'Maximum price is 50,000 XPF - contact support for premium tours'
+          } else if (formData.original_price_adult % 100 !== 0) {
+            errors.original_price_adult = 'Price must end in 00 (e.g., 5600, 7200) for professional appearance'
+          }
+          
+          // Discount Logic Validation
+          if (formData.discount_percentage > 0 && formData.discount_price_adult >= formData.original_price_adult) {
+            errors.discount_price_adult = 'Discount price must be lower than regular price'
+          }
+          
+          if (formData.discount_percentage > 60) {
+            errors.discount_percentage = 'Maximum discount is 60% - higher discounts may seem suspicious to customers'
+          }
+          break
+          
+        case 'duration_hours':
+          if (formData.duration_hours < 0.5) {
+            errors.duration_hours = 'Minimum duration is 30 minutes'
+          } else if (formData.duration_hours > 12) {
+            errors.duration_hours = 'Maximum duration is 12 hours - split longer experiences into multiple tours'
+          }
+          break
       }
-      
-      const selectedDate = new Date(formData.tour_date)
-      const maxDate = new Date()
-      maxDate.setDate(maxDate.getDate() + 30) // 30 days from now
-      if (selectedDate > maxDate) {
-        errors.tour_date = 'Tours can only be scheduled up to 30 days in advance'
-      }
-    }
+    })
     
-    if (!formData.meeting_point.trim()) {
-      errors.meeting_point = 'Meeting point is required - where will customers meet you?'
-    }
-    
-    // Capacity Validation
-    if (formData.max_capacity < 1) {
-      errors.max_capacity = 'Capacity must be at least 1 person'
-    } else if (formData.max_capacity > 50) {
-      errors.max_capacity = 'Maximum capacity is 50 people for safety reasons'
-    }
-    
-    if (formData.available_spots > formData.max_capacity) {
-      errors.available_spots = 'Available spots cannot exceed maximum capacity'
-    }
-    
-    // Enhanced Pricing Validation
-    if (formData.original_price_adult < 1000) {
-      errors.original_price_adult = 'Minimum price is 1,000 XPF - French Polynesia tourism standards'
-    } else if (formData.original_price_adult > 50000) {
-      errors.original_price_adult = 'Maximum price is 50,000 XPF - contact support for premium tours'
-    } else if (formData.original_price_adult % 100 !== 0) {
-      errors.original_price_adult = 'Price must end in 00 (e.g., 5600, 7200) for professional appearance'
-    }
-    
-    // Discount Logic Validation
-    if (formData.discount_percentage > 0 && formData.discount_price_adult >= formData.original_price_adult) {
-      errors.discount_price_adult = 'Discount price must be lower than regular price'
-    }
-    
-    if (formData.discount_percentage > 60) {
-      errors.discount_percentage = 'Maximum discount is 60% - higher discounts may seem suspicious to customers'
-    }
-    
-    // Duration Validation
-    if (formData.duration_hours < 0.5) {
-      errors.duration_hours = 'Minimum duration is 30 minutes'
-    } else if (formData.duration_hours > 12) {
-      errors.duration_hours = 'Maximum duration is 12 hours - split longer experiences into multiple tours'
-    }
-    
-    // Whale Watching Specific
+    // Whale Watching Specific Validation
     if (formData.tour_type === 'Whale Watching') {
       if (formData.max_whale_group_size > 8) {
         errors.max_whale_group_size = 'French Polynesia regulations: maximum 8 people per whale watching group'
@@ -823,9 +827,22 @@ function App() {
       }
     }
     
-    setValidationErrors(errors)
+    // Update validation errors state
+    if (specificField) {
+      // Only update the specific field error
+      setValidationErrors(prev => ({
+        ...prev,
+        [specificField]: errors[specificField] || null
+      }))
+    } else {
+      // Update all validation errors
+      setValidationErrors(errors)
+    }
+    
     return Object.keys(errors).length === 0
   }
+
+
 
   const handleDuplicate = (tour) => {
     const duplicatedTour = {
@@ -973,6 +990,8 @@ function App() {
             expandedSections={expandedSections}
             handleInputChange={handleInputChange}
             validationErrors={validationErrors}
+            validateForm={validateForm}
+            handleInputChangeWithValidation={handleInputChange}
             tourTypes={tourTypes}
             getQuickDates={getQuickDates}
             timeSlots={timeSlots}
