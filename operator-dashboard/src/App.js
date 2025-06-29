@@ -209,8 +209,16 @@ function App() {
 
   // Enhanced utility functions
   const calculateDiscountPercentage = (original, discounted) => {
-    if (!original || !discounted) return 0
-    return Math.round(((original - discounted) / original) * 100)
+    // Handle invalid inputs to prevent NaN
+    if (!original || !discounted || isNaN(original) || isNaN(discounted) || original <= 0) {
+      return 0
+    }
+    
+    // Calculate percentage safely
+    const percentage = ((original - discounted) / original) * 100
+    
+    // Return rounded percentage, ensuring it's not NaN
+    return Math.round(percentage) || 0
   }
 
     const getTodayInPolynesia = () => {
@@ -636,24 +644,60 @@ function App() {
   // Form handlers 
   const handleInputChange = (field, value) => {
     setFormData(prev => {
-      const newData = { ...prev, [field]: value }
+      // Handle numeric fields properly to avoid NaN
+      let processedValue = value
       
-      // Auto-calculate related fields
-      if (field === 'original_price_adult' || field === 'discount_price_adult') {
-        const percentage = calculateDiscountPercentage(
-          field === 'original_price_adult' ? value : newData.original_price_adult,
-          field === 'discount_price_adult' ? value : newData.discount_price_adult
-        )
-        newData.discount_percentage = percentage
-        
-        // Auto-calculate child price (70% of adult discount price)
-        if (field === 'discount_price_adult') {
-          newData.discount_price_child = Math.round(value * 0.7)
+      // Handle numeric fields - prevent NaN
+      const numericFields = ['max_capacity', 'available_spots', 'original_price_adult', 'discount_price_adult', 'duration_hours', 'min_age', 'max_age', 'max_whale_group_size', 'auto_close_hours']
+      
+      if (numericFields.includes(field)) {
+        // If value is empty string or NaN, set to null or appropriate default
+        if (value === '' || value === null || value === undefined || isNaN(value)) {
+          processedValue = ['min_age', 'max_age'].includes(field) ? null : 
+                          field === 'duration_hours' ? 3 :
+                          field === 'max_capacity' ? 8 :
+                          field === 'available_spots' ? 8 :
+                          field === 'original_price_adult' ? 8000 :
+                          field === 'discount_price_adult' ? 8000 :
+                          field === 'max_whale_group_size' ? 6 :
+                          field === 'auto_close_hours' ? 2 : 0
+        } else {
+          // Convert to number for numeric fields
+          processedValue = Number(value)
+          // Double-check it's not NaN after conversion
+          if (isNaN(processedValue)) {
+            processedValue = ['min_age', 'max_age'].includes(field) ? null : 
+                            field === 'duration_hours' ? 3 :
+                            field === 'max_capacity' ? 8 :
+                            field === 'available_spots' ? 8 :
+                            field === 'original_price_adult' ? 8000 :
+                            field === 'discount_price_adult' ? 8000 :
+                            field === 'max_whale_group_size' ? 6 :
+                            field === 'auto_close_hours' ? 2 : 0
+          }
         }
       }
 
-      if (field === 'discount_percentage') {
-        const rawDiscountPrice = Math.round(newData.original_price_adult * (1 - value / 100))
+      const newData = { ...prev, [field]: processedValue }
+      
+      // Auto-calculate related fields (only if values are valid numbers)
+      if (field === 'original_price_adult' || field === 'discount_price_adult') {
+        const originalPrice = field === 'original_price_adult' ? processedValue : newData.original_price_adult
+        const discountPrice = field === 'discount_price_adult' ? processedValue : newData.discount_price_adult
+        
+        if (originalPrice && discountPrice && !isNaN(originalPrice) && !isNaN(discountPrice)) {
+          const percentage = calculateDiscountPercentage(originalPrice, discountPrice)
+          newData.discount_percentage = percentage
+          
+          // Auto-calculate child price (70% of adult discount price)
+          if (field === 'discount_price_adult') {
+            newData.discount_price_child = Math.round(processedValue * 0.7)
+          }
+        }
+      }
+
+      if (field === 'discount_percentage' && processedValue >= 0 && !isNaN(processedValue)) {
+        const rawDiscountPrice = Math.round(newData.original_price_adult * (1 - processedValue / 100))
         // Round UP to nearest 100
         const roundedDiscountPrice = roundUpToNearestHundred(rawDiscountPrice)
         
@@ -661,8 +705,8 @@ function App() {
         newData.discount_price_child = Math.round(roundedDiscountPrice * 0.7)
       }
 
-      if (field === 'original_price_adult') {
-        const rawDiscountPrice = Math.round(value * (1 - newData.discount_percentage / 100))
+      if (field === 'original_price_adult' && processedValue && !isNaN(processedValue)) {
+        const rawDiscountPrice = Math.round(processedValue * (1 - newData.discount_percentage / 100))
         
         // Round UP to nearest 100
         const roundedDiscountPrice = roundUpToNearestHundred(rawDiscountPrice)
@@ -671,24 +715,24 @@ function App() {
         newData.discount_price_child = Math.round(roundedDiscountPrice * 0.7)
         
         // Recalculate actual discount percentage based on rounded price
-        const actualDiscountPercentage = Math.round(((value - roundedDiscountPrice) / value) * 100)
+        const actualDiscountPercentage = Math.round(((processedValue - roundedDiscountPrice) / processedValue) * 100)
         newData.discount_percentage = actualDiscountPercentage
       }
       
-      if (field === 'max_capacity') {
-        newData.available_spots = value
+      if (field === 'max_capacity' && processedValue && !isNaN(processedValue)) {
+        newData.available_spots = processedValue
       }
       
       if (['tour_date', 'time_slot', 'auto_close_hours'].includes(field)) {
         newData.booking_deadline = generateBookingDeadline(
-          field === 'tour_date' ? value : newData.tour_date,
-          field === 'time_slot' ? value : newData.time_slot,
-          field === 'auto_close_hours' ? value : newData.auto_close_hours
+          field === 'tour_date' ? processedValue : newData.tour_date,
+          field === 'time_slot' ? processedValue : newData.time_slot,
+          field === 'auto_close_hours' ? processedValue : newData.auto_close_hours
         )
       }
       
       // Auto-check whale compliance for whale watching tours
-      if (field === 'tour_type' && value === 'Whale Watching') {
+      if (field === 'tour_type' && processedValue === 'Whale Watching') {
         newData.whale_regulation_compliant = true
       }
       

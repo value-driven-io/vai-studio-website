@@ -120,9 +120,9 @@ const Tooltip = ({ children, content, position = 'top' }) => {
 const ProfileTab = ({ setActiveTab }) => {
   const { operator } = useAuth()
   const [expandedSections, setExpandedSections] = useState({
-    business: window.innerWidth >= 1024,
-    credentials: window.innerWidth >= 1024,
-    billing: window.innerWidth >= 1024,
+    business: false,
+    credentials: false,
+    billing: false,
     businessHealth: true,
     marketingInsights: true,
     growthOpportunities: true
@@ -1085,14 +1085,6 @@ const ProfileTab = ({ setActiveTab }) => {
             >
               <Globe className="w-4 h-4 text-purple-400" />
               <span className="text-purple-400">Need a website or app?</span>
-            </a>
-            
-            <a
-              href="mailto:hello@vai.studio"
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 rounded-lg transition-colors"
-            >
-              <Mail className="w-4 h-4 text-blue-400" />
-              <span className="text-blue-400">hello@vai.studio</span>
             </a>
           </div>
         </div>

@@ -117,27 +117,49 @@ const CreateTab = ({
 }) => {
 
   // FIXED: Enhanced input change handler with real-time validation
-  const handleFieldChange = (field, value) => {
-    handleInputChange(field, value)
-    // FIXED: For date field, validate immediately without delay
-    if (field === 'tour_date') {
-      // Clear the error immediately when a valid date is selected
-      if (value && validationErrors.tour_date) {
-        setTimeout(() => {
-          if (validateForm) {
-            validateForm(field)
-          }
-        }, 100) // Shorter delay for date field
-      }
-    } else {
-      // Other fields use normal delay
-      setTimeout(() => {
-        if (validateForm) {
-          validateForm(field)
+
+    const handleFieldChange = (field, value) => {
+    // Properly handle numeric inputs to prevent NaN
+    let processedValue = value
+    
+    // Handle numeric fields specifically
+    const numericFields = ['max_capacity', 'available_spots', 'original_price_adult', 'discount_price_adult', 'duration_hours', 'min_age', 'max_age']
+    
+    if (numericFields.includes(field)) {
+        // Convert to number, but handle empty/invalid values
+        if (value === '' || value === null || value === undefined) {
+        processedValue = ''
+        } else {
+        const numValue = Number(value)
+        if (!isNaN(numValue)) {
+            processedValue = numValue
+        } else {
+            processedValue = ''
         }
-      }, 300)
+        }
     }
-  }
+    
+    // Call the parent handleInputChange with processed value
+    handleInputChange(field, processedValue)
+    
+    // For date field, validate immediately without delay
+    if (field === 'tour_date') {
+        if (processedValue && validationErrors.tour_date) {
+        setTimeout(() => {
+            if (validateForm) {
+            validateForm(field)
+            }
+        }, 100)
+        }
+    } else {
+        // Other fields use normal delay
+        setTimeout(() => {
+        if (validateForm) {
+            validateForm(field)
+        }
+        }, 300)
+    }
+    }
 
   // NEW: State for tour management
   const [tourFilter, setTourFilter] = useState('all') // 'all', 'upcoming', 'past'
@@ -404,7 +426,7 @@ const CreateTab = ({
                           <input
                             type="number"
                             value={formData.duration_hours}
-                            onChange={(e) => handleFieldChange('duration_hours', parseFloat(e.target.value))}
+                            onChange={(e) => handleFieldChange('duration_hours', e.target.value)}
                             className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
                               validationErrors.duration_hours ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                             }`}
@@ -452,7 +474,7 @@ const CreateTab = ({
                           <input
                             type="number"
                             value={formData.max_capacity}
-                            onChange={(e) => handleFieldChange('max_capacity', parseInt(e.target.value))}
+                            onChange={(e) => handleFieldChange('max_capacity', e.target.value)}
                             className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
                               validationErrors.max_capacity ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                             }`}
@@ -474,7 +496,7 @@ const CreateTab = ({
                           <input
                             type="number"
                             value={formData.available_spots}
-                            onChange={(e) => handleFieldChange('available_spots', parseInt(e.target.value))}
+                            onChange={(e) => handleFieldChange('available_spots', e.target.value)}
                             className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
                             min="0"
                             max={formData.max_capacity}
@@ -499,7 +521,7 @@ const CreateTab = ({
                             <input
                               type="number"
                               value={formData.original_price_adult}
-                              onChange={(e) => handleFieldChange('original_price_adult', parseInt(e.target.value))}
+                              onChange={(e) => handleFieldChange('original_price_adult', e.target.value)}
                               className={`w-full p-3 bg-slate-600/50 border rounded-lg text-white transition-colors ${
                                 validationErrors.original_price_adult ? 'border-red-500' : 'border-slate-500 focus:border-blue-400'
                               }`}
@@ -914,21 +936,6 @@ const CreateTab = ({
                             Meeting point {formData.meeting_point ? 'set' : 'missing'}
                           </div>
                         </div>
-                        
-                        {/* FIXED: Show current validation errors in preview */}
-                        {Object.keys(validationErrors).length > 0 && (
-                          <div className="border-t border-slate-600 pt-2 mt-2">
-                            <h6 className="text-sm font-medium text-red-400 mb-1">Issues to Fix:</h6>
-                            <div className="space-y-1">
-                              {Object.entries(validationErrors).map(([field, error]) => (
-                                <div key={field} className="text-xs text-red-400 flex items-center gap-1">
-                                  <AlertCircle className="w-2 h-2" />
-                                  {error}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
