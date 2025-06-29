@@ -119,46 +119,38 @@ const CreateTab = ({
   // FIXED: Enhanced input change handler with real-time validation
 
     const handleFieldChange = (field, value) => {
-    // Properly handle numeric inputs to prevent NaN
-    let processedValue = value
-    
-    // Handle numeric fields specifically
-    const numericFields = ['max_capacity', 'available_spots', 'original_price_adult', 'discount_price_adult', 'duration_hours', 'min_age', 'max_age']
-    
-    if (numericFields.includes(field)) {
-        // Convert to number, but handle empty/invalid values
-        if (value === '' || value === null || value === undefined) {
-        processedValue = ''
-        } else {
-        const numValue = Number(value)
-        if (!isNaN(numValue)) {
-            processedValue = numValue
-        } else {
+        // Properly handle numeric inputs to prevent NaN
+        let processedValue = value
+        
+        // Handle numeric fields specifically
+        const numericFields = ['max_capacity', 'available_spots', 'original_price_adult', 'discount_price_adult', 'duration_hours', 'min_age', 'max_age']
+        
+        if (numericFields.includes(field)) {
+            // Convert to number, but handle empty/invalid values
+            if (value === '' || value === null || value === undefined) {
             processedValue = ''
-        }
-        }
-    }
-    
-    // Call the parent handleInputChange with processed value
-    handleInputChange(field, processedValue)
-    
-    // For date field, validate immediately without delay
-    if (field === 'tour_date') {
-        if (processedValue && validationErrors.tour_date) {
-        setTimeout(() => {
-            if (validateForm) {
-            validateForm(field)
+            } else {
+            const numValue = Number(value)
+            if (!isNaN(numValue)) {
+                processedValue = numValue
+            } else {
+                processedValue = ''
             }
-        }, 100)
+            }
         }
-    } else {
-        // Other fields use normal delay
-        setTimeout(() => {
-        if (validateForm) {
-            validateForm(field)
+        
+        // Call the parent handleInputChange with processed value
+        handleInputChange(field, processedValue)
+        
+        // FIXED: Only validate on blur/submit, not on every change
+        // Clear existing validation error for this field when user starts typing
+        if (validationErrors[field]) {
+            setTimeout(() => {
+                if (validateForm) {
+                    validateForm(field)
+                }
+            }, 300)
         }
-        }, 300)
-    }
     }
 
   // NEW: State for tour management
@@ -270,11 +262,12 @@ const CreateTab = ({
                             type="text"
                             value={formData.tour_name}
                             onChange={(e) => handleFieldChange('tour_name', e.target.value)}
+                            onBlur={() => validateForm('tour_name')}
                             className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
-                              validationErrors.tour_name ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                                validationErrors.tour_name ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                             }`}
                             placeholder="e.g., Morning Whale Watching Adventure"
-                          />
+                            />
                           {validationErrors.tour_name && (
                             <div className="flex items-center gap-2 mt-1">
                               <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
@@ -314,6 +307,7 @@ const CreateTab = ({
                         <textarea
                           value={formData.description}
                           onChange={(e) => handleFieldChange('description', e.target.value)}
+                          onBlur={() => validateForm('tour_date')}
                           className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white placeholder-slate-400 transition-colors ${
                             validationErrors.description ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                           }`}
@@ -661,6 +655,7 @@ const CreateTab = ({
                           type="text"
                           value={formData.meeting_point}
                           onChange={(e) => handleFieldChange('meeting_point', e.target.value)}
+                          onBlur={() => validateForm('meeting_point')}
                           className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
                             validationErrors.meeting_point ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                           }`}
@@ -975,8 +970,8 @@ const CreateTab = ({
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  disabled={loading || Object.keys(validationErrors).length > 0}
+                    type="submit"
+                    disabled={loading || (Object.keys(validationErrors).length > 0 && Object.values(validationErrors).some(error => error !== null))}
                   className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all transform hover:scale-105"
                 >
                   {loading ? (

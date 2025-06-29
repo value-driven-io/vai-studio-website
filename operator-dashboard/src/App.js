@@ -739,10 +739,11 @@ function App() {
       return newData
     })
     
-    // Clear validation error for this field
+    // Clear validation error for this field when user types
     if (validationErrors[field]) {
       setValidationErrors(prev => ({ ...prev, [field]: null }))
     }
+
   }
 
   const handleSubmit = async (e) => {
@@ -756,32 +757,35 @@ function App() {
       return
     }
     
-    try {
-      setLoading(true)
-      
-      // Remove discount_percentage since it's a generated column
-      const { discount_percentage, ...cleanTourData } = formData
-      
-      const tourData = {
-        ...cleanTourData,
-        operator_id: operator.id,
-        status: 'active',
-        created_by_operator: true
-      }
+  try {
+    setLoading(true)
+    
+    // Remove discount_percentage since it's a generated column
+    // Remove id for new tours (database will generate new UUID)
+    const { discount_percentage, id, ...cleanTourData } = formData
+    
+    const tourData = {
+      ...cleanTourData,
+      operator_id: operator.id,
+      status: 'active',
+      created_by_operator: true
+    }
 
-      if (editingTour) {
-        await operatorService.updateTour(editingTour.id, tourData)
-        alert('✅ Tour updated successfully! Your changes are now live on the platform.')
-      } else {
-        await operatorService.createTour(tourData)
-        alert('🎉 Tour created successfully! It will appear on VAI Tickets within 2 minutes.')
-      }
+    if (editingTour) {
+      await operatorService.updateTour(editingTour.id, tourData)
+      alert('✅ Tour updated successfully! Your changes are now live on the platform.')
+    } else {
+      await operatorService.createTour(tourData)
+      alert('🎉 Tour created successfully! It will appear on VAI Tickets within 2 minutes.')
+    }
       
       resetForm()
       fetchTours()
       fetchAllBookings() // Refresh stats too
       loadDashboardStats()  
-    } catch (error) {
+    } 
+    
+    catch (error) {
       console.error('Error saving tour:', error)
       alert('Error saving tour. Please try again.')
     } finally {
