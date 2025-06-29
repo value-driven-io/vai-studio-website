@@ -12,6 +12,7 @@ import DashboardTab from './components/DashboardTab'
 import CreateTab from './components/CreateTab'
 import BookingsTab from './components/BookingsTab'
 import ProfileTab from './components/ProfileTab'
+import { supabase } from './lib/supabase'
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
@@ -83,7 +84,10 @@ function App() {
     confirmedBookings: 0,
     declinedBookings: 0,
     completedBookings: 0,
-    totalRevenue: 0
+    totalRevenue: 0,
+    operator_revenue: 0,     
+    total_commission: 0,     
+    avg_response_time_hours: 2
   })
   
   // Enhanced booking management
@@ -285,10 +289,12 @@ function App() {
     if (isAuthenticated && operator?.id) {
       fetchTours()
       fetchAllBookings()
+      loadDashboardStats()  // ✅ ADD this line
       
       // Set up polling for real-time updates
       const interval = setInterval(() => {
         fetchAllBookings()
+        loadDashboardStats()  // ✅ ADD this line
       }, 30000) // Poll every 30 seconds
 
       return () => clearInterval(interval)
@@ -361,7 +367,7 @@ function App() {
     
     setBookingsLoading(true)
     try {
-      // Fetch all bookings (not just pending)
+      // Fetch all bookings (not just pending) - KEEP your existing fetch logic
       const response = await fetch(`${supabaseUrl}/rest/v1/bookings?operator_id=eq.${operator.id}&select=*,tours:tour_id(tour_name,tour_date,time_slot,meeting_point,tour_type)&order=created_at.desc`, {
         headers: {
           'apikey': supabaseAnonKey,
@@ -371,9 +377,8 @@ function App() {
       const data = await response.json()
       setAllBookings(data || [])
       
-      // Calculate enhanced stats
-      const stats = calculateStats(data || [])
-      setStats(stats)
+      // ✅ REPLACE: Use the new stats calculation instead of calculateStats
+      await loadDashboardStats()
       
     } catch (error) {
       console.error('Error fetching bookings:', error)
@@ -382,6 +387,7 @@ function App() {
     }
   }
 
+  /*
   const calculateStats = (bookings) => {
     const stats = {
       totalBookings: bookings.length,
@@ -395,6 +401,57 @@ function App() {
         .reduce((sum, b) => sum + (b.subtotal || 0), 0)
     }
     return stats
+  }
+    */
+
+  // Dashboard Stats
+  const loadDashboardStats = async () => {
+    if (!operator?.id) return
+
+    try {
+      // Get bookings data directly from supabase (same logic as ProfileTab)
+      const { data: bookingsData, error: bookingsError } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('operator_id', operator.id)
+
+      if (bookingsError) {
+        console.warn('No bookings found:', bookingsError)
+      }
+
+      // Calculate stats using ProfileTab's correct business logic
+      const totalBookings = bookingsData?.length || 0
+      const confirmedBookings = bookingsData?.filter(b => b.booking_status === 'confirmed').length || 0
+      const completedBookings = bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0
+      const pendingBookings = bookingsData?.filter(b => b.booking_status === 'pending').length || 0
+      const declinedBookings = bookingsData?.filter(b => b.booking_status === 'declined').length || 0
+      
+      // ✅ CORRECT REVENUE CALCULATION (matches ProfileTab)
+      const operatorRevenue = bookingsData
+        ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
+        ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
+
+      const totalCommission = bookingsData
+        ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
+        ?.reduce((sum, b) => sum + (b.commission_amount || 0), 0) || 0
+
+      // Update stats with correct values
+      setStats({
+        totalBookings,
+        pendingBookings,
+        confirmedBookings,
+        declinedBookings,
+        completedBookings,
+        activeTours: tours.filter(t => t.status === 'active' && new Date(t.tour_date) >= new Date()).length,
+        totalRevenue: operatorRevenue, // Keep existing field for compatibility
+        operator_revenue: operatorRevenue,  // ✅ NEW: Correct operator revenue
+        total_commission: totalCommission,  // ✅ NEW: Commission amount
+        avg_response_time_hours: 2
+      })
+
+    } catch (error) {
+      console.error('Error loading dashboard stats:', error)
+    }
   }
 
   const applyFilters = () => {
@@ -477,6 +534,7 @@ function App() {
       if (response.ok) {
         // Refresh all bookings to update the UI
         await fetchAllBookings()
+        await loadDashboardStats()  
         alert(`Booking ${action} successfully!`)
       } else {
         throw new Error('Failed to update booking')
@@ -678,6 +736,7 @@ function App() {
       resetForm()
       fetchTours()
       fetchAllBookings() // Refresh stats too
+      loadDashboardStats()  
     } catch (error) {
       console.error('Error saving tour:', error)
       alert('Error saving tour. Please try again.')
@@ -730,6 +789,7 @@ function App() {
         setLoading(true)
         await operatorService.deleteTour(tourId)
         await fetchTours() // Refresh the list
+        await loadDashboardStats() 
         alert('Tour deleted successfully!')
       } catch (error) {
         console.error('Error deleting tour:', error)
