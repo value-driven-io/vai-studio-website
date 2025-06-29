@@ -215,26 +215,27 @@ const ProfileTab = ({ setActiveTab }) => {
         const confirmedBookings = bookingsData?.filter(b => b.booking_status === 'confirmed').length || 0
         const completedBookings = bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0
         
-        // Use actual stored commission amounts, not recalculated values
-        const totalRevenue = bookingsData
+        // FIXED: subtotal IS the operator revenue, don't subtract commission again
+        const operatorRevenue = bookingsData
         ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
-        
-        // Use stored commission_amount from each booking
+
         const totalCommission = bookingsData
         ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.commission_amount || 0), 0) || 0
-        
-        // Calculate operator revenue using actual commission amounts
-        const operatorRevenue = totalRevenue - totalCommission
+
+        // Total amount is what customers actually paid
+        const totalCustomerPayments = bookingsData
+        ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
+        ?.reduce((sum, b) => sum + (b.total_amount || 0), 0) || 0
         
         const calculatedStats = {
         total_bookings: totalBookings,
         confirmed_bookings: confirmedBookings,
         completed_bookings: completedBookings,
-        total_revenue: totalRevenue,
-        total_commission: totalCommission, // ✅ Uses stored amounts
-        operator_revenue: operatorRevenue, // ✅ Uses actual deductions
+        operator_revenue: operatorRevenue,  // ✅ What operator earned
+        total_commission: totalCommission,   // ✅ What VAI earned
+        total_customer_payments: totalCustomerPayments,  // ✅ What customers paid
         avg_response_time_hours: 2
         }
 
@@ -244,7 +245,7 @@ const ProfileTab = ({ setActiveTab }) => {
         const completionRate = totalBookings > 0 ? 
         Math.round((confirmedBookings / totalBookings) * 100) : 0
         const monthlyBookings = totalBookings
-        const monthlyRevenue = totalRevenue
+        const monthlyRevenue = operatorRevenue
 
         setPerformance({
         responseTime,
@@ -1057,84 +1058,6 @@ const ProfileTab = ({ setActiveTab }) => {
                   </div>
                   <p className="text-white font-bold text-lg">{operator.average_rating?.toFixed(1) || 'N/A'}</p>
                   <p className="text-slate-400 text-xs">Average score</p>
-                </div>
-              </div>
-            </div>
-          </ExpandableSection>
-
-          {/* Marketing & Visibility */}
-          <ExpandableSection
-            title="Marketing & Visibility"
-            icon={Search}
-            iconColor="text-purple-400"
-            isExpanded={expandedSections.marketingInsights}
-            onToggle={() => toggleSection('marketingInsights')}
-          >
-            <div className="p-6 space-y-4">
-              <div className="bg-slate-700/30 rounded-lg p-4 relative">
-                <div className="absolute top-2 right-2">
-                    <span className="px-2 py-1 text-xs bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full">
-                    Coming Soon
-                    </span>
-                </div>
-                <h4 className="text-white font-medium mb-3">How Tourists Find You</h4>
-                <div className="space-y-2 opacity-50">
-                    <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">VAI Platform Search</span>
-                    <span className="text-slate-400 font-medium">--</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">Direct Referrals</span>
-                    <span className="text-slate-400 font-medium">--</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                    <span className="text-slate-300 text-sm">Repeat Customers</span>
-                    <span className="text-slate-400 font-medium">--</span>
-                    </div>
-                </div>
-                </div>
-
-              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <Lightbulb className="w-5 h-5 text-blue-400 mt-0.5" />
-                  <div>
-                    <p className="text-blue-400 font-medium">Visibility Tip</p>
-                    <p className="text-slate-300 text-sm mt-1">
-                      Add more photos and respond faster to boost your search ranking by up to 30%.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ExpandableSection>
-
-          {/* Growth Opportunities */}
-          <ExpandableSection
-            title="Growth Opportunities"
-            icon={Target}
-            iconColor="text-orange-400"
-            isExpanded={expandedSections.growthOpportunities}
-            onToggle={() => toggleSection('growthOpportunities')}
-            badge="Coming Soon"
-            >
-            <div className="p-6 space-y-4">
-              <div className="grid grid-cols-1 gap-4">
-                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                  <h4 className="text-green-400 font-medium text-sm mb-2">🚀 Quick Win</h4>
-                  <p className="text-slate-300 text-sm mb-2">Enable whale tour certification</p>
-                  <p className="text-slate-400 text-xs">+25% visibility in whale watching searches</p>
-                </div>
-                
-                <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg">
-                  <h4 className="text-purple-400 font-medium text-sm mb-2">💎 Premium Feature</h4>
-                  <p className="text-slate-300 text-sm mb-2">Upgrade to premium photos</p>
-                  <p className="text-slate-400 text-xs">Professional photos increase bookings by 40%</p>
-                </div>
-                
-                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                  <h4 className="text-blue-400 font-medium text-sm mb-2">📈 Expansion</h4>
-                  <p className="text-slate-300 text-sm mb-2">Add sunset tours to your offerings</p>
-                  <p className="text-slate-400 text-xs">High demand on {operator.island || 'your island'}</p>
                 </div>
               </div>
             </div>

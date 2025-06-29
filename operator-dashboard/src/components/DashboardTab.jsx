@@ -80,8 +80,8 @@ const DashboardTab = ({
                     <DollarSign className="w-6 h-6 text-green-400" />
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-white">{formatPrice(stats.totalRevenue)}</p>
-                    <p className="text-green-400 text-sm">Total Revenue</p>
+                    <p className="text-2xl font-bold text-white">{formatPrice(stats.operator_revenue)}</p>
+                    <p className="text-green-400 text-sm">Your Revenue</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
@@ -313,8 +313,12 @@ const DashboardTab = ({
                                         {occupancyRate}%
                                       </div>
                                       <div className="text-xs text-slate-400">
-                                        {formatPrice(bookedSpots * tour.discount_price_adult * 0.9)}
-                                      </div>
+                                        {formatPrice(
+                                            allBookings
+                                            .filter(b => b.tour_id === tour.id && ['confirmed', 'completed'].includes(b.booking_status))
+                                            .reduce((sum, b) => sum + (b.subtotal || 0), 0)
+                                        )}
+                                        </div>
                                     </div>
                                   </div>
                                 )
