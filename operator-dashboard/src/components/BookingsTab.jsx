@@ -227,7 +227,7 @@ const BookingsTab = ({
                               <span>•</span>
                               <span>{(booking.num_adults || 0) + (booking.num_children || 0)} participant{((booking.num_adults || 0) + (booking.num_children || 0)) > 1 ? 's' : ''}</span>
                               <span>•</span>
-                              <span>{formatPrice((booking.subtotal || 0) + (booking.commission_amount || 0))}</span>
+                              <span>{formatPrice(booking.subtotal || 0)}</span>
                             </div>
                           </div>
                           
