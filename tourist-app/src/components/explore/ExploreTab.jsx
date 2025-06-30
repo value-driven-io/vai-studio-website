@@ -131,62 +131,43 @@ const ExploreTab = () => {
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       {/* Header */}
-      
-      {/* Mobile-First Header */}
+
+      {/* Mobile-First 3-Lane Header */}
       <div className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto">
-          {/* Compact Title Bar */}
-            <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
-              <div className="flex-1">
-                <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mb-1">
-                  🔎 Explore Tours
-                </h1>
+          
+          {/* LANE 1: Title + subtitle + counter + refresh button */}
+          <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
+            <div className="flex-1 min-w-0"> {/* min-w-0 prevents flex overflow */}
+              <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mb-1">
+                🔎 Explore Tours
+              </h1>
+              <div className="flex items-center gap-2 flex-wrap">
                 <p className="text-sm text-slate-400">Find your next experience</p>
                 {tours.length > 0 && (
-                  <span className="inline-block bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full mt-1">
+                  <span className="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full">
                     {tours.length} available
                   </span>
                 )}
               </div>
+            </div>
             
-            {/* Refresh Button - Always visible */}
-              <button
-                onClick={refreshTours}
-                className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg transition-colors min-h-44 ml-4"
-                disabled={loading}
-              >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh'}</span>
-              </button>
-            </div>
-
-          {/* Search Section */}
-          <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input
-                type="text"
-                value={localSearch}
-                onChange={(e) => setLocalSearch(e.target.value)}
-                placeholder="Search tours, islands, or activities..."
-                className="w-full pl-12 pr-4 py-3 sm:py-3.5 bg-slate-700 border border-slate-600 rounded-xl text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-              />
-              {localSearch && (
-                <button
-                  onClick={() => setLocalSearch('')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 hover:text-white"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
+            {/* Refresh Button */}
+            <button
+              onClick={refreshTours}
+              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg transition-colors min-h-44 ml-4 flex-shrink-0"
+              disabled={loading}
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh'}</span>
+            </button>
           </div>
 
-          {/* Quick Actions & Filter Bar */}
-          <div className="px-3 sm:px-4 md:px-6 pb-3 sm:pb-4">
-            <div className="flex items-center gap-2 sm:gap-3">
-              {/* Quick Date Filters - Mobile Friendly with guaranteed text */}
-              <div className="flex gap-2">
+          {/* LANE 2: Date filters + Sort dropdown */}
+          <div className="px-3 sm:px-4 md:px-6 py-3 border-b border-slate-700/50">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              {/* Quick Date Filters */}
+              <div className="flex gap-2 flex-shrink-0">
                 {[
                   { id: 'today', label: 'Today', icon: '☀️' },
                   { id: 'tomorrow', label: 'Tomorrow', icon: '🌅' },
@@ -195,7 +176,7 @@ const ExploreTab = () => {
                   <button
                     key={timeOption.id}
                     onClick={() => updateFilter('timeframe', timeOption.id)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-small transition-all min-h-44 ${
                       filters.timeframe === timeOption.id
                         ? 'bg-blue-600 text-white shadow-lg'
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
@@ -205,39 +186,78 @@ const ExploreTab = () => {
                     <span className="whitespace-nowrap">{timeOption.label}</span>
                   </button>
                 ))}
+
+                {/* Sort Dropdown - Brought back */}
+              <select
+                value={filters.sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto flex-shrink-0"
+              >
+                <option value="date">Date</option>
+                <option value="price">Price</option>
+                <option value="availability">Spots</option>
+                <option value="urgency">Urgent</option>
+              </select>
+              </div>
+            </div>
+          </div>
+
+          {/* LANE 3: Search field (65%) + Advanced filter + Clear filter */}
+          <div className="px-3 sm:px-4 md:px-6 py-3">
+            <div className="flex items-center gap-3">
+              {/* Search Field */}
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <input
+                  type="text"
+                  value={localSearch}
+                  onChange={(e) => setLocalSearch(e.target.value)}
+                  placeholder="Search tours, islands..."
+                  className="w-full pl-12 pr-4 py-2.5 sm:py-3 bg-slate-700 border border-slate-600 rounded-xl text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+                {localSearch && (
+                  <button
+                    onClick={() => setLocalSearch('')}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 hover:text-white"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
               </div>
 
-              {/* Main Filters Button */}
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
-                  showFilters || getActiveFiltersCount() > 0
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
-                }`}
-              >
-                <SlidersHorizontal className="w-4 h-4" />
-                <span>Filters</span>
-                {getActiveFiltersCount() > 0 && (
-                  <span className="bg-white text-blue-600 text-xs px-2 py-0.5 rounded-full font-bold">
-                    {getActiveFiltersCount()}
-                  </span>
-                )}
-              </button>
-
-              {/* Clear Filters - Only show when needed */}
-              {getActiveFiltersCount() > 0 && (
+              {/* Advanced Filter Button - 35% space */}
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <button
-                  onClick={clearFilters}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all min-h-44"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-all min-h-44 ${
+                    showFilters || getActiveFiltersCount() > 0
+                      ? 'bg-blue-600 text-white shadow-lg'
+                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                  }`}
                 >
-                  <X className="w-4 h-4" />
-                  <span className="hidden sm:inline">Clear</span>
+                  <SlidersHorizontal className="w-4 h-4" />
+                  <span className="hidden xs:inline">Filters</span>
+                  {getActiveFiltersCount() > 0 && (
+                    <span className="bg-white text-blue-600 text-xs px-2 py-0.5 rounded-full font-bold">
+                      {getActiveFiltersCount()}
+                    </span>
+                  )}
                 </button>
-              )}
+
+                {/* Clear Filters Button */}
+                {getActiveFiltersCount() > 0 && (
+                  <button
+                    onClick={clearFilters}
+                    className="flex items-center gap-1.5 px-3 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all min-h-44"
+                  >
+                    <X className="w-4 h-4" />
+                    <span className="hidden xs:inline">Clear</span>
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* Active Filters Display - same as before */}
+            {/* Active Filters Display */}
             {getActiveFiltersCount() > 0 && (
               <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-700/50">
                 {filters.island !== 'all' && (
@@ -268,11 +288,11 @@ const ExploreTab = () => {
             )}
           </div>
 
-          {/* Mobile Filter Modal/Panel */}
+          {/* ADVANCED FILTER PANEL - Same as before but simplified sorting since it's in lane 2 */}
           {showFilters && (
             <div className="border-t border-slate-700 bg-slate-800/95 backdrop-blur-sm">
               <div className="px-3 sm:px-4 md:px-6 py-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {/* Island Filter */}
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">📍 Island</label>
@@ -317,59 +337,40 @@ const ExploreTab = () => {
                       <option value="long">6+ hours</option>
                     </select>
                   </div>
-
-                  {/* Sorting - Moved to filter panel */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">📊 Sort By</label>
-                    <select
-                      value={filters.sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
-                    >
-                      <option value="date">📅 Date</option>
-                      <option value="price">💰 Price</option>
-                      <option value="availability">👥 Availability</option>
-                      <option value="urgency">⚡ Urgency</option>
-                    </select>
-                  </div>
                 </div>
 
-                {/* Price Range - Fixed mobile layout */}
+                {/* Price Range - Full width section */}
                 <div className="mt-4">
                   <label className="block text-sm font-medium text-slate-300 mb-2">💰 Price Range (XPF)</label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <input
-                        type="number"
-                        placeholder="Min price"
-                        className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
-                        value={filters.priceRange?.min || ''}
-                        onChange={(e) => {
-                          const min = e.target.value ? parseInt(e.target.value) : null
-                          setPriceRange({
-                            ...filters.priceRange,
-                            min: min,
-                            max: filters.priceRange?.max || null
-                          })
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        placeholder="Max price"
-                        className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
-                        value={filters.priceRange?.max || ''}
-                        onChange={(e) => {
-                          const max = e.target.value ? parseInt(e.target.value) : null
-                          setPriceRange({
-                            ...filters.priceRange,
-                            min: filters.priceRange?.min || null,
-                            max: max
-                          })
-                        }}
-                      />
-                    </div>
+                  <div className="grid grid-cols-2 gap-3 max-w-md">
+                    <input
+                      type="number"
+                      placeholder="Min price"
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                      value={filters.priceRange?.min || ''}
+                      onChange={(e) => {
+                        const min = e.target.value ? parseInt(e.target.value) : null
+                        setPriceRange({
+                          ...filters.priceRange,
+                          min: min,
+                          max: filters.priceRange?.max || null
+                        })
+                      }}
+                    />
+                    <input
+                      type="number"
+                      placeholder="Max price"
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                      value={filters.priceRange?.max || ''}
+                      onChange={(e) => {
+                        const max = e.target.value ? parseInt(e.target.value) : null
+                        setPriceRange({
+                          ...filters.priceRange,
+                          min: filters.priceRange?.min || null,
+                          max: max
+                        })
+                      }}
+                    />
                   </div>
                 </div>
 
