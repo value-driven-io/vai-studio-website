@@ -123,7 +123,7 @@ const DiscoverTab = () => {
             What's your mood today?
           </h2>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {MOOD_CATEGORIES.map((mood) => (
               <MoodCard
                 key={mood.id}

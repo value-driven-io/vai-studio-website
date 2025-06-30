@@ -151,12 +151,12 @@ const ExploreTab = () => {
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
                 placeholder="Search tours, operators, or islands..."
-                className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-800 border border-slate-700 rounded-lg text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
             {/* Quick Filters */}
-            <div className="flex gap-4 overflow-x-auto pb-2">
+            <div className="flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
               {/* Island Filter */}
               <select
                 value={filters.island}
@@ -315,11 +315,11 @@ const ExploreTab = () => {
       </div>
 
       {/* Tours Grid/List */}
-      <div className="max-w-7xl mx-auto px-4 py-6 pb-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 pb-20">
         {loading ? (
           <div className={`grid gap-6 ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2' 
+              ? 'grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3' 
               : 'grid-cols-1'
           }`}>
             {[...Array(8)].map((_, i) => (
@@ -343,7 +343,7 @@ const ExploreTab = () => {
         ) : (
           <div className={`grid gap-6 ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2' 
+              ? 'grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3' 
               : 'grid-cols-1'
           }`}>
             {tours.map(tour => (

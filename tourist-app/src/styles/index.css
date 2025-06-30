@@ -62,3 +62,82 @@
   background-size: 200px 100%;
   animation: shimmer 1.5s infinite;
 }
+
+/* MOBILE OPTIMIZATION */
+
+/* Mobile-specific scrollbar hiding */
+.scrollbar-hide {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Better mobile text handling */
+.text-clamp-mobile {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Touch-friendly minimum heights */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Mobile-first spacing utilities */
+.mobile-container {
+  @apply px-3 sm:px-4 md:px-6;
+}
+
+.mobile-spacing {
+  @apply py-4 sm:py-6;
+}
+
+.mobile-gap {
+  @apply gap-2 sm:gap-3 md:gap-4;
+}
+
+/* Safe area utilities for iPhone notch/home indicator */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Mobile modal positioning */
+.mobile-modal {
+  @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4;
+}
+
+/* Mobile card optimizations */
+.mobile-card {
+  @apply min-h-[280px] sm:min-h-[320px];
+}
+
+/* Horizontal scroll improvements */
+.horizontal-scroll {
+  @apply overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide;
+}
+
+/* Mobile grid layouts */
+.mobile-grid-1 {
+  @apply grid-cols-1;
+}
+
+.mobile-grid-2 {
+  @apply grid-cols-1 sm:grid-cols-1 md:grid-cols-2;
+}
+
+.mobile-grid-3 {
+  @apply grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.mobile-grid-4 {
+  @apply grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}

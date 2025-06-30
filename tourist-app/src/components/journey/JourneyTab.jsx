@@ -167,7 +167,7 @@ const JourneyTab = () => {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex gap-2 mb-6 overflow-x-auto">
+          <div className="flex gap-1.5 sm:gap-2 mb-4 sm:mb-6 overflow-x-auto pb-2 scrollbar-hide">
             {[
               { id: 'overview', label: 'Overview', icon: TrendingUp },
               { id: 'active', label: 'Active', icon: Timer, count: userBookings.active.length },
@@ -180,7 +180,7 @@ const JourneyTab = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveSection(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-2 rounded-lg text-sm transition-colors whitespace-nowrap min-h-[44px] flex items-center ${
                     activeSection === tab.id
                       ? 'bg-blue-600 text-white'
                       : 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700'
@@ -207,7 +207,7 @@ const JourneyTab = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search bookings..."
-                className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-800 border border-slate-700 rounded-lg text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
             </div>
           )}

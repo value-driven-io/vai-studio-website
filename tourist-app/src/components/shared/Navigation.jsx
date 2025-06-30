@@ -14,7 +14,7 @@ const Navigation = () => {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-50 pb-safe">
       <div className="grid grid-cols-4 h-16">
         {tabs.map((tab) => {
           const Icon = tab.icon

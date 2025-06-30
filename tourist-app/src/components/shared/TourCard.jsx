@@ -68,7 +68,7 @@ const TourCard = ({
       {/* Main Card */}
       <div 
         className={`bg-slate-800 rounded-xl border border-slate-700 hover:border-slate-600 
-                   transition-all duration-300 overflow-hidden cursor-pointer
+                    transition-all duration-300 overflow-hidden cursor-pointer mobile-card
                    ${isExpanded ? 'border-blue-500/50' : ''} ${className}`}
         onClick={handleCardClick}
       >
