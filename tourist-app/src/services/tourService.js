@@ -136,6 +136,112 @@ export const tourService = {
     }
   },
 
+  // Get user bookings by email or WhatsApp
+  getUserBookings: async (email, whatsapp) => {
+    try {
+      let query = supabase
+        .from('bookings')
+        .select(`
+          *,
+          tours (
+            tour_name,
+            tour_type,
+            tour_date,
+            time_slot,
+            duration_hours,
+            meeting_point,
+            original_price_adult,
+            discount_price_adult
+          ),
+          operators (
+            company_name,
+            contact_person,
+            whatsapp_number,
+            phone,
+            email,
+            island
+          )
+        `)
+        .order('created_at', { ascending: false })
+
+      // Search by email or WhatsApp
+      if (email && whatsapp) {
+        query = query.or(`customer_email.eq.${email},customer_whatsapp.eq.${whatsapp}`)
+      } else if (email) {
+        query = query.eq('customer_email', email)
+      } else if (whatsapp) {
+        query = query.eq('customer_whatsapp', whatsapp)
+      } else {
+        return [] // No search criteria provided
+      }
+
+      const { data, error } = await query
+
+      if (error) throw error
+
+      // Categorize bookings
+      const now = new Date()
+      const categorized = {
+        active: [],
+        upcoming: [],
+        past: [],
+        cancelled: []
+      }
+
+      data.forEach(booking => {
+        const tourDate = new Date(booking.tours?.tour_date || booking.created_at)
+        
+        switch (booking.booking_status) {
+          case 'pending':
+            categorized.active.push(booking)
+            break
+          case 'confirmed':
+            if (tourDate > now) {
+              categorized.upcoming.push(booking)
+            } else {
+              categorized.past.push(booking)
+            }
+            break
+          case 'completed':
+            categorized.past.push(booking)
+            break
+          case 'declined':
+          case 'cancelled':
+            categorized.cancelled.push(booking)
+            break
+          default:
+            categorized.active.push(booking)
+        }
+      })
+
+      return categorized
+    } catch (error) {
+      console.error('Error fetching user bookings:', error)
+      throw error
+    }
+  },
+
+  // Get booking by reference
+  getBookingByReference: async (bookingReference) => {
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select(`
+          *,
+          tours (*),
+          operators (*)
+        `)
+        .eq('booking_reference', bookingReference)
+        .single()
+
+      if (error) throw error
+      return data
+    } catch (error) {
+      console.error('Error fetching booking by reference:', error)
+      throw error
+    }
+  },
+
   // Get tours for Discover tab (today + tomorrow + next few days)
   getDiscoverTours: async () => {
     try {

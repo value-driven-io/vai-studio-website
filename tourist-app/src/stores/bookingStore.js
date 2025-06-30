@@ -30,6 +30,11 @@ export const useAppStore = create(
       // Journey state
       bookings: [],
       favorites: [],
+      userProfile: {
+        email: '',
+        whatsapp: '',
+        name: ''
+      },
       
       // App state
       currentLanguage: 'en',
@@ -67,6 +72,9 @@ export const useAppStore = create(
       setBookings: (bookings) => set({ bookings }),
       addBooking: (booking) => set((state) => ({
         bookings: [...state.bookings, booking]
+      })),
+      updateUserProfile: (profile) => set((state) => ({
+        userProfile: { ...state.userProfile, ...profile }
       })),
       toggleFavorite: (tourId) => set((state) => ({
         favorites: state.favorites.includes(tourId)
@@ -149,7 +157,8 @@ export const useAppStore = create(
       partialize: (state) => ({
         favorites: state.favorites,
         currentLanguage: state.currentLanguage,
-        activeTab: state.activeTab
+        activeTab: state.activeTab,
+        userProfile: state.userProfile
       })
     }
   )

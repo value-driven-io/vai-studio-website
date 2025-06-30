@@ -8,7 +8,7 @@ import { formatPrice, formatDate, formatTime } from '../../lib/utils'
 import toast from 'react-hot-toast'
 
 const BookingModal = ({ tour, isOpen, onClose }) => {
-  const { addBooking } = useAppStore()
+  const { addBooking, updateUserProfile } = useAppStore()
   const [step, setStep] = useState(1) // 1: Quick Form, 2: Optional Details, 3: Success
   const [showOptional, setShowOptional] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -114,6 +114,13 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
       const result = await tourService.createBooking(bookingData)
       
+      // Save user profile for future bookings lookup
+      updateUserProfile({
+        name: formData.customer_name,
+        email: formData.customer_email?.trim() || '',
+        whatsapp: formData.customer_whatsapp
+      })
+      
       setBookingResult(result)
       addBooking(result)
       setStep(3)
@@ -156,7 +163,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             </h2>
             
             <p className="text-slate-300 mb-6">
-              Your adventure is reserved! The operator will confirm as soon as possible.
+              Your adventure is reserved! The operator will confirm within 1 hour.
             </p>
             
             <div className="bg-slate-700 rounded-xl p-4 mb-6 text-left">
@@ -173,10 +180,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
               <h4 className="font-semibold text-white mb-2">What's Next?</h4>
               <div className="text-sm text-slate-300 space-y-1">
-                <div>🗣️ Operator will contact you via WhatsApp or Mail</div>
-                <div>📍 Confirm final details and meeting point</div>
-                <div>🤑 Payment directly with operator (no upfront cost)</div>
-                <div>Enjoy your adventure! 🌴</div>
+                <div>✅ Operator will contact you via WhatsApp</div>
+                <div>✅ Confirm final details and meeting point</div>
+                <div>✅ Payment directly with operator (no upfront cost)</div>
+                <div>✅ Enjoy your adventure! 🌴</div>
               </div>
             </div>
             
