@@ -1,10 +1,12 @@
 // src/components/discovery/DiscoverTab.jsx
 import React, { useState } from 'react'
-import { RefreshCw, Clock, Users, MapPin, Star, ArrowRight } from 'lucide-react'
+import { RefreshCw, Clock, Users, MapPin, Star, ArrowRight, Calendar } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
 import { MOOD_CATEGORIES, TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import BookingModal from '../booking/BookingModal'
+import { Heart } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 const DiscoverTab = () => {
   const { selectedMood, setMood, setActiveTab } = useAppStore()
@@ -20,6 +22,9 @@ const DiscoverTab = () => {
     getUrgencyColor,
     calculateSavings 
   } = useTours()
+
+  // Favorites
+  const { favorites, toggleFavorite } = useAppStore()
 
   // Booking modal state
   const [selectedTour, setSelectedTour] = useState(null)
@@ -44,13 +49,44 @@ const DiscoverTab = () => {
   }
 
   const TourCard = ({ tour, isUrgent = false }) => {
-    if (!tour) return null // Safety check
+    const { favorites, toggleFavorite } = useAppStore()
+    const isFavorite = favorites.includes(tour.id)
+    
+    if (!tour) return null
     
     const savings = calculateSavings(tour.original_price_adult, tour.discount_price_adult)
     const urgencyColor = getUrgencyColor(tour.hours_until_deadline)
     
+    const handleFavoriteClick = (e) => {
+      e.stopPropagation() // Prevent card click
+      toggleFavorite(tour.id)
+      toast.success(
+        isFavorite ? '💔 Removed from favorites' : '❤️ Added to favorites',
+        {
+          duration: 2000,
+          style: {
+            background: isFavorite ? '#dc2626' : '#16a34a',
+            color: 'white'
+          }
+        }
+      )
+    }
+    
     return (
-      <div className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-slate-600 transition-all">
+      <div className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-slate-600 transition-all relative">
+        {/* Favorite Heart Button - Top Right */}
+        <button
+          onClick={handleFavoriteClick}
+          className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all shadow-lg ${
+            isFavorite 
+              ? 'bg-red-500 text-white hover:bg-red-600 hover:scale-110' 
+              : 'bg-slate-700/80 text-slate-400 hover:bg-slate-600 hover:text-red-400 backdrop-blur-sm'
+          }`}
+          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
+        </button>
+
         {/* Tour Header */}
         <div className="p-4">
           {/* Urgency Badge */}
@@ -58,80 +94,76 @@ const DiscoverTab = () => {
             <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mb-3 ${urgencyColor}`}>
               <Clock className="w-3 h-3" />
               {tour.hours_until_deadline < 1 
-                ? `${Math.round(tour.hours_until_deadline * 60)}min left!`
-                : `${Math.round(tour.hours_until_deadline)}h left!`
+                ? `${Math.round(tour.hours_until_deadline * 60)} min left`
+                : `${Math.round(tour.hours_until_deadline)}h left`
               }
             </div>
           )}
 
-          {/* Tour Info */}
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-white mb-1 line-clamp-2">
-                {TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'} {tour.tour_name}
-              </h3>
-              <p className="text-slate-400 text-sm">
-                with {tour.company_name}
-              </p>
-            </div>
-            {tour.operator_rating && (
-              <div className="flex items-center gap-1 ml-3">
-                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                <span className="text-sm text-slate-300">{tour.operator_rating}</span>
-              </div>
-            )}
+          {/* Tour Title */}
+          <div className="flex items-center gap-2 mb-2 pr-12"> {/* Add right padding for heart button */}
+            <span className="text-xl">{TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}</span>
+            <h3 className="text-lg font-semibold text-white">{tour.tour_name}</h3>
+          </div>
+          
+          <div className="text-slate-400 text-sm mb-3">
+            with {tour.company_name} • {tour.operator_island}
           </div>
 
           {/* Tour Details */}
-          <div className="grid grid-cols-2 gap-2 text-sm text-slate-300 mb-4">
-            <div className="flex items-center gap-1">
-              <MapPin className="w-3 h-3" />
-              <span className="truncate">{tour.operator_island}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              <span>{formatDate(tour.tour_date)} {formatTime(tour.time_slot)}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Users className="w-3 h-3" />
-              <span>{tour.available_spots} spots left</span>
-            </div>
-            {tour.duration_hours && (
-              <div className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                <span>{tour.duration_hours}h duration</span>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="flex items-center gap-2 text-slate-300">
+              <Calendar className="w-4 h-4 text-slate-400" />
+              <div>
+                <div className="text-sm font-medium">
+                  {formatDate(tour.tour_date)}
+                </div>
+                <div className="text-xs text-slate-400">
+                  {formatTime(tour.time_slot)}
+                </div>
               </div>
-            )}
+            </div>
+
+            <div className="flex items-center gap-2 text-slate-300">
+              <Users className="w-4 h-4 text-slate-400" />
+              <div>
+                <div className="text-sm font-medium">
+                  {tour.available_spots} spots left
+                </div>
+                <div className="text-xs text-slate-400">
+                  of {tour.max_capacity}
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Pricing */}
-          <div className="space-y-2">
-            <div className="flex items-baseline justify-between">
-              <div>
-                <span className="text-xl font-bold text-white">
+          {/* Pricing and Actions */}
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-bold text-white">
                   {formatPrice(tour.discount_price_adult)}
                 </span>
                 {savings > 0 && (
-                  <span className="text-sm text-slate-400 line-through ml-2">
+                  <span className="text-sm text-slate-400 line-through">
                     {formatPrice(tour.original_price_adult)}
                   </span>
                 )}
               </div>
               {savings > 0 && (
-                <span className="text-sm font-medium text-green-400">
+                <div className="text-xs text-green-400">
                   Save {formatPrice(savings)}
-                </span>
+                </div>
               )}
             </div>
-          </div>
 
-          {/* Action Button */}
-          <button 
-            onClick={() => handleBookTour(tour)}
-            className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-          >
-            Reserve Spot
-          </button>
+            <button
+              onClick={() => handleBookTour(tour)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+            >
+              Reserve Spot
+            </button>
+          </div>
         </div>
       </div>
     )

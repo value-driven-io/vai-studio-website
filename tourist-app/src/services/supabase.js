@@ -410,3 +410,224 @@ export const formatTime = (time) => {
     minute: '2-digit'
   })
 }
+
+// ADD THESE FUNCTIONS TO: src/services/supabase.js
+
+// Journey & Booking Management Functions
+export const journeyService = {
+  // Get user's bookings by email or WhatsApp
+  async getUserBookings(email, whatsapp) {
+    try {
+      let query = supabase
+        .from('bookings')
+        .select(`
+          *,
+          tours:tour_id (
+            tour_name,
+            tour_date,
+            time_slot,
+            meeting_point,
+            tour_type,
+            duration_hours,
+            pickup_available,
+            pickup_locations,
+            requirements,
+            restrictions
+          ),
+          operators:operator_id (
+            company_name,
+            whatsapp_number,
+            phone,
+            contact_person,
+            island
+          )
+        `)
+        .order('created_at', { ascending: false })
+
+      // Search by email OR WhatsApp
+      if (email && whatsapp) {
+        query = query.or(`customer_email.eq.${email},customer_whatsapp.eq.${whatsapp}`)
+      } else if (email) {
+        query = query.eq('customer_email', email)
+      } else if (whatsapp) {
+        query = query.eq('customer_whatsapp', whatsapp)
+      } else {
+        throw new Error('Either email or WhatsApp is required')
+      }
+
+      const { data, error } = await query
+
+      if (error) {
+        console.error('Error fetching user bookings:', error)
+        throw error
+      }
+      
+      return data || []
+    } catch (error) {
+      console.error('Error in getUserBookings:', error)
+      throw error
+    }
+  },
+
+  // Get booking by reference
+  async getBookingByReference(bookingReference) {
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select(`
+          *,
+          tours:tour_id (
+            tour_name,
+            tour_date,
+            time_slot,
+            meeting_point,
+            tour_type,
+            duration_hours,
+            pickup_available,
+            pickup_locations,
+            requirements,
+            restrictions
+          ),
+          operators:operator_id (
+            company_name,
+            whatsapp_number,
+            phone,
+            contact_person,
+            island
+          )
+        `)
+        .eq('booking_reference', bookingReference)
+        .single()
+
+      if (error) {
+        console.error('Error fetching booking by reference:', error)
+        throw error
+      }
+      
+      return data
+    } catch (error) {
+      console.error('Error in getBookingByReference:', error)
+      throw error
+    }
+  },
+
+  // Subscribe to booking status updates for a user
+  subscribeToUserBookings(email, whatsapp, callback) {
+    const channel = supabase
+      .channel('user-bookings')
+      .on(
+        'postgres_changes',
+        { 
+          event: 'UPDATE', 
+          schema: 'public', 
+          table: 'bookings',
+          filter: email ? `customer_email=eq.${email}` : `customer_whatsapp=eq.${whatsapp}`
+        },
+        (payload) => {
+          console.log('Booking update received:', payload)
+          callback(payload)
+        }
+      )
+      .subscribe()
+
+    return channel
+  },
+
+  // Get favorite tours by tour IDs
+  async getFavoriteTours(tourIds) {
+    try {
+      if (!tourIds || tourIds.length === 0) {
+        return []
+      }
+
+      const { data, error } = await supabase
+        .from('active_tours_with_operators')
+        .select('*')
+        .in('id', tourIds)
+        .eq('status', 'active')
+        .order('tour_date', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching favorite tours:', error)
+        throw error
+      }
+      
+      return data || []
+    } catch (error) {
+      console.error('Error in getFavoriteTours:', error)
+      throw error
+    }
+  },
+
+  // Auto-discover bookings after first booking
+  async checkForNewBookings(userProfile) {
+    try {
+      const { email, whatsapp } = userProfile
+      if (!email && !whatsapp) return []
+
+      // Get bookings from last 24 hours
+      const yesterday = new Date()
+      yesterday.setDate(yesterday.getDate() - 1)
+
+      let query = supabase
+        .from('bookings')
+        .select(`
+          *,
+          tours:tour_id (tour_name, tour_date, time_slot),
+          operators:operator_id (company_name)
+        `)
+        .gte('created_at', yesterday.toISOString())
+        .order('created_at', { ascending: false })
+
+      if (email && whatsapp) {
+        query = query.or(`customer_email.eq.${email},customer_whatsapp.eq.${whatsapp}`)
+      } else if (email) {
+        query = query.eq('customer_email', email)
+      } else if (whatsapp) {
+        query = query.eq('customer_whatsapp', whatsapp)
+      }
+
+      const { data, error } = await query
+
+      if (error) {
+        console.error('Error checking for new bookings:', error)
+        return []
+      }
+      
+      return data || []
+    } catch (error) {
+      console.error('Error in checkForNewBookings:', error)
+      return []
+    }
+  }
+}
+
+// Update the existing tourService to include favorites support
+export const tourServiceUpdated = {
+  ...tourService, // Keep existing functions
+  
+  // Get tour details for favorites
+  async getToursByIds(tourIds) {
+    try {
+      if (!tourIds || tourIds.length === 0) {
+        return []
+      }
+
+      const { data, error } = await supabase
+        .from('active_tours_with_operators')
+        .select('*')
+        .in('id', tourIds)
+        .order('tour_date', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching tours by IDs:', error)
+        throw error
+      }
+      
+      return data || []
+    } catch (error) {
+      console.error('Error in getToursByIds:', error)
+      return []
+    }
+  }
+}

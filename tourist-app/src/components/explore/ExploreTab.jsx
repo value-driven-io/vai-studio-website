@@ -1,14 +1,15 @@
-// src/components/explore/ExploreTab.jsx
+// REPLACE: src/components/explore/ExploreTab.jsx
 import React, { useState, useEffect } from 'react'
 import { 
   Search, Filter, SlidersHorizontal, X, ChevronDown, 
   RefreshCw, Grid, List, MapPin, Clock, Users, Star,
-  Calendar, DollarSign, Timer
+  Calendar, DollarSign, Timer, Heart
 } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
 import { TOUR_TYPE_EMOJIS, ISLAND_EMOJIS } from '../../constants/moods'
 import BookingModal from '../booking/BookingModal'
+import toast from 'react-hot-toast'
 
 const ExploreTab = () => {
   const { 
@@ -18,7 +19,9 @@ const ExploreTab = () => {
     setSortBy, 
     setDateRange, 
     setPriceRange,
-    clearFilters 
+    clearFilters,
+    favorites,
+    toggleFavorite
   } = useAppStore()
   
   const { 
@@ -95,9 +98,26 @@ const ExploreTab = () => {
     return count
   }
 
+  const handleFavoriteClick = (e, tourId) => {
+    e.stopPropagation()
+    const isFavorite = favorites.includes(tourId)
+    toggleFavorite(tourId)
+    toast.success(
+      isFavorite ? '💔 Removed from favorites' : '❤️ Added to favorites',
+      {
+        duration: 2000,
+        style: {
+          background: isFavorite ? '#dc2626' : '#16a34a',
+          color: 'white'
+        }
+      }
+    )
+  }
+
   const TourCard = ({ tour, mode = 'grid' }) => {
     const savings = calculateSavings(tour.original_price_adult, tour.discount_price_adult)
     const urgencyColor = getUrgencyColor(tour.hours_until_deadline)
+    const isFavorite = favorites.includes(tour.id)
     
     if (mode === 'list') {
       return (
@@ -108,41 +128,79 @@ const ExploreTab = () => {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-2">
-                <div>
-                  <h3 className="text-lg font-semibold text-white truncate">
-                    {tour.tour_name}
-                  </h3>
-                  <p className="text-slate-400 text-sm">
-                    {tour.company_name} • {tour.operator_island}
-                  </p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg font-semibold text-white truncate">{tour.tour_name}</h3>
+                  <p className="text-slate-400 text-sm">{tour.company_name} • {tour.operator_island}</p>
                 </div>
-                <div className="text-right ml-4">
-                  <div className="text-lg font-bold text-white">
-                    {formatPrice(tour.discount_price_adult)}
+                
+                {/* Heart Button for List View */}
+                <button
+                  onClick={(e) => handleFavoriteClick(e, tour.id)}
+                  className={`ml-3 p-2 rounded-full transition-all ${
+                    isFavorite 
+                      ? 'bg-red-500 text-white hover:bg-red-600' 
+                      : 'bg-slate-700 text-slate-400 hover:bg-slate-600 hover:text-red-400'
+                  }`}
+                  title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                >
+                  <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-4 mb-3">
+                <div className="flex items-center gap-2 text-slate-300">
+                  <Calendar className="w-4 h-4 text-slate-400" />
+                  <div>
+                    <div className="text-sm">{formatDate(tour.tour_date)}</div>
+                    <div className="text-xs text-slate-400">{formatTime(tour.time_slot)}</div>
                   </div>
-                  {savings > 0 && (
-                    <div className="text-xs text-green-400">
-                      Save {formatPrice(savings)}
-                    </div>
-                  )}
+                </div>
+                <div className="flex items-center gap-2 text-slate-300">
+                  <Users className="w-4 h-4 text-slate-400" />
+                  <div>
+                    <div className="text-sm">{tour.available_spots} left</div>
+                    <div className="text-xs text-slate-400">of {tour.max_capacity}</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-slate-300">
+                  <MapPin className="w-4 h-4 text-slate-400" />
+                  <div className="text-sm truncate">{tour.meeting_point}</div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-4 text-xs text-slate-300 mb-3">
-                <span>{formatDate(tour.tour_date)} {formatTime(tour.time_slot)}</span>
-                <span>{tour.available_spots} spots</span>
-                {tour.duration_hours && <span>{tour.duration_hours}h</span>}
-                {tour.operator_rating && (
-                  <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                    <span>{tour.operator_rating}</span>
+              {tour.hours_until_deadline && tour.hours_until_deadline <= 8 && (
+                <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mb-2 ${urgencyColor}`}>
+                  <Clock className="w-3 h-3" />
+                  {tour.hours_until_deadline < 1 
+                    ? `${Math.round(tour.hours_until_deadline * 60)} min left`
+                    : `${Math.round(tour.hours_until_deadline)}h left`
+                  }
+                </div>
+              )}
+            </div>
+            
+            <div className="flex flex-col items-end justify-between">
+              <div className="text-right">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-bold text-white">
+                    {formatPrice(tour.discount_price_adult)}
+                  </span>
+                  {savings > 0 && (
+                    <span className="text-sm text-slate-400 line-through">
+                      {formatPrice(tour.original_price_adult)}
+                    </span>
+                  )}
+                </div>
+                {savings > 0 && (
+                  <div className="text-xs text-green-400">
+                    Save {formatPrice(savings)}
                   </div>
                 )}
               </div>
               
               <button
                 onClick={() => handleBookTour(tour)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
               >
                 Reserve Spot
               </button>
@@ -151,118 +209,131 @@ const ExploreTab = () => {
         </div>
       )
     }
-
-    // Grid mode (default)
+    
+    // Grid View (default)
     return (
-      <div className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-slate-600 transition-all">
+      <div className="bg-slate-800 rounded-xl border border-slate-700 hover:border-slate-600 transition-all relative">
+        {/* Heart Button for Grid View - Top Right */}
+        <button
+          onClick={(e) => handleFavoriteClick(e, tour.id)}
+          className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all shadow-lg ${
+            isFavorite 
+              ? 'bg-red-500 text-white hover:bg-red-600 hover:scale-110' 
+              : 'bg-slate-700/80 text-slate-400 hover:bg-slate-600 hover:text-red-400 backdrop-blur-sm'
+          }`}
+          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
+        </button>
+
         <div className="p-4">
-          {/* Tour Type Icon */}
-          <div className="text-3xl mb-3 text-center">
-            {TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}
+          {/* Urgency Badge */}
+          {tour.hours_until_deadline && tour.hours_until_deadline <= 8 && (
+            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mb-3 ${urgencyColor}`}>
+              <Clock className="w-3 h-3" />
+              {tour.hours_until_deadline < 1 
+                ? `${Math.round(tour.hours_until_deadline * 60)} min left`
+                : `${Math.round(tour.hours_until_deadline)}h left`
+              }
+            </div>
+          )}
+
+          {/* Tour Title with padding for heart */}
+          <div className="flex items-center gap-2 mb-2 pr-12">
+            <span className="text-xl">{TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}</span>
+            <h3 className="text-lg font-semibold text-white">{tour.tour_name}</h3>
           </div>
           
-          {/* Tour Info */}
-          <div className="mb-3">
-            <h3 className="text-lg font-semibold text-white mb-1 line-clamp-2">
-              {tour.tour_name}
-            </h3>
-            <p className="text-slate-400 text-sm">
-              {tour.company_name}
-            </p>
+          <div className="text-slate-400 text-sm mb-3">
+            with {tour.company_name} • {tour.operator_island}
           </div>
 
           {/* Tour Details */}
-          <div className="space-y-2 text-sm text-slate-300 mb-4">
-            <div className="flex items-center gap-1">
-              <MapPin className="w-3 h-3" />
-              <span className="truncate">{tour.operator_island}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="w-3 h-3" />
-              <span>{formatDate(tour.tour_date)}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              <span>{formatTime(tour.time_slot)}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Users className="w-3 h-3" />
-              <span>{tour.available_spots} spots left</span>
-            </div>
-            {tour.duration_hours && (
-              <div className="flex items-center gap-1">
-                <Timer className="w-3 h-3" />
-                <span>{tour.duration_hours}h duration</span>
+          <div className="grid grid-cols-1 gap-3 mb-4">
+            <div className="flex items-center gap-2 text-slate-300">
+              <Calendar className="w-4 h-4 text-slate-400" />
+              <div>
+                <div className="text-sm font-medium">{formatDate(tour.tour_date)}</div>
+                <div className="text-xs text-slate-400">{formatTime(tour.time_slot)}</div>
               </div>
-            )}
-            {tour.operator_rating && (
-              <div className="flex items-center gap-1">
-                <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                <span>{tour.operator_rating}/5</span>
+            </div>
+            
+            <div className="flex items-center justify-between text-slate-300">
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-slate-400" />
+                <span className="text-sm">{tour.available_spots} spots left</span>
               </div>
-            )}
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-slate-400" />
+                <span className="text-sm">{tour.meeting_point}</span>
+              </div>
+            </div>
           </div>
 
-          {/* Pricing */}
-          <div className="mb-4">
-            <div className="flex items-baseline justify-between">
-              <div>
+          {/* Pricing and Actions */}
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2">
                 <span className="text-lg font-bold text-white">
                   {formatPrice(tour.discount_price_adult)}
                 </span>
                 {savings > 0 && (
-                  <div className="text-xs text-slate-400 line-through">
+                  <span className="text-sm text-slate-400 line-through">
                     {formatPrice(tour.original_price_adult)}
-                  </div>
+                  </span>
                 )}
               </div>
               {savings > 0 && (
-                <span className="text-xs font-medium text-green-400">
+                <div className="text-xs text-green-400">
                   Save {formatPrice(savings)}
-                </span>
+                </div>
               )}
             </div>
-          </div>
 
-          {/* Action Button */}
-          <button
-            onClick={() => handleBookTour(tour)}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-          >
-            Reserve Spot
-          </button>
+            <button
+              onClick={() => handleBookTour(tour)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+            >
+              Reserve Spot
+            </button>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="pt-8 pb-6">
-          <div className="flex items-center justify-between mb-4">
+    <div className="min-h-screen bg-slate-900 text-white">
+      {/* Header */}
+      <div className="bg-slate-800 border-b border-slate-700">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          {/* Header Section */}
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-white mb-1">
-                🔍 Explore Tours
-              </h1>
-              <p className="text-slate-400">
-                Find your perfect adventure
-              </p>
+              <h1 className="text-2xl font-bold text-white mb-2">Explore Tours</h1>
+              <p className="text-slate-400">Find the perfect adventure for your French Polynesia experience</p>
             </div>
             
             <div className="flex items-center gap-3">
               {/* View Mode Toggle */}
-              <div className="flex bg-slate-800 rounded-lg p-1">
+              <div className="flex items-center bg-slate-700 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}
+                  className={`p-2 rounded transition-colors ${
+                    viewMode === 'grid' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'text-slate-400 hover:text-white'
+                  }`}
                 >
                   <Grid className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-slate-700 text-white' : 'text-slate-400'}`}
+                  className={`p-2 rounded transition-colors ${
+                    viewMode === 'list' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'text-slate-400 hover:text-white'
+                  }`}
                 >
                   <List className="w-4 h-4" />
                 </button>
@@ -271,77 +342,40 @@ const ExploreTab = () => {
               {/* Refresh Button */}
               <button
                 onClick={refreshTours}
+                className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg transition-colors"
                 disabled={loading}
-                className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors disabled:opacity-50"
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                {loading ? 'Loading...' : 'Refresh'}
               </button>
             </div>
           </div>
 
-          {/* Search Bar */}
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              value={localSearch}
-              onChange={(e) => setLocalSearch(e.target.value)}
-              placeholder="Search tours, operators, islands..."
-              className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            />
-            {localSearch && (
-              <button
-                onClick={() => setLocalSearch('')}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-
-          {/* Filter Bar */}
-          <div className="bg-slate-800 rounded-xl p-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <Filter className="w-4 h-4 text-slate-400" />
-                <span className="text-white font-medium">Filters</span>
-                {getActiveFiltersCount() > 0 && (
-                  <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                    {getActiveFiltersCount()}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="text-slate-400 hover:text-white transition-colors"
-                >
-                  <SlidersHorizontal className="w-4 h-4" />
-                </button>
-                {getActiveFiltersCount() > 0 && (
-                  <button
-                    onClick={clearFilters}
-                    className="text-slate-400 hover:text-white text-sm"
-                  >
-                    Clear All
-                  </button>
-                )}
-              </div>
+          {/* Search and Filters */}
+          <div className="space-y-4">
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                value={localSearch}
+                onChange={(e) => setLocalSearch(e.target.value)}
+                placeholder="Search tours, operators, or islands..."
+                className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              />
             </div>
 
             {/* Quick Filters */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            <div className="flex gap-4 overflow-x-auto pb-2">
               {/* Island Filter */}
               <select
                 value={filters.island}
                 onChange={(e) => updateFilter('island', e.target.value)}
-                className="bg-slate-700 text-white rounded-lg px-3 py-2 text-sm"
+                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
               >
-                <option value="all">🏝️ All Islands</option>
+                <option value="all">All Islands</option>
                 {availableIslands.map(island => (
-                  <option key={island} value={island}>
-                    {ISLAND_EMOJIS[island] || '🏝️'} {island}
-                  </option>
+                  <option key={island} value={island}>{island}</option>
                 ))}
               </select>
 
@@ -349,108 +383,128 @@ const ExploreTab = () => {
               <select
                 value={filters.tourType}
                 onChange={(e) => updateFilter('tourType', e.target.value)}
-                className="bg-slate-700 text-white rounded-lg px-3 py-2 text-sm"
+                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
               >
-                <option value="all">🎯 All Types</option>
+                <option value="all">All Types</option>
                 {availableTourTypes.map(type => (
-                  <option key={type} value={type}>
-                    {TOUR_TYPE_EMOJIS[type] || '🌴'} {type}
-                  </option>
+                  <option key={type} value={type}>{type}</option>
                 ))}
               </select>
 
-              {/* Time Filter */}
+              {/* Timeframe Filter */}
               <select
                 value={filters.timeframe}
                 onChange={(e) => updateFilter('timeframe', e.target.value)}
-                className="bg-slate-700 text-white rounded-lg px-3 py-2 text-sm"
+                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
               >
-                <option value="all">📅 Any Time</option>
                 <option value="today">Today</option>
                 <option value="tomorrow">Tomorrow</option>
                 <option value="week">This Week</option>
+                <option value="all">All Dates</option>
               </select>
 
-              {/* Sort Filter */}
+              {/* Sort By */}
               <select
                 value={filters.sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-700 text-white rounded-lg px-3 py-2 text-sm"
+                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
               >
-                <option value="date">📅 Sort by Date</option>
-                <option value="price-low">💰 Price: Low to High</option>
-                <option value="price-high">💎 Price: High to Low</option>
-                <option value="rating">⭐ Highest Rated</option>
-                <option value="duration">⏱️ Duration</option>
-                <option value="spots">👥 Most Available</option>
+                <option value="date">Sort by Date</option>
+                <option value="price">Sort by Price</option>
+                <option value="availability">Sort by Availability</option>
+                <option value="urgency">Sort by Urgency</option>
               </select>
+
+              {/* Advanced Filters Toggle */}
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  showFilters ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'
+                }`}
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Advanced
+                {getActiveFiltersCount() > 0 && (
+                  <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                    {getActiveFiltersCount()}
+                  </span>
+                )}
+              </button>
+
+              {/* Clear Filters */}
+              {getActiveFiltersCount() > 0 && (
+                <button
+                  onClick={clearFilters}
+                  className="flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                  Clear All
+                </button>
+              )}
             </div>
 
-            {/* Advanced Filters (Collapsible) */}
+            {/* Advanced Filters */}
             {showFilters && (
-              <div className="border-t border-slate-700 pt-4">
+              <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Duration Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Duration
-                    </label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Duration</label>
                     <select
                       value={filters.duration}
                       onChange={(e) => updateFilter('duration', e.target.value)}
-                      className="w-full bg-slate-700 text-white rounded-lg px-3 py-2 text-sm"
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm"
                     >
                       <option value="all">Any Duration</option>
-                      <option value="half-day">Half Day (≤4h)</option>
-                      <option value="full-day">Full Day (4-8h)</option>
-                      <option value="multi-day">Multi Day (8h+)</option>
+                      <option value="short">Under 3 hours</option>
+                      <option value="medium">3-6 hours</option>
+                      <option value="long">6+ hours</option>
                     </select>
                   </div>
 
-                  {/* Price Range Filter */}
+                  {/* Price Range */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Price Range
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="number"
-                        placeholder="Min"
-                        value={filters.priceRange?.min || ''}
-                        className="flex-1 bg-slate-700 text-white rounded-lg px-3 py-2 text-sm"
-                        onChange={(e) => {
-                          const min = e.target.value ? parseInt(e.target.value) : null
-                          setPriceRange({
-                            ...filters.priceRange,
-                            min: min,
-                            max: filters.priceRange?.max || null
-                          })
-                        }}
-                      />
-                      <span className="text-slate-400">-</span>
-                      <input
-                        type="number"
-                        placeholder="Max"
-                        value={filters.priceRange?.max || ''}
-                        className="flex-1 bg-slate-700 text-white rounded-lg px-3 py-2 text-sm"
-                        onChange={(e) => {
-                          const max = e.target.value ? parseInt(e.target.value) : null
-                          setPriceRange({
-                            ...filters.priceRange,
-                            min: filters.priceRange?.min || null,
-                            max: max
-                          })
-                        }}
-                      />
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Price Range</label>
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <input
+                          type="number"
+                          placeholder="Min"
+                          className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm"
+                          value={filters.priceRange?.min || ''}
+                          onChange={(e) => {
+                            const min = e.target.value ? parseInt(e.target.value) : null
+                            setPriceRange({
+                              ...filters.priceRange,
+                              min: min,
+                              max: filters.priceRange?.max || null
+                            })
+                          }}
+                        />
+                        <input
+                          type="number"
+                          placeholder="Max"
+                          className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm"
+                          value={filters.priceRange?.max || ''}
+                          onChange={(e) => {
+                            const max = e.target.value ? parseInt(e.target.value) : null
+                            setPriceRange({
+                              ...filters.priceRange,
+                              min: filters.priceRange?.min || null,
+                              max: max
+                            })
+                          }}
+                        />
+                      </div>
+                      {filters.priceRange && (
+                        <button
+                          onClick={() => setPriceRange(null)}
+                          className="text-xs text-slate-400 hover:text-white mt-1"
+                        >
+                          Clear price range
+                        </button>
+                      )}
                     </div>
-                    {filters.priceRange && (
-                      <button
-                        onClick={() => setPriceRange(null)}
-                        className="text-xs text-slate-400 hover:text-white mt-1"
-                      >
-                        Clear price range
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>
@@ -468,45 +522,45 @@ const ExploreTab = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Tours Grid/List */}
-        <div className="pb-20">
-          {loading ? (
-            <div className={`grid gap-6 ${
-              viewMode === 'grid' 
-                ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-                : 'grid-cols-1'
-            }`}>
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-slate-800 rounded-xl h-80 animate-pulse"></div>
-              ))}
+      {/* Tours Grid/List */}
+      <div className="max-w-7xl mx-auto px-4 py-6 pb-20">
+        {loading ? (
+          <div className={`grid gap-6 ${
+            viewMode === 'grid' 
+              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+              : 'grid-cols-1'
+          }`}>
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-slate-800 rounded-xl h-80 animate-pulse"></div>
+            ))}
+          </div>
+        ) : tours.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-slate-400" />
             </div>
-          ) : tours.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-slate-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-slate-400 mb-2">No tours found</h3>
-              <p className="text-slate-500 mb-4">Try adjusting your filters or search terms</p>
-              <button
-                onClick={clearFilters}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                Clear All Filters
-              </button>
-            </div>
-          ) : (
-            <div className={`grid gap-6 ${
-              viewMode === 'grid' 
-                ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-                : 'grid-cols-1'
-            }`}>
-              {tours.map(tour => (
-                <TourCard key={tour.id} tour={tour} mode={viewMode} />
-              ))}
-            </div>
-          )}
-        </div>
+            <h3 className="text-xl font-semibold text-slate-400 mb-2">No tours found</h3>
+            <p className="text-slate-500 mb-4">Try adjusting your filters or search terms</p>
+            <button
+              onClick={clearFilters}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Clear All Filters
+            </button>
+          </div>
+        ) : (
+          <div className={`grid gap-6 ${
+            viewMode === 'grid' 
+              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+              : 'grid-cols-1'
+          }`}>
+            {tours.map(tour => (
+              <TourCard key={tour.id} tour={tour} mode={viewMode} />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Booking Modal */}
