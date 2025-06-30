@@ -8,35 +8,11 @@ const ProfileTab = () => {
         {/* Header */}
         <div className="pt-8 mb-6">
           <h1 className="text-2xl font-bold text-white mb-2">
-            👤 Profile & Support
+            🌸 Support & About
           </h1>
           <p className="text-slate-400">
-            Settings and help
+            Contact and more
           </p>
-        </div>
-
-        {/* Profile Section */}
-        <div className="bg-slate-800 rounded-xl p-6 mb-6">
-          <h2 className="text-lg font-semibold text-white mb-4">
-            🛡️ Personal Info
-          </h2>
-          <div className="space-y-3">
-            <input 
-              type="text" 
-              placeholder="Your name"
-              className="w-full bg-slate-700 text-white rounded-lg px-3 py-2"
-            />
-            <input 
-              type="email" 
-              placeholder="Email address"
-              className="w-full bg-slate-700 text-white rounded-lg px-3 py-2"
-            />
-            <input 
-              type="tel" 
-              placeholder="WhatsApp number"
-              className="w-full bg-slate-700 text-white rounded-lg px-3 py-2"
-            />
-          </div>
         </div>
 
         {/* Support Section */}
@@ -69,7 +45,7 @@ const ProfileTab = () => {
           </h2>
           <div className="text-slate-300 text-sm space-y-2">
             <p>1. Browse last-minute tour deals</p>
-            <p>2. Book instantly with WhatsApp</p>
+            <p>2. Book instantly with the app</p>
             <p>3. Pay directly with the operator</p>
             <p>4. Enjoy authentic Polynesian experiences!</p>
           </div>
@@ -87,6 +63,11 @@ const ProfileTab = () => {
             </p>
           </div>
         </div>
+
+              {/* Footer */}
+          <div>
+            <p className="text-center text-slate-500 text-sm mt-2">VAI.studio, French Polynesia © 2025 All rights reserved</p>
+       </div> 
       </div>
     </div>
   )

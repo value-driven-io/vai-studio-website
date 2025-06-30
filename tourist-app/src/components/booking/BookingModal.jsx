@@ -163,7 +163,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             </h2>
             
             <p className="text-slate-300 mb-6">
-              Your adventure is reserved! The operator will confirm within 1 hour.
+              Your adventure is reserved! Now the operator needs to confirm.
             </p>
             
             <div className="bg-slate-700 rounded-xl p-4 mb-6 text-left">
@@ -180,7 +180,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
               <h4 className="font-semibold text-white mb-2">What's Next?</h4>
               <div className="text-sm text-slate-300 space-y-1">
-                <div>✅ Operator will contact you via WhatsApp</div>
+                <div>✅ Operator will contact you via WhatsApp/Mail</div>
                 <div>✅ Confirm final details and meeting point</div>
                 <div>✅ Payment directly with operator (no upfront cost)</div>
                 <div>✅ Enjoy your adventure! 🌴</div>

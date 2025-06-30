@@ -123,7 +123,7 @@ const ExploreTab = () => {
           {/* Header Section */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-white mb-2">Explore Tours</h1>
+              <h1 className="text-2xl font-bold text-white mb-2">🔎  Explore Tours</h1>
               <p className="text-slate-400">Find the perfect adventure for your French Polynesia experience</p>
             </div>
             
