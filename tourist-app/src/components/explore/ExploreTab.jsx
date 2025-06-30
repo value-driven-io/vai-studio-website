@@ -128,29 +128,6 @@ const ExploreTab = () => {
             </div>
             
             <div className="flex items-center gap-3">
-              {/* View Mode Toggle */}
-              <div className="flex items-center bg-slate-700 rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded transition-colors ${
-                    viewMode === 'grid' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <Grid className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded transition-colors ${
-                    viewMode === 'list' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <List className="w-4 h-4" />
-                </button>
-              </div>
               
               {/* Refresh Button */}
               <button
