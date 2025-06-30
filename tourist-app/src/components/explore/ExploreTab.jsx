@@ -171,12 +171,12 @@ const ExploreTab = () => {
                 {[
                   { id: 'today', label: 'Today', icon: '☀️' },
                   { id: 'tomorrow', label: 'Tomorrow', icon: '🌅' },
-                  { id: 'week', label: 'Week', icon: '📆' }
+                  { id: 'week', label: 'This Week', icon: '📆' }
                 ].map((timeOption) => (
                   <button
                     key={timeOption.id}
                     onClick={() => updateFilter('timeframe', timeOption.id)}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-small transition-all min-h-44 ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
                       filters.timeframe === timeOption.id
                         ? 'bg-blue-600 text-white shadow-lg'
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
@@ -188,16 +188,16 @@ const ExploreTab = () => {
                 ))}
 
                 {/* Sort Dropdown - Brought back */}
-              <select
+              {/*<select
                 value={filters.sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto flex-shrink-0"
+                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-2 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto flex-shrink-0"
               >
                 <option value="date">Date</option>
                 <option value="price">Price</option>
                 <option value="availability">Spots</option>
                 <option value="urgency">Urgent</option>
-              </select>
+              </select>*/}
               </div>
             </div>
           </div>
