@@ -17,49 +17,46 @@ import { useAppStore } from './stores/bookingStore'
 function App() {
   const { activeTab } = useAppStore()
 
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case 'discover':
-        return <DiscoverTab />
-      case 'explore':
-        return <ExploreTab />
-      case 'journey':
-        return <JourneyTab />
-      case 'profile':
-        return <ProfileTab />
-      default:
-        return <DiscoverTab />
-    }
-  }
-
   return (
-  <AuthProvider>
-    <Router>
-      <div className="min-h-screen bg-slate-900 text-white">
-        {/* Main Content Area */}
-        <main className="pb-20">
-          {renderActiveTab()}
-        </main>
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-slate-900 text-white">
+          {/* Main Content Area */}
+          <main className="pb-20">
+            {/* 🔧 FIX: Use stable component instances with CSS display instead of renderActiveTab() */}
+            <div style={{ display: activeTab === 'discover' ? 'block' : 'none' }}>
+              <DiscoverTab />
+            </div>
+            <div style={{ display: activeTab === 'explore' ? 'block' : 'none' }}>
+              <ExploreTab />
+            </div>
+            <div style={{ display: activeTab === 'journey' ? 'block' : 'none' }}>
+              <JourneyTab />
+            </div>
+            <div style={{ display: activeTab === 'profile' ? 'block' : 'none' }}>
+              <ProfileTab />
+            </div>
+          </main>
 
-        {/* Bottom Navigation */}
-        <Navigation />
+          {/* Bottom Navigation */}
+          <Navigation />
 
-        {/* Toast Notifications */}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#1e293b',
-              color: '#f1f5f9',
-              border: '1px solid #334155'
-            }
-          }}
-        />
-      </div>
-    </Router>
-  </AuthProvider>
-) 
+          {/* Toast Notifications */}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: '#1e293b',
+                color: '#f1f5f9',
+                border: '1px solid #334155'
+              }
+            }}
+          />
+        </div>
+      </Router>
+    </AuthProvider>
+  ) 
 }
 
 export default App

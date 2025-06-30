@@ -1,10 +1,14 @@
-// src/hooks/useUserJourney.js
+// src/hooks/useUserJourney.js 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { journeyService } from '../services/supabase'
 import { useAppStore } from '../stores/bookingStore'
+import { useAuth } from '../contexts/AuthContext'  // ← ADD THIS IMPORT
 import toast from 'react-hot-toast'
 
 export const useUserJourney = () => {
+
+  const { user } = useAuth()  // ← ADD THIS LINE
+
   const { 
     bookings: storeBookings, 
     favorites, 
@@ -26,8 +30,23 @@ export const useUserJourney = () => {
   // Use ref to prevent infinite loops
   const lastFetchRef = useRef({ email: '', whatsapp: '', timestamp: 0 })
 
-  // Get user contact info from store, localStorage, or last booking
+  // 🔧 ONLY FIX: Use ref to get latest store values without dependencies
+  const storeRef = useRef()
+  storeRef.current = { userProfile, storeBookings, updateUserProfile }
+
+  // 🔧 ONLY FIX: Remove dependencies that cause infinite loop + ADD AUTH INTEGRATION
   const getUserContactInfo = useCallback(() => {
+    // 🔧 FIX: FIRST check authenticated user's email
+    if (user?.email) {
+      return {
+        email: user.email,
+        whatsapp: storeRef.current.userProfile?.whatsapp || null
+      }
+    }
+
+    // Use ref to get current values without dependency chain
+    const { userProfile, storeBookings } = storeRef.current
+    
     // First try user profile from store (most recent)
     if (userProfile?.email || userProfile?.whatsapp) {
       return {
@@ -53,18 +72,19 @@ export const useUserJourney = () => {
       email: savedEmail,
       whatsapp: savedWhatsApp
     }
-  }, [userProfile, storeBookings])
+  }, [user]) // 🔧 FIXED: Add user as dependency
 
-  // Save user contact info for future lookups
+  // 🔧 ONLY FIX: Remove updateUserProfile dependency
   const saveUserContactInfo = useCallback((email, whatsapp) => {
     if (email) localStorage.setItem('vai_user_email', email)
     if (whatsapp) localStorage.setItem('vai_user_whatsapp', whatsapp)
     
-    // Update user profile in store
+    // Use ref to avoid dependency
+    const { updateUserProfile } = storeRef.current
     updateUserProfile({ email, whatsapp })
-  }, [updateUserProfile])
+  }, []) // 🔧 FIXED: No dependencies
 
-  // Categorize bookings by status and date
+  // Categorize bookings by status and date - 
   const categorizeBookings = useCallback((bookings) => {
     const now = new Date()
     const categorized = {
@@ -109,12 +129,12 @@ export const useUserJourney = () => {
     return categorized
   }, [])
 
-  // Fetch user bookings with deduplication
+  // Fetch user bookings with deduplication 
   const fetchUserBookings = useCallback(async (email, whatsapp, silent = false) => {
     // Clean and validate inputs
     const cleanEmail = email?.trim()
     const cleanWhatsApp = whatsapp?.trim()
-    
+  
     if (!cleanEmail && !cleanWhatsApp) {
       console.log('No email or WhatsApp provided for booking lookup')
       return
@@ -165,9 +185,9 @@ export const useUserJourney = () => {
     } finally {
       if (!silent) setLoading(false)
     }
-  }, [categorizeBookings, saveUserContactInfo])
+  }, [categorizeBookings, saveUserContactInfo]) // Now stable functions
 
-  // DISABLED: Setup real-time subscription for booking updates
+  // Setup real-time subscription for booking updates (DISABLED)
   const setupBookingSubscription = useCallback((email, whatsapp) => {
     // DISABLED: Realtime subscriptions disabled to prevent WebSocket errors
     console.log('Realtime subscriptions disabled - using manual refresh only')
@@ -185,7 +205,7 @@ export const useUserJourney = () => {
     return null
   }, [subscription])
 
-  // Auto-fetch bookings on component mount (FIXED: stable dependencies)
+  // 🔧 ONLY FIX: Remove fetchUserBookings dependency to prevent infinite loop
   useEffect(() => {
     console.log('🔄 Auto-fetch useEffect triggered')
     const contactInfo = getUserContactInfo()
@@ -195,9 +215,9 @@ export const useUserJourney = () => {
       console.log('📞 Calling fetchUserBookings from useEffect')
       fetchUserBookings(contactInfo.email, contactInfo.whatsapp)
     }
-  }, []) // FIXED: Remove fetchUserBookings dependency to prevent infinite loop
+  }, []) // 🔧 FIXED: Removed all dependencies
 
-  // Auto-discovery: Check for new bookings after store bookings change
+  // 🔧 ONLY FIX: Remove fetchUserBookings dependency from auto-discovery
   useEffect(() => {
     const checkForNewBookings = async () => {
       if (storeBookings.length === 0) return
@@ -219,9 +239,9 @@ export const useUserJourney = () => {
     }
 
     checkForNewBookings()
-  }, [storeBookings.length, fetchUserBookings]) // Only trigger when new bookings are added
+  }, [storeBookings.length]) // 🔧 FIXED: Removed fetchUserBookings dependency
 
-  // DISABLED: Cleanup subscription on unmount
+  // Cleanup subscription on unmount
   useEffect(() => {
     return () => {
       if (subscription) {
@@ -234,7 +254,7 @@ export const useUserJourney = () => {
     }
   }, [subscription])
 
-  // Refresh bookings manually (stable function)
+  // Refresh bookings manually
   const refreshBookings = useCallback(async () => {
     const contactInfo = getUserContactInfo()
     if (contactInfo.email || contactInfo.whatsapp) {
@@ -340,6 +360,7 @@ export const useUserJourney = () => {
     return timeSlot || ''
   }, [])
 
+  // Return exactly the same interface
   return {
     // Data
     userBookings,

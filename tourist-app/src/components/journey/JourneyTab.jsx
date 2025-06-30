@@ -221,7 +221,7 @@ const JourneyTab = () => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-6">
               <div className="flex items-center gap-2 text-blue-400 text-sm">
                 <RefreshCw className="w-4 h-4" />
-                <span>Bookings update automatically every few minutes, or click refresh for latest status</span>
+                <span>Click refresh for latest status updates on bookings</span>
               </div>
             </div>
           )}

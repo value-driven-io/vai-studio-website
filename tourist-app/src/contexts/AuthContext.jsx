@@ -1,5 +1,5 @@
-// src/contexts/AuthContext.jsx
-import React, { createContext, useContext, useEffect, useState } from 'react'
+// src/contexts/AuthContext.jsx - STABILIZED VERSION
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react'
 import { authService } from '../services/authService'
 import { supabase } from '../services/supabase'
 
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const { data, error } = await supabase.rpc('link_existing_bookings_to_user', {
             user_email: session.user.email,
-            user_uuid: session.user.id  // ← Changed parameter name
+            user_uuid: session.user.id
             })
             
             console.log('🔗 Link result:', { data, error })
@@ -64,7 +64,8 @@ export const AuthProvider = ({ children }) => {
     return () => subscription?.unsubscribe()
   }, [])
 
-  const signUp = async (email, password, userData) => {
+  // 🔧 THE FIX: Make functions stable with useCallback
+  const signUp = useCallback(async (email, password, userData) => {
     setLoading(true)
     try {
       const result = await authService.signUp(email, password, userData)
@@ -72,9 +73,9 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const signIn = async (email, password) => {
+  const signIn = useCallback(async (email, password) => {
     setLoading(true)
     try {
       const result = await authService.signIn(email, password)
@@ -82,18 +83,19 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     setLoading(true)
     try {
       await authService.signOut()
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const value = {
+  // Memoize the context value to prevent unnecessary re-renders
+  const value = useMemo(() => ({
     user,
     session,
     loading,
@@ -101,7 +103,7 @@ export const AuthProvider = ({ children }) => {
     signIn,
     signOut,
     isAuthenticated: !!user
-  }
+  }), [user, session, loading, signUp, signIn, signOut]) 
 
   return (
     <AuthContext.Provider value={value}>
