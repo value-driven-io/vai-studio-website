@@ -63,9 +63,11 @@ export const operatorService = {
 
   // Update tour
   async updateTour(tourId, tourData) {
+    const { discount_percentage, ...cleanTourData } = tourData;
+    
     const { data, error } = await supabase
       .from('tours')
-      .update(tourData)
+      .update(cleanTourData)
       .eq('id', tourId)
       .select()
       .single()

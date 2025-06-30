@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { 
   Plus, Calendar, Clock, Users, MapPin,
   DollarSign, CheckCircle, AlertCircle,
@@ -14,76 +14,116 @@ const Tooltip = ({ children, content, position = 'top' }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [actualPosition, setActualPosition] = useState(position)
   const [tooltipStyle, setTooltipStyle] = useState({})
+  const tooltipRef = useRef(null)
+  const triggerRef = useRef(null)
 
-  const handleMouseEnter = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
+  const calculatePosition = () => {
+    if (!triggerRef.current) return
+
+    const triggerRect = triggerRef.current.getBoundingClientRect()
     const viewport = {
       width: window.innerWidth,
       height: window.innerHeight
     }
     
+    // Tooltip dimensions (approximate)
+    const tooltipWidth = 280
+    const tooltipHeight = 60
+    const gap = 8
+
     // Calculate available space in each direction
-    const spaceTop = rect.top
-    const spaceBottom = viewport.height - rect.bottom
-    const spaceLeft = rect.left
-    const spaceRight = viewport.width - rect.right
-    
+    const spaces = {
+      top: triggerRect.top,
+      bottom: viewport.height - triggerRect.bottom,
+      left: triggerRect.left,
+      right: viewport.width - triggerRect.right
+    }
+
     let newPosition = position
     let style = {}
-    
+
     // Determine best position based on available space
-    if (position === 'top' && spaceTop < 120) {
-      newPosition = spaceBottom > 120 ? 'bottom' : 'right'
+    if (position === 'top' && spaces.top < tooltipHeight + gap) {
+      newPosition = spaces.bottom > tooltipHeight + gap ? 'bottom' : 'right'
     }
-    if (position === 'bottom' && spaceBottom < 120) {
-      newPosition = spaceTop > 120 ? 'top' : 'right'
+    if (position === 'bottom' && spaces.bottom < tooltipHeight + gap) {
+      newPosition = spaces.top > tooltipHeight + gap ? 'top' : 'right'
     }
-    if (position === 'left' && spaceLeft < 250) {
-      newPosition = spaceRight > 250 ? 'right' : 'top'
+    if (position === 'left' && spaces.left < tooltipWidth + gap) {
+      newPosition = spaces.right > tooltipWidth + gap ? 'right' : 'top'
     }
-    if (position === 'right' && spaceRight < 250) {
-      newPosition = spaceLeft > 250 ? 'left' : 'top'
+    if (position === 'right' && spaces.right < tooltipWidth + gap) {
+      newPosition = spaces.left > tooltipWidth + gap ? 'left' : 'top'
     }
-    
-    // Adjust horizontal position for top/bottom tooltips to prevent edge cutoff
+
+    // For horizontal tooltips (top/bottom), handle horizontal overflow
     if (newPosition === 'top' || newPosition === 'bottom') {
-      const tooltipWidth = 280 // Approximate width
-      const elementCenter = rect.left + rect.width / 2
-      const tooltipLeft = elementCenter - tooltipWidth / 2
+      const triggerCenter = triggerRect.left + triggerRect.width / 2
+      const tooltipLeft = triggerCenter - tooltipWidth / 2
       
-      if (tooltipLeft < 10) {
-        style.left = '10px'
-        style.transform = 'translateY(-100%)'
-      } else if (tooltipLeft + tooltipWidth > viewport.width - 10) {
-        style.right = '10px'
-        style.transform = 'translateY(-100%)'
+      if (tooltipLeft < gap) {
+        // Tooltip would overflow left edge
+        style.left = `${gap}px`
+        style.transform = newPosition === 'top' ? 'translateY(-100%)' : 'translateY(0)'
+      } else if (tooltipLeft + tooltipWidth > viewport.width - gap) {
+        // Tooltip would overflow right edge
+        style.right = `${gap}px`
+        style.transform = newPosition === 'top' ? 'translateY(-100%)' : 'translateY(0)'
       }
     }
-    
+
+    // For vertical tooltips (left/right), handle vertical overflow
+    if (newPosition === 'left' || newPosition === 'right') {
+      const triggerCenter = triggerRect.top + triggerRect.height / 2
+      const tooltipTop = triggerCenter - tooltipHeight / 2
+      
+      if (tooltipTop < gap) {
+        // Tooltip would overflow top edge
+        style.top = `${gap}px`
+        style.transform = 'translateY(0)'
+      } else if (tooltipTop + tooltipHeight > viewport.height - gap) {
+        // Tooltip would overflow bottom edge
+        style.bottom = `${gap}px`
+        style.transform = 'translateY(0)'
+      }
+    }
+
     setActualPosition(newPosition)
     setTooltipStyle(style)
+  }
+
+  const handleMouseEnter = () => {
     setIsVisible(true)
+    setTimeout(calculatePosition, 0) // Let the tooltip render first
   }
 
   const getTooltipClasses = () => {
-    const baseClasses = "absolute bg-gray-900 text-white text-sm rounded-lg px-3 py-2 shadow-lg z-[9999] max-w-[280px] min-w-[200px] whitespace-normal break-words"
+    const baseClasses = "absolute bg-gray-900 text-white text-sm rounded-lg px-3 py-2 shadow-xl z-[9999] max-w-[280px] min-w-[160px] whitespace-normal break-words border border-gray-700"
     
+    // Only apply default positioning if no custom style is set
+    if (Object.keys(tooltipStyle).length > 0) {
+      return baseClasses
+    }
+
     switch (actualPosition) {
       case 'top':
-        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 mb-1`
+        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 mb-2`
       case 'bottom':
-        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 translate-y-2 mt-1`
+        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 mt-2`
       case 'left':
-        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 -translate-x-2 mr-1`
+        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 mr-2`
       case 'right':
-        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 translate-x-2 ml-1`
+        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 ml-2`
       default:
         return baseClasses
     }
   }
 
   const getArrowClasses = () => {
-    const baseArrowClasses = "absolute w-0 h-0 border-solid z-[9999]"
+    // Skip arrow if custom positioning is used (too complex to calculate)
+    if (Object.keys(tooltipStyle).length > 0) return ''
+    
+    const baseArrowClasses = "absolute w-0 h-0 border-solid"
     
     switch (actualPosition) {
       case 'top':
@@ -102,6 +142,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
   return (
     <div className="relative inline-block">
       <div
+        ref={triggerRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setIsVisible(false)}
         onClick={() => setIsVisible(!isVisible)}
@@ -111,11 +152,14 @@ const Tooltip = ({ children, content, position = 'top' }) => {
       </div>
       {isVisible && (
         <div 
+          ref={tooltipRef}
           className={getTooltipClasses()}
           style={tooltipStyle}
         >
           {content}
-          <div className={getArrowClasses()}></div>
+          {Object.keys(tooltipStyle).length === 0 && (
+            <div className={getArrowClasses()}></div>
+          )}
         </div>
       )}
     </div>
@@ -272,6 +316,20 @@ const PreviewModal = ({ isOpen, onClose, formData, tourTypes, availableLanguages
 
 // Logic for editing tours (keep existing)
 const canEditTour = (tour) => {
+  if (tour.status === 'cancelled') return false
+  const tourDateTime = new Date(`${tour.tour_date}T${tour.time_slot}:00`)
+  const now = new Date()
+  const isPastTour = tourDateTime < now
+  if (isPastTour) return false
+  const hoursUntilTour = (tourDateTime - now) / (1000 * 60 * 60)
+  if (hoursUntilTour < 24) return false
+  const hasBookings = tour.available_spots < tour.max_capacity
+  if (hasBookings) return false
+  return true
+}
+
+const canDeleteTour = (tour) => {
+  // Same logic as canEditTour - tours can only be deleted under the same conditions as editing
   if (tour.status === 'cancelled') return false
   const tourDateTime = new Date(`${tour.tour_date}T${tour.time_slot}:00`)
   const now = new Date()
@@ -1313,11 +1371,13 @@ const CreateTab = ({
                                 <DollarSign className="w-3 h-3 text-slate-400" />
                                 <span className="text-slate-300">{formatPrice(tour.discount_price_adult)}</span>
                               </div>
-                              <div className={`px-2 py-1 rounded text-xs ${
+                              <div className={`px-2 py-1 rounded text-xs font-medium ${
+                                tour.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
                                 isUpcoming ? 'bg-green-500/20 text-green-400' : 'bg-slate-500/20 text-slate-400'
-                              }`}>
-                                {isUpcoming ? 'Upcoming' : 'Completed'}
-                              </div>
+                                }`}>
+                                {tour.status === 'cancelled' ? 'Cancelled' :
+                                isUpcoming ? 'Upcoming' : 'Completed'}
+                                </div>
                             </div>
                           </div>
                           
@@ -1363,16 +1423,27 @@ const CreateTab = ({
                                 </Tooltip>
                               )}
                               
-                              {isUpcoming && (
+                              {canDeleteTour(tour) ? (
                                 <Tooltip content="Delete tour">
-                                  <button
+                                    <button
                                     onClick={() => handleDelete(tour.id)}
                                     className="p-2 text-slate-400 hover:text-red-400 transition-colors"
-                                  >
+                                    >
                                     <Trash2 className="w-4 h-4" />
-                                  </button>
+                                    </button>
                                 </Tooltip>
-                              )}
+                                ) : (
+                                <Tooltip content={`Cannot delete: ${
+                                    tour.status === 'cancelled' ? 'Tour cancelled' :
+                                    new Date(`${tour.tour_date}T${tour.time_slot}:00`) < new Date() ? 'Tour completed' :
+                                    (new Date(`${tour.tour_date}T${tour.time_slot}:00`) - new Date()) / (1000 * 60 * 60) < 24 ? 'Within 24h of tour' :
+                                    'Has bookings'
+                                }`}>
+                                    <span className="p-2 text-slate-400 opacity-50 cursor-not-allowed inline-block">
+                                    <Trash2 className="w-4 h-4" />
+                                    </span>
+                                </Tooltip>
+                                )}
                             </div>
                           </div>
                         </div>

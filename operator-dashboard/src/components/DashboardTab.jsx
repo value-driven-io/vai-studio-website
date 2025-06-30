@@ -85,8 +85,8 @@ const DashboardTab = ({
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-green-400">↗ +12%</span>
-                  <span className="text-slate-400">vs last month</span>
+                  <span className="text-green-400">🔥 Total</span>
+                  <span className="text-slate-400">this month</span>
                 </div>
               </div>
 

@@ -755,7 +755,7 @@ function App() {
     }
 
   }
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     
@@ -763,37 +763,35 @@ function App() {
     const isValid = validateForm()
     
     if (!isValid) {
-      // Don't submit if there are validation errors
       return
     }
     
-  try {
-    setLoading(true)
+    try {
+      setLoading(true)
 
-    // Remove id for new tours (database will generate new UUID)
-    const { id, ...cleanTourData } = formData
-    
-    const tourData = {
-      ...cleanTourData,
-      operator_id: operator.id,
-      status: 'active',
-      created_by_operator: true
-    }
-
-    if (editingTour) {
-      await operatorService.updateTour(editingTour.id, tourData)
-      alert('✅ Tour updated successfully! Your changes are now live on the platform.')
-    } else {
-      await operatorService.createTour(tourData)
-      alert('🎉 Tour created successfully! It will appear on VAI Tickets within 2 minutes.')
-    }
+      // Remove id and discount_percentage (generated columns)
+      const { id, discount_percentage, ...cleanTourData } = formData
       
+      const tourData = {
+        ...cleanTourData,
+        operator_id: operator.id,
+        status: 'active',
+        created_by_operator: true
+      }
+
+      if (editingTour) {
+        await operatorService.updateTour(editingTour.id, tourData)
+        alert('✅ Tour updated successfully! Your changes are now live on the platform.')
+      } else {
+        await operatorService.createTour(tourData)
+        alert('🎉 Tour created successfully! It will appear on VAI Tickets within 2 minutes.')
+      }
+        
       resetForm()
       fetchTours()
-      fetchAllBookings() // Refresh stats too
+      fetchAllBookings()
       loadDashboardStats()  
     } 
-    
     catch (error) {
       console.error('Error saving tour:', error)
       alert('Error saving tour. Please try again.')
@@ -801,6 +799,7 @@ function App() {
       setLoading(false)
     }
   }
+
 
   const handleEdit = (tour) => {
     setEditingTour(tour)
