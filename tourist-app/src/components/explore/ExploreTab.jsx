@@ -10,6 +10,7 @@ import { useAppStore } from '../../stores/bookingStore'
 import { TOUR_TYPE_EMOJIS, ISLAND_EMOJIS } from '../../constants/moods'
 import BookingModal from '../booking/BookingModal'
 import toast from 'react-hot-toast'
+import TourCard from '../shared/TourCard'
 
 const ExploreTab = () => {
   const { 
@@ -111,194 +112,6 @@ const ExploreTab = () => {
           color: 'white'
         }
       }
-    )
-  }
-
-  const TourCard = ({ tour, mode = 'grid' }) => {
-    const savings = calculateSavings(tour.original_price_adult, tour.discount_price_adult)
-    const urgencyColor = getUrgencyColor(tour.hours_until_deadline)
-    const isFavorite = favorites.includes(tour.id)
-    
-    if (mode === 'list') {
-      return (
-        <div className="bg-slate-800 rounded-xl border border-slate-700 hover:border-slate-600 transition-all p-4">
-          <div className="flex gap-4">
-            <div className="w-24 h-24 bg-slate-700 rounded-lg flex items-center justify-center text-2xl">
-              {TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-semibold text-white truncate">{tour.tour_name}</h3>
-                  <p className="text-slate-400 text-sm">{tour.company_name} • {tour.operator_island}</p>
-                </div>
-                
-                {/* Heart Button for List View */}
-                <button
-                  onClick={(e) => handleFavoriteClick(e, tour.id)}
-                  className={`ml-3 p-2 rounded-full transition-all ${
-                    isFavorite 
-                      ? 'bg-red-500 text-white hover:bg-red-600' 
-                      : 'bg-slate-700 text-slate-400 hover:bg-slate-600 hover:text-red-400'
-                  }`}
-                  title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-                >
-                  <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-4 mb-3">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <Calendar className="w-4 h-4 text-slate-400" />
-                  <div>
-                    <div className="text-sm">{formatDate(tour.tour_date)}</div>
-                    <div className="text-xs text-slate-400">{formatTime(tour.time_slot)}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-slate-300">
-                  <Users className="w-4 h-4 text-slate-400" />
-                  <div>
-                    <div className="text-sm">{tour.available_spots} left</div>
-                    <div className="text-xs text-slate-400">of {tour.max_capacity}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-slate-300">
-                  <MapPin className="w-4 h-4 text-slate-400" />
-                  <div className="text-sm truncate">{tour.meeting_point}</div>
-                </div>
-              </div>
-              
-              {tour.hours_until_deadline && tour.hours_until_deadline <= 8 && (
-                <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mb-2 ${urgencyColor}`}>
-                  <Clock className="w-3 h-3" />
-                  {tour.hours_until_deadline < 1 
-                    ? `${Math.round(tour.hours_until_deadline * 60)} min left`
-                    : `${Math.round(tour.hours_until_deadline)}h left`
-                  }
-                </div>
-              )}
-            </div>
-            
-            <div className="flex flex-col items-end justify-between">
-              <div className="text-right">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-white">
-                    {formatPrice(tour.discount_price_adult)}
-                  </span>
-                  {savings > 0 && (
-                    <span className="text-sm text-slate-400 line-through">
-                      {formatPrice(tour.original_price_adult)}
-                    </span>
-                  )}
-                </div>
-                {savings > 0 && (
-                  <div className="text-xs text-green-400">
-                    Save {formatPrice(savings)}
-                  </div>
-                )}
-              </div>
-              
-              <button
-                onClick={() => handleBookTour(tour)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
-              >
-                Reserve Spot
-              </button>
-            </div>
-          </div>
-        </div>
-      )
-    }
-    
-    // Grid View (default)
-    return (
-      <div className="bg-slate-800 rounded-xl border border-slate-700 hover:border-slate-600 transition-all relative">
-        {/* Heart Button for Grid View - Top Right */}
-        <button
-          onClick={(e) => handleFavoriteClick(e, tour.id)}
-          className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all shadow-lg ${
-            isFavorite 
-              ? 'bg-red-500 text-white hover:bg-red-600 hover:scale-110' 
-              : 'bg-slate-700/80 text-slate-400 hover:bg-slate-600 hover:text-red-400 backdrop-blur-sm'
-          }`}
-          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-        >
-          <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
-        </button>
-
-        <div className="p-4">
-          {/* Urgency Badge */}
-          {tour.hours_until_deadline && tour.hours_until_deadline <= 8 && (
-            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mb-3 ${urgencyColor}`}>
-              <Clock className="w-3 h-3" />
-              {tour.hours_until_deadline < 1 
-                ? `${Math.round(tour.hours_until_deadline * 60)} min left`
-                : `${Math.round(tour.hours_until_deadline)}h left`
-              }
-            </div>
-          )}
-
-          {/* Tour Title with padding for heart */}
-          <div className="flex items-center gap-2 mb-2 pr-12">
-            <span className="text-xl">{TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}</span>
-            <h3 className="text-lg font-semibold text-white">{tour.tour_name}</h3>
-          </div>
-          
-          <div className="text-slate-400 text-sm mb-3">
-            with {tour.company_name} • {tour.operator_island}
-          </div>
-
-          {/* Tour Details */}
-          <div className="grid grid-cols-1 gap-3 mb-4">
-            <div className="flex items-center gap-2 text-slate-300">
-              <Calendar className="w-4 h-4 text-slate-400" />
-              <div>
-                <div className="text-sm font-medium">{formatDate(tour.tour_date)}</div>
-                <div className="text-xs text-slate-400">{formatTime(tour.time_slot)}</div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between text-slate-300">
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-slate-400" />
-                <span className="text-sm">{tour.available_spots} spots left</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-slate-400" />
-                <span className="text-sm">{tour.meeting_point}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Pricing and Actions */}
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-white">
-                  {formatPrice(tour.discount_price_adult)}
-                </span>
-                {savings > 0 && (
-                  <span className="text-sm text-slate-400 line-through">
-                    {formatPrice(tour.original_price_adult)}
-                  </span>
-                )}
-              </div>
-              {savings > 0 && (
-                <div className="text-xs text-green-400">
-                  Save {formatPrice(savings)}
-                </div>
-              )}
-            </div>
-
-            <button
-              onClick={() => handleBookTour(tour)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
-            >
-              Reserve Spot
-            </button>
-          </div>
-        </div>
-      </div>
     )
   }
 
@@ -529,7 +342,7 @@ const ExploreTab = () => {
         {loading ? (
           <div className={`grid gap-6 ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2' 
               : 'grid-cols-1'
           }`}>
             {[...Array(8)].map((_, i) => (
@@ -553,11 +366,30 @@ const ExploreTab = () => {
         ) : (
           <div className={`grid gap-6 ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2' 
               : 'grid-cols-1'
           }`}>
             {tours.map(tour => (
-              <TourCard key={tour.id} tour={tour} mode={viewMode} />
+              <TourCard 
+                key={tour.id} 
+                tour={tour} 
+                mode={viewMode === 'list' ? 'expanded' : 'compact'}
+                onBookingClick={handleBookTour}
+                onFavoriteToggle={(tourId) => {
+                  const isFavorite = favorites.includes(tourId)
+                  toggleFavorite(tourId)
+                  toast.success(
+                    isFavorite ? '💔 Removed from favorites' : '❤️ Added to favorites',
+                    { duration: 2000, style: { background: isFavorite ? '#dc2626' : '#16a34a', color: 'white' }}
+                  )
+                }}
+                isFavorite={favorites.includes(tour.id)}
+                formatPrice={formatPrice}
+                formatDate={formatDate}
+                formatTime={formatTime}
+                calculateSavings={calculateSavings}
+                getUrgencyColor={getUrgencyColor}
+              />
             ))}
           </div>
         )}

@@ -1,19 +1,21 @@
-// src/components/discovery/DiscoverTab.jsx
-import React, { useState } from 'react'
-import { RefreshCw, Clock, Users, MapPin, Star, ArrowRight, Calendar } from 'lucide-react'
+// Enhanced DiscoverTab Integration
+// File: src/components/discovery/DiscoverTab.jsx
+
+import React, { useState, useEffect } from 'react'
+import { RefreshCw, ArrowRight, Sparkles, Zap, Filter } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
-import { MOOD_CATEGORIES, TOUR_TYPE_EMOJIS } from '../../constants/moods'
+import { MOOD_CATEGORIES } from '../../constants/moods'
+import TourCard from '../shared/TourCard' // Import our enhanced component
 import BookingModal from '../booking/BookingModal'
-import { Heart } from 'lucide-react'
+import AuthModal from '../auth/AuthModal'
 import toast from 'react-hot-toast'
 import { useAuth } from '../../contexts/AuthContext'
-import AuthModal from '../auth/AuthModal'
 
 const DiscoverTab = () => {
-  const { selectedMood, setMood, setActiveTab } = useAppStore()
+  const { selectedMood, setMood, setActiveTab, favorites, toggleFavorite } = useAppStore()
   const { 
-    urgentTours = [], // Default to empty array
+    urgentTours = [], 
     moodTours = [], 
     discoverTours = [], 
     loading, 
@@ -25,16 +27,15 @@ const DiscoverTab = () => {
     calculateSavings 
   } = useTours()
 
-  // Favorites
-  const { favorites, toggleFavorite } = useAppStore()
-
-  // Booking modal state
+  // Modal states
   const [selectedTour, setSelectedTour] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
-  
-  // Auth modal state
   const [showAuthModal, setShowAuthModal] = useState(false)
-  const { user, signOut, isAuthenticated } = useAuth()
+  
+  // Animation state
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  
+  const { user, isAuthenticated } = useAuth()
 
   const handleMoodSelect = (moodId) => {
     if (selectedMood === moodId) {
@@ -54,275 +55,148 @@ const DiscoverTab = () => {
     setSelectedTour(null)
   }
 
-  const TourCard = ({ tour, isUrgent = false }) => {
-    const { favorites, toggleFavorite } = useAppStore()
-    const isFavorite = favorites.includes(tour.id)
-    
-    if (!tour) return null
-    
-    const savings = calculateSavings(tour.original_price_adult, tour.discount_price_adult)
-    const urgencyColor = getUrgencyColor(tour.hours_until_deadline)
-    
-    const handleFavoriteClick = (e) => {
-      e.stopPropagation() // Prevent card click
-      toggleFavorite(tour.id)
-      toast.success(
-        isFavorite ? '💔 Removed from favorites' : '❤️ Added to favorites',
-        {
-          duration: 2000,
-          style: {
-            background: isFavorite ? '#dc2626' : '#16a34a',
-            color: 'white'
-          }
+  const handleFavoriteToggle = (tourId) => {
+    toggleFavorite(tourId)
+    const isFavorite = favorites.includes(tourId)
+    toast.success(
+      isFavorite ? '💔 Removed from favorites' : '❤️ Added to favorites',
+      {
+        duration: 2000,
+        style: {
+          background: isFavorite ? '#dc2626' : '#16a34a',
+          color: 'white'
         }
-      )
-    }
-    
-    return (
-      <div className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-slate-600 transition-all relative">
-        {/* Favorite Heart Button - Top Right */}
-        <button
-          onClick={handleFavoriteClick}
-          className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all shadow-lg ${
-            isFavorite 
-              ? 'bg-red-500 text-white hover:bg-red-600 hover:scale-110' 
-              : 'bg-slate-700/80 text-slate-400 hover:bg-slate-600 hover:text-red-400 backdrop-blur-sm'
-          }`}
-          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-        >
-          <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
-        </button>
-
-        {/* Tour Header */}
-        <div className="p-4">
-          {/* Urgency Badge */}
-          {isUrgent && tour.hours_until_deadline && (
-            <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mb-3 ${urgencyColor}`}>
-              <Clock className="w-3 h-3" />
-              {tour.hours_until_deadline < 1 
-                ? `${Math.round(tour.hours_until_deadline * 60)} min left`
-                : `${Math.round(tour.hours_until_deadline)}h left`
-              }
-            </div>
-          )}
-
-          {/* Tour Title */}
-          <div className="flex items-center gap-2 mb-2 pr-12"> {/* Add right padding for heart button */}
-            <span className="text-xl">{TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}</span>
-            <h3 className="text-lg font-semibold text-white">{tour.tour_name}</h3>
-          </div>
-          
-          <div className="text-slate-400 text-sm mb-3">
-            with {tour.company_name} • {tour.operator_island}
-          </div>
-
-          {/* Tour Details */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div className="flex items-center gap-2 text-slate-300">
-              <Calendar className="w-4 h-4 text-slate-400" />
-              <div>
-                <div className="text-sm font-medium">
-                  {formatDate(tour.tour_date)}
-                </div>
-                <div className="text-xs text-slate-400">
-                  {formatTime(tour.time_slot)}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 text-slate-300">
-              <Users className="w-4 h-4 text-slate-400" />
-              <div>
-                <div className="text-sm font-medium">
-                  {tour.available_spots} spots left
-                </div>
-                <div className="text-xs text-slate-400">
-                  of {tour.max_capacity}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Pricing and Actions */}
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-white">
-                  {formatPrice(tour.discount_price_adult)}
-                </span>
-                {savings > 0 && (
-                  <span className="text-sm text-slate-400 line-through">
-                    {formatPrice(tour.original_price_adult)}
-                  </span>
-                )}
-              </div>
-              {savings > 0 && (
-                <div className="text-xs text-green-400">
-                  Save {formatPrice(savings)}
-                </div>
-              )}
-            </div>
-
-            <button
-              onClick={() => handleBookTour(tour)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
-            >
-              Reserve Spot
-            </button>
-          </div>
-        </div>
-      </div>
+      }
     )
+  }
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    try {
+      await refreshTours()
+      toast.success('Tours updated!', {
+        icon: '🌴',
+        duration: 2000
+      })
+    } catch (error) {
+      toast.error('Failed to refresh tours')
+    } finally {
+      setIsRefreshing(false)
+    }
   }
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <div className="max-w-md mx-auto px-4">
-        {/* Header */}
-        <div className="text-center pt-8 pb-6">
-          <h1 className="text-3xl font-bold text-white mb-2">
-            🌴 VAI Tickets
-          </h1>
-          <p className="text-slate-400">
-            Discover French Polynesia
-          </p>
-          
-
-          
-          {/* Refresh Button */}
-          <button
-            onClick={refreshTours}
-            disabled={loading}
-            className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg transition-colors disabled:opacity-50"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            Refresh Tours
-          </button>
-
-          {/* TEST AUTH - Add this temporarily after refresh button */}
-          <div className="mt-4 flex gap-2">
-            {isAuthenticated ? (
-              <div className="flex items-center gap-2">
-                <span className="text-green-400 text-sm">✅ Logged in: {user?.email}</span>
-                <button
-                  onClick={signOut}
-                  className="text-xs bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded"
-                >
-                  Sign Out
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setShowAuthModal(true)}
-                className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg"
-              >
-                Test Login
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Mood Selector */}
-        <div className="bg-slate-800 rounded-xl p-6 mb-6">
-          <h2 className="text-xl font-semibold text-white mb-4">
-            What's your mood today?
-          </h2>
-          <div className="grid grid-cols-2 gap-3">
-            {MOOD_CATEGORIES.map((mood) => (
-              <button
-                key={mood.id}
-                onClick={() => handleMoodSelect(mood.id)}
-                className={`p-4 rounded-lg text-white transition-all ${
-                  selectedMood === mood.id
-                    ? `${mood.colors.bg} ring-2 ${mood.colors.border}`
-                    : `bg-slate-700 ${mood.colors.hover}`
-                }`}
-              >
-                <div className="text-2xl mb-1">{mood.emoji}</div>
-                <div className="font-medium">{mood.title}</div>
-                <div className="text-xs opacity-80">{mood.subtitle}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Mood-Based Results */}
-        {selectedMood && (
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-white">
-                Perfect for {MOOD_CATEGORIES.find(m => m.id === selectedMood)?.title}
-              </h3>
-              {moodTours && moodTours.length > 0 && (
-                <span className="text-sm text-slate-400">
-                  {moodTours.length} found
-                </span>
-              )}
+      {/* Header with Gradient */}
+      <div className="bg-gradient-to-br from-blue-600 via-teal-700 to-yellow-600 px-4 pt-8 pb-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-2xl font-bold text-white mb-1">
+                🌴 Discover French Polynesia
+              </h1>
+              <p className="text-blue-100 text-sm">
+                Last-minute adventures with amazing discounts
+              </p>
             </div>
             
-            {loading ? (
-              <div className="space-y-4">
-                {[1, 2].map(i => (
-                  <div key={i} className="bg-slate-800 rounded-xl h-48 animate-pulse"></div>
-                ))}
-              </div>
-            ) : moodTours && moodTours.length > 0 ? (
-              <div className="space-y-4">
-                {moodTours.slice(0, 3).map(tour => (
-                  <TourCard key={tour.id} tour={tour} />
-                ))}
-                {moodTours.length > 3 && (
-                  <button
-                    onClick={() => setActiveTab('explore')}
-                    className="w-full p-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
-                  >
-                    See {moodTours.length - 3} more tours
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="bg-slate-800 rounded-xl p-6 text-center">
-                <p className="text-slate-400">No tours found for this mood</p>
-                <p className="text-slate-500 text-sm mt-1">Try a different mood or check back later</p>
-              </div>
-            )}
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white 
+                       px-4 py-2 rounded-lg transition-colors duration-200 backdrop-blur-sm"
+            >
+              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+              <span className="hidden sm:inline">Refresh</span>
+            </button>
           </div>
-        )}
+        </div>
+      </div>
 
-        {/* Urgent Deals */}
-        {urgentTours && urgentTours.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              ⚡ Last-Minute Deals
-              <span className="text-sm bg-red-500 text-white px-2 py-1 rounded-full">
-                Urgent
-              </span>
-            </h3>
-            <div className="space-y-4">
-              {urgentTours.slice(0, 2).map(tour => (
-                <TourCard key={tour.id} tour={tour} isUrgent={true} />
-              ))}
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+        
+        {/* Mood Selection */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-yellow-400" />
+            What's your mood today?
+          </h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {MOOD_CATEGORIES.map((mood) => (
+              <MoodCard
+                key={mood.id}
+                mood={mood}
+                isSelected={selectedMood === mood.id}
+                onClick={() => handleMoodSelect(mood.id)}
+              />
+            ))}
+          </div>
+          
+          {selectedMood && (
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <button
+                onClick={() => setMood(null)}
+                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 
+                         rounded-lg transition-colors duration-200"
+              >
+                Clear Mood
+              </button>
+              <button
+                onClick={() => setActiveTab('explore')}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white 
+                         rounded-lg transition-colors duration-200 flex items-center gap-2"
+              >
+                Browse All Tours
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        {/* Available Tours (when no mood selected) */}
-        {!selectedMood && discoverTours && discoverTours.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-4">
-              🌴 Available Tours
-            </h3>
+        {/* Urgent Deals Section */}
+        {urgentTours && urgentTours.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+                <Zap className="w-5 h-5 text-orange-400" />
+                Last-Minute Deals
+                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                  URGENT
+                </span>
+              </h2>
+              <div className="text-sm text-slate-400">
+                {urgentTours.length} tour{urgentTours.length !== 1 ? 's' : ''} ending soon
+              </div>
+            </div>
+            
             <div className="space-y-4">
-              {discoverTours.slice(0, 4).map(tour => (
-                <TourCard key={tour.id} tour={tour} />
+              {urgentTours.slice(0, 3).map((tour) => (
+                <TourCard
+                  key={tour.id}
+                  tour={tour}
+                  isUrgent={true}
+                  onBookingClick={handleBookTour}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  isFavorite={favorites.includes(tour.id)}
+                  formatPrice={formatPrice}
+                  formatDate={formatDate}
+                  formatTime={formatTime}
+                  calculateSavings={calculateSavings}
+                  getUrgencyColor={getUrgencyColor}
+                  className="animate-in slide-in-from-left duration-500"
+                />
               ))}
-              {discoverTours.length > 4 && (
+              
+              {urgentTours.length > 3 && (
                 <button
                   onClick={() => setActiveTab('explore')}
-                  className="w-full p-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="w-full p-4 bg-slate-800 hover:bg-slate-700 text-white 
+                           rounded-lg transition-colors duration-200 flex items-center justify-center gap-2
+                           border border-slate-700 hover:border-slate-600"
                 >
-                  See {discoverTours.length - 4} more tours
+                  View {urgentTours.length - 3} More Urgent Deals
                   <ArrowRight className="w-4 h-4" />
                 </button>
               )}
@@ -330,75 +204,226 @@ const DiscoverTab = () => {
           </div>
         )}
 
-        {/* Didn't Find Section - Only show if no tours at all */}
-        {(!urgentTours || urgentTours.length === 0) && 
-         (!discoverTours || discoverTours.length === 0) && 
-         (!moodTours || moodTours.length === 0) && (
-          <div className="bg-slate-800 rounded-xl p-6 mb-6">
-            <h3 className="text-lg font-semibold text-white mb-3">
-              No tours available right now
-            </h3>
-            <div className="space-y-3">
-              <p className="text-slate-400 text-sm">
-                Check back later or try browsing all tours including future dates.
-              </p>
+        {/* Mood-Based Tours */}
+        {selectedMood && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-white">
+              Perfect for Your {MOOD_CATEGORIES.find(m => m.id === selectedMood)?.title} Mood
+            </h2>
+            
+            {loading ? (
+              <TourCardSkeleton count={3} />
+            ) : moodTours && moodTours.length > 0 ? (
+              <div className="space-y-4">
+                {moodTours.slice(0, 4).map((tour, index) => (
+                  <TourCard
+                    key={tour.id}
+                    tour={tour}
+                    onBookingClick={handleBookTour}
+                    onFavoriteToggle={handleFavoriteToggle}
+                    isFavorite={favorites.includes(tour.id)}
+                    formatPrice={formatPrice}
+                    formatDate={formatDate}
+                    formatTime={formatTime}
+                    calculateSavings={calculateSavings}
+                    getUrgencyColor={getUrgencyColor}
+                    className={`animate-in slide-in-from-right duration-500`}
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  />
+                ))}
+                
+                {moodTours.length > 4 && (
+                  <button
+                    onClick={() => setActiveTab('explore')}
+                    className="w-full p-3 bg-slate-800 hover:bg-slate-700 text-white 
+                             rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                  >
+                    See {moodTours.length - 4} More Tours
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            ) : (
+              <EmptyState 
+                title="No tours found for this mood"
+                description="Try a different mood or check back later for new adventures"
+                onActionClick={() => setMood(null)}
+                actionText="Clear Mood"
+              />
+            )}
+          </div>
+        )}
+
+        {/* General Tours (when no mood selected) */}
+        {!selectedMood && discoverTours && discoverTours.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-white flex items-center justify-between">
+              <span>🌴 Available Adventures</span>
               <button
                 onClick={() => setActiveTab('explore')}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="text-sm text-blue-400 hover:text-blue-300 transition-colors 
+                         flex items-center gap-1"
               >
-                Browse All Tours
-                <ArrowRight className="w-4 h-4" />
+                View All
+                <ArrowRight className="w-3 h-3" />
               </button>
+            </h2>
+            
+            <div className="space-y-4">
+              {discoverTours.slice(0, 5).map((tour, index) => (
+                <TourCard
+                  key={tour.id}
+                  tour={tour}
+                  onBookingClick={handleBookTour}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  isFavorite={favorites.includes(tour.id)}
+                  formatPrice={formatPrice}
+                  formatDate={formatDate}
+                  formatTime={formatTime}
+                  calculateSavings={calculateSavings}
+                  getUrgencyColor={getUrgencyColor}
+                  className="animate-in fade-in duration-500"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                />
+              ))}
             </div>
           </div>
         )}
 
-        {/* Didn't Find Section - Show if tours exist but none match mood */}
-        {((urgentTours && urgentTours.length > 0) || (discoverTours && discoverTours.length > 0)) && 
-         selectedMood && (!moodTours || moodTours.length === 0) && (
-          <div className="bg-slate-800 rounded-xl p-6 mb-6">
-            <h3 className="text-lg font-semibold text-white mb-3">
-              No {selectedMood} tours available
-            </h3>
-            <div className="space-y-3">
-              <p className="text-slate-400 text-sm">
-                Try a different mood or browse all available tours.
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setMood(null)}
-                  className="flex-1 bg-slate-600 hover:bg-slate-500 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-                >
-                  Clear Mood
-                </button>
-                <button
-                  onClick={() => setActiveTab('explore')}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-                >
-                  Browse All
-                </button>
-              </div>
-            </div>
-          </div>
+        {/* Call to Action */}
+        {!loading && (
+          <CallToActionSection 
+            onExploreClick={() => setActiveTab('explore')}
+            onRefreshClick={handleRefresh}
+            isRefreshing={isRefreshing}
+          />
         )}
       </div>
 
-      {/* Booking Modal */}
+      {/* Modals */}
       <BookingModal 
         tour={selectedTour}
         isOpen={showBookingModal}
         onClose={handleCloseBookingModal}
       />
 
-      {/* Auth Modal */}
       <AuthModal 
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         defaultMode="register"
       />
-
     </div>
   )
 }
+
+// Mood Card Component
+const MoodCard = ({ mood, isSelected, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
+      isSelected
+        ? 'border-blue-500 bg-blue-500/20 shadow-lg shadow-blue-500/25'
+        : 'border-slate-700 bg-slate-800 hover:border-slate-600 hover:bg-slate-700'
+    }`}
+  >
+    <div className="text-center">
+      <div className="text-3xl mb-2" role="img" aria-label={mood.title}>
+        {mood.emoji}
+      </div>
+      <div className={`font-semibold mb-1 ${
+        isSelected ? 'text-blue-300' : 'text-white'
+      }`}>
+        {mood.title}
+      </div>
+      <div className="text-xs text-slate-400 leading-tight">
+        {mood.subtitle}
+      </div>
+    </div>
+  </button>
+)
+
+// Tour Card Skeleton Loader
+const TourCardSkeleton = ({ count = 3 }) => (
+  <div className="space-y-4">
+    {[...Array(count)].map((_, i) => (
+      <div key={i} className="bg-slate-800 rounded-xl p-4 border border-slate-700">
+        <div className="animate-pulse">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              <div className="h-6 bg-slate-700 rounded w-3/4 mb-2"></div>
+              <div className="h-4 bg-slate-700 rounded w-1/2"></div>
+            </div>
+            <div className="w-8 h-8 bg-slate-700 rounded-full"></div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="h-12 bg-slate-700 rounded"></div>
+            <div className="h-12 bg-slate-700 rounded"></div>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <div className="h-6 bg-slate-700 rounded w-1/3"></div>
+            <div className="h-10 bg-slate-700 rounded w-24"></div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)
+
+// Empty State Component
+const EmptyState = ({ title, description, onActionClick, actionText }) => (
+  <div className="text-center py-12 bg-slate-800 rounded-xl border border-slate-700">
+    <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+      <span className="text-2xl">🌴</span>
+    </div>
+    <h3 className="text-lg font-semibold text-slate-300 mb-2">{title}</h3>
+    <p className="text-slate-500 mb-4 max-w-md mx-auto">{description}</p>
+    {onActionClick && (
+      <button
+        onClick={onActionClick}
+        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg 
+                 transition-colors duration-200"
+      >
+        {actionText}
+      </button>
+    )}
+  </div>
+)
+
+// Call to Action Section
+const CallToActionSection = ({ onExploreClick, onRefreshClick, isRefreshing }) => (
+  <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 
+                  rounded-xl p-6 text-center">
+    <h3 className="text-lg font-semibold text-white mb-2">
+      Didn't find what you're looking for?
+    </h3>
+    <p className="text-slate-400 mb-4">
+      Explore our complete collection of tours or refresh for new last-minute deals
+    </p>
+    
+    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+      <button
+        onClick={onExploreClick}
+        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg 
+                 font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+      >
+        <Filter className="w-4 h-4" />
+        Browse All Tours
+      </button>
+      
+      <button
+        onClick={onRefreshClick}
+        disabled={isRefreshing}
+        className="bg-slate-700 hover:bg-slate-600 text-slate-300 px-6 py-3 rounded-lg 
+                 font-medium transition-colors duration-200 flex items-center justify-center gap-2
+                 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+        Refresh Tours
+      </button>
+    </div>
+  </div>
+)
 
 export default DiscoverTab

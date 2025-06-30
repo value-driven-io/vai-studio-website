@@ -1,4 +1,5 @@
 // src/hooks/useTours.js
+
 import { useState, useEffect, useCallback } from 'react'
 import { tourService } from '../services/tourService'
 import { useAppStore } from '../stores/bookingStore'
@@ -16,21 +17,67 @@ export const useTours = () => {
 
   const [urgentTours, setUrgentTours] = useState([])
   const [moodTours, setMoodTours] = useState([])
-  const [discoverTours, setDiscoverTours] = useState([]) // Ensure it's initialized
+  const [discoverTours, setDiscoverTours] = useState([])
   const [error, setError] = useState(null)
 
-  // Fetch all tours
+  // ✨ ENHANCED: Add calculated fields to tours
+  const enrichTours = useCallback((tours) => {
+    return tours.map(tour => ({
+      ...tour,
+      // Calculate hours until booking deadline
+      hours_until_deadline: calculateHoursUntilDeadline(tour.booking_deadline),
+      // Calculate savings
+      savings_amount: tour.original_price_adult - tour.discount_price_adult,
+      savings_percentage: Math.round(
+        ((tour.original_price_adult - tour.discount_price_adult) / tour.original_price_adult) * 100
+      ),
+      // Add special badges
+      special_badges: getSpecialBadges(tour),
+      // Add language flags  
+      language_flags: getLanguageFlags(tour.languages)
+    }))
+  }, [])
+
+  // ✨ ENHANCED: Helper functions (keep your existing ones + add new ones)
+  const calculateHoursUntilDeadline = useCallback((deadline) => {
+    if (!deadline) return null
+    const now = new Date()
+    const deadlineDate = new Date(deadline)
+    const diffMs = deadlineDate - now
+    return Math.max(0, diffMs / (1000 * 60 * 60))
+  }, [])
+
+  const getSpecialBadges = useCallback((tour) => {
+    const badges = []
+    if (tour.whale_regulation_compliant) {
+      badges.push({ type: 'eco', text: 'Eco-Certified', color: 'green' })
+    }
+    if (tour.discount_percentage >= 30) {
+      badges.push({ type: 'discount', text: 'Great Deal', color: 'blue' })
+    }
+    return badges
+  }, [])
+
+  const getLanguageFlags = useCallback((languages) => {
+    if (!languages || !Array.isArray(languages)) return []
+    const flagMap = {
+      'en': '🇬🇧', 'fr': '🇫🇷', 'de': '🇩🇪', 'es': '🇪🇸'
+    }
+    return languages.map(lang => flagMap[lang.toLowerCase()]).filter(Boolean)
+  }, [])
+
+  // EXISTING: Fetch all tours (keep your existing logic)
   const fetchTours = useCallback(async (showToast = false) => {
     try {
       setLoading(true)
       setError(null)
       
       const data = await tourService.getActiveTours(filters)
-      setTours(data)
+      const enrichedData = enrichTours(data) // ✨ ENHANCED: Add enrichment
+      setTours(enrichedData)
       
-      // Only show toast if explicitly requested (not on auto-refresh)
       if (showToast) {
-        console.log(`Fetched ${data.length} tours with current filters:`, filters)
+        console.log(`Fetched ${enrichedData.length} tours with current filters:`, filters)
       }
     } catch (err) {
       console.error('Error fetching tours:', err)
@@ -41,37 +88,37 @@ export const useTours = () => {
     } finally {
       setLoading(false)
     }
-  }, [filters, setTours, setLoading])
+  }, [filters, setTours, setLoading, enrichTours])
 
-  // Fetch general discover tours (today + next 3 days)
+  // EXISTING: Fetch general discover tours (keep your existing logic)
   const fetchDiscoverTours = useCallback(async () => {
     try {
       const data = await tourService.getDiscoverTours()
-      setDiscoverTours(data)
+      const enrichedData = enrichTours(data) // ✨ ENHANCED: Add enrichment
+      setDiscoverTours(enrichedData)
     } catch (err) {
       console.error('Error fetching discover tours:', err)
     }
-  }, [])
+  }, [enrichTours])
 
-  // Fetch urgent tours (separate from main tours)
+  // EXISTING: Fetch urgent tours (keep your existing logic)
   const fetchUrgentTours = useCallback(async () => {
     try {
       const data = await tourService.getUrgentTours()
-      setUrgentTours(data)
+      const enrichedData = enrichTours(data) // ✨ ENHANCED: Add enrichment
+      setUrgentTours(enrichedData)
     } catch (err) {
       console.error('Error fetching urgent tours:', err)
     }
-  }, [])
+  }, [enrichTours])
 
-  // Fetch tours by mood (using discover date range)
+  // EXISTING: Fetch tours by mood (keep your existing logic)
   const fetchMoodTours = useCallback(async (mood) => {
     try {
       setLoading(true)
       
-      // First get all discover tours (today + next 3 days)
       const allDiscoverTours = await tourService.getDiscoverTours()
       
-      // Then filter by mood
       const moodMapping = {
         adventure: ['Adrenalin', 'Hike', 'Diving'],
         relax: ['Mindfulness', 'Lagoon Tour', 'Cultural'],
@@ -84,32 +131,31 @@ export const useTours = () => {
         relevantTypes.includes(tour.tour_type)
       )
       
-      setMoodTours(filtered)
+      const enrichedData = enrichTours(filtered) // ✨ ENHANCED: Add enrichment
+      setMoodTours(enrichedData)
     } catch (err) {
       console.error('Error fetching mood tours:', err)
       setError(err.message)
     } finally {
       setLoading(false)
     }
-  }, [setLoading])
+  }, [setLoading, enrichTours])
 
-  // Auto-fetch tours when filters change
+  // EXISTING: Auto-fetch effects (keep your existing logic)
   useEffect(() => {
     fetchTours()
   }, [fetchTours])
 
-  // Auto-fetch urgent tours and discover tours on mount and every 5 minutes
   useEffect(() => {
     fetchUrgentTours()
     fetchDiscoverTours()
     const interval = setInterval(() => {
       fetchUrgentTours()
       fetchDiscoverTours()
-    }, 5 * 60 * 1000) // 5 minutes
+    }, 5 * 60 * 1000)
     return () => clearInterval(interval)
   }, [fetchUrgentTours, fetchDiscoverTours])
 
-  // Fetch mood tours when mood changes
   useEffect(() => {
     if (selectedMood) {
       fetchMoodTours(selectedMood)
@@ -118,23 +164,26 @@ export const useTours = () => {
     }
   }, [selectedMood, fetchMoodTours])
 
-  // Manual refresh function
+  // EXISTING: Manual refresh function (keep your existing logic + enhance)
   const refreshTours = useCallback(async () => {
     try {
       setLoading(true)
       
-      // Fetch all tour types simultaneously
       const [allTours, urgentData, discoverData] = await Promise.all([
         tourService.getActiveTours(filters),
         tourService.getUrgentTours(),
         tourService.getDiscoverTours()
       ])
       
-      setTours(allTours)
-      setUrgentTours(urgentData)
-      setDiscoverTours(discoverData)
+      // ✨ ENHANCED: Enrich all data
+      const enrichedAllTours = enrichTours(allTours)
+      const enrichedUrgentTours = enrichTours(urgentData)
+      const enrichedDiscoverTours = enrichTours(discoverData)
       
-      // Re-fetch mood tours if mood is selected
+      setTours(enrichedAllTours)
+      setUrgentTours(enrichedUrgentTours)
+      setDiscoverTours(enrichedDiscoverTours)
+      
       if (selectedMood) {
         const moodMapping = {
           adventure: ['Adrenalin', 'Hike', 'Diving'],
@@ -144,15 +193,15 @@ export const useTours = () => {
         }
         
         const relevantTypes = moodMapping[selectedMood] || []
-        const filtered = discoverData.filter(tour => 
+        const filtered = enrichedDiscoverTours.filter(tour => 
           relevantTypes.includes(tour.tour_type)
         )
         setMoodTours(filtered)
       }
       
-      // Show comprehensive toast
+      // EXISTING: Keep your existing toast logic
       const moodCount = selectedMood ? moodTours.length : 0
-      toast.success(`Refreshed! Found ${urgentData.length} urgent deals, ${discoverData.length} total tours${selectedMood ? `, ${moodCount} ${selectedMood} tours` : ''}`)
+      toast.success(`Refreshed! Found ${enrichedUrgentTours.length} urgent deals, ${enrichedDiscoverTours.length} total tours${selectedMood ? `, ${moodCount} ${selectedMood} tours` : ''}`)
       
     } catch (err) {
       console.error('Error refreshing tours:', err)
@@ -160,15 +209,14 @@ export const useTours = () => {
     } finally {
       setLoading(false)
     }
-  }, [filters, selectedMood, moodTours.length, setTours, setLoading])
+  }, [filters, selectedMood, moodTours.length, setTours, setLoading, enrichTours])
 
-  // Helper function to format price
+  // EXISTING: Helper functions (keep your existing ones)
   const formatPrice = (price) => {
     if (!price) return '0 XPF'
     return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
   }
 
-  // Helper function to format date
   const formatDate = (dateString) => {
     if (!dateString) return ''
     const date = new Date(dateString)
@@ -179,27 +227,27 @@ export const useTours = () => {
     })
   }
 
-  // Helper function to format time
   const formatTime = (timeSlot) => {
     if (!timeSlot) return ''
     return timeSlot
   }
 
-  // Helper function to get urgency color
+  // ✨ ENHANCED: Improved urgency color logic
   const getUrgencyColor = (hoursLeft) => {
-    if (!hoursLeft) return 'text-green-400 bg-green-500/20'
-    if (hoursLeft < 1) return 'text-red-400 bg-red-500/20'
-    if (hoursLeft < 2) return 'text-orange-400 bg-orange-500/20'
-    if (hoursLeft < 4) return 'text-yellow-400 bg-yellow-500/20'
-    return 'text-green-400 bg-green-500/20'
+    if (!hoursLeft) return 'text-slate-400 bg-slate-700/50 border-slate-600'
+    if (hoursLeft <= 2) return 'text-red-100 bg-red-500 border-red-400'
+    if (hoursLeft <= 4) return 'text-orange-100 bg-orange-500 border-orange-400'
+    if (hoursLeft <= 8) return 'text-yellow-100 bg-yellow-500 border-yellow-400'
+    return 'text-green-100 bg-green-500 border-green-400'
   }
 
-  // Helper function to calculate savings
+  // ✨ ENHANCED: Better savings calculation
   const calculateSavings = (original, discount) => {
-    if (!original || !discount) return 0
-    return original - discount
+    if (!original || !discount || original <= discount) return 0
+    return Math.round(((original - discount) / original) * 100)
   }
 
+  // EXISTING: Return the same interface your components expect
   return {
     // Data
     tours,
@@ -216,7 +264,7 @@ export const useTours = () => {
     fetchDiscoverTours,
     refreshTours,
     
-    // Helpers
+    // Helpers (existing + enhanced)
     formatPrice,
     formatDate,
     formatTime,
