@@ -3,7 +3,7 @@
 export const MOOD_CATEGORIES = [
   {
     id: 'adventure',
-    emoji: '🏃‍♀️',
+    emoji: '⛰️',
     title: 'Adventure',
     subtitle: 'Get your adrenaline pumping',
     description: 'Thrilling experiences that challenge your limits',
@@ -31,7 +31,7 @@ export const MOOD_CATEGORIES = [
   },
   {
     id: 'culture',
-    emoji: '🌺',
+    emoji: '🗿',
     title: 'Culture',
     subtitle: 'Connect with traditions',
     description: 'Authentic local experiences and heritage',
