@@ -1,5 +1,6 @@
 // src/services/tourService.js
 import { supabase } from './supabase'
+import { getTodayInFP, getTomorrowInFP, getDaysFromTodayInFP } from '../lib/timezone'
 
 export const tourService = {
   // Get all active tours with enhanced filtering
@@ -21,30 +22,55 @@ export const tourService = {
         query = query.eq('tour_type', filters.tourType)
       }
 
-      if (filters.timeframe && filters.timeframe !== 'all') {
-        const today = new Date()
-        today.setHours(0, 0, 0, 0)
+      // Enhanced date filtering
+      if (filters.dateRange) {
+        if (filters.dateRange.start) {
+          query = query.gte('tour_date', filters.dateRange.start)
+        }
+        if (filters.dateRange.end) {
+          query = query.lte('tour_date', filters.dateRange.end)
+        }
+      } else if (filters.timeframe && filters.timeframe !== 'all') {
+        // Use French Polynesia timezone for accurate date filtering
+        const todayFP = getTodayInFP()
+        const tomorrowFP = getTomorrowInFP()
         
         switch (filters.timeframe) {
           case 'today':
-            const endOfToday = new Date(today)
-            endOfToday.setDate(today.getDate() + 1)
-            query = query.gte('tour_date', today.toISOString().split('T')[0])
-                        .lt('tour_date', endOfToday.toISOString().split('T')[0])
+            query = query.eq('tour_date', todayFP)
             break
           case 'tomorrow':
-            const tomorrow = new Date(today)
-            tomorrow.setDate(today.getDate() + 1)
-            const dayAfterTomorrow = new Date(tomorrow)
-            dayAfterTomorrow.setDate(tomorrow.getDate() + 1)
-            query = query.gte('tour_date', tomorrow.toISOString().split('T')[0])
-                        .lt('tour_date', dayAfterTomorrow.toISOString().split('T')[0])
+            query = query.eq('tour_date', tomorrowFP)
             break
           case 'week':
-            const weekFromNow = new Date(today)
-            weekFromNow.setDate(today.getDate() + 7)
-            query = query.gte('tour_date', today.toISOString().split('T')[0])
-                        .lte('tour_date', weekFromNow.toISOString().split('T')[0])
+            const weekFromNowFP = getDaysFromTodayInFP(7)
+            query = query.gte('tour_date', todayFP)
+                        .lte('tour_date', weekFromNowFP)
+            break
+        }
+      }
+
+      // Price range filtering
+      if (filters.priceRange) {
+        if (filters.priceRange.min) {
+          query = query.gte('discount_price_adult', filters.priceRange.min)
+        }
+        if (filters.priceRange.max) {
+          query = query.lte('discount_price_adult', filters.priceRange.max)
+        }
+      }
+
+      // Duration filtering
+      if (filters.duration && filters.duration !== 'all') {
+        switch (filters.duration) {
+          case 'half-day':
+            query = query.lte('duration_hours', 4)
+            break
+          case 'full-day':
+            query = query.gt('duration_hours', 4).lte('duration_hours', 8)
+            break
+          case 'multi-day':
+            query = query.gt('duration_hours', 8)
             break
         }
       }
@@ -57,12 +83,51 @@ export const tourService = {
       }
 
       // Calculate hours until deadline for each tour
-      const toursWithDeadline = data.map(tour => ({
+      let toursWithDeadline = data.map(tour => ({
         ...tour,
         hours_until_deadline: tour.booking_deadline 
           ? Math.max(0, (new Date(tour.booking_deadline) - new Date()) / (1000 * 60 * 60))
           : null
       }))
+
+      // Apply text search filter (client-side for simplicity)
+      if (filters.search && filters.search.trim()) {
+        const searchTerm = filters.search.toLowerCase().trim()
+        toursWithDeadline = toursWithDeadline.filter(tour => 
+          tour.tour_name?.toLowerCase().includes(searchTerm) ||
+          tour.description?.toLowerCase().includes(searchTerm) ||
+          tour.company_name?.toLowerCase().includes(searchTerm) ||
+          tour.tour_type?.toLowerCase().includes(searchTerm) ||
+          tour.operator_island?.toLowerCase().includes(searchTerm)
+        )
+      }
+
+      // Apply sorting
+      if (filters.sortBy) {
+        switch (filters.sortBy) {
+          case 'price-low':
+            toursWithDeadline.sort((a, b) => (a.discount_price_adult || 0) - (b.discount_price_adult || 0))
+            break
+          case 'price-high':
+            toursWithDeadline.sort((a, b) => (b.discount_price_adult || 0) - (a.discount_price_adult || 0))
+            break
+          case 'date':
+            toursWithDeadline.sort((a, b) => new Date(a.tour_date) - new Date(b.tour_date))
+            break
+          case 'rating':
+            toursWithDeadline.sort((a, b) => (b.operator_rating || 0) - (a.operator_rating || 0))
+            break
+          case 'duration':
+            toursWithDeadline.sort((a, b) => (a.duration_hours || 0) - (b.duration_hours || 0))
+            break
+          case 'spots':
+            toursWithDeadline.sort((a, b) => (b.available_spots || 0) - (a.available_spots || 0))
+            break
+          default:
+            // Keep default date sorting
+            break
+        }
+      }
 
       return toursWithDeadline
     } catch (error) {
@@ -74,20 +139,17 @@ export const tourService = {
   // Get tours for Discover tab (today + tomorrow + next few days)
   getDiscoverTours: async () => {
     try {
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-      
-      // Get tours for next 3 days (more spontaneous/last-minute feel)
-      const threeDaysFromNow = new Date(today)
-      threeDaysFromNow.setDate(today.getDate() + 3)
+      // Use French Polynesia timezone
+      const todayFP = getTodayInFP()
+      const threeDaysFromNowFP = getDaysFromTodayInFP(3)
 
       const { data, error } = await supabase
         .from('active_tours_with_operators')
         .select('*')
         .eq('status', 'active')
         .gt('available_spots', 0)
-        .gte('tour_date', today.toISOString().split('T')[0])
-        .lte('tour_date', threeDaysFromNow.toISOString().split('T')[0])
+        .gte('tour_date', todayFP)
+        .lte('tour_date', threeDaysFromNowFP)
         .order('tour_date', { ascending: true })
 
       if (error) throw error

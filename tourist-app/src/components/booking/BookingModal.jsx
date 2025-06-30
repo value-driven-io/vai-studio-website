@@ -60,8 +60,14 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       newErrors.customer_whatsapp = 'Please enter a valid phone number'
     }
 
+    // Email validation (optional but must be valid if provided)
     if (formData.customer_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customer_email)) {
       newErrors.customer_email = 'Please enter a valid email address'
+    }
+
+    // Phone validation (optional but must be valid if provided)
+    if (formData.customer_phone && !/^\+?[\d\s\-\(\)]{8,}$/.test(formData.customer_phone)) {
+      newErrors.customer_phone = 'Please enter a valid phone number'
     }
     
     if (formData.num_adults < 1) {
@@ -92,17 +98,17 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         operator_id: tour.operator_id,
         customer_name: formData.customer_name,
         customer_whatsapp: formData.customer_whatsapp,
-        customer_email: formData.customer_email || null,
-        customer_phone: formData.customer_phone || null,
+        customer_email: formData.customer_email?.trim() || '',
+        customer_phone: formData.customer_phone?.trim() || '', // Use empty string instead of null
         num_adults: formData.num_adults,
         num_children: formData.num_children,
         // Don't include total_participants - it's auto-generated in DB
         adult_price: tour.discount_price_adult,
         child_price: tour.discount_price_child || 0,
         subtotal: subtotal,
-        special_requirements: formData.special_requirements || null,
-        dietary_restrictions: formData.dietary_restrictions || null,
-        accessibility_needs: formData.accessibility_needs || null,
+        special_requirements: formData.special_requirements?.trim() || '',
+        dietary_restrictions: formData.dietary_restrictions?.trim() || '',
+        accessibility_needs: formData.accessibility_needs?.trim() || '',
         available_spots: tour.available_spots // Pass this for updating spots
       }
 
@@ -150,7 +156,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             </h2>
             
             <p className="text-slate-300 mb-6">
-              Your adventure is reserved! The operator will confirm within 1 hour.
+              Your adventure is reserved! The operator will confirm as soon as possible.
             </p>
             
             <div className="bg-slate-700 rounded-xl p-4 mb-6 text-left">
@@ -167,10 +173,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
               <h4 className="font-semibold text-white mb-2">What's Next?</h4>
               <div className="text-sm text-slate-300 space-y-1">
-                <div>✅ Operator will contact you via WhatsApp</div>
-                <div>✅ Confirm final details and meeting point</div>
-                <div>✅ Payment directly with operator (no upfront cost)</div>
-                <div>✅ Enjoy your adventure! 🌴</div>
+                <div>🗣️ Operator will contact you via WhatsApp or Mail</div>
+                <div>📍 Confirm final details and meeting point</div>
+                <div>🤑 Payment directly with operator (no upfront cost)</div>
+                <div>Enjoy your adventure! 🌴</div>
               </div>
             </div>
             
@@ -372,9 +378,15 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     type="tel"
                     value={formData.customer_phone}
                     onChange={(e) => handleInputChange('customer_phone', e.target.value)}
-                    className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                    className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
+                      errors.customer_phone ? 'border-red-500' : 'border-slate-600'
+                    }`}
                     placeholder="+689 12 34 56 78"
                   />
+                  {errors.customer_phone && (
+                    <p className="text-red-400 text-sm mt-1">{errors.customer_phone}</p>
+                  )}
+                  <p className="text-xs text-slate-400 mt-1">Optional - for backup contact</p>
                 </div>
 
                 {/* Special Requirements */}

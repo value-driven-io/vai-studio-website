@@ -76,5 +76,9 @@ export const ISLAND_EMOJIS = {
   'Bora Bora': '🏖️',
   'Huahine': '🌺',
   'Raiatea': '⛵',
-  'Taha\'a': '🥥'
+  'Taha\'a': '🥥',
+  'Tikehau': '🐚',
+  'Rangiroa': '🌊',
+  'Fakarava': '🐠',
+  'Maupiti': '🏔️'
 }

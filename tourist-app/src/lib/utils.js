@@ -1,4 +1,5 @@
 // src/lib/utils.js
+import { formatDateFP, getRelativeDateTextFP, isTodayInFP, isTomorrowInFP } from './timezone'
 
 /**
  * Utility functions for the VAI Tickets app
@@ -10,15 +11,9 @@ export const formatPrice = (price) => {
   return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
 }
 
-// Date formatting for tour dates
+// Date formatting for tour dates (timezone-aware)
 export const formatDate = (dateString) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short', 
-    day: 'numeric'
-  })
+  return formatDateFP(dateString)
 }
 
 // Full date formatting
@@ -142,31 +137,19 @@ export const truncateText = (text, maxLength) => {
   return text.substring(0, maxLength).trim() + '...'
 }
 
-// Check if date is today
+// Check if date is today (timezone-aware)
 export const isToday = (dateString) => {
-  if (!dateString) return false
-  const date = new Date(dateString)
-  const today = new Date()
-  return date.toDateString() === today.toDateString()
+  return isTodayInFP(dateString)
 }
 
-// Check if date is tomorrow
+// Check if date is tomorrow (timezone-aware)
 export const isTomorrow = (dateString) => {
-  if (!dateString) return false
-  const date = new Date(dateString)
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  return date.toDateString() === tomorrow.toDateString()
+  return isTomorrowInFP(dateString)
 }
 
-// Get relative date text (Today, Tomorrow, or formatted date)
+// Get relative date text (Today, Tomorrow, or formatted date) - timezone-aware
 export const getRelativeDateText = (dateString) => {
-  if (!dateString) return ''
-  
-  if (isToday(dateString)) return 'Today'
-  if (isTomorrow(dateString)) return 'Tomorrow'
-  
-  return formatDate(dateString)
+  return getRelativeDateTextFP(dateString)
 }
 
 // Debounce function for search inputs

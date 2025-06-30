@@ -18,8 +18,13 @@ export const useAppStore = create(
       filters: {
         island: 'all',
         tourType: 'all',
-        timeframe: 'today',
-        priceRange: 'all'
+        timeframe: 'week', // Default to week for explore tab
+        duration: 'all',
+        search: '',
+        sortBy: 'date',
+        // Advanced filters
+        dateRange: null, // { start: 'YYYY-MM-DD', end: 'YYYY-MM-DD' }
+        priceRange: null, // { min: number, max: number }
       },
       
       // Journey state
@@ -45,6 +50,18 @@ export const useAppStore = create(
       updateFilter: (key, value) => set((state) => ({
         filters: { ...state.filters, [key]: value }
       })),
+      setSearch: (search) => set((state) => ({
+        filters: { ...state.filters, search }
+      })),
+      setSortBy: (sortBy) => set((state) => ({
+        filters: { ...state.filters, sortBy }
+      })),
+      setDateRange: (dateRange) => set((state) => ({
+        filters: { ...state.filters, dateRange }
+      })),
+      setPriceRange: (priceRange) => set((state) => ({
+        filters: { ...state.filters, priceRange }
+      })),
       
       // Journey actions
       setBookings: (bookings) => set({ bookings }),
@@ -65,8 +82,12 @@ export const useAppStore = create(
         filters: {
           island: 'all',
           tourType: 'all',
-          timeframe: 'today',
-          priceRange: 'all'
+          timeframe: 'week',
+          duration: 'all',
+          search: '',
+          sortBy: 'date',
+          dateRange: null,
+          priceRange: null,
         }
       }),
       
