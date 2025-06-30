@@ -246,7 +246,7 @@ const ExploreTab = () => {
                 <option value="availability">👥 Spots</option>
                 <option value="urgency">⚡ Urgent</option>
               </select> */}
-              
+
             </div>
 
             {/* Active Filters Display */}
@@ -389,7 +389,7 @@ const ExploreTab = () => {
         {loading ? (
           <div className={`grid gap-6 ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3' 
+              ? 'grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2' 
               : 'grid-cols-1'
           }`}>
             {[...Array(8)].map((_, i) => (
@@ -413,7 +413,7 @@ const ExploreTab = () => {
         ) : (
           <div className={`grid gap-6 ${
             viewMode === 'grid' 
-              ? 'grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3' 
+              ? 'grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2' 
               : 'grid-cols-1'
           }`}>
             {tours.map(tour => (
