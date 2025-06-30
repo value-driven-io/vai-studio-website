@@ -61,10 +61,10 @@ export const MOOD_CATEGORIES = [
 
 export const TOUR_TYPE_EMOJIS = {
   'Adrenalin': '🪂',
-  'Cultural': '🌺', 
+  'Cultural': '🗿', 
   'Diving': '🤿',
   'Hike': '🥾',
-  'Lagoon Tour': '🚤',
+  'Lagoon Tour': '🏝️',
   'Mindfulness': '🧘',
   'Whale Watching': '🐋',
   'Snorkeling': '🐢'
