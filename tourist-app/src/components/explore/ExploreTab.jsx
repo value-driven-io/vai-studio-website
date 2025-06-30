@@ -136,28 +136,29 @@ const ExploreTab = () => {
       <div className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto">
           {/* Compact Title Bar */}
-          <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
-            <div className="flex items-center gap-3">
-              <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                🔎 <span className="hidden xs:inline">Explore</span> Tours
-              </h1>
-              {tours.length > 0 && (
-                <span className="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full">
-                  {tours.length}
-                </span>
-              )}
-            </div>
+            <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
+              <div className="flex-1">
+                <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mb-1">
+                  🔎 Explore Tours
+                </h1>
+                <p className="text-sm text-slate-400">Find your next experience</p>
+                {tours.length > 0 && (
+                  <span className="inline-block bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full mt-1">
+                    {tours.length} available
+                  </span>
+                )}
+              </div>
             
             {/* Refresh Button - Always visible */}
-            <button
-              onClick={refreshTours}
-              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg transition-colors min-h-44"
-              disabled={loading}
-            >
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh'}</span>
-            </button>
-          </div>
+              <button
+                onClick={refreshTours}
+                className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg transition-colors min-h-44 ml-4"
+                disabled={loading}
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh'}</span>
+              </button>
+            </div>
 
           {/* Search Section */}
           <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
@@ -184,24 +185,24 @@ const ExploreTab = () => {
           {/* Quick Actions & Filter Bar */}
           <div className="px-3 sm:px-4 md:px-6 pb-3 sm:pb-4">
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Quick Date Filters - Mobile Friendly */}
-              <div className="flex gap-1 sm:gap-2">
+              {/* Quick Date Filters - Mobile Friendly with guaranteed text */}
+              <div className="flex gap-2">
                 {[
-                  { id: 'today', label: 'Today', icon: '📅' },
+                  { id: 'today', label: 'Today', icon: '☀️' },
                   { id: 'tomorrow', label: 'Tomorrow', icon: '🌅' },
                   { id: 'week', label: 'Week', icon: '📆' }
                 ].map((timeOption) => (
                   <button
                     key={timeOption.id}
                     onClick={() => updateFilter('timeframe', timeOption.id)}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
                       filters.timeframe === timeOption.id
                         ? 'bg-blue-600 text-white shadow-lg'
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
                     }`}
                   >
                     <span className="text-base">{timeOption.icon}</span>
-                    <span className="hidden xs:inline">{timeOption.label}</span>
+                    <span className="whitespace-nowrap">{timeOption.label}</span>
                   </button>
                 ))}
               </div>
@@ -234,22 +235,9 @@ const ExploreTab = () => {
                   <span className="hidden sm:inline">Clear</span>
                 </button>
               )}
-
-              {/* Sort - Compact Dropdown */}
-              {/*<select
-                value={filters.sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto"
-              >
-                <option value="date">📅 Date</option>
-                <option value="price">💰 Price</option>
-                <option value="availability">👥 Spots</option>
-                <option value="urgency">⚡ Urgent</option>
-              </select> */}
-
             </div>
 
-            {/* Active Filters Display */}
+            {/* Active Filters Display - same as before */}
             {getActiveFiltersCount() > 0 && (
               <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-700/50">
                 {filters.island !== 'all' && (
@@ -330,14 +318,31 @@ const ExploreTab = () => {
                     </select>
                   </div>
 
-                  {/* Price Range */}
+                  {/* Sorting - Moved to filter panel */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">💰 Price Range</label>
-                    <div className="flex gap-2">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">📊 Sort By</label>
+                    <select
+                      value={filters.sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                    >
+                      <option value="date">📅 Date</option>
+                      <option value="price">💰 Price</option>
+                      <option value="availability">👥 Availability</option>
+                      <option value="urgency">⚡ Urgency</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Price Range - Fixed mobile layout */}
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-slate-300 mb-2">💰 Price Range (XPF)</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
                       <input
                         type="number"
-                        placeholder="Min XPF"
-                        className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                        placeholder="Min price"
+                        className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                         value={filters.priceRange?.min || ''}
                         onChange={(e) => {
                           const min = e.target.value ? parseInt(e.target.value) : null
@@ -348,10 +353,12 @@ const ExploreTab = () => {
                           })
                         }}
                       />
+                    </div>
+                    <div>
                       <input
                         type="number"
-                        placeholder="Max XPF"
-                        className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                        placeholder="Max price"
+                        className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                         value={filters.priceRange?.max || ''}
                         onChange={(e) => {
                           const max = e.target.value ? parseInt(e.target.value) : null
