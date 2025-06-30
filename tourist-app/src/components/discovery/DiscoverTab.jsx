@@ -7,6 +7,8 @@ import { MOOD_CATEGORIES, TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import BookingModal from '../booking/BookingModal'
 import { Heart } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { useAuth } from '../../contexts/AuthContext'
+import AuthModal from '../auth/AuthModal'
 
 const DiscoverTab = () => {
   const { selectedMood, setMood, setActiveTab } = useAppStore()
@@ -29,6 +31,10 @@ const DiscoverTab = () => {
   // Booking modal state
   const [selectedTour, setSelectedTour] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
+  
+  // Auth modal state
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const { user, signOut, isAuthenticated } = useAuth()
 
   const handleMoodSelect = (moodId) => {
     if (selectedMood === moodId) {
@@ -192,6 +198,28 @@ const DiscoverTab = () => {
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh Tours
           </button>
+
+          {/* TEST AUTH - Add this temporarily after refresh button */}
+          <div className="mt-4 flex gap-2">
+            {isAuthenticated ? (
+              <div className="flex items-center gap-2">
+                <span className="text-green-400 text-sm">✅ Logged in: {user?.email}</span>
+                <button
+                  onClick={signOut}
+                  className="text-xs bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg"
+              >
+                Test Login
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Mood Selector */}
@@ -361,6 +389,14 @@ const DiscoverTab = () => {
         isOpen={showBookingModal}
         onClose={handleCloseBookingModal}
       />
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        defaultMode="register"
+      />
+
     </div>
   )
 }

@@ -1,5 +1,5 @@
-// REPLACE: src/hooks/useUserJourney.js
-import { useState, useEffect, useCallback } from 'react'
+// src/hooks/useUserJourney.js
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { journeyService } from '../services/supabase'
 import { useAppStore } from '../stores/bookingStore'
 import toast from 'react-hot-toast'
@@ -23,8 +23,11 @@ export const useUserJourney = () => {
   const [error, setError] = useState(null)
   const [subscription, setSubscription] = useState(null)
 
+  // Use ref to prevent infinite loops
+  const lastFetchRef = useRef({ email: '', whatsapp: '', timestamp: 0 })
+
   // Get user contact info from store, localStorage, or last booking
-  const getUserContactInfo = () => {
+  const getUserContactInfo = useCallback(() => {
     // First try user profile from store (most recent)
     if (userProfile?.email || userProfile?.whatsapp) {
       return {
@@ -50,19 +53,19 @@ export const useUserJourney = () => {
       email: savedEmail,
       whatsapp: savedWhatsApp
     }
-  }
+  }, [userProfile, storeBookings])
 
   // Save user contact info for future lookups
-  const saveUserContactInfo = (email, whatsapp) => {
+  const saveUserContactInfo = useCallback((email, whatsapp) => {
     if (email) localStorage.setItem('vai_user_email', email)
     if (whatsapp) localStorage.setItem('vai_user_whatsapp', whatsapp)
     
     // Update user profile in store
     updateUserProfile({ email, whatsapp })
-  }
+  }, [updateUserProfile])
 
   // Categorize bookings by status and date
-  const categorizeBookings = (bookings) => {
+  const categorizeBookings = useCallback((bookings) => {
     const now = new Date()
     const categorized = {
       active: [],
@@ -104,9 +107,9 @@ export const useUserJourney = () => {
     categorized.cancelled.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
     return categorized
-  }
+  }, [])
 
-  // Fetch user bookings
+  // Fetch user bookings with deduplication
   const fetchUserBookings = useCallback(async (email, whatsapp, silent = false) => {
     // Clean and validate inputs
     const cleanEmail = email?.trim()
@@ -117,10 +120,25 @@ export const useUserJourney = () => {
       return
     }
 
+    // Prevent duplicate calls
+    const now = Date.now()
+    const lastFetch = lastFetchRef.current
+    const isSameParams = lastFetch.email === cleanEmail && lastFetch.whatsapp === cleanWhatsApp
+    const isRecentCall = (now - lastFetch.timestamp) < 1000 // 1 second debounce
+
+    if (isSameParams && isRecentCall) {
+      console.log('🚫 Skipping duplicate fetchUserBookings call')
+      return
+    }
+
+    // Update last fetch tracking
+    lastFetchRef.current = { email: cleanEmail, whatsapp: cleanWhatsApp, timestamp: now }
+
     if (!silent) setLoading(true)
     setError(null)
 
     try {
+      console.log('🔄 fetchUserBookings called with:', { email: cleanEmail, whatsapp: cleanWhatsApp, silent })
       console.log('Fetching bookings for:', { email: cleanEmail, whatsapp: cleanWhatsApp })
       
       const bookings = await journeyService.getUserBookings(cleanEmail, cleanWhatsApp)
@@ -136,7 +154,6 @@ export const useUserJourney = () => {
       setUserBookings(categorized)
       
       // DISABLED: Setup real-time subscription
-      // setupBookingSubscription(cleanEmail, cleanWhatsApp)
       console.log('Realtime subscriptions disabled - using manual refresh only')
       
       return bookings
@@ -148,10 +165,10 @@ export const useUserJourney = () => {
     } finally {
       if (!silent) setLoading(false)
     }
-  }, [])
+  }, [categorizeBookings, saveUserContactInfo])
 
   // DISABLED: Setup real-time subscription for booking updates
-  const setupBookingSubscription = (email, whatsapp) => {
+  const setupBookingSubscription = useCallback((email, whatsapp) => {
     // DISABLED: Realtime subscriptions disabled to prevent WebSocket errors
     console.log('Realtime subscriptions disabled - using manual refresh only')
     
@@ -166,15 +183,19 @@ export const useUserJourney = () => {
     
     setSubscription(null)
     return null
-  }
+  }, [subscription])
 
-  // Auto-fetch bookings on component mount
+  // Auto-fetch bookings on component mount (FIXED: stable dependencies)
   useEffect(() => {
+    console.log('🔄 Auto-fetch useEffect triggered')
     const contactInfo = getUserContactInfo()
+    console.log('📞 Contact info:', contactInfo)
+    
     if (contactInfo.email || contactInfo.whatsapp) {
+      console.log('📞 Calling fetchUserBookings from useEffect')
       fetchUserBookings(contactInfo.email, contactInfo.whatsapp)
     }
-  }, [fetchUserBookings])
+  }, []) // FIXED: Remove fetchUserBookings dependency to prevent infinite loop
 
   // Auto-discovery: Check for new bookings after store bookings change
   useEffect(() => {
@@ -198,7 +219,7 @@ export const useUserJourney = () => {
     }
 
     checkForNewBookings()
-  }, [storeBookings.length]) // Only trigger when new bookings are added
+  }, [storeBookings.length, fetchUserBookings]) // Only trigger when new bookings are added
 
   // DISABLED: Cleanup subscription on unmount
   useEffect(() => {
@@ -213,16 +234,18 @@ export const useUserJourney = () => {
     }
   }, [subscription])
 
-  // Refresh bookings manually
+  // Refresh bookings manually (stable function)
   const refreshBookings = useCallback(async () => {
     const contactInfo = getUserContactInfo()
     if (contactInfo.email || contactInfo.whatsapp) {
+      // Reset debounce to allow immediate refresh
+      lastFetchRef.current = { email: '', whatsapp: '', timestamp: 0 }
       await fetchUserBookings(contactInfo.email, contactInfo.whatsapp)
       toast.success('Bookings refreshed')
     } else {
       toast.error('No contact info found. Please use "Find My Bookings" first.')
     }
-  }, [fetchUserBookings])
+  }, [getUserContactInfo, fetchUserBookings])
 
   // Get booking details by reference
   const getBookingDetails = useCallback(async (bookingReference) => {
@@ -239,22 +262,22 @@ export const useUserJourney = () => {
     }
   }, [])
 
-  // Helper functions
-  const getTotalBookings = () => {
+  // Helper functions (stable - no dependencies)
+  const getTotalBookings = useCallback(() => {
     return userBookings.active.length + 
            userBookings.upcoming.length + 
            userBookings.past.length + 
            userBookings.cancelled.length
-  }
+  }, [userBookings])
 
-  const getNextUpcomingTour = () => {
+  const getNextUpcomingTour = useCallback(() => {
     if (userBookings.upcoming.length === 0) return null
     
     // Already sorted by date in categorizeBookings
     return userBookings.upcoming[0]
-  }
+  }, [userBookings.upcoming])
 
-  const getBookingStatusColor = (status) => {
+  const getBookingStatusColor = useCallback((status) => {
     switch (status) {
       case 'pending':
         return 'bg-orange-500/20 text-orange-400 border-orange-500/30'
@@ -268,9 +291,9 @@ export const useUserJourney = () => {
       default:
         return 'bg-slate-500/20 text-slate-400 border-slate-500/30'
     }
-  }
+  }, [])
 
-  const getBookingStatusIcon = (status) => {
+  const getBookingStatusIcon = useCallback((status) => {
     switch (status) {
       case 'pending':
         return '⏳'
@@ -284,25 +307,25 @@ export const useUserJourney = () => {
       default:
         return '📋'
     }
-  }
+  }, [])
 
-  const canContactOperator = (booking) => {
+  const canContactOperator = useCallback((booking) => {
     return booking.booking_status === 'confirmed' && 
            (booking.operators?.whatsapp_number || booking.operators?.phone)
-  }
+  }, [])
 
-  const canRebook = (booking) => {
+  const canRebook = useCallback((booking) => {
     return ['declined', 'cancelled', 'completed'].includes(booking.booking_status)
-  }
+  }, [])
 
   // Format price
-  const formatPrice = (price) => {
+  const formatPrice = useCallback((price) => {
     if (!price) return '0 XPF'
     return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
-  }
+  }, [])
 
   // Format date
-  const formatDate = (dateString) => {
+  const formatDate = useCallback((dateString) => {
     if (!dateString) return ''
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
@@ -311,11 +334,11 @@ export const useUserJourney = () => {
       month: 'long',
       day: 'numeric'
     })
-  }
+  }, [])
 
-  const formatTime = (timeSlot) => {
+  const formatTime = useCallback((timeSlot) => {
     return timeSlot || ''
-  }
+  }, [])
 
   return {
     // Data

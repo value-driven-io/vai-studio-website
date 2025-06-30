@@ -2,6 +2,7 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { AuthProvider } from './contexts/AuthContext'
 
 // Import our main components (we'll create these next)
 import Navigation from './components/shared/Navigation'
@@ -32,10 +33,11 @@ function App() {
   }
 
   return (
+  <AuthProvider>
     <Router>
       <div className="min-h-screen bg-slate-900 text-white">
         {/* Main Content Area */}
-        <main className="pb-20"> {/* Bottom padding for navigation */}
+        <main className="pb-20">
           {renderActiveTab()}
         </main>
 
@@ -56,7 +58,8 @@ function App() {
         />
       </div>
     </Router>
-  )
+  </AuthProvider>
+) 
 }
 
 export default App
