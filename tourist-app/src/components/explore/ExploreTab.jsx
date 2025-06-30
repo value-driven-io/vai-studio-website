@@ -115,135 +115,213 @@ const ExploreTab = () => {
     )
   }
 
+  // Add the FilterChip Component
+  const FilterChip = ({ label, onRemove }) => (
+    <span className="inline-flex items-center gap-1.5 bg-blue-600/20 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg text-xs font-medium filter-chip">
+      {label}
+      <button
+        onClick={onRemove}
+        className="hover:text-white transition-colors"
+      >
+        <X className="w-3 h-3" />
+      </button>
+    </span>
+  )
+
   return (
     <div className="min-h-screen bg-slate-900 text-white">
       {/* Header */}
-      <div className="bg-slate-800 border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          {/* Header Section */}
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-2xl font-bold text-white mb-2">🔎  Explore Tours</h1>
-              <p className="text-slate-400">Find the perfect adventure for your French Polynesia experience</p>
+      
+      {/* Mobile-First Header */}
+      <div className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto">
+          {/* Compact Title Bar */}
+          <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
+            <div className="flex items-center gap-3">
+              <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                🔎 <span className="hidden xs:inline">Explore</span> Tours
+              </h1>
+              {tours.length > 0 && (
+                <span className="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full">
+                  {tours.length}
+                </span>
+              )}
             </div>
             
-            <div className="flex items-center gap-3">
-              
-              {/* Refresh Button */}
-              <button
-                onClick={refreshTours}
-                className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg transition-colors"
-                disabled={loading}
-              >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                {loading ? 'Loading...' : 'Refresh'}
-              </button>
-            </div>
+            {/* Refresh Button - Always visible */}
+            <button
+              onClick={refreshTours}
+              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg transition-colors min-h-44"
+              disabled={loading}
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh'}</span>
+            </button>
           </div>
 
-          {/* Search and Filters */}
-          <div className="space-y-4">
-            {/* Search Bar */}
+          {/* Search Section */}
+          <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
-                placeholder="Search tours, operators, or islands..."
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-800 border border-slate-700 rounded-lg text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                placeholder="Search tours, islands, or activities..."
+                className="w-full pl-12 pr-4 py-3 sm:py-3.5 bg-slate-700 border border-slate-600 rounded-xl text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
               />
+              {localSearch && (
+                <button
+                  onClick={() => setLocalSearch('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 hover:text-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
             </div>
+          </div>
 
-            {/* Quick Filters */}
-            <div className="flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
-              {/* Island Filter */}
-              <select
-                value={filters.island}
-                onChange={(e) => updateFilter('island', e.target.value)}
-                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
-              >
-                <option value="all">All Islands</option>
-                {availableIslands.map(island => (
-                  <option key={island} value={island}>{island}</option>
+          {/* Quick Actions & Filter Bar */}
+          <div className="px-3 sm:px-4 md:px-6 pb-3 sm:pb-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Quick Date Filters - Mobile Friendly */}
+              <div className="flex gap-1 sm:gap-2">
+                {[
+                  { id: 'today', label: 'Today', icon: '📅' },
+                  { id: 'tomorrow', label: 'Tomorrow', icon: '🌅' },
+                  { id: 'week', label: 'Week', icon: '📆' }
+                ].map((timeOption) => (
+                  <button
+                    key={timeOption.id}
+                    onClick={() => updateFilter('timeframe', timeOption.id)}
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
+                      filters.timeframe === timeOption.id
+                        ? 'bg-blue-600 text-white shadow-lg'
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                    }`}
+                  >
+                    <span className="text-base">{timeOption.icon}</span>
+                    <span className="hidden xs:inline">{timeOption.label}</span>
+                  </button>
                 ))}
-              </select>
+              </div>
 
-              {/* Tour Type Filter */}
-              <select
-                value={filters.tourType}
-                onChange={(e) => updateFilter('tourType', e.target.value)}
-                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
-              >
-                <option value="all">All Types</option>
-                {availableTourTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
-
-              {/* Timeframe Filter */}
-              <select
-                value={filters.timeframe}
-                onChange={(e) => updateFilter('timeframe', e.target.value)}
-                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
-              >
-                <option value="today">Today</option>
-                <option value="tomorrow">Tomorrow</option>
-                <option value="week">This Week</option>
-                <option value="all">All Dates</option>
-              </select>
-
-              {/* Sort By */}
-              <select
-                value={filters.sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500"
-              >
-                <option value="date">Sort by Date</option>
-                <option value="price">Sort by Price</option>
-                <option value="availability">Sort by Availability</option>
-                <option value="urgency">Sort by Urgency</option>
-              </select>
-
-              {/* Advanced Filters Toggle */}
+              {/* Main Filters Button */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
-                  showFilters ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
+                  showFilters || getActiveFiltersCount() > 0
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
                 }`}
               >
                 <SlidersHorizontal className="w-4 h-4" />
-                Advanced
+                <span>Filters</span>
                 {getActiveFiltersCount() > 0 && (
-                  <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                  <span className="bg-white text-blue-600 text-xs px-2 py-0.5 rounded-full font-bold">
                     {getActiveFiltersCount()}
                   </span>
                 )}
               </button>
 
-              {/* Clear Filters */}
+              {/* Clear Filters - Only show when needed */}
               {getActiveFiltersCount() > 0 && (
                 <button
                   onClick={clearFilters}
-                  className="flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all min-h-44"
                 >
                   <X className="w-4 h-4" />
-                  Clear All
+                  <span className="hidden sm:inline">Clear</span>
                 </button>
               )}
+
+              {/* Sort - Compact Dropdown */}
+              {/*<select
+                value={filters.sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto"
+              >
+                <option value="date">📅 Date</option>
+                <option value="price">💰 Price</option>
+                <option value="availability">👥 Spots</option>
+                <option value="urgency">⚡ Urgent</option>
+              </select> */}
+              
             </div>
 
-            {/* Advanced Filters */}
-            {showFilters && (
-              <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Active Filters Display */}
+            {getActiveFiltersCount() > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-700/50">
+                {filters.island !== 'all' && (
+                  <FilterChip
+                    label={`📍 ${filters.island}`}
+                    onRemove={() => updateFilter('island', 'all')}
+                  />
+                )}
+                {filters.tourType !== 'all' && (
+                  <FilterChip
+                    label={`🎯 ${filters.tourType}`}
+                    onRemove={() => updateFilter('tourType', 'all')}
+                  />
+                )}
+                {filters.duration !== 'all' && (
+                  <FilterChip
+                    label={`⏱️ ${filters.duration}`}
+                    onRemove={() => updateFilter('duration', 'all')}
+                  />
+                )}
+                {filters.priceRange && (
+                  <FilterChip
+                    label={`💰 ${filters.priceRange.min || 0}-${filters.priceRange.max || '∞'} XPF`}
+                    onRemove={() => setPriceRange(null)}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Filter Modal/Panel */}
+          {showFilters && (
+            <div className="border-t border-slate-700 bg-slate-800/95 backdrop-blur-sm">
+              <div className="px-3 sm:px-4 md:px-6 py-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Island Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">📍 Island</label>
+                    <select
+                      value={filters.island}
+                      onChange={(e) => updateFilter('island', e.target.value)}
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                    >
+                      <option value="all">All Islands</option>
+                      {availableIslands.map(island => (
+                        <option key={island} value={island}>{island}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Tour Type Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">🎯 Activity Type</label>
+                    <select
+                      value={filters.tourType}
+                      onChange={(e) => updateFilter('tourType', e.target.value)}
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                    >
+                      <option value="all">All Types</option>
+                      {availableTourTypes.map(type => (
+                        <option key={type} value={type}>{type}</option>
+                      ))}
+                    </select>
+                  </div>
+
                   {/* Duration Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Duration</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">⏱️ Duration</label>
                     <select
                       value={filters.duration}
                       onChange={(e) => updateFilter('duration', e.target.value)}
-                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm"
+                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                     >
                       <option value="all">Any Duration</option>
                       <option value="short">Under 3 hours</option>
@@ -254,63 +332,55 @@ const ExploreTab = () => {
 
                   {/* Price Range */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Price Range</label>
-                    <div className="space-y-2">
-                      <div className="flex gap-2">
-                        <input
-                          type="number"
-                          placeholder="Min"
-                          className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm"
-                          value={filters.priceRange?.min || ''}
-                          onChange={(e) => {
-                            const min = e.target.value ? parseInt(e.target.value) : null
-                            setPriceRange({
-                              ...filters.priceRange,
-                              min: min,
-                              max: filters.priceRange?.max || null
-                            })
-                          }}
-                        />
-                        <input
-                          type="number"
-                          placeholder="Max"
-                          className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2 text-sm"
-                          value={filters.priceRange?.max || ''}
-                          onChange={(e) => {
-                            const max = e.target.value ? parseInt(e.target.value) : null
-                            setPriceRange({
-                              ...filters.priceRange,
-                              min: filters.priceRange?.min || null,
-                              max: max
-                            })
-                          }}
-                        />
-                      </div>
-                      {filters.priceRange && (
-                        <button
-                          onClick={() => setPriceRange(null)}
-                          className="text-xs text-slate-400 hover:text-white mt-1"
-                        >
-                          Clear price range
-                        </button>
-                      )}
+                    <label className="block text-sm font-medium text-slate-300 mb-2">💰 Price Range</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        placeholder="Min XPF"
+                        className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                        value={filters.priceRange?.min || ''}
+                        onChange={(e) => {
+                          const min = e.target.value ? parseInt(e.target.value) : null
+                          setPriceRange({
+                            ...filters.priceRange,
+                            min: min,
+                            max: filters.priceRange?.max || null
+                          })
+                        }}
+                      />
+                      <input
+                        type="number"
+                        placeholder="Max XPF"
+                        className="flex-1 bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                        value={filters.priceRange?.max || ''}
+                        onChange={(e) => {
+                          const max = e.target.value ? parseInt(e.target.value) : null
+                          setPriceRange({
+                            ...filters.priceRange,
+                            min: filters.priceRange?.min || null,
+                            max: max
+                          })
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
 
-          {/* Results Summary */}
-          <div className="flex items-center justify-between mt-6 mb-4">
-            <div className="text-slate-400">
-              {loading ? (
-                'Loading tours...'
-              ) : (
-                `${tours.length} tour${tours.length !== 1 ? 's' : ''} found`
-              )}
+                {/* Filter Actions */}
+                <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-700">
+                  <div className="text-sm text-slate-400">
+                    {loading ? 'Loading...' : `${tours.length} tours found`}
+                  </div>
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Apply Filters
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
