@@ -13,6 +13,8 @@ import CreateTab from './components/CreateTab'
 import BookingsTab from './components/BookingsTab'
 import ProfileTab from './components/ProfileTab'
 import { supabase } from './lib/supabase'
+import { polynesianNow, toPolynesianISO } from './utils/timezone'
+
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
@@ -138,7 +140,7 @@ function App() {
     // Requirements & Restrictions - FIX THE FITNESS LEVEL
     min_age: null,
     max_age: null,
-    fitness_level: 'easy', // Change from 'All levels' to 'easy' (lowercase)
+    fitness_level: 'easy',
     requirements: '',
     restrictions: '',
     
@@ -433,8 +435,9 @@ function App() {
       const completedBookings = bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0
       const pendingBookings = bookingsData?.filter(b => b.booking_status === 'pending').length || 0
       const declinedBookings = bookingsData?.filter(b => b.booking_status === 'declined').length || 0
+      const cancelledBookings = bookingsData?.filter(b => b.booking_status === 'cancelled').length || 0
       
-      // ✅ CORRECT REVENUE CALCULATION (matches ProfileTab)
+      // REVENUE CALCULATION (matches ProfileTab)
       const operatorRevenue = bookingsData
         ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
@@ -449,11 +452,12 @@ function App() {
         pendingBookings,
         confirmedBookings,
         declinedBookings,
+        cancelledBookings,
         completedBookings,
         activeTours: tours.filter(t => t.status === 'active' && new Date(t.tour_date) >= new Date()).length,
         totalRevenue: operatorRevenue, // Keep existing field for compatibility
-        operator_revenue: operatorRevenue,  // ✅ NEW: Correct operator revenue
-        total_commission: totalCommission,  // ✅ NEW: Commission amount
+        operator_revenue: operatorRevenue,  // operator revenue
+        total_commission: totalCommission,  // Commission amount
         avg_response_time_hours: 2
       })
 
@@ -507,25 +511,29 @@ function App() {
       const updateData = {
         booking_status: action,
         operator_response: action.toUpperCase(),
-        operator_response_received_at: new Date().toISOString(),
+        operator_response_received_at: toPolynesianISO(new Date()),
         operator_response_method: 'dashboard'
       }
 
       if (action === 'confirmed') {
-        updateData.confirmed_at = new Date().toISOString()
+        updateData.confirmed_at = toPolynesianISO(new Date())
         
         // Lock commission rate when confirming
         await lockBookingCommission(bookingId)
         
       } else if (action === 'completed') {
-        updateData.completed_at = new Date().toISOString()
+        updateData.completed_at = toPolynesianISO(new Date())
         
         // Lock commission rate when marking complete
         await lockBookingCommission(bookingId)
         
       } else if (action === 'declined') {
-        updateData.cancelled_at = new Date().toISOString()
+        updateData.cancelled_at = toPolynesianISO(new Date())
         updateData.decline_reason = reason
+      
+      } else if (action === 'cancelled') {
+        updateData.cancelled_at = new Date().toISOString()
+        // Customer-initiated cancellation - no decline_reason needed
       }
 
       const response = await fetch(`${supabaseUrl}/rest/v1/bookings?id=eq.${bookingId}`, {
@@ -638,7 +646,9 @@ function App() {
   }
 
   const shouldShowCustomerDetails = (booking) => {
-    return booking.booking_status === 'confirmed' || booking.booking_status === 'completed'
+    // Show details only for active business relationships
+    // Hide for: pending, declined, cancelled (privacy protection)
+    return ['confirmed', 'completed'].includes(booking.booking_status)
   }
 
   // Form handlers 
@@ -759,10 +769,9 @@ function App() {
     
   try {
     setLoading(true)
-    
-    // Remove discount_percentage since it's a generated column
+
     // Remove id for new tours (database will generate new UUID)
-    const { discount_percentage, id, ...cleanTourData } = formData
+    const { id, ...cleanTourData } = formData
     
     const tourData = {
       ...cleanTourData,
@@ -817,7 +826,7 @@ function App() {
       languages: tour.languages || ['French'],
       min_age: tour.min_age || null,
       max_age: tour.max_age || null,
-      fitness_level: tour.fitness_level || 'All levels',
+      fitness_level: tour.fitness_level || 'easy',
       requirements: tour.requirements || '',
       restrictions: tour.restrictions || '',
       whale_regulation_compliant: tour.whale_regulation_compliant ?? true,
@@ -877,7 +886,8 @@ function App() {
     // Only validate specific field if provided, otherwise validate all
     const fieldsToValidate = specificField ? [specificField] : [
       'tour_name', 'description', 'tour_date', 'meeting_point', 
-      'max_capacity', 'original_price_adult', 'duration_hours'
+      'max_capacity', 'original_price_adult', 'duration_hours',
+      'min_age', 'max_age' // ADD AGE VALIDATION
     ]
     
     fieldsToValidate.forEach(field => {
@@ -910,12 +920,22 @@ function App() {
             if (formData.tour_date < today) {
               errors.tour_date = 'Tour date cannot be in the past - please select today or a future date'
             }
+
+            if (formData.tour_date === today) {
+              const now = new Date()
+              const tourTime = new Date(`${formData.tour_date}T${formData.time_slot}:00`)
+              const hoursUntilTour = (tourTime - now) / (1000 * 60 * 60)
+              
+              if (hoursUntilTour <= formData.auto_close_hours) {
+                errors.tour_date = `Cannot create - tour starts in ${hoursUntilTour.toFixed(1)}h but auto-closes ${formData.auto_close_hours}h before. Reduce auto-close hours or schedule for tomorrow.`
+              }
+            }
             
             const selectedDate = new Date(formData.tour_date)
             const maxDate = new Date()
-            maxDate.setDate(maxDate.getDate() + 30) // 30 days from now
+            maxDate.setDate(maxDate.getDate() + 14) // 14 days from now
             if (selectedDate > maxDate) {
-              errors.tour_date = 'Tours can only be scheduled up to 30 days in advance'
+              errors.tour_date = 'Tours can only be scheduled up to 14 days in advance'
             }
           }
           break
@@ -923,8 +943,6 @@ function App() {
         case 'meeting_point':
           if (!formData.meeting_point.trim()) {
             errors.meeting_point = 'Meeting point is required - where will customers meet you?'
-          } else if (formData.meeting_point.length < 10) {
-            errors.meeting_point = 'Please provide a more detailed meeting point location'
           }
           break
           
@@ -966,6 +984,32 @@ function App() {
             errors.duration_hours = 'Maximum duration is 12 hours - split longer experiences into multiple tours'
           }
           break
+
+        case 'min_age':
+          if (formData.min_age !== null && formData.min_age < 0) {
+            errors.min_age = 'Minimum age cannot be negative'
+          } else if (formData.min_age !== null && formData.min_age > 100) {
+            errors.min_age = 'Minimum age seems too high - please verify'
+          }
+          
+          // Cross-validation with max_age
+          if (formData.min_age !== null && formData.max_age !== null && formData.min_age >= formData.max_age) {
+            errors.min_age = 'Minimum age must be less than maximum age'
+          }
+          break
+          
+        case 'max_age':
+          if (formData.max_age !== null && formData.max_age < 0) {
+            errors.max_age = 'Maximum age cannot be negative'
+          } else if (formData.max_age !== null && formData.max_age > 100) {
+            errors.max_age = 'Maximum age seems too high - please verify'
+          }
+          
+          // Cross-validation with min_age
+          if (formData.min_age !== null && formData.max_age !== null && formData.max_age <= formData.min_age) {
+            errors.max_age = 'Maximum age must be greater than minimum age'
+          }
+          break  
       }
     })
     
@@ -1021,9 +1065,9 @@ function App() {
       max_capacity: 8,
       available_spots: 8,
       original_price_adult: 8000,
-      discount_price_adult: 8000, // No discount by default
+      discount_price_adult: 6400, // Consistent with edit default  
       discount_price_child: 5600,
-      discount_percentage: 0, // No discount by default
+      discount_percentage: 20, // Standard last-minute discount
       meeting_point: '',
       pickup_available: false,
       pickup_locations: [],

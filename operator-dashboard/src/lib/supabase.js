@@ -111,5 +111,16 @@ export const operatorService = {
       totalBookings,
       pendingBookings: data.filter(booking => booking.booking_status === 'pending').length
     }
+  },
+
+  // ADD to operatorService:
+  async atomicSpotUpdate(tourId, spotsToSubtract) {
+    const { data, error } = await supabase.rpc('update_tour_spots', {
+      tour_id: tourId,
+      spots_change: -spotsToSubtract
+    })
+    
+    if (error) throw error
+    return data
   }
 }
