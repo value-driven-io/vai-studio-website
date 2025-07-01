@@ -366,15 +366,13 @@ const JourneyTab = () => {
                 )}
 
                 {/* Find Bookings Button */}
-                {getTotalBookings() === 0 && (
-                  <button
-                    onClick={() => setShowLookupModal(true)}
-                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors text-sm"
-                  >
-                    <Search className="w-4 h-4" />
-                    <span className="hidden sm:inline">Find Bookings</span>
-                  </button>
-                )}
+                <button
+                  onClick={() => setShowLookupModal(true)}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors text-sm"
+                >
+                  <Search className="w-4 h-4" />
+                  <span className="hidden sm:inline">Find Bookings</span>
+                </button>
 
                 {/* Refresh */}
                 <button
@@ -542,6 +540,23 @@ const JourneyTab = () => {
                   </div>
                 </div>
 
+                {/* Add missing booking */}
+                <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-purple-500/20">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-md font-medium text-white mb-1">Missing Bookings?</h4>
+                      <p className="text-sm text-slate-400">Find bookings by email or WhatsApp</p>
+                    </div>
+                    <button
+                      onClick={() => setShowLookupModal(true)}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                    >
+                      <Search className="w-4 h-4" />
+                      Find
+                    </button>
+                  </div>
+                </div>
+
                 {/* Achievements */}
                 {userStats.achievements.length > 0 && (
                   <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6">
@@ -563,6 +578,7 @@ const JourneyTab = () => {
                     <h3 className="text-xl font-semibold text-white mb-2">Welcome to Your Journey</h3>
                     <p className="text-slate-400 mb-6">Your French Polynesia adventure starts here</p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
+
                       <button
                         onClick={() => setActiveTab && setActiveTab('explore')}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"

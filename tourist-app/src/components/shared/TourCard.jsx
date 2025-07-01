@@ -189,7 +189,7 @@ const TourCard = ({
               {!hideBookButton && (
                 <button
                   onClick={handleBookingClick}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg
+                  className="flex-1 bg-blue-600 hover:bg-blue-800 text-white py-2 px-4 border-slate-700 rounded-lg
                            font-medium transition-colors duration-200 flex items-center justify-center gap-2"
                 >
                   Book Now
