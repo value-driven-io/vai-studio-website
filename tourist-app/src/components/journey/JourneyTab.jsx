@@ -72,15 +72,8 @@ const JourneyTab = () => {
       description: 'Your journey at a glance'
     },
     {
-      id: 'planning',
-      label: 'Planning',
-      emoji: '🎯',
-      description: 'Draft & saved tours',
-      count: safeFavorites.length
-    },
-    {
       id: 'urgent',
-      label: 'Action Needed',
+      label: 'Pending',
       emoji: '⚡',
       description: 'Needs confirmation',
       count: safeUserBookings.active.filter(booking => 
@@ -99,7 +92,7 @@ const JourneyTab = () => {
     {
       id: 'memories',
       label: 'Memories',
-      emoji: '🌺',
+      emoji: '📸',
       description: 'Completed experiences',
       count: safeUserBookings.past.length
     },
@@ -114,41 +107,43 @@ const JourneyTab = () => {
 
   // Calculate user statistics
   useEffect(() => {
-    try {
-      const uniqueActivityTypes = new Set([
-        ...safeUserBookings.active.map(b => b?.tours?.tour_type).filter(Boolean),
-        ...safeUserBookings.upcoming.map(b => b?.tours?.tour_type).filter(Boolean),
-        ...safeUserBookings.past.map(b => b?.tours?.tour_type).filter(Boolean)
-      ]).size
+  // Add safety check to prevent execution during invalid states
+  if (!safeUserBookings || !safeFavorites) return
 
-      const achievements = []
-      if (safeUserBookings.past.length >= 1) achievements.push('🏆 First Adventure')
-      if (uniqueActivityTypes >= 3) achievements.push('🤿 Activity Explorer')
-      if (safeUserBookings.past.length >= 5) achievements.push('🌴 Island Hopper')
-      if (safeFavorites.length >= 5) achievements.push('💕 Wishlist Master')
+  try {
+    const uniqueActivityTypes = new Set([
+      ...(safeUserBookings.active || []).map(b => b?.tours?.tour_type).filter(Boolean),
+      ...(safeUserBookings.upcoming || []).map(b => b?.tours?.tour_type).filter(Boolean),
+      ...(safeUserBookings.past || []).map(b => b?.tours?.tour_type).filter(Boolean)
+    ]).size
 
-      const unreadMessages = safeUserBookings.active.filter(booking => 
-        booking?.operator_response && booking.operator_response !== ''
-      ).length
+    const achievements = []
+    const pastLength = (safeUserBookings.past || []).length
+    const favLength = (safeFavorites || []).length
+    
+    if (pastLength >= 1) achievements.push('🏆 First Adventure')
+    if (uniqueActivityTypes >= 3) achievements.push('🤿 Activity Explorer')
+    if (pastLength >= 5) achievements.push('🌴 Island Hopper')
+    if (favLength >= 10) achievements.push('💕 Wishlist Master')
 
-      setUserStats({
-        activitiesExplored: uniqueActivityTypes,
-        totalActivities: 8,
-        currentLevel: uniqueActivityTypes >= 5 ? 'Adventurer' : uniqueActivityTypes >= 3 ? 'Explorer' : 'Beginner',
-        streak: Math.min(safeUserBookings.past.length, 30),
-        achievements,
-        unreadMessages
-      })
+    const unreadMessages = (safeUserBookings.active || []).filter(booking => 
+      booking?.operator_response && booking.operator_response !== ''
+    ).length
 
-      useEffect(() => {
-      checkScrollPosition()
-      window.addEventListener('resize', checkScrollPosition)
-      return () => window.removeEventListener('resize', checkScrollPosition)
-    }, [])
-    } catch (error) {
-      console.warn('Error calculating stats:', error)
-    }
-  }, [safeUserBookings, safeFavorites])
+    setUserStats(prev => ({
+      activitiesExplored: uniqueActivityTypes,
+      totalActivities: 8,
+      currentLevel: uniqueActivityTypes >= 5 ? 'Adventurer' : uniqueActivityTypes >= 3 ? 'Explorer' : 'Beginner',
+      streak: Math.min(pastLength, 30),
+      achievements,
+      unreadMessages
+    }))
+  } catch (error) {
+    console.warn('Error calculating stats:', error)
+    // Don't update stats if there's an error
+  }
+  }, [safeUserBookings?.active?.length, safeUserBookings?.upcoming?.length, safeUserBookings?.past?.length, safeFavorites?.length])
+
 
   // Get next tour for countdown
   const nextTour = getNextUpcomingTour ? getNextUpcomingTour() : null
