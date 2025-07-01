@@ -115,7 +115,7 @@ const TourCard = ({
                 onClick={handleFavoriteClick}
                 className={`p-2 rounded-full transition-all duration-200 ${
                   isFavorite 
-                    ? 'bg-red-500 text-white hover:bg-red-600 scale-110' 
+                    ? 'bg-red-500 text-white hover:bg-pink-600 scale-110' 
                     : 'bg-slate-700 text-slate-400 hover:bg-slate-600 hover:text-red-400'
                 }`}
                 aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}

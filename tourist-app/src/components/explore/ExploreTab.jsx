@@ -11,6 +11,7 @@ import { TOUR_TYPE_EMOJIS, ISLAND_EMOJIS } from '../../constants/moods'
 import BookingModal from '../booking/BookingModal'
 import toast from 'react-hot-toast'
 import TourCard from '../shared/TourCard'
+import VAILogo from '../shared/VAILogo'
 
 const ExploreTab = () => {
   const { 
@@ -130,6 +131,12 @@ const ExploreTab = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
+      <div className="flex items-center justify-center py-4 border-b border-slate-700">
+        {/* Wrapping the VAILogo with an anchor tag */}
+        <a href="https://vai.studio/app/" target="_blank" rel="noopener noreferrer">
+          <VAILogo size="sm" />
+        </a>
+      </div>
       {/* Header */}
 
       {/* Mobile-First 3-Lane Header */}

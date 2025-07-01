@@ -1,17 +1,24 @@
 // src/components/profile/ProfileTab.jsx
 import React from 'react'
+import VAILogo from '../shared/VAILogo'
 
 const ProfileTab = () => {
   return (
-    <div className="min-h-screen bg-slate-900 p-4">
+    <div className="min-h-screen bg-slate-900">
+      <div className="flex items-center justify-center py-4 border-b border-slate-700">
+        {/* Wrapping the VAILogo with an anchor tag */}
+        <a href="https://vai.studio/app/" target="_blank" rel="noopener noreferrer">
+          <VAILogo size="sm" />
+        </a>
+      </div>
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="pt-8 mb-6">
           <h1 className="text-2xl font-bold text-white mb-2">
-            🌸 Support & About
+            🌸 Support
           </h1>
           <p className="text-slate-400">
-            Contact and more
+            We are here for you.
           </p>
         </div>
 

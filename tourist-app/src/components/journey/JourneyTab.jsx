@@ -14,6 +14,7 @@ import OverviewSection from './OverviewSection'
 import BookingSection from './BookingSection'
 import FavoritesSection from './FavoritesSection'
 import toast from 'react-hot-toast'
+import VAILogo from '../shared/VAILogo'
 
 const JourneyTab = () => {
   const { 
@@ -174,15 +175,15 @@ const JourneyTab = () => {
     switch (nextTour.tour_type) {
       case 'diving':
       case 'snorkeling':
-        return 'from-blue-900/40 to-slate-800'
+        return 'from-slate-900 to-slate-800'
       case 'sunset':
       case 'cruise':
-        return 'from-orange-900/40 to-slate-800'
+        return 'from-slate-900 to-slate-800'
       case 'hiking':
       case 'adventure':
-        return 'from-green-900/40 to-slate-800'
+        return 'from-slate-900 to-slate-800'
       default:
-        return 'from-teal-900/40 to-slate-800'
+        return 'from-slate-900 to-slate-800'
     }
   }
 
@@ -297,7 +298,13 @@ const JourneyTab = () => {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${getBackgroundGradient()} transition-all duration-1000`}>
-      {/* Enhanced Header */}
+      <div className="flex items-center justify-center py-4 border-b border-slate-700">
+        {/* Wrapping the VAILogo with an anchor tag */}
+        <a href="https://vai.studio/app/" target="_blank" rel="noopener noreferrer">
+          <VAILogo size="sm" />
+        </a>
+      </div>
+      {/* Header */}
       <div className="bg-slate-800/90 backdrop-blur-md border-b border-slate-700 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto">
           
