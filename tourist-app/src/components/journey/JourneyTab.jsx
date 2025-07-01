@@ -306,11 +306,11 @@ const JourneyTab = () => {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl">🗺️</span>
+                  <span className="text-4xl">🌏</span>
                   <div>
                     <h1 className="text-xl sm:text-2xl font-bold text-white">My Journey</h1>
                     <p className="text-sm text-slate-400">
-                      Level: {userStats.currentLevel} • {userStats.activitiesExplored}/{userStats.totalActivities} activities explored
+                      Level: {userStats.currentLevel}<br></br>{userStats.activitiesExplored}/{userStats.totalActivities} activities explored
                     </p>
                   </div>
                 </div>

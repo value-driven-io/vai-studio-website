@@ -140,7 +140,7 @@ const ExploreTab = () => {
           <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
             <div className="flex-1 min-w-0"> {/* min-w-0 prevents flex overflow */}
               <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mb-1">
-                🔎 Explore Tours
+                🔍 Explore Tours
               </h1>
               <div className="flex items-center gap-2 flex-wrap">
                 <p className="text-sm text-slate-400">Find your next experience</p>
