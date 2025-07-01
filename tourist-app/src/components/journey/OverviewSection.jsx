@@ -195,7 +195,7 @@ const OverviewSection = ({
         </button>
         
         <button
-          onClick={() => setActiveSection('favorites')}
+          onClick={() => setActiveSection('wishlist')}
           className="p-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-all"
         >
           <div className="text-white font-medium">My Favorites</div>

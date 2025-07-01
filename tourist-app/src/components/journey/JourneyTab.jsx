@@ -3,7 +3,7 @@ import {
   Calendar, Clock, MapPin, Users, Star, Heart, Phone, MessageCircle,
   RefreshCw, Search, Mail, Copy, ExternalLink, RotateCcw, BookOpen,
   CheckCircle, XCircle, AlertCircle, Timer, Award, TrendingUp,
-  Plus, Zap, Flame, Trophy, Rocket, Target
+  Plus, Zap, Flame, Trophy, Rocket, Target, ChevronLeft, ChevronRight
 } from 'lucide-react'
 import { useUserJourney } from '../../hooks/useUserJourney'
 import { useAppStore } from '../../stores/bookingStore'
@@ -55,6 +55,9 @@ const JourneyTab = () => {
 
   // Swipe navigation
   const stageContainerRef = useRef(null)
+  // Scroll Navigation Filter
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+ const [canScrollRight, setCanScrollRight] = useState(true)
 
   // Safe data access
   const safeUserBookings = userBookings || { active: [], upcoming: [], past: [] }
@@ -122,7 +125,7 @@ const JourneyTab = () => {
       if (safeUserBookings.past.length >= 1) achievements.push('🏆 First Adventure')
       if (uniqueActivityTypes >= 3) achievements.push('🤿 Activity Explorer')
       if (safeUserBookings.past.length >= 5) achievements.push('🌴 Island Hopper')
-      if (safeFavorites.length >= 10) achievements.push('💕 Wishlist Master')
+      if (safeFavorites.length >= 5) achievements.push('💕 Wishlist Master')
 
       const unreadMessages = safeUserBookings.active.filter(booking => 
         booking?.operator_response && booking.operator_response !== ''
@@ -136,6 +139,12 @@ const JourneyTab = () => {
         achievements,
         unreadMessages
       })
+
+      useEffect(() => {
+      checkScrollPosition()
+      window.addEventListener('resize', checkScrollPosition)
+      return () => window.removeEventListener('resize', checkScrollPosition)
+    }, [])
     } catch (error) {
       console.warn('Error calculating stats:', error)
     }
@@ -181,6 +190,15 @@ const JourneyTab = () => {
         return 'from-teal-900/40 to-slate-800'
     }
   }
+
+  // Scroll Filter left right 
+  const checkScrollPosition = () => {
+  if (stageContainerRef.current) {
+    const { scrollLeft, scrollWidth, clientWidth } = stageContainerRef.current
+    setCanScrollLeft(scrollLeft > 0)
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
+  }
+}
 
   // Filter bookings by search
   const filterBookings = (bookingsList) => {
@@ -381,13 +399,33 @@ const JourneyTab = () => {
             )}
           </div>
 
-          {/* Enhanced Stage Navigation */}
-          <div className="px-4 sm:px-6 py-3">
+          {/* Enhanced Stage Navigation with Scroll Indicators */}
+          <div className="px-4 sm:px-6 py-3 relative">
+            {/* Left Scroll Indicator */}
+            {canScrollLeft && (
+              <div className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
+                <div className="bg-gradient-to-r from-slate-800 to-transparent w-8 h-full flex items-center">
+                  <ChevronLeft className="w-5 h-5 text-slate-400" />
+                </div>
+              </div>
+            )}
+            
+            {/* Right Scroll Indicator */}
+            {canScrollRight && (
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
+                <div className="bg-gradient-to-l from-slate-800 to-transparent w-8 h-full flex items-center justify-end">
+                  <ChevronRight className="w-5 h-5 text-slate-400" />
+                </div>
+              </div>
+            )}
+
             <div 
               ref={stageContainerRef}
               className="flex gap-2 overflow-x-auto scrollbar-hide pb-2"
+              onScroll={checkScrollPosition}
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
+
               {journeyStages.map((stage) => {
                 const isActive = activeStage === stage.id
                 const hasUrgent = stage.urgent && stage.count > 0
