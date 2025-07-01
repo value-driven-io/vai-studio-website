@@ -10,7 +10,7 @@ const Navigation = () => {
     { id: 'discover', icon: Home, label: 'Discover' },
     { id: 'explore', icon: Search, label: 'Explore' },
     { id: 'journey', icon: Calendar, label: 'Journey' },
-    { id: 'profile', icon: User, label: 'Profile' }
+    { id: 'profile', icon: User, label: 'Support' }
   ]
 
   return (
