@@ -66,7 +66,7 @@ const ProfileTab = () => {
 
               {/* Footer */}
           <div>
-            <p className="text-center text-slate-500 text-sm mt-2">VAI.studio, French Polynesia © 2025 All rights reserved</p>
+            <p className="text-center text-slate-500 text-sm mt-4">VAI.studio © 2025 All rights reserved<br></br>From French Polynesia with ❤️</p>
        </div> 
       </div>
     </div>
