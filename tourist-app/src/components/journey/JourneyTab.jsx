@@ -1,9 +1,9 @@
-// REPLACE: src/components/journey/JourneyTab.jsx
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { 
   Calendar, Clock, MapPin, Users, Star, Heart, Phone, MessageCircle,
   RefreshCw, Search, Mail, Copy, ExternalLink, RotateCcw, BookOpen,
-  CheckCircle, XCircle, AlertCircle, Timer, Award, TrendingUp
+  CheckCircle, XCircle, AlertCircle, Timer, Award, TrendingUp,
+  Plus, Zap, Flame, Trophy, Rocket, Target
 } from 'lucide-react'
 import { useUserJourney } from '../../hooks/useUserJourney'
 import { useAppStore } from '../../stores/bookingStore'
@@ -35,13 +35,152 @@ const JourneyTab = () => {
 
   const { favorites, toggleFavorite, setActiveTab } = useAppStore()
   
-  // Local state
-  const [activeSection, setActiveSection] = useState('overview')
+  // Enhanced state for journey stages
+  const [activeStage, setActiveStage] = useState('overview')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedBooking, setSelectedBooking] = useState(null)
   const [showRebookModal, setShowRebookModal] = useState(false)
   const [rebookTour, setRebookTour] = useState(null)
   const [showLookupModal, setShowLookupModal] = useState(false)
+  
+  // Gamification state
+  const [userStats, setUserStats] = useState({
+    activitiesExplored: 0,
+    totalActivities: 8,
+    currentLevel: 'Explorer',
+    streak: 0,
+    achievements: [],
+    unreadMessages: 0
+  })
+
+  // Swipe navigation
+  const stageContainerRef = useRef(null)
+
+  // Safe data access
+  const safeUserBookings = userBookings || { active: [], upcoming: [], past: [] }
+  const safeFavorites = favorites || []
+
+  // Enhanced journey stages
+  const journeyStages = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      emoji: '📊',
+      description: 'Your journey at a glance'
+    },
+    {
+      id: 'planning',
+      label: 'Planning',
+      emoji: '🎯',
+      description: 'Draft & saved tours',
+      count: safeFavorites.length
+    },
+    {
+      id: 'urgent',
+      label: 'Action Needed',
+      emoji: '⚡',
+      description: 'Needs confirmation',
+      count: safeUserBookings.active.filter(booking => 
+        booking?.booking_status === 'pending' || 
+        booking?.booking_status === 'awaiting_confirmation'
+      ).length,
+      urgent: true
+    },
+    {
+      id: 'confirmed',
+      label: 'Ready to Go',
+      emoji: '🚀',
+      description: 'Confirmed adventures',
+      count: safeUserBookings.upcoming.length
+    },
+    {
+      id: 'memories',
+      label: 'Memories',
+      emoji: '🌺',
+      description: 'Completed experiences',
+      count: safeUserBookings.past.length
+    },
+    {
+      id: 'wishlist',
+      label: 'Wishlist',
+      emoji: '💕',
+      description: 'Favorited tours',
+      count: safeFavorites.length
+    }
+  ]
+
+  // Calculate user statistics
+  useEffect(() => {
+    try {
+      const uniqueActivityTypes = new Set([
+        ...safeUserBookings.active.map(b => b?.tours?.tour_type).filter(Boolean),
+        ...safeUserBookings.upcoming.map(b => b?.tours?.tour_type).filter(Boolean),
+        ...safeUserBookings.past.map(b => b?.tours?.tour_type).filter(Boolean)
+      ]).size
+
+      const achievements = []
+      if (safeUserBookings.past.length >= 1) achievements.push('🏆 First Adventure')
+      if (uniqueActivityTypes >= 3) achievements.push('🤿 Activity Explorer')
+      if (safeUserBookings.past.length >= 5) achievements.push('🌴 Island Hopper')
+      if (safeFavorites.length >= 10) achievements.push('💕 Wishlist Master')
+
+      const unreadMessages = safeUserBookings.active.filter(booking => 
+        booking?.operator_response && booking.operator_response !== ''
+      ).length
+
+      setUserStats({
+        activitiesExplored: uniqueActivityTypes,
+        totalActivities: 8,
+        currentLevel: uniqueActivityTypes >= 5 ? 'Adventurer' : uniqueActivityTypes >= 3 ? 'Explorer' : 'Beginner',
+        streak: Math.min(safeUserBookings.past.length, 30),
+        achievements,
+        unreadMessages
+      })
+    } catch (error) {
+      console.warn('Error calculating stats:', error)
+    }
+  }, [safeUserBookings, safeFavorites])
+
+  // Get next tour for countdown
+  const nextTour = getNextUpcomingTour ? getNextUpcomingTour() : null
+  const getCountdownDisplay = () => {
+    if (!nextTour?.tour_date) return null
+    
+    try {
+      const tourDate = new Date(nextTour.tour_date)
+      const now = new Date()
+      const diffMs = tourDate - now
+      
+      if (diffMs <= 0) return 'Starting soon!'
+      
+      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      
+      if (days > 0) return `${days}d ${hours}h until next adventure`
+      return `${hours}h until next adventure`
+    } catch (error) {
+      return null
+    }
+  }
+
+  // Get background gradient
+  const getBackgroundGradient = () => {
+    if (!nextTour) return 'from-slate-900 to-slate-800'
+    
+    switch (nextTour.tour_type) {
+      case 'diving':
+      case 'snorkeling':
+        return 'from-blue-900/40 to-slate-800'
+      case 'sunset':
+      case 'cruise':
+        return 'from-orange-900/40 to-slate-800'
+      case 'hiking':
+      case 'adventure':
+        return 'from-green-900/40 to-slate-800'
+      default:
+        return 'from-teal-900/40 to-slate-800'
+    }
+  }
 
   // Filter bookings by search
   const filterBookings = (bookingsList) => {
@@ -54,6 +193,23 @@ const JourneyTab = () => {
       booking.booking_reference?.toLowerCase().includes(query) ||
       booking.operators?.island?.toLowerCase().includes(query)
     )
+  }
+
+  // Get filtered bookings for enhanced stages
+  const getFilteredBookings = () => {
+    switch (activeStage) {
+      case 'urgent':
+        return safeUserBookings.active.filter(booking => 
+          booking?.booking_status === 'pending' || 
+          booking?.booking_status === 'awaiting_confirmation'
+        )
+      case 'confirmed':
+        return safeUserBookings.upcoming
+      case 'memories':
+        return safeUserBookings.past
+      default:
+        return []
+    }
   }
 
   const handleContactOperator = (booking) => {
@@ -103,7 +259,7 @@ const JourneyTab = () => {
       const bookings = await fetchUserBookings(email, whatsapp)
       if (bookings && bookings.length > 0) {
         toast.success(`Found ${bookings.length} booking${bookings.length !== 1 ? 's' : ''}!`)
-        setActiveSection('overview') // Switch to overview to show results
+        setActiveStage('overview') // Switch to overview to show results
       } else {
         toast.error('No bookings found for this email/WhatsApp')
       }
@@ -127,192 +283,270 @@ const JourneyTab = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
-      {/* Header */}
-      <div className="bg-slate-800 border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-2xl font-bold text-white mb-2">📅 My Journey</h1>
-              <p className="text-slate-400">
-                {getTotalBookings() > 0 
-                  ? `Track your ${getTotalBookings()} booking${getTotalBookings() !== 1 ? 's' : ''} and adventures`
-                  : 'Your French Polynesia adventure starts here'
-                }
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              {/* Find Bookings Button */}
-              {getTotalBookings() === 0 && (
-                <button
-                  onClick={() => setShowLookupModal(true)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-                >
-                  <Search className="w-4 h-4" />
-                  Find My Bookings
-                </button>
-              )}
-              
-              {/* Refresh Button */}
-              <button
-                onClick={refreshBookings}
-                className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg transition-colors"
-                disabled={loading}
-              >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                {loading ? 'Loading...' : 'Refresh'}
-              </button>
-            </div>
-          </div>
+    <div className={`min-h-screen bg-gradient-to-br ${getBackgroundGradient()} transition-all duration-1000`}>
+      {/* Enhanced Header */}
+      <div className="bg-slate-800/90 backdrop-blur-md border-b border-slate-700 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Progress Strip */}
+          <div className="px-4 sm:px-6 py-4 border-b border-slate-700/50">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-2xl">🗺️</span>
+                  <div>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white">My Journey</h1>
+                    <p className="text-sm text-slate-400">
+                      Level: {userStats.currentLevel} • {userStats.activitiesExplored}/{userStats.totalActivities} activities explored
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Progress Bar */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 bg-slate-700 rounded-full h-2 overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-blue-500 to-teal-500 transition-all duration-1000 rounded-full"
+                      style={{ width: `${(userStats.activitiesExplored / userStats.totalActivities) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-slate-400 font-medium">
+                    {Math.round((userStats.activitiesExplored / userStats.totalActivities) * 100)}%
+                  </span>
+                </div>
+              </div>
 
-          {/* Navigation Tabs */}
-          <div className="flex gap-1.5 sm:gap-2 mb-4 sm:mb-6 overflow-x-auto pb-2 scrollbar-hide">
-            {[
-              { id: 'overview', label: 'Overview', icon: TrendingUp },
-              { id: 'active', label: 'Active', icon: Timer, count: userBookings.active.length },
-              { id: 'upcoming', label: 'Upcoming', icon: Calendar, count: userBookings.upcoming.length },
-              { id: 'past', label: 'Past', icon: Award, count: userBookings.past.length },
-              { id: 'favorites', label: 'Favorites', icon: Heart, count: favorites.length }
-            ].map(tab => {
-              const Icon = tab.icon
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveSection(tab.id)}
-                  className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-2 rounded-lg text-sm transition-colors whitespace-nowrap min-h-[44px] flex items-center ${
-                    activeSection === tab.id
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {tab.label}
-                  {tab.count > 0 && (
-                    <span className="bg-slate-600 text-white text-xs px-2 py-1 rounded-full">
-                      {tab.count}
+              {/* Actions */}
+              <div className="flex items-center gap-3 ml-4">
+                {/* Achievements */}
+                {userStats.achievements.length > 0 && (
+                  <div className="hidden sm:flex items-center gap-1">
+                    {userStats.achievements.slice(0, 2).map((achievement, index) => (
+                      <span key={index} className="text-lg" title={achievement}>
+                        {achievement.split(' ')[0]}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Streak */}
+                {userStats.streak > 0 && (
+                  <div className="flex items-center gap-1 bg-orange-500/20 px-2 py-1 rounded-full">
+                    <Flame className="w-3 h-3 text-orange-400" />
+                    <span className="text-xs text-orange-400 font-bold">{userStats.streak}</span>
+                  </div>
+                )}
+
+                {/* Messages */}
+                {userStats.unreadMessages > 0 && (
+                  <div className="relative">
+                    <MessageCircle className="w-5 h-5 text-blue-400" />
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                      {userStats.unreadMessages}
                     </span>
-                  )}
+                  </div>
+                )}
+
+                {/* Find Bookings Button */}
+                {getTotalBookings() === 0 && (
+                  <button
+                    onClick={() => setShowLookupModal(true)}
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors text-sm"
+                  >
+                    <Search className="w-4 h-4" />
+                    <span className="hidden sm:inline">Find Bookings</span>
+                  </button>
+                )}
+
+                {/* Refresh */}
+                <button
+                  onClick={refreshBookings}
+                  className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
+                  disabled={loading}
+                >
+                  <RefreshCw className={`w-4 h-4 text-white ${loading ? 'animate-spin' : ''}`} />
                 </button>
-              )
-            })}
+              </div>
+            </div>
+
+            {/* Countdown */}
+            {getCountdownDisplay() && (
+              <div className="mt-3 flex items-center gap-2 text-sm">
+                <Clock className="w-4 h-4 text-blue-400" />
+                <span className="text-blue-400 font-medium">{getCountdownDisplay()}</span>
+                {nextTour && (
+                  <span className="text-slate-400">• {nextTour.tour_name}</span>
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Search Bar */}
-          {activeSection !== 'overview' && activeSection !== 'favorites' && (
-            <div className="relative mb-6">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search bookings..."
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-800 border border-slate-700 rounded-lg text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-              />
+          {/* Enhanced Stage Navigation */}
+          <div className="px-4 sm:px-6 py-3">
+            <div 
+              ref={stageContainerRef}
+              className="flex gap-2 overflow-x-auto scrollbar-hide pb-2"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {journeyStages.map((stage) => {
+                const isActive = activeStage === stage.id
+                const hasUrgent = stage.urgent && stage.count > 0
+                
+                return (
+                  <button
+                    key={stage.id}
+                    onClick={() => setActiveStage(stage.id)}
+                    className={`flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 min-w-max ${
+                      isActive
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25 scale-105'
+                        : hasUrgent
+                        ? 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30'
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                    }`}
+                  >
+                    <span className="text-lg">{stage.emoji}</span>
+                    <div className="text-left">
+                      <div className="flex items-center gap-2">
+                        <span>{stage.label}</span>
+                        {stage.count > 0 && (
+                          <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
+                            hasUrgent
+                              ? 'bg-red-500 text-white'
+                              : isActive
+                              ? 'bg-white text-blue-600'
+                              : 'bg-slate-600 text-slate-300'
+                          }`}>
+                            {stage.count}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs opacity-75">{stage.description}</div>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Search Bar for non-overview stages */}
+          {activeStage !== 'overview' && activeStage !== 'planning' && activeStage !== 'wishlist' && (
+            <div className="px-4 sm:px-6 pb-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search bookings..."
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
             </div>
           )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6 pb-20">
-          {/* REFRESH REMINDER */}
-          {getTotalBookings() > 0 && (
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-6">
-              <div className="flex items-center gap-2 text-blue-400 text-sm">
-                <RefreshCw className="w-4 h-4" />
-                <span>Click refresh for latest status updates on bookings</span>
-              </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-24">
+        {/* Refresh Reminder */}
+        {getTotalBookings() > 0 && (
+          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-6">
+            <div className="flex items-center gap-2 text-blue-400 text-sm">
+              <RefreshCw className="w-4 h-4" />
+              <span>Click refresh for latest status updates on bookings</span>
             </div>
-          )}
-        {loading && activeSection === 'overview' ? (
+          </div>
+        )}
+
+        {loading && activeStage === 'overview' ? (
           <div className="space-y-4">
             {[1, 2, 3].map(i => (
-              <div key={i} className="bg-slate-800 rounded-xl h-32 animate-pulse"></div>
+              <div key={i} className="bg-slate-800/50 rounded-xl h-32 animate-pulse"></div>
             ))}
           </div>
         ) : (
           <>
-            {activeSection === 'overview' && (
-              <OverviewSection 
-                userBookings={userBookings}
-                favorites={favorites}
-                getTotalBookings={getTotalBookings}
-                getNextUpcomingTour={getNextUpcomingTour}
-                formatDate={formatDate}
-                formatTime={formatTime}
-                formatPrice={formatPrice}
-                setActiveSection={setActiveSection}
-                setActiveTab={setActiveTab}
-              />
+            {/* Overview Section */}
+            {activeStage === 'overview' && (
+              <div className="space-y-6">
+                {/* Original Overview Section if available */}
+                {getTotalBookings() > 0 && OverviewSection && getTotalBookings && getNextUpcomingTour && (
+                  <OverviewSection 
+                    userBookings={safeUserBookings}
+                    favorites={safeFavorites}
+                    getTotalBookings={getTotalBookings}
+                    getNextUpcomingTour={getNextUpcomingTour}
+                    formatDate={formatDate}
+                    formatTime={formatTime}
+                    formatPrice={formatPrice}
+                    setActiveSection={setActiveStage}
+                    setActiveTab={setActiveTab}
+                  />
+                )}
+                
+                {/* Quick Stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-blue-400">{safeUserBookings.upcoming.length}</div>
+                    <div className="text-sm text-slate-400">Upcoming</div>
+                  </div>
+                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-green-400">{safeUserBookings.past.length}</div>
+                    <div className="text-sm text-slate-400">Completed</div>
+                  </div>
+                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-purple-400">{safeFavorites.length}</div>
+                    <div className="text-sm text-slate-400">Favorites</div>
+                  </div>
+                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-400">{userStats.achievements.length}</div>
+                    <div className="text-sm text-slate-400">Achievements</div>
+                  </div>
+                </div>
+
+                {/* Achievements */}
+                {userStats.achievements.length > 0 && (
+                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6">
+                    <h3 className="text-lg font-semibold text-white mb-4">🏆 Your Achievements</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {userStats.achievements.map((achievement, index) => (
+                        <div key={index} className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-3">
+                          <span className="text-white font-medium">{achievement}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* No bookings state */}
+                {getTotalBookings() === 0 && (
+                  <div className="text-center py-12">
+                    <div className="text-6xl mb-4">🌴</div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Welcome to Your Journey</h3>
+                    <p className="text-slate-400 mb-6">Your French Polynesia adventure starts here</p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <button
+                        onClick={() => setActiveTab && setActiveTab('explore')}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                      >
+                        Explore Tours
+                      </button>
+                      <button
+                        onClick={() => setShowLookupModal(true)}
+                        className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                      >
+                        Find My Bookings
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
-            
-            {activeSection === 'active' && (
-              <BookingSection
-                title="Active Bookings"
-                bookings={userBookings.active}
-                filteredBookings={filterBookings(userBookings.active)}
-                emptyMessage="No pending bookings"
-                emptyIcon={Timer}
-                handleContactOperator={handleContactOperator}
-                handleRebook={handleRebook}
-                copyBookingReference={copyBookingReference}
-                handleGetSupport={handleGetSupport}
-                canContactOperator={canContactOperator}
-                canRebook={canRebook}
-                formatPrice={formatPrice}
-                formatDate={formatDate}
-                formatTime={formatTime}
-                getBookingStatusColor={getBookingStatusColor}
-                getBookingStatusIcon={getBookingStatusIcon}
-              />
-            )}
-            
-            {activeSection === 'upcoming' && (
-              <BookingSection
-                title="Upcoming Adventures"
-                bookings={userBookings.upcoming}
-                filteredBookings={filterBookings(userBookings.upcoming)}
-                emptyMessage="No upcoming tours"
-                emptyIcon={Calendar}
-                handleContactOperator={handleContactOperator}
-                handleRebook={handleRebook}
-                copyBookingReference={copyBookingReference}
-                handleGetSupport={handleGetSupport}
-                canContactOperator={canContactOperator}
-                canRebook={canRebook}
-                formatPrice={formatPrice}
-                formatDate={formatDate}
-                formatTime={formatTime}
-                getBookingStatusColor={getBookingStatusColor}
-                getBookingStatusIcon={getBookingStatusIcon}
-              />
-            )}
-            
-            {activeSection === 'past' && (
-              <BookingSection
-                title="Past Experiences"
-                bookings={userBookings.past}
-                filteredBookings={filterBookings(userBookings.past)}
-                emptyMessage="No completed adventures yet"
-                emptyIcon={Award}
-                handleContactOperator={handleContactOperator}
-                handleRebook={handleRebook}
-                copyBookingReference={copyBookingReference}
-                handleGetSupport={handleGetSupport}
-                canContactOperator={canContactOperator}
-                canRebook={canRebook}
-                formatPrice={formatPrice}
-                formatDate={formatDate}
-                formatTime={formatTime}
-                getBookingStatusColor={getBookingStatusColor}
-                getBookingStatusIcon={getBookingStatusIcon}
-              />
-            )}
-            
-            {activeSection === 'favorites' && (
+
+            {/* Favorites/Wishlist */}
+            {(activeStage === 'planning' || activeStage === 'wishlist') && (
               <FavoritesSection
-                favorites={favorites}
+                favorites={safeFavorites}
                 toggleFavorite={toggleFavorite}
                 setActiveTab={setActiveTab}
                 formatPrice={formatPrice}
@@ -322,11 +556,75 @@ const JourneyTab = () => {
                 getUrgencyColor={getUrgencyColor}
               />
             )}
+
+            {/* Enhanced Booking Stages */}
+            {(activeStage === 'urgent' || activeStage === 'confirmed' || activeStage === 'memories') && (
+              <div className="space-y-4">
+                {getFilteredBookings().length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="text-6xl mb-4">
+                      {activeStage === 'urgent' ? '⚡' : activeStage === 'confirmed' ? '🚀' : '🌺'}
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      {activeStage === 'urgent' && 'No action needed'}
+                      {activeStage === 'confirmed' && 'No confirmed tours yet'}
+                      {activeStage === 'memories' && 'No completed adventures yet'}
+                    </h3>
+                    <p className="text-slate-400 mb-6">
+                      {activeStage === 'urgent' && 'All your bookings are up to date!'}
+                      {activeStage === 'confirmed' && 'Book your first adventure to get started'}
+                      {activeStage === 'memories' && 'Your completed tours will appear here'}
+                    </p>
+                    <button
+                      onClick={() => setActiveTab && setActiveTab('explore')}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                    >
+                      Explore Tours
+                    </button>
+                  </div>
+                ) : (
+                  <BookingSection
+                    title={
+                      activeStage === 'urgent' ? 'Action Needed' :
+                      activeStage === 'confirmed' ? 'Ready to Go' : 'Your Memories'
+                    }
+                    bookings={getFilteredBookings()}
+                    filteredBookings={filterBookings(getFilteredBookings())}
+                    emptyMessage="No bookings in this category"
+                    emptyIcon={Timer}
+                    handleContactOperator={handleContactOperator}
+                    handleRebook={handleRebook}
+                    copyBookingReference={copyBookingReference}
+                    handleGetSupport={handleGetSupport}
+                    canContactOperator={canContactOperator}
+                    canRebook={canRebook}
+                    formatPrice={formatPrice}
+                    formatDate={formatDate}
+                    formatTime={formatTime}
+                    getBookingStatusColor={getBookingStatusColor}
+                    getBookingStatusIcon={getBookingStatusIcon}
+                  />
+                )}
+              </div>
+            )}
           </>
         )}
       </div>
 
-      {/* Rebook Modal */}
+      {/* Fixed Floating Book Tour Button - Positioned above navigation */}
+      <div className="fixed bottom-20 right-6 z-50">
+        <button
+          onClick={() => setActiveTab && setActiveTab('explore')}
+          className="bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white p-4 rounded-full shadow-lg shadow-blue-600/25 transition-all duration-300 hover:scale-110 flex items-center gap-2 group"
+        >
+          <Plus className="w-6 h-6" />
+          <span className="hidden group-hover:block text-sm font-medium pr-2 animate-in fade-in duration-200">
+            Book Tour
+          </span>
+        </button>
+      </div>
+
+      {/* Modals */}
       {showRebookModal && rebookTour && (
         <BookingModal 
           tour={rebookTour}
@@ -338,7 +636,6 @@ const JourneyTab = () => {
         />
       )}
 
-      {/* Booking Lookup Modal */}
       <BookingLookup 
         isOpen={showLookupModal}
         onClose={() => setShowLookupModal(false)}

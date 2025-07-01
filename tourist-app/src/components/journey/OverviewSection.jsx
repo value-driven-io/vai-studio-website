@@ -69,8 +69,8 @@ const OverviewSection = ({
         </p>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Quick Stats Deactivated */}
+      {/*<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon
           return (
@@ -91,7 +91,7 @@ const OverviewSection = ({
             </button>
           )
         })}
-      </div>
+      </div> */}
 
       {/* Next Upcoming Tour */}
       {nextTour && (

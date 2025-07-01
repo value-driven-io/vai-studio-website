@@ -1,6 +1,3 @@
-// Enhanced TourCard Components for VAI Tickets
-// File: src/components/shared/TourCard.jsx
-
 import React, { useState } from 'react'
 import { 
   Heart, Clock, Users, MapPin, Star, ArrowRight, Calendar,
@@ -22,6 +19,7 @@ const TourCard = ({
   formatTime,
   calculateSavings,
   getUrgencyColor,
+  hideBookButton = false, // 👈 NEW: Hide book button for journey bookings
   className = ""
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -58,9 +56,12 @@ const TourCard = ({
     }
   }
 
+  // 👈 FIXED: Proper handleBookingClick function
   const handleBookingClick = (e) => {
     e.stopPropagation()
-    onBookingClick?.(tour)
+    if (onBookingClick && !hideBookButton) {
+      onBookingClick(tour)
+    }
   }
 
   return (
@@ -184,22 +185,27 @@ const TourCard = ({
 
             {/* Action Buttons */}
             <div className="flex gap-2">
-              <button
-                onClick={handleBookingClick}
-                className="flex-1 bg-slate-700 hover:bg-blue-800 text-white py-2 px-4 rounded-lg
-                         font-medium transition-colors duration-200 flex items-center justify-center gap-2"
-              >
-                Book Now
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              {/* 👈 FIXED: Conditional Book Button with proper function */}
+              {!hideBookButton && (
+                <button
+                  onClick={handleBookingClick}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg
+                           font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+                >
+                  Book Now
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
               
               <button
                 onClick={(e) => {
                   e.stopPropagation()
                   setIsExpanded(!isExpanded)
                 }}
-                className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 
-                         rounded-lg transition-colors duration-200"
+                className={`px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 
+                         rounded-lg transition-colors duration-200 ${
+                           hideBookButton ? 'flex-1' : ''  // 👈 FIXED: Expand when book button hidden
+                         }`}
                 aria-label={isExpanded ? 'Show less' : 'Show more'}
               >
                 {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -298,13 +304,14 @@ const TourCard = ({
           tour={tour}
           isOpen={showFullScreen}
           onClose={() => setShowFullScreen(false)}
-          onBookingClick={onBookingClick}
+          onBookingClick={hideBookButton ? null : onBookingClick}  // 👈 FIXED: Pass null if hidden
           onFavoriteToggle={onFavoriteToggle}
           isFavorite={isFavorite}
           formatPrice={formatPrice}
           formatDate={formatDate}
           formatTime={formatTime}
           calculateSavings={calculateSavings}
+          hideBookButton={hideBookButton}  // 👈 FIXED: Pass hideBookButton prop
         />
       )}
     </>
@@ -322,7 +329,7 @@ const InclusionItem = ({ included, icon: Icon, label }) => (
   </div>
 )
 
-// Full Screen Tour Detail Modal
+// 👈 FIXED: Full Screen Tour Detail Modal with hideBookButton support
 const TourDetailModal = ({ 
   tour, 
   isOpen, 
@@ -333,12 +340,21 @@ const TourDetailModal = ({
   formatPrice,
   formatDate,
   formatTime,
-  calculateSavings 
+  calculateSavings,
+  hideBookButton = false  // 👈 FIXED: Add hideBookButton prop
 }) => {
   if (!isOpen) return null
 
   const tourEmoji = TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'
   const savings = calculateSavings?.(tour.original_price_adult, tour.discount_price_adult)
+
+  // 👈 FIXED: Safe booking click handler
+  const handleModalBookingClick = () => {
+    if (onBookingClick && !hideBookButton) {
+      onBookingClick(tour)
+      onClose() // Close modal after booking
+    }
+  }
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start justify-center p-4 overflow-y-auto">
@@ -466,14 +482,17 @@ const TourDetailModal = ({
                 )}
               </div>
               
-              <button
-                onClick={() => onBookingClick?.(tour)}
-                className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg 
-                         font-medium transition-colors duration-200 flex items-center gap-2"
-              >
-                Book This Experience
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              {/* 👈 FIXED: Conditional Book Button in Modal */}
+              {!hideBookButton && (
+                <button
+                  onClick={handleModalBookingClick}
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg 
+                           font-medium transition-colors duration-200 flex items-center gap-2"
+                >
+                  Book This Experience
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
         </div>
