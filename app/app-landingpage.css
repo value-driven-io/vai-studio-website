@@ -132,6 +132,7 @@ body {
 .hero-content {
     position: relative;
     z-index: 2;
+    margin-top:40px;
 }
 
 .hero h1 {
