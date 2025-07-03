@@ -1,10 +1,8 @@
-// VAI Landing Page JavaScript
-// app/welcome/app-landingpage.js
+// ============================================================================
+// QR CODE TRACKING - ADD THIS AT THE VERY TOP OF app-landingpage.js
+// ============================================================================
 
-
-// QR CODE TRACKING
-
-// QR Tracking Data Capture
+// QR Tracking Data Capture - MUST BE FIRST
 (function initQRTracking() {
     // Capture QR tracking data from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -108,6 +106,30 @@ async function sendQRTrackingToSupabase(trackingData) {
     }
 }
 
+// Helper function to update QR conversion in Supabase
+async function updateQRConversion(sessionId, conversionType) {
+    try {
+        const { data, error } = await window.supabase
+            .from('qr_scans')
+            .update({ 
+                converted_to_registration: true,
+                conversion_type: conversionType,
+                converted_at: new Date().toISOString()
+            })
+            .eq('session_id', sessionId);
+            
+        if (error) {
+            console.warn('QR conversion update error:', error);
+        } else {
+            console.log('QR conversion tracked successfully');
+        }
+    } catch (error) {
+        console.warn('Failed to update QR conversion:', error);
+    }
+}
+
+// VAI Landing Page JavaScript
+// app/welcome/app-landingpage.js
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
