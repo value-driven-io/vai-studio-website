@@ -1,4 +1,5 @@
 // VAI Landing Page JavaScript
+// app/welcome/app-landingpage.js
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {

@@ -1,3 +1,5 @@
+<!-- app/welcome/index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -348,60 +350,148 @@
         </div>
     </section>
 
-    <!-- Tourist Registration Form -->
-    <section id="tourist-form" style="padding: 60px 0; background: var(--gradient-bg);">
+    <!-- ================================ -->
+    <!-- TOURIST/LOCAL REGISTRATION FORM -->
+    <!-- ================================ -->
+
+    <section class="registration-section">
         <div class="container">
-            <div class="form-container fade-in">
-                <!-- FORM VISUAL PLACEHOLDER: Islands/registration themed visual -->
-                <div class="form-visual">
-                    <img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="Register for VAI launch" class="form-visual-image">
+            <h2 class="section-title">Join the Paradise Revolution</h2>
+            <p class="section-subtitle">Be the first to unlock authentic French Polynesia experiences</p>
+            
+            <form id="tourist-form" class="registration-form">
+                <!-- Basic Information -->
+                <div class="form-group">
+                    <label for="tourist-name" class="form-label">Your Name *</label>
+                    <input 
+                        type="text" 
+                        id="tourist-name" 
+                        name="name" 
+                        class="form-input" 
+                        placeholder="Enter your full name" 
+                        required
+                    >
                 </div>
-                <h3 style="text-align: center; margin-bottom: 30px; color: var(--vai-coral); font-size: 28px;">Register for Launch Access</h3>
-                <form id="touristForm">
-                    <div class="form-group">
-                        <label class="form-label" for="tourist-email">Email Address *</label>
-                        <input type="email" id="tourist-email" name="email" class="form-input" required placeholder="your@email.com">
+
+                <div class="form-group">
+                    <label for="tourist-email" class="form-label">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="tourist-email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Enter your email" 
+                        required
+                    >
+                </div>
+
+                <!-- User Type Selection -->
+                <div class="form-group user-type-selection">
+                    <label class="form-label">I am a...</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="user_type" value="tourist" checked>
+                            <span>🏝️ Tourist visiting French Polynesia</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="user_type" value="local">
+                            <span>🏡 Local resident</span>
+                        </label>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="tourist-name">Full Name *</label>
-                        <input type="text" id="tourist-name" name="name" class="form-input" required placeholder="Your full name">
+                </div>
+
+                <!-- Island Selection -->
+                <div class="form-group island-selection">
+                    <label for="tourist-island" class="form-label island-question">Which island will you visit first? *</label>
+                    <select id="tourist-island" name="island" class="form-input" required>
+                        <option value="">Select an island...</option>
+                        <option value="Tahiti">Tahiti</option>
+                        <option value="Moorea">Moorea</option>
+                        <option value="Bora Bora">Bora Bora</option>
+                        <option value="Huahine">Huahine</option>
+                        <option value="Raiatea">Raiatea</option>
+                        <option value="Taha'a">Taha'a</option>
+                        <option value="Maupiti">Maupiti</option>
+                        <option value="Tikehau">Tikehau</option>
+                        <option value="Rangiroa">Rangiroa</option>
+                        <option value="Fakarava">Fakarava</option>
+                        <option value="Manihi">Manihi</option>
+                        <option value="Nuku Hiva">Nuku Hiva</option>
+                        <option value="Hiva Oa">Hiva Oa</option>
+                        <option value="Rurutu">Rurutu</option>
+                        <option value="Tubuai">Tubuai</option>
+                    </select>
+                </div>
+
+                <!-- Language Selection (Multiple Choice for Tourists) -->
+                <div class="form-group language-selection">
+                    <label class="form-label">Languages you speak (Select all that apply)</label>
+                    <div class="checkbox-grid languages-grid">
+                        <label class="checkbox-option language-option">
+                            <input type="checkbox" name="languages" value="english" checked>
+                            <span>🇺🇸 English</span>
+                        </label>
+                        <label class="checkbox-option language-option">
+                            <input type="checkbox" name="languages" value="french">
+                            <span>🇫🇷 Français</span>
+                        </label>
+                        <label class="checkbox-option language-option">
+                            <input type="checkbox" name="languages" value="german">
+                            <span>🇩🇪 Deutsch</span>
+                        </label>
+                        <label class="checkbox-option language-option">
+                            <input type="checkbox" name="languages" value="spanish">
+                            <span>🇪🇸 Español</span>
+                        </label>
+                        <label class="checkbox-option language-option">
+                            <input type="checkbox" name="languages" value="mandarin">
+                            <span>🇨🇳 中文</span>
+                        </label>
+                        <label class="checkbox-option language-option">
+                            <input type="checkbox" name="languages" value="tahitian">
+                            <span>🌺 Reo Tahiti</span>
+                        </label>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="tourist-whatsapp">WhatsApp Number (Optional)</label>
-                        <input type="tel" id="tourist-whatsapp" name="whatsapp" class="form-input" placeholder="+1234567890">
+                </div>
+
+                <!-- WhatsApp Opt-in (IMPROVED - More Flexible) -->
+                <div class="form-group whatsapp-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="whatsapp_opt_in" id="whatsapp-checkbox">
+                        <span>📱 Add my WhatsApp for instant booking updates</span>
+                    </label>
+                    <div class="whatsapp-input" style="display: none; margin-top: 10px;">
+                        <input 
+                            type="tel" 
+                            name="whatsapp_number" 
+                            class="form-input" 
+                            placeholder="e.g., +1234567890 or +689 XX XX XX XX"
+                        >
+                        <small class="form-hint">Any international format accepted (e.g., +1, +33, +689, +49)</small>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="tourist-islands">Which islands interest you most? *</label>
-                        <select id="tourist-islands" name="islands" class="form-select" required>
-                            <option value="">Select islands...</option>
-                            <option value="tahiti">Tahiti</option>
-                            <option value="moorea">Moorea</option>
-                            <option value="bora-bora">Bora Bora</option>
-                            <option value="rangiroa">Rangiroa</option>
-                            <option value="multiple">Multiple Islands</option>
-                            <option value="all">All Islands</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="tourist-travel-date">When are you planning to visit? *</label>
-                        <select id="tourist-travel-date" name="travel_date" class="form-select" required>
-                            <option value="">Select timeframe...</option>
-                            <option value="already-there">I'm already in French Polynesia</option>
-                            <option value="next-month">Next month</option>
-                            <option value="2-3-months">2-3 months</option>
-                            <option value="4-6-months">4-6 months</option>
-                            <option value="planning-2025">Planning for 2025</option>
-                            <option value="planning-2026">Planning for 2026</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Get Launch Access 🏝️</button>
-                </form>
-            </div>
+                </div>
+
+                <!-- Marketing Consent -->
+                <div class="form-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="marketing_emails" checked>
+                        <span>Send me updates about the VAI launch 🚀</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-large">
+                        🌺 Join VAI - Unlock Paradise
+                    </button>
+                </div>
+
+                <!-- Form Footer -->
+                <div class="form-footer">
+                    <p><small>By registering, you agree to our Terms of Service and Privacy Policy. 
+                    Launch date: July 14th, 2025.</small></p>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -480,69 +570,209 @@
         </div>
     </section>
 
-    <!-- Operator Registration Form -->
-    <section id="operator-form" style="padding: 60px 0; background: var(--vai-deep-ocean); display: none;">
+    <!-- ================================ -->
+    <!-- OPERATOR REGISTRATION FORM -->
+    <!-- ================================ -->
+
+    <section class="registration-section operator-section">
         <div class="container">
-            <div class="form-container fade-in">
-                <!-- OPERATOR FORM VISUAL PLACEHOLDER: Professional operator registration visual -->
-                <div class="form-visual">
-                    <img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="Join VAI as founding operator" class="form-visual-image">
+            <h2 class="section-title">Join VAI as a Tour Operator</h2>
+            <p class="section-subtitle">Grow your business with French Polynesia's premier booking platform</p>
+            
+            <form id="operator-form" class="registration-form operator-form compact-form">
+                
+                <!-- Company Information (Compact Row Layout) -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Company Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company-name" class="form-label">Company Name *</label>
+                            <input 
+                                type="text" 
+                                id="company-name" 
+                                name="company_name" 
+                                class="form-input" 
+                                placeholder="Your tour company name" 
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-person" class="form-label">Contact Person *</label>
+                            <input 
+                                type="text" 
+                                id="contact-person" 
+                                name="contact_person" 
+                                class="form-input" 
+                                placeholder="Your full name" 
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="operator-email" class="form-label">Business Email *</label>
+                            <input 
+                                type="email" 
+                                id="operator-email" 
+                                name="email" 
+                                class="form-input" 
+                                placeholder="business@yourcompany.com" 
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="operator-whatsapp" class="form-label">WhatsApp Number</label>
+                            <input 
+                                type="tel" 
+                                id="operator-whatsapp" 
+                                name="whatsapp_number" 
+                                class="form-input" 
+                                placeholder="Any international format"
+                            >
+                            <small class="form-hint">Recommended for instant notifications</small>
+                        </div>
+                    </div>
                 </div>
-                <h3 style="text-align: center; margin-bottom: 30px; color: var(--vai-tropical); font-size: 28px;">Founding Operator Registration</h3>
-                <form id="operatorForm">
-                    <div class="form-group">
-                        <label class="form-label" for="op-company">Company Name *</label>
-                        <input type="text" id="op-company" name="company_name" class="form-input" required placeholder="Your tour company name">
+
+                <!-- Service Area (Badge Style for Compact Design) -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Service Area</h3>
+                    <div class="form-group islands-served">
+                        <label class="form-label">Islands you operate on (Select all that apply) *</label>
+                        <div class="checkbox-grid islands-grid compact-grid">
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="islands_served" value="Tahiti">
+                                <span>Tahiti</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="islands_served" value="Moorea">
+                                <span>Moorea</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="islands_served" value="Bora Bora">
+                                <span>Bora Bora</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="islands_served" value="Huahine">
+                                <span>Huahine</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="islands_served" value="Raiatea">
+                                <span>Raiatea</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="islands_served" value="Rangiroa">
+                                <span>Rangiroa</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="islands_served" value="Other">
+                                <span>Other Islands</span>
+                            </label>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="op-email">Business Email *</label>
-                        <input type="email" id="op-email" name="email" class="form-input" required placeholder="business@company.com">
+                </div>
+
+                <!-- Tour Offerings (Badge Style) -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Tour Offerings</h3>
+                    <div class="form-group tour-types">
+                        <label class="form-label">Tour types you offer (Select all that apply) *</label>
+                        <div class="checkbox-grid tour-types-grid compact-grid">
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Lagoon Tour">
+                                <span>🏝️ Lagoon</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Cultural">
+                                <span>🗿 Cultural</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Diving">
+                                <span>🤿 Diving</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Hike">
+                                <span>🥾 Hiking</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Whale Watching">
+                                <span>🐋 Whales</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Adrenalin">
+                                <span>🪂 Adventure</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Relax">
+                                <span>🧘 Wellness</span>
+                            </label>
+                            <label class="checkbox-option badge-style">
+                                <input type="checkbox" name="tour_types_offered" value="Snorkeling">
+                                <span>🐢 Snorkel</span>
+                            </label>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="op-whatsapp">WhatsApp Number *</label>
-                        <input type="tel" id="op-whatsapp" name="whatsapp" class="form-input" required placeholder="+689XXXXXXXX">
+                </div>
+
+                <!-- Language & Business Goals (Compact Row) -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Language & Business Goals</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="operator-language" class="form-label">Primary Tour Language *</label>
+                            <select name="languages" id="operator-language" class="form-input" required>
+                                <option value="">Select language...</option>
+                                <option value="english">🇺🇸 English</option>
+                                <option value="french">🇫🇷 Français</option>
+                                <option value="german">🇩🇪 Deutsch</option>
+                                <option value="spanish">🇪🇸 Español</option>
+                                <option value="mandarin">🇨🇳 中文</option>
+                                <option value="tahitian">🌺 Reo Tahiti</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="target-bookings" class="form-label">Monthly Booking Goal</label>
+                            <select name="target_bookings_monthly" id="target-bookings" class="form-input">
+                                <option value="">Select range...</option>
+                                <option value="1-5">1-5 bookings</option>
+                                <option value="6-15">6-15 bookings</option>
+                                <option value="16-30">16-30 bookings</option>
+                                <option value="31+">31+ bookings</option>
+                            </select>
+                        </div>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label class="form-label" for="op-island">Primary Island *</label>
-                        <select id="op-island" name="island" class="form-select" required>
-                            <option value="">Select your main island...</option>
-                            <option value="tahiti">Tahiti</option>
-                            <option value="moorea">Moorea</option>
-                            <option value="bora-bora">Bora Bora</option>
-                            <option value="rangiroa">Rangiroa</option>
-                            <option value="huahine">Huahine</option>
-                            <option value="raiatea">Raiatea</option>
-                            <option value="taha-a">Taha'a</option>
-                            <option value="marquesas">Marquesas</option>
-                            <option value="other">Other</option>
+                        <label for="customer-preference" class="form-label">Preferred Customer Type (Optional)</label>
+                        <select name="customer_type_preference" id="customer-preference" class="form-input">
+                            <option value="">No preference</option>
+                            <option value="tourists">International tourists</option>
+                            <option value="locals">Local residents</option>
+                            <option value="families">Families with children</option>
+                            <option value="adventure">Adventure seekers</option>
+                            <option value="luxury">Luxury travelers</option>
                         </select>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="op-tours">Tour Categories *</label>
-                        <select id="op-tours" name="tour_types" class="form-select" required>
-                            <option value="">Select main category...</option>
-                            <option value="ocean">Ocean Activities (Snorkeling, Diving, Boat Tours)</option>
-                            <option value="cultural">Cultural Experiences</option>
-                            <option value="adventure">Adventure Tours (Hiking, 4WD)</option>
-                            <option value="wellness">Wellness & Relaxation</option>
-                            <option value="food">Food & Local Cuisine</option>
-                            <option value="aerial">Aerial Tours (Helicopter, Scenic Flights)</option>
-                            <option value="multi">Multiple Categories</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="op-contact">Contact Person Name *</label>
-                        <input type="text" id="op-contact" name="contact_person" class="form-input" required placeholder="Your name">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Join as Founding Operator 🌺</button>
-                </form>
-            </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-large">
+                        🚀 Submit Operator Application
+                    </button>
+                </div>
+
+                <!-- Form Footer -->
+                <div class="form-footer">
+                    <p><small>Applications are reviewed within 24 hours. You'll receive login credentials 
+                    via email once approved. Questions? WhatsApp us at +68987269065</small></p>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -574,7 +804,15 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Your scripts in order -->
+    <script src="services/supabase.js"></script>
+    <script src="services/registration.js"></script>
+    <script src="registration-handler.js"></script>
     <script src="app-landingpage.js"></script>
+
+
 </body>
 </html>

@@ -18,7 +18,7 @@ export const MOOD_CATEGORIES = [
   {
     id: 'relax',
     emoji: '🧘‍♀️',
-    title: 'Relax',
+    title: 'Chill',
     subtitle: 'Find your inner peace',
     description: 'Peaceful experiences to restore your energy',
     tourTypes: ['Mindfulness', 'Lagoon Tour', 'Cultural'],
@@ -65,7 +65,7 @@ export const TOUR_TYPE_EMOJIS = {
   'Diving': '🤿',
   'Hike': '🥾',
   'Lagoon Tour': '🏝️',
-  'Mindfulness': '🧘',
+  'Relax': '🧘',
   'Whale Watching': '🐋',
   'Snorkeling': '🐢'
 }
