@@ -1,12 +1,12 @@
 // ================================
-// FIXED REGISTRATION SERVICE
+// UPDATED REGISTRATION SERVICE FOR NEW FORM STRUCTURE
 // File: app/welcome/services/registration.js
 // ================================
 
 const registrationService = {
   
   // ===========================
-  // TOURIST REGISTRATION (FIXED)
+  // TOURIST REGISTRATION (UPDATED FOR NEW FORM)
   // ===========================
   
   async registerTourist(formData) {
@@ -20,12 +20,16 @@ const registrationService = {
       
       const { 
         name, email, user_type, island, whatsapp_number = null, 
-        marketing_emails = true, languages = ['english']
+        marketing_emails = true, terms_accepted = false, languages = ['english']
       } = formData
       
       // Validate required fields
       if (!name || !email || !user_type || !island) {
         throw new Error('Please fill in all required fields')
+      }
+      
+      if (!terms_accepted) {
+        throw new Error('Please agree to the Terms of Service and Privacy Policy')
       }
       
       // Split name into first/last
@@ -42,12 +46,12 @@ const registrationService = {
       if (existingUser) {
         return {
           success: false,
-          error: 'Email already registered. Please sign in instead.',
+          error: 'Email already registered. Please use a different email address.',
           existing: true
         }
       }
       
-      // Prepare user data (REMOVED temp_password field)
+      // Prepare user data with updated structure
       const userData = {
         email: email.toLowerCase().trim(),
         first_name: firstName,
@@ -56,7 +60,7 @@ const registrationService = {
         marketing_emails,
         status: 'registered', // Start as registered, activate later
         
-        // Enhanced preferences with language support
+        // Enhanced preferences with updated language support
         favorites: {
           preferences: {
             registration_step: 'complete',
@@ -64,16 +68,20 @@ const registrationService = {
             home_island: user_type === 'local' ? island : null,
             visit_island: user_type === 'tourist' ? island : null,
             is_local: user_type === 'local',
-            languages: languages,
+            languages: languages, // Array for consistency
             primary_language: languages[0] || 'english',
             onboarding_completed: false,
-            preferred_language: languages[0] || 'english'
+            preferred_language: languages[0] || 'english',
+            terms_accepted: terms_accepted,
+            terms_accepted_date: new Date().toISOString()
           },
           tour_ids: [],
           behavior_data: {
             registration_date: new Date().toISOString(),
             registration_source: 'landing_page',
-            registration_type: user_type
+            registration_type: user_type,
+            marketing_consent: marketing_emails,
+            whatsapp_provided: !!whatsapp_number
           }
         }
       }
@@ -87,6 +95,9 @@ const registrationService = {
       
       if (error) {
         console.error('Database error:', error)
+        if (error.code === '23505') { // Unique constraint violation
+          throw new Error('Email already registered. Please use a different email address.')
+        }
         throw error
       }
       
@@ -97,7 +108,8 @@ const registrationService = {
         first_name: newUser.first_name,
         user_type: user_type,
         island: island,
-        languages: languages
+        languages: languages,
+        marketing_emails: marketing_emails
       }).catch(err => console.warn('Email notification failed:', err))
       
       console.log('✅ Tourist registration successful:', newUser.id)
@@ -105,7 +117,7 @@ const registrationService = {
       return {
         success: true,
         user: newUser,
-        message: `Welcome ${firstName}! You'll receive access details when VAI launches.`,
+        message: `Welcome ${firstName}! You'll receive launch updates when VAI goes live on July 14th.`,
         next_step: user_type === 'tourist' ? 'download_app' : 'explore_local'
       }
       
@@ -119,7 +131,7 @@ const registrationService = {
   },
   
   // ===========================
-  // OPERATOR REGISTRATION (ENHANCED)
+  // OPERATOR REGISTRATION (UPDATED FOR NEW FORM)
   // ===========================
   
   async registerOperator(formData) {
@@ -140,7 +152,8 @@ const registrationService = {
         tour_types_offered = [],
         languages = ['english'],
         target_bookings_monthly = null,
-        customer_type_preference = null
+        customer_type_preference = null,
+        terms_accepted = false
       } = formData
       
       // Validate required fields
@@ -156,6 +169,10 @@ const registrationService = {
         throw new Error('Please select at least one tour type you offer')
       }
       
+      if (!terms_accepted) {
+        throw new Error('Please agree to the Terms of Service and Privacy Policy')
+      }
+      
       // Check for existing operator
       const { data: existingOperator } = await supabase
         .from('operators')
@@ -166,12 +183,12 @@ const registrationService = {
       if (existingOperator) {
         return {
           success: false,
-          error: 'Operator email already registered. Please contact support.',
+          error: 'Operator email already registered. Please contact support or use a different email.',
           existing: true
         }
       }
       
-      // STEP 1: Create tourist_users record
+      // STEP 1: Create tourist_users record (for app access)
       const [firstName, ...lastNameParts] = contact_person.trim().split(' ')
       const lastName = lastNameParts.join(' ') || null
       
@@ -180,26 +197,31 @@ const registrationService = {
         first_name: firstName,
         last_name: lastName,
         whatsapp_number: whatsapp_number?.trim() || null,
-        marketing_emails: true,
-        status: 'registered',
+        marketing_emails: true, // Operators get platform updates
+        status: 'registered', // Will be activated after approval
         
         favorites: {
           preferences: {
             registration_step: 'operator_complete',
             user_type: 'operator',
-            is_local: true,
-            home_island: islands_served[0],
+            is_local: true, // Operators are local businesses
+            home_island: islands_served[0], // Primary island
             languages: languages,
             primary_language: languages[0] || 'english',
             onboarding_completed: false,
             preferred_language: languages[0] || 'english',
-            operator_account: true
+            operator_account: true,
+            terms_accepted: terms_accepted,
+            terms_accepted_date: new Date().toISOString()
           },
           tour_ids: [],
           behavior_data: {
             registration_date: new Date().toISOString(),
             registration_source: 'operator_landing_page',
-            registration_type: 'operator'
+            registration_type: 'operator',
+            company_name: company_name,
+            islands_served: islands_served,
+            tour_types_offered: tour_types_offered
           }
         }
       }
@@ -212,10 +234,13 @@ const registrationService = {
       
       if (touristError) {
         console.error('Tourist user creation error:', touristError)
+        if (touristError.code === '23505') { // Unique constraint violation
+          throw new Error('Email already registered. Please use a different email address.')
+        }
         throw new Error('Failed to create user account')
       }
       
-      // STEP 2: Create operators record
+      // STEP 2: Create operators record (business functionality)
       const operatorData = {
         company_name: company_name.trim(),
         contact_person: contact_person.trim(),
@@ -223,7 +248,7 @@ const registrationService = {
         whatsapp_number: whatsapp_number?.trim() || null,
         island: islands_served[0], // Primary island
         commission_rate: 10, // Default 10%
-        status: 'pending',
+        status: 'pending', // pending → active (after approval)
         
         // Store additional data in notes (compatible with existing schema)
         notes: JSON.stringify({
@@ -235,7 +260,11 @@ const registrationService = {
             customer_type_preference
           },
           registration_date: new Date().toISOString(),
-          tourist_user_id: touristUser.id
+          tourist_user_id: touristUser.id,
+          terms_accepted: terms_accepted,
+          terms_accepted_date: new Date().toISOString(),
+          approval_required: true,
+          founding_member: true // First 23 operators get benefits
         })
       }
       
@@ -247,26 +276,40 @@ const registrationService = {
       
       if (operatorError) {
         console.error('Operator creation error:', operatorError)
+        
         // Cleanup: remove tourist user if operator creation failed
         await supabase.from('tourist_users').delete().eq('id', touristUser.id)
+        
+        if (operatorError.code === '23505') { // Unique constraint violation
+          throw new Error('Operator email already registered. Please use a different email address.')
+        }
         throw new Error('Failed to create operator account')
       }
       
-      // Send notifications (non-blocking)
+      // STEP 3: Send notifications (non-blocking)
       Promise.all([
         this.sendWelcomeEmail('operator', {
+          operator_id: newOperator.id,
+          tourist_user_id: touristUser.id,
+          company_name: newOperator.company_name,
+          contact_person: newOperator.contact_person,
+          email: newOperator.email,
+          islands_served: islands_served,
+          tour_types_offered: tour_types_offered,
+          languages: languages,
+          founding_member: true
+        }),
+        
+        this.sendAdminNotification('operator_registration', {
           operator_id: newOperator.id,
           company_name: newOperator.company_name,
           contact_person: newOperator.contact_person,
           email: newOperator.email,
           islands_served: islands_served,
           tour_types_offered: tour_types_offered,
-          languages: languages
-        }),
-        this.sendAdminNotification('operator_registration', {
-          operator_id: newOperator.id,
-          company_name: newOperator.company_name,
-          email: newOperator.email
+          languages: languages,
+          whatsapp_number: whatsapp_number,
+          founding_member: true
         })
       ]).catch(err => console.warn('Notification error:', err))
       
@@ -275,7 +318,9 @@ const registrationService = {
       return {
         success: true,
         operator: newOperator,
-        message: `Welcome ${company_name}! Your application is being reviewed.`,
+        tourist_user: touristUser,
+        message: `Welcome ${company_name}! Your founding member application is being reviewed. You'll hear from us within 24 hours.`,
+        status: 'pending_approval',
         next_step: 'await_approval'
       }
       
@@ -289,7 +334,7 @@ const registrationService = {
   },
   
   // ===========================
-  // EMAIL NOTIFICATIONS (FIXED CORS)
+  // EMAIL NOTIFICATIONS (ENHANCED)
   // ===========================
   
   async sendWelcomeEmail(userType, data) {
@@ -302,19 +347,23 @@ const registrationService = {
       const webhookUrl = webhookUrls[userType];
       if (!webhookUrl) return;
       
+      const payload = {
+        type: 'welcome_email',
+        user_type: userType,
+        timestamp: new Date().toISOString(),
+        launch_date: '2025-07-14',
+        platform_url: userType === 'tourist' ? 'https://app.vai.studio' : 'https://vai-operator-dashboard.onrender.com',
+        ...data
+      };
+      
       const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        mode: 'cors', // Explicitly set CORS mode
-        body: JSON.stringify({
-          type: 'welcome_email',
-          user_type: userType,
-          timestamp: new Date().toISOString(),
-          ...data
-        })
+        mode: 'cors',
+        body: JSON.stringify(payload)
       })
       
       if (response.ok) {
@@ -333,6 +382,14 @@ const registrationService = {
     try {
       const webhookUrl = 'https://n8n-stable-latest.onrender.com/webhook-test/vai-admin-notifications';
       
+      const payload = {
+        notification_type: type,
+        timestamp: new Date().toISOString(),
+        priority: data.founding_member ? 'high' : 'normal',
+        action_required: type === 'operator_registration' ? 'approval_needed' : 'none',
+        ...data
+      };
+      
       const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
@@ -340,11 +397,7 @@ const registrationService = {
           'Accept': 'application/json'
         },
         mode: 'cors',
-        body: JSON.stringify({
-          notification_type: type,
-          timestamp: new Date().toISOString(),
-          ...data
-        })
+        body: JSON.stringify(payload)
       })
       
       if (response.ok) {
@@ -354,6 +407,44 @@ const registrationService = {
     } catch (error) {
       console.warn('Admin notification error:', error.message)
     }
+  },
+  
+  // ===========================
+  // UTILITY FUNCTIONS
+  // ===========================
+  
+  validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  },
+  
+  validateWhatsApp(phone) {
+    // Enhanced WhatsApp validation - support international formats
+    const phoneRegex = /^[\+]?[1-9]\d{1,14}$/
+    return phoneRegex.test(phone.replace(/\s/g, ''))
+  },
+  
+  formatWhatsApp(phone) {
+    // Standardize phone number format
+    const cleaned = phone.replace(/\s/g, '')
+    if (cleaned.startsWith('+')) {
+      return cleaned
+    }
+    return '+' + cleaned
+  },
+  
+  // Enhanced error handling
+  handleDatabaseError(error) {
+    if (error.code === '23505') {
+      return 'Email already registered. Please use a different email address.'
+    }
+    if (error.code === '23502') {
+      return 'Please fill in all required fields.'
+    }
+    if (error.code === '23514') {
+      return 'Some information is invalid. Please check your entries.'
+    }
+    return 'Registration failed. Please try again.'
   }
 };
 

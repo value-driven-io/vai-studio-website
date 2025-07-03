@@ -1,5 +1,5 @@
 // ================================
-// FIXED REGISTRATION HANDLER
+// UPDATED REGISTRATION HANDLER WITH SMART ERROR MESSAGES
 // File: app/welcome/registration-handler.js
 // ================================
 
@@ -33,11 +33,10 @@ class RegistrationHandler {
   }
   
   // ===========================
-  // TOURIST FORM SETUP (FIXED IDs)
+  // TOURIST FORM SETUP (UPDATED)
   // ===========================
   
   setupTouristForm() {
-    // FIXED: Use correct form ID from HTML
     const form = document.querySelector('#tourist-form')
     
     if (!form) {
@@ -50,48 +49,42 @@ class RegistrationHandler {
     // Add submit handler
     form.addEventListener('submit', (e) => this.handleTouristSubmit(e))
     
-    // Add dynamic behavior
-    this.addTouristFormListeners(form)
+    // Add form validation listeners
+    this.addTouristFormValidation(form)
     
     console.log('✅ Tourist form setup complete')
   }
   
-  addTouristFormListeners(form) {
-    // User type change updates island question
-    const userTypeInputs = form.querySelectorAll('input[name="user_type"]')
-    const islandLabel = form.querySelector('.island-question')
+  addTouristFormValidation(form) {
+    // Real-time validation for key fields
+    const requiredFields = ['name', 'email', 'primary_language', 'island'];
     
-    userTypeInputs.forEach(input => {
-      input.addEventListener('change', () => {
-        if (islandLabel) {
-          islandLabel.textContent = input.value === 'local' 
-            ? 'Which island do you live on? *'
-            : 'Which island will you visit first? *'
+    requiredFields.forEach(fieldName => {
+      const field = form.querySelector(`[name="${fieldName}"]`);
+      if (field) {
+        field.addEventListener('blur', () => this.validateField(field));
+        field.addEventListener('change', () => this.validateField(field));
+      }
+    });
+    
+    // Email format validation
+    const emailField = form.querySelector('[name="email"]');
+    if (emailField) {
+      emailField.addEventListener('input', () => {
+        if (emailField.value && !this.validateEmail(emailField.value)) {
+          this.showFieldError(emailField, 'Please enter a valid email address');
+        } else {
+          this.clearFieldError(emailField);
         }
-      })
-    })
-    
-    // WhatsApp checkbox toggles phone input
-    const whatsappCheckbox = form.querySelector('input[name="whatsapp_opt_in"]')
-    const whatsappInput = form.querySelector('.whatsapp-input')
-    
-    if (whatsappCheckbox && whatsappInput) {
-      whatsappCheckbox.addEventListener('change', () => {
-        whatsappInput.style.display = whatsappCheckbox.checked ? 'block' : 'none'
-        const phoneField = whatsappInput.querySelector('input[name="whatsapp_number"]')
-        if (phoneField) {
-          phoneField.required = whatsappCheckbox.checked
-        }
-      })
+      });
     }
   }
   
   // ===========================
-  // OPERATOR FORM SETUP (FIXED IDs)
+  // OPERATOR FORM SETUP (UPDATED)
   // ===========================
   
   setupOperatorForm() {
-    // FIXED: Use correct form ID from HTML
     const form = document.querySelector('#operator-form')
     
     if (!form) {
@@ -104,11 +97,39 @@ class RegistrationHandler {
     // Add submit handler
     form.addEventListener('submit', (e) => this.handleOperatorSubmit(e))
     
+    // Add form validation listeners
+    this.addOperatorFormValidation(form)
+    
     console.log('✅ Operator form setup complete')
   }
   
+  addOperatorFormValidation(form) {
+    // Real-time validation for key fields
+    const requiredFields = ['company_name', 'contact_person', 'email', 'primary_language'];
+    
+    requiredFields.forEach(fieldName => {
+      const field = form.querySelector(`[name="${fieldName}"]`);
+      if (field) {
+        field.addEventListener('blur', () => this.validateField(field));
+        field.addEventListener('change', () => this.validateField(field));
+      }
+    });
+    
+    // Email format validation
+    const emailField = form.querySelector('[name="email"]');
+    if (emailField) {
+      emailField.addEventListener('input', () => {
+        if (emailField.value && !this.validateEmail(emailField.value)) {
+          this.showFieldError(emailField, 'Please enter a valid business email address');
+        } else {
+          this.clearFieldError(emailField);
+        }
+      });
+    }
+  }
+  
   // ===========================
-  // FORM SUBMISSION HANDLERS
+  // FORM SUBMISSION HANDLERS (UPDATED)
   // ===========================
   
   async handleTouristSubmit(e) {
@@ -121,16 +142,21 @@ class RegistrationHandler {
     const submitBtn = form.querySelector('button[type="submit"]')
     
     try {
+      // Clear previous errors
+      this.clearAllErrors(form)
+      
       // Show loading state
       this.setSubmitState(submitBtn, true, 'Registering...')
       
-      // Extract form data with FIXED language extraction
+      // Extract form data
       const formData = this.extractTouristData(form)
       
       console.log('🎯 Tourist form data extracted:', formData)
       
-      // Validate data
-      if (!this.validateTouristData(formData)) {
+      // Validate data with smart error messages
+      const validationResult = this.validateTouristData(formData, form)
+      if (!validationResult.valid) {
+        this.showSmartError(form, validationResult.message, validationResult.field)
         return
       }
       
@@ -149,11 +175,11 @@ class RegistrationHandler {
         // Reset form on success
         form.reset()
         
-        // Hide WhatsApp input
-        const whatsappInput = form.querySelector('.whatsapp-input')
-        if (whatsappInput) {
-          whatsappInput.style.display = 'none'
-        }
+        // Hide conditional fields
+        const islandSelection = document.getElementById('island-selection')
+        const whatsappInput = document.getElementById('whatsapp-input')
+        if (islandSelection) islandSelection.style.display = 'none'
+        if (whatsappInput) whatsappInput.style.display = 'none'
         
         // Show next steps
         setTimeout(() => {
@@ -161,13 +187,13 @@ class RegistrationHandler {
         }, 2000)
         
       } else {
-        this.showError(form, result.error)
+        this.showSmartError(form, result.error)
         this.trackEvent('tourist_registration_error', { error: result.error })
       }
       
     } catch (error) {
       console.error('Tourist registration error:', error)
-      this.showError(form, 'Registration failed. Please try again.')
+      this.showSmartError(form, this.getErrorMessage(error))
       this.trackEvent('tourist_registration_error', { error: error.message })
       
     } finally {
@@ -186,16 +212,21 @@ class RegistrationHandler {
     const submitBtn = form.querySelector('button[type="submit"]')
     
     try {
+      // Clear previous errors
+      this.clearAllErrors(form)
+      
       // Show loading state
       this.setSubmitState(submitBtn, true, 'Submitting Application...')
       
-      // Extract form data with FIXED language extraction
+      // Extract form data
       const formData = this.extractOperatorData(form)
       
       console.log('🎯 Operator form data extracted:', formData)
       
-      // Validate data
-      if (!this.validateOperatorData(formData)) {
+      // Validate data with smart error messages
+      const validationResult = this.validateOperatorData(formData, form)
+      if (!validationResult.valid) {
+        this.showSmartError(form, validationResult.message, validationResult.field)
         return
       }
       
@@ -220,13 +251,13 @@ class RegistrationHandler {
         }, 2000)
         
       } else {
-        this.showError(form, result.error)
+        this.showSmartError(form, result.error)
         this.trackEvent('operator_registration_error', { error: result.error })
       }
       
     } catch (error) {
       console.error('Operator registration error:', error)
-      this.showError(form, 'Registration failed. Please try again.')
+      this.showSmartError(form, this.getErrorMessage(error))
       this.trackEvent('operator_registration_error', { error: error.message })
       
     } finally {
@@ -236,17 +267,16 @@ class RegistrationHandler {
   }
   
   // ===========================
-  // DATA EXTRACTION (FIXED LANGUAGE HANDLING)
+  // DATA EXTRACTION (UPDATED FOR NEW FORM STRUCTURE)
   // ===========================
   
   extractTouristData(form) {
     const formData = new FormData(form);
     
-    // FIXED: Properly extract selected languages
-    const languages = Array.from(form.querySelectorAll('input[name="languages"]:checked'))
-        .map(input => input.value);
+    // UPDATED: Primary language from dropdown
+    const primaryLanguage = formData.get('primary_language')?.trim();
     
-    // FIXED: Get WhatsApp number only if opted in
+    // UPDATED: WhatsApp number only if opted in
     const whatsappOptIn = form.querySelector('input[name="whatsapp_opt_in"]')?.checked;
     const whatsappNumber = whatsappOptIn ? formData.get('whatsapp_number')?.trim() : null;
     
@@ -257,23 +287,23 @@ class RegistrationHandler {
         island: formData.get('island'),
         whatsapp_number: whatsappNumber,
         marketing_emails: formData.get('marketing_emails') !== null,
-        languages: languages.length > 0 ? languages : ['english'] // Default to English
+        terms_accepted: formData.get('terms_accepted') !== null,
+        languages: primaryLanguage ? [primaryLanguage] : ['english'] // Convert to array for consistency
     };
   }
 
   extractOperatorData(form) {
     const formData = new FormData(form);
     
-    // FIXED: Properly extract arrays
+    // Extract arrays
     const islands_served = Array.from(form.querySelectorAll('input[name="islands_served"]:checked'))
         .map(input => input.value);
     
     const tour_types_offered = Array.from(form.querySelectorAll('input[name="tour_types_offered"]:checked'))
         .map(input => input.value);
         
-    // FIXED: Operator language is a dropdown (single selection), convert to array for consistency
-    const selectedLanguage = formData.get('languages')?.trim();
-    const languages = selectedLanguage ? [selectedLanguage] : ['english'];
+    // UPDATED: Primary language from dropdown
+    const primaryLanguage = formData.get('primary_language')?.trim();
     
     return {
         company_name: formData.get('company_name')?.trim(),
@@ -282,79 +312,87 @@ class RegistrationHandler {
         whatsapp_number: formData.get('whatsapp_number')?.trim(),
         islands_served,
         tour_types_offered,
-        languages,
+        languages: primaryLanguage ? [primaryLanguage] : ['english'],
         target_bookings_monthly: formData.get('target_bookings_monthly') || null,
-        customer_type_preference: formData.get('customer_type_preference') || null
+        customer_type_preference: formData.get('customer_type_preference') || null,
+        terms_accepted: formData.get('terms_accepted') !== null
     };
   }
   
   // ===========================
-  // VALIDATION (ENHANCED)
+  // ENHANCED VALIDATION WITH SMART ERROR MESSAGES
   // ===========================
   
-  validateTouristData(data) {
+  validateTouristData(data, form) {
     if (!data.name) {
-      this.showError(null, 'Please enter your name')
-      return false
+      return { valid: false, message: 'Please enter your full name', field: 'name' }
+    }
+    
+    if (!data.email) {
+      return { valid: false, message: 'Please enter your email address', field: 'email' }
     }
     
     if (!this.validateEmail(data.email)) {
-      this.showError(null, 'Please enter a valid email address')
-      return false
+      return { valid: false, message: 'Please enter a valid email address (e.g., name@example.com)', field: 'email' }
     }
     
     if (!data.island) {
-      this.showError(null, 'Please select an island')
-      return false
+      return { valid: false, message: 'Please select an island', field: 'island' }
+    }
+    
+    if (!data.languages || data.languages.length === 0 || !data.languages[0]) {
+      return { valid: false, message: 'Please select your primary language', field: 'primary_language' }
+    }
+    
+    if (!data.marketing_emails) {
+      return { valid: false, message: 'Please agree to receive VAI launch updates', field: 'marketing_emails' }
+    }
+    
+    if (!data.terms_accepted) {
+      return { valid: false, message: 'Please agree to the Terms of Service and Privacy Policy', field: 'terms_accepted' }
     }
     
     if (data.whatsapp_number && !this.validateWhatsApp(data.whatsapp_number)) {
-      this.showError(null, 'Please enter a valid WhatsApp number')
-      return false
+      return { valid: false, message: 'Please enter a valid WhatsApp number (e.g., +1234567890)', field: 'whatsapp_number' }
     }
     
-    // FIXED: Enhanced language validation
-    if (!data.languages || data.languages.length === 0) {
-      this.showError(null, 'Please select at least one language')
-      return false
-    }
-    
-    return true
+    return { valid: true }
   }
   
-  validateOperatorData(data) {
+  validateOperatorData(data, form) {
     if (!data.company_name) {
-      this.showError(null, 'Please enter your company name')
-      return false
+      return { valid: false, message: 'Please enter your company name', field: 'company_name' }
     }
     
     if (!data.contact_person) {
-      this.showError(null, 'Please enter a contact person name')
-      return false
+      return { valid: false, message: 'Please enter the contact person name', field: 'contact_person' }
+    }
+    
+    if (!data.email) {
+      return { valid: false, message: 'Please enter your business email', field: 'email' }
     }
     
     if (!this.validateEmail(data.email)) {
-      this.showError(null, 'Please enter a valid email address')
-      return false
+      return { valid: false, message: 'Please enter a valid business email address', field: 'email' }
     }
     
     if (data.islands_served.length === 0) {
-      this.showError(null, 'Please select at least one island you operate on')
-      return false
+      return { valid: false, message: 'Please select at least one island you operate on', field: 'islands_served' }
     }
     
     if (data.tour_types_offered.length === 0) {
-      this.showError(null, 'Please select at least one tour type you offer')
-      return false
+      return { valid: false, message: 'Please select at least one tour type you offer', field: 'tour_types_offered' }
     }
     
-    // FIXED: Language validation for operators (now dropdown single selection)
     if (!data.languages || data.languages.length === 0 || !data.languages[0]) {
-      this.showError(null, 'Please select your primary tour language')
-      return false
+      return { valid: false, message: 'Please select your primary tour language', field: 'primary_language' }
     }
     
-    return true
+    if (!data.terms_accepted) {
+      return { valid: false, message: 'Please agree to the Terms of Service and Privacy Policy', field: 'terms_accepted' }
+    }
+    
+    return { valid: true }
   }
   
   validateEmail(email) {
@@ -366,6 +404,83 @@ class RegistrationHandler {
     // Enhanced WhatsApp validation - support international formats
     const phoneRegex = /^[\+]?[1-9]\d{1,14}$/
     return phoneRegex.test(phone.replace(/\s/g, ''))
+  }
+  
+  // ===========================
+  // SMART ERROR HANDLING
+  // ===========================
+  
+  showSmartError(form, message, fieldName = null) {
+    if (fieldName) {
+      const field = form.querySelector(`[name="${fieldName}"]`);
+      if (field) {
+        this.showFieldError(field, message);
+        field.focus();
+        return;
+      }
+    }
+    
+    // Show general error message
+    this.showMessage(form, message, 'error');
+  }
+  
+  showFieldError(field, message) {
+    this.clearFieldError(field);
+    
+    field.classList.add('error');
+    
+    const errorEl = document.createElement('div');
+    errorEl.className = 'error-message show';
+    errorEl.textContent = message;
+    
+    field.parentNode.appendChild(errorEl);
+  }
+  
+  clearFieldError(field) {
+    field.classList.remove('error');
+    const errorEl = field.parentNode.querySelector('.error-message');
+    if (errorEl) {
+      errorEl.remove();
+    }
+  }
+  
+  clearAllErrors(form) {
+    const errorFields = form.querySelectorAll('.error');
+    errorFields.forEach(field => this.clearFieldError(field));
+    
+    const generalErrors = document.querySelectorAll('.vai-message');
+    generalErrors.forEach(error => error.remove());
+  }
+  
+  validateField(field) {
+    if (!field.value && field.required) {
+      this.showFieldError(field, 'This field is required');
+      return false;
+    } else {
+      this.clearFieldError(field);
+      return true;
+    }
+  }
+  
+  getErrorMessage(error) {
+    const errorMessages = {
+      'fetch': 'Connection error. Please check your internet and try again.',
+      'timeout': 'Request timed out. Please try again.',
+      'duplicate': 'This email is already registered. Please use a different email.',
+      'invalid': 'Some information is invalid. Please check your entries.',
+      'server': 'Server error. Please try again in a few moments.',
+      'network': 'Network error. Please check your connection.'
+    };
+    
+    const message = error.message || error;
+    
+    for (const [key, value] of Object.entries(errorMessages)) {
+      if (message.toLowerCase().includes(key)) {
+        return value;
+      }
+    }
+    
+    return 'Something went wrong. Please try again.';
   }
   
   // ===========================
@@ -391,10 +506,6 @@ class RegistrationHandler {
   
   showSuccess(form, message) {
     this.showMessage(form, message, 'success')
-  }
-  
-  showError(form, message) {
-    this.showMessage(form, message, 'error')
   }
   
   showMessage(form, message, type) {
@@ -437,6 +548,16 @@ class RegistrationHandler {
         @keyframes slideInMessage {
           from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
           to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        .form-input.error {
+          border-color: #ef4444 !important;
+          background-color: rgba(239, 68, 68, 0.1);
+        }
+        .error-message {
+          color: #ef4444;
+          font-size: 14px;
+          margin-top: 5px;
+          font-weight: 500;
         }
       `
       document.head.appendChild(style)
