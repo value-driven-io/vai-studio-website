@@ -1,6 +1,114 @@
 // VAI Landing Page JavaScript
 // app/welcome/app-landingpage.js
 
+
+// QR CODE TRACKING
+
+// QR Tracking Data Capture
+(function initQRTracking() {
+    // Capture QR tracking data from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    const utmSource = urlParams.get('utm_source');
+    const utmCampaign = urlParams.get('utm_campaign');
+    const utmMedium = urlParams.get('utm_medium');
+    const utmContent = urlParams.get('utm_content');
+    
+    // If we have QR tracking data, process it
+    if (sessionId || utmSource || utmCampaign) {
+        console.log('QR tracking detected:', {
+            sessionId,
+            utmSource,
+            utmCampaign,
+            utmMedium,
+            utmContent
+        });
+        
+        // Get tracking data from localStorage (set by QR redirect page)
+        let trackingData = {};
+        try {
+            trackingData = JSON.parse(localStorage.getItem('vai_qr_tracking') || '{}');
+        } catch (e) {
+            console.warn('Could not parse QR tracking data:', e);
+        }
+        
+        // Merge URL parameters with tracking data
+        const fullTrackingData = {
+            ...trackingData,
+            session_id: sessionId,
+            utm_source: utmSource,
+            utm_campaign: utmCampaign,
+            utm_medium: utmMedium,
+            utm_content: utmContent,
+            landing_timestamp: new Date().toISOString(),
+            page_url: window.location.href
+        };
+        
+        // Enhanced Google Analytics tracking for QR landing
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'qr_landing_page_view', {
+                campaign_name: fullTrackingData.campaign || utmCampaign,
+                source: fullTrackingData.source || utmSource,
+                medium: fullTrackingData.medium || utmMedium,
+                location: fullTrackingData.location || utmContent,
+                session_id: sessionId,
+                event_category: 'QR Code',
+                event_label: 'Landing Page View'
+            });
+            
+            // Track as conversion for QR campaigns
+            if (utmMedium === 'qr_code') {
+                gtag('event', 'qr_campaign_view', {
+                    campaign_name: utmCampaign,
+                    source: utmSource,
+                    content: utmContent
+                });
+            }
+        }
+        
+        // Store complete attribution data for registration
+        sessionStorage.setItem('vai_attribution', JSON.stringify(fullTrackingData));
+        
+        // Optional: Send to Supabase for detailed tracking
+        if (window.supabase) {
+            sendQRTrackingToSupabase(fullTrackingData);
+        }
+        
+        // Clean up localStorage after processing
+        localStorage.removeItem('vai_qr_tracking');
+    }
+})();
+
+// Function to send QR tracking to Supabase (optional)
+async function sendQRTrackingToSupabase(trackingData) {
+    try {
+        const { data, error } = await window.supabase
+            .from('qr_scans')
+            .insert([{
+                session_id: trackingData.session_id,
+                campaign: trackingData.campaign || trackingData.utm_campaign,
+                source: trackingData.source || trackingData.utm_source,
+                medium: trackingData.medium || trackingData.utm_medium,
+                location: trackingData.location || trackingData.utm_content,
+                user_agent: trackingData.user_agent || navigator.userAgent,
+                referrer: trackingData.referrer || document.referrer,
+                screen_width: trackingData.screen_width || screen.width,
+                screen_height: trackingData.screen_height || screen.height,
+                language: trackingData.language || navigator.language,
+                timezone: trackingData.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
+            }]);
+            
+        if (error) {
+            console.warn('QR tracking insert error:', error);
+        } else {
+            console.log('QR tracking data saved to Supabase');
+        }
+    } catch (error) {
+        console.warn('Failed to send QR tracking to Supabase:', error);
+    }
+}
+
+
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all functionality
@@ -133,6 +241,8 @@ function initForms() {
     }
 }
 
+// ENHANCED REGISTRATION HANDLERS WITH QR ATTRIBUTION
+
 function handleTouristSubmission(e) {
     e.preventDefault();
     
@@ -153,8 +263,64 @@ function handleTouristSubmission(e) {
             return;
         }
         
-        // Here you would send to your backend/Supabase
-        console.log('Tourist Registration:', data);
+        // ===== QR ATTRIBUTION TRACKING =====
+        // Get QR tracking data from session storage
+        let attributionData = {};
+        try {
+            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
+        } catch (e) {
+            console.warn('Could not parse attribution data:', e);
+        }
+        
+        // Add QR attribution to registration data
+        const registrationData = {
+            ...data,
+            registration_source: attributionData.source || 'direct',
+            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
+            utm_source: attributionData.utm_source,
+            utm_medium: attributionData.utm_medium,
+            utm_campaign: attributionData.utm_campaign,
+            utm_content: attributionData.utm_content,
+            qr_session_id: attributionData.session_id,
+            referrer_url: attributionData.referrer || document.referrer,
+            landing_page: window.location.href,
+            registration_timestamp: new Date().toISOString()
+        };
+        
+        console.log('Tourist Registration with Attribution:', registrationData);
+        
+        // TODO: Send to your Supabase backend here
+        // Example: await supabase.from('tourist_users').insert([registrationData])
+        
+        // Enhanced Analytics Tracking
+        if (typeof gtag !== 'undefined') {
+            // Track conversion
+            gtag('event', 'tourist_registration_complete', {
+                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
+                source: attributionData.source || attributionData.utm_source || 'direct',
+                medium: attributionData.medium || attributionData.utm_medium || 'organic',
+                location: attributionData.location || attributionData.utm_content,
+                session_id: attributionData.session_id,
+                event_category: 'Conversion',
+                event_label: 'Tourist Registration',
+                value: 1
+            });
+            
+            // Track QR conversion if from QR code
+            if (attributionData.utm_medium === 'qr_code' || attributionData.medium === 'qr_code') {
+                gtag('event', 'qr_conversion', {
+                    campaign_name: attributionData.campaign || attributionData.utm_campaign,
+                    source: attributionData.source || attributionData.utm_source,
+                    location: attributionData.location || attributionData.utm_content,
+                    conversion_type: 'tourist_registration'
+                });
+            }
+        }
+        
+        // Update QR tracking in Supabase (if QR scan tracking table exists)
+        if (attributionData.session_id && window.supabase) {
+            updateQRConversion(attributionData.session_id, 'tourist_registration');
+        }
         
         // Show success message
         showMessage('🎉 Success! You\'re registered for VAI launch access. Check your email for confirmation.', 'success');
@@ -162,13 +328,8 @@ function handleTouristSubmission(e) {
         // Reset form
         e.target.reset();
         
-        // Optional: Track conversion event
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'tourist_registration', {
-                'event_category': 'Lead Generation',
-                'event_label': 'Tourist Registration'
-            });
-        }
+        // Clear attribution data after successful registration
+        sessionStorage.removeItem('vai_attribution');
         
     } catch (error) {
         console.error('Tourist form submission error:', error);
@@ -199,8 +360,65 @@ function handleOperatorSubmission(e) {
             return;
         }
         
-        // Here you would send to your backend/Supabase
-        console.log('Operator Registration:', data);
+        // ===== QR ATTRIBUTION TRACKING =====
+        // Get QR tracking data from session storage
+        let attributionData = {};
+        try {
+            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
+        } catch (e) {
+            console.warn('Could not parse attribution data:', e);
+        }
+        
+        // Add QR attribution to registration data
+        const registrationData = {
+            ...data,
+            registration_source: attributionData.source || 'direct',
+            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
+            utm_source: attributionData.utm_source,
+            utm_medium: attributionData.utm_medium,
+            utm_campaign: attributionData.utm_campaign,
+            utm_content: attributionData.utm_content,
+            qr_session_id: attributionData.session_id,
+            referrer_url: attributionData.referrer || document.referrer,
+            landing_page: window.location.href,
+            registration_timestamp: new Date().toISOString(),
+            user_type: 'operator'
+        };
+        
+        console.log('Operator Registration with Attribution:', registrationData);
+        
+        // TODO: Send to your Supabase backend here
+        // Example: await supabase.from('operators').insert([registrationData])
+        
+        // Enhanced Analytics Tracking
+        if (typeof gtag !== 'undefined') {
+            // Track conversion
+            gtag('event', 'operator_registration_complete', {
+                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
+                source: attributionData.source || attributionData.utm_source || 'direct',
+                medium: attributionData.medium || attributionData.utm_medium || 'organic',
+                location: attributionData.location || attributionData.utm_content,
+                session_id: attributionData.session_id,
+                event_category: 'Conversion',
+                event_label: 'Operator Registration',
+                value: 10 // Higher value for operator registrations
+            });
+            
+            // Track QR conversion if from QR code
+            if (attributionData.utm_medium === 'qr_code' || attributionData.medium === 'qr_code') {
+                gtag('event', 'qr_conversion', {
+                    campaign_name: attributionData.campaign || attributionData.utm_campaign,
+                    source: attributionData.source || attributionData.utm_source,
+                    location: attributionData.location || attributionData.utm_content,
+                    conversion_type: 'operator_registration'
+                });
+            }
+        }
+        
+        // Update QR tracking in Supabase (if QR scan tracking table exists)
+        if (attributionData.session_id && window.supabase) {
+            updateQRConversion(attributionData.session_id, 'operator_registration');
+        }
         
         // Show success message
         showMessage('🌺 Welcome to VAI! Your founding operator application has been submitted. We\'ll contact you within 24 hours.', 'success');
@@ -214,17 +432,34 @@ function handleOperatorSubmission(e) {
             operatorSection.style.display = 'none';
         }
         
-        // Optional: Track conversion event
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'operator_registration', {
-                'event_category': 'Lead Generation',
-                'event_label': 'Operator Registration'
-            });
-        }
+        // Clear attribution data after successful registration
+        sessionStorage.removeItem('vai_attribution');
         
     } catch (error) {
         console.error('Operator form submission error:', error);
         showMessage('Something went wrong. Please try again.', 'error');
+    }
+}
+
+// Helper function to update QR conversion in Supabase
+async function updateQRConversion(sessionId, conversionType) {
+    try {
+        const { data, error } = await window.supabase
+            .from('qr_scans')
+            .update({ 
+                converted_to_registration: true,
+                conversion_type: conversionType,
+                converted_at: new Date().toISOString()
+            })
+            .eq('session_id', sessionId);
+            
+        if (error) {
+            console.warn('QR conversion update error:', error);
+        } else {
+            console.log('QR conversion tracked successfully');
+        }
+    } catch (error) {
+        console.warn('Failed to update QR conversion:', error);
     }
 }
 
