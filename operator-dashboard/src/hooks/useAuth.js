@@ -15,33 +15,46 @@ export const useAuth = () => {
   useEffect(() => {
     let isMounted = true // Prevent state updates after unmount
 
+
     const checkSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
+    try {
+      // Get session with shorter timeout
+      const { data: { session }, error: sessionError } = await Promise.race([
+        supabase.auth.getSession(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Session timeout')), 3000)
+        )
+      ]);
+      
+      if (sessionError) throw sessionError;
+      
+      if (session?.user && isMounted) {
+        // Simplified operator lookup with specific fields only
+        const { data: operatorData, error } = await supabase
+          .from('operators')
+          .select('id, email, company_name, island, status, commission_rate')
+          .eq('auth_user_id', session.user.id)
+          .eq('status', 'active')
+          .single()
         
-        if (session?.user && isMounted) {
-          // Get operator data linked to this auth user
-          const { data: operatorData, error } = await supabase
-            .from('operators')
-            .select('*')
-            .eq('auth_user_id', session.user.id)
-            .eq('status', 'active')
-            .single()
-          
-          if (operatorData && !error && isMounted) {
-            setOperator(operatorData)
-            console.log('Restored operator session:', operatorData.company_name)
-          }
-        }
-      } catch (error) {
-        console.error('Session check error:', error)
-      } finally {
-        // CRITICAL: Always set loading to false, even on errors
-        if (isMounted) {
-          setLoading(false)
+        if (operatorData && !error && isMounted) {
+          setOperator(operatorData)
+          console.log('✅ Session restored:', operatorData.company_name)
+        } else if (error) {
+          console.warn('⚠️ Operator lookup failed:', error.message)
+          // Force sign out if operator not found
+          await supabase.auth.signOut()
         }
       }
+    } catch (error) {
+      console.error('❌ Session check error:', error.message)
+      // Don't throw - just continue
+    } finally {
+      if (isMounted) {
+        setLoading(false)
+      }
     }
+  }
 
     // Add timeout fallback for Chrome
     const timeoutId = setTimeout(() => {
@@ -92,66 +105,74 @@ export const useAuth = () => {
 
   // NEW: Secure login with email + password
   const login = async (email, password) => {
-    try {
-      setLoading(true)
-      
-      console.log('Attempting secure login for:', email)
-      
-      // Use Supabase Auth for secure login
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+  try {
+    setLoading(true)
+    
+    console.log('🔐 Attempting login for:', email)
+    
+    // Fast auth with timeout
+    const { data: authData, error: authError } = await Promise.race([
+      supabase.auth.signInWithPassword({
         email: email.toLowerCase().trim(),
         password: password
-      })
-      
-      if (authError) {
-        console.error('Auth error:', authError)
-        return { 
-          success: false, 
-          error: authError.message || 'Login failed. Please check your credentials.' 
-        }
+      }),
+      new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Login timeout')), 5000)
+      )
+    ]);
+    
+    if (authError) {
+      console.error('❌ Auth error:', authError)
+      return { 
+        success: false, 
+        error: authError.message || 'Login failed. Please check your credentials.' 
       }
-      
-      if (!authData.user) {
-        return { 
-          success: false, 
-          error: 'Login failed. No user data received.' 
-        }
+    }
+    
+    if (!authData.user) {
+      return { 
+        success: false, 
+        error: 'Login failed. No user data received.' 
       }
-      
-      // Get operator data linked to this auth user
-      const { data: operatorData, error: operatorError } = await supabase
+    }
+    
+    // Quick operator lookup - only essential fields
+    const { data: operatorData, error: operatorError } = await supabase
         .from('operators')
-        .select('*')
+        .select('id, email, company_name, island, status')
         .eq('auth_user_id', authData.user.id)
         .eq('status', 'active')
         .single()
       
       if (operatorError || !operatorData) {
-        console.error('Operator lookup error:', operatorError)
-        // Sign out the auth user since they're not a valid operator
+        console.error('❌ Operator lookup error:', operatorError)
         await supabase.auth.signOut()
         return { 
           success: false, 
-          error: 'No active operator account found for this email. Please contact support.' 
+          error: 'No active operator account found. Please contact support.' 
         }
       }
       
-      console.log('Secure login successful:', operatorData.company_name)
+      console.log('✅ Login successful:', operatorData.company_name)
       setOperator(operatorData)
       
-      // Update last login time
-      await supabase
+      // Update last login in background (don't wait)
+      supabase
         .from('operators')
         .update({ last_auth_login: new Date().toISOString() })
         .eq('id', operatorData.id)
+        .then(() => console.log('📝 Last login updated'))
+        .catch(err => console.warn('⚠️ Last login update failed:', err.message))
       
       return { success: true }
       
     } catch (error) {
-      console.error('Login error:', error)
+      console.error('❌ Login error:', error.message)
       return { 
         success: false, 
-        error: 'Login failed. Please try again.' 
+        error: error.message === 'Login timeout' 
+          ? 'Login is taking too long. Please check your connection and try again.'
+          : 'Login failed. Please try again.' 
       }
     } finally {
       setLoading(false)
