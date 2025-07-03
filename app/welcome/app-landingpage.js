@@ -416,6 +416,22 @@ document.addEventListener('DOMContentLoaded', initImageErrorHandling);
 // Expose functions globally for HTML event handlers (if needed)
 window.toggleFAQ = toggleFAQ;
 
+// Also initialize FAQ after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    initFAQ();
+});
+
+// Make sure FAQ is initialized
+function initFAQ() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            toggleFAQ(this);
+        });
+    });
+}
+
 // Optional: Performance monitoring
 window.addEventListener('load', function() {
     console.log('VAI Landing Page loaded successfully');
