@@ -29,7 +29,7 @@ const registrationService = {
       }
       
       if (!terms_accepted) {
-        throw new Error('Please agree to the Terms of Service and Privacy Policy')
+        throw new Error('Please agree to the Privacy Policy')
       }
       
       // Split name into first/last
@@ -170,7 +170,7 @@ const registrationService = {
       }
       
       if (!terms_accepted) {
-        throw new Error('Please agree to the Terms of Service and Privacy Policy')
+        throw new Error('Please agree to the Privacy Policy')
       }
       
       // Check for existing operator
