@@ -809,6 +809,7 @@ body {
     }
 }
 
+
 /* Operator Section */
 .operator-section {
     padding: 60px 0;
@@ -1041,6 +1042,7 @@ body {
         gap: 10px;
     }
     
+    /* Launch button in nav bar */
     .launch-date {
         font-size: 12px;
         padding: 6px 12px;
@@ -1135,7 +1137,7 @@ body {
 .registration-form {
     max-width: 600px;
     margin: 0 auto;
-    background: rgba(30, 41, 59, 0.247);
+    background: rgba(25, 19, 50, 0.2);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(249, 115, 22, 0.2);
     border-radius: 25px;
@@ -1221,7 +1223,7 @@ body {
     width: 100%;
     padding: 18px 20px;
     background: rgba(15, 23, 42, 0.6);
-    border: 1px solid rgba(249, 115, 22, 0.2);
+    border: 1px solid rgba(249, 115, 22, 0.2) !important;
     border-radius: 15px;
     color: var(--vai-pearl);
     font-size: 16px;
@@ -1879,6 +1881,7 @@ body[data-current-lang="en"] [data-lang="en"] {
     border-radius: 20px;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .clickable-launch-date:hover {
@@ -2189,7 +2192,7 @@ select.form-input option {
 }
 
 
-
+/* launch button nav bar 2 */
 .launch-date-clickable {
     cursor: pointer;
     transition: all 0.3s ease;
@@ -2209,46 +2212,4 @@ select.form-input option {
 
 .launch-date-clickable:active {
     transform: translateY(0);
-}
-
-
-/* FAQ Language Fix - Add to end of CSS file */
-.faq-question span:first-child [data-lang]:not([data-lang="en"]) {
-    display: none;
-}
-
-body[data-current-lang="fr"] .faq-question span:first-child [data-lang="en"] {
-    display: none;
-}
-
-body[data-current-lang="fr"] .faq-question span:first-child [data-lang="fr"] {
-    display: inline;
-}
-
-body[data-current-lang="en"] .faq-question span:first-child [data-lang="fr"] {
-    display: none;
-}
-
-body[data-current-lang="en"] .faq-question span:first-child [data-lang="en"] {
-    display: inline;
-}
-
-.faq-answer [data-lang]:not([data-lang="en"]) {
-    display: none;
-}
-
-body[data-current-lang="fr"] .faq-answer [data-lang="en"] {
-    display: none;
-}
-
-body[data-current-lang="fr"] .faq-answer [data-lang="fr"] {
-    display: block;
-}
-
-body[data-current-lang="en"] .faq-answer [data-lang="fr"] {
-    display: none;
-}
-
-body[data-current-lang="en"] .faq-answer [data-lang="en"] {
-    display: block;
 }
