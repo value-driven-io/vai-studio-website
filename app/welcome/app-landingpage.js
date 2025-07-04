@@ -1,8 +1,10 @@
-// ============================================================================
-// QR CODE TRACKING - ADD THIS AT THE VERY TOP OF app-landingpage.js
-// ============================================================================
+// VAI Landing Page JavaScript
+// app/welcome/app-landingpage.js
 
-// QR Tracking Data Capture - MUST BE FIRST
+
+// QR CODE TRACKING
+
+// QR Tracking Data Capture
 (function initQRTracking() {
     // Capture QR tracking data from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -106,30 +108,6 @@ async function sendQRTrackingToSupabase(trackingData) {
     }
 }
 
-// Helper function to update QR conversion in Supabase
-async function updateQRConversion(sessionId, conversionType) {
-    try {
-        const { data, error } = await window.supabase
-            .from('qr_scans')
-            .update({ 
-                converted_to_registration: true,
-                conversion_type: conversionType,
-                converted_at: new Date().toISOString()
-            })
-            .eq('session_id', sessionId);
-            
-        if (error) {
-            console.warn('QR conversion update error:', error);
-        } else {
-            console.log('QR conversion tracked successfully');
-        }
-    } catch (error) {
-        console.warn('Failed to update QR conversion:', error);
-    }
-}
-
-// VAI Landing Page JavaScript
-// app/welcome/app-landingpage.js
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -263,8 +241,6 @@ function initForms() {
     }
 }
 
-// ENHANCED REGISTRATION HANDLERS WITH QR ATTRIBUTION
-
 function handleTouristSubmission(e) {
     e.preventDefault();
     
@@ -285,64 +261,8 @@ function handleTouristSubmission(e) {
             return;
         }
         
-        // ===== QR ATTRIBUTION TRACKING =====
-        // Get QR tracking data from session storage
-        let attributionData = {};
-        try {
-            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
-        } catch (e) {
-            console.warn('Could not parse attribution data:', e);
-        }
-        
-        // Add QR attribution to registration data
-        const registrationData = {
-            ...data,
-            registration_source: attributionData.source || 'direct',
-            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
-            utm_source: attributionData.utm_source,
-            utm_medium: attributionData.utm_medium,
-            utm_campaign: attributionData.utm_campaign,
-            utm_content: attributionData.utm_content,
-            qr_session_id: attributionData.session_id,
-            referrer_url: attributionData.referrer || document.referrer,
-            landing_page: window.location.href,
-            registration_timestamp: new Date().toISOString()
-        };
-        
-        console.log('Tourist Registration with Attribution:', registrationData);
-        
-        // TODO: Send to your Supabase backend here
-        // Example: await supabase.from('tourist_users').insert([registrationData])
-        
-        // Enhanced Analytics Tracking
-        if (typeof gtag !== 'undefined') {
-            // Track conversion
-            gtag('event', 'tourist_registration_complete', {
-                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
-                source: attributionData.source || attributionData.utm_source || 'direct',
-                medium: attributionData.medium || attributionData.utm_medium || 'organic',
-                location: attributionData.location || attributionData.utm_content,
-                session_id: attributionData.session_id,
-                event_category: 'Conversion',
-                event_label: 'Tourist Registration',
-                value: 1
-            });
-            
-            // Track QR conversion if from QR code
-            if (attributionData.utm_medium === 'qr_code' || attributionData.medium === 'qr_code') {
-                gtag('event', 'qr_conversion', {
-                    campaign_name: attributionData.campaign || attributionData.utm_campaign,
-                    source: attributionData.source || attributionData.utm_source,
-                    location: attributionData.location || attributionData.utm_content,
-                    conversion_type: 'tourist_registration'
-                });
-            }
-        }
-        
-        // Update QR tracking in Supabase (if QR scan tracking table exists)
-        if (attributionData.session_id && window.supabase) {
-            updateQRConversion(attributionData.session_id, 'tourist_registration');
-        }
+        // Here you would send to your backend/Supabase
+        console.log('Tourist Registration:', data);
         
         // Show success message
         showMessage('🎉 Success! You\'re registered for VAI launch access. Check your email for confirmation.', 'success');
@@ -350,8 +270,13 @@ function handleTouristSubmission(e) {
         // Reset form
         e.target.reset();
         
-        // Clear attribution data after successful registration
-        sessionStorage.removeItem('vai_attribution');
+        // Optional: Track conversion event
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'tourist_registration', {
+                'event_category': 'Lead Generation',
+                'event_label': 'Tourist Registration'
+            });
+        }
         
     } catch (error) {
         console.error('Tourist form submission error:', error);
@@ -382,65 +307,8 @@ function handleOperatorSubmission(e) {
             return;
         }
         
-        // ===== QR ATTRIBUTION TRACKING =====
-        // Get QR tracking data from session storage
-        let attributionData = {};
-        try {
-            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
-        } catch (e) {
-            console.warn('Could not parse attribution data:', e);
-        }
-        
-        // Add QR attribution to registration data
-        const registrationData = {
-            ...data,
-            registration_source: attributionData.source || 'direct',
-            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
-            utm_source: attributionData.utm_source,
-            utm_medium: attributionData.utm_medium,
-            utm_campaign: attributionData.utm_campaign,
-            utm_content: attributionData.utm_content,
-            qr_session_id: attributionData.session_id,
-            referrer_url: attributionData.referrer || document.referrer,
-            landing_page: window.location.href,
-            registration_timestamp: new Date().toISOString(),
-            user_type: 'operator'
-        };
-        
-        console.log('Operator Registration with Attribution:', registrationData);
-        
-        // TODO: Send to your Supabase backend here
-        // Example: await supabase.from('operators').insert([registrationData])
-        
-        // Enhanced Analytics Tracking
-        if (typeof gtag !== 'undefined') {
-            // Track conversion
-            gtag('event', 'operator_registration_complete', {
-                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
-                source: attributionData.source || attributionData.utm_source || 'direct',
-                medium: attributionData.medium || attributionData.utm_medium || 'organic',
-                location: attributionData.location || attributionData.utm_content,
-                session_id: attributionData.session_id,
-                event_category: 'Conversion',
-                event_label: 'Operator Registration',
-                value: 10 // Higher value for operator registrations
-            });
-            
-            // Track QR conversion if from QR code
-            if (attributionData.utm_medium === 'qr_code' || attributionData.medium === 'qr_code') {
-                gtag('event', 'qr_conversion', {
-                    campaign_name: attributionData.campaign || attributionData.utm_campaign,
-                    source: attributionData.source || attributionData.utm_source,
-                    location: attributionData.location || attributionData.utm_content,
-                    conversion_type: 'operator_registration'
-                });
-            }
-        }
-        
-        // Update QR tracking in Supabase (if QR scan tracking table exists)
-        if (attributionData.session_id && window.supabase) {
-            updateQRConversion(attributionData.session_id, 'operator_registration');
-        }
+        // Here you would send to your backend/Supabase
+        console.log('Operator Registration:', data);
         
         // Show success message
         showMessage('🌺 Welcome to VAI! Your founding operator application has been submitted. We\'ll contact you within 24 hours.', 'success');
@@ -454,34 +322,17 @@ function handleOperatorSubmission(e) {
             operatorSection.style.display = 'none';
         }
         
-        // Clear attribution data after successful registration
-        sessionStorage.removeItem('vai_attribution');
+        // Optional: Track conversion event
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'operator_registration', {
+                'event_category': 'Lead Generation',
+                'event_label': 'Operator Registration'
+            });
+        }
         
     } catch (error) {
         console.error('Operator form submission error:', error);
         showMessage('Something went wrong. Please try again.', 'error');
-    }
-}
-
-// Helper function to update QR conversion in Supabase
-async function updateQRConversion(sessionId, conversionType) {
-    try {
-        const { data, error } = await window.supabase
-            .from('qr_scans')
-            .update({ 
-                converted_to_registration: true,
-                conversion_type: conversionType,
-                converted_at: new Date().toISOString()
-            })
-            .eq('session_id', sessionId);
-            
-        if (error) {
-            console.warn('QR conversion update error:', error);
-        } else {
-            console.log('QR conversion tracked successfully');
-        }
-    } catch (error) {
-        console.warn('Failed to update QR conversion:', error);
     }
 }
 
@@ -723,11 +574,13 @@ document.addEventListener('keydown', function(e) {
 });
 
 
+
 /* ============================================================================
-   LANGUAGE SWITCHING FUNCTIONALITY - ADD TO app-landingpage.js
+   BILINGUAL LANGUAGE SYSTEM - ADD TO app-landingpage.js
+   Complete implementation with translation interceptors and form integration
    ============================================================================ */
 
-// Safe localStorage wrapper with fallback (extracted from global.js)
+// Safe localStorage wrapper (extracted from global.js)
 const SafeStorage = {
     setItem: function(key, value) {
         try {
@@ -757,33 +610,208 @@ const landingPageSEO = {
         keywords: 'French Polynesia, Tahiti, Bora Bora, Moorea, Rangiroa, tours, authentic experiences, local operators, last minute booking, spontaneous travel, Polynesian culture'
     },
     fr: {
-        title: 'VAI - Débloquez le Paradis en Polynésie Française | Lancement Bientôt',
-        description: 'Arrêtez de manquer les expériences authentiques de la Polynésie française. VAI débloque le paradis avec un accès instantané aux opérateurs locaux, des prix transparents et une découverte basée sur l\'humeur. Inscrivez-vous pour le lancement du 14 juillet.',
+        title: 'VAI - Débloque le Paradis en Polynésie Française | Lancement Bientôt',
+        description: 'Arrête de rater les expériences authentiques de la Polynésie française. VAI débloque le paradis avec un accès instantané aux opérateurs locaux, des prix transparents et une découverte basée sur l\'humeur. Inscris-toi pour le lancement du 14 juillet.',
         keywords: 'Polynésie française, Tahiti, Bora Bora, Moorea, Rangiroa, tours, expériences authentiques, opérateurs locaux, réservation dernière minute, voyage spontané, culture polynésienne'
     }
 };
 
-// Success/Error messages for both languages
-const messages = {
-    tourist_success: {
+// Island-vibe French translations for error/success messages
+const messageTranslations = {
+    // Tourist form validation errors
+    'Please fill in all required fields': {
+        en: 'Please fill in all required fields',
+        fr: 'Remplis tous les champs obligatoires stp'
+    },
+    'Please enter a valid email address': {
+        en: 'Please enter a valid email address',
+        fr: 'Entre une adresse email valide stp'
+    },
+    'Please enter a valid email address (e.g., name@example.com)': {
+        en: 'Please enter a valid email address (e.g., name@example.com)',
+        fr: 'Entre une adresse email valide (ex: nom@exemple.com) stp'
+    },
+    'Please enter your full name': {
+        en: 'Please enter your full name',
+        fr: 'Entre ton nom complet stp'
+    },
+    'Please enter your email address': {
+        en: 'Please enter your email address',
+        fr: 'Entre ton adresse email stp'
+    },
+    'Please select an island': {
+        en: 'Please select an island',
+        fr: 'Choisis une île stp'
+    },
+    'Please select your primary language': {
+        en: 'Please select your primary language',
+        fr: 'Choisis ta langue principale stp'
+    },
+    'Please agree to receive VAI launch updates': {
+        en: 'Please agree to receive VAI launch updates',
+        fr: 'Accepte de recevoir les updates de lancement VAI stp'
+    },
+    'Please agree to the Terms of Service and Privacy Policy': {
+        en: 'Please agree to the Terms of Service and Privacy Policy',
+        fr: 'Accepte les Conditions d\'Utilisation et la Politique de Confidentialité stp'
+    },
+    'Please enter a valid WhatsApp number (e.g., +1234567890)': {
+        en: 'Please enter a valid WhatsApp number (e.g., +1234567890)',
+        fr: 'Entre un numéro WhatsApp valide (ex: +1234567890) stp'
+    },
+    'This field is required': {
+        en: 'This field is required',
+        fr: 'Ce champ est obligatoire'
+    },
+    
+    // Operator form validation errors
+    'Please enter your company name': {
+        en: 'Please enter your company name',
+        fr: 'Entre le nom de ton entreprise stp'
+    },
+    'Please enter the contact person name': {
+        en: 'Please enter the contact person name',
+        fr: 'Entre le nom de la personne de contact stp'
+    },
+    'Please enter your business email': {
+        en: 'Please enter your business email',
+        fr: 'Entre ton email professionnel stp'
+    },
+    'Please enter a valid business email address': {
+        en: 'Please enter a valid business email address',
+        fr: 'Entre une adresse email professionnelle valide stp'
+    },
+    'Please select at least one island you operate on': {
+        en: 'Please select at least one island you operate on',
+        fr: 'Choisis au moins une île sur laquelle tu opères stp'
+    },
+    'Please select at least one tour type you offer': {
+        en: 'Please select at least one tour type you offer',
+        fr: 'Choisis au moins un type de tour que tu proposes stp'
+    },
+    'Please select your primary tour language': {
+        en: 'Please select your primary tour language',
+        fr: 'Choisis ta langue principale pour les tours stp'
+    },
+    
+    // Success messages
+    'Success! You\'re registered for VAI launch access. Check your email for confirmation.': {
         en: '🎉 Success! You\'re registered for VAI launch access. Check your email for confirmation.',
-        fr: '🎉 Succès ! Vous êtes inscrit pour l\'accès au lancement VAI. Vérifiez votre email pour confirmation.'
+        fr: '🎉 Super ! Tu es inscrit pour l\'accès au lancement VAI. Vérifie ton email pour confirmation.'
     },
-    operator_success: {
+    '🎉 Success! You\'re registered for VAI launch access. Check your email for confirmation.': {
+        en: '🎉 Success! You\'re registered for VAI launch access. Check your email for confirmation.',
+        fr: '🎉 Super ! Tu es inscrit pour l\'accès au lancement VAI. Vérifie ton email pour confirmation.'
+    },
+    'Welcome to VAI! Your founding operator application has been submitted. We\'ll contact you within 24 hours.': {
         en: '🌺 Welcome to VAI! Your founding operator application has been submitted. We\'ll contact you within 24 hours.',
-        fr: '🌺 Bienvenue à VAI ! Votre candidature d\'opérateur fondateur a été soumise. Nous vous contacterons dans les 24 heures.'
+        fr: '🌺 Bienvenue à VAI ! Ta candidature d\'opérateur fondateur a été soumise. On te contactera dans les 24 heures.'
     },
-    validation_error: {
-        en: 'Please fill in all required fields.',
-        fr: 'Veuillez remplir tous les champs obligatoires.'
+    '🌺 Welcome to VAI! Your founding operator application has been submitted. We\'ll contact you within 24 hours.': {
+        en: '🌺 Welcome to VAI! Your founding operator application has been submitted. We\'ll contact you within 24 hours.',
+        fr: '🌺 Bienvenue à VAI ! Ta candidature d\'opérateur fondateur a été soumise. On te contactera dans les 24 heures.'
     },
-    email_error: {
-        en: 'Please enter a valid email address.',
-        fr: 'Veuillez entrer une adresse email valide.'
+    
+    // Registration service success messages
+    'You\'ll receive launch updates when VAI goes live on July 14th.': {
+        en: 'You\'ll receive launch updates when VAI goes live on July 14th.',
+        fr: 'Tu recevras les updates de lancement quand VAI sera en ligne le 14 juillet.'
     },
-    generic_error: {
+    'Your founding member application is being reviewed. You\'ll hear from us within 24 hours.': {
+        en: 'Your founding member application is being reviewed. You\'ll hear from us within 24 hours.',
+        fr: 'Ta candidature de membre fondateur est en cours d\'examen. Tu auras de nos nouvelles dans les 24 heures.'
+    },
+    
+    // Generic errors
+    'Something went wrong. Please try again.': {
         en: 'Something went wrong. Please try again.',
-        fr: 'Quelque chose a mal tourné. Veuillez réessayer.'
+        fr: 'Quelque chose a foiré. Réessaie stp.'
+    },
+    'Connection error. Please check your internet and try again.': {
+        en: 'Connection error. Please check your internet and try again.',
+        fr: 'Erreur de connexion. Vérifie ton internet et réessaie stp.'
+    },
+    'Request timed out. Please try again.': {
+        en: 'Request timed out. Please try again.',
+        fr: 'Demande expirée. Réessaie stp.'
+    },
+    'This email is already registered. Please use a different email.': {
+        en: 'This email is already registered. Please use a different email.',
+        fr: 'Cet email est déjà inscrit. Utilise un email différent stp.'
+    },
+    'Email already registered. Please use a different email address.': {
+        en: 'Email already registered. Please use a different email address.',
+        fr: 'Email déjà inscrit. Utilise une adresse email différente stp.'
+    },
+    'Server error. Please try again in a few moments.': {
+        en: 'Server error. Please try again in a few moments.',
+        fr: 'Erreur serveur. Réessaie dans quelques instants stp.'
+    },
+    'Network error. Please check your connection.': {
+        en: 'Network error. Please check your connection.',
+        fr: 'Erreur réseau. Vérifie ta connexion stp.'
+    },
+    'Registration service not loaded. Please refresh the page.': {
+        en: 'Registration service not loaded. Please refresh the page.',
+        fr: 'Service d\'inscription pas chargé. Rafraîchis la page stp.'
+    },
+    'Registration failed. Please try again.': {
+        en: 'Registration failed. Please try again.',
+        fr: 'Inscription échouée. Réessaie stp.'
+    },
+    'Some information is invalid. Please check your entries.': {
+        en: 'Some information is invalid. Please check your entries.',
+        fr: 'Certaines infos sont invalides. Vérifie tes entrées stp.'
+    },
+    
+    // Form placeholders
+    'Enter your full name': {
+        en: 'Enter your full name',
+        fr: 'Entre ton nom complet'
+    },
+    'Enter your email': {
+        en: 'Enter your email',
+        fr: 'Entre ton email'
+    },
+    'e.g., +1234567890 or +689 XX XX XX XX': {
+        en: 'e.g., +1234567890 or +689 XX XX XX XX',
+        fr: 'ex: +1234567890 ou +689 XX XX XX XX'
+    },
+    'Your tour company name': {
+        en: 'Your tour company name',
+        fr: 'Nom de ton entreprise de tours'
+    },
+    'Your full name': {
+        en: 'Your full name',
+        fr: 'Ton nom complet'
+    },
+    'business@yourcompany.com': {
+        en: 'business@yourcompany.com',
+        fr: 'entreprise@tonentreprise.com'
+    },
+    'Any international format': {
+        en: 'Any international format',
+        fr: 'Tout format international'
+    },
+    'Select your primary language...': {
+        en: 'Select your primary language...',
+        fr: 'Sélectionne ta langue principale...'
+    },
+    'Select an island...': {
+        en: 'Select an island...',
+        fr: 'Sélectionne une île...'
+    },
+    'Select language...': {
+        en: 'Select language...',
+        fr: 'Sélectionne la langue...'
+    },
+    'Select range...': {
+        en: 'Select range...',
+        fr: 'Sélectionne une gamme...'
+    },
+    'No preference': {
+        en: 'No preference',
+        fr: 'Aucune préférence'
     }
 };
 
@@ -814,6 +842,8 @@ function updateSEOForLanguage(lang) {
 function switchLanguage(lang) {
     if (!['en', 'fr'].includes(lang)) return;
 
+    console.log(`🌺 Switching language to: ${lang}`);
+
     // Update body attribute (triggers CSS changes)
     document.body.setAttribute('data-current-lang', lang);
 
@@ -834,6 +864,9 @@ function switchLanguage(lang) {
     // Update island label if form is visible
     updateIslandLabelForLanguage(lang);
 
+    // Update countdown labels
+    updateCountdownLabels(lang);
+
     // Track language switch with analytics
     if (typeof gtag !== 'undefined') {
         gtag('event', 'language_switch', {
@@ -842,6 +875,8 @@ function switchLanguage(lang) {
             'value': lang === 'fr' ? 1 : 0
         });
     }
+    
+    console.log(`✅ Language switched to: ${lang}`);
     
     // Dispatch custom event for other components
     document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
@@ -852,37 +887,23 @@ function switchLanguage(lang) {
  * @param {string} lang - The selected language ('fr' or 'en').
  */
 function updateFormPlaceholders(lang) {
-    const placeholders = {
-        en: {
-            name: 'Enter your full name',
-            email: 'Enter your email',
-            whatsapp: 'e.g., +1234567890 or +689 XX XX XX XX',
-            company: 'Your tour company name',
-            contact: 'Your full name',
-            business_email: 'business@yourcompany.com',
-            whatsapp_business: 'Any international format'
-        },
-        fr: {
-            name: 'Entrez votre nom complet',
-            email: 'Entrez votre email',
-            whatsapp: 'ex. +1234567890 ou +689 XX XX XX XX',
-            company: 'Nom de votre entreprise de tours',
-            contact: 'Votre nom complet',
-            business_email: 'entreprise@votrecompagnie.com',
-            whatsapp_business: 'Tout format international'
+    const currentTranslations = {};
+    
+    // Build translations object for current language
+    Object.keys(messageTranslations).forEach(key => {
+        if (messageTranslations[key][lang]) {
+            currentTranslations[key] = messageTranslations[key][lang];
         }
-    };
-
-    const currentPlaceholders = placeholders[lang];
+    });
     
     // Update tourist form placeholders
     const touristNameInput = document.getElementById('tourist-name');
     const touristEmailInput = document.getElementById('tourist-email');
     const whatsappInput = document.querySelector('input[name="whatsapp_number"]');
     
-    if (touristNameInput) touristNameInput.placeholder = currentPlaceholders.name;
-    if (touristEmailInput) touristEmailInput.placeholder = currentPlaceholders.email;
-    if (whatsappInput) whatsappInput.placeholder = currentPlaceholders.whatsapp;
+    if (touristNameInput) touristNameInput.placeholder = currentTranslations['Enter your full name'] || '';
+    if (touristEmailInput) touristEmailInput.placeholder = currentTranslations['Enter your email'] || '';
+    if (whatsappInput) whatsappInput.placeholder = currentTranslations['e.g., +1234567890 or +689 XX XX XX XX'] || '';
     
     // Update operator form placeholders
     const companyInput = document.getElementById('company-name');
@@ -890,10 +911,21 @@ function updateFormPlaceholders(lang) {
     const businessEmailInput = document.getElementById('operator-email');
     const businessWhatsappInput = document.getElementById('operator-whatsapp');
     
-    if (companyInput) companyInput.placeholder = currentPlaceholders.company;
-    if (contactInput) contactInput.placeholder = currentPlaceholders.contact;
-    if (businessEmailInput) businessEmailInput.placeholder = currentPlaceholders.business_email;
-    if (businessWhatsappInput) businessWhatsappInput.placeholder = currentPlaceholders.whatsapp_business;
+    if (companyInput) companyInput.placeholder = currentTranslations['Your tour company name'] || '';
+    if (contactInput) contactInput.placeholder = currentTranslations['Your full name'] || '';
+    if (businessEmailInput) businessEmailInput.placeholder = currentTranslations['business@yourcompany.com'] || '';
+    if (businessWhatsappInput) businessWhatsappInput.placeholder = currentTranslations['Any international format'] || '';
+    
+    // Update select option texts (first empty option)
+    const selects = document.querySelectorAll('select.form-input');
+    selects.forEach(select => {
+        const firstOption = select.querySelector('option[value=""]');
+        if (firstOption) {
+            const originalText = firstOption.textContent;
+            const translatedText = currentTranslations[originalText.trim()] || originalText;
+            firstOption.textContent = translatedText;
+        }
+    });
 }
 
 /**
@@ -919,198 +951,471 @@ function updateIslandLabelForLanguage(lang) {
             : 'Which island will you visit first? *';
     } else if (lang === 'fr' && islandLabelFr) {
         islandLabelFr.textContent = checkedInput.value === 'local' 
-            ? 'Sur quelle île vivez-vous ? *'
-            : 'Quelle île visiterez-vous en premier ? *';
+            ? 'Sur quelle île vis-tu ? *'
+            : 'Quelle île visiteras-tu en premier ? *';
     }
 }
 
 /**
- * Shows a message to the user in the current language
- * @param {string} messageKey - Key from messages object
+ * Updates countdown labels based on language
+ * @param {string} lang - The selected language ('fr' or 'en').
+ */
+function updateCountdownLabels(lang) {
+    const countdownElement = document.getElementById('countdown');
+    if (!countdownElement) return;
+
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+
+    if (!daysElement || !hoursElement || !minutesElement) return;
+
+    // Check if launch date has passed
+    const launchDate = new Date('July 14, 2025 00:00:00').getTime();
+    const now = new Date().getTime();
+    
+    if (launchDate - now < 0) {
+        // Launch date has passed - show in current language
+        const liveText = lang === 'en' ? 'LIVE' : 'EN DIRECT';
+        const nowText = lang === 'en' ? 'NOW' : 'MAINTENANT';
+        
+        countdownElement.innerHTML = `<div class="countdown-item"><span class="countdown-number">${liveText}</span><span class="countdown-label">${nowText}</span></div>`;
+    }
+}
+
+/**
+ * Translates error/success messages based on current language
+ * @param {string} message - Original message to translate
+ * @param {string} lang - Target language
+ * @returns {string} - Translated message
+ */
+function translateMessage(message, lang) {
+    // Try exact match first
+    if (messageTranslations[message] && messageTranslations[message][lang]) {
+        return messageTranslations[message][lang];
+    }
+    
+    // Try partial match for dynamic messages containing variable parts
+    for (const key in messageTranslations) {
+        if (message.includes(key) && messageTranslations[key][lang]) {
+            return messageTranslations[key][lang];
+        }
+    }
+    
+    // For messages that contain names (like "Welcome John!")
+    const patterns = [
+        { 
+            en: /Welcome (.+)! You'll receive launch updates/,
+            fr: /Bienvenue (.+) ! Tu recevras les updates de lancement/,
+            template: {
+                en: 'Welcome $1! You\'ll receive launch updates when VAI goes live on July 14th.',
+                fr: 'Bienvenue $1 ! Tu recevras les updates de lancement quand VAI sera en ligne le 14 juillet.'
+            }
+        },
+        {
+            en: /Welcome (.+)! Your founding member application/,
+            fr: /Bienvenue (.+) ! Ta candidature de membre fondateur/,
+            template: {
+                en: 'Welcome $1! Your founding member application is being reviewed. You\'ll hear from us within 24 hours.',
+                fr: 'Bienvenue $1 ! Ta candidature de membre fondateur est en cours d\'examen. Tu auras de nos nouvelles dans les 24 heures.'
+            }
+        }
+    ];
+    
+    for (const pattern of patterns) {
+        const currentLangPattern = pattern[lang === 'en' ? 'fr' : 'en']; // Check opposite language pattern
+        const match = message.match(currentLangPattern);
+        if (match) {
+            return pattern.template[lang].replace('$1', match[1]);
+        }
+    }
+    
+    // Return original message if no translation found
+    return message;
+}
+
+// ============================================================================
+// TRANSLATION INTERCEPTOR SYSTEM
+// ============================================================================
+
+/**
+ * Intercepts and translates showMessage calls from registration-handler.js
+ */
+function setupMessageInterceptor() {
+    console.log('🌺 Setting up message translation interceptors');
+    
+    // Store original functions (if they exist)
+    let originalShowMessage = window.showMessage;
+    let originalShowSmartError = window.showSmartError;
+    let originalShowFieldError = window.showFieldError;
+    let originalShowSuccess = window.showSuccess;
+    
+    // Wait for registration handler to load and then override
+    const setupInterceptors = () => {
+        // Intercept showMessage function
+        if (typeof window.showMessage === 'function') {
+            if (!originalShowMessage || originalShowMessage === window.showMessage) {
+                originalShowMessage = window.showMessage;
+            }
+        }
+        
+        window.showMessage = function(message, type = 'info') {
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const translatedMessage = translateMessage(message, currentLang);
+            
+            console.log(`🌺 Message translation (${currentLang}):`, message, '→', translatedMessage);
+            
+            if (originalShowMessage && originalShowMessage !== window.showMessage) {
+                return originalShowMessage(translatedMessage, type);
+            } else {
+                // Fallback implementation
+                return showLocalizedMessage(translatedMessage, type);
+            }
+        };
+
+        // Intercept showSmartError function (from registration-handler.js)
+        window.showSmartError = function(form, message, fieldName = null) {
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const translatedMessage = translateMessage(message, currentLang);
+            
+            console.log(`🌺 Smart error translation (${currentLang}):`, message, '→', translatedMessage);
+            
+            if (originalShowSmartError && originalShowSmartError !== window.showSmartError) {
+                return originalShowSmartError(form, translatedMessage, fieldName);
+            } else {
+                // Fallback implementation
+                if (fieldName) {
+                    const field = form.querySelector(`[name="${fieldName}"]`);
+                    if (field) {
+                        showFieldError(field, translatedMessage);
+                        field.focus();
+                        return;
+                    }
+                }
+                showLocalizedMessage(translatedMessage, 'error');
+            }
+        };
+
+        // Intercept showFieldError function
+        window.showFieldError = function(field, message) {
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const translatedMessage = translateMessage(message, currentLang);
+            
+            if (originalShowFieldError && originalShowFieldError !== window.showFieldError) {
+                return originalShowFieldError(field, translatedMessage);
+            } else {
+                // Fallback implementation
+                clearFieldError(field);
+                
+                field.classList.add('error');
+                
+                const errorEl = document.createElement('div');
+                errorEl.className = 'error-message show';
+                errorEl.textContent = translatedMessage;
+                
+                field.parentNode.appendChild(errorEl);
+            }
+        };
+
+        // Intercept showSuccess function
+        window.showSuccess = function(form, message) {
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const translatedMessage = translateMessage(message, currentLang);
+            
+            console.log(`🌺 Success message translation (${currentLang}):`, message, '→', translatedMessage);
+            
+            if (originalShowSuccess && originalShowSuccess !== window.showSuccess) {
+                return originalShowSuccess(form, translatedMessage);
+            } else {
+                // Fallback implementation
+                showLocalizedMessage(translatedMessage, 'success');
+            }
+        };
+    };
+    
+    // Set up interceptors immediately if functions exist
+    setupInterceptors();
+    
+    // Also set up interceptors when registration handler loads
+    const checkForRegistrationHandler = () => {
+        if (window.vaiRegistrationHandler) {
+            console.log('🌺 Registration handler detected, updating interceptors');
+            setupInterceptors();
+        } else {
+            setTimeout(checkForRegistrationHandler, 100);
+        }
+    };
+    
+    setTimeout(checkForRegistrationHandler, 500);
+    
+    console.log('✅ Message interceptors configured');
+}
+
+/**
+ * Clear field errors (helper function)
+ */
+function clearFieldError(field) {
+    field.classList.remove('error');
+    const errorEl = field.parentNode.querySelector('.error-message');
+    if (errorEl) {
+        errorEl.remove();
+    }
+}
+
+/**
+ * Shows a localized message to the user
+ * @param {string} message - Message to show
  * @param {string} type - Type of message ('success', 'error', 'info')
  */
-function showLocalizedMessage(messageKey, type = 'info') {
-    const currentLang = document.body.getAttribute('data-current-lang') || 'en';
-    const message = messages[messageKey] && messages[messageKey][currentLang] 
-        ? messages[messageKey][currentLang] 
-        : messages[messageKey] && messages[messageKey]['en'] 
-        ? messages[messageKey]['en'] 
-        : 'Message not found';
+function showLocalizedMessage(message, type) {
+    // Remove existing messages
+    const existingMsg = document.querySelector('.vai-message');
+    if (existingMsg) {
+        existingMsg.remove();
+    }
     
-    showMessage(message, type);
+    // Create message element
+    const messageEl = document.createElement('div');
+    messageEl.className = `vai-message vai-message-${type}`;
+    messageEl.textContent = message;
+    
+    // Add to DOM with styling (styles are in CSS)
+    document.body.appendChild(messageEl);
+    
+    // Remove after timeout
+    const timeout = type === 'success' ? 5000 : 8000;
+    setTimeout(() => {
+        if (messageEl.parentNode) {
+            messageEl.style.opacity = '0';
+            setTimeout(() => messageEl.remove(), 300);
+        }
+    }, timeout);
 }
 
-// Enhanced form submission handlers with language support
-function handleTouristSubmissionWithLanguage(e) {
-    e.preventDefault();
-    const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+// ============================================================================
+// REGISTRATION DATA ENHANCEMENT
+// ============================================================================
+
+/**
+ * Enhances registration data with interface language
+ */
+function enhanceRegistrationData() {
+    console.log('🌺 Setting up registration data enhancement');
     
-    try {
-        // Get form data
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        
-        // Validate required fields
-        if (!data.email || !data.name) {
-            showLocalizedMessage('validation_error', 'error');
-            return;
+    // Function to enhance registration service
+    const enhanceService = () => {
+        if (!window.registrationService) {
+            console.log('🌺 Registration service not found, waiting...');
+            return false;
         }
         
-        // Validate email format
-        if (!isValidEmail(data.email)) {
-            showLocalizedMessage('email_error', 'error');
-            return;
-        }
+        console.log('🌺 Enhancing registration service with interface_language');
         
-        // Get QR attribution data
-        let attributionData = {};
-        try {
-            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
-        } catch (e) {
-            console.warn('Could not parse attribution data:', e);
-        }
-        
-        // Add language and attribution to registration data
-        const registrationData = {
-            ...data,
-            interface_language: currentLang,
-            registration_source: attributionData.source || 'direct',
-            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
-            utm_source: attributionData.utm_source,
-            utm_medium: attributionData.utm_medium,
-            utm_campaign: attributionData.utm_campaign,
-            utm_content: attributionData.utm_content,
-            qr_session_id: attributionData.session_id,
-            referrer_url: attributionData.referrer || document.referrer,
-            landing_page: window.location.href,
-            registration_timestamp: new Date().toISOString()
+        // Store original functions
+        const originalRegisterTourist = window.registrationService.registerTourist;
+        const originalRegisterOperator = window.registrationService.registerOperator;
+
+        // Enhance tourist registration
+        window.registrationService.registerTourist = function(formData) {
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const enhancedData = {
+                ...formData,
+                interface_language: currentLang
+            };
+            console.log('🌺 Enhanced tourist registration data with interface_language:', currentLang);
+            return originalRegisterTourist.call(this, enhancedData);
+        };
+
+        // Enhance operator registration
+        window.registrationService.registerOperator = function(formData) {
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const enhancedData = {
+                ...formData,
+                interface_language: currentLang
+            };
+            console.log('🌺 Enhanced operator registration data with interface_language:', currentLang);
+            return originalRegisterOperator.call(this, enhancedData);
         };
         
-        console.log('Tourist Registration with Language & Attribution:', registrationData);
-        
-        // TODO: Send to your Supabase backend here
-        // Example: await supabase.from('tourist_users').insert([registrationData])
-        
-        // Enhanced Analytics Tracking
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'tourist_registration_complete', {
-                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
-                source: attributionData.source || attributionData.utm_source || 'direct',
-                medium: attributionData.medium || attributionData.utm_medium || 'organic',
-                location: attributionData.location || attributionData.utm_content,
-                session_id: attributionData.session_id,
-                interface_language: currentLang,
-                event_category: 'Conversion',
-                event_label: 'Tourist Registration',
-                value: 1
-            });
-        }
-        
-        // Show success message
-        showLocalizedMessage('tourist_success', 'success');
-        
-        // Reset form
-        e.target.reset();
-        
-        // Clear attribution data
-        sessionStorage.removeItem('vai_attribution');
-        
-    } catch (error) {
-        console.error('Tourist form submission error:', error);
-        showLocalizedMessage('generic_error', 'error');
+        console.log('✅ Registration service enhanced with language support');
+        return true;
+    };
+    
+    // Try to enhance immediately
+    if (!enhanceService()) {
+        // If not available, keep checking
+        const checkRegistrationService = () => {
+            if (enhanceService()) {
+                return; // Success, stop checking
+            }
+            setTimeout(checkRegistrationService, 100);
+        };
+        setTimeout(checkRegistrationService, 200);
     }
 }
 
-function handleOperatorSubmissionWithLanguage(e) {
-    e.preventDefault();
-    const currentLang = document.body.getAttribute('data-current-lang') || 'en';
-    
-    try {
-        // Get form data
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
+// ============================================================================
+// SCROLL TO FORM FUNCTION
+// ============================================================================
+
+/**
+ * Scrolls to tourist form when launch date is clicked
+ */
+function scrollToTouristForm() {
+    const touristForm = document.getElementById('tourist-form');
+    if (touristForm) {
+        const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
+        const targetPosition = touristForm.offsetTop - headerHeight - 20;
         
-        // Validate required fields
-        if (!data.company_name || !data.email || !data.contact_person) {
-            showLocalizedMessage('validation_error', 'error');
-            return;
-        }
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
         
-        // Validate email format
-        if (!isValidEmail(data.email)) {
-            showLocalizedMessage('email_error', 'error');
-            return;
-        }
+        // Optional: Add a subtle highlight effect to the form
+        touristForm.style.transition = 'all 0.5s ease';
+        touristForm.style.transform = 'scale(1.02)';
+        touristForm.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.1)';
         
-        // Get QR attribution data
-        let attributionData = {};
-        try {
-            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
-        } catch (e) {
-            console.warn('Could not parse attribution data:', e);
-        }
+        setTimeout(() => {
+            touristForm.style.transform = 'scale(1)';
+            touristForm.style.boxShadow = 'none';
+        }, 1000);
         
-        // Add language and attribution to registration data
-        const registrationData = {
-            ...data,
-            interface_language: currentLang,
-            registration_source: attributionData.source || 'direct',
-            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
-            utm_source: attributionData.utm_source,
-            utm_medium: attributionData.utm_medium,
-            utm_campaign: attributionData.utm_campaign,
-            utm_content: attributionData.utm_content,
-            qr_session_id: attributionData.session_id,
-            referrer_url: attributionData.referrer || document.referrer,
-            landing_page: window.location.href,
-            registration_timestamp: new Date().toISOString(),
-            user_type: 'operator'
-        };
-        
-        console.log('Operator Registration with Language & Attribution:', registrationData);
-        
-        // TODO: Send to your Supabase backend here
-        // Example: await supabase.from('operators').insert([registrationData])
-        
-        // Enhanced Analytics Tracking
+        // Track the click with analytics
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'operator_registration_complete', {
-                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
-                source: attributionData.source || attributionData.utm_source || 'direct',
-                medium: attributionData.medium || attributionData.utm_medium || 'organic',
-                location: attributionData.location || attributionData.utm_content,
-                session_id: attributionData.session_id,
-                interface_language: currentLang,
-                event_category: 'Conversion',
-                event_label: 'Operator Registration',
-                value: 10
+            gtag('event', 'launch_date_click', {
+                'event_category': 'User Interaction',
+                'event_label': 'Header Launch Date',
+                'value': 1
             });
         }
+    }
+}
+
+// ============================================================================
+// ENHANCED FORM SETUP
+// ============================================================================
+
+/**
+ * Enhanced form setup with language support
+ */
+function setupBilingualForms() {
+    console.log('🌺 Setting up bilingual form enhancements');
+    
+    // Tourist form user type change handler
+    const userTypeInputs = document.querySelectorAll('input[name="user_type"]');
+    const islandSelection = document.getElementById('island-selection');
+    
+    userTypeInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.checked && islandSelection) {
+                islandSelection.style.display = 'block';
+                setTimeout(() => {
+                    islandSelection.classList.add('show');
+                }, 50);
+                
+                // Update label based on selection and current language
+                const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+                updateIslandLabelForLanguage(currentLang);
+            }
+        });
+    });
+    
+    // WhatsApp opt-in handler
+    const whatsappCheckbox = document.getElementById('whatsapp-checkbox');
+    const whatsappInput = document.getElementById('whatsapp-input');
+    
+    if (whatsappCheckbox && whatsappInput) {
+        whatsappCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                whatsappInput.style.display = 'block';
+                setTimeout(() => {
+                    whatsappInput.classList.add('show');
+                }, 50);
+                whatsappInput.querySelector('input').required = true;
+            } else {
+                whatsappInput.classList.remove('show');
+                setTimeout(() => {
+                    whatsappInput.style.display = 'none';
+                }, 300);
+                whatsappInput.querySelector('input').required = false;
+            }
+        });
+    }
+    
+    // Show island selection for default tourist selection
+    setTimeout(() => {
+        const checkedInput = document.querySelector('input[name="user_type"]:checked');
+        if (checkedInput) {
+            checkedInput.dispatchEvent(new Event('change'));
+        }
+    }, 100);
+    
+    console.log('✅ Bilingual form setup complete');
+}
+
+// ============================================================================
+// OPERATOR FORM OVERLAY ENHANCEMENT
+// ============================================================================
+
+/**
+ * Enhance operator form overlay with language switching
+ */
+function enhanceOperatorFormOverlay() {
+    console.log('🌺 Enhancing operator form overlay');
+    
+    const showFormBtn = document.getElementById('show-operator-form-btn');
+    const operatorOverlay = document.getElementById('operator-form-overlay');
+    const closeFormBtn = document.getElementById('close-operator-form');
+    
+    if (showFormBtn && operatorOverlay && closeFormBtn) {
+        // Show fullscreen operator form
+        showFormBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            operatorOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Update form placeholders for current language
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            updateFormPlaceholders(currentLang);
+        });
         
-        // Show success message
-        showLocalizedMessage('operator_success', 'success');
-        
-        // Reset form
-        e.target.reset();
-        
-        // Hide operator form
-        const operatorOverlay = document.getElementById('operator-form-overlay');
-        if (operatorOverlay) {
+        // Close fullscreen operator form
+        closeFormBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             operatorOverlay.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        }
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        });
         
-        // Clear attribution data
-        sessionStorage.removeItem('vai_attribution');
+        // Close on overlay click (outside form)
+        operatorOverlay.addEventListener('click', function(e) {
+            if (e.target === operatorOverlay) {
+                closeFormBtn.click();
+            }
+        });
         
-    } catch (error) {
-        console.error('Operator form submission error:', error);
-        showLocalizedMessage('generic_error', 'error');
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && operatorOverlay.classList.contains('show')) {
+                closeFormBtn.click();
+            }
+        });
+        
+        console.log('✅ Operator form overlay enhanced');
     }
 }
 
-// Initialize language system
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
+
+/**
+ * Initialize the bilingual language system
+ */
 function initLanguageSystem() {
+    console.log('🌺 Initializing VAI bilingual system');
+    
     // Apply saved language preference
     const savedLang = SafeStorage.getItem('preferred-language');
     if (savedLang && savedLang !== document.body.getAttribute('data-current-lang')) {
@@ -1121,134 +1426,56 @@ function initLanguageSystem() {
     const currentLang = document.body.getAttribute('data-current-lang') || 'en';
     updateFormPlaceholders(currentLang);
     
-    // Initialize form handlers with language support
-    const touristForm = document.getElementById('tourist-form');
-    if (touristForm) {
-        // Remove existing handler and add new one
-        touristForm.removeEventListener('submit', handleTouristSubmission);
-        touristForm.addEventListener('submit', handleTouristSubmissionWithLanguage);
-    }
-
-    const operatorForm = document.getElementById('operator-form');
-    if (operatorForm) {
-        // Remove existing handler and add new one
-        operatorForm.removeEventListener('submit', handleOperatorSubmission);
-        operatorForm.addEventListener('submit', handleOperatorSubmissionWithLanguage);
-    }
-}
-
-// Make switchLanguage function globally available
-window.switchLanguage = switchLanguage;
-
-// Initialize language system when DOM is loaded
-document.addEventListener('DOMContentLoaded', initLanguageSystem);
-
-/* ============================================================================
-   UPDATE EXISTING FUNCTIONS TO SUPPORT LANGUAGE SWITCHING
-   ============================================================================ */
-
-// Updated FAQ toggle to work with bilingual content
-function toggleFAQBilingual(element) {
-    try {
-        const answer = element.nextElementSibling;
-        const icon = element.querySelector('span:last-child');
-        
-        if (!answer || !icon) return;
-        
-        if (answer.classList.contains('active')) {
-            answer.classList.remove('active');
-            icon.textContent = '+';
-            icon.style.transform = 'rotate(0deg)';
-        } else {
-            // Close all other FAQs
-            document.querySelectorAll('.faq-answer.active').forEach(faq => {
-                faq.classList.remove('active');
-                const prevIcon = faq.previousElementSibling?.querySelector('span:last-child');
-                if (prevIcon) {
-                    prevIcon.textContent = '+';
-                    prevIcon.style.transform = 'rotate(0deg)';
-                }
-            });
-            
-            // Open this FAQ
-            answer.classList.add('active');
-            icon.textContent = '−';
-            icon.style.transform = 'rotate(180deg)';
-        }
-    } catch (error) {
-        console.warn('FAQ toggle error:', error);
-    }
-}
-
-// Replace the original toggleFAQ function
-window.toggleFAQ = toggleFAQBilingual;
-
-// Enhanced countdown with language support
-function updateCountdownWithLanguage() {
-    const countdownElement = document.getElementById('countdown');
-    if (!countdownElement) return;
-
-    const daysElement = document.getElementById('days');
-    const hoursElement = document.getElementById('hours');
-    const minutesElement = document.getElementById('minutes');
-
-    if (!daysElement || !hoursElement || !minutesElement) return;
-
-    try {
-        const launchDate = new Date('July 14, 2025 00:00:00').getTime();
-        const now = new Date().getTime();
-        const distance = launchDate - now;
-
-        if (distance < 0) {
-            // Launch date has passed - show in current language
-            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
-            const liveText = currentLang === 'en' ? 'LIVE' : 'EN DIRECT';
-            const nowText = currentLang === 'en' ? 'NOW' : 'MAINTENANT';
-            
-            countdownElement.innerHTML = `<div class="countdown-item"><span class="countdown-number">${liveText}</span><span class="countdown-label">${nowText}</span></div>`;
-            return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-        daysElement.textContent = days.toString().padStart(2, '0');
-        hoursElement.textContent = hours.toString().padStart(2, '0');
-        minutesElement.textContent = minutes.toString().padStart(2, '0');
-    } catch (error) {
-        console.warn('Countdown update error:', error);
-    }
-}
-
-// Override the original countdown function
-document.addEventListener('DOMContentLoaded', function() {
-    // Remove existing countdown interval if it exists
-    if (window.countdownInterval) {
-        clearInterval(window.countdownInterval);
-    }
+    // Setup translation interceptors
+    setupMessageInterceptor();
     
-    // Start new countdown with language support
-    updateCountdownWithLanguage();
-    window.countdownInterval = setInterval(updateCountdownWithLanguage, 60000);
+    // Setup enhanced forms
+    setupBilingualForms();
+    
+    // Enhance operator form overlay
+    enhanceOperatorFormOverlay();
+    
+    // Enhance registration data with interface language
+    enhanceRegistrationData();
+    
+    console.log('✅ VAI bilingual system ready');
+}
+
+// Make functions globally available
+window.switchLanguage = switchLanguage;
+window.scrollToTouristForm = scrollToTouristForm;
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🌺 DOM loaded, starting language system initialization');
+    // Wait for other scripts to load first
+    setTimeout(initLanguageSystem, 500);
 });
 
-// Listen for language changes to update countdown labels
-document.addEventListener('languageChanged', function() {
-    updateCountdownWithLanguage();
+// Listen for language changes to update form elements
+document.addEventListener('languageChanged', function(e) {
+    const lang = e.detail.language;
+    console.log(`🌺 Language changed event received: ${lang}`);
+    updateFormPlaceholders(lang);
+    updateCountdownLabels(lang);
+    
+    // Update any island labels if forms are visible
+    const islandSelection = document.getElementById('island-selection');
+    if (islandSelection && islandSelection.style.display !== 'none') {
+        updateIslandLabelForLanguage(lang);
+    }
 });
 
-/* ============================================================================
-   EXPOSE FUNCTIONS FOR DEBUGGING
-   ============================================================================ */
-
-// For debugging purposes
-window.VAI_LANGUAGE_DEBUG = {
+// For debugging purposes (can be removed in production)
+window.VAI_BILINGUAL_DEBUG = {
     switchLanguage,
+    translateMessage,
     updateSEOForLanguage,
     updateFormPlaceholders,
-    showLocalizedMessage,
+    messageTranslations,
     SafeStorage,
-    messages,
-    landingPageSEO
+    showLocalizedMessage,
+    clearFieldError
 };
+
+console.log('🌺 VAI Bilingual JavaScript system loaded');
