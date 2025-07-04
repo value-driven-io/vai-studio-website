@@ -1355,6 +1355,40 @@ function setupBilingualForms() {
     console.log('✅ Bilingual form setup complete');
 }
 
+
+// Button Scrolling Fix 
+function fixFormButtonScrolling() {
+    const formLinks = document.querySelectorAll('a[href="#tourist-form"]');
+    
+    formLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetForm = document.getElementById('tourist-form');
+            if (targetForm) {
+                const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
+                const targetPosition = targetForm.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Visual feedback
+                targetForm.style.transition = 'all 0.5s ease';
+                targetForm.style.transform = 'scale(1.01)';
+                targetForm.style.boxShadow = '0 0 20px rgba(241, 103, 44, 0.3)';
+                
+                setTimeout(() => {
+                    targetForm.style.transform = 'scale(1)';
+                    targetForm.style.boxShadow = 'none';
+                }, 1000);
+            }
+        });
+    });
+    
+    console.log(`✅ Fixed ${formLinks.length} form button links`);
+}
+
 // ============================================================================
 // OPERATOR FORM OVERLAY ENHANCEMENT
 // ============================================================================
@@ -1431,6 +1465,7 @@ function initLanguageSystem() {
     
     // Setup enhanced forms
     setupBilingualForms();
+    fixFormButtonScrolling();
     
     // Enhance operator form overlay
     enhanceOperatorFormOverlay();

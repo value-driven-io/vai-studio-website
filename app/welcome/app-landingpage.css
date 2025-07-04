@@ -1998,7 +1998,14 @@ body[data-current-lang="en"] [data-lang="en"] {
 
 @media (max-width: 767px) {
     .language-switcher {
-        top: 60px;     /* Extra mobile adjustment */
+        top: 80px;     /* Extra mobile adjustment */
+        right: 10px;   /* Smaller margin on very small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .language-switcher {
+        top: 10px;     /* Extra mobile adjustment */
         right: 10px;   /* Smaller margin on very small screens */
     }
 }
@@ -2202,4 +2209,46 @@ select.form-input option {
 
 .launch-date-clickable:active {
     transform: translateY(0);
+}
+
+
+/* FAQ Language Fix - Add to end of CSS file */
+.faq-question span:first-child [data-lang]:not([data-lang="en"]) {
+    display: none;
+}
+
+body[data-current-lang="fr"] .faq-question span:first-child [data-lang="en"] {
+    display: none;
+}
+
+body[data-current-lang="fr"] .faq-question span:first-child [data-lang="fr"] {
+    display: inline;
+}
+
+body[data-current-lang="en"] .faq-question span:first-child [data-lang="fr"] {
+    display: none;
+}
+
+body[data-current-lang="en"] .faq-question span:first-child [data-lang="en"] {
+    display: inline;
+}
+
+.faq-answer [data-lang]:not([data-lang="en"]) {
+    display: none;
+}
+
+body[data-current-lang="fr"] .faq-answer [data-lang="en"] {
+    display: none;
+}
+
+body[data-current-lang="fr"] .faq-answer [data-lang="fr"] {
+    display: block;
+}
+
+body[data-current-lang="en"] .faq-answer [data-lang="fr"] {
+    display: none;
+}
+
+body[data-current-lang="en"] .faq-answer [data-lang="en"] {
+    display: block;
 }
