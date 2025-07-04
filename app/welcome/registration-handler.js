@@ -349,7 +349,7 @@ class RegistrationHandler {
     }
     
     if (!data.terms_accepted) {
-      return { valid: false, message: 'Please agree to the Terms of Service and Privacy Policy', field: 'terms_accepted' }
+      return { valid: false, message: 'Please agree to the Privacy Policy', field: 'terms_accepted' }
     }
     
     if (data.whatsapp_number && !this.validateWhatsApp(data.whatsapp_number)) {
@@ -389,7 +389,7 @@ class RegistrationHandler {
     }
     
     if (!data.terms_accepted) {
-      return { valid: false, message: 'Please agree to the Terms of Service and Privacy Policy', field: 'terms_accepted' }
+      return { valid: false, message: 'Please agree to the Privacy Policy', field: 'terms_accepted' }
     }
     
     return { valid: true }
