@@ -341,7 +341,7 @@ const registrationService = {
     try {
       const webhookUrls = {
         tourist: 'https://n8n-stable-latest.onrender.com/webhook/vai-app-user-registration',
-        operator: 'https://n8n-stable-latest.onrender.com/webhook-test/vai-app-operator-registration'
+        operator: 'https://n8n-stable-latest.onrender.com/webhook/vai-app-operator-registration'
       };
       
       const webhookUrl = webhookUrls[userType];
@@ -380,7 +380,7 @@ const registrationService = {
   
   async sendAdminNotification(type, data) {
     try {
-      const webhookUrl = 'https://n8n-stable-latest.onrender.com/webhook-test/vai-admin-notifications';
+      const webhookUrl = 'https://n8n-stable-latest.onrender.com/webhook/vai-admin-notifications';
       
       const payload = {
         notification_type: type,
