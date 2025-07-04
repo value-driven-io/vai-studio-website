@@ -721,3 +721,534 @@ document.addEventListener('keydown', function(e) {
         });
     }
 });
+
+
+/* ============================================================================
+   LANGUAGE SWITCHING FUNCTIONALITY - ADD TO app-landingpage.js
+   ============================================================================ */
+
+// Safe localStorage wrapper with fallback (extracted from global.js)
+const SafeStorage = {
+    setItem: function(key, value) {
+        try {
+            localStorage.setItem(key, value);
+            return true;
+        } catch (e) {
+            console.warn('localStorage not available');
+            return false;
+        }
+    },
+    
+    getItem: function(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            console.warn('localStorage not available');
+            return null;
+        }
+    }
+};
+
+// SEO data for landing page language switching
+const landingPageSEO = {
+    en: {
+        title: 'VAI - Unlock Paradise in French Polynesia | Launching Soon',
+        description: 'Stop missing authentic French Polynesia experiences. VAI unlocks paradise with instant access to local operators, transparent pricing, and mood-powered discovery. Register for July 14th launch.',
+        keywords: 'French Polynesia, Tahiti, Bora Bora, Moorea, Rangiroa, tours, authentic experiences, local operators, last minute booking, spontaneous travel, Polynesian culture'
+    },
+    fr: {
+        title: 'VAI - Débloquez le Paradis en Polynésie Française | Lancement Bientôt',
+        description: 'Arrêtez de manquer les expériences authentiques de la Polynésie française. VAI débloque le paradis avec un accès instantané aux opérateurs locaux, des prix transparents et une découverte basée sur l\'humeur. Inscrivez-vous pour le lancement du 14 juillet.',
+        keywords: 'Polynésie française, Tahiti, Bora Bora, Moorea, Rangiroa, tours, expériences authentiques, opérateurs locaux, réservation dernière minute, voyage spontané, culture polynésienne'
+    }
+};
+
+// Success/Error messages for both languages
+const messages = {
+    tourist_success: {
+        en: '🎉 Success! You\'re registered for VAI launch access. Check your email for confirmation.',
+        fr: '🎉 Succès ! Vous êtes inscrit pour l\'accès au lancement VAI. Vérifiez votre email pour confirmation.'
+    },
+    operator_success: {
+        en: '🌺 Welcome to VAI! Your founding operator application has been submitted. We\'ll contact you within 24 hours.',
+        fr: '🌺 Bienvenue à VAI ! Votre candidature d\'opérateur fondateur a été soumise. Nous vous contacterons dans les 24 heures.'
+    },
+    validation_error: {
+        en: 'Please fill in all required fields.',
+        fr: 'Veuillez remplir tous les champs obligatoires.'
+    },
+    email_error: {
+        en: 'Please enter a valid email address.',
+        fr: 'Veuillez entrer une adresse email valide.'
+    },
+    generic_error: {
+        en: 'Something went wrong. Please try again.',
+        fr: 'Quelque chose a mal tourné. Veuillez réessayer.'
+    }
+};
+
+/**
+ * Updates the page's title and meta description based on the selected language.
+ * @param {string} lang - The selected language ('fr' or 'en').
+ */
+function updateSEOForLanguage(lang) {
+    const langSeo = landingPageSEO[lang];
+    if (!langSeo) return;
+
+    const titleTag = document.querySelector('title');
+    const descriptionTag = document.querySelector('meta[name="description"]');
+    const keywordsTag = document.querySelector('meta[name="keywords"]');
+
+    if (titleTag) titleTag.textContent = langSeo.title;
+    if (descriptionTag) descriptionTag.setAttribute('content', langSeo.description);
+    if (keywordsTag) keywordsTag.setAttribute('content', langSeo.keywords);
+    
+    // Update HTML lang attribute
+    document.documentElement.setAttribute('lang', lang);
+}
+
+/**
+ * Switches the website's language.
+ * @param {string} lang The target language ('en' or 'fr').
+ */
+function switchLanguage(lang) {
+    if (!['en', 'fr'].includes(lang)) return;
+
+    // Update body attribute (triggers CSS changes)
+    document.body.setAttribute('data-current-lang', lang);
+
+    // Update button active states
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.langBtn === lang);
+    });
+
+    // Update SEO meta tags
+    updateSEOForLanguage(lang);
+    
+    // Save preference to localStorage
+    SafeStorage.setItem('preferred-language', lang);
+
+    // Update form placeholders based on language
+    updateFormPlaceholders(lang);
+    
+    // Update island label if form is visible
+    updateIslandLabelForLanguage(lang);
+
+    // Track language switch with analytics
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'language_switch', {
+            'event_category': 'User Interaction',
+            'event_label': lang,
+            'value': lang === 'fr' ? 1 : 0
+        });
+    }
+    
+    // Dispatch custom event for other components
+    document.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
+}
+
+/**
+ * Updates form placeholders based on current language
+ * @param {string} lang - The selected language ('fr' or 'en').
+ */
+function updateFormPlaceholders(lang) {
+    const placeholders = {
+        en: {
+            name: 'Enter your full name',
+            email: 'Enter your email',
+            whatsapp: 'e.g., +1234567890 or +689 XX XX XX XX',
+            company: 'Your tour company name',
+            contact: 'Your full name',
+            business_email: 'business@yourcompany.com',
+            whatsapp_business: 'Any international format'
+        },
+        fr: {
+            name: 'Entrez votre nom complet',
+            email: 'Entrez votre email',
+            whatsapp: 'ex. +1234567890 ou +689 XX XX XX XX',
+            company: 'Nom de votre entreprise de tours',
+            contact: 'Votre nom complet',
+            business_email: 'entreprise@votrecompagnie.com',
+            whatsapp_business: 'Tout format international'
+        }
+    };
+
+    const currentPlaceholders = placeholders[lang];
+    
+    // Update tourist form placeholders
+    const touristNameInput = document.getElementById('tourist-name');
+    const touristEmailInput = document.getElementById('tourist-email');
+    const whatsappInput = document.querySelector('input[name="whatsapp_number"]');
+    
+    if (touristNameInput) touristNameInput.placeholder = currentPlaceholders.name;
+    if (touristEmailInput) touristEmailInput.placeholder = currentPlaceholders.email;
+    if (whatsappInput) whatsappInput.placeholder = currentPlaceholders.whatsapp;
+    
+    // Update operator form placeholders
+    const companyInput = document.getElementById('company-name');
+    const contactInput = document.getElementById('contact-person');
+    const businessEmailInput = document.getElementById('operator-email');
+    const businessWhatsappInput = document.getElementById('operator-whatsapp');
+    
+    if (companyInput) companyInput.placeholder = currentPlaceholders.company;
+    if (contactInput) contactInput.placeholder = currentPlaceholders.contact;
+    if (businessEmailInput) businessEmailInput.placeholder = currentPlaceholders.business_email;
+    if (businessWhatsappInput) businessWhatsappInput.placeholder = currentPlaceholders.whatsapp_business;
+}
+
+/**
+ * Updates island label based on user type and language
+ * @param {string} lang - The selected language ('fr' or 'en').
+ */
+function updateIslandLabelForLanguage(lang) {
+    const form = document.getElementById('tourist-form');
+    if (!form) return;
+    
+    const checkedInput = form.querySelector('input[name="user_type"]:checked');
+    if (!checkedInput) return;
+    
+    const islandLabel = form.querySelector('.island-question');
+    if (!islandLabel) return;
+    
+    const islandLabelEn = islandLabel.querySelector('[data-lang="en"]');
+    const islandLabelFr = islandLabel.querySelector('[data-lang="fr"]');
+    
+    if (lang === 'en' && islandLabelEn) {
+        islandLabelEn.textContent = checkedInput.value === 'local' 
+            ? 'Which island do you live on? *'
+            : 'Which island will you visit first? *';
+    } else if (lang === 'fr' && islandLabelFr) {
+        islandLabelFr.textContent = checkedInput.value === 'local' 
+            ? 'Sur quelle île vivez-vous ? *'
+            : 'Quelle île visiterez-vous en premier ? *';
+    }
+}
+
+/**
+ * Shows a message to the user in the current language
+ * @param {string} messageKey - Key from messages object
+ * @param {string} type - Type of message ('success', 'error', 'info')
+ */
+function showLocalizedMessage(messageKey, type = 'info') {
+    const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+    const message = messages[messageKey] && messages[messageKey][currentLang] 
+        ? messages[messageKey][currentLang] 
+        : messages[messageKey] && messages[messageKey]['en'] 
+        ? messages[messageKey]['en'] 
+        : 'Message not found';
+    
+    showMessage(message, type);
+}
+
+// Enhanced form submission handlers with language support
+function handleTouristSubmissionWithLanguage(e) {
+    e.preventDefault();
+    const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+    
+    try {
+        // Get form data
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Validate required fields
+        if (!data.email || !data.name) {
+            showLocalizedMessage('validation_error', 'error');
+            return;
+        }
+        
+        // Validate email format
+        if (!isValidEmail(data.email)) {
+            showLocalizedMessage('email_error', 'error');
+            return;
+        }
+        
+        // Get QR attribution data
+        let attributionData = {};
+        try {
+            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
+        } catch (e) {
+            console.warn('Could not parse attribution data:', e);
+        }
+        
+        // Add language and attribution to registration data
+        const registrationData = {
+            ...data,
+            interface_language: currentLang,
+            registration_source: attributionData.source || 'direct',
+            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
+            utm_source: attributionData.utm_source,
+            utm_medium: attributionData.utm_medium,
+            utm_campaign: attributionData.utm_campaign,
+            utm_content: attributionData.utm_content,
+            qr_session_id: attributionData.session_id,
+            referrer_url: attributionData.referrer || document.referrer,
+            landing_page: window.location.href,
+            registration_timestamp: new Date().toISOString()
+        };
+        
+        console.log('Tourist Registration with Language & Attribution:', registrationData);
+        
+        // TODO: Send to your Supabase backend here
+        // Example: await supabase.from('tourist_users').insert([registrationData])
+        
+        // Enhanced Analytics Tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'tourist_registration_complete', {
+                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
+                source: attributionData.source || attributionData.utm_source || 'direct',
+                medium: attributionData.medium || attributionData.utm_medium || 'organic',
+                location: attributionData.location || attributionData.utm_content,
+                session_id: attributionData.session_id,
+                interface_language: currentLang,
+                event_category: 'Conversion',
+                event_label: 'Tourist Registration',
+                value: 1
+            });
+        }
+        
+        // Show success message
+        showLocalizedMessage('tourist_success', 'success');
+        
+        // Reset form
+        e.target.reset();
+        
+        // Clear attribution data
+        sessionStorage.removeItem('vai_attribution');
+        
+    } catch (error) {
+        console.error('Tourist form submission error:', error);
+        showLocalizedMessage('generic_error', 'error');
+    }
+}
+
+function handleOperatorSubmissionWithLanguage(e) {
+    e.preventDefault();
+    const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+    
+    try {
+        // Get form data
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Validate required fields
+        if (!data.company_name || !data.email || !data.contact_person) {
+            showLocalizedMessage('validation_error', 'error');
+            return;
+        }
+        
+        // Validate email format
+        if (!isValidEmail(data.email)) {
+            showLocalizedMessage('email_error', 'error');
+            return;
+        }
+        
+        // Get QR attribution data
+        let attributionData = {};
+        try {
+            attributionData = JSON.parse(sessionStorage.getItem('vai_attribution') || '{}');
+        } catch (e) {
+            console.warn('Could not parse attribution data:', e);
+        }
+        
+        // Add language and attribution to registration data
+        const registrationData = {
+            ...data,
+            interface_language: currentLang,
+            registration_source: attributionData.source || 'direct',
+            marketing_campaign: attributionData.campaign || attributionData.utm_campaign,
+            utm_source: attributionData.utm_source,
+            utm_medium: attributionData.utm_medium,
+            utm_campaign: attributionData.utm_campaign,
+            utm_content: attributionData.utm_content,
+            qr_session_id: attributionData.session_id,
+            referrer_url: attributionData.referrer || document.referrer,
+            landing_page: window.location.href,
+            registration_timestamp: new Date().toISOString(),
+            user_type: 'operator'
+        };
+        
+        console.log('Operator Registration with Language & Attribution:', registrationData);
+        
+        // TODO: Send to your Supabase backend here
+        // Example: await supabase.from('operators').insert([registrationData])
+        
+        // Enhanced Analytics Tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'operator_registration_complete', {
+                campaign_name: attributionData.campaign || attributionData.utm_campaign || 'direct',
+                source: attributionData.source || attributionData.utm_source || 'direct',
+                medium: attributionData.medium || attributionData.utm_medium || 'organic',
+                location: attributionData.location || attributionData.utm_content,
+                session_id: attributionData.session_id,
+                interface_language: currentLang,
+                event_category: 'Conversion',
+                event_label: 'Operator Registration',
+                value: 10
+            });
+        }
+        
+        // Show success message
+        showLocalizedMessage('operator_success', 'success');
+        
+        // Reset form
+        e.target.reset();
+        
+        // Hide operator form
+        const operatorOverlay = document.getElementById('operator-form-overlay');
+        if (operatorOverlay) {
+            operatorOverlay.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Clear attribution data
+        sessionStorage.removeItem('vai_attribution');
+        
+    } catch (error) {
+        console.error('Operator form submission error:', error);
+        showLocalizedMessage('generic_error', 'error');
+    }
+}
+
+// Initialize language system
+function initLanguageSystem() {
+    // Apply saved language preference
+    const savedLang = SafeStorage.getItem('preferred-language');
+    if (savedLang && savedLang !== document.body.getAttribute('data-current-lang')) {
+        switchLanguage(savedLang);
+    }
+    
+    // Update placeholders for current language
+    const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+    updateFormPlaceholders(currentLang);
+    
+    // Initialize form handlers with language support
+    const touristForm = document.getElementById('tourist-form');
+    if (touristForm) {
+        // Remove existing handler and add new one
+        touristForm.removeEventListener('submit', handleTouristSubmission);
+        touristForm.addEventListener('submit', handleTouristSubmissionWithLanguage);
+    }
+
+    const operatorForm = document.getElementById('operator-form');
+    if (operatorForm) {
+        // Remove existing handler and add new one
+        operatorForm.removeEventListener('submit', handleOperatorSubmission);
+        operatorForm.addEventListener('submit', handleOperatorSubmissionWithLanguage);
+    }
+}
+
+// Make switchLanguage function globally available
+window.switchLanguage = switchLanguage;
+
+// Initialize language system when DOM is loaded
+document.addEventListener('DOMContentLoaded', initLanguageSystem);
+
+/* ============================================================================
+   UPDATE EXISTING FUNCTIONS TO SUPPORT LANGUAGE SWITCHING
+   ============================================================================ */
+
+// Updated FAQ toggle to work with bilingual content
+function toggleFAQBilingual(element) {
+    try {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('span:last-child');
+        
+        if (!answer || !icon) return;
+        
+        if (answer.classList.contains('active')) {
+            answer.classList.remove('active');
+            icon.textContent = '+';
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer.active').forEach(faq => {
+                faq.classList.remove('active');
+                const prevIcon = faq.previousElementSibling?.querySelector('span:last-child');
+                if (prevIcon) {
+                    prevIcon.textContent = '+';
+                    prevIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+            
+            // Open this FAQ
+            answer.classList.add('active');
+            icon.textContent = '−';
+            icon.style.transform = 'rotate(180deg)';
+        }
+    } catch (error) {
+        console.warn('FAQ toggle error:', error);
+    }
+}
+
+// Replace the original toggleFAQ function
+window.toggleFAQ = toggleFAQBilingual;
+
+// Enhanced countdown with language support
+function updateCountdownWithLanguage() {
+    const countdownElement = document.getElementById('countdown');
+    if (!countdownElement) return;
+
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+
+    if (!daysElement || !hoursElement || !minutesElement) return;
+
+    try {
+        const launchDate = new Date('July 14, 2025 00:00:00').getTime();
+        const now = new Date().getTime();
+        const distance = launchDate - now;
+
+        if (distance < 0) {
+            // Launch date has passed - show in current language
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const liveText = currentLang === 'en' ? 'LIVE' : 'EN DIRECT';
+            const nowText = currentLang === 'en' ? 'NOW' : 'MAINTENANT';
+            
+            countdownElement.innerHTML = `<div class="countdown-item"><span class="countdown-number">${liveText}</span><span class="countdown-label">${nowText}</span></div>`;
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+        daysElement.textContent = days.toString().padStart(2, '0');
+        hoursElement.textContent = hours.toString().padStart(2, '0');
+        minutesElement.textContent = minutes.toString().padStart(2, '0');
+    } catch (error) {
+        console.warn('Countdown update error:', error);
+    }
+}
+
+// Override the original countdown function
+document.addEventListener('DOMContentLoaded', function() {
+    // Remove existing countdown interval if it exists
+    if (window.countdownInterval) {
+        clearInterval(window.countdownInterval);
+    }
+    
+    // Start new countdown with language support
+    updateCountdownWithLanguage();
+    window.countdownInterval = setInterval(updateCountdownWithLanguage, 60000);
+});
+
+// Listen for language changes to update countdown labels
+document.addEventListener('languageChanged', function() {
+    updateCountdownWithLanguage();
+});
+
+/* ============================================================================
+   EXPOSE FUNCTIONS FOR DEBUGGING
+   ============================================================================ */
+
+// For debugging purposes
+window.VAI_LANGUAGE_DEBUG = {
+    switchLanguage,
+    updateSEOForLanguage,
+    updateFormPlaceholders,
+    showLocalizedMessage,
+    SafeStorage,
+    messages,
+    landingPageSEO
+};

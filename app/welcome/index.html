@@ -1,5 +1,3 @@
-<!-- app/welcome/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,33 +63,49 @@
     }
     </script>
 </head>
-<body>
+<body data-current-lang="en">
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang-btn="en" onclick="switchLanguage('en')" title="English" aria-label="Switch to English">🇺🇸</button>
+        <button class="lang-btn" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français" aria-label="Passer au français">🇫🇷</button>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo">
-                    <!-- LOGO PLACEHOLDER: SVG logo or text -->
+                <a href="#tourist-form" class="logo">
                     <img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="VAI Logo" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
                 </a>
-                <div class="launch-date">Launches July 14th, 2025</div>
+                    <a href="#tourist-form" class="launch-date launch-date-clickable" title="Click to register now!">
+                        <span data-lang="en">Launches July 14th, 2025</span>
+                        <span data-lang="fr">Lancement le 14 juillet 2025</span>
+                </a>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <!-- HERO BACKGROUND PLACEHOLDER: Frustrated tourist on pristine beach with phone -->
         <div class="hero-background">
             <img src="/via-studio-images/landingpage/Background Header 2.jpg" alt="Tourist in French Polynesia looking at phone" class="hero-bg-image">
         </div>
         <div class="container">
             <div class="hero-content">
-                <h1 class="fade-in">You Paid a Fortune to Reach Paradise...</h1>
-                <h2 class="fade-in">... but Paradise is Locked Away</h2>
-                <p class="fade-in">The authentic French Polynesia experiences is hidden behind language barriers, tourist traps, and outdated booking systems. <strong>Until now.</strong></p>
+                <h1 class="fade-in">
+                    <span data-lang="en">You Paid a Fortune to Reach Paradise...</span>
+                    <span data-lang="fr">Vous avez payé une fortune pour atteindre le Paradis...</span>
+                </h1>
+                <h2 class="fade-in">
+                    <span data-lang="en">... but Paradise is Locked Away</span>
+                    <span data-lang="fr">... mais le Paradis est verrouillé</span>
+                </h2>
+                <p class="fade-in">
+                    <span data-lang="en">The authentic French Polynesia experiences is hidden behind language barriers, tourist traps, and outdated booking systems. <strong>Until now.</strong></span>
+                    <span data-lang="fr">Les expériences authentiques de Polynésie française sont cachées derrière des barrières linguistiques, des pièges à touristes et des systèmes de réservation obsolètes. <strong>Jusqu'à maintenant.</strong></span>
+                </p>
                 
-                <!-- HERO VISUAL PLACEHOLDER: Split image showing contrast -->
                 <div class="hero-visual fade-in">
                     <img src="/via-studio-images/landingpage/Looked Beach w Elements - No Access.jpg" alt="Paradise locked vs unlocked comparison" class="hero-visual-image">
                 </div>
@@ -102,70 +116,104 @@
     <!-- Problem Section -->
     <section class="problems">
         <div class="container">
-            <h2 class="section-title fade-in">The Paradise Paradox</h2>
+            <h2 class="section-title fade-in">
+                <span data-lang="en">The Paradise Paradox</span>
+                <span data-lang="fr">Le Paradoxe du Paradis</span>
+            </h2>
             <p class="fade-in" style="text-align: center; font-size: 20px; margin-bottom: 50px; opacity: 0.9;">
-                You're standing in the most beautiful place on Earth. You've spent thousands just to get here. Perfect weather, limited time, endless possibilities...<br><br><strong>And you have no idea how to access them.</strong>
+                <span data-lang="en">You're standing in the most beautiful place on Earth. You've spent thousands just to get here. Perfect weather, limited time, endless possibilities...<br><br><strong>And you have no idea how to access them.</strong></span>
+                <span data-lang="fr">Vous vous trouvez dans le plus bel endroit de la planète. Vous avez dépensé des milliers juste pour arriver ici. Temps parfait, temps limité, possibilités infinies...<br><br><strong>Et vous n'avez aucune idée comment y accéder.</strong></span>
             </p>
             
             <div class="problem-grid">
                 <div class="problem-card fade-in">
-                    <!-- ICON PLACEHOLDER: Hotel/concierge icon -->
                     <div class="problem-icon">
                         <img src="[HOTEL_ICON_URL]" alt="Hotel concierge icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">❔</span>
                     </div>
-                    <h3 class="problem-title">The Information Desert</h3>
-                    <p class="problem-text">Trip Advisor, Viator & Co. show you 5 expensive tourist traps. Meanwhile, 45 authentic local operators offer incredible experiences you'll never discover.</p>
+                    <h3 class="problem-title">
+                        <span data-lang="en">The Information Desert</span>
+                        <span data-lang="fr">Le Désert d'Information</span>
+                    </h3>
+                    <p class="problem-text">
+                        <span data-lang="en">Trip Advisor, Viator & Co. show you 5 expensive tourist traps. Meanwhile, 45 authentic local operators offer incredible experiences you'll never discover.</span>
+                        <span data-lang="fr">Trip Advisor, Viator & Co. vous montrent 5 pièges à touristes coûteux. Pendant ce temps, 45 opérateurs locaux authentiques offrent des expériences incroyables que vous ne découvrirez jamais.</span>
+                    </p>
                 </div>
                 
                 <div class="problem-card fade-in">
-                    <!-- ICON PLACEHOLDER: Lightning/urgency icon -->
                     <div class="problem-icon">
                         <img src="[URGENCY_ICON_URL]" alt="Urgency lightning icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">⚡</span>
                     </div>
-                    <h3 class="problem-title">The Spontaneous Barrier</h3>
-                    <p class="problem-text">Perfect conditions appear. You think "I want to DO something amazing RIGHT NOW!" But traditional booking means research, phone calls, language barriers. The moment passes. Forever.</p>
+                    <h3 class="problem-title">
+                        <span data-lang="en">The Spontaneous Barrier</span>
+                        <span data-lang="fr">La Barrière Spontanée</span>
+                    </h3>
+                    <p class="problem-text">
+                        <span data-lang="en">Perfect conditions appear. You think "I want to DO something amazing RIGHT NOW!" But traditional booking means research, phone calls, language barriers. The moment passes. Forever.</span>
+                        <span data-lang="fr">Les conditions parfaites apparaissent. Vous pensez "Je veux FAIRE quelque chose d'incroyable MAINTENANT!" Mais la réservation traditionnelle signifie recherche, appels téléphoniques, barrières linguistiques. Le moment passe. Pour toujours.</span>
+                    </p>
                 </div>
                 
                 <div class="problem-card fade-in">
-                    <!-- ICON PLACEHOLDER: Cultural/language barrier icon -->
                     <div class="problem-icon">
                         <img src="[CULTURE_ICON_URL]" alt="Cultural barrier icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">🗿</span>
                     </div>
-                    <h3 class="problem-title">The Cultural Wall</h3>
-                    <p class="problem-text">Authentic Polynesian experiences exist everywhere. Hidden behind French/Tahitian language barriers and local networks you can't access.</p>
+                    <h3 class="problem-title">
+                        <span data-lang="en">The Cultural Wall</span>
+                        <span data-lang="fr">Le Mur Culturel</span>
+                    </h3>
+                    <p class="problem-text">
+                        <span data-lang="en">Authentic Polynesian experiences exist everywhere. Hidden behind French/Tahitian language barriers and local networks you can't access.</span>
+                        <span data-lang="fr">Les expériences polynésiennes authentiques existent partout. Cachées derrière les barrières linguistiques français/tahitien et les réseaux locaux auxquels vous ne pouvez pas accéder.</span>
+                    </p>
                 </div>
                 
                 <div class="problem-card fade-in">
-                    <!-- ICON PLACEHOLDER: Money/pricing icon -->
                     <div class="problem-icon">
                         <img src="[PRICING_ICON_URL]" alt="Pricing trap icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">💰</span>
                     </div>
-                    <h3 class="problem-title">The Pricing Trap</h3>
-                    <p class="problem-text">Did you pay a fair price? Have you been fooled by jumping on the best offer? You'll never know the difference.</p>
+                    <h3 class="problem-title">
+                        <span data-lang="en">The Pricing Trap</span>
+                        <span data-lang="fr">Le Piège des Prix</span>
+                    </h3>
+                    <p class="problem-text">
+                        <span data-lang="en">Did you pay a fair price? Have you been fooled by jumping on the best offer? You'll never know the difference.</span>
+                        <span data-lang="fr">Avez-vous payé un prix équitable ? Avez-vous été dupé en sautant sur la meilleure offre ? Vous ne connaîtrez jamais la différence.</span>
+                    </p>
                 </div>
                 
                 <div class="problem-card fade-in">
-                    <!-- ICON PLACEHOLDER: Mobile/technology gap icon -->
                     <div class="problem-icon">
                         <img src="[MOBILE_ICON_URL]" alt="Mobile technology gap icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">📱</span>
                     </div>
-                    <h3 class="problem-title">The Mobile Gap</h3>
-                    <p class="problem-text">You're on a beach with perfect signal, but every booking system was built for desktop. The technology is stuck in 2015.</p>
+                    <h3 class="problem-title">
+                        <span data-lang="en">The Mobile Gap</span>
+                        <span data-lang="fr">L'Écart Mobile</span>
+                    </h3>
+                    <p class="problem-text">
+                        <span data-lang="en">You're on a beach with perfect signal, but every booking system was built for desktop. The technology is stuck in 2015.</span>
+                        <span data-lang="fr">Vous êtes sur une plage avec un signal parfait, mais chaque système de réservation a été conçu pour ordinateur. La technologie est bloquée en 2015.</span>
+                    </p>
                 </div>
             </div>
             
             <div class="emotional-reality fade-in">
-                <!-- EMOTIONAL REALITY VISUAL PLACEHOLDER: Close-up of frustrated tourist -->
                 <div class="emotional-visual">
                     <img src="/via-studio-images/landingpage/Looked Out Door from Paradise.png" alt="Frustrated tourist in paradise" class="emotional-image">
                 </div>
-                <h3>Standing in Paradise, but being Locked Out?</h3>
-                <p>This isn't just sad. It's <strong>heartbreaking</strong> 💔<br><br>You saved for years to reach French Polynesia. You have a few precious days. The lagoon is crystal clear. The weather is perfect. You feel adventurous.<br><br><strong>And you can't figure out how to turn that feeling into an amazing experience.</strong></p>
+                <h3>
+                    <span data-lang="en">Standing in Paradise, but being Locked Out?</span>
+                    <span data-lang="fr">Debout au Paradis, mais être exclu ?</span>
+                </h3>
+                <p>
+                    <span data-lang="en">This isn't just sad. It's <strong>heartbreaking</strong> 💔<br><br>You saved for years to reach French Polynesia. You have a few precious days. The lagoon is crystal clear. The weather is perfect. You feel adventurous.<br><br><strong>And you can't figure out how to turn that feeling into an amazing experience.</strong></span>
+                    <span data-lang="fr">Ce n'est pas seulement triste. C'est <strong>déchirant</strong> 💔<br><br>Vous avez économisé pendant des années pour atteindre la Polynésie française. Vous avez quelques jours précieux. Le lagon est cristallin. Le temps est parfait. Vous vous sentez aventureux.<br><br><strong>Et vous ne pouvez pas comprendre comment transformer ce sentiment en une expérience incroyable.</strong></span>
+                </p>
             </div>
         </div>
     </section>
@@ -174,64 +222,97 @@
     <section class="solution">
         <div class="container">
             <div class="solution-header fade-in">
-                <!-- SOLUTION HERO VISUAL PLACEHOLDER: Phone showing VAI app transformation -->
                 <div class="solution-visual">
                     <img src="/via-studio-images/landingpage/VAI Phone - PNG Unlock Paradise.png" alt="VAI app transforming travel experience" class="solution-hero-image">
                 </div>
-                <h2>Introducing VAI</h2>
-                <h3>French Polynesia's Unlocking App</h3>
-                <p class="solution-subtitle"><strong>One App. Every Island. Instant Access.</strong><br><br>Finally: The authentic French Polynesia experiences you came for, accessible in seconds, not hours.</p>
+                <h2>
+                    <span data-lang="en">Introducing VAI</span>
+                    <span data-lang="fr">Mā'eva à VAI</span>
+                </h2>
+                <h3>
+                    <span data-lang="en">French Polynesia's Unlocking App</span>
+                    <span data-lang="fr">L'App qui Déverrouille la Polynésie</span>
+                </h3>
+                <p class="solution-subtitle">
+                    <span data-lang="en"><strong>One App. Every Island. Instant Access.</strong><br><br>Finally: The authentic French Polynesia experiences you came for, accessible in seconds, not hours.</span>
+                    <span data-lang="fr"><strong>Une App. Chaque Île. Accès Instantané.</strong><br><br>Enfin : Les expériences authentiques de Polynésie française pour lesquelles vous êtes venus, accessibles en secondes, pas en heures.</span>
+                </p>
             </div>
             
             <div class="features-grid">
                 <div class="feature-card fade-in">
-                    <!-- FEATURE ICON PLACEHOLDER: Mood/discovery icon -->
                     <div class="feature-icon">
                         <img src="[MOOD_ICON_URL]" alt="Mood-powered discovery icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">🎯</span>
                     </div>
-                    <h4 class="feature-title">Mood-Powered Discovery</h4>
-                    <p>Feeling adventurous? Tap "Adventure." Want to relax? Tap "Chill." Get instant access to experiences that match your energy, available TODAY.</p>
+                    <h4 class="feature-title">
+                        <span data-lang="en">Mood-Powered Discovery</span>
+                        <span data-lang="fr">Découverte par l'Humeur</span>
+                    </h4>
+                    <p>
+                        <span data-lang="en">Feeling adventurous? Tap "Adventure." Want to relax? Tap "Chill." Get instant access to experiences that match your energy, available TODAY.</span>
+                        <span data-lang="fr">Envie d'aventure ? Tapez "Aventure". Besoin de détente ? Tapez "Zen". Accès instantané aux expériences qui correspondent à votre énergie, disponibles AUJOURD'HUI.</span>
+                    </p>
                 </div>
                 
                 <div class="feature-card fade-in">
-                    <!-- FEATURE ICON PLACEHOLDER: Real-time/availability icon -->
                     <div class="feature-icon">
                         <img src="[REALTIME_ICON_URL]" alt="Real-time availability icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">⚡</span>
                     </div>
-                    <h4 class="feature-title">Real-Time Availability</h4>
-                    <p>See what's actually available right now across all islands. No more calling around or wondering if spots exist.</p>
+                    <h4 class="feature-title">
+                        <span data-lang="en">Real-Time Availability</span>
+                        <span data-lang="fr">Disponibilité Temps Réel</span>
+                    </h4>
+                    <p>
+                        <span data-lang="en">See what's actually available right now across all islands. No more calling around or wondering if spots exist.</span>
+                        <span data-lang="fr">Voyez ce qui est réellement disponible maintenant sur toutes les îles. Plus besoin d'appeler partout ou de se demander si des places existent.</span>
+                    </p>
                 </div>
                 
                 <div class="feature-card fade-in">
-                    <!-- FEATURE ICON PLACEHOLDER: Authentic/local operator icon -->
                     <div class="feature-icon">
                         <img src="[AUTHENTIC_ICON_URL]" alt="Authentic local operators icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">🌺</span>
                     </div>
-                    <h4 class="feature-title">Authentic Local Operators</h4>
-                    <p>Direct access to 50+ certified Polynesian operators. Skip tourist traps. Experience real French Polynesia.</p>
+                    <h4 class="feature-title">
+                        <span data-lang="en">Authentic Local Operators</span>
+                        <span data-lang="fr">Opérateurs Locaux Authentiques</span>
+                    </h4>
+                    <p>
+                        <span data-lang="en">Direct access to 50+ certified Polynesian operators. Skip tourist traps. Experience real French Polynesia.</span>
+                        <span data-lang="fr">Accès direct à plus de 50 opérateurs polynésiens certifiés. Évitez les pièges à touristes. Vivez la vraie Polynésie française.</span>
+                    </p>
                 </div>
                 
                 <div class="feature-card fade-in">
-                    <!-- FEATURE ICON PLACEHOLDER: Transparent pricing icon -->
                     <div class="feature-icon">
                         <img src="[TRANSPARENT_ICON_URL]" alt="Transparent pricing icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">💰</span>
                     </div>
-                    <h4 class="feature-title">Transparent Pricing</h4>
-                    <p>See exactly what locals pay. Save 20-50% on authentic experiences with clear, upfront pricing.</p>
+                    <h4 class="feature-title">
+                        <span data-lang="en">Transparent Pricing</span>
+                        <span data-lang="fr">Prix Transparents</span>
+                    </h4>
+                    <p>
+                        <span data-lang="en">See exactly what locals pay. Save 20-50% on authentic experiences with clear, upfront pricing.</span>
+                        <span data-lang="fr">Voyez exactement ce que payent les locaux. Économisez 20-50% sur les expériences authentiques avec des prix clairs et transparents.</span>
+                    </p>
                 </div>
                 
                 <div class="feature-card fade-in">
-                    <!-- FEATURE ICON PLACEHOLDER: Language bridge icon -->
                     <div class="feature-icon">
                         <img src="[LANGUAGE_ICON_URL]" alt="Language bridge icon" class="icon-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="icon-fallback">🗣️</span>
                     </div>
-                    <h4 class="feature-title">Language Bridge</h4>
-                    <p>Visual categories, English and French interface, local operator support. No more language barriers.</p>
+                    <h4 class="feature-title">
+                        <span data-lang="en">Language Bridge</span>
+                        <span data-lang="fr">Pont Linguistique</span>
+                    </h4>
+                    <p>
+                        <span data-lang="en">Visual categories, English and French interface, local operator support. No more language barriers.</span>
+                        <span data-lang="fr">Catégories visuelles, interface anglaise et française, support des opérateurs locaux. Plus de barrières linguistiques.</span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -240,9 +321,11 @@
     <!-- Social Proof -->
     <section class="social-proof">
         <div class="container">
-            <h2 class="section-title fade-in">The Numbers Don't Lie</h2>
+            <h2 class="section-title fade-in">
+                <span data-lang="en">The Numbers Don't Lie</span>
+                <span data-lang="fr">Les Chiffres Ne Mentent Pas</span>
+            </h2>
             
-            <!-- STATISTICS VISUAL PLACEHOLDER: Infographic-style stats -->
             <div class="stats-visual fade-in">
                 <img src="/via-studio-images/landingpage/Tiki and Polynesia Flag.jpg" alt="French Polynesia tourism statistics" class="stats-image">
             </div>
@@ -250,33 +333,53 @@
             <div class="stats-grid">
                 <div class="stat-card fade-in">
                     <span class="stat-number">25-30%</span>
-                    <span class="stat-text">Of tours get cancelled daily (that's your opportunity)</span>
+                    <span class="stat-text">
+                        <span data-lang="en">Of tours get cancelled daily (that's your opportunity)</span>
+                        <span data-lang="fr">Des tours sont annulés quotidiennement (c'est votre opportunité)</span>
+                    </span>
                 </div>
                 
                 <div class="stat-card fade-in">
                     <span class="stat-number">80%</span>
-                    <span class="stat-text">Of authentic local experiences remain undiscovered by tourists</span>
+                    <span class="stat-text">
+                        <span data-lang="en">Of authentic local experiences remain undiscovered by tourists</span>
+                        <span data-lang="fr">Des expériences locales authentiques restent inconnues des touristes</span>
+                    </span>
                 </div>
                 
                 <div class="stat-card fade-in">
                     <span class="stat-number">30%</span>
-                    <span class="stat-text">Average savings vs. Trip Advisor pricing</span>
+                    <span class="stat-text">
+                        <span data-lang="en">Average savings vs. Trip Advisor pricing</span>
+                        <span data-lang="fr">Économies moyennes par rapport aux prix Trip Advisor</span>
+                    </span>
                 </div>
                 
                 <div class="stat-card fade-in">
                     <span class="stat-number">90%</span>
-                    <span class="stat-text">Of tourists use mobile while in French Polynesia</span>
+                    <span class="stat-text">
+                        <span data-lang="en">Of tourists use mobile while in French Polynesia</span>
+                        <span data-lang="fr">Des touristes utilisent le mobile en Polynésie française</span>
+                    </span>
                 </div>
             </div>
             
             <div class="testimonial fade-in">
-                <!-- TESTIMONIAL VISUAL PLACEHOLDER: Happy tourist with pearl farm background -->
                 <div class="testimonial-visual">
                     <img src="/via-studio-images/landingpage/Tourist happy with VAI Coco.jpg" alt="Happy tourist at pearl farm experience" class="testimonial-image">
                 </div>
-                <h4>This Could Be You</h4>
-                <p class="testimonial-text">"I discovered a traditional pearl farm ceremony that nobody ever mentioned. Saved 200€ and had the most authentic experience of my entire trip."</p>
-                <p class="testimonial-note">Soon, stories like this will be told by VAI explorers.</p>
+                <h4>
+                    <span data-lang="en">This Could Be You</span>
+                    <span data-lang="fr">Cela Pourrait Être Vous</span>
+                </h4>
+                <p class="testimonial-text">
+                    <span data-lang="en">"I discovered a traditional pearl farm ceremony that nobody ever mentioned. Saved 200€ and had the most authentic experience of my entire trip."</span>
+                    <span data-lang="fr">"J'ai découvert une cérémonie traditionnelle de ferme perlière que personne n'avait jamais mentionnée. J'ai économisé 200€ et j'ai eu l'expérience la plus authentique de tout mon voyage."</span>
+                </p>
+                <p class="testimonial-note">
+                    <span data-lang="en">Soon, stories like this will be told by VAI explorers.</span>
+                    <span data-lang="fr">Bientôt, des histoires comme celle-ci seront racontées par les explorateurs VAI.</span>
+                </p>
             </div>
         </div>
     </section>
@@ -284,34 +387,53 @@
     <!-- Urgency Section -->
     <section class="urgency">
         <div class="container">
-            <h2 class="section-title fade-in">Time until Launch 🚀</h2>
+            <h2 class="section-title fade-in">
+                <span data-lang="en">Time until Launch 🚀</span>
+                <span data-lang="fr">Temps avant le Lancement 🚀</span>
+            </h2>
             
             <div class="countdown-container fade-in">
-                <!-- COUNTDOWN VISUAL PLACEHOLDER: Launch countdown graphic -->
                 <div class="countdown-visual">
-                    <img src="/via-studio-images/landingpage/Flower and Leafs Background.png" alt="VAI launch countdown" class="countdown-bg-image">
+                    <img src="/via-studio-images/landingpage/Background Header 1.jpg" alt="VAI launch countdown" class="countdown-bg-image">
                 </div>
                 <div class="countdown" id="countdown">
                     <div class="countdown-item">
                         <span class="countdown-number" id="days">00</span>
-                        <span class="countdown-label">Days</span>
+                        <span class="countdown-label">
+                            <span data-lang="en">Days</span>
+                            <span data-lang="fr">Jours</span>
+                        </span>
                     </div>
                     <div class="countdown-item">
                         <span class="countdown-number" id="hours">00</span>
-                        <span class="countdown-label">Hours</span>
+                        <span class="countdown-label">
+                            <span data-lang="en">Hours</span>
+                            <span data-lang="fr">Heures</span>
+                        </span>
                     </div>
                     <div class="countdown-item">
                         <span class="countdown-number" id="minutes">00</span>
-                        <span class="countdown-label">Minutes</span>
+                        <span class="countdown-label">
+                            <span data-lang="en">Minutes</span>
+                            <span data-lang="fr">Minutes</span>
+                        </span>
                     </div>
                 </div>
-                <!--<p style="font-size: 18px; font-weight: 600; color: var(--vai-coral);">... until VAI Launches</p>-->
             </div>
             
             <div class="fade-in" style="max-width: 600px; margin: 0 auto;">
-                <p style="font-size: 18px; margin-bottom: 20px;"><strong>The revolution starts soon.</strong></p>
-                <p style="font-size: 16px; opacity: 0.9;"><strong>Right now</strong>, we're onboarding the final authentic operators, testing with local Polynesian guides, and preparing exclusive launch experiences.</p>
-                <p style="font-size: 16px; opacity: 0.9; margin-top: 20px;"><strong>Every day you wait to register</strong>, you risk missing the moment paradise becomes accessible.</p>
+                <p style="font-size: 18px; margin-bottom: 20px;">
+                    <span data-lang="en"><strong>The revolution starts soon.</strong></span>
+                    <span data-lang="fr"><strong>La révolution commence bientôt.</strong></span>
+                </p>
+                <p style="font-size: 16px; opacity: 0.9;">
+                    <span data-lang="en"><strong>Right now</strong>, we're onboarding the final authentic operators, testing with local Polynesian guides, and preparing exclusive launch experiences.</span>
+                    <span data-lang="fr"><strong>En ce moment</strong>, nous intégrons les derniers opérateurs authentiques, testons avec des guides polynésiens locaux et préparons des expériences de lancement exclusives.</span>
+                </p>
+                <p style="font-size: 16px; opacity: 0.9; margin-top: 20px;">
+                    <span data-lang="en"><strong>Every day you wait to register</strong>, you risk missing the moment paradise becomes accessible.</span>
+                    <span data-lang="fr"><strong>Chaque jour que vous attendez pour vous inscrire</strong>, vous risquez de manquer le moment où le paradis devient accessible.</span>
+                </p>
             </div>
         </div>
     </section>
@@ -319,50 +441,76 @@
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
-            <h2 class="section-title fade-in">Don't Miss the Paradise Revolution</h2>
-            <!--<h3 class="fade-in" style="font-size: 32px; margin-bottom: 20px; color: var(--vai-coral);">VAI Launches July 14th, 2025</h3>-->
+            <h2 class="section-title fade-in">
+                <span data-lang="en">Don't Miss the Paradise Revolution</span>
+                <span data-lang="fr">Ne Manquez Pas la Révolution du Paradis</span>
+            </h2>
             
             <div class="cta-grid">
                 <div class="cta-card fade-in">
-                    <h4 style="font-size: 24px; margin-bottom: 30px; color: var(--vai-sand);">📱 Be Among the First</h4>
-                    <!-- QR CODE PLACEHOLDER: Actual QR code for registration -->
+                    <h4 style="font-size: 24px; margin-bottom: 30px; color: var(--vai-sand);">
+                        <span data-lang="en">📱 Be Among the First</span>
+                        <span data-lang="fr">📱 Soyez Parmi les Premiers</span>
+                    </h4>
                     <div class="qr-container">
                         <img src="/via-studio-images/landingpage/Dance Beach Countdown.jpg" alt="Scan to register for VAI launch" class="qr-code" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     </div>
-                    <!--<p style="margin-bottom: 30px;">Scan with your phone camera to register</p> -->
-                    <a href="#tourist-form" class="btn btn-primary">Register for Early Access</a>
+                    <a href="#tourist-form" class="btn btn-primary">
+                        <span data-lang="en">Register Now</span>
+                        <span data-lang="fr">S'inscrire maintenant</span>
+                    </a>
                 </div>
                 
                 <div class="cta-card fade-in">
-                    <!-- BENEFITS VISUAL PLACEHOLDER: Visual representation of early access benefits -->
                     <div class="benefits-visual">
                         <img src="/via-studio-images/landingpage/Tropical Drink Benefits.jpg" alt="Early access benefits visualization" class="benefits-image">
                     </div>
-                    <h4 style="font-size: 24px; margin-bottom: 30px; color: var(--vai-tropical);">🏝️ Why Register Now?</h4>
+                    <h4 style="font-size: 24px; margin-bottom: 30px; color: var(--vai-tropical);">
+                        <span data-lang="en">🏝️ Why Register Now?</span>
+                        <span data-lang="fr">🏝️ Pourquoi S'inscrire Maintenant ?</span>
+                    </h4>
                     <div style="text-align: left; margin-bottom: 30px;">
-                        <p style="margin-bottom: 15px;"><strong>✓ Personalized mail</strong> the moment we launch</p>
-                        <p style="margin-bottom: 15px;"><strong>✓ Priority booking</strong> with premium operators</p>
-                        <p style="margin-bottom: 15px;"><strong>✓ Direct access</strong> to French Polynesia's hidden gems</p>
+                        <p style="margin-bottom: 15px;">
+                            <span data-lang="en"><strong>✓ Personalized mail</strong> the moment we launch</span>
+                            <span data-lang="fr"><strong>✓ Email personnalisé</strong> au moment du lancement</span>
+                        </p>
+                        <p style="margin-bottom: 15px;">
+                            <span data-lang="en"><strong>✓ Priority booking</strong> with premium operators</span>
+                            <span data-lang="fr"><strong>✓ Réservation prioritaire</strong> avec les opérateurs premium</span>
+                        </p>
+                        <p style="margin-bottom: 15px;">
+                            <span data-lang="en"><strong>✓ Direct access</strong> to French Polynesia's hidden gems</span>
+                            <span data-lang="fr"><strong>✓ Accès direct</strong> aux joyaux cachés de la Polynésie française</span>
+                        </p>
                     </div>
-                    <a href="#tourist-form" class="btn btn-secondary">Get Launch Access</a>
+                    <a href="#tourist-form" class="btn btn-secondary">
+                        <span data-lang="en">Get Early Access</span>
+                        <span data-lang="fr">Pré-inscription</span>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ================================ -->
-    <!-- TOURIST/LOCAL REGISTRATION FORM -->
-    <!-- ================================ -->
-
+    <!-- Registration Section -->
     <section class="registration-section">
         <div class="container">
-            <h2 class="section-title">Join the Paradise Revolution</h2>
-            <p class="section-subtitle">Be the first to unlock authentic French Polynesia experiences</p>
+            <h2 class="section-title">
+                <span data-lang="en">Join the Paradise Revolution</span>
+                <span data-lang="fr">Rejoignez la Révolution du Paradis</span>
+            </h2>
+            <p class="section-subtitle">
+                <span data-lang="en">Be the first to unlock authentic French Polynesia experiences</span>
+                <span data-lang="fr">Soyez le premier à débloquer les expériences authentiques de la Polynésie française</span>
+            </p>
             
             <form id="tourist-form" class="registration-form">
                 <!-- Basic Information -->
                 <div class="form-group">
-                    <label for="tourist-name" class="form-label">Your Name *</label>
+                    <label for="tourist-name" class="form-label">
+                        <span data-lang="en">Your Name *</span>
+                        <span data-lang="fr">Votre Nom *</span>
+                    </label>
                     <input 
                         type="text" 
                         id="tourist-name" 
@@ -374,7 +522,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="tourist-email" class="form-label">Email Address *</label>
+                    <label for="tourist-email" class="form-label">
+                        <span data-lang="en">Email Address *</span>
+                        <span data-lang="fr">Adresse Email *</span>
+                    </label>
                     <input 
                         type="email" 
                         id="tourist-email" 
@@ -387,24 +538,35 @@
 
                 <!-- User Type Selection -->
                 <div class="form-group user-type-selection">
-                    <label class="form-label">I am a...</label>
+                    <label class="form-label">
+                        <span data-lang="en">I am a...</span>
+                        <span data-lang="fr">Je suis un...</span>
+                    </label>
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="user_type" value="tourist" checked>
-                            <span>🏝️ Tourist visiting French Polynesia</span>
+                            <span data-lang="en">🏝️ Tourist visiting French Polynesia</span>
+                            <span data-lang="fr">🏝️ Touriste visitant la Polynésie française</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="user_type" value="local">
-                            <span>🏡 Local resident</span>
+                            <span data-lang="en">🏡 Local resident</span>
+                            <span data-lang="fr">🏡 Résident local</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- Island Selection (Initially Hidden - Appears Based on User Type) -->
+                <!-- Island Selection -->
                 <div class="form-group island-selection" id="island-selection" style="display: none;">
-                    <label for="tourist-island" class="form-label island-question">Which island will you visit first? *</label>
+                    <label for="tourist-island" class="form-label island-question">
+                        <span data-lang="en">Which island will you visit first? *</span>
+                        <span data-lang="fr">Quelle île visiterez-vous en premier ? *</span>
+                    </label>
                     <select id="tourist-island" name="island" class="form-input" required>
-                        <option value="">Select an island...</option>
+                        <option value="">
+                            <span data-lang="en">Select an island...</span>
+                            <span data-lang="fr">Sélectionnez une île...</span>
+                        </option>
                         <option value="Tahiti">Tahiti</option>
                         <option value="Moorea">Moorea</option>
                         <option value="Bora Bora">Bora Bora</option>
@@ -423,11 +585,17 @@
                     </select>
                 </div>
 
-                <!-- Primary Language Selection (Changed to Dropdown) -->
+                <!-- Primary Language Selection -->
                 <div class="form-group language-selection">
-                    <label for="tourist-language" class="form-label">Primary Language *</label>
+                    <label for="tourist-language" class="form-label">
+                        <span data-lang="en">Primary Language *</span>
+                        <span data-lang="fr">Langue Principale *</span>
+                    </label>
                     <select id="tourist-language" name="primary_language" class="form-input" required>
-                        <option value="">Select your primary language...</option>
+                        <option value="">
+                            <span data-lang="en">Select your primary language...</span>
+                            <span data-lang="fr">Sélectionnez votre langue principale...</span>
+                        </option>
                         <option value="english">🇺🇸 English</option>
                         <option value="french">🇫🇷 Français</option>
                         <option value="german">🇩🇪 Deutsch</option>
@@ -437,11 +605,12 @@
                     </select>
                 </div>
 
-                <!-- WhatsApp Opt-in (Default Deactivated) -->
+                <!-- WhatsApp Opt-in -->
                 <div class="form-group whatsapp-group">
                     <label class="checkbox-option">
                         <input type="checkbox" name="whatsapp_opt_in" id="whatsapp-checkbox">
-                        <span>📱 Add my WhatsApp for instant booking updates</span>
+                        <span data-lang="en">📱 Add my WhatsApp for instant booking updates</span>
+                        <span data-lang="fr">📱 Ajouter mon WhatsApp pour les mises à jour instantanées</span>
                     </label>
                     <div class="whatsapp-input" id="whatsapp-input" style="display: none; margin-top: 10px;">
                         <input 
@@ -450,141 +619,49 @@
                             class="form-input" 
                             placeholder="e.g., +1234567890 or +689 XX XX XX XX"
                         >
-                        <small class="form-hint">Any international format accepted (e.g., +1, +33, +689, +49)</small>
+                        <small class="form-hint">
+                            <span data-lang="en">Any international format accepted (e.g., +1, +33, +689, +49)</span>
+                            <span data-lang="fr">Tout format international accepté (ex. +1, +33, +689, +49)</span>
+                        </small>
                     </div>
                 </div>
 
-                <!-- Marketing Consent (OBLIGATORY) -->
+                <!-- Marketing Consent -->
                 <div class="form-group">
                     <label class="checkbox-option">
                         <input type="checkbox" name="marketing_emails" id="marketing-checkbox" required>
-                        <span>Send me updates about the VAI launch * 🚀</span>
+                        <span data-lang="en">Send me updates about the VAI launch * 🚀</span>
+                        <span data-lang="fr">Envoyez-moi des mises à jour sur le lancement VAI * 🚀</span>
                     </label>
                 </div>
 
-                <!-- Terms and Privacy (OBLIGATORY) -->
+                <!-- Terms and Privacy -->
                 <div class="form-group">
                     <label class="checkbox-option">
                         <input type="checkbox" name="terms_accepted" id="terms-checkbox" required>
-                        <span>✅ I agree to the <a href="#terms-of-service" target="_blank">Terms of Service</a> and <a href="#privacy-policy" target="_blank">Privacy Policy</a> *</span>
+                        <span data-lang="en">✅ I agree to the <a href="#terms-of-service" target="_blank">Terms of Service</a> and <a href="#privacy-policy" target="_blank">Privacy Policy</a> *</span>
+                        <span data-lang="fr">✅ J'accepte les <a href="#terms-of-service" target="_blank">Conditions d'Utilisation</a> et la <a href="#privacy-policy" target="_blank">Politique de Confidentialité</a> *</span>
                     </label>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-large">
-                        🌺 Join VAI - Unlock Paradise
+                        <span data-lang="en">🌺 Join VAI - Unlock Paradise</span>
+                        <span data-lang="fr">🌺 Rejoindre VAI - Débloquez le Paradis</span>
                     </button>
                 </div>
 
                 <!-- Form Footer -->
                 <div class="form-footer">
-                    <p><small>By registering, you agree to receive updates about VAI's launch on July 14th, 2025.</small></p>
+                    <p><small>
+                        <span data-lang="en">By registering, you agree to receive updates about VAI's launch on July 14th, 2025.</span>
+                        <span data-lang="fr">En vous inscrivant, vous acceptez de recevoir des mises à jour sur le lancement de VAI le 14 juillet 2025.</span>
+                    </small></p>
                 </div>
             </form>
         </div>
     </section>
-
-    <style>
-    /* Enhanced form styling for conditional elements in tourist form */
-    .island-selection {
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-    }
-
-    .island-selection.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .whatsapp-input {
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-    }
-
-    .whatsapp-input.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .checkbox-option a {
-        color: var(--vai-coral);
-        text-decoration: underline;
-    }
-
-    .checkbox-option a:hover {
-        color: var(--vai-tropical);
-    }
-
-    .error-message {
-        color: #ef4444;
-        font-size: 14px;
-        margin-top: 5px;
-        display: none;
-    }
-
-    .error-message.show {
-        display: block;
-    }
-    </style>
-
-    <script>
-    // Enhanced Tourist Form JavaScript
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('tourist-form');
-        const userTypeInputs = form.querySelectorAll('input[name="user_type"]');
-        const islandSelection = document.getElementById('island-selection');
-        const islandLabel = form.querySelector('.island-question');
-        const whatsappCheckbox = document.getElementById('whatsapp-checkbox');
-        const whatsappInput = document.getElementById('whatsapp-input');
-        
-        // Show island selection when user type is selected
-        userTypeInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                if (this.checked) {
-                    islandSelection.style.display = 'block';
-                    setTimeout(() => {
-                        islandSelection.classList.add('show');
-                    }, 50);
-                    
-                    // Update label based on selection
-                    if (islandLabel) {
-                        islandLabel.textContent = this.value === 'local' 
-                            ? 'Which island do you live on? *'
-                            : 'Which island will you visit first? *';
-                    }
-                }
-            });
-        });
-        
-        // Show/hide WhatsApp input
-        whatsappCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                whatsappInput.style.display = 'block';
-                setTimeout(() => {
-                    whatsappInput.classList.add('show');
-                }, 50);
-                whatsappInput.querySelector('input').required = true;
-            } else {
-                whatsappInput.classList.remove('show');
-                setTimeout(() => {
-                    whatsappInput.style.display = 'none';
-                }, 300);
-                whatsappInput.querySelector('input').required = false;
-            }
-        });
-        
-        // Show island selection for default tourist selection
-        setTimeout(() => {
-            const checkedInput = form.querySelector('input[name="user_type"]:checked');
-            if (checkedInput) {
-                checkedInput.dispatchEvent(new Event('change'));
-            }
-        }, 100);
-    });
-    </script>
 
     <!-- FAQ Section -->
     <section class="faq">
@@ -593,51 +670,61 @@
             <div class="faq-container">
                 <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Does this work on all islands?</span>
+                        <span data-lang="en">Does this work on all islands?</span>
+                        <span data-lang="fr">Cela fonctionne-t-il sur toutes les îles ?</span>
                         <span>+</span>
                     </div>
                     <div class="faq-answer">
-                        Yes - Tahiti, Moorea, Bora Bora, Rangiroa, and more will be available at launch.
+                        <span data-lang="en">Yes - Tahiti, Moorea, Bora Bora, Rangiroa, and more will be available at launch.</span>
+                        <span data-lang="fr">Oui - Tahiti, Moorea, Bora Bora, Rangiroa et plus seront disponibles au lancement.</span>
                     </div>
                 </div>
                 
                 <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>When exactly does VAI launch?</span>
+                        <span data-lang="en">When exactly does VAI launch?</span>
+                        <span data-lang="fr">Quand exactement VAI sera-t-il lancé ?</span>
                         <span>+</span>
                     </div>
                     <div class="faq-answer">
-                        July 14th, 2025. Register now to get access the moment we go live.
+                        <span data-lang="en">July 14th, 2025. Register now to get access the moment we go live.</span>
+                        <span data-lang="fr">Le 14 juillet 2025. Inscrivez-vous maintenant pour obtenir l'accès dès que nous sommes en ligne.</span>
                     </div>
                 </div>
                 
                 <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Will it really be instant booking?</span>
+                        <span data-lang="en">Will it really be instant booking?</span>
+                        <span data-lang="fr">Sera-ce vraiment une réservation instantanée ?</span>
                         <span>+</span>
                     </div>
                     <div class="faq-answer">
-                        Most experiences will book in under 2 minutes with real-time availability guaranteed.
+                        <span data-lang="en">Most experiences will book in under 2 minutes with real-time availability guaranteed.</span>
+                        <span data-lang="fr">La plupart des expériences seront réservées en moins de 2 minutes avec disponibilité en temps réel garantie.</span>
                     </div>
                 </div>
                 
                 <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>What about language barriers?</span>
+                        <span data-lang="en">What about language barriers?</span>
+                        <span data-lang="fr">Qu'en est-il des barrières linguistiques ?</span>
                         <span>+</span>
                     </div>
                     <div class="faq-answer">
-                        Full English interface with visual categories. All operators speak English or provide translation support.
+                        <span data-lang="en">Full English interface with visual categories. All operators speak English or provide translation support.</span>
+                        <span data-lang="fr">Interface complète en anglais avec catégories visuelles. Tous les opérateurs parlent anglais ou fournissent un support de traduction.</span>
                     </div>
                 </div>
                 
                 <div class="faq-item fade-in">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>How much can I actually save?</span>
+                        <span data-lang="en">How much can I actually save?</span>
+                        <span data-lang="fr">Combien puis-je réellement économiser ?</span>
                         <span>+</span>
                     </div>
                     <div class="faq-answer">
-                        Typically 20-50% vs. hotel concierge rates. Direct operator pricing with transparent fees.
+                        <span data-lang="en">Typically 20-50% vs. hotel concierge rates. Direct operator pricing with transparent fees.</span>
+                        <span data-lang="fr">Généralement 20-50% par rapport aux tarifs des concierges d'hôtel. Prix direct des opérateurs avec frais transparents.</span>
                     </div>
                 </div>
             </div>
@@ -648,35 +735,61 @@
     <section class="operator-section">
         <div class="container">
             <div class="operator-content fade-in">
-                <!-- OPERATOR VISUAL PLACEHOLDER: Local Polynesian operators/guides -->
                 <div class="operator-visual">
                     <img src="/via-studio-images/Journey Section/Laptop Beach Journey.jpg" alt="French Polynesian tour operators" class="operator-visual-image">
                 </div>
-                <h3>Tour Operators & Guides</h3>
-                <p style="font-size: 18px; margin-bottom: 20px;">Are you a French Polynesian tour operator? Join the platform that's about to revolutionize island tourism.</p>
-                <div class="scarcity-badge">First 23 operators get founding member benefits</div>
-                <button id="show-operator-form-btn" class="btn btn-secondary">➜ Offer Tours, Tickets or Events</button>
+                <h3>
+                    <span data-lang="en">Tour Operators & Guides</span>
+                    <span data-lang="fr">Opérateurs de Tours & Guides</span>
+                </h3>
+                <p style="font-size: 18px; margin-bottom: 20px;">
+                    <span data-lang="en">Are you a French Polynesian tour operator? Join the platform that's about to revolutionize island tourism.</span>
+                    <span data-lang="fr">Êtes-vous un opérateur de tours polynésien ? Rejoignez la plateforme qui va révolutionner le tourisme insulaire.</span>
+                </p>
+                <div class="scarcity-badge">
+                    <span data-lang="en">First 23 operators get founding member benefits</span>
+                    <span data-lang="fr">Les 23 premiers opérateurs obtiennent les avantages de membres fondateurs</span>
+                </div>
+                <button id="show-operator-form-btn" class="btn btn-secondary">
+                    <span data-lang="en">➜ Offer Tours, Tickets or Events</span>
+                    <span data-lang="fr">➜ Offrir des Tours, Billets ou Événements</span>
+                </button>
             </div>
         </div>
     </section>
 
     <!-- Fullscreen Operator Form Overlay -->
     <div class="operator-form-overlay" id="operator-form-overlay">
-        <button class="back-button" id="close-operator-form">← Back to Overview</button>
+        <button class="back-button" id="close-operator-form">
+            <span data-lang="en">← Back to Overview</span>
+            <span data-lang="fr">← Retour à l'Aperçu</span>
+        </button>
         
         <div class="container">
-            <h2 class="section-title">Join VAI as a Tour Operator</h2>
-            <p class="section-subtitle">Grow your business with French Polynesia's premier booking platform</p>
+            <h2 class="section-title">
+                <span data-lang="en">Join VAI as a Tour Operator</span>
+                <span data-lang="fr">Rejoignez VAI en tant qu'Opérateur de Tours</span>
+            </h2>
+            <p class="section-subtitle">
+                <span data-lang="en">Grow your business with French Polynesia's premier booking platform</span>
+                <span data-lang="fr">Développez votre entreprise avec la plateforme de réservation première de la Polynésie française</span>
+            </p>
             
             <form id="operator-form" class="registration-form operator-form compact-form">
                 
-                <!-- Company Information (Compact Row Layout) -->
+                <!-- Company Information -->
                 <div class="form-section">
-                    <h3 class="form-section-title">Company Information</h3>
+                    <h3 class="form-section-title">
+                        <span data-lang="en">Company Information</span>
+                        <span data-lang="fr">Informations sur l'Entreprise</span>
+                    </h3>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="company-name" class="form-label">Company Name *</label>
+                            <label for="company-name" class="form-label">
+                                <span data-lang="en">Company Name *</span>
+                                <span data-lang="fr">Nom de l'Entreprise *</span>
+                            </label>
                             <input 
                                 type="text" 
                                 id="company-name" 
@@ -688,7 +801,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="contact-person" class="form-label">Contact Person *</label>
+                            <label for="contact-person" class="form-label">
+                                <span data-lang="en">Contact Person *</span>
+                                <span data-lang="fr">Personne de Contact *</span>
+                            </label>
                             <input 
                                 type="text" 
                                 id="contact-person" 
@@ -702,7 +818,10 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="operator-email" class="form-label">Business Email *</label>
+                            <label for="operator-email" class="form-label">
+                                <span data-lang="en">Business Email *</span>
+                                <span data-lang="fr">Email Professionnel *</span>
+                            </label>
                             <input 
                                 type="email" 
                                 id="operator-email" 
@@ -714,7 +833,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="operator-whatsapp" class="form-label">WhatsApp Number</label>
+                            <label for="operator-whatsapp" class="form-label">
+                                <span data-lang="en">WhatsApp Number</span>
+                                <span data-lang="fr">Numéro WhatsApp</span>
+                            </label>
                             <input 
                                 type="tel" 
                                 id="operator-whatsapp" 
@@ -722,16 +844,25 @@
                                 class="form-input" 
                                 placeholder="Any international format"
                             >
-                            <small class="form-hint">Recommended for instant notifications</small>
+                            <small class="form-hint">
+                                <span data-lang="en">Recommended for instant notifications</span>
+                                <span data-lang="fr">Recommandé pour les notifications instantanées</span>
+                            </small>
                         </div>
                     </div>
                 </div>
 
-                <!-- Service Area (Badge Style for Compact Design) -->
+                <!-- Service Area -->
                 <div class="form-section">
-                    <h3 class="form-section-title">Service Area</h3>
+                    <h3 class="form-section-title">
+                        <span data-lang="en">Service Area</span>
+                        <span data-lang="fr">Zone de Service</span>
+                    </h3>
                     <div class="form-group islands-served">
-                        <label class="form-label">Islands you operate on (Select all that apply) *</label>
+                        <label class="form-label">
+                            <span data-lang="en">Islands you operate on (Select all that apply) *</span>
+                            <span data-lang="fr">Îles sur lesquelles vous opérez (Sélectionnez toutes celles qui s'appliquent) *</span>
+                        </label>
                         <div class="checkbox-grid islands-grid compact-grid">
                             <label class="checkbox-option badge-style">
                                 <input type="checkbox" name="islands_served" value="Tahiti">
@@ -797,11 +928,17 @@
                     </div>
                 </div>
 
-                <!-- Tour Offerings (Badge Style) -->
+                <!-- Tour Offerings -->
                 <div class="form-section">
-                    <h3 class="form-section-title">Tour Offerings</h3>
+                    <h3 class="form-section-title">
+                        <span data-lang="en">Tour Offerings</span>
+                        <span data-lang="fr">Offres de Tours</span>
+                    </h3>
                     <div class="form-group tour-types">
-                        <label class="form-label">Tour types you offer (Select all that apply) *</label>
+                        <label class="form-label">
+                            <span data-lang="en">Tour types you offer (Select all that apply) *</span>
+                            <span data-lang="fr">Types de tours que vous offrez (Sélectionnez toutes celles qui s'appliquent) *</span>
+                        </label>
                         <div class="checkbox-grid tour-types-grid compact-grid">
                             <label class="checkbox-option badge-style">
                                 <input type="checkbox" name="tour_types_offered" value="Lagoon Tour">
@@ -839,14 +976,23 @@
                     </div>
                 </div>
 
-                <!-- Language & Business Goals (Compact Row) -->
+                <!-- Language & Business Goals -->
                 <div class="form-section">
-                    <h3 class="form-section-title">Language & Business Goals</h3>
+                    <h3 class="form-section-title">
+                        <span data-lang="en">Language & Business Goals</span>
+                        <span data-lang="fr">Langue & Objectifs Commerciaux</span>
+                    </h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="operator-language" class="form-label">Primary Language *</label>
+                            <label for="operator-language" class="form-label">
+                                <span data-lang="en">Primary Language *</span>
+                                <span data-lang="fr">Langue Principale *</span>
+                            </label>
                             <select name="primary_language" id="operator-language" class="form-input" required>
-                                <option value="">Select language...</option>
+                                <option value="">
+                                    <span data-lang="en">Select language...</span>
+                                    <span data-lang="fr">Sélectionnez la langue...</span>
+                                </option>
                                 <option value="english">🇺🇸 English</option>
                                 <option value="french">🇫🇷 Français</option>
                                 <option value="german">🇩🇪 Deutsch</option>
@@ -857,295 +1003,124 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="target-bookings" class="form-label">Monthly Booking Goal</label>
+                            <label for="target-bookings" class="form-label">
+                                <span data-lang="en">Monthly Booking Goal</span>
+                                <span data-lang="fr">Objectif de Réservations Mensuelles</span>
+                            </label>
                             <select name="target_bookings_monthly" id="target-bookings" class="form-input">
-                                <option value="">Select range...</option>
-                                <option value="1-5">1-5 bookings</option>
-                                <option value="6-15">6-15 bookings</option>
-                                <option value="16-30">16-30 bookings</option>
-                                <option value="31+">31+ bookings</option>
+                                <option value="">
+                                    <span data-lang="en">Select range...</span>
+                                    <span data-lang="fr">Sélectionnez une gamme...</span>
+                                </option>
+                                <option value="1-5">
+                                    <span data-lang="en">1-5 bookings</span>
+                                    <span data-lang="fr">1-5 réservations</span>
+                                </option>
+                                <option value="6-15">
+                                    <span data-lang="en">6-15 bookings</span>
+                                    <span data-lang="fr">6-15 réservations</span>
+                                </option>
+                                <option value="16-30">
+                                    <span data-lang="en">16-30 bookings</span>
+                                    <span data-lang="fr">16-30 réservations</span>
+                                </option>
+                                <option value="31+">
+                                    <span data-lang="en">31+ bookings</span>
+                                    <span data-lang="fr">31+ réservations</span>
+                                </option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="customer-preference" class="form-label">Preferred Customer (Optional)</label>
+                        <label for="customer-preference" class="form-label">
+                            <span data-lang="en">Preferred Customer (Optional)</span>
+                            <span data-lang="fr">Client Préféré (Optionnel)</span>
+                        </label>
                         <select name="customer_type_preference" id="customer-preference" class="form-input">
-                            <option value="">No preference</option>
-                            <option value="tourists">International tourists</option>
-                            <option value="locals">Local residents</option>
-                            <option value="families">Families with children</option>
-                            <option value="adventure">Adventure seekers</option>
-                            <option value="luxury">Luxury travelers</option>
+                            <option value="">
+                                <span data-lang="en">No preference</span>
+                                <span data-lang="fr">Aucune préférence</span>
+                            </option>
+                            <option value="tourists">
+                                <span data-lang="en">International tourists</span>
+                                <span data-lang="fr">Touristes internationaux</span>
+                            </option>
+                            <option value="locals">
+                                <span data-lang="en">Local residents</span>
+                                <span data-lang="fr">Résidents locaux</span>
+                            </option>
+                            <option value="families">
+                                <span data-lang="en">Families with children</span>
+                                <span data-lang="fr">Familles avec enfants</span>
+                            </option>
+                            <option value="adventure">
+                                <span data-lang="en">Adventure seekers</span>
+                                <span data-lang="fr">Chercheurs d'aventure</span>
+                            </option>
+                            <option value="luxury">
+                                <span data-lang="en">Luxury travelers</span>
+                                <span data-lang="fr">Voyageurs de luxe</span>
+                            </option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Terms and Privacy (OBLIGATORY) -->
+                <!-- Terms and Privacy -->
                 <div class="form-group">
                     <label class="checkbox-option">
                         <input type="checkbox" name="terms_accepted" id="operator-terms-checkbox" required>
-                        <span>✅ I agree to the <a href="#terms-of-service" target="_blank">Terms of Service</a> and <a href="#privacy-policy" target="_blank">Privacy Policy</a> *</span>
+                        <span data-lang="en">✅ I agree to the <a href="#terms-of-service" target="_blank">Terms of Service</a> and <a href="#privacy-policy" target="_blank">Privacy Policy</a> *</span>
+                        <span data-lang="fr">✅ J'accepte les <a href="#terms-of-service" target="_blank">Conditions d'Utilisation</a> et la <a href="#privacy-policy" target="_blank">Politique de Confidentialité</a> *</span>
                     </label>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-large">
-                        🚀 Submit Operator Application
+                        <span data-lang="en">🚀 Submit Operator Application</span>
+                        <span data-lang="fr">🚀 Soumettre la Candidature d'Opérateur</span>
                     </button>
                 </div>
 
                 <!-- Form Footer -->
                 <div class="form-footer">
-                    <p><small>Applications are reviewed within 24 hours. You'll receive login credentials 
-                    via email once approved. Questions? WhatsApp us at +68987269065</small></p>
+                    <p><small>
+                        <span data-lang="en">Applications are reviewed within 24 hours. You'll receive login credentials via email once approved. Questions? WhatsApp us at +68987269065</span>
+                        <span data-lang="fr">Les candidatures sont examinées dans les 24 heures. Vous recevrez les identifiants de connexion par email une fois approuvé. Questions ? WhatsApp nous au +68987269065</span>
+                    </small></p>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ================================ -->
-    <!-- CSS STYLES -->
-    <!-- ================================ -->
-
-    <style>
-    /* Fullscreen Operator Form Overlay */
-    .operator-form-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.95);
-        z-index: 10000;
-        display: none;
-        overflow-y: auto;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .operator-form-overlay.show {
-        display: block;
-        animation: fadeIn 0.3s ease;
-    }
-
-    .operator-form-overlay .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding-top: 80px; /* Space for back button */
-    }
-
-    .operator-form-overlay .back-button {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        cursor: pointer;
-        font-weight: 600;
-        z-index: 10001;
-        transition: all 0.3s ease;
-        font-size: 16px;
-    }
-
-    .operator-form-overlay .back-button:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
-    }
-
-    .operator-form-overlay .section-title {
-        color: var(--vai-coral);
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 28px;
-    }
-
-    .operator-form-overlay .section-subtitle {
-        color: rgba(255, 255, 255, 0.8);
-        text-align: center;
-        margin-bottom: 40px;
-        font-size: 18px;
-    }
-
-    /* Compact Form Styles (Preserve existing design) */
-    .compact-form .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-bottom: 20px;
-    }
-
-    .compact-form .form-section {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        padding: 25px;
-        margin-bottom: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .compact-form .form-section-title {
-        color: var(--vai-coral);
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .compact-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
-    }
-
-    .badge-style {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 25px;
-        padding: 8px 16px;
-        text-align: center;
-        font-size: 14px;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .badge-style:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px);
-    }
-
-    .badge-style input:checked + span {
-        background: var(--vai-coral);
-        color: white;
-        border-radius: 20px;
-        padding: 6px 12px;
-    }
-
-    .badge-style input {
-        display: none;
-    }
-
-    .checkbox-option a {
-        color: var(--vai-coral);
-        text-decoration: underline;
-    }
-
-    .checkbox-option a:hover {
-        color: var(--vai-tropical);
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    /* Mobile optimizations */
-    @media (max-width: 768px) {
-        .operator-form-overlay {
-            padding: 15px;
-        }
-        
-        .operator-form-overlay .container {
-            padding-top: 100px;
-        }
-        
-        .operator-form-overlay .back-button {
-            top: 15px;
-            left: 15px;
-            padding: 8px 16px;
-            font-size: 14px;
-        }
-        
-        .operator-form-overlay .section-title {
-            font-size: 24px;
-        }
-        
-        .operator-form-overlay .section-subtitle {
-            font-size: 16px;
-        }
-        
-        .compact-form .form-row {
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        
-        .compact-grid {
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 8px;
-        }
-    }
-    </style>
-
-    <!-- ================================ -->
-    <!-- JAVASCRIPT -->
-    <!-- ================================ -->
-
-    <script>
-    // Fullscreen Operator Form JavaScript
-    document.addEventListener('DOMContentLoaded', function() {
-        const showFormBtn = document.getElementById('show-operator-form-btn');
-        const operatorOverlay = document.getElementById('operator-form-overlay');
-        const closeFormBtn = document.getElementById('close-operator-form');
-        
-        // Show fullscreen operator form
-        showFormBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            operatorOverlay.classList.add('show');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
-        
-        // Close fullscreen operator form
-        closeFormBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            operatorOverlay.classList.remove('show');
-            document.body.style.overflow = 'auto'; // Restore scrolling
-        });
-        
-        // Close on overlay click (outside form)
-        operatorOverlay.addEventListener('click', function(e) {
-            if (e.target === operatorOverlay) {
-                closeFormBtn.click();
-            }
-        });
-        
-        // Close on ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && operatorOverlay.classList.contains('show')) {
-                closeFormBtn.click();
-            }
-        });
-        
-        // Prevent form submission from closing overlay (let form handler manage this)
-        const operatorForm = document.getElementById('operator-form');
-        if (operatorForm) {
-            operatorForm.addEventListener('submit', function(e) {
-                // Form submission will be handled by your registration handler
-                // Don't close overlay here - let success/error messages show
-            });
-        }
-    });
-    </script>
-
     <!-- Final CTA -->
     <section style="padding: 80px 0; background: var(--gradient-hero); text-align: center;">
         <div class="container">
-            <!-- FINAL CTA VISUAL PLACEHOLDER: Sunset over lagoon with app -->
             <div class="final-cta-visual fade-in">
                 <img src="/via-studio-images/landingpage/Activity Overview - Operator Tours.jpg" alt="Paradise sunset with VAI app" class="final-cta-image">
             </div>
-            <h2 class="fade-in" style="font-size: clamp(32px, 5vw, 48px); font-weight: 800; margin-bottom: 30px; color: var(--vai-pearl);">Your Paradise Revolution Starts July 14th</h2>
-            <p class="fade-in" style="font-size: 20px; margin-bottom: 40px; opacity: 0.9;">Don't miss the moment paradise becomes accessible.</p>
+            <h2 class="fade-in" style="font-size: clamp(32px, 5vw, 48px); font-weight: 800; margin-bottom: 30px; color: var(--vai-pearl);">
+                <span data-lang="en">Your Paradise Revolution Starts July 14th</span>
+                <span data-lang="fr">Votre Révolution du Paradis Commence le 14 Juillet</span>
+            </h2>
+            <p class="fade-in" style="font-size: 20px; margin-bottom: 40px; opacity: 0.9;">
+                <span data-lang="en">Don't miss the moment paradise becomes accessible.</span>
+                <span data-lang="fr">Ne manquez pas le moment où le paradis devient accessible.</span>
+            </p>
             
             <div style="max-width: 400px; margin: 0 auto;">
-                <!-- FINAL QR CODE PLACEHOLDER: Large QR code for registration -->
                 <div class="qr-container fade-in" style="margin-bottom: 30px;">
                     <img src="/via-studio-images/landingpage/VAI Square Elemtens Beach Unlock.png" alt="Scan to register for VAI launch" class="qr-code" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 </div>
-                <a href="#tourist-form" class="btn btn-primary fade-in">Register for VAI Launch</a>
-                <p class="fade-in" style="font-size: 16px; margin-top: 20px; opacity: 0.8;"><em>Be the first to unlock authentic French Polynesia</em></p>
+                <a href="#tourist-form" class="btn btn-primary fade-in">
+                    <span data-lang="en">Register for VAI Launch</span>
+                    <span data-lang="fr">S'inscrire pour le Lancement VAI</span>
+                </a>
+                <p class="fade-in" style="font-size: 16px; margin-top: 20px; opacity: 0.8;">
+                    <span data-lang="en"><em>Be the first to unlock authentic French Polynesia</em></span>
+                    <span data-lang="fr"><em>Soyez le premier à débloquer l'authentique Polynésie française</em></span>
+                </p>
             </div>
         </div>
     </section>
@@ -1153,7 +1128,10 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p><strong>VAI - Where Paradise Becomes Accessible</strong> 🌺</p>
+            <p>
+                <span data-lang="en"><strong>VAI - Where Paradise Becomes Accessible</strong> 🌺</span>
+                <span data-lang="fr"><strong>VAI - Où le Paradis Devient Accessible</strong> 🌺</span>
+            </p>
         </div>
     </footer>
 
@@ -1166,10 +1144,240 @@
     <script src="registration-handler.js"></script>
     <script src="app-landingpage.js"></script>
 
-    
+    <!-- Enhanced form styling for conditional elements -->
+    <style>
+    .island-selection {
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    .island-selection.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .whatsapp-input {
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    .whatsapp-input.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .checkbox-option a {
+        color: var(--vai-coral);
+        text-decoration: underline;
+    }
+
+    .checkbox-option a:hover {
+        color: var(--vai-tropical);
+    }
+
+    .error-message {
+        color: #ef4444;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .error-message.show {
+        display: block;
+    }
+
+    /* Language switcher styles */
+    .language-switcher {
+        position: fixed;
+        top: 70px;
+        right: 15px;
+        z-index: 2000;
+        display: flex;
+        gap: 0.5rem;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        padding: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .lang-btn {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .lang-btn.active {
+        background: var(--vai-coral);
+        transform: scale(1.1);
+    }
+
+    .lang-btn:hover {
+        transform: scale(1.05);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Language content visibility */
+    [data-lang]:not([data-lang="en"]) {
+        display: none;
+    }
+
+    body[data-current-lang="fr"] [data-lang="en"] {
+        display: none;
+    }
+
+    body[data-current-lang="fr"] [data-lang="fr"] {
+        display: block;
+    }
+
+    body[data-current-lang="en"] [data-lang="fr"] {
+        display: none;
+    }
+
+    body[data-current-lang="en"] [data-lang="en"] {
+        display: block;
+    }
+
+    /* Mobile responsive adjustments */
+    @media (min-width: 768px) {
+        .language-switcher {
+            top: 100px;
+            right: 20px;
+        }
+    }
+    </style>
+
+    <!-- Enhanced Tourist Form JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('tourist-form');
+        const userTypeInputs = form.querySelectorAll('input[name="user_type"]');
+        const islandSelection = document.getElementById('island-selection');
+        const islandLabel = form.querySelector('.island-question');
+        const whatsappCheckbox = document.getElementById('whatsapp-checkbox');
+        const whatsappInput = document.getElementById('whatsapp-input');
+        
+        // Show island selection when user type is selected
+        userTypeInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.checked) {
+                    islandSelection.style.display = 'block';
+                    setTimeout(() => {
+                        islandSelection.classList.add('show');
+                    }, 50);
+                    
+                    // Update label based on selection and language
+                    if (islandLabel) {
+                        updateIslandLabel(this.value);
+                    }
+                }
+            });
+        });
+        
+        // Show/hide WhatsApp input
+        whatsappCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                whatsappInput.style.display = 'block';
+                setTimeout(() => {
+                    whatsappInput.classList.add('show');
+                }, 50);
+                whatsappInput.querySelector('input').required = true;
+            } else {
+                whatsappInput.classList.remove('show');
+                setTimeout(() => {
+                    whatsappInput.style.display = 'none';
+                }, 300);
+                whatsappInput.querySelector('input').required = false;
+            }
+        });
+        
+        // Show island selection for default tourist selection
+        setTimeout(() => {
+            const checkedInput = form.querySelector('input[name="user_type"]:checked');
+            if (checkedInput) {
+                checkedInput.dispatchEvent(new Event('change'));
+            }
+        }, 100);
+        
+        // Update island label based on language
+        function updateIslandLabel(userType) {
+            const currentLang = document.body.getAttribute('data-current-lang') || 'en';
+            const islandLabelEn = islandLabel.querySelector('[data-lang="en"]');
+            const islandLabelFr = islandLabel.querySelector('[data-lang="fr"]');
+            
+            if (currentLang === 'en') {
+                if (islandLabelEn) islandLabelEn.textContent = userType === 'local' 
+                    ? 'Which island do you live on? *'
+                    : 'Which island will you visit first? *';
+            } else {
+                if (islandLabelFr) islandLabelFr.textContent = userType === 'local' 
+                    ? 'Sur quelle île vivez-vous ? *'
+                    : 'Quelle île visiterez-vous en premier ? *';
+            }
+        }
+        
+        // Listen for language changes to update island label
+        document.addEventListener('languageChanged', function() {
+            const checkedInput = form.querySelector('input[name="user_type"]:checked');
+            if (checkedInput) {
+                updateIslandLabel(checkedInput.value);
+            }
+        });
+    });
+    </script>
+
+    <!-- Fullscreen Operator Form JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const showFormBtn = document.getElementById('show-operator-form-btn');
+        const operatorOverlay = document.getElementById('operator-form-overlay');
+        const closeFormBtn = document.getElementById('close-operator-form');
+        
+        // Show fullscreen operator form
+        showFormBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            operatorOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close fullscreen operator form
+        closeFormBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            operatorOverlay.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close on overlay click
+        operatorOverlay.addEventListener('click', function(e) {
+            if (e.target === operatorOverlay) {
+                closeFormBtn.click();
+            }
+        });
+        
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && operatorOverlay.classList.contains('show')) {
+                closeFormBtn.click();
+            }
+        });
+    });
+    </script>
     
     <!-- Validation fix -->
-     <script>
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
         const inputs = document.querySelectorAll('.form-input');
         
@@ -1197,7 +1405,6 @@
         });
     });
     </script>
-
 
 </body>
 </html>
