@@ -340,7 +340,7 @@ const registrationService = {
   async sendWelcomeEmail(userType, data) {
     try {
       const webhookUrls = {
-        tourist: 'https://n8n-stable-latest.onrender.com/webhook-test/vai-app-user-registration',
+        tourist: 'https://n8n-stable-latest.onrender.com/webhook/vai-app-user-registration',
         operator: 'https://n8n-stable-latest.onrender.com/webhook-test/vai-app-operator-registration'
       };
       
