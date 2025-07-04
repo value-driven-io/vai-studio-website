@@ -258,6 +258,11 @@ body.loading .main-content {
     color: var(--accent-blue);
 }
 
+.nav-links a.premium {
+    color: var(--accent-green);
+    font-weight: 800;
+}
+
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -1437,5 +1442,82 @@ body.loading .main-content {
 
     .hero-subtitle {
         display: none;
+    }
+}
+
+
+/* VAI-App Floating Button - Background Image */
+.vai-app-float-background {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-image: url('./via-studio-images/logo/VAI - Logo White 2025.png');
+    background-size: 65%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--accent-blue);
+    backdrop-filter: blur(15px);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: block;
+}
+
+.vai-app-float-background:hover {
+    background-size: 75%;
+    background-color: rgba(255, 255, 255, 0.942);
+    border-color: #f1672c;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+    background-image: url('./via-studio-images/logo/VAI - Logo Multicolor 2025.png');
+}
+
+.vai-app-float-background:active {
+    transform: scale(0.95);
+}
+
+/* Add a subtle glow effect */
+.vai-app-float-background::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    /*background: var(--gradient-secondary);*/
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.vai-app-float-background:hover::before {
+    opacity: 0.7;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .vai-app-float-background {
+        bottom: 15px;
+        left: 15px;
+        width: 50px;
+        height: 50px;
+        background-size: 60%;
+    }
+    
+    .vai-app-float-background:hover {
+        background-size: 70%;
+    }
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(15px)) {
+    .vai-app-float-background {
+        background-color: rgba(15, 23, 42, 0.8);
     }
 }
