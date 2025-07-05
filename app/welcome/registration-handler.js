@@ -717,6 +717,18 @@ showSuccessScreen(form, message, userType) {
   // Track success screen show
   this.trackEvent(`success_screen_shown`, { user_type: userType })
   
+  // AUTO-CLOSE: Close operator form overlay after success message
+  if (userType === 'operator') {
+    setTimeout(() => {
+      console.log('🔄 Auto-closing operator form overlay')
+      const operatorFormOverlay = document.getElementById('operator-form-overlay')
+      if (operatorFormOverlay) {
+        operatorFormOverlay.classList.remove('show')
+        document.body.style.overflow = 'auto'
+      }
+    }, 5000) // Close after 5 seconds
+  }
+  
   console.log(`✅ Success screen shown for ${userType}`)
 }
 
@@ -830,4 +842,24 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     window.vaiRegistrationHandler = new RegistrationHandler()
   }, 200)
+})
+
+
+// Close operator form overlay when back button is clicked
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('close-operator-form')
+  const operatorOverlay = document.getElementById('operator-form-overlay')
+  
+  if (closeBtn && operatorOverlay) {
+    closeBtn.addEventListener('click', () => {
+      operatorOverlay.classList.remove('show')
+      document.body.style.overflow = 'auto'
+      
+      // Also reset form if needed
+      const operatorForm = document.getElementById('operator-form')
+      if (operatorForm) {
+        operatorForm.reset()
+      }
+    })
+  }
 })
