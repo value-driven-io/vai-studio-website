@@ -1007,7 +1007,7 @@
     });
 
     // ================================
-    // PROGRESSIVE ENHANCEMENT
+    // PROGRESSIVE ENHANCEMENTx
     // ================================
 
     // Add 'js-enabled' class to body
