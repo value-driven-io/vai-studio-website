@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>VAI Operators - Grow Your French Polynesian Tour Business | Digital Platform</title>
+    <meta name="title" content="VAI Operators - Transform Your Tourism Business in French Polynesia">
+    <meta name="description" content="Join VAI's operator platform and grow your French Polynesian tour business. 10% commission, advanced booking system, revenue recovery from cancellations, and direct customer relationships.">
+    <meta name="keywords" content="French Polynesia tour operators, tourism business platform, booking system, operator dashboard, revenue recovery, digital marketing, tour operator tools">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vai.studio/app/operator-welcome/">
+    <meta property="og:title" content="VAI Operators - Grow Your French Polynesian Tour Business">
+    <meta property="og:description" content="Transform your tourism business with VAI's operator platform. Advanced booking technology, low commissions, and revenue recovery from cancellations.">
+    <meta property="og:image" content="https://vai.studio/images/vai-operator-preview.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vai.studio/app/operator-welcome/">
+    <meta property="twitter:title" content="VAI Operators - Grow Your French Polynesian Tour Business">
+    <meta property="twitter:description" content="Join VAI's operator platform and transform your tourism business.">
+    <meta property="twitter:image" content="https://vai.studio/images/vai-operator-preview.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="operator-landing.css">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "VAI Operators Platform",
+        "description": "Professional tourism business platform for French Polynesian tour operators",
+        "url": "https://vai.studio/app/operator-welcome/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "audience": {
+            "@type": "BusinessAudience",
+            "businessType": "Tourism Operator"
+        },
+        "areaServed": {
+            "@type": "Place",
+            "name": "French Polynesia"
+        }
+    }
+    </script>
+</head>
+<body data-current-lang="en">
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang-btn="en" onclick="switchLanguage('en')" title="English" aria-label="Switch to English">🇺🇸</button>
+        <button class="lang-btn" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français" aria-label="Passer au français">🇫🇷</button>
+    </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="https://vai.studio/" class="logo">
+                    <img src="https://vai.studio/via-studio-images/logo/VAI%20-%20Logo%20White%202025.png" alt="VAI Logo" class="logo-image">
+                </a>
+                <div class="header-actions">
+                    <a href="https://vai-operator-dashboard.onrender.com/" class="btn btn-outline" target="_blank">
+                        <span data-lang="en">Dashboard Login</span>
+                        <span data-lang="fr">Connexion Tableau de Bord</span>
+                    </a>
+                    <a href="#operator-registration" class="btn btn-primary">
+                        <span data-lang="en">Join Platform</span>
+                        <span data-lang="fr">Rejoindre la Plateforme</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span data-lang="en">Transform Your <span class="highlight">Tourism Business</span> with VAI</span>
+                        <span data-lang="fr">Transforme Ton <span class="highlight">Business Touristique</span> avec VAI</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        <span data-lang="en">Join French Polynesia's leading tour operator platform. Recover lost revenue, access advanced booking technology, and build direct customer relationships—all at just 10% commission.</span>
+                        <span data-lang="fr">Rejoins la plateforme leader des opérateurs touristiques de Polynésie française. Récupère tes revenus perdus, accède à une technologie de réservation avancée, et construis des relations directes avec tes clients—tout ça pour seulement 10% de commission.</span>
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">70%</div>
+                            <div class="stat-label">
+                                <span data-lang="en">Revenue Recovery</span>
+                                <span data-lang="fr">Récupération Revenus</span>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">10%</div>
+                            <div class="stat-label">
+                                <span data-lang="en">Low Commission</span>
+                                <span data-lang="fr">Commission Faible</span>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">
+                                <span data-lang="en">Instant Bookings</span>
+                                <span data-lang="fr">Réservations Instant</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="#operator-registration" class="btn btn-primary btn-large">
+                            <span data-lang="en">Start Growing Today</span>
+                            <span data-lang="fr">Commence à Grandir Aujourd'hui</span>
+                        </a>
+                        <a href="https://vai-operator-dashboard.onrender.com/" class="btn btn-outline" target="_blank">
+                            <span data-lang="en">View Dashboard Demo</span>
+                            <span data-lang="fr">Voir Démo du Tableau de Bord</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-header">
+                            <div class="dashboard-logo">📊</div>
+                            <div class="dashboard-title">
+                                <span data-lang="en">VAI Operator Dashboard</span>
+                                <span data-lang="fr">Tableau de Bord VAI Opérateur</span>
+                            </div>
+                        </div>
+                        <div class="dashboard-stats">
+                            <div class="dashboard-metric">
+                                <div class="metric-value">€2,847</div>
+                                <div class="metric-label">
+                                    <span data-lang="en">This Month</span>
+                                    <span data-lang="fr">Ce Mois</span>
+                                </div>
+                            </div>
+                            <div class="dashboard-metric">
+                                <div class="metric-value">18</div>
+                                <div class="metric-label">
+                                    <span data-lang="en">Active Tours</span>
+                                    <span data-lang="fr">Tours Actifs</span>
+                                </div>
+                            </div>
+                            <div class="dashboard-metric">
+                                <div class="metric-value">94%</div>
+                                <div class="metric-label">
+                                    <span data-lang="en">Completion Rate</span>
+                                    <span data-lang="fr">Taux de Réussite</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-features">
+                            <div class="feature-item">
+                                <span data-lang="en">✅ Real-time Bookings</span>
+                                <span data-lang="fr">✅ Réservations Temps Réel</span>
+                            </div>
+                            <div class="feature-item">
+                                <span data-lang="en">✅ WhatsApp Notifications</span>
+                                <span data-lang="fr">✅ Notifications WhatsApp</span>
+                            </div>
+                            <div class="feature-item">
+                                <span data-lang="en">✅ Revenue Analytics</span>
+                                <span data-lang="fr">✅ Analytiques Revenus</span>
+                            </div>
+                            <div class="feature-item">
+                                <span data-lang="en">✅ Tour Management</span>
+                                <span data-lang="fr">✅ Gestion des Tours</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Propositions -->
+    <section class="value-props">
+        <div class="container">
+            <h2 class="section-title">
+                <span data-lang="en">Why VAI Operators Choose Us</span>
+                <span data-lang="fr">Pourquoi les Opérateurs VAI nous Choisissent</span>
+            </h2>
+            <div class="props-grid">
+                <div class="prop-card">
+                    <div class="prop-icon">💰</div>
+                    <h3 class="prop-title">
+                        <span data-lang="en">Revenue Recovery</span>
+                        <span data-lang="fr">Récupération des Revenus</span>
+                    </h3>
+                    <p class="prop-description">
+                        <span data-lang="en">Convert 70% of cancellations into income instead of total loss. Our last-minute platform captures the 25-30% cancellation gap in French Polynesian tourism.</span>
+                        <span data-lang="fr">Convertis 70% des annulations en revenus au lieu d'une perte totale. Notre plateforme de dernière minute capture l'écart d'annulation de 25-30% dans le tourisme polynésien.</span>
+                    </p>
+                </div>
+                <div class="prop-card">
+                    <div class="prop-icon">⚡</div>
+                    <h3 class="prop-title">
+                        <span data-lang="en">Advanced Technology</span>
+                        <span data-lang="fr">Technologie Avancée</span>
+                    </h3>
+                    <p class="prop-description">
+                        <span data-lang="en">Enterprise-level booking system with real-time availability, automated confirmations, and integrated WhatsApp notifications—no technical expertise required.</span>
+                        <span data-lang="fr">Système de réservation niveau entreprise avec disponibilité temps réel, confirmations automatisées, et notifications WhatsApp intégrées—aucune expertise technique requise.</span>
+                    </p>
+                </div>
+                <div class="prop-card">
+                    <div class="prop-icon">🤝</div>
+                    <h3 class="prop-title">
+                        <span data-lang="en">Direct Relationships</span>
+                        <span data-lang="fr">Relations Directes</span>
+                    </h3>
+                    <p class="prop-description">
+                        <span data-lang="en">Maintain personal connections with customers while reducing platform dependency. Your contact details, your brand, your relationships.</span>
+                        <span data-lang="fr">Maintiens des connexions personnelles avec tes clients tout en réduisant la dépendance à la plateforme. Tes coordonnées, ta marque, tes relations.</span>
+                    </p>
+                </div>
+                <div class="prop-card">
+                    <div class="prop-icon">📈</div>
+                    <h3 class="prop-title">
+                        <span data-lang="en">Free Marketing</span>
+                        <span data-lang="fr">Marketing Gratuit</span>
+                    </h3>
+                    <p class="prop-description">
+                        <span data-lang="en">Sophisticated digital presence without building your own booking system. Reach international travelers across all French Polynesian islands.</span>
+                        <span data-lang="fr">Présence digitale sophistiquée sans construire ton propre système de réservation. Atteins les voyageurs internationaux sur toutes les îles de Polynésie française.</span>
+                    </p>
+                </div>
+                <div class="prop-card">
+                    <div class="prop-icon">🔒</div>
+                    <h3 class="prop-title">
+                        <span data-lang="en">Compliance Made Easy</span>
+                        <span data-lang="fr">Conformité Simplifiée</span>
+                    </h3>
+                    <p class="prop-description">
+                        <span data-lang="en">Automatic 2025 whale regulation adherence and regulatory compliance support. Stay legal without the administrative burden.</span>
+                        <span data-lang="fr">Respect automatique de la réglementation baleine 2025 et support de conformité réglementaire. Reste légal sans le fardeau administratif.</span>
+                    </p>
+                </div>
+                <div class="prop-card">
+                    <div class="prop-icon">💳</div>
+                    <h3 class="prop-title">
+                        <span data-lang="en">Fair Commission</span>
+                        <span data-lang="fr">Commission Équitable</span>
+                    </h3>
+                    <p class="prop-description">
+                        <span data-lang="en">Only 10% commission vs 20-25% competitors. Keep more of your revenue while accessing premium booking technology.</span>
+                        <span data-lang="fr">Seulement 10% de commission vs 20-25% chez les concurrents. Garde plus de tes revenus tout en accédant à une technologie de réservation premium.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">
+                <span data-lang="en">How VAI Works for You</span>
+                <span data-lang="fr">Comment VAI Fonctionne pour Toi</span>
+            </h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">
+                            <span data-lang="en">Set Up Your Profile</span>
+                            <span data-lang="fr">Configure ton Profil</span>
+                        </h3>
+                        <p class="step-description">
+                            <span data-lang="en">Create your operator profile with tour descriptions, pricing, and availability. Our team provides personal consultation for quality assurance.</span>
+                            <span data-lang="fr">Crée ton profil d'opérateur avec descriptions de tours, prix, et disponibilité. Notre équipe fournit une consultation personnelle pour l'assurance qualité.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">
+                            <span data-lang="en">Receive Instant Bookings</span>
+                            <span data-lang="fr">Reçois des Réservations Instant</span>
+                        </h3>
+                        <p class="step-description">
+                            <span data-lang="en">Get WhatsApp notifications for new bookings. Confirm or decline within 60 minutes. Customers pay directly with you using local payment methods.</span>
+                            <span data-lang="fr">Reçois des notifications WhatsApp pour les nouvelles réservations. Confirme ou refuse dans les 60 minutes. Les clients paient directement avec toi en utilisant les méthodes de paiement locales.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">
+                            <span data-lang="en">Manage & Grow</span>
+                            <span data-lang="fr">Gère & Développe</span>
+                        </h3>
+                        <p class="step-description">
+                            <span data-lang="en">Track performance, manage tours, and analyze revenue through your dashboard. Build direct relationships with customers for repeat business.</span>
+                            <span data-lang="fr">Suis les performances, gère les tours, et analyse les revenus via ton tableau de bord. Construis des relations directes avec les clients pour des affaires répétées.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Showcase -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">
+                <span data-lang="en">Professional Tools for Growing Businesses</span>
+                <span data-lang="fr">Outils Professionnels pour Businesses en Croissance</span>
+            </h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">
+                        <span data-lang="en">Mobile-First Dashboard</span>
+                        <span data-lang="fr">Tableau de Bord Mobile-First</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-lang="en">Manage bookings, update availability, and track revenue from anywhere. Optimized for mobile devices used by local operators.</span>
+                        <span data-lang="fr">Gère les réservations, mets à jour la disponibilité, et suis les revenus de n'importe où. Optimisé pour les appareils mobiles utilisés par les opérateurs locaux.</span>
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3 class="feature-title">
+                        <span data-lang="en">WhatsApp Integration</span>
+                        <span data-lang="fr">Intégration WhatsApp</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-lang="en">Instant booking notifications via WhatsApp. Communicate directly with customers using the platform you already use daily.</span>
+                        <span data-lang="fr">Notifications de réservation instantanées via WhatsApp. Communique directement avec les clients en utilisant la plateforme que tu utilises déjà quotidiennement.</span>
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">
+                        <span data-lang="en">Multi-Language Support</span>
+                        <span data-lang="fr">Support Multi-Langues</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-lang="en">Reach international tourists with automatic translation and multi-language tour descriptions. Expand your customer base effortlessly.</span>
+                        <span data-lang="fr">Atteins les touristes internationaux avec traduction automatique et descriptions de tours multi-langues. Élargis ta base de clients sans effort.</span>
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">
+                        <span data-lang="en">Revenue Analytics</span>
+                        <span data-lang="fr">Analytiques de Revenus</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-lang="en">Track monthly revenue, completion rates, and business health score. Make data-driven decisions to optimize your operations.</span>
+                        <span data-lang="fr">Suis les revenus mensuels, les taux de réussite, et le score de santé du business. Prends des décisions basées sur les données pour optimiser tes opérations.</span>
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3 class="feature-title">
+                        <span data-lang="en">Review Management</span>
+                        <span data-lang="fr">Gestion des Avis</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-lang="en">Collect and showcase customer reviews. Build reputation and trust with authentic feedback from verified tourists.</span>
+                        <span data-lang="fr">Collecte et présente les avis clients. Construis ta réputation et confiance avec des retours authentiques de touristes vérifiés.</span>
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">
+                        <span data-lang="en">Smart Matching</span>
+                        <span data-lang="fr">Correspondance Intelligente</span>
+                    </h3>
+                    <p class="feature-description">
+                        <span data-lang="en">AI-powered matching connects your tours with the right customers based on preferences, weather, and availability.</span>
+                        <span data-lang="fr">La correspondance alimentée par IA connecte tes tours avec les bons clients basés sur les préférences, météo, et disponibilité.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Story -->
+    <section class="success-story">
+        <div class="container">
+            <div class="story-content">
+                <div class="story-text">
+                    <h2 class="story-title">
+                        <span data-lang="en">From 30% Cancellations to 94% Success Rate</span>
+                        <span data-lang="fr">De 30% d'Annulations à 94% de Taux de Réussite</span>
+                    </h2>
+                    <p class="story-description">
+                        <span data-lang="en">"Before VAI, we lost 30% of our revenue to cancellations. Now we recover 70% of those losses through last-minute bookings. The WhatsApp notifications and direct customer relationships have transformed our business."</span>
+                        <span data-lang="fr">"Avant VAI, on perdait 30% de nos revenus à cause des annulations. Maintenant on récupère 70% de ces pertes grâce aux réservations de dernière minute. Les notifications WhatsApp et les relations directes avec les clients ont transformé notre business."</span>
+                    </p>
+                    <div class="story-stats">
+                        <div class="story-stat">
+                            <div class="stat-number">+185%</div>
+                            <div class="stat-label">
+                                <span data-lang="en">Revenue Growth</span>
+                                <span data-lang="fr">Croissance des Revenus</span>
+                            </div>
+                        </div>
+                        <div class="story-stat">
+                            <div class="stat-number">94%</div>
+                            <div class="stat-label">
+                                <span data-lang="en">Completion Rate</span>
+                                <span data-lang="fr">Taux de Réussite</span>
+                            </div>
+                        </div>
+                        <div class="story-stat">
+                            <div class="stat-number">< 2min</div>
+                            <div class="stat-label">
+                                <span data-lang="en">Avg Response Time</span>
+                                <span data-lang="fr">Temps de Réponse Moyen</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="story-author">
+                        <strong>Marie Tevaora</strong><br>
+                        <span>
+                            <span data-lang="en">Lagoon Tours, Bora Bora</span>
+                            <span data-lang="fr">Tours Lagon, Bora Bora</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="story-visual">
+                    <div class="success-metrics">
+                        <div class="metric-card">
+                            <div class="metric-icon">📈</div>
+                            <div class="metric-data">
+                                <div class="metric-value">€4,200</div>
+                                <div class="metric-label">
+                                    <span data-lang="en">Monthly Revenue</span>
+                                    <span data-lang="fr">Revenus Mensuels</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">⭐</div>
+                            <div class="metric-data">
+                                <div class="metric-value">4.9/5</div>
+                                <div class="metric-label">
+                                    <span data-lang="en">Customer Rating</span>
+                                    <span data-lang="fr">Note Client</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🎯</div>
+                            <div class="metric-data">
+                                <div class="metric-value">156</div>
+                                <div class="metric-label">
+                                    <span data-lang="en">Tours Completed</span>
+                                    <span data-lang="fr">Tours Complétés</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section with Working Operator Registration Form -->
+    <section class="cta-section" id="operator-registration">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">
+                    <span data-lang="en">Ready to Transform Your Tourism Business?</span>
+                    <span data-lang="fr">Prêt à Transformer ton Business Touristique ?</span>
+                </h2>
+                <p class="cta-description">
+                    <span data-lang="en">Join the first 25 operators and get founding member benefits: reduced commission rates, premium placement, and dedicated support.</span>
+                    <span data-lang="fr">Rejoins les 25 premiers opérateurs et obtiens les avantages de membre fondateur : taux de commission réduits, placement premium, et support dédié.</span>
+                </p>
+                
+                <!-- Working Operator Registration Form -->
+                <div class="registration-form">
+                    <form id="operator-registration-form" class="compact-form" action="#" method="POST">
+                        <input type="hidden" name="user_type" value="operator">
+                        <input type="hidden" name="registration_source" value="operator_landing_page">
+                        
+                        <!-- Company Information -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <span data-lang="en">🏢 Company Information</span>
+                                <span data-lang="fr">🏢 Informations Entreprise</span>
+                            </h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="company-name" class="form-label">
+                                        <span data-lang="en">Company Name *</span>
+                                        <span data-lang="fr">Nom de l'Entreprise *</span>
+                                    </label>
+                                    <input type="text" name="company_name" id="company-name" class="form-input" required 
+                                           placeholder="Your tour company name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="contact-person" class="form-label">
+                                        <span data-lang="en">Contact Person *</span>
+                                        <span data-lang="fr">Personne de Contact *</span>
+                                    </label>
+                                    <input type="text" name="contact_person" id="contact-person" class="form-input" required 
+                                           placeholder="Your full name">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="operator-email" class="form-label">
+                                        <span data-lang="en">Business Email *</span>
+                                        <span data-lang="fr">Email Professionnel *</span>
+                                    </label>
+                                    <input type="email" name="email" id="operator-email" class="form-input" required 
+                                           placeholder="business@yourcompany.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="operator-whatsapp" class="form-label">
+                                        <span data-lang="en">WhatsApp Number *</span>
+                                        <span data-lang="fr">Numéro WhatsApp *</span>
+                                    </label>
+                                    <input type="tel" name="whatsapp_number" id="operator-whatsapp" class="form-input" required 
+                                           placeholder="+689 XX XX XX XX">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location & Services -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <span data-lang="en">🏝️ Location & Services</span>
+                                <span data-lang="fr">🏝️ Localisation & Services</span>
+                            </h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="operator-islands" class="form-label">
+                                        <span data-lang="en">Islands You Serve *</span>
+                                        <span data-lang="fr">Îles que tu Desserves *</span>
+                                    </label>
+                                    <select name="islands_served" id="operator-islands" class="form-input" required>
+                                        <option value="">
+                                            <span data-lang="en">Select your primary island</span>
+                                            <span data-lang="fr">Sélectionne ton île principale</span>
+                                        </option>
+                                        <option value="Tahiti">🏝️ Tahiti</option>
+                                        <option value="Moorea">🌺 Moorea</option>
+                                        <option value="Bora Bora">🏖️ Bora Bora</option>
+                                        <option value="Rangiroa">🐠 Rangiroa</option>
+                                        <option value="Taha'a">🌿 Taha'a</option>
+                                        <option value="Raiatea">⛰️ Raiatea</option>
+                                        <option value="Tikehau">🐚 Tikehau</option>
+                                        <option value="Fakarava">🌊 Fakarava</option>
+                                        <option value="Hiva Oa">🗿 Hiva Oa</option>
+                                        <option value="Multiple">🌴 Multiple Islands</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="operator-language" class="form-label">
+                                        <span data-lang="en">Primary Language *</span>
+                                        <span data-lang="fr">Langue Principale *</span>
+                                    </label>
+                                    <select name="languages" id="operator-language" class="form-input" required>
+                                        <option value="">
+                                            <span data-lang="en">Select language...</span>
+                                            <span data-lang="fr">Sélectionne la langue...</span>
+                                        </option>
+                                        <option value="english">🇺🇸 English</option>
+                                        <option value="french">🇫🇷 Français</option>
+                                        <option value="german">🇩🇪 Deutsch</option>
+                                        <option value="spanish">🇪🇸 Español</option>
+                                        <option value="mandarin">🇨🇳 中文</option>
+                                        <option value="tahitian">🌺 Reo Tahiti</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tour Types -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <span data-lang="en">🚤 Tour Types You Offer</span>
+                                <span data-lang="fr">🚤 Types de Tours que tu Offres</span>
+                            </h3>
+                            
+                            <div class="compact-grid">
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Lagoon">
+                                    <span>🏖️ Lagoon</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Whale Watching">
+                                    <span>🐋 Whale</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Cultural">
+                                    <span>🌺 Cultural</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Adventure">
+                                    <span>🏄 Adventure</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Hiking">
+                                    <span>🥾 Hiking</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Diving">
+                                    <span>🤿 Diving</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Fishing">
+                                    <span>🎣 Fishing</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Relax">
+                                    <span>🧘 Wellness</span>
+                                </label>
+                                <label class="checkbox-option badge-style">
+                                    <input type="checkbox" name="tour_types_offered" value="Snorkeling">
+                                    <span>🐢 Snorkel</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Business Description -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <span data-lang="en">📝 Tell Us About Your Business</span>
+                                <span data-lang="fr">📝 Parle-nous de ton Business</span>
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label for="business-description" class="form-label">
+                                    <span data-lang="en">Business Description</span>
+                                    <span data-lang="fr">Description du Business</span>
+                                </label>
+                                <textarea name="business_description" id="business-description" rows="4" class="form-input" 
+                                          placeholder="Describe your tours, experience, and what makes your business unique..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Privacy -->
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="terms_accepted" id="operator-terms-checkbox" required>
+                                    <span>
+                                        <span data-lang="en">✅ I agree to the <a href="#terms-of-service" target="_blank">Terms of Service</a> and <a href="#privacy-policy" target="_blank">Privacy Policy</a> *</span>
+                                        <span data-lang="fr">✅ J'accepte les <a href="#terms-of-service" target="_blank">Conditions d'Utilisation</a> et la <a href="#privacy-policy" target="_blank">Politique de Confidentialité</a> *</span>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="marketing_emails" id="marketing-emails-checkbox" checked>
+                                    <span>
+                                        <span data-lang="en">📧 I'd like to receive platform updates and marketing tips</span>
+                                        <span data-lang="fr">📧 Je veux recevoir les mises à jour de la plateforme et les conseils marketing</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <span data-lang="en">🚀 Submit Operator Application</span>
+                                <span data-lang="fr">🚀 Soumettre la Candidature d'Opérateur</span>
+                            </button>
+                        </div>
+
+                        <!-- Form Footer -->
+                        <div class="form-footer">
+                            <p><small>
+                                <span data-lang="en">Applications are reviewed within 24 hours. You'll receive login credentials via email once approved. Questions? WhatsApp us at +689 87 26 90 65</span>
+                                <span data-lang="fr">Les candidatures sont examinées dans les 24 heures. Tu recevras les identifiants de connexion par email une fois approuvé. Questions ? WhatsApp nous au +689 87 26 90 65</span>
+                            </small></p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="cta-support">
+                    <p>
+                        <span data-lang="en">Questions? Contact our operator success team:</span>
+                        <span data-lang="fr">Questions ? Contacte notre équipe de succès opérateur :</span>
+                    </p>
+                    <a href="https://wa.me/68987269065" class="whatsapp-link" target="_blank">
+                        <span class="whatsapp-icon">📱</span> 
+                        <span data-lang="en">WhatsApp: +689 87 26 90 65</span>
+                        <span data-lang="fr">WhatsApp : +689 87 26 90 65</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="https://vai.studio/via-studio-images/logo/VAI%20-%20Logo%20White%202025.png" alt="VAI Logo" class="footer-logo">
+                    <p class="footer-tagline">
+                        <span data-lang="en">Transforming French Polynesian Tourism</span>
+                        <span data-lang="fr">Transformer le Tourisme Polynésien</span>
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>
+                            <span data-lang="en">Platform</span>
+                            <span data-lang="fr">Plateforme</span>
+                        </h4>
+                        <ul>
+                            <li><a href="https://vai-operator-dashboard.onrender.com/" target="_blank">
+                                <span data-lang="en">Dashboard</span>
+                                <span data-lang="fr">Tableau de Bord</span>
+                            </a></li>
+                            <li><a href="https://app.vai.studio/" target="_blank">
+                                <span data-lang="en">Tourist App</span>
+                                <span data-lang="fr">App Tourist</span>
+                            </a></li>
+                            <li><a href="#operator-registration">
+                                <span data-lang="en">Join Now</span>
+                                <span data-lang="fr">Rejoindre Maintenant</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>
+                            <span data-lang="en">Support</span>
+                            <span data-lang="fr">Support</span>
+                        </h4>
+                        <ul>
+                            <li><a href="https://wa.me/68987269065" target="_blank">
+                                <span data-lang="en">WhatsApp Support</span>
+                                <span data-lang="fr">Support WhatsApp</span>
+                            </a></li>
+                            <li><a href="mailto:operators@vai.studio">
+                                <span data-lang="en">Email Support</span>
+                                <span data-lang="fr">Support Email</span>
+                            </a></li>
+                            <li><a href="https://vai.studio/" target="_blank">
+                                <span data-lang="en">Main Website</span>
+                                <span data-lang="fr">Site Principal</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>
+                            <span data-lang="en">Company</span>
+                            <span data-lang="fr">Entreprise</span>
+                        </h4>
+                        <ul>
+                            <li><a href="https://vai.studio/" target="_blank">
+                                <span data-lang="en">About VAI</span>
+                                <span data-lang="fr">À Propos de VAI</span>
+                            </a></li>
+                            <li><a href="https://vai.studio/contact/" target="_blank">
+                                <span data-lang="en">Contact</span>
+                                <span data-lang="fr">Contact</span>
+                            </a></li>
+                            <li><a href="#" target="_blank">
+                                <span data-lang="en">Terms of Service</span>
+                                <span data-lang="fr">Conditions d'Utilisation</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    <span data-lang="en">&copy; 2025 VAI Studio. All rights reserved. Made with ❤️ in French Polynesia.</span>
+                    <span data-lang="fr">&copy; 2025 VAI Studio. Tous droits réservés. Fait avec ❤️ en Polynésie française.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="services/registration.js"></script>
+    <script src="success-screen.js"></script>
+    <script src="registration-handler.js"></script>
+    <script src="operator-landing.js"></script>
+</body>
+</html>
