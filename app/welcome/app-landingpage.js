@@ -1386,7 +1386,7 @@ function fixFormButtonScrolling() {
         });
     });
     
-    console.log(`✅ Fixed ${formLinks.length} form button links`);
+    console.log(`✅ ${formLinks.length} form button links`);
 }
 
 // ============================================================================
