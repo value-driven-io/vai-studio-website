@@ -1,0 +1,41 @@
+# _headers file for Render.com
+
+# CSS files
+/app/welcome/*.css
+  Content-Type: text/css
+  Cache-Control: public, max-age=31536000
+
+/app/operator-welcome/*.css
+  Content-Type: text/css
+  Cache-Control: public, max-age=31536000
+
+/*.css
+  Content-Type: text/css
+  Cache-Control: public, max-age=31536000
+
+# JavaScript files
+/app/welcome/*.js
+  Content-Type: text/javascript
+  Cache-Control: public, max-age=31536000
+
+/app/operator-welcome/*.js
+  Content-Type: text/javascript
+  Cache-Control: public, max-age=31536000
+
+/app/welcome/services/*.js
+  Content-Type: text/javascript
+  Cache-Control: public, max-age=31536000
+
+/*.js
+  Content-Type: text/javascript
+  Cache-Control: public, max-age=31536000
+
+# Alternative approach - match all subdirectories
+/app/*/*.css
+  Content-Type: text/css
+
+/app/*/*.js
+  Content-Type: text/javascript
+
+/app/*/*/*.js
+  Content-Type: text/javascript
