@@ -93,7 +93,7 @@
     transition: all 0.3s ease;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 767px) {
     .language-switcher {
     top: 50%;
 }
