@@ -584,11 +584,8 @@
                         <option value="Tikehau">Tikehau</option>
                         <option value="Rangiroa">Rangiroa</option>
                         <option value="Fakarava">Fakarava</option>
-                        <option value="Manihi">Manihi</option>
                         <option value="Nuku Hiva">Nuku Hiva</option>
-                        <option value="Hiva Oa">Hiva Oa</option>
-                        <option value="Rurutu">Rurutu</option>
-                        <option value="Tubuai">Tubuai</option>
+                        <option value="Other">Other | Autre</option>
                     </select>
                 </div>
 
@@ -668,6 +665,56 @@
                         <span data-lang="fr">En t'inscrivant, tu acceptes de recevoir des infos sur le lancement de VAI le 14 juillet 2025. 😎</span>
                     </small></p>
                 </div>
+
+                
+                <!-- Success Overlay -->
+
+                <div class="success-screen-overlay" id="tourist-success-overlay">
+                    <div class="success-content">
+                        <div class="success-icon">🎉</div>
+                        <h2 class="success-title">
+                            <span data-lang="en">Welcome to VAI!</span>
+                            <span data-lang="fr">Bienvenue à VAI!</span>
+                        </h2>
+                        <p class="success-message" id="tourist-success-message">
+                            <span data-lang="en">Your registration is complete! You'll receive launch updates when VAI goes live on July 14th.</span>
+                            <span data-lang="fr">Ton inscription est terminée ! Tu recevras les mises à jour de lancement quand VAI sera en ligne le 14 juillet.</span>
+                        </p>
+                        
+                        <div class="success-next-steps">
+                            <h4>
+                                <span data-lang="en">What happens next:</span>
+                                <span data-lang="fr">Que se passe-t-il ensuite :</span>
+                            </h4>
+                            <ul>
+                                <li>
+                                    <span data-lang="en">Check your email for confirmation</span>
+                                    <span data-lang="fr">Vérifie ton email pour confirmation</span>
+                                </li>
+                                <li>
+                                    <span data-lang="en">Get ready for July 14th launch day</span>
+                                    <span data-lang="fr">Prépare-toi pour le lancement du 14 juillet</span>
+                                </li>
+                                <li>
+                                    <span data-lang="en">Be first to discover tours and events</span>
+                                    <span data-lang="fr">Sois le premier à découvrir les tours et les événements</span>
+                                </li>
+                                <li>
+                                    <span data-lang="en">Questions? Message us at hello@vai.studio</span>
+                                    <span data-lang="fr">Questions ? Écrivez-nous à hello@vai.studio</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="success-actions">
+                            <button type="button" class="success-btn success-btn-secondary" onclick="window.vaiRegistrationHandler.resetTouristForm()">
+                                <span data-lang="en">Go back</span>
+                                <span data-lang="fr">Retourner</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </form>
         </div>
     </section>
@@ -720,7 +767,7 @@
             
             <form id="operator-form" class="registration-form operator-form compact-form">
                 
-                <!-- Company Information (Compact Row Layout) -->
+                <!-- Company Information -->
                 <div class="form-section">
                     <h3 class="form-section-title">
                         <span data-lang="en">Company Information</span>
@@ -828,10 +875,6 @@
                                 <span>Raiatea</span>
                             </label>
                             <label class="checkbox-option badge-style">
-                                <input type="checkbox" name="islands_served" value="Taha'a">
-                                <span>Taha'a</span>
-                            </label>
-                            <label class="checkbox-option badge-style">
                                 <input type="checkbox" name="islands_served" value="Maupiti">
                                 <span>Maupiti</span>
                             </label>
@@ -848,24 +891,12 @@
                                 <span>Fakarava</span>
                             </label>
                             <label class="checkbox-option badge-style">
-                                <input type="checkbox" name="islands_served" value="Manihi">
-                                <span>Manihi</span>
-                            </label>
-                            <label class="checkbox-option badge-style">
                                 <input type="checkbox" name="islands_served" value="Nuku Hiva">
                                 <span>Nuku Hiva</span>
                             </label>
                             <label class="checkbox-option badge-style">
-                                <input type="checkbox" name="islands_served" value="Hiva Oa">
-                                <span>Hiva Oa</span>
-                            </label>
-                            <label class="checkbox-option badge-style">
-                                <input type="checkbox" name="islands_served" value="Rurutu">
-                                <span>Rurutu</span>
-                            </label>
-                            <label class="checkbox-option badge-style">
-                                <input type="checkbox" name="islands_served" value="Tubuai">
-                                <span>Tubuai</span>
+                                <input type="checkbox" name="islands_served" value="Other">
+                                <span>Other | Autre</span>
                             </label>
                         </div>
                     </div>
@@ -934,14 +965,10 @@
                             <select name="primary_language" id="operator-language" class="form-input" required>
                                 <option value="">
                                     <span data-lang="en">Select language...</span>
-                                    <span data-lang="fr">Sélectionne la langue...</span>
+                                    <span data-lang="fr">| Sélectionne la langue...</span>
                                 </option>
                                 <option value="english">🇺🇸 English</option>
                                 <option value="french">🇫🇷 Français</option>
-                                <option value="german">🇩🇪 Deutsch</option>
-                                <option value="spanish">🇪🇸 Español</option>
-                                <option value="mandarin">🇨🇳 中文</option>
-                                <option value="tahitian">🌺 Reo Tahiti</option>
                             </select>
                         </div>
                         
@@ -953,23 +980,23 @@
                             <select name="target_bookings_monthly" id="target-bookings" class="form-input">
                                 <option value="">
                                     <span data-lang="en">Select range...</span>
-                                    <span data-lang="fr">Sélectionne une gamme...</span>
+                                    <span data-lang="fr">| Sélectionne une gamme...</span>
                                 </option>
                                 <option value="1-5">
                                     <span data-lang="en">1-5 bookings</span>
-                                    <span data-lang="fr">1-5 réservations</span>
+                                    <span data-lang="fr">| 1-5 réservations</span>
                                 </option>
                                 <option value="6-15">
                                     <span data-lang="en">6-15 bookings</span>
-                                    <span data-lang="fr">6-15 réservations</span>
+                                    <span data-lang="fr">| 6-15 réservations</span>
                                 </option>
                                 <option value="16-30">
                                     <span data-lang="en">16-30 bookings</span>
-                                    <span data-lang="fr">16-30 réservations</span>
+                                    <span data-lang="fr">| 16-30 réservations</span>
                                 </option>
                                 <option value="31+">
                                     <span data-lang="en">31+ bookings</span>
-                                    <span data-lang="fr">31+ réservations</span>
+                                    <span data-lang="fr">| 31+ réservations</span>
                                 </option>
                             </select>
                         </div>
@@ -983,27 +1010,27 @@
                         <select name="customer_type_preference" id="customer-preference" class="form-input">
                             <option value="">
                                 <span data-lang="en">No preference</span>
-                                <span data-lang="fr">Aucune préférence</span>
+                                <span data-lang="fr">| Aucune préférence</span>
                             </option>
                             <option value="tourists">
                                 <span data-lang="en">International tourists</span>
-                                <span data-lang="fr">Touristes internationaux</span>
+                                <span data-lang="fr">| Touristes internationaux</span>
                             </option>
                             <option value="locals">
                                 <span data-lang="en">Local residents</span>
-                                <span data-lang="fr">Résidents locaux</span>
+                                <span data-lang="fr">| Résidents locaux</span>
                             </option>
                             <option value="families">
                                 <span data-lang="en">Families with children</span>
-                                <span data-lang="fr">Familles avec enfants</span>
+                                <span data-lang="fr">| Familles avec enfants</span>
                             </option>
                             <option value="adventure">
                                 <span data-lang="en">Adventure seekers</span>
-                                <span data-lang="fr">Chercheurs d'aventure</span>
+                                <span data-lang="fr">| Chercheurs d'aventure</span>
                             </option>
                             <option value="luxury">
                                 <span data-lang="en">Luxury travelers</span>
-                                <span data-lang="fr">Voyageurs de luxe</span>
+                                <span data-lang="fr">| Voyageurs de luxe</span>
                             </option>
                         </select>
                     </div>
@@ -1035,6 +1062,54 @@
                         <span data-lang="fr">Les candidatures sont examinées dans les 24 heures. Tu recevras les identifiants de connexion par email une fois approuvé. Questions ? WhatsApp nous au +68987269065</span>
                     </small></p>
                 </div>
+
+
+                <!-- Operator Success Overlay -->
+
+                <div class="success-screen-overlay" id="operator-success-overlay">
+                    <div class="success-content">
+                        <div class="success-icon">🚀</div>
+                        <h2 class="success-title">
+                            <span data-lang="en">Application Submitted!</span>
+                            <span data-lang="fr">Candidature Envoyée!</span>
+                        </h2>
+                        <p class="success-message" id="operator-success-message">
+                            <span data-lang="en">Your founding operator application is being reviewed. We'll contact you within 24 hours.</span>
+                            <span data-lang="fr">Ta candidature d'opérateur fondateur est en cours d'examen. Nous te contacterons dans les 24 heures.</span>
+                        </p>
+                        
+                        <div class="success-next-steps">
+                            <h4>
+                                <span data-lang="en">What happens next:</span>
+                                <span data-lang="fr">Que se passe-t-il ensuite :</span>
+                            </h4>
+                            <ul>
+                                <li>
+                                    <span data-lang="en">Our team reviews your application</span>
+                                    <span data-lang="fr">Notre équipe examine ta candidature</span>
+                                </li>
+                                <li>
+                                    <span data-lang="en">You'll receive a welcome email</span>
+                                    <span data-lang="fr">Tu recevras un email de bienvenue</span>
+                                </li>
+                                <li>
+                                    <span data-lang="en">Get access to the operator dashboard</span>
+                                    <span data-lang="fr">Obtiens l'accès au tableau de bord opérateur</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="success-actions">
+                            <button type="button" class="success-btn success-btn-secondary" onclick="window.vaiRegistrationHandler.resetOperatorForm()">
+                                <span data-lang="en">Close</span>
+                                <span data-lang="fr">Fermer</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </form>
         </div>
     </div>

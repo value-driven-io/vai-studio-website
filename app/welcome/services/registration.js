@@ -241,18 +241,33 @@ const registrationService = {
       }
       
       // STEP 2: Create operators record (business functionality)
+      const primaryIsland = islands_served && islands_served.length > 0 ? islands_served[0] : null
+      
+      console.log('🔍 Primary island from form:', primaryIsland)
+
+      // Database constraint requires specific lowercase values
+      const validIslands = ['Tahiti', 'Moorea', 'Bora Bora', 'Huahine', 'Raiatea', 'Maupiti', 'Tikehau', 'Rangiroa', 'Fakarava', 'Nuku Hiva', 'Other']
+      const normalizedIsland = primaryIsland || 'Tahiti'
+      const island = primaryIsland || 'Tahiti'
+
+      console.log('🔧 Island validation:', {
+        received: primaryIsland,
+        final: island,
+        format: 'exact_match_database'
+      })
+
       const operatorData = {
         company_name: company_name.trim(),
         contact_person: contact_person.trim(),
         email: email.toLowerCase().trim(),
         whatsapp_number: whatsapp_number?.trim() || null,
-        island: islands_served[0], // Primary island
+        island: island, // FIXED: Validated and normalized island value
         commission_rate: 10, // Default 10%
         status: 'pending', // pending → active (after approval)
         
         // Store additional data in notes (compatible with existing schema)
         notes: JSON.stringify({
-          islands_served: islands_served,
+          islands_served: islands_served, // Keep original array
           tour_types_offered: tour_types_offered,
           languages: languages,
           business_goals: {
@@ -274,17 +289,29 @@ const registrationService = {
         .select()
         .single()
       
+
       if (operatorError) {
-        console.error('Operator creation error:', operatorError)
-        
-        // Cleanup: remove tourist user if operator creation failed
-        await supabase.from('tourist_users').delete().eq('id', touristUser.id)
-        
-        if (operatorError.code === '23505') { // Unique constraint violation
-          throw new Error('Operator email already registered. Please use a different email address.')
-        }
-        throw new Error('Failed to create operator account')
+      console.error('Operator creation error:', operatorError)
+      
+      // Cleanup: remove tourist user if operator creation failed
+      await supabase.from('tourist_users').delete().eq('id', touristUser.id)
+      
+      // ENHANCED: Better error messages
+      if (operatorError.code === '23505') { // Unique constraint violation
+        throw new Error('Operator email already registered. Please use a different email address.')
       }
+      if (operatorError.code === '23514') { // Check constraint violation
+        console.error('Database constraint error details:', {
+          island: island,
+          validIslands: validIslands,
+          originalIsland: primaryIsland
+        })
+        throw new Error('Invalid island selection. Please refresh and try again.')
+      }
+      
+      throw new Error('Failed to create operator account')
+    }
+
       
       // STEP 3: Send notifications (non-blocking)
       Promise.all([

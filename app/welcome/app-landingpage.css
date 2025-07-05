@@ -1135,6 +1135,16 @@ body {
     margin-right: auto;
 }
 
+.section-subtitle {
+    text-align: center;
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Enhanced Form Container */
 .registration-form {
     max-width: 600px;
@@ -1817,7 +1827,7 @@ body {
     position: fixed;
     top: 70px;        /* Mobile: below header */
     right: 15px;      /* Mobile: smaller margin */
-    z-index: 2000;
+    z-index: 12000;
     display: flex;
     gap: 0.5rem;
     background: rgba(15, 23, 42, 0.8);
@@ -2031,7 +2041,7 @@ body[data-current-lang="en"] [data-lang="en"] {
     padding: 20px 30px;
     border-radius: 12px;
     font-weight: 600;
-    z-index: 10000;
+    z-index: 11001;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     max-width: 90%;
     text-align: center;
@@ -2084,7 +2094,7 @@ body[data-current-lang="en"] [data-lang="en"] {
 /* Ensure language switcher doesn't conflict with other elements */
 .language-switcher {
     /* Ensure it's above everything else */
-    z-index: 2001;
+    z-index: 12001;
 }
 
 /* Special handling for FAQ questions with multiple spans */
@@ -2214,4 +2224,215 @@ select.form-input option {
 
 .launch-date-clickable:active {
     transform: translateY(0);
+}
+
+
+
+/* ========================================
+   SUCCESS SCREEN OVERLAY STYLES
+   Add this entire section to the END of your styles.css file
+   ======================================== */
+
+.success-screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10991;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.success-screen-overlay.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: all;
+}
+
+.success-content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 500px;
+    color: white;
+    width: 100%;
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: successPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.success-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #10b981;
+}
+
+.success-message {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #e2e8f0;
+}
+
+.success-next-steps {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.success-next-steps h4 {
+    color: #10b981;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.success-next-steps ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.success-next-steps li {
+    padding: 0.5rem 0;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.success-next-steps li::before {
+    content: "✓";
+    color: #10b981;
+    font-weight: bold;
+}
+
+.success-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.success-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+.success-btn-primary {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.success-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.success-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.success-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Ensure forms have relative positioning for overlay */
+.registration-form {
+    position: relative;
+}
+
+/* SPECIAL HANDLING FOR OPERATOR FORM IN FULLSCREEN OVERLAY */
+.operator-form-overlay .success-screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10999;
+    border-radius: 0;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.operator-form-overlay .success-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* Language support - ensure all language variants are visible */
+.success-content [data-lang] {
+    display: none;
+}
+
+.success-content [data-lang="en"] {
+    display: block;
+}
+
+body[data-current-lang="fr"] .success-content [data-lang="en"] {
+    display: none;
+}
+
+body[data-current-lang="fr"] .success-content [data-lang="fr"] {
+    display: block;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .success-content {
+        padding: 1.5rem;
+    }
+    
+    .success-icon {
+        font-size: 3rem;
+    }
+    
+    .success-title {
+        font-size: 1.5rem;
+    }
+    
+    .success-message {
+        font-size: 1rem;
+    }
+    
+    .success-actions {
+        flex-direction: column;
+    }
+    
+    .success-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .operator-form-overlay .success-content {
+        padding: 2rem 1rem;
+    }
 }

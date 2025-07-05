@@ -133,138 +133,136 @@ class RegistrationHandler {
   // ===========================
   
   async handleTouristSubmit(e) {
-    e.preventDefault()
+  e.preventDefault()
+  
+  if (this.isSubmitting) return
+  this.isSubmitting = true
+  
+  const form = e.target
+  const submitBtn = form.querySelector('button[type="submit"]')
+  
+  try {
+    // Clear previous errors
+    this.clearAllErrors(form)
     
-    if (this.isSubmitting) return
-    this.isSubmitting = true
+    // Show loading state
+    this.setSubmitState(submitBtn, true, 'Registering...')
     
-    const form = e.target
-    const submitBtn = form.querySelector('button[type="submit"]')
+    // Extract form data
+    const formData = this.extractTouristData(form)
     
-    try {
-      // Clear previous errors
-      this.clearAllErrors(form)
+    console.log('🎯 Tourist form data extracted:', formData)
+    
+    // Validate data with smart error messages
+    const validationResult = this.validateTouristData(formData, form)
+    if (!validationResult.valid) {
+      this.showSmartError(form, validationResult.message, validationResult.field)
+      return
+    }
+    
+    // Check if registrationService is available
+    if (typeof window.registrationService === 'undefined') {
+      throw new Error('Registration service not loaded. Please refresh the page.')
+    }
+    
+    // Submit registration
+    const result = await window.registrationService.registerTourist(formData)
+    
+    if (result.success) {
+      this.showSuccess(form, result.message, 'tourist')
+      this.trackEvent('tourist_registration_success', formData)
       
-      // Show loading state
-      this.setSubmitState(submitBtn, true, 'Registering...')
-      
-      // Extract form data
-      const formData = this.extractTouristData(form)
-      
-      console.log('🎯 Tourist form data extracted:', formData)
-      
-      // Validate data with smart error messages
-      const validationResult = this.validateTouristData(formData, form)
-      if (!validationResult.valid) {
-        this.showSmartError(form, validationResult.message, validationResult.field)
-        return
-      }
-      
-      // Check if registrationService is available
-      if (typeof window.registrationService === 'undefined') {
-        throw new Error('Registration service not loaded. Please refresh the page.')
-      }
-      
-      // Submit registration
-      const result = await window.registrationService.registerTourist(formData)
-      
-      if (result.success) {
-        this.showSuccess(form, result.message)
-        this.trackEvent('tourist_registration_success', formData)
-        
-        // Reset form on success
+      // Reset form on success (but don't show it immediately due to success screen)
+      setTimeout(() => {
         form.reset()
-        
         // Hide conditional fields
         const islandSelection = document.getElementById('island-selection')
         const whatsappInput = document.getElementById('whatsapp-input')
         if (islandSelection) islandSelection.style.display = 'none'
         if (whatsappInput) whatsappInput.style.display = 'none'
-        
-        // Show next steps
-        setTimeout(() => {
-          this.showNextSteps('tourist', result.next_step)
-        }, 2000)
-        
-      } else {
-        this.showSmartError(form, result.error)
-        this.trackEvent('tourist_registration_error', { error: result.error })
-      }
+      }, 500)
       
-    } catch (error) {
-      console.error('Tourist registration error:', error)
-      this.showSmartError(form, this.getErrorMessage(error))
-      this.trackEvent('tourist_registration_error', { error: error.message })
-      
-    } finally {
-      this.setSubmitState(submitBtn, false, '🌺 Join VAI - Unlock Paradise')
-      this.isSubmitting = false
+    } else {
+      this.showSmartError(form, result.error)
+      this.trackEvent('tourist_registration_error', { error: result.error })
     }
+    
+  } catch (error) {
+    console.error('Tourist registration error:', error)
+    this.showSmartError(form, this.getErrorMessage(error))
+    this.trackEvent('tourist_registration_error', { error: error.message })
+    
+  } finally {
+    this.setSubmitState(submitBtn, false, '🌺 Join VAI - Unlock Paradise')
+    this.isSubmitting = false
   }
+}
+
+
   
   async handleOperatorSubmit(e) {
-    e.preventDefault()
+  e.preventDefault()
+  
+  if (this.isSubmitting) return
+  this.isSubmitting = true
+  
+  const form = e.target
+  const submitBtn = form.querySelector('button[type="submit"]')
+  
+  try {
+    // Clear previous errors
+    this.clearAllErrors(form)
     
-    if (this.isSubmitting) return
-    this.isSubmitting = true
+    // Show loading state
+    this.setSubmitState(submitBtn, true, 'Submitting Application...')
     
-    const form = e.target
-    const submitBtn = form.querySelector('button[type="submit"]')
+    // Extract form data
+    const formData = this.extractOperatorData(form)
     
-    try {
-      // Clear previous errors
-      this.clearAllErrors(form)
-      
-      // Show loading state
-      this.setSubmitState(submitBtn, true, 'Submitting Application...')
-      
-      // Extract form data
-      const formData = this.extractOperatorData(form)
-      
-      console.log('🎯 Operator form data extracted:', formData)
-      
-      // Validate data with smart error messages
-      const validationResult = this.validateOperatorData(formData, form)
-      if (!validationResult.valid) {
-        this.showSmartError(form, validationResult.message, validationResult.field)
-        return
-      }
-      
-      // Check if registrationService is available
-      if (typeof window.registrationService === 'undefined') {
-        throw new Error('Registration service not loaded. Please refresh the page.')
-      }
-      
-      // Submit registration
-      const result = await window.registrationService.registerOperator(formData)
-      
-      if (result.success) {
-        this.showSuccess(form, result.message)
-        this.trackEvent('operator_registration_success', formData)
-        
-        // Reset form on success
-        form.reset()
-        
-        // Show next steps
-        setTimeout(() => {
-          this.showNextSteps('operator', result.next_step)
-        }, 2000)
-        
-      } else {
-        this.showSmartError(form, result.error)
-        this.trackEvent('operator_registration_error', { error: result.error })
-      }
-      
-    } catch (error) {
-      console.error('Operator registration error:', error)
-      this.showSmartError(form, this.getErrorMessage(error))
-      this.trackEvent('operator_registration_error', { error: error.message })
-      
-    } finally {
-      this.setSubmitState(submitBtn, false, '🚀 Submit Operator Application')
-      this.isSubmitting = false
+    console.log('🎯 Operator form data extracted:', formData)
+    
+    // Validate data with smart error messages
+    const validationResult = this.validateOperatorData(formData, form)
+    if (!validationResult.valid) {
+      this.showSmartError(form, validationResult.message, validationResult.field)
+      return
     }
+    
+    // Check if registrationService is available
+    if (typeof window.registrationService === 'undefined') {
+      throw new Error('Registration service not loaded. Please refresh the page.')
+    }
+    
+    // Submit registration
+    const result = await window.registrationService.registerOperator(formData)
+    
+    if (result.success) {
+      this.showSuccess(form, result.message, 'operator')
+      this.trackEvent('operator_registration_success', formData)
+      
+      // Reset form on success (but don't show it immediately due to success screen)
+      setTimeout(() => {
+        form.reset()
+      }, 500)
+      
+    } else {
+      this.showSmartError(form, result.error)
+      this.trackEvent('operator_registration_error', { error: result.error })
+    }
+    
+  } catch (error) {
+    console.error('Operator registration error:', error)
+    this.showSmartError(form, this.getErrorMessage(error))
+    this.trackEvent('operator_registration_error', { error: error.message })
+    
+  } finally {
+    this.setSubmitState(submitBtn, false, '🚀 Submit Operator Application')
+    this.isSubmitting = false
   }
+}
+
+
+
   
   // ===========================
   // DATA EXTRACTION (UPDATED FOR NEW FORM STRUCTURE)
@@ -504,9 +502,15 @@ class RegistrationHandler {
     }
   }
   
-  showSuccess(form, message) {
-    this.showMessage(form, message, 'success')
-  }
+  showSuccess(form, message, userType = 'tourist') {
+  // Show the success screen overlay instead of just toast
+  this.showSuccessScreen(form, message, userType)
+  
+  // Hide the success screen after 10 seconds (optional)
+  setTimeout(() => {
+    this.hideSuccessScreen(form, userType)
+  }, 10000)
+}
   
   showMessage(form, message, type) {
     // Remove existing messages
@@ -576,12 +580,18 @@ class RegistrationHandler {
     }, timeout)
   }
   
+  
   showNextSteps(userType, step) {
     const messages = {
+
+      /*
+
+      // This method is now replaced by the success screen overlay
+      
       tourist: {
         download_app: '🎉 Perfect! You\'ll get an email when VAI launches on July 14th. Get ready to unlock paradise!',
         explore_local: '🌺 Welcome! Discover local experiences starting July 14th when VAI goes live.'
-      },
+      }, */
       operator: {
         await_approval: '🚀 Excellent! Your application is under review. You\'ll hear from us within 24 hours.',
         dashboard_ready: '✅ Great! You can now access your operator dashboard.'
@@ -592,6 +602,8 @@ class RegistrationHandler {
     this.showSuccess(null, message)
   }
   
+
+
   // ===========================
   // FORM ENHANCEMENTS
   // ===========================
@@ -636,6 +648,176 @@ class RegistrationHandler {
     // Console logging for development
     console.log(`📊 Event: ${eventName}`, data)
   }
+
+
+  /**
+ * Shows the success screen overlay
+ */
+showSuccessScreen(form, message, userType) {
+  console.log(`🎯 Attempting to show success screen for ${userType}`)
+  
+  const overlayId = userType === 'tourist' ? 'tourist-success-overlay' : 'operator-success-overlay'
+  const messageId = userType === 'tourist' ? 'tourist-success-message' : 'operator-success-message'
+  
+  const overlay = document.getElementById(overlayId)
+  const messageElement = document.getElementById(messageId)
+  
+  console.log(`🔍 Looking for overlay: ${overlayId}`)
+  console.log(`🔍 Overlay found:`, overlay)
+  
+  if (!overlay) {
+    console.warn(`❌ Success overlay not found: ${overlayId}`)
+    // Fallback to old toast method
+    this.showMessage(form, message, 'success')
+    return
+  }
+  
+  // Update the message if custom message provided
+  if (message && messageElement) {
+    console.log(`📝 Updating message: ${message}`)
+    // Store original message
+    const originalMessage = messageElement.innerHTML
+    
+    // Update with custom message while preserving language structure
+    const currentLang = document.body.getAttribute('data-current-lang') || 'en'
+    this.updateSuccessMessage(messageElement, message, currentLang)
+    
+    // Restore original after hiding
+    setTimeout(() => {
+      messageElement.innerHTML = originalMessage
+    }, 12000)
+  }
+  
+  // Special handling for operator form (in fullscreen overlay)
+  if (userType === 'operator') {
+    console.log(`🎯 Applying operator form special handling`)
+    
+    // Make sure the operator form overlay is visible
+    const operatorFormOverlay = document.getElementById('operator-form-overlay')
+    if (operatorFormOverlay && !operatorFormOverlay.classList.contains('show')) {
+      console.log(`⚠️ Operator form overlay not visible, showing it first`)
+      operatorFormOverlay.classList.add('show')
+    }
+    
+    // Add special class for operator form context
+    overlay.classList.add('operator-context')
+    
+    // Ensure proper z-index stacking
+    overlay.style.zIndex = '10002'
+    overlay.style.position = 'fixed'
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden'
+  }
+  
+  // Show the overlay
+  console.log(`✅ Showing success screen overlay`)
+  overlay.classList.add('active')
+  
+  // Track success screen show
+  this.trackEvent(`success_screen_shown`, { user_type: userType })
+  
+  console.log(`✅ Success screen shown for ${userType}`)
+}
+
+/**
+ * Updates success message while preserving language structure
+ */
+updateSuccessMessage(messageElement, newMessage, currentLang) {
+  const langElements = messageElement.querySelectorAll('[data-lang]')
+  
+  if (langElements.length > 0) {
+    // Update the appropriate language element
+    langElements.forEach(el => {
+      if (el.getAttribute('data-lang') === currentLang) {
+        el.textContent = newMessage
+      }
+    })
+  } else {
+    // No language structure, just update text
+    messageElement.textContent = newMessage
+  }
+}
+
+/**
+ * Hides the success screen overlay
+ */
+hideSuccessScreen(form, userType) {
+  console.log(`🔄 Hiding success screen for ${userType}`)
+  
+  const overlayId = userType === 'tourist' ? 'tourist-success-overlay' : 'operator-success-overlay'
+  const overlay = document.getElementById(overlayId)
+  
+  if (overlay) {
+    overlay.classList.remove('active')
+    overlay.classList.remove('operator-context')
+    
+    // Restore body scroll for operator form
+    if (userType === 'operator') {
+      // Only restore scroll if operator form overlay is also being closed
+      setTimeout(() => {
+        const operatorFormOverlay = document.getElementById('operator-form-overlay')
+        if (!operatorFormOverlay || !operatorFormOverlay.classList.contains('show')) {
+          document.body.style.overflow = 'auto'
+        }
+      }, 300)
+    }
+    
+    console.log(`✅ Success screen hidden for ${userType}`)
+  }
+}
+
+/**
+ * Resets the tourist form and hides success screen
+ */
+resetTouristForm() {
+  console.log('🔄 Resetting tourist form')
+  
+  const form = document.querySelector('#tourist-form')
+  if (form) {
+    form.reset()
+    this.hideSuccessScreen(form, 'tourist')
+    
+    // Hide conditional fields
+    const islandSelection = document.getElementById('island-selection')
+    const whatsappInput = document.getElementById('whatsapp-input')
+    if (islandSelection) islandSelection.style.display = 'none'
+    if (whatsappInput) whatsappInput.style.display = 'none'
+    
+    // Clear any errors
+    this.clearAllErrors(form)
+    
+    console.log('✅ Tourist form reset complete')
+  }
+}
+
+/**
+ * Resets the operator form and hides success screen
+ */
+resetOperatorForm() {
+  console.log('🔄 Resetting operator form')
+  
+  const form = document.querySelector('#operator-form')
+  if (form) {
+    form.reset()
+    this.hideSuccessScreen(form, 'operator')
+    
+    // Clear any errors
+    this.clearAllErrors(form)
+    
+    // Optional: close the operator form overlay after a delay
+    setTimeout(() => {
+      const operatorOverlay = document.getElementById('operator-form-overlay')
+      if (operatorOverlay) {
+        operatorOverlay.classList.remove('show')
+        document.body.style.overflow = 'auto'
+      }
+    }, 2000)
+    
+    console.log('✅ Operator form reset complete')
+  }
+}
+
 }
 
 // ===========================
