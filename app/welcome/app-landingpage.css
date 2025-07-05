@@ -2436,3 +2436,45 @@ body[data-current-lang="fr"] .success-content [data-lang="fr"] {
         padding: 2rem 1rem;
     }
 }
+
+
+/* button aufter success operator form */
+
+.btn-success-operator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: var(--vai-radius-lg);
+    font-size: var(--vai-font-size-sm);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--vai-transition);
+    position: relative;
+    overflow: hidden;
+    background-color: var(--vai-sand);
+}
+
+.btn-success-operator:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--vai-shadow-glow);
+}
+
+.btn-success-operator-outline {
+    background: transparent;
+    color: var(--vai-light);
+    border-color: var(--vai-primary);
+}
+
+.btn-success-operator-outline:hover {
+    background: var(--vai-primary);
+    color: var(--vai-white);
+}
+
+.btn-success-operator-large {
+    padding: 1rem 2rem;
+    font-size: var(--vai-font-size-base);
+}
