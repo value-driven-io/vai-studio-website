@@ -237,18 +237,16 @@ const registrationService = {
   },
   
   formatPhoneNumber(phone) {
-    // Remove all non-digit characters
-    const digitsOnly = phone.replace(/\D/g, '')
-    
-    // Format for French Polynesia if starts with 689
-    if (digitsOnly.startsWith('689')) {
-      const number = digitsOnly.substring(3)
-      if (number.length === 8) {
-        return `+689 ${number.substring(0, 2)} ${number.substring(2, 4)} ${number.substring(4, 6)} ${number.substring(6, 8)}`
+      // Remove all non-digit characters
+      const digitsOnly = phone.replace(/\D/g, '')
+      
+      // Ensure it has a + prefix if it's a valid mobile number
+      if (digitsOnly.length >= 7 && digitsOnly.length <= 15) {
+          return `+${digitsOnly}`
       }
-    }
-    
-    return phone // Return original if can't format
+      
+      // Return original if can't format
+      return phone
   },
   
   // ===========================

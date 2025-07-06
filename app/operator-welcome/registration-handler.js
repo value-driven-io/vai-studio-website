@@ -392,21 +392,9 @@
         phoneInput.addEventListener('input', (e) => {
             let value = e.target.value.replace(/\D/g, '');
             
-            // Auto-format for French Polynesia
-            if (value.startsWith('689')) {
-                value = value.substring(3);
-            }
-            
+            // Simple international format
             if (value.length > 0) {
-                if (value.length <= 2) {
-                    value = `+689 ${value}`;
-                } else if (value.length <= 4) {
-                    value = `+689 ${value.substring(0, 2)} ${value.substring(2)}`;
-                } else if (value.length <= 6) {
-                    value = `+689 ${value.substring(0, 2)} ${value.substring(2, 4)} ${value.substring(4)}`;
-                } else {
-                    value = `+689 ${value.substring(0, 2)} ${value.substring(2, 4)} ${value.substring(4, 6)} ${value.substring(6, 8)}`;
-                }
+                value = `+${value}`;
             }
             
             e.target.value = value;

@@ -110,16 +110,11 @@ export const useAuth = () => {
     
     console.log('🔐 Attempting login for:', email)
     
-    // Fast auth with timeout
-    const { data: authData, error: authError } = await Promise.race([
-      supabase.auth.signInWithPassword({
-        email: email.toLowerCase().trim(),
-        password: password
-      }),
-      new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Login timeout')), 5000)
-      )
-    ]);
+    // Auth without timeout (Supabase handles timeouts internally)
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: email.toLowerCase().trim(),
+      password: password
+    });
     
     if (authError) {
       console.error('❌ Auth error:', authError)

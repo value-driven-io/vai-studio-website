@@ -409,32 +409,20 @@
         }
 
         setupPhoneFormatting() {
-            const phoneInput = this.form.querySelector('#whatsapp_number');
-            if (!phoneInput) return;
+        const phoneInput = this.form.querySelector('#whatsapp_number');
+        if (!phoneInput) return;
 
-            phoneInput.addEventListener('input', (e) => {
-                let value = e.target.value.replace(/\D/g, '');
-                
-                // Format for French Polynesia (+689)
-                if (value.startsWith('689')) {
-                    value = value.substring(3);
-                }
-                
-                if (value.length > 0) {
-                    if (value.length <= 2) {
-                        value = `+689 ${value}`;
-                    } else if (value.length <= 4) {
-                        value = `+689 ${value.substring(0, 2)} ${value.substring(2)}`;
-                    } else if (value.length <= 6) {
-                        value = `+689 ${value.substring(0, 2)} ${value.substring(2, 4)} ${value.substring(4)}`;
-                    } else {
-                        value = `+689 ${value.substring(0, 2)} ${value.substring(2, 4)} ${value.substring(4, 6)} ${value.substring(6, 8)}`;
-                    }
-                }
-                
-                e.target.value = value;
-            });
-        }
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Simple international format
+            if (value.length > 0) {
+                value = `+${value}`;
+            }
+            
+            e.target.value = value;
+        });
+    }
 
         validateField(field) {
             const value = field.value.trim();
