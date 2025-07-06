@@ -1119,6 +1119,114 @@
         </div>
     </div>
 
+
+    <!-- ================================ -->
+    <!-- SOCIAL IMPACT SECTION -->
+    <!-- ================================ -->
+
+    <section class="social-impact-section" id="social-impact">
+        <div class="container">
+
+            <!-- English Content -->
+            <div class="lang-content active" data-lang="en">
+                <div class="social-impact-header">
+                    <h2 class="social-impact-title">Your Paradise Experience Helps Paradise</h2>
+                    <p class="social-impact-subtitle">
+                        Every VAI booking automatically supports the communities and environment that make French Polynesia magical. Your authentic adventure helps preserve paradise for future generations.
+                    </p>
+                </div>
+
+                <div class="social-impact-grid">
+                    <div class="impact-card">
+                        <span class="impact-icon">🌊</span>
+                        <h3 class="impact-card-title">Protect the Paradise</h3>
+                        <p class="impact-card-text">
+                            Ocean conservation projects and coral reef protection programs that keep the waters crystal clear for generations to come.
+                        </p>
+                    </div>
+
+                    <div class="impact-card">
+                        <span class="impact-icon">🌺</span>
+                        <h3 class="impact-card-title">Preserve the Culture</h3>
+                        <p class="impact-card-text">
+                            Traditional Polynesian arts, language programs, and cultural heritage initiatives that maintain authentic island identity.
+                        </p>
+                    </div>
+
+                    <div class="impact-card">
+                        <span class="impact-icon">🏡</span>
+                        <h3 class="impact-card-title">Empower the Community</h3>
+                        <p class="impact-card-text">
+                            Local education programs and youth development initiatives that give island communities tools for a better future.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="impact-commitment">
+                    <span class="impact-percentage">5%</span>
+                    <p class="impact-commitment-text">of every booking goes to social causes</p>
+                    <p class="impact-commitment-subtitle">Making your adventure matter beyond just you</p>
+                </div>
+            </div>
+
+            <!-- French Content -->
+            <div class="lang-content" data-lang="fr">
+                <div class="social-impact-header">
+                    <h2 class="social-impact-title">Votre Expérience au Paradis Aide le Paradis</h2>
+                    <p class="social-impact-subtitle">
+                        Chaque réservation VAI soutient automatiquement les communautés et l'environnement qui rendent la Polynésie française magique. Votre aventure authentique aide à préserver le paradis pour les futures générations.
+                    </p>
+                </div>
+
+                <div class="social-impact-grid">
+                    <div class="impact-card">
+                        <span class="impact-icon">🌊</span>
+                        <h3 class="impact-card-title">Protéger le Paradis</h3>
+                        <p class="impact-card-text">
+                            Projets de conservation océanique et programmes de protection des récifs coralliens qui maintiennent les eaux cristallines pour les générations futures.
+                        </p>
+                    </div>
+
+                    <div class="impact-card">
+                        <span class="impact-icon">🌺</span>
+                        <h3 class="impact-card-title">Préserver la Culture</h3>
+                        <p class="impact-card-text">
+                            Arts traditionnels polynésiens, programmes linguistiques et initiatives patrimoniales qui maintiennent l'identité authentique des îles.
+                        </p>
+                    </div>
+
+                    <div class="impact-card">
+                        <span class="impact-icon">👨‍👩‍👧‍👦</span>
+                        <h3 class="impact-card-title">Soutenir la Communauté</h3>
+                        <p class="impact-card-text">
+                            Programmes d'éducation locale et initiatives de développement jeunesse qui donnent aux communautés insulaires les outils pour un meilleur avenir.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="impact-commitment">
+                    <span class="impact-percentage">5%</span>
+                    <p class="impact-commitment-text">de chaque réservation va aux causes sociales</p>
+                    <p class="impact-commitment-subtitle">Faire que votre aventure compte au-delà de vous</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        // Language switching functionality for social impact section
+        function switchLanguage(lang) {
+            // Update buttons
+            document.querySelectorAll('.social-impact-section .lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.social-impact-section .lang-btn[onclick="switchLanguage('${lang}')"]`).classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.social-impact-section .lang-content').forEach(content => content.classList.remove('active'));
+            document.querySelector(`.social-impact-section .lang-content[data-lang="${lang}"]`).classList.add('active');
+        }
+    </script>
+
     <!-- Final CTA -->
     <section style="padding: 80px 0; background: var(--gradient-hero); text-align: center;">
         <div class="container">
