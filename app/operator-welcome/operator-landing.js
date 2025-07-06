@@ -9,7 +9,7 @@
     // ================================
 
     const CONFIG = {
-        FORM_ENDPOINT: 'https://n8n-stable-latest.onrender.com/webhook-test/vai-app-operator-registration',
+        FORM_ENDPOINT: 'https://n8n-stable-latest.onrender.com/webhook/vai-app-operator-registration',
         WHATSAPP_SUPPORT: 'https://wa.me/68987269065',
         DASHBOARD_URL: 'https://vai-operator-dashboard.onrender.com/',
         ANIMATION_DURATION: 300,

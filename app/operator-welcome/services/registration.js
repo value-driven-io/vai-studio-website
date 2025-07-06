@@ -191,7 +191,7 @@ const registrationService = {
           terms_accepted: terms_accepted
         }
         
-        await fetch('https://n8n-stable-latest.onrender.com/webhook-test/vai-app-operator-registration', {
+        await fetch('https://n8n-stable-latest.onrender.com/webhook/vai-app-operator-registration', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
