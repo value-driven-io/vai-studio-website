@@ -1900,7 +1900,7 @@ body {
 }
 
 .lang-btn.active {
-    background: var(--vai-coral);
+    background: #e2f12c;
     transform: scale(1.1);
 }
 

@@ -120,7 +120,7 @@
 }
 
 .lang-btn.active {
-    background: var(--vai-primary);
+    background: #e2f12c;
     color: var(--vai-white);
     transform: scale(1.1);
 }

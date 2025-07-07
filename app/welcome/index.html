@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -184,12 +184,12 @@
     }
     </script>
 </head>
-<body data-current-lang="en">
+<body data-current-lang="fr">
     
     <!-- Language Switcher -->
     <div class="language-switcher">
-        <button class="lang-btn active" data-lang-btn="en" onclick="switchLanguage('en')" title="English" aria-label="Switch to English">🇺🇸</button>
-        <button class="lang-btn" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français" aria-label="Passer au français">🇫🇷</button>
+        <button class="lang-btn" data-lang-btn="en" onclick="switchLanguage('en')" title="English" aria-label="Switch to English">🇺🇸</button>
+        <button class="lang-btn active" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français" aria-label="Passer au français">🇫🇷</button>
     </div>
 
     <!-- Header -->
@@ -1247,7 +1247,7 @@
             <!-- English Content -->
             <div class="lang-content active" data-lang="en">
                 <div class="social-impact-header">
-                    <h2 class="social-impact-title">Your Activity helps our Paradise</h2>
+                    <h2 class="social-impact-title">Each Activity brings Social Impact</h2>
                     <p class="social-impact-subtitle">
                         Every VAI booking automatically supports the communities and environment that make French Polynesia magical. Your authentic adventure helps preserve paradise for future generations.
                     </p>
@@ -1289,7 +1289,7 @@
             <!-- French Content -->
             <div class="lang-content" data-lang="fr">
                 <div class="social-impact-header">
-                    <h2 class="social-impact-title">Ton engagement aide notre Paradis</h2>
+                    <h2 class="social-impact-title">Chaque activité a un impact social</h2>
                     <p class="social-impact-subtitle">
                         Chaque réservation VAI soutient automatiquement les communautés et l'environnement qui rendent la Polynésie française magique. Votre aventure authentique aide à préserver le paradis pour les futures générations.
                     </p>
@@ -1331,6 +1331,7 @@
         </div>
     </section>
 
+    <!-- Language Switch Buttons Social Impact Deactivated
     <script>
         // Language switching functionality for social impact section
         function switchLanguage(lang) {
@@ -1342,7 +1343,7 @@
             document.querySelectorAll('.social-impact-section .lang-content').forEach(content => content.classList.remove('active'));
             document.querySelector(`.social-impact-section .lang-content[data-lang="${lang}"]`).classList.add('active');
         }
-    </script>
+    </script> -->
 
     <!-- Final CTA -->
     <section style="padding: 80px 0; background: var(--gradient-hero); text-align: center;">
