@@ -1,59 +1,125 @@
-# 🌴 VAI-Tickets Tourist App
+# 🌴 VAI - Discover French Polynesia | Tourist App
 
-Last-minute tour booking platform for French Polynesia, built with React + Vite + Supabase.
+**Unlock Paradise with Last-Minute Experiences in French Polynesia**
 
-## 🚀 Quick Start
+VAI is the revolutionary tourism platform that connects travelers with authentic French Polynesian experiences through instant booking and transparent pricing. Stop missing out on paradise - discover, book, and experience French Polynesia like never before.
 
-1. **Clone and Install**
-   ```bash
-   git clone <your-repo>
-   cd vai-tickets-tourist-app
-   npm install
-   ```
+## 🚀 Live Application
+- **Tourist App**: [app.vai.studio](https://app.vai.studio)
+- **Landing Page**: [vai.studio/app/welcome/](https://vai.studio/app/welcome/)
+- **Main Website**: [vai.studio](https://vai.studio)
 
-2. **Environment Setup**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your Supabase credentials
-   ```
+## 🌺 What is VAI?
 
-3. **Development**
-   ```bash
-   npm run dev
-   ```
+VAI transforms how tourists discover and book experiences in French Polynesia by:
+- **Instant Access**: Real-time availability from local operators
+- **Transparent Pricing**: No hidden fees, see exactly what you pay
+- **Mood-Based Discovery**: Find experiences that match your current vibe
+- **Authentic Experiences**: Direct connection with local Polynesian operators
+- **Last-Minute Booking**: Perfect for spontaneous island adventures
 
-4. **Build for Production**
-   ```bash
-   npm run build
-   ```
+## 🏝️ Key Features
 
-## 📱 Features
+### For Tourists
+- **Real-Time Tour Discovery**: Live availability from verified operators
+- **WhatsApp Integration**: Direct communication with tour operators
+- **Mood-Powered Search**: "I feel adventurous" → Find matching experiences
+- **Transparent Pricing**: See all costs upfront, no surprises
+- **Instant Booking**: Secure your spot in minutes
+- **Cultural Authenticity**: Experiences designed by locals
 
-- **Real-time Tour Discovery**: Live availability from Supabase
-- **Automated Booking Flow**: Integrated with n8n workflows  
-- **WhatsApp Integration**: Direct operator communication
-- **Progressive Web App**: Offline-capable mobile experience
-- **Polynesian Design**: Culturally authentic UI/UX
-- **Advanced Mobile Features**: GPS, notifications, camera integration
+### Technical Features
+- **Progressive Web App**: Works offline, mobile-optimized
+- **Real-time Database**: Powered by Supabase
+- **Automated Workflows**: n8n integration for booking management
+- **Multi-language Support**: French and English
+- **Mobile-First Design**: Optimized for smartphone users
 
-## 🏗️ Architecture
+## 🏗️ Technology Stack
 
 - **Frontend**: React 18 + Vite + Tailwind CSS
-- **Backend**: Supabase (PostgreSQL + Real-time)
-- **Automation**: n8n workflows for booking management
-- **State Management**: Zustand with persistence
+- **Backend**: Supabase (PostgreSQL + Real-time subscriptions)
+- **Automation**: n8n workflows for booking processing
+- **State Management**: Zustand with localStorage persistence
+- **UI Components**: Custom VAI design system
 - **Mobile**: PWA with offline capabilities
-- **Styling**: Custom VAI Studio design system
+- **Authentication**: Supabase Auth with social login
 
-## 🔧 Database Integration
+## 🗃️ Database Integration
 
-The app connects to your existing Supabase schema:
-- `active_tours_with_operators` → Tour discovery
-- `bookings` → Booking creation (triggers n8n)
-- `pending_bookings_for_workflow` → Automation processing
-- `operator_booking_summary` → Real-time stats
+Connected to comprehensive Supabase schema:
+- `active_tours_with_operators` → Tour discovery and search
+- `bookings` → Booking creation and management
+- `pending_bookings_for_workflow` → n8n automation triggers
+- `operator_booking_summary` → Real-time statistics
+- `user_profiles` → Tourist preferences and history
 
-## 📞 Support
+## 📱 Installation & Development
 
-WhatsApp: +68987269065
-Email: hello@vai.studio
+```bash
+# Clone the repository
+git clone <repository-url>
+cd tourist-app
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Configure your Supabase credentials in .env
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## 🌊 Environment Configuration
+
+Required environment variables:
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_N8N_TOURIST_WEBHOOK=your_n8n_webhook_url
+VITE_WHATSAPP_SUPPORT=+68987269065
+```
+
+## 🎯 Target Market
+
+**Primary Users**: 
+- Spontaneous travelers in French Polynesia
+- Tourists seeking authentic local experiences
+- Last-minute experience seekers
+- Culturally-conscious travelers
+
+**Geographic Focus**:
+- Tahiti, Bora Bora, Moorea, Rangiroa
+- Other French Polynesian islands
+- International tourists visiting French Polynesia
+
+## 🔄 Integration Points
+
+- **Operator Dashboard**: Seamless operator onboarding and management
+- **n8n Workflows**: Automated booking confirmations and notifications
+- **WhatsApp Business**: Direct operator-tourist communication
+- **Payment Processing**: Secure transaction handling (in development)
+
+## 📞 Support & Contact
+
+- **WhatsApp Support**: +68987269065
+- **Email**: hello@vai.studio
+- **Website**: [vai.studio](https://vai.studio)
+- **Developer**: Kevin De Silva, VAI Studio
+
+## 🌟 Coming Soon
+
+- **Payment Integration**: Secure online transactions
+- **Advanced Filtering**: More sophisticated search options
+- **Review System**: Tourist feedback and ratings
+- **Social Features**: Share experiences with friends
+- **Offline Mode**: Download experiences for offline viewing
+
+---
+
+**Built with ❤️ in French Polynesia for the world to discover paradise.**

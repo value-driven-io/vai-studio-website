@@ -1,70 +1,170 @@
-# Getting Started with Create React App
+# 🚤 VAI Operator Dashboard - Grow Your French Polynesian Tourism Business
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Transform Your Tourism Business with Digital Excellence**
 
-## Available Scripts
+The VAI Operator Dashboard empowers French Polynesian tour operators to scale their businesses, recover lost revenue, and connect directly with tourists through advanced booking technology and automated marketing.
 
-In the project directory, you can run:
+## 🌊 Live Dashboard
+- **Operator Dashboard**: [vai-operator-dashboard.onrender.com](https://vai-operator-dashboard.onrender.com)
+- **Operator Landing**: [vai.studio/app/operator-welcome/](https://vai.studio/app/operator-welcome/)
+- **Main Website**: [vai.studio](https://vai.studio)
 
-### `npm start`
+## 💼 What is VAI Operator?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+VAI Operator is the comprehensive business platform designed specifically for French Polynesian tourism operators, featuring:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **10% Commission Structure**: Industry-leading low fees
+- **Revenue Recovery System**: Capture bookings from cancellations
+- **Advanced Booking Technology**: Real-time availability management
+- **Direct Customer Relationships**: WhatsApp integration for personal service
+- **Automated Marketing**: n8n workflows for customer engagement
 
-### `npm test`
+## 🚀 Key Business Benefits
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Revenue Optimization
+- **Low 10% Commission**: Keep more of your earnings
+- **Cancellation Recovery**: Automatic rebooking from cancellations
+- **Dynamic Pricing**: Adjust rates based on demand
+- **Upselling Tools**: Increase booking values automatically
 
-### `npm run build`
+### Operational Efficiency
+- **Real-Time Availability**: Instant tour slot management
+- **Automated Confirmations**: Reduce manual booking tasks
+- **Customer Communication**: Direct WhatsApp integration
+- **Analytics Dashboard**: Track performance and growth
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Marketing & Growth
+- **Tourist App Integration**: Reach travelers instantly
+- **Mood-Based Discovery**: Tourists find you organically
+- **Professional Profiles**: Showcase your authentic experiences
+- **Review Management**: Build reputation and trust
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🏗️ Technology Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Frontend**: React 18 + Create React App + Tailwind CSS
+- **Backend**: Supabase (PostgreSQL + Real-time)
+- **Automation**: n8n workflow integration
+- **Authentication**: Supabase Auth with operator verification
+- **Real-time Updates**: Live booking notifications
+- **Mobile-Responsive**: Works on all devices
 
-### `npm run eject`
+## 🗂️ Database Schema Integration
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Connected to comprehensive operator management system:
+- `operators` → Business profiles and verification
+- `tours` → Experience management and pricing
+- `bookings` → Revenue tracking and customer management
+- `operator_booking_summary` → Performance analytics
+- `pending_bookings_for_workflow` → Automation triggers
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🔧 Features & Capabilities
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Tour Management
+- **Experience Creation**: Build compelling tour listings
+- **Availability Calendars**: Real-time slot management
+- **Pricing Controls**: Dynamic rate adjustments
+- **Photo Galleries**: Showcase your experiences
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Booking Operations
+- **Instant Notifications**: Real-time booking alerts
+- **Customer Profiles**: Detailed tourist information
+- **Communication Tools**: WhatsApp Business integration
+- **Cancellation Management**: Automated rebooking workflows
 
-## Learn More
+### Business Analytics
+- **Revenue Tracking**: Daily, weekly, monthly reports
+- **Booking Trends**: Understand customer patterns
+- **Performance Metrics**: Optimize your offerings
+- **Growth Insights**: Scale your business effectively
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📱 Development Setup
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Clone the repository
+git clone <repository-url>
+cd operator-dashboard
 
-### Code Splitting
+# Install dependencies
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Set up environment variables
+cp .env.example .env
+# Configure Supabase and n8n credentials
 
-### Analyzing the Bundle Size
+# Start development server
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Build for production
+npm run build
+```
 
-### Making a Progressive Web App
+## 🔒 Environment Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Required environment variables:
+```
+REACT_APP_SUPABASE_URL=your_supabase_url
+REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
+REACT_APP_N8N_OPERATOR_WEBHOOK=your_n8n_webhook
+REACT_APP_WHATSAPP_SUPPORT=+68987269065
+```
 
-### Advanced Configuration
+## 🎯 Target Operators
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Ideal for**:
+- Whale watching tour operators
+- Island hopping services
+- Cultural experience providers
+- Adventure tour companies
+- Water sports operators
+- Sunset cruise operators
 
-### Deployment
+**Business Sizes**:
+- Solo operators seeking growth
+- Small family businesses
+- Established tour companies
+- New operators entering the market
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🌺 Operator Success Stories
 
-### `npm run build` fails to minify
+*"VAI helped us recover 30% more revenue from cancellations and doubled our direct bookings."*
+- Moorea Whale Watching (Example)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*"The WhatsApp integration means tourists feel connected to authentic Polynesian experiences."*
+- Bora Bora Adventures (Example)
+
+## 🔄 Integration Ecosystem
+
+- **Tourist App**: Seamless customer discovery and booking
+- **n8n Automation**: Workflow management and notifications
+- **WhatsApp Business**: Direct customer communication
+- **Supabase Backend**: Real-time data synchronization
+- **Analytics Tools**: Business intelligence and reporting
+
+## 📈 Getting Started
+
+1. **Register**: Apply through operator landing page
+2. **Verification**: VAI team validates your business
+3. **Setup**: Create your operator profile and tours
+4. **Go Live**: Start receiving bookings immediately
+5. **Optimize**: Use analytics to grow your business
+
+## 📞 Operator Support
+
+- **WhatsApp**: +68987269065
+- **Email**: operators@vai.studio
+- **Website**: [vai.studio](https://vai.studio)
+- **Onboarding**: Personalized setup assistance
+
+## 🚀 Roadmap
+
+- **Payment Integration**: Secure transaction processing
+- **Advanced Analytics**: Deeper business insights
+- **Multi-Currency**: International pricing support
+- **API Access**: Third-party integrations
+- **Mobile App**: Native operator mobile application
+
+---
+
+**Empowering French Polynesian Tourism Operators with Technology Excellence**
+
+*Built by VAI Studio - Professional Digital Solutions for French Polynesia*

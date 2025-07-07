@@ -1,8 +1,34 @@
 User-agent: *
 Allow: /
 
+# Allow specific landing pages for crawling
+Allow: /app/welcome/
+Allow: /app/operator-welcome/
+Allow: /services/
+Allow: /contact/
+
+# Allow images and assets for SEO
+Allow: /via-studio-images/
+Allow: /images/
+Allow: /favicon*
+Allow: /*.css
+Allow: /*.js
+
+# Disallow common unnecessary files
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /package*.json
+
+# Sitemap location
 Sitemap: https://vai.studio/sitemap.xml
 
-# Allow images for SEO
-User-agent: *
-Allow: /via-studio-images/
+# Special directives for Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Allow Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
