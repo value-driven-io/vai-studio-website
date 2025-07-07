@@ -2065,7 +2065,7 @@ body[data-current-lang="en"] [data-lang="en"] {
 
 @media (max-width: 480px) {
     .language-switcher {
-        top: 10px;     /* Extra mobile adjustment */
+        top: 50%;     /* Extra mobile adjustment */
         right: 10px;   /* Smaller margin on very small screens */
     }
 }
