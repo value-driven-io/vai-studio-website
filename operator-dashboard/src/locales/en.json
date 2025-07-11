@@ -118,7 +118,9 @@
     "yourRevenue": "Your revenue",
     "meetingPoint": "Meeting Point",
     "meetingPointPlaceholder": "e.g., Vaiare Ferry Terminal - Main Entrance",
-    "tourTypeHelper": "Select the category that best describes your tour experience"
+    "tourTypeHelper": "Select the category that best describes your tour experience",
+    "bookings": "Reservations", 
+    "profile": "Profile"
   },
   "tooltips": {
     "tourName": "Make it catchy! That's in the spotlight!",
@@ -227,5 +229,238 @@
     "meetingPointTBD": "Meeting point TBD",
     "fitness": "Fitness",
     "age": "Age"
+  },
+  "login": {
+    "operatorDashboard": "Operator Dashboard",
+    "secureLoginRequired": "Secure Login Required",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "your-email@operator.com",
+    "password": "Password",
+    "passwordPlaceholder": "Your secure password",
+    "emailRequired": "Please enter your email",
+    "passwordRequired": "Please enter your password",
+    "signingIn": "Signing In...",
+    "signInSecurely": "Sign In Securely",
+    "useCredentials": "Use your secure operator credentials",
+    "needHelp": "Need help? Contact",
+    "passwordReminder": "Your secure password was provided during account setup"
+  },
+
+  "bookings": {
+    "stats": {
+      "total": "Total",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "declined": "Declined", 
+      "completed": "Completed",
+      "active": "Active"
+    },
+    "filters": {
+      "allTime": "All Time",
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "thisWeek": "This Week",
+      "searchPlaceholder": "Search bookings...",
+      "showingResults": "Showing {{filtered}} of {{total}} bookings",
+      "refreshBookings": "Refresh bookings",
+      "filteredBy": "Filtered by:",
+      "clearFilter": "Clear filter",
+      "clearSearch": "Clear search"
+    },
+    "messages": {
+      "loading": "Loading bookings...",
+      "noBookings": "No bookings found",
+      "noFilteredBookings": "No {{status}} bookings found"
+    },
+    "labels": {
+      "ref": "Ref:",
+      "participant": "participant",
+      "participants": "participants", 
+      "customerDetails": "Customer Details",
+      "detailsUnlock": "🔒 Details unlock after confirmation",
+      "name": "Name:",
+      "contact": "Contact:",
+      "email": "Email:",
+      "participantsLabel": "Participants:",
+      "adult": "adult",
+      "adults": "adults",
+      "child": "child", 
+      "children": "children",
+      "specialRequirements": "Special Requirements:",
+      "dietary": "Dietary:",
+      "accessibility": "Accessibility:",
+      "booked": "Booked:",
+      "declineReason": "Decline Reason:",
+      "unknownTour": "Unknown Tour",
+      "timeTbd": "Time TBD",
+      "locationTbd": "Location TBD"
+    },
+    "actions": {
+      "confirmBooking": "CONFIRM BOOKING",
+      "decline": "DECLINE",
+      "whatsappCustomer": "WhatsApp Customer",
+      "callCustomer": "Call Customer", 
+      "markComplete": "Mark Complete",
+      "followUp": "Follow Up",
+      "requestReview": "Request Review",
+      "unlockNotice": "Customer contact details will be unlocked after confirmation"
+    },
+    "statusMessages": {
+      "confirmed": {
+        "title": "✅ Booking confirmed!",
+        "message": "Customer contact details are now available. You can communicate directly with {{customerName}}."
+      },
+      "declined": {
+        "title": "Booking Declined",
+        "message": "This booking was declined on {{date}}.",
+        "reasonProvided": "Reason provided:"
+      },
+      "completed": {
+        "title": "Tour Completed", 
+        "message": "Great job! This tour was completed successfully.",
+        "whatsappFollowUp": "Hi {{customerName}}! Thank you for joining our {{tourName}}! We hope you had an amazing experience. Please share your feedback!"
+      }
+    }
+  },
+
+  "profile": {
+    "header": {
+      "unnamedCompany": "Unnamed Company",
+      "locationNotSet": "Location not set",
+      "vaiVerified": "VAI Verified",
+      "profileCompleteness": "Profile Completeness",
+      "missingRequiredFields": "Missing required fields: {{fields}}",
+      "addOptionalDetails": "Add optional business details to reach 100%"
+    },
+    "achievements": {
+      "whaleTourCertified": "Whale Tour Certified",
+      "premiumOperator": "Premium Operator",
+      "experiencedHost": "Experienced Host",
+      "earnedBadge": "You earned the {{badgeName}} badge"
+    },
+    "actions": {
+      "quickActions": "Quick Actions",
+      "refresh": "Refresh",
+      "refreshData": "Refresh data",
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "sections": {
+      "businessInformation": "Business Information",
+      "businessCredentials": "Business Credentials", 
+      "billingRevenue": "Billing & Revenue",
+      "businessHealthDashboard": "Business Health Dashboard",
+      "marketingInsights": "Marketing Insights",
+      "growthOpportunities": "Growth Opportunities"
+    },
+    "badges": {
+      "requiredFieldsMissing": "Required fields missing",
+      "incomplete": "Incomplete",
+      "excellent": "Excellent",
+      "good": "Good",
+      "needsAttention": "Needs Attention"
+    },
+    "businessInfo": {
+      "companyName": "Company Name",
+      "companyNameTooltip": "This is how tourists will see your business",
+      "companyNamePlaceholder": "Enter your company name",
+      "companyNameRequired": "Required field missing",
+      "contactPerson": "Contact Person",
+      "contactPersonTooltip": "Primary contact for booking confirmations",
+      "contactPersonPlaceholder": "Primary contact name",
+      "emailAddress": "Email Address",
+      "emailTooltip": "Contact VAI Support to change email address",
+      "emailChangeTooltip": "Email changes require VAI Support verification",
+      "phoneNumber": "Phone Number",
+      "phoneTooltip": "Include country code (e.g., +689 for French Polynesia)",
+      "phonePlaceholder": "+689 XX XX XX XX",
+      "whatsappNumber": "WhatsApp Number",
+      "whatsappTooltip": "Used for instant booking notifications and customer communication",
+      "whatsappPlaceholder": "+689 XX XX XX XX",
+      "operatingIsland": "Operating Island",
+      "islandTooltip": "Primary island where you operate tours",
+      "selectIsland": "Select Island",
+      "businessAddress": "Business Address",
+      "addressTooltip": "Physical location of your business",
+      "addressPlaceholder": "Enter your business address or primary meeting point",
+      "notSpecified": "Not specified"
+    },
+    "credentials": {
+      "businessLicense": "Business License",
+      "businessLicenseStatus": "Not provided",
+      "insuranceCertificate": "Insurance Certificate",
+      "insuranceStatus": "Not provided",
+      "whaleTourCertified": "Whale Tour Certified",
+      "whaleTourDescription": "2025 marine wildlife compliance",
+      "missingCredentials": "Missing Credentials?",
+      "missingCredentialsText": "Contact VAI Support to upload business license, insurance certificate, or apply for whale tour certification."
+    },
+    "billing": {
+      "commissionRate": "Commission Rate",
+      "commissionOwed": "Commission Owed",
+      "yourRevenue": "Your Revenue",
+      "recentTourPerformance": "Recent Tour Performance",
+      "vaiBookings": "VAI Bookings",
+      "avgPerBooking": "Avg per Booking",
+      "commissionPaid": "Commission Paid",
+      "paymentInformation": "Payment Information",
+      "paymentInfoText": "Payments are processed monthly. Contact VAI Support for payment setup and invoicing."
+    },
+    "health": {
+      "overallHealthScore": "Overall Health Score",
+      "healthDescriptions": {
+        "excellent": "Your business is thriving! Keep up the excellent work.",
+        "good": "Good performance. Small improvements can boost your score.",
+        "needsImprovement": "Focus on response time and profile completion to improve your ranking."
+      },
+      "responseTime": "Response Time",
+      "average": "Average",
+      "successRate": "Success Rate",
+      "confirmedBookings": "Confirmed bookings",
+      "monthlyBookings": "Monthly Bookings",
+      "thisMonth": "This month",
+      "customerRating": "Customer Rating",
+      "averageScore": "Average score"
+    },
+    "quickActionsModal": {
+      "title": "Quick Actions",
+      "whatsappSupport": "WhatsApp Support",
+      "whatsappDescription": "Get instant help",
+      "emailSupport": "Email Support",
+      "emailDescription": "hello@vai.studio",
+      "createNewTour": "Create New Tour",
+      "createTourDescription": "Add last-minute availability"
+    },
+    "islands": {
+      "tahiti": "Tahiti",
+      "moorea": "Moorea",
+      "boraBora": "Bora Bora",
+      "huahine": "Huahine",
+      "raiatea": "Raiatea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti"
+    },
+    "validation": {
+      "companyNameRequired": "Company name is required",
+      "whatsappRequired": "WhatsApp number is required",
+      "islandRequired": "Island is required"
+    },
+    "messages": {
+      "profileUpdated": "✅ Profile updated successfully!",
+      "updateFailed": "❌ {{error}}",
+      "contactSupport": "Contact: hello@vai.studio",
+      "profileNotFound": "Profile not found. Please contact support.",
+      "conflictingInfo": "This information conflicts with another account. Please check your data.",
+      "noPermission": "You don't have permission to update this profile. Contact support.",
+      "updateError": "Unable to save changes. Please try again or contact support if the problem persists.",
+      "securityPolicyError": "Update failed: Database security policy prevented the update. Please contact support at hello@vai.studio to configure your account permissions."
+    },
+    "footer": {
+      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "copyright": "© 2025 All rights reserved",
+      "needWebsite": "Need a website or app?"
+    }
   }
 }

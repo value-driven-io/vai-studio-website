@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { 
   Building2, MapPin, Phone, Mail, ChevronDown, ChevronUp,
   Award, CheckCircle, Info, Plus, Shield, Star, HelpCircle, 
@@ -9,7 +10,7 @@ import {
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 
-// FIXED: Move ExpandableSection OUTSIDE of ProfileTab component
+// Move ExpandableSection OUTSIDE of ProfileTab component
 const ExpandableSection = ({ 
   title, 
   icon: Icon, 
@@ -65,7 +66,7 @@ const ExpandableSection = ({
   </div>
 )
 
-// FIXED: Move Tooltip OUTSIDE of ProfileTab component as well
+// Move Tooltip OUTSIDE of ProfileTab component as well
 const Tooltip = ({ children, content, position = 'top' }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [actualPosition, setActualPosition] = useState(position)
@@ -118,6 +119,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
 }
 
 const ProfileTab = ({ setActiveTab }) => {
+  const { t } = useTranslation()
   const { operator } = useAuth()
   const [expandedSections, setExpandedSections] = useState({
     business: false,
@@ -215,7 +217,7 @@ const ProfileTab = ({ setActiveTab }) => {
         const confirmedBookings = bookingsData?.filter(b => b.booking_status === 'confirmed').length || 0
         const completedBookings = bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0
         
-        // FIXED: subtotal IS the operator revenue, don't subtract commission again
+        // subtotal IS the operator revenue, don't subtract commission again
         const operatorRevenue = bookingsData
         ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
@@ -310,7 +312,7 @@ const ProfileTab = ({ setActiveTab }) => {
     setSaveMessage('')
   }, [operator])
 
-  // FIXED: Optimized save without causing re-renders
+  // Optimized save without causing re-renders
   const handleSave = async () => {
     try {
       setSaving(true)
@@ -318,9 +320,9 @@ const ProfileTab = ({ setActiveTab }) => {
 
       // Client-side validation only
       const errors = []
-      if (!editData.company_name?.trim()) errors.push('Company name is required')
-      if (!editData.whatsapp_number?.trim()) errors.push('WhatsApp number is required') 
-      if (!editData.island?.trim()) errors.push('Island is required')
+      if (!editData.company_name?.trim()) errors.push(t('profile.validation.companyNameRequired'))
+      if (!editData.whatsapp_number?.trim()) errors.push(t('profile.validation.whatsappRequired')) 
+      if (!editData.island?.trim()) errors.push(t('profile.validation.islandRequired'))
 
       if (errors.length > 0) {
         throw new Error(errors.join(', '))
@@ -345,36 +347,36 @@ const ProfileTab = ({ setActiveTab }) => {
 
       if (error) {
         if (error.code === 'PGRST116') {
-          throw new Error('Profile not found. Please contact support.')
+          throw new Error(t('profile.messages.profileNotFound'))
         } else if (error.code === '23505') {
-          throw new Error('This information conflicts with another account. Please check your data.')
+          throw new Error(t('profile.messages.conflictingInfo'))
         } else if (error.message.includes('permission')) {
-          throw new Error('You don\'t have permission to update this profile. Contact support.')
+          throw new Error(t('profile.messages.noPermission'))
         } else {
-          throw new Error('Unable to save changes. Please try again or contact support if the problem persists.')
+          throw new Error(t('profile.messages.updateError'))
         }
       }
 
       if (!updateResult || updateResult.length === 0) {
-        throw new Error('Update failed: Database security policy prevented the update. Please contact support at hello@vai.studio to configure your account permissions.')
+        throw new Error(t('profile.messages.securityPolicyError'))
       }
 
-      // FIXED: Update localStorage without calling login() to prevent re-render
+      // Update localStorage without calling login() to prevent re-render
       if (updateResult[0]) {
         localStorage.setItem('vai_operator', JSON.stringify(updateResult[0]))
         await new Promise(resolve => setTimeout(resolve, 100))
       }
 
       setIsEditing(false)
-      setSaveMessage('✅ Profile updated successfully!')
+      setSaveMessage(t('profile.messages.profileUpdated'))
       setTimeout(() => setSaveMessage(''), 3000)
       
     } catch (error) {
       console.error('Error updating profile:', error)
-      setSaveMessage(`❌ ${error.message}`)
+      setSaveMessage(t('profile.messages.updateFailed', { error: error.message }))
       
       if (error.message.includes('support')) {
-        setSaveMessage(prev => prev + ' Contact: hello@vai.studio')
+        setSaveMessage(prev => prev + ' ' + t('profile.messages.contactSupport'))
       }
       
       setTimeout(() => setSaveMessage(''), 8000)
@@ -393,11 +395,11 @@ const ProfileTab = ({ setActiveTab }) => {
   const getMissingRequiredFields = useMemo(() => {
     if (!operator) return []
     const missing = []
-    if (!operator.company_name?.trim()) missing.push('Company name')
-    if (!operator.whatsapp_number?.trim()) missing.push('WhatsApp number') 
-    if (!operator.island?.trim()) missing.push('Operating island')
+    if (!operator.company_name?.trim()) missing.push(t('profile.businessInfo.companyName'))
+    if (!operator.whatsapp_number?.trim()) missing.push(t('profile.businessInfo.whatsappNumber')) 
+    if (!operator.island?.trim()) missing.push(t('profile.businessInfo.operatingIsland'))
     return missing
-  }, [operator])
+  }, [operator, t])
 
   const getAchievementBadges = () => {
     const badges = []
@@ -405,7 +407,7 @@ const ProfileTab = ({ setActiveTab }) => {
     if (operator.whale_tour_certified) {
       badges.push({
         icon: Award,
-        text: 'Whale Tour Certified',
+        text: t('profile.achievements.whaleTourCertified'),
         color: 'text-blue-400',
         bgColor: 'bg-blue-500/20'
       })
@@ -414,7 +416,7 @@ const ProfileTab = ({ setActiveTab }) => {
     if (operator.average_rating >= 4.8) {
       badges.push({
         icon: Star,
-        text: 'Premium Operator',
+        text: t('profile.achievements.premiumOperator'),
         color: 'text-yellow-400',
         bgColor: 'bg-yellow-500/20'
       })
@@ -423,7 +425,7 @@ const ProfileTab = ({ setActiveTab }) => {
     if (operator.total_bookings >= 100) {
       badges.push({
         icon: CheckCircle,
-        text: 'Experienced Host',
+        text: t('profile.achievements.experiencedHost'),
         color: 'text-green-400',
         bgColor: 'bg-green-500/20'
       })
@@ -445,7 +447,7 @@ const ProfileTab = ({ setActiveTab }) => {
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-bold text-white">Quick Actions</h3>
+          <h3 className="text-lg font-bold text-white">{t('profile.quickActionsModal.title')}</h3>
           <button
             onClick={() => setShowQuickActions(false)}
             className="text-slate-400 hover:text-white"
@@ -463,8 +465,8 @@ const ProfileTab = ({ setActiveTab }) => {
           >
             <MessageCircle className="w-5 h-5 text-green-400" />
             <div>
-              <p className="text-white font-medium">WhatsApp Support</p>
-              <p className="text-slate-400 text-sm">Get instant help</p>
+              <p className="text-white font-medium">{t('profile.quickActionsModal.whatsappSupport')}</p>
+              <p className="text-slate-400 text-sm">{t('profile.quickActionsModal.whatsappDescription')}</p>
             </div>
           </a>
           
@@ -474,8 +476,8 @@ const ProfileTab = ({ setActiveTab }) => {
           >
             <Mail className="w-5 h-5 text-blue-400" />
             <div>
-              <p className="text-white font-medium">Email Support</p>
-              <p className="text-slate-400 text-sm">hello@vai.studio</p>
+              <p className="text-white font-medium">{t('profile.quickActionsModal.emailSupport')}</p>
+              <p className="text-slate-400 text-sm">{t('profile.quickActionsModal.emailDescription')}</p>
             </div>
           </a>
           
@@ -490,8 +492,8 @@ const ProfileTab = ({ setActiveTab }) => {
           >
             <Plus className="w-5 h-5 text-purple-400" />
             <div>
-              <p className="text-white font-medium">Create New Tour</p>
-              <p className="text-slate-400 text-sm">Add last-minute availability</p>
+              <p className="text-white font-medium">{t('profile.quickActionsModal.createNewTour')}</p>
+              <p className="text-slate-400 text-sm">{t('profile.quickActionsModal.createTourDescription')}</p>
             </div>
           </button>
         </div>
@@ -519,12 +521,12 @@ const ProfileTab = ({ setActiveTab }) => {
             
             <div className="flex-1">
               <h1 className="text-2xl lg:text-3xl font-bold text-white mb-1">
-                {operator.company_name || 'Unnamed Company'}
+                {operator.company_name || t('profile.header.unnamedCompany')}
               </h1>
               <div className="flex flex-wrap items-center gap-4 text-slate-400">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  <span>{operator.island || 'Location not set'}</span>
+                  <span>{operator.island || t('profile.header.locationNotSet')}</span>
                 </div>
                 {operator.average_rating && (
                   <div className="flex items-center gap-2">
@@ -534,7 +536,7 @@ const ProfileTab = ({ setActiveTab }) => {
                 )}
                 <div className="flex items-center gap-2">
                   <Shield className="w-4 h-4 text-green-400" />
-                  <span>VAI Verified</span>
+                  <span>{t('profile.header.vaiVerified')}</span>
                 </div>
               </div>
             </div>
@@ -543,7 +545,7 @@ const ProfileTab = ({ setActiveTab }) => {
           {/* Profile Completeness */}
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 mb-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-slate-300 font-medium">Profile Completeness</span>
+              <span className="text-slate-300 font-medium">{t('profile.header.profileCompleteness')}</span>
               <span className="text-white font-bold">{profileCompleteness}%</span>
             </div>
             <div className="w-full bg-slate-700 rounded-full h-2">
@@ -558,8 +560,8 @@ const ProfileTab = ({ setActiveTab }) => {
             {profileCompleteness < 100 && (
               <p className="text-xs text-slate-400 mt-1">
                 {getMissingRequiredFields.length > 0 
-                  ? `Missing required fields: ${getMissingRequiredFields.join(', ')}`
-                  : 'Add optional business details to reach 100%'
+                  ? t('profile.header.missingRequiredFields', { fields: getMissingRequiredFields.join(', ') })
+                  : t('profile.header.addOptionalDetails')
                 }
               </p>
             )}
@@ -569,7 +571,7 @@ const ProfileTab = ({ setActiveTab }) => {
           {getAchievementBadges().length > 0 && (
             <div className="flex flex-wrap gap-2">
               {getAchievementBadges().map((badge, index) => (
-                <Tooltip key={index} content={`You earned the ${badge.text} badge`}>
+                <Tooltip key={index} content={t('profile.achievements.earnedBadge', { badgeName: badge.text })}>
                   <span className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium text-white ${badge.bgColor} cursor-help`}>
                     <badge.icon className="w-3 h-3" />
                     {badge.text}
@@ -588,17 +590,17 @@ const ProfileTab = ({ setActiveTab }) => {
               className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
             >
               <Zap className="w-4 h-4" />
-              Quick Actions
+              {t('profile.actions.quickActions')}
             </button>
             
             <button
               onClick={handleRefresh}
               disabled={refreshing}
               className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 disabled:bg-slate-800 text-white rounded-lg transition-colors"
-              title="Refresh data"
+              title={t('profile.actions.refreshData')}
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">Refresh</span>
+              <span className="hidden sm:inline">{t('profile.actions.refresh')}</span>
             </button>
           </div>
         </div>
@@ -625,12 +627,12 @@ const ProfileTab = ({ setActiveTab }) => {
         <div className="space-y-6">
           {/* 1. Business Information */}
           <ExpandableSection
-            title="Business Information"
+            title={t('profile.sections.businessInformation')}
             icon={Building2}
             iconColor="text-blue-400"
             isExpanded={isEditing || expandedSections.business}
             onToggle={() => !isEditing && toggleSection('business')}
-            badge={getMissingRequiredFields.length > 0 ? 'Required fields missing' : (profileCompleteness < 80 ? 'Incomplete' : null)}
+            badge={getMissingRequiredFields.length > 0 ? t('profile.badges.requiredFieldsMissing') : (profileCompleteness < 80 ? t('profile.badges.incomplete') : null)}
             urgent={getMissingRequiredFields.length > 0}
             showEditButton={!isEditing}
             onEdit={handleEdit}
@@ -644,14 +646,14 @@ const ProfileTab = ({ setActiveTab }) => {
                     className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-green-800 text-white rounded-lg transition-colors"
                   >
                     {saving ? <Loader className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    {saving ? 'Saving...' : 'Save'}
+                    {saving ? t('profile.actions.saving') : t('profile.actions.save')}
                   </button>
                   <button
                     onClick={handleCancel}
                     className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
                   >
                     <X className="w-4 h-4" />
-                    Cancel
+                    {t('profile.actions.cancel')}
                   </button>
                 </div>
               )}
@@ -660,9 +662,9 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Company Name - REQUIRED */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Company Name *
+                    {t('profile.businessInfo.companyName')} *
                     {isEditing && (
-                      <Tooltip content="This is how tourists will see your business">
+                      <Tooltip content={t('profile.businessInfo.companyNameTooltip')}>
                         <Info className="w-3 h-3 text-slate-400 inline ml-1" />
                       </Tooltip>
                     )}
@@ -675,14 +677,14 @@ const ProfileTab = ({ setActiveTab }) => {
                       className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:outline-none focus:border-blue-500 ${
                         !editData.company_name?.trim() ? 'border-red-500' : 'border-slate-600'
                       }`}
-                      placeholder="Enter your company name"
+                      placeholder={t('profile.businessInfo.companyNamePlaceholder')}
                       autoComplete="organization"
                     />
                   ) : (
                     <p className={`px-3 py-2 rounded-lg ${
                       operator.company_name ? 'text-white bg-slate-700/50' : 'text-red-400 bg-red-500/10 border border-red-500/30'
                     }`}>
-                      {operator.company_name || 'Required field missing'}
+                      {operator.company_name || t('profile.businessInfo.companyNameRequired')}
                     </p>
                   )}
                 </div>
@@ -690,9 +692,9 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Contact Person - Optional */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Contact Person
+                    {t('profile.businessInfo.contactPerson')}
                     {isEditing && (
-                      <Tooltip content="Primary contact for booking confirmations">
+                      <Tooltip content={t('profile.businessInfo.contactPersonTooltip')}>
                         <Info className="w-3 h-3 text-slate-400 inline ml-1" />
                       </Tooltip>
                     )}
@@ -703,20 +705,20 @@ const ProfileTab = ({ setActiveTab }) => {
                       value={editData.contact_person || ''}
                       onChange={(e) => setEditData(prev => ({...prev, contact_person: e.target.value}))}
                       className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                      placeholder="Primary contact name"
+                      placeholder={t('profile.businessInfo.contactPersonPlaceholder')}
                       autoComplete="name"
                     />
                   ) : (
-                    <p className="text-white bg-slate-700/50 px-3 py-2 rounded-lg">{operator.contact_person || 'Not specified'}</p>
+                    <p className="text-white bg-slate-700/50 px-3 py-2 rounded-lg">{operator.contact_person || t('profile.businessInfo.notSpecified')}</p>
                   )}
                 </div>
 
                 {/* Email - Required but not editable */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Email Address *
+                    {t('profile.businessInfo.emailAddress')} *
                     {isEditing && (
-                      <Tooltip content="Contact VAI Support to change email address">
+                      <Tooltip content={t('profile.businessInfo.emailTooltip')}>
                         <Info className="w-3 h-3 text-slate-400 inline ml-1" />
                       </Tooltip>
                     )}
@@ -725,7 +727,7 @@ const ProfileTab = ({ setActiveTab }) => {
                     <Mail className="w-4 h-4 text-slate-400" />
                     <p className="text-white bg-slate-700/50 px-3 py-2 rounded-lg flex-1">{operator.email}</p>
                     {isEditing && (
-                      <Tooltip content="Email changes require VAI Support verification">
+                      <Tooltip content={t('profile.businessInfo.emailChangeTooltip')}>
                         <HelpCircle className="w-4 h-4 text-yellow-400" />
                       </Tooltip>
                     )}
@@ -735,9 +737,9 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Phone - Optional */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Phone Number
+                    {t('profile.businessInfo.phoneNumber')}
                     {isEditing && (
-                      <Tooltip content="Include country code (e.g., +689 for French Polynesia)">
+                      <Tooltip content={t('profile.businessInfo.phoneTooltip')}>
                         <Info className="w-3 h-3 text-slate-400 inline ml-1" />
                       </Tooltip>
                     )}
@@ -748,13 +750,13 @@ const ProfileTab = ({ setActiveTab }) => {
                       value={editData.phone || ''}
                       onChange={(e) => setEditData(prev => ({...prev, phone: e.target.value}))}
                       className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                      placeholder="+689 XX XX XX XX"
+                      placeholder={t('profile.businessInfo.phonePlaceholder')}
                       autoComplete="tel"
                     />
                   ) : (
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4 text-slate-400" />
-                      <p className="text-white bg-slate-700/50 px-3 py-2 rounded-lg flex-1">{operator.phone || 'Not specified'}</p>
+                      <p className="text-white bg-slate-700/50 px-3 py-2 rounded-lg flex-1">{operator.phone || t('profile.businessInfo.notSpecified')}</p>
                     </div>
                   )}
                 </div>
@@ -762,9 +764,9 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* WhatsApp - REQUIRED */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    WhatsApp Number *
+                    {t('profile.businessInfo.whatsappNumber')} *
                     {isEditing && (
-                      <Tooltip content="Used for instant booking notifications and customer communication">
+                      <Tooltip content={t('profile.businessInfo.whatsappTooltip')}>
                         <Info className="w-3 h-3 text-slate-400 inline ml-1" />
                       </Tooltip>
                     )}
@@ -777,7 +779,7 @@ const ProfileTab = ({ setActiveTab }) => {
                       className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:outline-none focus:border-blue-500 ${
                         !editData.whatsapp_number?.trim() ? 'border-red-500' : 'border-slate-600'
                       }`}
-                      placeholder="+689 XX XX XX XX"
+                      placeholder={t('profile.businessInfo.whatsappPlaceholder')}
                       autoComplete="tel"
                     />
                   ) : (
@@ -786,7 +788,7 @@ const ProfileTab = ({ setActiveTab }) => {
                       <p className={`px-3 py-2 rounded-lg flex-1 ${
                         operator.whatsapp_number ? 'text-white bg-slate-700/50' : 'text-red-400 bg-red-500/10 border border-red-500/30'
                       }`}>
-                        {operator.whatsapp_number || 'Required field missing'}
+                        {operator.whatsapp_number || t('profile.businessInfo.companyNameRequired')}
                       </p>
                     </div>
                   )}
@@ -795,9 +797,9 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Island - REQUIRED */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Operating Island *
+                    {t('profile.businessInfo.operatingIsland')} *
                     {isEditing && (
-                      <Tooltip content="Primary island where you operate tours">
+                      <Tooltip content={t('profile.businessInfo.islandTooltip')}>
                         <Info className="w-3 h-3 text-slate-400 inline ml-1" />
                       </Tooltip>
                     )}
@@ -810,14 +812,14 @@ const ProfileTab = ({ setActiveTab }) => {
                         !editData.island?.trim() ? 'border-red-500' : 'border-slate-600'
                       }`}
                     >
-                      <option value="">Select Island</option>
-                      <option value="Tahiti">Tahiti</option>
-                      <option value="Moorea">Moorea</option>
-                      <option value="Bora Bora">Bora Bora</option>
-                      <option value="Huahine">Huahine</option>
-                      <option value="Raiatea">Raiatea</option>
-                      <option value="Taha'a">Taha'a</option>
-                      <option value="Maupiti">Maupiti</option>
+                      <option value="">{t('profile.businessInfo.selectIsland')}</option>
+                      <option value="Tahiti">{t('profile.islands.tahiti')}</option>
+                      <option value="Moorea">{t('profile.islands.moorea')}</option>
+                      <option value="Bora Bora">{t('profile.islands.boraBora')}</option>
+                      <option value="Huahine">{t('profile.islands.huahine')}</option>
+                      <option value="Raiatea">{t('profile.islands.raiatea')}</option>
+                      <option value="Taha'a">{t('profile.islands.tahaa')}</option>
+                      <option value="Maupiti">{t('profile.islands.maupiti')}</option>
                     </select>
                   ) : (
                     <div className="flex items-center gap-2">
@@ -825,7 +827,7 @@ const ProfileTab = ({ setActiveTab }) => {
                       <p className={`px-3 py-2 rounded-lg flex-1 ${
                         operator.island ? 'text-white bg-slate-700/50' : 'text-red-400 bg-red-500/10 border border-red-500/30'
                       }`}>
-                        {operator.island || 'Required field missing'}
+                        {operator.island || t('profile.businessInfo.companyNameRequired')}
                       </p>
                     </div>
                   )}
@@ -834,9 +836,9 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Address - Optional */}
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Business Address
+                    {t('profile.businessInfo.businessAddress')}
                     {isEditing && (
-                      <Tooltip content="Physical location of your business">
+                      <Tooltip content={t('profile.businessInfo.addressTooltip')}>
                         <Info className="w-3 h-3 text-slate-400 inline ml-1" />
                       </Tooltip>
                     )}
@@ -847,11 +849,11 @@ const ProfileTab = ({ setActiveTab }) => {
                       onChange={(e) => setEditData(prev => ({...prev, address: e.target.value}))}
                       rows="2"
                       className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                      placeholder="Enter your business address or primary meeting point"
+                      placeholder={t('profile.businessInfo.addressPlaceholder')}
                       autoComplete="street-address"
                     />
                   ) : (
-                    <p className="text-white bg-slate-700/50 px-3 py-2 rounded-lg">{operator.address || 'Not specified'}</p>
+                    <p className="text-white bg-slate-700/50 px-3 py-2 rounded-lg">{operator.address || t('profile.businessInfo.notSpecified')}</p>
                   )}
                 </div>
               </div>
@@ -860,7 +862,7 @@ const ProfileTab = ({ setActiveTab }) => {
 
           {/* 2. Business Credentials */}
           <ExpandableSection
-            title="Business Credentials"
+            title={t('profile.sections.businessCredentials')}
             icon={Shield}
             iconColor="text-green-400"
             isExpanded={expandedSections.credentials}
@@ -870,24 +872,24 @@ const ProfileTab = ({ setActiveTab }) => {
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg">
                   <div>
-                    <p className="font-medium text-white">Business License</p>
-                    <p className="text-sm text-slate-400">{operator.business_license || 'Not provided'}</p>
+                    <p className="font-medium text-white">{t('profile.credentials.businessLicense')}</p>
+                    <p className="text-sm text-slate-400">{operator.business_license || t('profile.credentials.businessLicenseStatus')}</p>
                   </div>
                   <CheckCircle className={`w-5 h-5 ${operator.business_license ? 'text-green-400' : 'text-slate-500'}`} />
                 </div>
                 
                 <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg">
                   <div>
-                    <p className="font-medium text-white">Insurance Certificate</p>
-                    <p className="text-sm text-slate-400">{operator.insurance_certificate || 'Not provided'}</p>
+                    <p className="font-medium text-white">{t('profile.credentials.insuranceCertificate')}</p>
+                    <p className="text-sm text-slate-400">{operator.insurance_certificate || t('profile.credentials.insuranceStatus')}</p>
                   </div>
                   <CheckCircle className={`w-5 h-5 ${operator.insurance_certificate ? 'text-green-400' : 'text-slate-500'}`} />
                 </div>
                 
                 <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg">
                   <div>
-                    <p className="font-medium text-white">Whale Tour Certified</p>
-                    <p className="text-sm text-slate-400">2025 marine wildlife compliance</p>
+                    <p className="font-medium text-white">{t('profile.credentials.whaleTourCertified')}</p>
+                    <p className="text-sm text-slate-400">{t('profile.credentials.whaleTourDescription')}</p>
                   </div>
                   <CheckCircle className={`w-5 h-5 ${operator.whale_tour_certified ? 'text-green-400' : 'text-slate-500'}`} />
                 </div>
@@ -897,9 +899,9 @@ const ProfileTab = ({ setActiveTab }) => {
                 <div className="flex items-start gap-3">
                   <Info className="w-5 h-5 text-blue-400 mt-0.5" />
                   <div>
-                    <p className="text-blue-400 font-medium">Missing Credentials?</p>
+                    <p className="text-blue-400 font-medium">{t('profile.credentials.missingCredentials')}</p>
                     <p className="text-slate-300 text-sm mt-1">
-                      Contact VAI Support to upload business license, insurance certificate, or apply for whale tour certification.
+                      {t('profile.credentials.missingCredentialsText')}
                     </p>
                   </div>
                 </div>
@@ -909,7 +911,7 @@ const ProfileTab = ({ setActiveTab }) => {
 
           {/* 3. Enhanced Billing & Commission */}
           <ExpandableSection
-            title="Billing & Revenue"
+            title={t('profile.sections.billingRevenue')}
             icon={CreditCard}
             iconColor="text-yellow-400"
             isExpanded={expandedSections.billing}
@@ -920,16 +922,16 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Commission Overview */}
                 <div className="bg-slate-700/30 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-slate-400">Commission Rate</span>
+                        <span className="text-slate-400">{t('profile.billing.commissionRate')}</span>
                         <span className="text-white font-semibold">{operator.commission_rate}%</span>
                     </div>
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-slate-400">Commission Owed</span>
+                        <span className="text-slate-400">{t('profile.billing.commissionOwed')}</span>
                         <span className="text-orange-400 font-semibold">{formatCurrency(stats?.total_commission || 0)}</span>
                     </div>
                     <div className="w-full bg-slate-600 h-px my-3"></div>
                     <div className="flex items-center justify-between">
-                        <span className="text-slate-400">Your Revenue</span>
+                        <span className="text-slate-400">{t('profile.billing.yourRevenue')}</span>
                         <span className="text-green-400 font-bold text-lg">
                         {formatCurrency(stats?.operator_revenue || 0)}
                         </span>
@@ -940,19 +942,19 @@ const ProfileTab = ({ setActiveTab }) => {
                 <div className="bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-lg p-4 border border-green-500/20">
                   <h4 className="text-white font-medium mb-3 flex items-center gap-2">
                     <DollarSign className="w-4 h-4 text-green-400" />
-                    Recent Tour Performance
+                    {t('profile.billing.recentTourPerformance')}
                   </h4>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                        <p className="text-slate-400 text-sm">VAI Bookings</p>
+                        <p className="text-slate-400 text-sm">{t('profile.billing.vaiBookings')}</p>
                         <p className="text-white font-bold">{stats?.completed_bookings || 0}</p>
                     </div>
                     <div>
-                        <p className="text-slate-400 text-sm">Your Revenue</p>
+                        <p className="text-slate-400 text-sm">{t('profile.billing.yourRevenue')}</p>
                         <p className="text-green-400 font-bold">{formatCurrency(stats?.operator_revenue || 0)}</p>
                     </div>
                     <div>
-                        <p className="text-slate-400 text-sm">Avg per Booking</p>
+                        <p className="text-slate-400 text-sm">{t('profile.billing.avgPerBooking')}</p>
                         <p className="text-white font-bold">
                         {stats?.completed_bookings > 0 ? 
                             formatCurrency((stats?.operator_revenue || 0) / stats.completed_bookings) : 
@@ -961,7 +963,7 @@ const ProfileTab = ({ setActiveTab }) => {
                         </p>
                     </div>
                     <div>
-                        <p className="text-slate-400 text-sm">Commission Paid</p>
+                        <p className="text-slate-400 text-sm">{t('profile.billing.commissionPaid')}</p>
                         <p className="text-slate-400 font-bold">{formatCurrency(stats?.total_commission || 0)}</p>
                     </div>
                     </div>
@@ -971,9 +973,9 @@ const ProfileTab = ({ setActiveTab }) => {
                   <div className="flex items-start gap-3">
                     <Info className="w-5 h-5 text-blue-400 mt-0.5" />
                     <div>
-                      <p className="text-blue-400 font-medium">Payment Information</p>
+                      <p className="text-blue-400 font-medium">{t('profile.billing.paymentInformation')}</p>
                       <p className="text-slate-300 text-sm mt-1">
-                        Payments are processed monthly. Contact VAI Support for payment setup and invoicing.
+                        {t('profile.billing.paymentInfoText')}
                       </p>
                     </div>
                   </div>
@@ -987,18 +989,18 @@ const ProfileTab = ({ setActiveTab }) => {
         <div className="space-y-6">
           {/* Business Health Dashboard */}
           <ExpandableSection
-            title="Business Health Dashboard"
+            title={t('profile.sections.businessHealthDashboard')}
             icon={TrendingUp}
             iconColor="text-green-400"
             isExpanded={expandedSections.businessHealth}
             onToggle={() => toggleSection('businessHealth')}
-            badge={businessHealthScore >= 80 ? 'Excellent' : businessHealthScore >= 60 ? 'Good' : 'Needs Attention'}
+            badge={businessHealthScore >= 80 ? t('profile.badges.excellent') : businessHealthScore >= 60 ? t('profile.badges.good') : t('profile.badges.needsAttention')}
           >
             <div className="p-6 space-y-6">
               {/* Health Score Card */}
               <div className="bg-gradient-to-br from-green-500/10 to-blue-600/10 rounded-lg p-4 border border-green-500/20">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-white font-medium">Overall Health Score</h3>
+                  <h3 className="text-white font-medium">{t('profile.health.overallHealthScore')}</h3>
                   <span className={`text-2xl font-bold ${
                     businessHealthScore >= 80 ? 'text-green-400' : 
                     businessHealthScore >= 60 ? 'text-yellow-400' : 'text-red-400'
@@ -1016,9 +1018,9 @@ const ProfileTab = ({ setActiveTab }) => {
                   />
                 </div>
                 <p className="text-slate-300 text-sm">
-                  {businessHealthScore >= 80 ? 'Your business is thriving! Keep up the excellent work.' :
-                   businessHealthScore >= 60 ? 'Good performance. Small improvements can boost your score.' :
-                   'Focus on response time and profile completion to improve your ranking.'}
+                  {businessHealthScore >= 80 ? t('profile.health.healthDescriptions.excellent') :
+                   businessHealthScore >= 60 ? t('profile.health.healthDescriptions.good') :
+                   t('profile.health.healthDescriptions.needsImprovement')}
                 </p>
               </div>
 
@@ -1027,37 +1029,37 @@ const ProfileTab = ({ setActiveTab }) => {
                 <div className="bg-slate-700/30 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Clock className="w-4 h-4 text-blue-400" />
-                    <span className="text-slate-300 text-sm">Response Time</span>
+                    <span className="text-slate-300 text-sm">{t('profile.health.responseTime')}</span>
                   </div>
                   <p className="text-white font-bold text-lg">{performance?.responseTime || 0}h</p>
-                  <p className="text-slate-400 text-xs">Average</p>
+                  <p className="text-slate-400 text-xs">{t('profile.health.average')}</p>
                 </div>
 
                 <div className="bg-slate-700/30 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <CheckCircle className="w-4 h-4 text-green-400" />
-                    <span className="text-slate-300 text-sm">Success Rate</span>
+                    <span className="text-slate-300 text-sm">{t('profile.health.successRate')}</span>
                   </div>
                   <p className="text-white font-bold text-lg">{performance?.completionRate || 0}%</p>
-                  <p className="text-slate-400 text-xs">Confirmed bookings</p>
+                  <p className="text-slate-400 text-xs">{t('profile.health.confirmedBookings')}</p>
                 </div>
 
                 <div className="bg-slate-700/30 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Users className="w-4 h-4 text-purple-400" />
-                    <span className="text-slate-300 text-sm">Monthly Bookings</span>
+                    <span className="text-slate-300 text-sm">{t('profile.health.monthlyBookings')}</span>
                   </div>
                   <p className="text-white font-bold text-lg">{performance?.monthlyBookings || 0}</p>
-                  <p className="text-slate-400 text-xs">This month</p>
+                  <p className="text-slate-400 text-xs">{t('profile.health.thisMonth')}</p>
                 </div>
 
                 <div className="bg-slate-700/30 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <Star className="w-4 h-4 text-yellow-400" />
-                    <span className="text-slate-300 text-sm">Customer Rating</span>
+                    <span className="text-slate-300 text-sm">{t('profile.health.customerRating')}</span>
                   </div>
                   <p className="text-white font-bold text-lg">{operator.average_rating?.toFixed(1) || 'N/A'}</p>
-                  <p className="text-slate-400 text-xs">Average score</p>
+                  <p className="text-slate-400 text-xs">{t('profile.health.averageScore')}</p>
                 </div>
               </div>
             </div>
@@ -1072,8 +1074,8 @@ const ProfileTab = ({ setActiveTab }) => {
       <div className="mt-12 pt-8 border-t border-slate-700">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-slate-400 text-sm">
-            <p>VAI Tickets - Operator Dashboard</p>
-            <p>© 2025 All rights reserved</p>
+            <p>{t('profile.footer.vaiTickets')}</p>
+            <p>{t('profile.footer.copyright')}</p>
           </div>
           
           <div className="flex gap-4">
@@ -1084,7 +1086,7 @@ const ProfileTab = ({ setActiveTab }) => {
               className="flex items-center gap-2 px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 rounded-lg transition-colors"
             >
               <Globe className="w-4 h-4 text-purple-400" />
-              <span className="text-purple-400">Need a website or app?</span>
+              <span className="text-purple-400">{t('profile.footer.needWebsite')}</span>
             </a>
           </div>
         </div>

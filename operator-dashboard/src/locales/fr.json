@@ -19,7 +19,9 @@
     "participants": "participants",
     "booked": "réservé",
     "attended": "présents",
-    "spots": "places"
+    "spots": "places",
+    "bookings": "Réservations", 
+    "profile": "Profil"
   },
   "header": {
     "title": "Tableau de Bord Opérateur",
@@ -211,6 +213,7 @@
     "deleteTour": "Supprimer l'excursion",
     "duplicateTour": "Dupliquer cette excursion"
   },
+  
   "preview": {
     "title": "Aperçu Vue Touriste",
     "formCompletion": "Complétude du Formulaire",
@@ -227,5 +230,241 @@
     "meetingPointTBD": "Point de rendez-vous à déterminer",
     "fitness": "Forme physique",
     "age": "Âge"
+  },
+
+  "login": {
+    "operatorDashboard": "Tableau de Bord Opérateur",
+    "secureLoginRequired": "Connexion Sécurisée Requise",
+    "emailAddress": "Adresse Email",
+    "emailPlaceholder": "votre-email@operateur.com",
+    "password": "Mot de Passe",
+    "passwordPlaceholder": "Ton mot de passe sécurisé",
+    "emailRequired": "Veuillez entrer votre email",
+    "passwordRequired": "Veuillez entrer votre mot de passe",
+    "signingIn": "Connexion...",
+    "signInSecurely": "Se Connecter de Manière Sécurisée",
+    "useCredentials": "Utilise tes identifiants d'opérateur sécurisés",
+    "needHelp": "Besoin d'aide ? Contacte",
+    "passwordReminder": "Ton mot de passe sécurisé a été fourni lors de la configuration du compte"
+  },
+
+  "bookings": {
+    "stats": {
+      "total": "Total",
+      "pending": "En attente",
+      "confirmed": "Confirmés",
+      "declined": "Refusés", 
+      "completed": "Terminés",
+      "active": "Actives"
+    },
+    "filters": {
+      "allTime": "Toutes dates",
+      "today": "Aujourd'hui",
+      "tomorrow": "Demain",
+      "thisWeek": "Cette semaine",
+      "searchPlaceholder": "Rechercher réservations...",
+      "showingResults": "Affichage de {{filtered}} sur {{total}} réservations",
+      "refreshBookings": "Actualiser les réservations",
+      "filteredBy": "Filtré par:",
+      "clearFilter": "Effacer le filtre",
+      "clearSearch": "Effacer la recherche"
+    },
+    "messages": {
+      "loading": "Chargement des réservations...",
+      "noBookings": "Aucune réservation trouvée",
+      "noFilteredBookings": "Aucune réservation {{status}} trouvée"
+    },
+    "labels": {
+      "ref": "Réf:",
+      "participant": "participant",
+      "participants": "participants", 
+      "customerDetails": "Détails Client",
+      "detailsUnlock": "🔒 Détails débloqués après confirmation",
+      "name": "Nom:",
+      "contact": "Contact:",
+      "email": "Email:",
+      "participantsLabel": "Participants:",
+      "adult": "adulte",
+      "adults": "adultes",
+      "child": "enfant", 
+      "children": "enfants",
+      "specialRequirements": "Exigences spéciales:",
+      "dietary": "Alimentaire:",
+      "accessibility": "Accessibilité:",
+      "booked": "Réservé:",
+      "declineReason": "Raison du refus:",
+      "unknownTour": "Excursion inconnue",
+      "timeTbd": "Heure à définir",
+      "locationTbd": "Lieu à définir"
+    },
+    "actions": {
+      "confirmBooking": "CONFIRMER RÉSERVATION",
+      "decline": "REFUSER",
+      "whatsappCustomer": "WhatsApp Client",
+      "callCustomer": "Appeler Client", 
+      "markComplete": "Marquer Terminé",
+      "followUp": "Suivi",
+      "requestReview": "Demander Avis",
+      "unlockNotice": "Les coordonnées du client seront débloquées après confirmation"
+    },
+    "statusMessages": {
+      "confirmed": {
+        "title": "✅ Réservation confirmée!",
+        "message": "Les coordonnées du client sont maintenant disponibles. Tu peux communiquer directement avec {{customerName}}."
+      },
+      "declined": {
+        "title": "Réservation Refusée",
+        "message": "Cette réservation a été refusée le {{date}}.",
+        "reasonProvided": "Raison fournie:"
+      },
+      "completed": {
+        "title": "Excursion Terminée", 
+        "message": "Excellent travail! Cette excursion s'est déroulée avec succès.",
+        "followUpMessage": "Salut {{customerName}}! Merci d'avoir participé à notre {{tourName}}! Nous espérons que tu as vécu une expérience formidable. Partage ton avis!",
+        "whatsappFollowUp": "Salut {{customerName}}! Merci d'avoir participé à notre {{tourName}}! Nous espérons que tu as vécu une expérience formidable. Partage ton avis!"
+      }
+    }
+},
+
+  "profile": {
+    "header": {
+      "unnamedCompany": "Entreprise sans nom",
+      "locationNotSet": "Lieu non défini",
+      "vaiVerified": "VAI Vérifié",
+      "profileCompleteness": "Complétude du Profil",
+      "missingRequiredFields": "Champs obligatoires manquants: {{fields}}",
+      "addOptionalDetails": "Ajoute des détails d'entreprise optionnels pour atteindre 100%"
+    },
+    "achievements": {
+      "whaleTourCertified": "Certifié Excursions Baleines",
+      "premiumOperator": "Opérateur Premium",
+      "experiencedHost": "Hôte Expérimenté",
+      "earnedBadge": "Tu as gagné le badge {{badgeName}}"
+    },
+    "actions": {
+      "quickActions": "Actions Rapides",
+      "refresh": "Actualiser",
+      "refreshData": "Actualiser les données",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement...",
+      "cancel": "Annuler"
+    },
+    "sections": {
+      "businessInformation": "Informations Entreprise",
+      "businessCredentials": "Références Entreprise", 
+      "billingRevenue": "Facturation & Revenus",
+      "businessHealthDashboard": "Tableau de Bord Santé Entreprise",
+      "marketingInsights": "Analyses Marketing",
+      "growthOpportunities": "Opportunités de Croissance"
+    },
+    "badges": {
+      "requiredFieldsMissing": "Champs obligatoires manquants",
+      "incomplete": "Incomplet",
+      "excellent": "Excellent",
+      "good": "Bon",
+      "needsAttention": "Nécessite Attention"
+    },
+    "businessInfo": {
+      "companyName": "Nom de l'Entreprise",
+      "companyNameTooltip": "C'est comme ça que les touristes verront ton entreprise",
+      "companyNamePlaceholder": "Entre le nom de ton entreprise",
+      "companyNameRequired": "Champ obligatoire manquant",
+      "contactPerson": "Personne de Contact",
+      "contactPersonTooltip": "Contact principal pour les confirmations de réservation",
+      "contactPersonPlaceholder": "Nom du contact principal",
+      "emailAddress": "Adresse Email",
+      "emailTooltip": "Contacte le Support VAI pour changer l'adresse email",
+      "emailChangeTooltip": "Les changements d'email nécessitent une vérification du Support VAI",
+      "phoneNumber": "Numéro de Téléphone",
+      "phoneTooltip": "Inclus l'indicatif pays (ex: +689 pour la Polynésie française)",
+      "phonePlaceholder": "+689 XX XX XX XX",
+      "whatsappNumber": "Numéro WhatsApp",
+      "whatsappTooltip": "Utilisé pour les notifications instantanées de réservation et la communication client",
+      "whatsappPlaceholder": "+689 XX XX XX XX",
+      "operatingIsland": "Île d'Opération",
+      "islandTooltip": "Île principale où tu opères des excursions",
+      "selectIsland": "Sélectionner une Île",
+      "businessAddress": "Adresse de l'Entreprise",
+      "addressTooltip": "Emplacement physique de ton entreprise",
+      "addressPlaceholder": "Entre l'adresse de ton entreprise ou le point de rencontre principal",
+      "notSpecified": "Non spécifié"
+    },
+    "credentials": {
+      "businessLicense": "Licence d'Entreprise",
+      "businessLicenseStatus": "Non fournie",
+      "insuranceCertificate": "Certificat d'Assurance",
+      "insuranceStatus": "Non fourni",
+      "whaleTourCertified": "Certifié Excursions Baleines",
+      "whaleTourDescription": "Conformité faune marine 2025",
+      "missingCredentials": "Références Manquantes?",
+      "missingCredentialsText": "Contacte le Support VAI pour télécharger la licence d'entreprise, le certificat d'assurance, ou postuler pour la certification excursions baleines."
+    },
+    "billing": {
+      "commissionRate": "Taux de Commission",
+      "commissionOwed": "Commission Due",
+      "yourRevenue": "Tes Revenus",
+      "recentTourPerformance": "Performance Récente des Excursions",
+      "vaiBookings": "Réservations VAI",
+      "avgPerBooking": "Moyenne par Réservation",
+      "commissionPaid": "Commission Payée",
+      "paymentInformation": "Informations de Paiement",
+      "paymentInfoText": "Les paiements sont traités mensuellement. Contacte le Support VAI pour la configuration des paiements et la facturation."
+    },
+    "health": {
+      "overallHealthScore": "Score de Santé Global",
+      "healthDescriptions": {
+        "excellent": "Ton entreprise prospère! Continue cet excellent travail.",
+        "good": "Bonne performance. De petites améliorations peuvent booster ton score.",
+        "needsImprovement": "Concentre-toi sur le temps de réponse et la complétude du profil pour améliorer ton classement."
+      },
+      "responseTime": "Temps de Réponse",
+      "average": "Moyenne",
+      "successRate": "Taux de Réussite",
+      "confirmedBookings": "Réservations confirmées",
+      "monthlyBookings": "Réservations Mensuelles",
+      "thisMonth": "Ce mois",
+      "customerRating": "Note Client",
+      "averageScore": "Score moyen"
+    },
+    "quickActionsModal": {
+      "title": "Actions Rapides",
+      "whatsappSupport": "Support WhatsApp",
+      "whatsappDescription": "Obtiens de l'aide instantanée",
+      "emailSupport": "Support Email",
+      "emailDescription": "hello@vai.studio",
+      "createNewTour": "Créer Nouvelle Excursion",
+      "createTourDescription": "Ajouter disponibilité dernière minute"
+    },
+    "islands": {
+      "tahiti": "Tahiti",
+      "moorea": "Moorea",
+      "boraBora": "Bora Bora",
+      "huahine": "Huahine",
+      "raiatea": "Raiatea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti"
+    },
+    "validation": {
+      "companyNameRequired": "Le nom de l'entreprise est obligatoire",
+      "whatsappRequired": "Le numéro WhatsApp est obligatoire",
+      "islandRequired": "L'île est obligatoire"
+    },
+    "messages": {
+      "profileUpdated": "✅ Profil mis à jour avec succès!",
+      "updateFailed": "❌ {{error}}",
+      "contactSupport": "Contact: hello@vai.studio",
+      "profileNotFound": "Profil non trouvé. Veuillez contacter le support.",
+      "conflictingInfo": "Ces informations entrent en conflit avec un autre compte. Veuillez vérifier vos données.",
+      "noPermission": "Vous n'avez pas la permission de mettre à jour ce profil. Contactez le support.",
+      "updateError": "Impossible d'enregistrer les modifications. Veuillez réessayer ou contacter le support si le problème persiste.",
+      "securityPolicyError": "Échec de la mise à jour: La politique de sécurité de la base de données a empêché la mise à jour. Veuillez contacter le support à hello@vai.studio pour configurer les permissions de votre compte."
+    },
+    "footer": {
+      "vaiTickets": "VAI Tickets - Tableau de Bord Opérateur",
+      "copyright": "© 2025 Tous droits réservés",
+      "needWebsite": "Besoin d'un site web ou d'une app?"
+    }
   }
+
 }
