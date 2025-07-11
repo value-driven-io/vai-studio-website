@@ -18,7 +18,8 @@
     "thisMonth": "this month",
     "participants": "participants",
     "booked": "booked",
-    "attended": "attended"
+    "attended": "attended",
+    "spots": "spots"  
   },
   "header": {
     "title": "Operator Dashboard",
@@ -116,7 +117,8 @@
     "finalPrice": "Final Price",
     "yourRevenue": "Your revenue",
     "meetingPoint": "Meeting Point",
-    "meetingPointPlaceholder": "e.g., Vaiare Ferry Terminal - Main Entrance"
+    "meetingPointPlaceholder": "e.g., Vaiare Ferry Terminal - Main Entrance",
+    "tourTypeHelper": "Select the category that best describes your tour experience"
   },
   "tooltips": {
     "tourName": "Make it catchy! That's in the spotlight!",

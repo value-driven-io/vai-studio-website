@@ -18,7 +18,8 @@
     "thisMonth": "ce mois-ci",
     "participants": "participants",
     "booked": "réservé",
-    "attended": "présents"
+    "attended": "présents",
+    "spots": "places"
   },
   "header": {
     "title": "Tableau de Bord Opérateur",
@@ -116,7 +117,8 @@
     "finalPrice": "Prix Final",
     "yourRevenue": "Tes revenus",
     "meetingPoint": "Point de Rendez-vous",
-    "meetingPointPlaceholder": "ex. Terminal Ferry Vaiare - Entrée Principale"
+    "meetingPointPlaceholder": "ex. Terminal Ferry Vaiare - Entrée Principale",
+    "tourTypeHelper": "Sélectionne la catégorie qui décrit le mieux ton expérience d'excursion"
   },
   "tooltips": {
     "tourName": "Rends-le accrocheur ! C'est sous les projecteurs !",

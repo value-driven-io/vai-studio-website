@@ -168,15 +168,15 @@ const Tooltip = ({ children, content, position = 'top' }) => {
 }
 
 
-// NEW: Preview Modal Component
-const PreviewModal = ({ isOpen, onClose, formData, tourTypes, availableLanguages, formatPrice }) => {
+// Preview Modal Component
+const PreviewModal = ({ isOpen, onClose, formData, tourTypes, availableLanguages, formatPrice, t }) => {
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-4 border-b border-slate-700">
-          <h3 className="text-lg font-semibold text-white">Tourist View Preview</h3>
+          <h3 className="text-lg font-semibold text-white">{t('preview.title')}</h3>
           <button
             onClick={onClose}
             className="text-slate-400 hover:text-white transition-colors"
@@ -186,126 +186,127 @@ const PreviewModal = ({ isOpen, onClose, formData, tourTypes, availableLanguages
         </div>
         
         <div className="p-4">
+
           {/* Mock tour card preview */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg p-4 border border-slate-600">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-lg">
-                  {tourTypes.find(t => t.value === formData.tour_type)?.icon || '🎯'}
-                </span>
-                <span className="text-xs text-slate-400 uppercase tracking-wide">
-                  {formData.tour_type}
-                </span>
-              </div>
-              <div className="text-right">
-                {formData.discount_percentage > 0 && (
-                  <div className="text-xs text-slate-400 line-through">
-                    {formatPrice(formData.original_price_adult)}
-                  </div>
-                )}
-                <div className="text-green-400 font-bold">
-                  {formatPrice(formData.discount_price_adult)}
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg p-4 border border-slate-600">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">
+                    {tourTypes.find(type => type.value === formData.tour_type)?.icon || '🎯'}
+                  </span>
+                  <span className="text-xs text-slate-400 uppercase tracking-wide">
+                    {formData.tour_type}
+                  </span>
                 </div>
-                {formData.discount_percentage > 0 && (
-                  <div className="text-xs text-orange-400">
-                    -{formData.discount_percentage}% OFF
+                <div className="text-right">
+                  {formData.discount_percentage > 0 && (
+                    <div className="text-xs text-slate-400 line-through">
+                      {formatPrice(formData.original_price_adult)}
+                    </div>
+                  )}
+                  <div className="text-green-400 font-bold">
+                    {formatPrice(formData.discount_price_adult)}
                   </div>
+                  {formData.discount_percentage > 0 && (
+                    <div className="text-xs text-orange-400">
+                      -{formData.discount_percentage}% OFF
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <h5 className="text-white font-semibold mb-2 line-clamp-2">
+                {formData.tour_name || t('form.tourName')}
+              </h5>
+              
+              <p className="text-slate-300 text-sm mb-3 line-clamp-3">
+                {formData.description || t('form.descriptionPlaceholder')}
+              </p>
+              
+              <div className="space-y-2 text-xs text-slate-400 mb-3">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-3 h-3" />
+                  {formData.tour_date ? new Date(formData.tour_date).toLocaleDateString() : t('preview.dateTBD')}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-3 h-3" />
+                  {formData.time_slot} • {formData.duration_hours}h
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="w-3 h-3" />
+                  {formData.available_spots}/{formData.max_capacity} {t('common.spots')}
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-3 h-3" />
+                  {formData.meeting_point || t('preview.meetingPointTBD')}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Activity className="w-3 h-3" />
+                  {t('preview.fitness')}: {formData.fitness_level?.charAt(0).toUpperCase() + formData.fitness_level?.slice(1) || 'Easy'}
+                  {(formData.min_age || formData.max_age) && (
+                    <span className="text-slate-400">
+                      • {t('preview.age')}: {formData.min_age || '0'}-{formData.max_age || '∞'}
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              {/* Inclusions badges */}
+              <div className="flex flex-wrap gap-1 mb-3">
+                {formData.equipment_included && (
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">{t('inclusions.equipment')}</span>
+                )}
+                {formData.food_included && (
+                  <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">{t('inclusions.food')}</span>
+                )}
+                {formData.drinks_included && (
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded">{t('inclusions.drinks')}</span>
+                )}
+                {formData.pickup_available && (
+                  <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded">Pickup</span>
                 )}
               </div>
-            </div>
-            
-            <h5 className="text-white font-semibold mb-2 line-clamp-2">
-              {formData.tour_name || 'Tour Name'}
-            </h5>
-            
-            <p className="text-slate-300 text-sm mb-3 line-clamp-3">
-              {formData.description || 'Tour description will appear here...'}
-            </p>
-            
-            <div className="space-y-2 text-xs text-slate-400 mb-3">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-3 h-3" />
-                {formData.tour_date ? new Date(formData.tour_date).toLocaleDateString() : 'Date TBD'}
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-3 h-3" />
-                {formData.time_slot} • {formData.duration_hours}h
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="w-3 h-3" />
-                {formData.available_spots}/{formData.max_capacity} spots
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-3 h-3" />
-                {formData.meeting_point || 'Meeting point TBD'}
-              </div>
-              <div className="flex items-center gap-2">
-                <Activity className="w-3 h-3" />
-                Fitness: {formData.fitness_level?.charAt(0).toUpperCase() + formData.fitness_level?.slice(1) || 'Easy'}
-                {(formData.min_age || formData.max_age) && (
-                  <span className="text-slate-400">
-                    • Age: {formData.min_age || '0'}-{formData.max_age || '∞'}
-                  </span>
-                )}
+              
+              {/* Languages */}
+              {formData.languages && formData.languages.length > 0 && (
+                <div className="flex gap-1 mb-3">
+                  {formData.languages.slice(0, 4).map(lang => (
+                    <span key={lang} className="text-sm">
+                      {availableLanguages.find(l => l.code === lang)?.flag}
+                    </span>
+                  ))}
+                  {formData.languages.length > 4 && (
+                    <span className="text-xs text-slate-400">+{formData.languages.length - 4}</span>
+                  )}
+                </div>
+              )}
+              
+              <div className="pt-3 border-t border-slate-600">
+                <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2 px-4 rounded-lg font-medium">
+                  {t('preview.bookNow')}
+                </button>
               </div>
             </div>
-            
-            {/* Inclusions badges */}
-            <div className="flex flex-wrap gap-1 mb-3">
-              {formData.equipment_included && (
-                <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">Equipment</span>
-              )}
-              {formData.food_included && (
-                <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">Food</span>
-              )}
-              {formData.drinks_included && (
-                <span className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded">Drinks</span>
-              )}
-              {formData.pickup_available && (
-                <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded">Pickup</span>
-              )}
-            </div>
-            
-            {/* Languages */}
-            {formData.languages && formData.languages.length > 0 && (
-              <div className="flex gap-1 mb-3">
-                {formData.languages.slice(0, 4).map(lang => (
-                  <span key={lang} className="text-sm">
-                    {availableLanguages.find(l => l.code === lang)?.flag}
-                  </span>
-                ))}
-                {formData.languages.length > 4 && (
-                  <span className="text-xs text-slate-400">+{formData.languages.length - 4}</span>
-                )}
-              </div>
-            )}
-            
-            <div className="pt-3 border-t border-slate-600">
-              <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2 px-4 rounded-lg font-medium">
-                Book Now
-              </button>
-            </div>
-          </div>
 
           {/* Form Status */}
           <div className="mt-4 p-3 rounded-lg bg-slate-700/30">
-            <h6 className="text-white text-sm font-medium mb-2">Form Completion</h6>
+            <h6 className="text-white text-sm font-medium mb-2">{t('preview.formCompletion')}</h6>
             <div className="space-y-1 text-xs">
               <div className={`flex items-center gap-2 ${formData.tour_name ? 'text-green-400' : 'text-red-400'}`}>
                 {formData.tour_name ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                Tour name {formData.tour_name ? 'set' : 'missing'}
+                {t('form.tourName')} {formData.tour_name ? t('preview.tourNameSet') : t('preview.tourNameMissing')}
               </div>
               <div className={`flex items-center gap-2 ${formData.description ? 'text-green-400' : 'text-red-400'}`}>
                 {formData.description ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                Description {formData.description ? 'provided' : 'missing'}
+                {t('form.description')} {formData.description ? t('preview.descriptionProvided') : t('preview.descriptionMissing')}
               </div>
               <div className={`flex items-center gap-2 ${formData.tour_date ? 'text-green-400' : 'text-red-400'}`}>
                 {formData.tour_date ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                Date {formData.tour_date ? 'selected' : 'missing'}
+                Date {formData.tour_date ? t('preview.dateSelected') : t('preview.dateMissing')}
               </div>
               <div className={`flex items-center gap-2 ${formData.meeting_point ? 'text-green-400' : 'text-red-400'}`}>
                 {formData.meeting_point ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                Meeting point {formData.meeting_point ? 'set' : 'missing'}
+                {t('form.meetingPoint')} {formData.meeting_point ? t('preview.meetingPointSet') : t('preview.meetingPointMissing')}
               </div>
             </div>
           </div>
@@ -435,13 +436,14 @@ const CreateTab = ({
     <div className="space-y-6">
       {/* Preview Modal */}
       <PreviewModal 
-        isOpen={showPreview}
-        onClose={() => setShowPreview(false)}
-        formData={formData}
-        tourTypes={tourTypes}
-        availableLanguages={availableLanguages}
-        formatPrice={formatPrice}
-      />
+      isOpen={showPreview}
+      onClose={() => setShowPreview(false)}
+      formData={formData}
+      tourTypes={tourTypes}
+      availableLanguages={availableLanguages}
+      formatPrice={formatPrice}
+      t={t}
+    />
 
       {/* Create Tab Header */}
       <div className="flex items-center justify-between">
@@ -551,7 +553,7 @@ const CreateTab = ({
                             ))}
                         </select>
                         <p className="text-slate-400 text-xs mt-1">
-                            Select the category that best describes your tour experience
+                            {t('form.tourTypeHelper')}
                         </p>
                         </div>
                   </div>
@@ -985,363 +987,367 @@ const CreateTab = ({
                 )}
 
               {/* Requirements (Optional) */}
-              {showOptionalSections.requirements && (
-                <div className="border border-slate-600 rounded-lg overflow-hidden">
-                  <div className="p-4 bg-slate-700/30">
-                    <div className="flex items-center gap-3">
-                      <Activity className="w-5 h-5 text-orange-400" />
-                      <h4 className="text-md font-medium text-slate-300">Requirements & Restrictions</h4>
-                      <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Optional</span>
-                    </div>
-                  </div>
-                  <div className="p-4 bg-slate-800/20 space-y-6">
-                    {/* Clean organized layout */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Fitness Level</label>
-                        <select
-                          value={formData.fitness_level || 'easy'}
-                          onChange={(e) => handleFieldChange('fitness_level', e.target.value)}
-                          className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                        >
-                          <option value="easy">Easy - Everyone</option>
-                          <option value="moderate">Moderate - Some activity</option>
-                          <option value="challenging">Challenging - Good fitness</option>
-                          <option value="expert">Expert - Excellent fitness</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Min Age</label>
-                        <input
-                          type="number"
-                          value={formData.min_age || ''}
-                          onChange={(e) => handleFieldChange('min_age', e.target.value ? parseInt(e.target.value) : null)}
-                          className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                          placeholder="No limit"
-                          min="0"
-                          max="100"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Max Age</label>
-                        <input
-                          type="number"
-                          value={formData.max_age || ''}
-                          onChange={(e) => handleFieldChange('max_age', e.target.value ? parseInt(e.target.value) : null)}
-                          className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                          placeholder="No limit"
-                          min="0"
-                          max="100"
-                        />
+                {showOptionalSections.requirements && (
+                  <div className="border border-slate-600 rounded-lg overflow-hidden">
+                    <div className="p-4 bg-slate-700/30">
+                      <div className="flex items-center gap-3">
+                        <Activity className="w-5 h-5 text-orange-400" />
+                        <h4 className="text-md font-medium text-slate-300">{t('requirements.title')}</h4>
+                        <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">{t('form.optional')}</span>
                       </div>
                     </div>
+                    <div className="p-4 bg-slate-800/20 space-y-6">
+                      {/* Clean organized layout */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">{t('requirements.fitnessLevel')}</label>
+                          <select
+                            value={formData.fitness_level || 'easy'}
+                            onChange={(e) => handleFieldChange('fitness_level', e.target.value)}
+                            className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                          >
+                            <option value="easy">{t('requirements.easy')}</option>
+                            <option value="moderate">{t('requirements.moderate')}</option>
+                            <option value="challenging">{t('requirements.challenging')}</option>
+                            <option value="expert">{t('requirements.expert')}</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">{t('requirements.minAge')}</label>
+                          <input
+                            type="number"
+                            value={formData.min_age || ''}
+                            onChange={(e) => handleFieldChange('min_age', e.target.value ? parseInt(e.target.value) : null)}
+                            className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                            placeholder={t('requirements.noLimit')}
+                            min="0"
+                            max="100"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">{t('requirements.maxAge')}</label>
+                          <input
+                            type="number"
+                            value={formData.max_age || ''}
+                            onChange={(e) => handleFieldChange('max_age', e.target.value ? parseInt(e.target.value) : null)}
+                            className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                            placeholder={t('requirements.noLimit')}
+                            min="0"
+                            max="100"
+                          />
+                        </div>
+                      </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Requirements</label>
-                        <textarea
-                          value={formData.requirements || ''}
-                          onChange={(e) => handleFieldChange('requirements', e.target.value)}
-                          className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                          rows="3"
-                          placeholder="What participants need to bring or know..."
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Restrictions</label>
-                        <textarea
-                          value={formData.restrictions || ''}
-                          onChange={(e) => handleFieldChange('restrictions', e.target.value)}
-                          className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                          rows="3"
-                          placeholder="Safety restrictions and limitations..."
-                        />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">{t('requirements.requirements')}</label>
+                          <textarea
+                            value={formData.requirements || ''}
+                            onChange={(e) => handleFieldChange('requirements', e.target.value)}
+                            className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                            rows="3"
+                            placeholder={t('requirements.requirementsPlaceholder')}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">{t('requirements.restrictions')}</label>
+                          <textarea
+                            value={formData.restrictions || ''}
+                            onChange={(e) => handleFieldChange('restrictions', e.target.value)}
+                            className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                            rows="3"
+                            placeholder={t('requirements.restrictionsPlaceholder')}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Safety & Compliance (Optional) */}
-              {showOptionalSections.compliance && (
-                <div className="border border-slate-600 rounded-lg overflow-hidden">
-                  <div className="p-4 bg-slate-700/30">
-                    <div className="flex items-center gap-3">
-                      <Shield className="w-5 h-5 text-green-400" />
-                      <h4 className="text-md font-medium text-slate-300">Safety & Compliance</h4>
-                      <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Optional</span>
+                {showOptionalSections.compliance && (
+                  <div className="border border-slate-600 rounded-lg overflow-hidden">
+                    <div className="p-4 bg-slate-700/30">
+                      <div className="flex items-center gap-3">
+                        <Shield className="w-5 h-5 text-green-400" />
+                        <h4 className="text-md font-medium text-slate-300">{t('compliance.title')}</h4>
+                        <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">{t('form.optional')}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-4 bg-slate-800/20 space-y-6">
-                    {/* Whale Watching Specific */}
-                    {formData.tour_type === 'Whale Watching' && (
-                      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-                        <h6 className="text-blue-400 font-medium mb-3">🐋 Whale Watching Compliance</h6>
-                        <div className="space-y-3">
-                          <label className="flex items-center gap-3">
-                            <input
-                              type="checkbox"
-                              checked={formData.whale_regulation_compliant}
-                              onChange={(e) => handleFieldChange('whale_regulation_compliant', e.target.checked)}
-                              className="w-4 h-4 rounded border-slate-600"
-                            />
-                            <span className="text-slate-200">French Polynesia regulations compliant</span>
-                          </label>
-                          <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Max Group Size</label>
-                            <input
-                              type="number"
-                              value={formData.max_whale_group_size}
-                              onChange={(e) => handleFieldChange('max_whale_group_size', e.target.value)}
-                              className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                              min="1"
-                              max="8"
-                            />
+                    <div className="p-4 bg-slate-800/20 space-y-6">
+                      {/* Whale Watching Specific */}
+                      {formData.tour_type === 'Whale Watching' && (
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                          <h6 className="text-blue-400 font-medium mb-3">🐋 {t('compliance.whaleCompliance')}</h6>
+                          <div className="space-y-3">
+                            <label className="flex items-center gap-3">
+                              <input
+                                type="checkbox"
+                                checked={formData.whale_regulation_compliant}
+                                onChange={(e) => handleFieldChange('whale_regulation_compliant', e.target.checked)}
+                                className="w-4 h-4 rounded border-slate-600"
+                              />
+                              <span className="text-slate-200">{t('compliance.frenchPolynesiaRegs')}</span>
+                            </label>
+                            <div>
+                              <label className="block text-sm font-medium text-slate-300 mb-2">{t('compliance.maxGroupSize')}</label>
+                              <input
+                                type="number"
+                                value={formData.max_whale_group_size}
+                                onChange={(e) => handleFieldChange('max_whale_group_size', e.target.value)}
+                                className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                                min="1"
+                                max="8"
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {/* Weather & Safety */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="flex items-center gap-3 mb-3">
-                            <input
-                            type="checkbox"
-                            checked={formData.weather_dependent}
-                            onChange={(e) => handleFieldChange('weather_dependent', e.target.checked)}
-                            className="w-4 h-4 rounded border-slate-600"
-                            />
-                            <span className="text-slate-200">Weather dependent activity</span>
-                        </label>
-                        
-                        {/* CONDITIONAL: Only show backup plan if weather dependent */}
-                        {formData.weather_dependent && (
-                            <div className="mt-4">
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Backup Plan</label>
-                            <textarea
-                                value={formData.backup_plan || ''}
-                                onChange={(e) => handleFieldChange('backup_plan', e.target.value)}
-                                className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                                rows="3"
-                                placeholder="What happens if weather prevents the tour?"
-                            />
-                            <p className="text-slate-400 text-xs mt-1">
-                                Describe alternative activities or refund policy for bad weather
-                            </p>
-                            </div>
-                        )}
+                      {/* Weather & Safety */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="flex items-center gap-3 mb-3">
+                              <input
+                              type="checkbox"
+                              checked={formData.weather_dependent}
+                              onChange={(e) => handleFieldChange('weather_dependent', e.target.checked)}
+                              className="w-4 h-4 rounded border-slate-600"
+                              />
+                              <span className="text-slate-200">{t('compliance.weatherDependent')}</span>
+                          </label>
+                          
+                          {/* CONDITIONAL: Only show backup plan if weather dependent */}
+                          {formData.weather_dependent && (
+                              <div className="mt-4">
+                              <label className="block text-sm font-medium text-slate-300 mb-2">{t('compliance.backupPlan')}</label>
+                              <textarea
+                                  value={formData.backup_plan || ''}
+                                  onChange={(e) => handleFieldChange('backup_plan', e.target.value)}
+                                  className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                                  rows="3"
+                                  placeholder={t('compliance.backupPlanPlaceholder')}
+                              />
+                              <p className="text-slate-400 text-xs mt-1">
+                                  {t('compliance.backupPlanDesc')}
+                              </p>
+                              </div>
+                          )}
+                          </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-2">{t('compliance.autoCloseHours')}</label>
+                          <select
+                            value={formData.auto_close_hours}
+                            onChange={(e) => handleFieldChange('auto_close_hours', parseInt(e.target.value))}
+                            className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 mb-4"
+                          >
+                            <option value={2}>2 {t('compliance.hoursBefore')}</option>
+                            <option value={4}>4 {t('compliance.hoursBefore')}</option>
+                            <option value={6}>6 {t('compliance.hoursBefore')}</option>
+                            <option value={8}>8 {t('compliance.hoursBefore')}</option>
+                          </select>
+
+                          <label className="block text-sm font-medium text-slate-300 mb-2">{t('compliance.specialNotes')}</label>
+                          <textarea
+                            value={formData.special_notes || ''}
+                            onChange={(e) => handleFieldChange('special_notes', e.target.value)}
+                            className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
+                            rows="3"
+                            placeholder={t('compliance.specialNotesPlaceholder')}
+                          />
                         </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Auto-Close Hours</label>
-                        <select
-                          value={formData.auto_close_hours}
-                          onChange={(e) => handleFieldChange('auto_close_hours', parseInt(e.target.value))}
-                          className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 mb-4"
-                        >
-                          <option value={2}>2 hours before</option>
-                          <option value={4}>4 hours before</option>
-                          <option value={6}>6 hours before</option>
-                          <option value={8}>8 hours before</option>
-                        </select>
-
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Special Notes</label>
-                        <textarea
-                          value={formData.special_notes || ''}
-                          onChange={(e) => handleFieldChange('special_notes', e.target.value)}
-                          className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                          rows="3"
-                          placeholder="Additional information for customers..."
-                        />
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Form Actions */}
-              <div className="flex items-center justify-between pt-6 border-t border-slate-700">
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={resetForm}
-                    className="flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-white transition-colors"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                    Reset
-                  </button>
-                  {editingTour && (
+                <div className="flex items-center justify-between pt-6 border-t border-slate-700">
+                  <div className="flex gap-3">
                     <button
                       type="button"
-                      onClick={() => handleDuplicate(editingTour)}
-                      className="flex items-center gap-2 px-4 py-2 text-blue-400 hover:text-blue-300 transition-colors"
+                      onClick={resetForm}
+                      className="flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-white transition-colors"
                     >
-                      <Copy className="w-4 h-4" />
-                      Duplicate
+                      <RotateCcw className="w-4 h-4" />
+                      {t('createTab.reset')}
                     </button>
-                  )}
+                    {editingTour && (
+                      <button
+                        type="button"
+                        onClick={() => handleDuplicate(editingTour)}
+                        className="flex items-center gap-2 px-4 py-2 text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        <Copy className="w-4 h-4" />
+                        {t('createTab.duplicate')}
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={resetForm}
+                      className="px-6 py-3 text-slate-300 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
+                    >
+                      {t('createTab.cancel')}
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-all transform hover:scale-105"
+                    >
+                      {loading ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          {t('createTab.saving')}
+                        </>
+                      ) : (
+                        <>
+                          <Save className="w-4 h-4" />
+                          {editingTour ? t('createTab.updateTour') : t('createTab.createTour')}
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={resetForm}
-                    className="px-6 py-3 text-slate-300 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-all transform hover:scale-105"
-                  >
-                    {loading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <Save className="w-4 h-4" />
-                        {editingTour ? 'Update Tour' : 'Create Tour'}
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
+
             </div>
           </form>
         </div>
       ) : (
-        /* Tour Management Section (keep existing) */
+        /* Tour Management Section */
         <div className="space-y-6">
-          {/* Quick Tour Templates */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Quick Start Templates</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button
-                onClick={() => {
-                  setFormData({
-                    ...formData,
-                    tour_type: 'Whale Watching',
-                    tour_name: 'Whale Watching Experience',
-                    duration_hours: 3,
-                    whale_regulation_compliant: true
-                  })
-                  setShowForm(true)
-                }}
-                className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
-              >
-                <div className="text-2xl mb-2">🐋</div>
-                <h4 className="text-white font-medium">Whale Watching</h4>
-                <p className="text-slate-400 text-sm">3-hour certified experience</p>
-              </button>
-              
-              <button
-                onClick={() => {
-                  setFormData({
-                    ...formData,
-                    tour_type: 'Lagoon Tour',
-                    tour_name: 'Lagoon Discovery',
-                    duration_hours: 4
-                  })
-                  setShowForm(true)
-                }}
-                className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
-              >
-                <div className="text-2xl mb-2">🏝️</div>
-                <h4 className="text-white font-medium">Lagoon Tour</h4>
-                <p className="text-slate-400 text-sm">4-hour island exploration</p>
-              </button>
-              
-              <button
-                onClick={() => {
-                  setFormData({
-                    ...formData,
-                    tour_type: 'Cultural',
-                    tour_name: 'Sunset Cruise',
-                    duration_hours: 2.5
-                  })
-                  setShowForm(true)
-                }}
-                className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
-              >
-                <div className="text-2xl mb-2">🌅</div>
-                <h4 className="text-white font-medium">Sunset Tour</h4>
-                <p className="text-slate-400 text-sm">2.5-hour romantic cruise</p>
-              </button>
-            </div>
-          </div>
 
-          {/* Tour Management (keep existing tours list) */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
-            <div className="p-6 border-b border-slate-700">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-white">Your Tours</h3>
-                  <p className="text-slate-400 text-sm">Manage and edit your existing tours</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-white">{tours.length}</div>
-                  <div className="text-slate-400 text-sm">Total Tours</div>
-                </div>
+          {/* Quick Tour Templates */}
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">{t('templates.title')}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      tour_type: 'Whale Watching',
+                      tour_name: 'Whale Watching Experience',
+                      duration_hours: 3,
+                      whale_regulation_compliant: true
+                    })
+                    setShowForm(true)
+                  }}
+                  className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
+                >
+                  <div className="text-2xl mb-2">🐋</div>
+                  <h4 className="text-white font-medium">{t('templates.whaleWatching')}</h4>
+                  <p className="text-slate-400 text-sm">{t('templates.whaleWatchingDesc')}</p>
+                </button>
+                
+                <button
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      tour_type: 'Lagoon Tour',
+                      tour_name: 'Lagoon Discovery',
+                      duration_hours: 4
+                    })
+                    setShowForm(true)
+                  }}
+                  className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
+                >
+                  <div className="text-2xl mb-2">🏝️</div>
+                  <h4 className="text-white font-medium">{t('templates.lagoonTour')}</h4>
+                  <p className="text-slate-400 text-sm">{t('templates.lagoonTourDesc')}</p>
+                </button>
+                
+                <button
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      tour_type: 'Cultural',
+                      tour_name: 'Sunset Cruise',
+                      duration_hours: 2.5
+                    })
+                    setShowForm(true)
+                  }}
+                  className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
+                >
+                  <div className="text-2xl mb-2">🌅</div>
+                  <h4 className="text-white font-medium">{t('templates.sunsetTour')}</h4>
+                  <p className="text-slate-400 text-sm">{t('templates.sunsetTourDesc')}</p>
+                </button>
               </div>
+            </div>
+          
+
+          {/* Tour Management */}
+            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
+              <div className="p-6 border-b border-slate-700">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">{t('tourManagement.title')}</h3>
+                    <p className="text-slate-400 text-sm">{t('tourManagement.subtitle')}</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-white">{tours.length}</div>
+                    <div className="text-slate-400 text-sm">{t('tourManagement.totalTours')}</div>
+                  </div>
+                </div>
 
               {/* Filter and Search */}
-              <div className="flex gap-4 mb-4">
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setTourFilter('all')}
-                    className={`px-3 py-1 rounded-lg text-sm transition-colors ${
-                      tourFilter === 'all' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                    }`}
-                  >
-                    All ({tours.length})
-                  </button>
-                  <button
-                    onClick={() => setTourFilter('upcoming')}
-                    className={`px-3 py-1 rounded-lg text-sm transition-colors ${
-                      tourFilter === 'upcoming' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                    }`}
-                  >
-                    Upcoming ({tours.filter(t => new Date(t.tour_date) >= new Date()).length})
-                  </button>
-                  <button
-                    onClick={() => setTourFilter('past')}
-                    className={`px-3 py-1 rounded-lg text-sm transition-colors ${
-                      tourFilter === 'past' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                    }`}
-                  >
-                    Past ({tours.filter(t => new Date(t.tour_date) < new Date()).length})
-                  </button>
-                </div>
-                
-                <div className="flex-1 max-w-md">
-                  <div className="relative">
-                    <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="text"
-                      placeholder="Search tours..."
-                      value={tourSearch}
-                      onChange={(e) => setTourSearch(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm focus:border-blue-500"
-                    />
+                <div className="flex gap-4 mb-4">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setTourFilter('all')}
+                      className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                        tourFilter === 'all' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      {t('tourManagement.all')} ({tours.length})
+                    </button>
+                    <button
+                      onClick={() => setTourFilter('upcoming')}
+                      className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                        tourFilter === 'upcoming' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      {t('tourManagement.upcoming')} ({tours.filter(t => new Date(t.tour_date) >= new Date()).length})
+                    </button>
+                    <button
+                      onClick={() => setTourFilter('past')}
+                      className={`px-3 py-1 rounded-lg text-sm transition-colors ${
+                        tourFilter === 'past' ? 'bg-blue-500 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      {t('tourManagement.past')} ({tours.filter(t => new Date(t.tour_date) < new Date()).length})
+                    </button>
+                  </div>
+                  
+                  <div className="flex-1 max-w-md">
+                    <div className="relative">
+                      <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="text"
+                        placeholder={t('tourManagement.searchTours')}
+                        value={tourSearch}
+                        onChange={(e) => setTourSearch(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 text-sm focus:border-blue-500"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
             {/* Tours List */}
             <div className="max-h-96 overflow-y-auto">
               {filteredTours.length === 0 ? (
                 <div className="text-center py-8">
-                  <div className="text-slate-400 mb-2">No tours found</div>
+                  <div className="text-slate-400 mb-2">{t('tourManagement.noToursFound')}</div>
                   <button
                     onClick={() => setShowForm(true)}
                     className="text-blue-400 hover:text-blue-300 text-sm"
                   >
-                    Create your first tour
+                    {t('tourManagement.createFirstTour')}
                   </button>
                 </div>
               ) : (
@@ -1376,15 +1382,16 @@ const CreateTab = ({
                                 <DollarSign className="w-3 h-3 text-slate-400" />
                                 <span className="text-slate-300">{formatPrice(tour.discount_price_adult)}</span>
                               </div>
+                              
                               <div className={`px-2 py-1 rounded text-xs font-medium ${
-                                tour.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
-                                isUpcoming ? 'bg-green-500/20 text-green-400' : 'bg-slate-500/20 text-slate-400'
-                                }`}>
-                                {tour.status === 'cancelled' ? 'Cancelled' :
-                                isUpcoming ? 'Upcoming' : 'Completed'}
-                                </div>
+                                  tour.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
+                                  isUpcoming ? 'bg-green-500/20 text-green-400' : 'bg-slate-500/20 text-slate-400'
+                                  }`}>
+                                  {tour.status === 'cancelled' ? t('tourManagement.cancelled') :
+                                  isUpcoming ? t('tourManagement.upcoming') : t('tourManagement.completed')}
+                                  </div>
+                              </div>
                             </div>
-                          </div>
                           
                           <div className="flex items-center gap-2">
                             <div className={`px-2 py-1 rounded text-xs font-medium ${
@@ -1397,7 +1404,7 @@ const CreateTab = ({
                             </div>
                             
                             <div className="flex gap-1">
-                              <Tooltip content="Duplicate this tour">
+                              <Tooltip content={t('tourManagement.duplicateTour')}>
                                 <button
                                   onClick={() => handleDuplicate(tour)}
                                   className="p-2 text-slate-400 hover:text-blue-400 transition-colors"
@@ -1407,7 +1414,7 @@ const CreateTab = ({
                               </Tooltip>
                               
                               {canEditTour(tour) ? (
-                                <Tooltip content="Edit tour">
+                                <Tooltip content={t('tourManagement.editTour')}>
                                   <button 
                                     onClick={() => handleEdit(tour)} 
                                     className="p-2 text-slate-400 hover:text-green-400 transition-colors"
@@ -1416,11 +1423,11 @@ const CreateTab = ({
                                   </button>
                                 </Tooltip>
                               ) : (
-                                <Tooltip content={`Cannot edit: ${
-                                  tour.status === 'cancelled' ? 'Tour cancelled' :
-                                  new Date(`${tour.tour_date}T${tour.time_slot}:00`) < new Date() ? 'Tour completed' :
-                                  (new Date(`${tour.tour_date}T${tour.time_slot}:00`) - new Date()) / (1000 * 60 * 60) < 24 ? 'Within 24h of tour' :
-                                  'Has bookings'
+                                <Tooltip content={`${t('tourManagement.cannotEdit')}: ${
+                                  tour.status === 'cancelled' ? t('tourManagement.tourCancelled') :
+                                  new Date(`${tour.tour_date}T${tour.time_slot}:00`) < new Date() ? t('tourManagement.tourCompleted') :
+                                  (new Date(`${tour.tour_date}T${tour.time_slot}:00`) - new Date()) / (1000 * 60 * 60) < 24 ? t('tourManagement.within24h') :
+                                  t('tourManagement.hasBookings')
                                 }`}>
                                   <span className="p-2 text-slate-400 opacity-50 cursor-not-allowed inline-block">
                                     <Edit2 className="w-4 h-4" />
@@ -1429,7 +1436,7 @@ const CreateTab = ({
                               )}
                               
                               {canDeleteTour(tour) ? (
-                                <Tooltip content="Delete tour">
+                                <Tooltip content={t('tourManagement.deleteTour')}>
                                     <button
                                     onClick={() => handleDelete(tour.id)}
                                     className="p-2 text-slate-400 hover:text-red-400 transition-colors"
@@ -1438,11 +1445,11 @@ const CreateTab = ({
                                     </button>
                                 </Tooltip>
                                 ) : (
-                                <Tooltip content={`Cannot delete: ${
-                                    tour.status === 'cancelled' ? 'Tour cancelled' :
-                                    new Date(`${tour.tour_date}T${tour.time_slot}:00`) < new Date() ? 'Tour completed' :
-                                    (new Date(`${tour.tour_date}T${tour.time_slot}:00`) - new Date()) / (1000 * 60 * 60) < 24 ? 'Within 24h of tour' :
-                                    'Has bookings'
+                                <Tooltip content={`${t('tourManagement.cannotDelete')}: ${
+                                    tour.status === 'cancelled' ? t('tourManagement.tourCancelled') :
+                                    new Date(`${tour.tour_date}T${tour.time_slot}:00`) < new Date() ? t('tourManagement.tourCompleted') :
+                                    (new Date(`${tour.tour_date}T${tour.time_slot}:00`) - new Date()) / (1000 * 60 * 60) < 24 ? t('tourManagement.within24h') :
+                                    t('tourManagement.hasBookings')
                                 }`}>
                                     <span className="p-2 text-slate-400 opacity-50 cursor-not-allowed inline-block">
                                     <Trash2 className="w-4 h-4" />
