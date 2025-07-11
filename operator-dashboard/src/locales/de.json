@@ -1,0 +1,466 @@
+{
+  "common": {
+    "logout": "Abmelden",
+    "loading": "Wird geladen...",
+    "save": "Speichern", 
+    "create": "Erstellen",
+    "dashboard": "Dashboard",
+    "refresh": "Aktualisieren",
+    "edit": "Bearbeiten",
+    "view": "Anzeigen",
+    "all": "Alle",
+    "pending": "ausstehend",
+    "confirmed": "bestätigt",
+    "completed": "abgeschlossen",
+    "declined": "abgelehnt",
+    "upcoming": "kommend",
+    "total": "gesamt",
+    "thisMonth": "diesen Monat",
+    "participants": "Teilnehmer",
+    "booked": "gebucht",
+    "attended": "teilgenommen",
+    "spots": "Plätze"  
+  },
+  "header": {
+    "title": "Operator Dashboard",
+    "greeting": "Willkommen zurück, {{companyName}} 🌺"
+  },
+  "dashboard": {
+    "title": "Dashboard-Übersicht",
+    "subtitle": "Überwache deine Touren und Leistung",
+    "refreshData": "Daten aktualisieren",
+    "createNewTour": "Tour erstellen",
+    "quickActions": "Schnellaktionen",
+    "activeTours": "Aktive Touren",
+    "allBookings": "Alle Buchungen",
+    "viewBookings": "Buchungen anzeigen",
+    "needsAttention": "Benötigt Aufmerksamkeit",
+    "allCaughtUp": "Alles erledigt",
+    "createTour": "Tour erstellen",
+    "revenue": "Umsatz",
+    "totalBookings": "Buchungen gesamt",
+    "pendingActions": "Ausstehende Aktionen",
+    "yourRevenue": "Dein Umsatz"
+  },
+  "quickActions": {
+    "title": "Schnellaktionen",
+    "createTour": "Tour erstellen",
+    "createTourDesc": "Neue Tourerfahrung hinzufügen",
+    "manageBookings": "Buchungen verwalten",
+    "pendingRequests": "ausstehende Anfragen",
+    "getSupport": "Support erhalten",
+    "contactVAI": "VAI Operator kontaktieren"
+  },
+  "tours": {
+    "allTours": "Alle Touren",
+    "totalToursCreated": "Touren insgesamt erstellt",
+    "loadingTours": "Touren werden geladen...",
+    "upcomingTours": "Kommende Touren",
+    "completedTours": "Abgeschlossene Touren",
+    "moreCompletedTours": "weitere abgeschlossene Touren",
+    "noToursYet": "Noch keine Touren erstellt",
+    "createFirstTour": "Erste Tour erstellen"
+  },
+  "activity": {
+    "recentActivity": "Neueste Aktivitäten",
+    "latestBookings": "Neueste Buchungen und Updates",
+    "loadingActivity": "Aktivitäten werden geladen...",
+    "newBookingFor": "Neue Buchung für",
+    "noRecentActivity": "Keine neuesten Aktivitäten",
+    "viewAllBookings": "Alle {{count}} Buchungen anzeigen"
+  },
+  "insights": {
+    "performanceInsights": "Leistungseinblicke",
+    "quickTips": "Schnelle Tipps zur Buchungssteigerung",
+    "quickTip": "Schneller Tipp",
+    "timingTip": "Touren, die 4-6 Stunden vor Abfahrt gepostet werden, erhalten 40% mehr Buchungen",
+    "trending": "Im Trend",
+    "sunsetTrend": "Sonnenuntergangstouren sind diese Woche sehr gefragt"
+  },
+  "createTab": {
+    "title": "Touren erstellen & verwalten",
+    "subtitle": "Neue Touren erstellen oder bestehende verwalten",
+    "startCreating": "Tour-Erstellung beginnen",
+    "editTour": "Tour bearbeiten",
+    "createNewTour": "Neue Tour erstellen",
+    "updateExisting": "Bestehende Tourdetails aktualisieren",
+    "setupNew": "Neue Tourerfahrung für Reisende einrichten",
+    "showPreview": "Vorschau anzeigen",
+    "hidePreview": "Vorschau ausblenden",
+    "cancel": "Abbrechen",
+    "updateTour": "Tour aktualisieren",
+    "createTour": "Tour erstellen",
+    "saving": "Wird gespeichert...",
+    "reset": "Zurücksetzen",
+    "duplicate": "Duplizieren"
+  },
+  "form": {
+    "required": "Erforderlich",
+    "optional": "Optional",
+    "basicInfo": "Grundinformationen",
+    "scheduleDuration": "Zeitplan & Dauer",
+    "pricingCapacity": "Preise & Kapazität",
+    "optionalSettings": "Optionale Einstellungen",
+    "tourName": "Tour-Name",
+    "tourNamePlaceholder": "z.B. Walbeobachtungsabenteuer am Morgen",
+    "tourType": "Tour-Typ",
+    "description": "Beschreibung",
+    "descriptionPlaceholder": "Beschreibe deine Tourerfahrung im Detail. Was macht sie besonders? Was werden die Teilnehmer sehen und tun?",
+    "quickDateSelection": "Schnelle Datumsauswahl",
+    "customDate": "Benutzerdefiniertes Datum",
+    "timeSlot": "Zeitfenster",
+    "duration": "Dauer (Stunden)",
+    "maxCapacity": "Maximale Kapazität",
+    "availableSpots": "Verfügbare Plätze",
+    "regularPrice": "Standardpreis (Erwachsener)",
+    "discountPercent": "Rabatt %",
+    "finalPrice": "Endpreis",
+    "yourRevenue": "Dein Umsatz",
+    "meetingPoint": "Treffpunkt",
+    "meetingPointPlaceholder": "z.B. Vaiare Fährterminal - Haupteingang",
+    "tourTypeHelper": "Wähle die Kategorie, die deine Tourerfahrung am besten beschreibt",
+    "bookings": "Buchungen", 
+    "profile": "Profil"
+  },
+  "tooltips": {
+    "tourName": "Mach ihn einprägsam! Das steht im Rampenlicht!",
+    "duration": "Reisezeit zum/vom Aktivitätsort einbeziehen. Halbtagestouren: 3-4h, Ganztagestouren: 6-8h",
+    "pricing": "Setze deinen Standardpreis. Nur Werte, die auf 00 enden, sind erlaubt (z.B. 5600, 7200, 8500)",
+    "meetingPoint": "Sei spezifisch! Bekannte Orte für einfaches Finden einbeziehen. Beispiele: 'Vaiare Fährterminal - Haupteingang'"
+  },
+  "optionalSections": {
+    "title": "Optionale Einstellungen",
+    "subtitle": "Fügen Sie diese Bereiche hinzu, um detailliertere Informationen über Ihre Tour zu geben",
+    "location": "Standort & Abholung",
+    "locationDesc": "Abholorte und Treffpunktdetails",
+    "inclusions": "Was ist enthalten",
+    "inclusionsDesc": "Ausrüstung, Essen, Getränke, Sprachen",
+    "requirements": "Anforderungen",
+    "requirementsDesc": "Fitness-Level, Altersgrenzen, Einschränkungen",
+    "compliance": "Sicherheit & Compliance",
+    "complianceDesc": "Wetterpläne, Vorschriften, besondere Hinweise"
+  },
+  "locationPickup": {
+    "title": "Standort & Abholung",
+    "offerPickup": "Abholservice anbieten",
+    "addPickupLocation": "Abholort hinzufügen...",
+    "add": "Hinzufügen"
+  },
+  "inclusions": {
+    "title": "Was ist enthalten",
+    "equipment": "Ausrüstung enthalten",
+    "food": "Essen enthalten",
+    "drinks": "Getränke enthalten",
+    "languages": "Angebotene Sprachen"
+  },
+  "requirements": {
+    "title": "Anforderungen & Einschränkungen",
+    "fitnessLevel": "Fitness-Level",
+    "minAge": "Mindestalter",
+    "maxAge": "Höchstalter",
+    "requirements": "Anforderungen",
+    "requirementsPlaceholder": "Was die Teilnehmer mitbringen oder wissen müssen...",
+    "restrictions": "Einschränkungen",
+    "restrictionsPlaceholder": "Sicherheitseinschränkungen und Beschränkungen...",
+    "easy": "Einfach - Für alle",
+    "moderate": "Moderat - Etwas Aktivität",
+    "challenging": "Anspruchsvoll - Gute Fitness",
+    "expert": "Experte - Ausgezeichnete Fitness",
+    "noLimit": "Keine Begrenzung"
+  },
+  "compliance": {
+    "title": "Sicherheit & Compliance",
+    "whaleCompliance": "Walbeobachtungs-Compliance",
+    "frenchPolynesiaRegs": "Französisch-Polynesien Vorschriften konform",
+    "maxGroupSize": "Maximale Gruppengröße",
+    "weatherDependent": "Wetterabhängige Aktivität",
+    "backupPlan": "Ausweichplan",
+    "backupPlanPlaceholder": "Was passiert, wenn das Wetter die Tour verhindert?",
+    "backupPlanDesc": "Alternative Aktivitäten oder Rückerstattungsrichtlinie bei schlechtem Wetter beschreiben",
+    "autoCloseHours": "Auto-Schließ-Stunden",
+    "hoursBefore": "Stunden vorher",
+    "specialNotes": "Besondere Hinweise",
+    "specialNotesPlaceholder": "Zusätzliche Informationen für Kunden..."
+  },
+  "templates": {
+    "title": "Schnellstart-Vorlagen",
+    "whaleWatching": "Walbeobachtung",
+    "whaleWatchingDesc": "3-Stunden zertifizierte Erfahrung",
+    "lagoonTour": "Lagunen-Tour",
+    "lagoonTourDesc": "4-Stunden Inselerkundung",
+    "sunsetTour": "Sonnenuntergangs-Tour",
+    "sunsetTourDesc": "2,5-Stunden romantische Kreuzfahrt"
+  },
+  "tourManagement": {
+    "title": "Ihre Touren",
+    "subtitle": "Verwalten und bearbeiten Sie Ihre bestehenden Touren",
+    "totalTours": "Touren gesamt",
+    "all": "Alle",
+    "upcoming": "Kommend",
+    "past": "Vergangen",
+    "searchTours": "Touren suchen...",
+    "noToursFound": "Keine Touren gefunden",
+    "createFirstTour": "Ihre erste Tour erstellen",
+    "cancelled": "Storniert",
+    "completed": "Abgeschlossen",
+    "cannotEdit": "Kann nicht bearbeitet werden",
+    "cannotDelete": "Kann nicht gelöscht werden",
+    "tourCancelled": "Tour storniert",
+    "tourCompleted": "Tour abgeschlossen",
+    "within24h": "Innerhalb von 24h der Tour",
+    "hasBookings": "Hat Buchungen",
+    "editTour": "Tour bearbeiten",
+    "deleteTour": "Tour löschen",
+    "duplicateTour": "Diese Tour duplizieren"
+  },
+  "preview": {
+    "title": "Touristen-Ansicht Vorschau",
+    "formCompletion": "Formular-Vervollständigung",
+    "tourNameSet": "gesetzt",
+    "tourNameMissing": "fehlt",
+    "descriptionProvided": "bereitgestellt",
+    "descriptionMissing": "fehlt",
+    "dateSelected": "ausgewählt",
+    "dateMissing": "fehlt",
+    "meetingPointSet": "gesetzt",
+    "meetingPointMissing": "fehlt",
+    "bookNow": "Jetzt buchen",
+    "dateTBD": "Datum noch festzulegen",
+    "meetingPointTBD": "Treffpunkt noch festzulegen",
+    "fitness": "Fitness",
+    "age": "Alter"
+  },
+  "login": {
+    "operatorDashboard": "Operator Dashboard",
+    "secureLoginRequired": "Sichere Anmeldung erforderlich",
+    "emailAddress": "E-Mail-Adresse",
+    "emailPlaceholder": "ihre-email@operator.com",
+    "password": "Passwort",
+    "passwordPlaceholder": "Ihr sicheres Passwort",
+    "emailRequired": "Bitte geben Sie Ihre E-Mail ein",
+    "passwordRequired": "Bitte geben Sie Ihr Passwort ein",
+    "signingIn": "Anmeldung läuft...",
+    "signInSecurely": "Sicher anmelden",
+    "useCredentials": "Verwenden Sie Ihre sicheren Operator-Zugangsdaten",
+    "needHelp": "Benötigen Sie Hilfe? Kontaktieren Sie",
+    "passwordReminder": "Ihr sicheres Passwort wurde bei der Kontoeinrichtung bereitgestellt"
+  },
+
+  "bookings": {
+    "stats": {
+      "total": "Gesamt",
+      "pending": "Ausstehend",
+      "confirmed": "Bestätigt",
+      "declined": "Abgelehnt", 
+      "completed": "Abgeschlossen",
+      "active": "Aktiv"
+    },
+    "filters": {
+      "allTime": "Alle Zeit",
+      "today": "Heute",
+      "tomorrow": "Morgen",
+      "thisWeek": "Diese Woche",
+      "searchPlaceholder": "Buchungen suchen...",
+      "showingResults": "Zeige {{filtered}} von {{total}} Buchungen",
+      "refreshBookings": "Buchungen aktualisieren",
+      "filteredBy": "Gefiltert nach:",
+      "clearFilter": "Filter löschen",
+      "clearSearch": "Suche löschen"
+    },
+    "messages": {
+      "loading": "Buchungen werden geladen...",
+      "noBookings": "Keine Buchungen gefunden",
+      "noFilteredBookings": "Keine {{status}} Buchungen gefunden"
+    },
+    "labels": {
+      "ref": "Ref:",
+      "participant": "Teilnehmer",
+      "participants": "Teilnehmer", 
+      "customerDetails": "Kundendetails",
+      "detailsUnlock": "🔒 Details werden nach Bestätigung freigeschaltet",
+      "name": "Name:",
+      "contact": "Kontakt:",
+      "email": "E-Mail:",
+      "participantsLabel": "Teilnehmer:",
+      "adult": "Erwachsener",
+      "adults": "Erwachsene",
+      "child": "Kind", 
+      "children": "Kinder",
+      "specialRequirements": "Besondere Anforderungen:",
+      "dietary": "Diätetisch:",
+      "accessibility": "Barrierefreiheit:",
+      "booked": "Gebucht:",
+      "declineReason": "Ablehnungsgrund:",
+      "unknownTour": "Unbekannte Tour",
+      "timeTbd": "Zeit noch festzulegen",
+      "locationTbd": "Ort noch festzulegen"
+    },
+    "actions": {
+      "confirmBooking": "BUCHUNG BESTÄTIGEN",
+      "decline": "ABLEHNEN",
+      "whatsappCustomer": "WhatsApp Kunde",
+      "callCustomer": "Kunde anrufen", 
+      "markComplete": "Als abgeschlossen markieren",
+      "followUp": "Nachfassen",
+      "requestReview": "Bewertung anfordern",
+      "unlockNotice": "Kundenkontaktdaten werden nach Bestätigung freigeschaltet"
+    },
+    "statusMessages": {
+      "confirmed": {
+        "title": "✅ Buchung bestätigt!",
+        "message": "Kundenkontaktdaten sind jetzt verfügbar. Sie können direkt mit {{customerName}} kommunizieren."
+      },
+      "declined": {
+        "title": "Buchung abgelehnt",
+        "message": "Diese Buchung wurde am {{date}} abgelehnt.",
+        "reasonProvided": "Grund angegeben:"
+      },
+      "completed": {
+        "title": "Tour abgeschlossen", 
+        "message": "Großartige Arbeit! Diese Tour wurde erfolgreich abgeschlossen.",
+        "whatsappFollowUp": "Hallo {{customerName}}! Vielen Dank für die Teilnahme an unserer {{tourName}}! Wir hoffen, Sie hatten eine fantastische Erfahrung. Bitte teilen Sie Ihr Feedback mit!"
+      }
+    }
+  },
+
+  "profile": {
+    "header": {
+      "unnamedCompany": "Unbenanntes Unternehmen",
+      "locationNotSet": "Standort nicht gesetzt",
+      "vaiVerified": "VAI Verifiziert",
+      "profileCompleteness": "Profil-Vollständigkeit",
+      "missingRequiredFields": "Fehlende Pflichtfelder: {{fields}}",
+      "addOptionalDetails": "Optionale Geschäftsdetails hinzufügen, um 100% zu erreichen"
+    },
+    "achievements": {
+      "whaleTourCertified": "Walbeobachtung Zertifiziert",
+      "premiumOperator": "Premium-Operator",
+      "experiencedHost": "Erfahrener Gastgeber",
+      "earnedBadge": "Sie haben das {{badgeName}} Abzeichen erhalten"
+    },
+    "actions": {
+      "quickActions": "Schnellaktionen",
+      "refresh": "Aktualisieren",
+      "refreshData": "Daten aktualisieren",
+      "edit": "Bearbeiten",
+      "save": "Speichern",
+      "saving": "Wird gespeichert...",
+      "cancel": "Abbrechen"
+    },
+    "sections": {
+      "businessInformation": "Geschäftsinformationen",
+      "businessCredentials": "Geschäftszeugnisse", 
+      "billingRevenue": "Abrechnung & Umsatz",
+      "businessHealthDashboard": "Geschäfts-Gesundheits-Dashboard",
+      "marketingInsights": "Marketing-Einblicke",
+      "growthOpportunities": "Wachstumschancen"
+    },
+    "badges": {
+      "requiredFieldsMissing": "Pflichtfelder fehlen",
+      "incomplete": "Unvollständig",
+      "excellent": "Ausgezeichnet",
+      "good": "Gut",
+      "needsAttention": "Benötigt Aufmerksamkeit"
+    },
+    "businessInfo": {
+      "companyName": "Firmenname",
+      "companyNameTooltip": "So werden Touristen dein Unternehmen sehen",
+      "companyNamePlaceholder": "Gib deinen Firmennamen ein",
+      "companyNameRequired": "Pflichtfeld fehlt",
+      "contactPerson": "Ansprechpartner",
+      "contactPersonTooltip": "Hauptkontakt für Buchungsbestätigungen",
+      "contactPersonPlaceholder": "Name des Hauptkontakts",
+      "emailAddress": "E-Mail-Adresse",
+      "emailTooltip": "VAI Support kontaktieren, um E-Mail-Adresse zu ändern",
+      "emailChangeTooltip": "E-Mail-Änderungen erfordern VAI Support-Verifizierung",
+      "phoneNumber": "Telefonnummer",
+      "phoneTooltip": "Ländercode einbeziehen (z.B. +689 für Französisch-Polynesien)",
+      "phonePlaceholder": "+689 XX XX XX XX",
+      "whatsappNumber": "WhatsApp-Nummer",
+      "whatsappTooltip": "Verwendet für sofortige Buchungsbenachrichtigungen und Kundenkommunikation",
+      "whatsappPlaceholder": "+689 XX XX XX XX",
+      "operatingIsland": "Betriebsinsel",
+      "islandTooltip": "Hauptinsel, auf der du Touren durchführst",
+      "selectIsland": "Insel auswählen",
+      "businessAddress": "Geschäftsadresse",
+      "addressTooltip": "Physischer Standort deines Unternehmens",
+      "addressPlaceholder": "Gib deine Geschäftsadresse oder den Haupttreffpunkt ein",
+      "notSpecified": "Nicht angegeben"
+    },
+    "credentials": {
+      "businessLicense": "Gewerbelizenz",
+      "businessLicenseStatus": "Nicht bereitgestellt",
+      "insuranceCertificate": "Versicherungszertifikat",
+      "insuranceStatus": "Nicht bereitgestellt",
+      "whaleTourCertified": "Walbeobachtung Zertifiziert",
+      "whaleTourDescription": "2025 Meerestier-Compliance",
+      "missingCredentials": "Fehlende Zeugnisse?",
+      "missingCredentialsText": "VAI Support kontaktieren, um Gewerbelizenz, Versicherungszertifikat hochzuladen oder dich für Walbeobachtungszertifizierung zu bewerben."
+    },
+    "billing": {
+      "commissionRate": "Provisionssatz",
+      "commissionOwed": "Geschuldete Provision",
+      "yourRevenue": "Dein Umsatz",
+      "recentTourPerformance": "Aktuelle Tour-Leistung",
+      "vaiBookings": "VAI Buchungen",
+      "avgPerBooking": "Durchschnitt pro Buchung",
+      "commissionPaid": "Gezahlte Provision",
+      "paymentInformation": "Zahlungsinformationen",
+      "paymentInfoText": "Zahlungen werden monatlich verarbeitet. VAI Support für Zahlungseinrichtung und Rechnungsstellung kontaktieren."
+    },
+    "health": {
+      "overallHealthScore": "Gesamt-Gesundheitswert",
+      "healthDescriptions": {
+        "excellent": "Dein Unternehmen floriert! Mach weiter so!",
+        "good": "Gute Leistung. Kleine Verbesserungen können deinen Wert steigern.",
+        "needsImprovement": "Konzentriere dich auf Antwortzeit und Profilvervollständigung zur Rankingverbesserung."
+      },
+      "responseTime": "Antwortzeit",
+      "average": "Durchschnitt",
+      "successRate": "Erfolgsrate",
+      "confirmedBookings": "Bestätigte Buchungen",
+      "monthlyBookings": "Monatliche Buchungen",
+      "thisMonth": "Diesen Monat",
+      "customerRating": "Kundenbewertung",
+      "averageScore": "Durchschnittswert"
+    },
+    "quickActionsModal": {
+      "title": "Schnellaktionen",
+      "whatsappSupport": "WhatsApp Support",
+      "whatsappDescription": "Sofortige Hilfe erhalten",
+      "emailSupport": "E-Mail Support",
+      "emailDescription": "hello@vai.studio",
+      "createNewTour": "Neue Tour erstellen",
+      "createTourDescription": "Last-Minute-Verfügbarkeit hinzufügen"
+    },
+    "islands": {
+      "tahiti": "Tahiti",
+      "moorea": "Moorea",
+      "boraBora": "Bora Bora",
+      "huahine": "Huahine",
+      "raiatea": "Raiatea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti"
+    },
+    "validation": {
+      "companyNameRequired": "Firmenname ist erforderlich",
+      "whatsappRequired": "WhatsApp-Nummer ist erforderlich",
+      "islandRequired": "Insel ist erforderlich"
+    },
+    "messages": {
+      "profileUpdated": "✅ Profil erfolgreich aktualisiert!",
+      "updateFailed": "❌ {{error}}",
+      "contactSupport": "Kontakt: hello@vai.studio",
+      "profileNotFound": "Profil nicht gefunden. Bitte Support kontaktieren.",
+      "conflictingInfo": "Diese Information steht im Konflikt mit einem anderen Konto. Bitte überprüfe deine Daten.",
+      "noPermission": "Du hast keine Berechtigung, dieses Profil zu aktualisieren. Support kontaktieren.",
+      "updateError": "Änderungen können nicht gespeichert werden. Bitte versuche es erneut oder kontaktiere den Support, wenn das Problem weiterhin besteht.",
+      "securityPolicyError": "Update fehlgeschlagen: Datenbank-Sicherheitsrichtlinie verhinderte die Aktualisierung. Bitte kontaktiere den Support unter hello@vai.studio zur Konfiguration deiner Kontoberechtigungen."
+    },
+    "footer": {
+      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "copyright": "© 2025 Alle Rechte vorbehalten",
+      "needWebsite": "Brauchst du eine Website oder App?"
+    }
+  }
+}

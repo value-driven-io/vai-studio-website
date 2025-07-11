@@ -4,7 +4,7 @@
     "loading": "Chargement...",
     "save": "Enregistrer",
     "create": "Créer",
-    "dashboard": "Tableau de Bord",
+    "dashboard": "Dashboard",
     "refresh": "Actualiser",
     "edit": "Modifier",
     "view": "Voir",
@@ -24,7 +24,7 @@
     "profile": "Profil"
   },
   "header": {
-    "title": "Tableau de Bord Opérateur",
+    "title": "Operator Dashboard",
     "greeting": "Ia ora na, {{companyName}} 🌸"
   },
   "dashboard": {
@@ -51,7 +51,7 @@
     "manageBookings": "Gérer les Réservations",
     "pendingRequests": "demandes en attente",
     "getSupport": "Obtenir du Support",
-    "contactVAI": "Contacter VAI Tickets"
+    "contactVAI": "Contacter VAI Operator"
   },
   "tours": {
     "allTours": "Toutes les Excursions",
@@ -213,7 +213,7 @@
     "deleteTour": "Supprimer l'excursion",
     "duplicateTour": "Dupliquer cette excursion"
   },
-  
+
   "preview": {
     "title": "Aperçu Vue Touriste",
     "formCompletion": "Complétude du Formulaire",
@@ -233,7 +233,7 @@
   },
 
   "login": {
-    "operatorDashboard": "Tableau de Bord Opérateur",
+    "operatorDashboard": "Operator Dashboard",
     "secureLoginRequired": "Connexion Sécurisée Requise",
     "emailAddress": "Adresse Email",
     "emailPlaceholder": "votre-email@operateur.com",
@@ -337,7 +337,7 @@
     },
     "achievements": {
       "whaleTourCertified": "Certifié Excursions Baleines",
-      "premiumOperator": "Opérateur Premium",
+      "premiumOperator": "Operator Premium",
       "experiencedHost": "Hôte Expérimenté",
       "earnedBadge": "Tu as gagné le badge {{badgeName}}"
     },
@@ -354,7 +354,7 @@
       "businessInformation": "Informations Entreprise",
       "businessCredentials": "Références Entreprise", 
       "billingRevenue": "Facturation & Revenus",
-      "businessHealthDashboard": "Tableau de Bord Santé Entreprise",
+      "businessHealthDashboard": "Dashboard Santé Entreprise",
       "marketingInsights": "Analyses Marketing",
       "growthOpportunities": "Opportunités de Croissance"
     },
@@ -461,7 +461,7 @@
       "securityPolicyError": "Échec de la mise à jour: La politique de sécurité de la base de données a empêché la mise à jour. Veuillez contacter le support à hello@vai.studio pour configurer les permissions de votre compte."
     },
     "footer": {
-      "vaiTickets": "VAI Tickets - Tableau de Bord Opérateur",
+      "vaiTickets": "VAI Tickets - Operator Dashboard",
       "copyright": "© 2025 Tous droits réservés",
       "needWebsite": "Besoin d'un site web ou d'une app?"
     }

@@ -1,0 +1,466 @@
+{
+  "common": {
+    "logout": "Haere",
+    "loading": "E 'ite nei...",
+    "save": "Fa'aora", 
+    "create": "Hāna'a",
+    "dashboard": "Dashboard",
+    "refresh": "Fa'ahou",
+    "edit": "Fa'aoti",
+    "view": "Māta'i",
+    "all": "Atoa",
+    "pending": "e fa'arue nei",
+    "confirmed": "fa'ari'i hia",
+    "completed": "oti",
+    "declined": "hō'ē hia",
+    "upcoming": "a hō'ē mai nei",
+    "total": "atoa",
+    "thisMonth": "teie āva'e nei",
+    "participants": "tā'ata tere",
+    "booked": "fa'ari'i hia",
+    "attended": "tae hia",
+    "spots": "vāhi"  
+  },
+  "header": {
+    "title": "Papa fa'arite tā'ata fa'atere",
+    "greeting": "Ia ora na, {{companyName}} 🌺"
+  },
+  "dashboard": {
+    "title": "Māta'ira'a rahi",
+    "subtitle": "Fa'aite i tō mau tere e tō ne'ine'ira'a",
+    "refreshData": "Fa'ahou i te mau 'ite",
+    "createNewTour": "Hāna'a tere hou",
+    "quickActions": "Mau hana vave",
+    "activeTours": "Mau tere ora",
+    "allBookings": "Mau fa'ari'ira'a atoa",
+    "viewBookings": "Māta'i i te mau fa'ari'ira'a",
+    "needsAttention": "E ti'a ai te māta'ira'a",
+    "allCaughtUp": "Maita'i atoa",
+    "createTour": "Hāna'a tere",
+    "revenue": "Moni fa'aauira'a",
+    "totalBookings": "Mau fa'ari'ira'a atoa",
+    "pendingActions": "Mau hana e fa'arue nei",
+    "yourRevenue": "Tō moni fa'aauira'a"
+  },
+  "quickActions": {
+    "title": "Mau hana vave",
+    "createTour": "Hāna'a tere",
+    "createTourDesc": "Fa'aara i te tere hou",
+    "manageBookings": "Fa'atura i te mau fa'ari'ira'a",
+    "pendingRequests": "mau taotoga e fa'arue nei",
+    "getSupport": "Rave i te 'ā'ō",
+    "contactVAI": "Fa'a'ite ia VAI Operator"
+  },
+  "tours": {
+    "allTours": "Mau tere atoa",
+    "totalToursCreated": "mau tere hāna'a hia atoa",
+    "loadingTours": "E 'ite nei i te mau tere...",
+    "upcomingTours": "Mau tere a hō'ē mai nei",
+    "completedTours": "Mau tere oti",
+    "moreCompletedTours": "mau tere oti ē",
+    "noToursYet": "Aita roa tere hāna'a hia",
+    "createFirstTour": "Hāna'a i tō tere mata'i"
+  },
+  "activity": {
+    "recentActivity": "Mau hana hou",
+    "latestBookings": "Te mau fa'ari'ira'a hou roa",
+    "loadingActivity": "E 'ite nei i te mau hana...",
+    "newBookingFor": "Fa'ari'ira'a hou nō",
+    "noRecentActivity": "Aita mau hana hou",
+    "viewAllBookings": "Māta'i i te mau fa'ari'ira'a atoa {{count}}"
+  },
+  "insights": {
+    "performanceInsights": "Mau hi'ora'a fa'a'ite",
+    "quickTips": "Mau ha'amana'ora'a vave",
+    "quickTip": "Ha'amana'ora'a vave",
+    "timingTip": "Te mau tere fa'aora hia i te 4-6 hora i mua o te tāmā'ara'a e rave ai +40% fa'ari'ira'a",
+    "trending": "Māmā nei",
+    "sunsetTrend": "Te mau tere ati rā e māmā nei i teie hepetoma"
+  },
+  "createTab": {
+    "title": "Hāna'a e fa'aatura i te mau tere",
+    "subtitle": "Hāna'a i te mau tere hou pe fa'aatura i tā 'oe nei",
+    "startCreating": "Tīmā te hāna'ara'a tere",
+    "editTour": "Fa'aoti i te tere",
+    "createNewTour": "Hāna'a tere hou",
+    "updateExisting": "Fa'ahou i tō mau tere nei",
+    "setupNew": "Fa'atū i te tere hou nō te mau tā'ata tere",
+    "showPreview": "Fa'a'ite i te mata'ira'a",
+    "hidePreview": "Huna i te mata'ira'a",
+    "cancel": "Fa'a'ore",
+    "updateTour": "Fa'ahou i te tere",
+    "createTour": "Hāna'a tere",
+    "saving": "E fa'aora nei...",
+    "reset": "Fa'ahou",
+    "duplicate": "Fa'atāhi"
+  },
+  "form": {
+    "required": "Ti'a roa",
+    "optional": "Hāpō roa",
+    "basicInfo": "Mau fa'ahōho'ara'a tumu",
+    "scheduleDuration": "Taime e roa",
+    "pricingCapacity": "Moira'a e rahira'a",
+    "optionalSettings": "Mau tūtūra'a hāpō",
+    "tourName": "I'oa tere",
+    "tourNamePlaceholder": "huru ai, Tere māta'i tohora i te mata'i",
+    "tourType": "Huru tere",
+    "description": "Fa'ahōho'ara'a",
+    "descriptionPlaceholder": "Fa'ahōho'a i tō tere. Te aha te mea rahi? Te aha tā te mau tā'ata e 'ite ai, e hana ai hō'ī?",
+    "quickDateSelection": "Tīpara'a mahana vave",
+    "customDate": "Mahana hāpō",
+    "timeSlot": "Taime",
+    "duration": "Roa (hora)",
+    "maxCapacity": "Rahira'a rahi roa",
+    "availableSpots": "Mau vāhi",
+    "regularPrice": "Moira'a māā (ta'ata rahi)",
+    "discountPercent": "Fa'aemi %",
+    "finalPrice": "Moira'a hope",
+    "yourRevenue": "Tō moni fa'aauira'a",
+    "meetingPoint": "Vāhi tūtaki",
+    "meetingPointPlaceholder": "huru ai, Vaiare Ferry Terminal - Te 'ōpū mata'i",
+    "tourTypeHelper": "Tīpara'a i te huru tere māita'i roa nō tō tere",
+    "bookings": "Mau fa'ari'ira'a", 
+    "profile": "Profil"
+  },
+  "tooltips": {
+    "tourName": "Hāna'a ia māmā! 'O ia te mea rahi!",
+    "duration": "Fa'aora hō'ī i te taime fa'aea'e. Tere 'āfata mahana: 3-4h, Mahana atoa: 6-8h",
+    "pricing": "Fa'atū i tō moira'a. Te mau moira'a hope ia '00' anake (huru ai, 5600, 7200, 8500)",
+    "meetingPoint": "I'a pū! Fa'aora i te mau vāhi 'ite maitai. Huru ai: 'Vaiare Ferry Terminal - Te 'ōpū mata'i'"
+  },
+  "optionalSections": {
+    "title": "Mau tūtūra'a hāpō",
+    "subtitle": "Fa'aora i teie mau 'āpī no te fa'ahōho'ara'a rave ē",
+    "location": "Vāhi e fa'aea'era'a",
+    "locationDesc": "Mau vāhi fa'aea'e e mau fa'ahōho'ara'a tūtaki",
+    "inclusions": "Te mau mea fa'aora hia",
+    "inclusionsDesc": "Tafera, ma'a, inu, reo",
+    "requirements": "Mau ti'aturi",
+    "requirementsDesc": "Mālo'o tino, matahiti, mau rahu",
+    "compliance": "Haumaru e fa'anahora'a",
+    "complianceDesc": "Taera'a taime, ture, mau fa'amanaora'a rahi"
+  },
+  "locationPickup": {
+    "title": "Vāhi e fa'aea'era'a",
+    "offerPickup": "Fa'atau i te fa'aea'era'a",
+    "addPickupLocation": "Fa'aora vāhi fa'aea'e...",
+    "add": "Fa'aora"
+  },
+  "inclusions": {
+    "title": "Te mau mea fa'aora hia",
+    "equipment": "Tafera fa'aora hia",
+    "food": "Ma'a fa'aora hia",
+    "drinks": "Inu fa'aora hia",
+    "languages": "Mau reo fa'atau hia"
+  },
+  "requirements": {
+    "title": "Mau ti'aturi e rahu",
+    "fitnessLevel": "Te 'āu o te tino",
+    "minAge": "Matahiti 'ī roa",
+    "maxAge": "Matahiti rahi roa",
+    "requirements": "Mau ti'aturi",
+    "requirementsPlaceholder": "Te mau mea e ti'a ai te mau tā'ata tere...",
+    "restrictions": "Mau rahu",
+    "restrictionsPlaceholder": "Mau rahu haumaru e mau fa'a'ore...",
+    "easy": "Māmā - Tā'ato'a",
+    "moderate": "Ti'a - 'I'ite hana",
+    "challenging": "Pa'ari - Mālo'o maitai",
+    "expert": "Mata'u - Mālo'o rahi roa",
+    "noLimit": "Aita rahu"
+  },
+  "compliance": {
+    "title": "Haumaru e fa'anahora'a",
+    "whaleCompliance": "Fa'anahora'a māta'i tohora",
+    "frenchPolynesiaRegs": "Ture Pōrīnetia Farāni fa'anahora hia",
+    "maxGroupSize": "Pupu rahi roa",
+    "weatherDependent": "Hana fā taime",
+    "backupPlan": "Taera'a tuhi",
+    "backupPlanPlaceholder": "Te aha te mea e ravehia ai ina 'ino ai te taime?",
+    "backupPlanDesc": "Fa'ahōho'a i te mau hana rē pe te moni fa'aafaro",
+    "autoCloseHours": "Hora tapea 'upoupa",
+    "hoursBefore": "hora i mua",
+    "specialNotes": "Mau fa'amanaora'a rahi",
+    "specialNotesPlaceholder": "Mau fa'ahōho'ara'a ē nō te mau kirimita..."
+  },
+  "templates": {
+    "title": "Mau hōho'a tīmā vave",
+    "whaleWatching": "Māta'i tohora",
+    "whaleWatchingDesc": "3-hora mata'u fa'a'ite hia",
+    "lagoonTour": "Tere lagon",
+    "lagoonTourDesc": "4-hora tere motu",
+    "sunsetTour": "Tere ati rā",
+    "sunsetTourDesc": "2.5-hora tere here"
+  },
+  "tourManagement": {
+    "title": "Tō mau tere",
+    "subtitle": "Fa'aatura e fa'aoti i tō mau tere nei",
+    "totalTours": "Mau tere atoa",
+    "all": "Atoa",
+    "upcoming": "A hō'ē mai nei",
+    "past": "Mua'e",
+    "searchTours": "Ki'i i te mau tere...",
+    "noToursFound": "Aita tere i 'ite hia",
+    "createFirstTour": "Hāna'a i tō tere mata'i",
+    "cancelled": "Fa'a'ore hia",
+    "completed": "Oti",
+    "cannotEdit": "'Aore e nehenehe te fa'aoti",
+    "cannotDelete": "'Aore e nehenehe te fa'a'ore",
+    "tourCancelled": "Tere fa'a'ore hia",
+    "tourCompleted": "Tere oti",
+    "within24h": "I roto i te 24h o te tere",
+    "hasBookings": "'Ā fa'ari'ira'a",
+    "editTour": "Fa'aoti i te tere",
+    "deleteTour": "Fa'a'ore i te tere",
+    "duplicateTour": "Fa'atāhi i teie tere"
+  },
+  "preview": {
+    "title": "Mata'ira'a tā'ata tere",
+    "formCompletion": "Fōmē oti",
+    "tourNameSet": "fa'atū hia",
+    "tourNameMissing": "e ma'e nei",
+    "descriptionProvided": "fa'atau hia",
+    "descriptionMissing": "e ma'e nei",
+    "dateSelected": "tīpara'a hia",
+    "dateMissing": "e ma'e nei",
+    "meetingPointSet": "fa'atū hia",
+    "meetingPointMissing": "e ma'e nei",
+    "bookNow": "Fa'ari'i teie nei",
+    "dateTBD": "Mahana e fa'ata'a",
+    "meetingPointTBD": "Vāhi tūtaki e fa'ata'a",
+    "fitness": "Mālo'o",
+    "age": "Matahiti"
+  },
+  "login": {
+    "operatorDashboard": "Operator Dashboard",
+    "secureLoginRequired": "Ti'a te 'ū haumaru",
+    "emailAddress": "Email",
+    "emailPlaceholder": "tō-email@fa'atere.com",
+    "password": "Uira huna",
+    "passwordPlaceholder": "Tō uira huna haumaru",
+    "emailRequired": "Fa'a'ite mai i tō email",
+    "passwordRequired": "Fa'a'ite mai i tō uira huna",
+    "signingIn": "E tomo nei...",
+    "signInSecurely": "Tomo haumaru",
+    "useCredentials": "Fa'aaara i tō mau fa'a'itehia haumaru",
+    "needHelp": "Ti'a 'ā'ō? Fa'a'ite ia",
+    "passwordReminder": "Tō uira huna haumaru na riro i te taime fa'atū aita'a"
+  },
+
+  "bookings": {
+    "stats": {
+      "total": "Atoa",
+      "pending": "E fa'arue nei",
+      "confirmed": "Fa'ari'i hia",
+      "declined": "Hō'ē hia", 
+      "completed": "Oti",
+      "active": "Ora"
+    },
+    "filters": {
+      "allTime": "Taime atoa",
+      "today": "I teie nei",
+      "tomorrow": "Ā nānahi",
+      "thisWeek": "Teie hepetoma nei",
+      "searchPlaceholder": "Ki'i i te mau fa'ari'ira'a...",
+      "showingResults": "E fa'a'ite nei i te {{filtered}} ia {{total}} fa'ari'ira'a",
+      "refreshBookings": "Fa'ahou i te mau fa'ari'ira'a",
+      "filteredBy": "Tata'a na:",
+      "clearFilter": "Fa'a'ore i te tata'a",
+      "clearSearch": "Fa'a'ore i te ki'ira'a"
+    },
+    "messages": {
+      "loading": "E 'ite nei i te mau fa'ari'ira'a...",
+      "noBookings": "Aita fa'ari'ira'a i 'ite hia",
+      "noFilteredBookings": "Aita fa'ari'ira'a {{status}} i 'ite hia"
+    },
+    "labels": {
+      "ref": "Ref:",
+      "participant": "tā'ata tere",
+      "participants": "mau tā'ata tere", 
+      "customerDetails": "Fa'ahōho'ara'a kirimita",
+      "detailsUnlock": "🔒 Mau fa'ahōho'ara'a e fa'aohi'a i muri o te fa'ari'ira'a",
+      "name": "I'oa:",
+      "contact": "Fa'a'itehia:",
+      "email": "Email:",
+      "participantsLabel": "Mau tā'ata tere:",
+      "adult": "ta'ata rahi",
+      "adults": "mau ta'ata rahi",
+      "child": "tamari'i", 
+      "children": "mau tamari'i",
+      "specialRequirements": "Mau ti'aturi rahi:",
+      "dietary": "Ma'a:",
+      "accessibility": "Nehenehe:",
+      "booked": "Fa'ari'i hia:",
+      "declineReason": "Huru'a hō'ēra'a:",
+      "unknownTour": "Tere 'ore 'ite",
+      "timeTbd": "Taime e fa'ata'a",
+      "locationTbd": "Vāhi e fa'ata'a"
+    },
+    "actions": {
+      "confirmBooking": "FA'ARI'I TE FA'ARI'IRA'A",
+      "decline": "HŌ'Ē",
+      "whatsappCustomer": "WhatsApp kirimita",
+      "callCustomer": "Vi kirimita", 
+      "markComplete": "Fa'ailoa 'oti'",
+      "followUp": "Tui a'e",
+      "requestReview": "Taotoga mata'ira'a",
+      "unlockNotice": "Te mau fa'ahōho'ara'a fa'a'itehia kirimita e fa'aohi'a i muri o te fa'ari'ira'a"
+    },
+    "statusMessages": {
+      "confirmed": {
+        "title": "✅ Fa'ari'ira'a fa'ari'i hia!",
+        "message": "Te mau fa'ahōho'ara'a fa'a'itehia kirimita ua nehenehe teie nei. E nehenehe ia 'oe te parau tō'ō ia {{customerName}}."
+      },
+      "declined": {
+        "title": "Fa'ari'ira'a hō'ē hia",
+        "message": "Teie fa'ari'ira'a i hō'ē hia i te {{date}}.",
+        "reasonProvided": "Huru'a fa'atau hia:"
+      },
+      "completed": {
+        "title": "Tere oti", 
+        "message": "Maita'i roa! Teie tere ua oti maitai!",
+        "whatsappFollowUp": "Ia ora na {{customerName}}! Māuruuru nō tō tomo i tā mātou {{tourName}}! Ua faufa'a maitai 'oe? E fa'a'ite mai ia i tō mana'o!"
+      }
+    }
+  },
+
+  "profile": {
+    "header": {
+      "unnamedCompany": "Fare tū'aro 'ore i'oa",
+      "locationNotSet": "Vāhi 'ore fa'atū",
+      "vaiVerified": "VAI fa'a'ite hia",
+      "profileCompleteness": "Profil oti",
+      "missingRequiredFields": "Mau 'āmui ti'a roa e ma'e nei: {{fields}}",
+      "addOptionalDetails": "Fa'aora i te mau fa'ahōho'ara'a fare tū'aro hāpō no te 100%"
+    },
+    "achievements": {
+      "whaleTourCertified": "Mata'u māta'i tohora",
+      "premiumOperator": "Premium Operator",
+      "experiencedHost": "Fa'amau mata'u",
+      "earnedBadge": "Ua rave 'oe i te tohu {{badgeName}}"
+    },
+    "actions": {
+      "quickActions": "Mau hana vave",
+      "refresh": "Fa'ahou",
+      "refreshData": "Fa'ahou i te mau 'ite",
+      "edit": "Fa'aoti",
+      "save": "Fa'aora",
+      "saving": "E fa'aora nei...",
+      "cancel": "Fa'a'ore"
+    },
+    "sections": {
+      "businessInformation": "Fa'ahōho'ara'a fare tū'aro",
+      "businessCredentials": "Fa'a'ite fare tū'aro", 
+      "billingRevenue": "Faturera'a e moni fa'aauira'a",
+      "businessHealthDashboard": "Papa fa'aite mālo'o fare tū'aro",
+      "marketingInsights": "Mau hi'ora'a hokura'a",
+      "growthOpportunities": "Mau nehenehe fa'atiapura'a"
+    },
+    "badges": {
+      "requiredFieldsMissing": "Mau 'āmui ti'a roa e ma'e nei",
+      "incomplete": "'Ore oti",
+      "excellent": "Māita'i roa",
+      "good": "Māita'i",
+      "needsAttention": "Ti'a te māta'ira'a"
+    },
+    "businessInfo": {
+      "companyName": "I'oa fare tū'aro",
+      "companyNameTooltip": "Teie te huru tā te mau tā'ata tere e 'ite ai i tō fare tū'aro",
+      "companyNamePlaceholder": "Fa'a'ite mai i te i'oa o tō fare tū'aro",
+      "companyNameRequired": "'Āmui ti'a roa e ma'e nei",
+      "contactPerson": "Tā'ata fa'a'ite",
+      "contactPersonTooltip": "Tā'ata fa'a'ite mata'i nō te mau fa'ari'ira'a",
+      "contactPersonPlaceholder": "I'oa tā'ata fa'a'ite mata'i",
+      "emailAddress": "Email",
+      "emailTooltip": "Fa'a'ite i te 'ā'ō VAI no te taui email",
+      "emailChangeTooltip": "Te taui email e ti'a ai te fa'a'ite 'ā'ō VAI",
+      "phoneNumber": "Nūmera telefoni",
+      "phoneTooltip": "Fa'aora i te nūmera fenua (huru ai, +689 nō Pōrīnetia Farāni)",
+      "phonePlaceholder": "+689 XX XX XX XX",
+      "whatsappNumber": "Nūmera WhatsApp",
+      "whatsappTooltip": "Fa'aaara nō te mau fa'ailoara'a fa'ari'ira'a vave e te parau kirimita",
+      "whatsappPlaceholder": "+689 XX XX XX XX",
+      "operatingIsland": "Motu hana",
+      "islandTooltip": "Motu mata'i e hana nei 'oe i te mau tere",
+      "selectIsland": "Tīpara'a motu",
+      "businessAddress": "Fa'ari'ira'a fare tū'aro",
+      "addressTooltip": "Vāhi rā'au o tō fare tū'aro",
+      "addressPlaceholder": "Fa'a'ite mai i te fa'ari'ira'a fare tū'aro pe te vāhi tūtaki mata'i",
+      "notSpecified": "'Ore fa'ailoa hia"
+    },
+    "credentials": {
+      "businessLicense": "Tiketī fare tū'aro",
+      "businessLicenseStatus": "'Ore fa'atau hia",
+      "insuranceCertificate": "Palapala haumaru moni",
+      "insuranceStatus": "'Ore fa'atau hia",
+      "whaleTourCertified": "Mata'u māta'i tohora",
+      "whaleTourDescription": "2025 fa'anahora'a fauna moana",
+      "missingCredentials": "Fa'a'ite e ma'e nei?",
+      "missingCredentialsText": "Fa'a'ite i te 'ā'ō VAI no te fa'aara'a tiketī fare tū'aro, palapala haumaru moni, pe te taotoga mata'u māta'i tohora."
+    },
+    "billing": {
+      "commissionRate": "Taura commission",
+      "commissionOwed": "Commission ti'a",
+      "yourRevenue": "Tō moni fa'aauira'a",
+      "recentTourPerformance": "Ne'ine'ira'a tere hou",
+      "vaiBookings": "Mau fa'ari'ira'a VAI",
+      "avgPerBooking": "Avera'a fa'ari'ira'a ta'ato'a",
+      "commissionPaid": "Commission fa'aafaro hia",
+      "paymentInformation": "Fa'ahōho'ara'a fa'aafaro",
+      "paymentInfoText": "Te mau fa'aafaro e ravehia i te āva'e ta'ato'a. Fa'a'ite i te 'ā'ō VAI no te fa'atū fa'aafaro e te faturera'a."
+    },
+    "health": {
+      "overallHealthScore": "Mālo'o atoa",
+      "healthDescriptions": {
+        "excellent": "Tō fare tū'aro e tiapura nei! 'Aita te taui!",
+        "good": "Ne'ine'ira'a maitai. Te mau fa'ahouara'a 'ī e nehenehe ai te fa'arahi i tō mālo'o.",
+        "needsImprovement": "Fa'anahote'a i te taime 'ā'amu e te profil oti no te fa'arahi i tō tupura'a."
+      },
+      "responseTime": "Taime 'ā'amu",
+      "average": "Avera'a",
+      "successRate": "Taura nehenehe",
+      "confirmedBookings": "Mau fa'ari'ira'a fa'ari'i hia",
+      "monthlyBookings": "Mau fa'ari'ira'a o te āva'e",
+      "thisMonth": "Teie āva'e nei",
+      "customerRating": "Fa'ailoara'a kirimita",
+      "averageScore": "Māro avera'a"
+    },
+    "quickActionsModal": {
+      "title": "Mau hana vave",
+      "whatsappSupport": "'Ā'ō WhatsApp",
+      "whatsappDescription": "Rave i te 'ā'ō vave",
+      "emailSupport": "'Ā'ō Email",
+      "emailDescription": "hello@vai.studio",
+      "createNewTour": "Hāna'a tere hou",
+      "createTourDescription": "Fa'aora nehenehe minute hope"
+    },
+    "islands": {
+      "tahiti": "Tahiti",
+      "moorea": "Mo'orea",
+      "boraBora": "Pora Pora",
+      "huahine": "Huahine",
+      "raiatea": "Ra'iātea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti"
+    },
+    "validation": {
+      "companyNameRequired": "I'oa fare tū'aro e ti'a roa",
+      "whatsappRequired": "Nūmera WhatsApp e ti'a roa",
+      "islandRequired": "Motu e ti'a roa"
+    },
+    "messages": {
+      "profileUpdated": "✅ Profil fa'ahou maitai hia!",
+      "updateFailed": "❌ {{error}}",
+      "contactSupport": "Fa'a'ite: hello@vai.studio",
+      "profileNotFound": "Profil 'ore i 'ite hia. Fa'a'ite mai i te 'ā'ō.",
+      "conflictingInfo": "Teie fa'ahōho'ara'a e pa'ari nei e te ta'oto'a rē. Māta'i i tō mau 'ite.",
+      "noPermission": "'Aita tō 'ā'au no te fa'ahou i teie profil. Fa'a'ite i te 'ā'ō.",
+      "updateError": "'Aore e nehenehe te fa'aora i te mau taui. 'A fa'aauau pe fa'a'ite i te 'ā'ō ina mau ai te piha'e.",
+      "securityPolicyError": "Fa'ahou pa'ari: Te ture haumaru database ua fa'a'ore i te fa'ahouara'a. Fa'a'ite mai i te 'ā'ō i hello@vai.studio no te fa'atū i tō mau 'ā'au."
+    },
+    "footer": {
+      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "copyright": "© 2025 Te mau 'ā'au atoa",
+      "needWebsite": "Ti'a pāpā pe taputapu?"
+    }
+  }
+}

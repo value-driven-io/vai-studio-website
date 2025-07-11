@@ -1,0 +1,466 @@
+{
+  "common": {
+    "logout": "退出登录",
+    "loading": "加载中...",
+    "save": "保存", 
+    "create": "创建",
+    "dashboard": "控制面板",
+    "refresh": "刷新",
+    "edit": "编辑",
+    "view": "查看",
+    "all": "全部",
+    "pending": "待处理",
+    "confirmed": "已确认",
+    "completed": "已完成",
+    "declined": "已拒绝",
+    "upcoming": "即将到来",
+    "total": "总计",
+    "thisMonth": "本月",
+    "participants": "参与者",
+    "booked": "已预订",
+    "attended": "已参加",
+    "spots": "位置"  
+  },
+  "header": {
+    "title": "运营商控制面板",
+    "greeting": "欢迎回来，{{companyName}} 🌺"
+  },
+  "dashboard": {
+    "title": "控制面板概览",
+    "subtitle": "监控您的旅游项目和表现",
+    "refreshData": "刷新数据",
+    "createNewTour": "创建行程",
+    "quickActions": "快捷操作",
+    "activeTours": "活跃行程",
+    "allBookings": "所有预订",
+    "viewBookings": "查看预订",
+    "needsAttention": "需要关注",
+    "allCaughtUp": "全部处理完毕",
+    "createTour": "创建行程",
+    "revenue": "收入",
+    "totalBookings": "总预订数",
+    "pendingActions": "待处理事项",
+    "yourRevenue": "您的收入"
+  },
+  "quickActions": {
+    "title": "快捷操作",
+    "createTour": "创建行程",
+    "createTourDesc": "添加新的旅游体验",
+    "manageBookings": "管理预订",
+    "pendingRequests": "待处理请求",
+    "getSupport": "获取支持",
+    "contactVAI": "联系VAI票务"
+  },
+  "tours": {
+    "allTours": "所有行程",
+    "totalToursCreated": "总共创建的行程",
+    "loadingTours": "加载行程中...",
+    "upcomingTours": "即将到来的行程",
+    "completedTours": "已完成行程",
+    "moreCompletedTours": "更多已完成行程",
+    "noToursYet": "还没有创建行程",
+    "createFirstTour": "创建您的第一个行程"
+  },
+  "activity": {
+    "recentActivity": "最近活动",
+    "latestBookings": "最新预订和更新",
+    "loadingActivity": "加载活动中...",
+    "newBookingFor": "新预订：",
+    "noRecentActivity": "无最近活动",
+    "viewAllBookings": "查看所有{{count}}个预订"
+  },
+  "insights": {
+    "performanceInsights": "表现洞察",
+    "quickTips": "提高预订量的快速提示",
+    "quickTip": "快速提示",
+    "timingTip": "在出发前4-6小时发布的行程可获得40%更多预订",
+    "trending": "趋势",
+    "sunsetTrend": "日落之旅本周需求量很大"
+  },
+  "createTab": {
+    "title": "创建和管理行程",
+    "subtitle": "创建新行程或管理现有行程",
+    "startCreating": "开始创建行程",
+    "editTour": "编辑行程",
+    "createNewTour": "创建新行程",
+    "updateExisting": "更新您现有的行程详情",
+    "setupNew": "为旅行者设置新的旅游体验",
+    "showPreview": "显示预览",
+    "hidePreview": "隐藏预览",
+    "cancel": "取消",
+    "updateTour": "更新行程",
+    "createTour": "创建行程",
+    "saving": "保存中...",
+    "reset": "重置",
+    "duplicate": "复制"
+  },
+  "form": {
+    "required": "必填",
+    "optional": "可选",
+    "basicInfo": "基本信息",
+    "scheduleDuration": "时间安排和持续时间",
+    "pricingCapacity": "价格和容量",
+    "optionalSettings": "可选设置",
+    "tourName": "行程名称",
+    "tourNamePlaceholder": "例如：晨间观鲸探险",
+    "tourType": "行程类型",
+    "description": "描述",
+    "descriptionPlaceholder": "详细描述您的旅游体验。是什么让它特别？参与者将看到和做什么？",
+    "quickDateSelection": "快速日期选择",
+    "customDate": "自定义日期",
+    "timeSlot": "时间段",
+    "duration": "持续时间（小时）",
+    "maxCapacity": "最大容量",
+    "availableSpots": "可用位置",
+    "regularPrice": "常规价格（成人）",
+    "discountPercent": "折扣%",
+    "finalPrice": "最终价格",
+    "yourRevenue": "您的收入",
+    "meetingPoint": "集合地点",
+    "meetingPointPlaceholder": "例如：Vaiare渡轮码头 - 主入口",
+    "tourTypeHelper": "选择最能描述您旅游体验的类别",
+    "bookings": "预订", 
+    "profile": "档案"
+  },
+  "tooltips": {
+    "tourName": "让它引人注目！这是聚光灯的焦点！",
+    "duration": "包括往返活动地点的旅行时间。半日游：3-4小时，全日游：6-8小时",
+    "pricing": "设置您的标准价格。只允许以00结尾的值（例如5600、7200、8500）",
+    "meetingPoint": "要具体！包括知名地点以便容易找到。例如：'Vaiare渡轮码头 - 主入口'"
+  },
+  "optionalSections": {
+    "title": "可选设置",
+    "subtitle": "添加这些部分以提供有关您行程的更详细信息",
+    "location": "位置和接送",
+    "locationDesc": "接送地点和会面详情",
+    "inclusions": "包含内容",
+    "inclusionsDesc": "设备、食物、饮料、语言",
+    "requirements": "要求",
+    "requirementsDesc": "体能水平、年龄限制、限制条件",
+    "compliance": "安全与合规",
+    "complianceDesc": "天气预案、法规、特别说明"
+  },
+  "locationPickup": {
+    "title": "位置和接送",
+    "offerPickup": "提供接送服务",
+    "addPickupLocation": "添加接送地点...",
+    "add": "添加"
+  },
+  "inclusions": {
+    "title": "包含内容",
+    "equipment": "包含设备",
+    "food": "包含食物",
+    "drinks": "包含饮料",
+    "languages": "提供语言"
+  },
+  "requirements": {
+    "title": "要求和限制",
+    "fitnessLevel": "体能水平",
+    "minAge": "最小年龄",
+    "maxAge": "最大年龄",
+    "requirements": "要求",
+    "requirementsPlaceholder": "参与者需要携带或了解的内容...",
+    "restrictions": "限制",
+    "restrictionsPlaceholder": "安全限制和约束...",
+    "easy": "简单 - 适合所有人",
+    "moderate": "中等 - 一些活动",
+    "challenging": "有挑战性 - 良好体能",
+    "expert": "专家级 - 优秀体能",
+    "noLimit": "无限制"
+  },
+  "compliance": {
+    "title": "安全与合规",
+    "whaleCompliance": "观鲸合规",
+    "frenchPolynesiaRegs": "符合法属波利尼西亚法规",
+    "maxGroupSize": "最大团队规模",
+    "weatherDependent": "天气依赖活动",
+    "backupPlan": "备用计划",
+    "backupPlanPlaceholder": "如果天气阻止行程会怎样？",
+    "backupPlanDesc": "描述恶劣天气时的替代活动或退款政策",
+    "autoCloseHours": "自动关闭小时数",
+    "hoursBefore": "小时之前",
+    "specialNotes": "特别说明",
+    "specialNotesPlaceholder": "给客户的额外信息..."
+  },
+  "templates": {
+    "title": "快速启动模板",
+    "whaleWatching": "观鲸",
+    "whaleWatchingDesc": "3小时认证体验",
+    "lagoonTour": "泻湖之旅",
+    "lagoonTourDesc": "4小时岛屿探索",
+    "sunsetTour": "日落之旅",
+    "sunsetTourDesc": "2.5小时浪漫巡航"
+  },
+  "tourManagement": {
+    "title": "您的行程",
+    "subtitle": "管理和编辑您现有的行程",
+    "totalTours": "总行程数",
+    "all": "全部",
+    "upcoming": "即将到来",
+    "past": "过去",
+    "searchTours": "搜索行程...",
+    "noToursFound": "未找到行程",
+    "createFirstTour": "创建您的第一个行程",
+    "cancelled": "已取消",
+    "completed": "已完成",
+    "cannotEdit": "无法编辑",
+    "cannotDelete": "无法删除",
+    "tourCancelled": "行程已取消",
+    "tourCompleted": "行程已完成",
+    "within24h": "行程24小时内",
+    "hasBookings": "有预订",
+    "editTour": "编辑行程",
+    "deleteTour": "删除行程",
+    "duplicateTour": "复制此行程"
+  },
+  "preview": {
+    "title": "游客视图预览",
+    "formCompletion": "表单完成度",
+    "tourNameSet": "已设置",
+    "tourNameMissing": "缺失",
+    "descriptionProvided": "已提供",
+    "descriptionMissing": "缺失",
+    "dateSelected": "已选择",
+    "dateMissing": "缺失",
+    "meetingPointSet": "已设置",
+    "meetingPointMissing": "缺失",
+    "bookNow": "立即预订",
+    "dateTBD": "日期待定",
+    "meetingPointTBD": "集合地点待定",
+    "fitness": "体能",
+    "age": "年龄"
+  },
+  "login": {
+    "operatorDashboard": "Operator Dashboard",
+    "secureLoginRequired": "需要安全登录",
+    "emailAddress": "邮箱地址",
+    "emailPlaceholder": "您的邮箱@运营商.com",
+    "password": "密码",
+    "passwordPlaceholder": "您的安全密码",
+    "emailRequired": "请输入您的邮箱",
+    "passwordRequired": "请输入您的密码",
+    "signingIn": "登录中...",
+    "signInSecurely": "安全登录",
+    "useCredentials": "使用您的安全运营商凭据",
+    "needHelp": "需要帮助？联系",
+    "passwordReminder": "您的安全密码在账户设置期间提供"
+  },
+
+  "bookings": {
+    "stats": {
+      "total": "总计",
+      "pending": "待处理",
+      "confirmed": "已确认",
+      "declined": "已拒绝", 
+      "completed": "已完成",
+      "active": "活跃"
+    },
+    "filters": {
+      "allTime": "所有时间",
+      "today": "今天",
+      "tomorrow": "明天",
+      "thisWeek": "本周",
+      "searchPlaceholder": "搜索预订...",
+      "showingResults": "显示{{filtered}}个，共{{total}}个预订",
+      "refreshBookings": "刷新预订",
+      "filteredBy": "筛选条件：",
+      "clearFilter": "清除筛选",
+      "clearSearch": "清除搜索"
+    },
+    "messages": {
+      "loading": "加载预订中...",
+      "noBookings": "未找到预订",
+      "noFilteredBookings": "未找到{{status}}预订"
+    },
+    "labels": {
+      "ref": "编号：",
+      "participant": "参与者",
+      "participants": "参与者", 
+      "customerDetails": "客户详情",
+      "detailsUnlock": "🔒 确认后解锁详情",
+      "name": "姓名：",
+      "contact": "联系方式：",
+      "email": "邮箱：",
+      "participantsLabel": "参与者：",
+      "adult": "成人",
+      "adults": "成人",
+      "child": "儿童", 
+      "children": "儿童",
+      "specialRequirements": "特殊要求：",
+      "dietary": "饮食：",
+      "accessibility": "无障碍：",
+      "booked": "预订时间：",
+      "declineReason": "拒绝原因：",
+      "unknownTour": "未知行程",
+      "timeTbd": "时间待定",
+      "locationTbd": "地点待定"
+    },
+    "actions": {
+      "confirmBooking": "确认预订",
+      "decline": "拒绝",
+      "whatsappCustomer": "WhatsApp客户",
+      "callCustomer": "致电客户", 
+      "markComplete": "标记完成",
+      "followUp": "跟进",
+      "requestReview": "请求评价",
+      "unlockNotice": "确认后将解锁客户联系详情"
+    },
+    "statusMessages": {
+      "confirmed": {
+        "title": "✅ 预订已确认！",
+        "message": "客户联系详情现已可用。您可以直接与{{customerName}}沟通。"
+      },
+      "declined": {
+        "title": "预订已拒绝",
+        "message": "此预订于{{date}}被拒绝。",
+        "reasonProvided": "提供的原因："
+      },
+      "completed": {
+        "title": "行程已完成", 
+        "message": "做得很好！此行程已成功完成。",
+        "whatsappFollowUp": "您好{{customerName}}！感谢您参加我们的{{tourName}}！希望您有了精彩的体验。请分享您的反馈！"
+      }
+    }
+  },
+
+  "profile": {
+    "header": {
+      "unnamedCompany": "未命名公司",
+      "locationNotSet": "位置未设置",
+      "vaiVerified": "VAI已验证",
+      "profileCompleteness": "档案完整度",
+      "missingRequiredFields": "缺少必填字段：{{fields}}",
+      "addOptionalDetails": "添加可选商业详情以达到100%"
+    },
+    "achievements": {
+      "whaleTourCertified": "观鲸认证",
+      "premiumOperator": "高级运营商",
+      "experiencedHost": "经验丰富的主办方",
+      "earnedBadge": "您获得了{{badgeName}}徽章"
+    },
+    "actions": {
+      "quickActions": "快捷操作",
+      "refresh": "刷新",
+      "refreshData": "刷新数据",
+      "edit": "编辑",
+      "save": "保存",
+      "saving": "保存中...",
+      "cancel": "取消"
+    },
+    "sections": {
+      "businessInformation": "商业信息",
+      "businessCredentials": "商业证书", 
+      "billingRevenue": "账单和收入",
+      "businessHealthDashboard": "商业健康控制面板",
+      "marketingInsights": "营销洞察",
+      "growthOpportunities": "增长机会"
+    },
+    "badges": {
+      "requiredFieldsMissing": "缺少必填字段",
+      "incomplete": "不完整",
+      "excellent": "优秀",
+      "good": "良好",
+      "needsAttention": "需要关注"
+    },
+    "businessInfo": {
+      "companyName": "公司名称",
+      "companyNameTooltip": "这是游客看到您企业的方式",
+      "companyNamePlaceholder": "输入您的公司名称",
+      "companyNameRequired": "缺少必填字段",
+      "contactPerson": "联系人",
+      "contactPersonTooltip": "预订确认的主要联系人",
+      "contactPersonPlaceholder": "主要联系人姓名",
+      "emailAddress": "邮箱地址",
+      "emailTooltip": "联系VAI支持更改邮箱地址",
+      "emailChangeTooltip": "邮箱更改需要VAI支持验证",
+      "phoneNumber": "电话号码",
+      "phoneTooltip": "包含国家代码（例如法属波利尼西亚+689）",
+      "phonePlaceholder": "+689 XX XX XX XX",
+      "whatsappNumber": "WhatsApp号码",
+      "whatsappTooltip": "用于即时预订通知和客户沟通",
+      "whatsappPlaceholder": "+689 XX XX XX XX",
+      "operatingIsland": "运营岛屿",
+      "islandTooltip": "您运营旅游的主要岛屿",
+      "selectIsland": "选择岛屿",
+      "businessAddress": "商业地址",
+      "addressTooltip": "您企业的物理位置",
+      "addressPlaceholder": "输入您的商业地址或主要集合地点",
+      "notSpecified": "未指定"
+    },
+    "credentials": {
+      "businessLicense": "营业执照",
+      "businessLicenseStatus": "未提供",
+      "insuranceCertificate": "保险证书",
+      "insuranceStatus": "未提供",
+      "whaleTourCertified": "观鲸认证",
+      "whaleTourDescription": "2025年海洋野生动物合规",
+      "missingCredentials": "缺少证书？",
+      "missingCredentialsText": "联系VAI支持上传营业执照、保险证书或申请观鲸认证。"
+    },
+    "billing": {
+      "commissionRate": "佣金率",
+      "commissionOwed": "应付佣金",
+      "yourRevenue": "您的收入",
+      "recentTourPerformance": "最近行程表现",
+      "vaiBookings": "VAI预订",
+      "avgPerBooking": "每个预订平均",
+      "commissionPaid": "已付佣金",
+      "paymentInformation": "付款信息",
+      "paymentInfoText": "付款每月处理。联系VAI支持进行付款设置和开票。"
+    },
+    "health": {
+      "overallHealthScore": "整体健康评分",
+      "healthDescriptions": {
+        "excellent": "您的企业蒸蒸日上！继续保持优秀的工作！",
+        "good": "良好表现。小的改进可以提升您的评分。",
+        "needsImprovement": "专注于响应时间和档案完善以提高您的排名。"
+      },
+      "responseTime": "响应时间",
+      "average": "平均",
+      "successRate": "成功率",
+      "confirmedBookings": "已确认预订",
+      "monthlyBookings": "月度预订",
+      "thisMonth": "本月",
+      "customerRating": "客户评分",
+      "averageScore": "平均分数"
+    },
+    "quickActionsModal": {
+      "title": "快捷操作",
+      "whatsappSupport": "WhatsApp支持",
+      "whatsappDescription": "获得即时帮助",
+      "emailSupport": "邮件支持",
+      "emailDescription": "hello@vai.studio",
+      "createNewTour": "创建新行程",
+      "createTourDescription": "添加最后时刻的可用性"
+    },
+    "islands": {
+      "tahiti": "塔希提",
+      "moorea": "茉莉雅",
+      "boraBora": "波拉波拉",
+      "huahine": "胡阿希内",
+      "raiatea": "赖阿特阿",
+      "tahaa": "塔哈阿",
+      "maupiti": "毛皮提"
+    },
+    "validation": {
+      "companyNameRequired": "公司名称为必填项",
+      "whatsappRequired": "WhatsApp号码为必填项",
+      "islandRequired": "岛屿为必填项"
+    },
+    "messages": {
+      "profileUpdated": "✅ 档案更新成功！",
+      "updateFailed": "❌ {{error}}",
+      "contactSupport": "联系：hello@vai.studio",
+      "profileNotFound": "未找到档案。请联系支持。",
+      "conflictingInfo": "此信息与另一个账户冲突。请检查您的数据。",
+      "noPermission": "您没有权限更新此档案。联系支持。",
+      "updateError": "无法保存更改。请重试或如果问题持续存在请联系支持。",
+      "securityPolicyError": "更新失败：数据库安全策略阻止了更新。请联系hello@vai.studio支持配置您的账户权限。"
+    },
+    "footer": {
+      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "copyright": "© 2025 版权所有",
+      "needWebsite": "需要网站或应用？"
+    }
+  }
+}
