@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { 
   Plus, Calendar, Clock, Users, MapPin,
   DollarSign, CheckCircle, AlertCircle,
@@ -375,6 +376,8 @@ const CreateTab = ({
   getTodayInPolynesia
 }) => {
 
+  const { t } = useTranslation() 
+
   // NEW: State for optional sections
   const [showOptionalSections, setShowOptionalSections] = useState({
     location: false,
@@ -443,8 +446,8 @@ const CreateTab = ({
       {/* Create Tab Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">Create & Manage Tours</h2>
-          <p className="text-slate-400">Create new tours or manage your existing ones</p>
+          <h2 className="text-2xl font-bold text-white mb-2">{t('createTab.title')}</h2>
+          <p className="text-slate-400">{t('createTab.subtitle')}</p>
         </div>
         <div className="flex gap-3">
           {!showForm && (
@@ -453,7 +456,7 @@ const CreateTab = ({
               className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
             >
               <Plus className="w-5 h-5" />
-              Start Creating Tour
+              {t('createTab.startCreating')}
             </button>
           )}
         </div>
@@ -466,10 +469,10 @@ const CreateTab = ({
           <div className="flex items-center justify-between p-6 border-b border-slate-700 bg-gradient-to-r from-slate-800 to-slate-700">
             <div>
               <h3 className="text-xl font-semibold text-white">
-                {editingTour ? 'Edit Tour' : 'Create New Tour'}
+                {editingTour ? t('createTab.editTour') : t('createTab.createNewTour')}
               </h3>
               <p className="text-slate-400 mt-1">
-                {editingTour ? 'Update your existing tour details' : 'Set up a new tour experience for travelers'}
+                {editingTour ? t('createTab.updateExisting') : t('createTab.setupNew')}
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -479,7 +482,7 @@ const CreateTab = ({
                 className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
               >
                 {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                {showPreview ? 'Hide Preview' : 'Show Preview'}
+                {showPreview ? t('createTab.hidePreview') : t('createTab.showPreview')}
               </button>
               <button
                 onClick={resetForm}
@@ -501,16 +504,16 @@ const CreateTab = ({
                 <div className="p-4 bg-slate-700/30">
                   <div className="flex items-center gap-3">
                     <Info className="w-5 h-5 text-blue-400" />
-                    <h4 className="text-md font-medium text-slate-300">Basic Information</h4>
-                    <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">Required</span>
+                    <h4 className="text-md font-medium text-slate-300">{t('form.basicInfo')}</h4>
+                    <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">{t('form.required')}</span>
                   </div>
                 </div>
                 <div className="p-4 bg-slate-800/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                        Tour Name *
-                        <Tooltip content="Make it catchy! That's in the spotlight!">
+                        {t('form.tourName')} *
+                        <Tooltip content={t('tooltips.tourName')}>
                             <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
                             💡
                             </span>
@@ -523,7 +526,7 @@ const CreateTab = ({
                         className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
                             validationErrors.tour_name ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                         }`}
-                        placeholder="e.g., Morning Whale Watching Adventure"
+                        placeholder={t('form.tourNamePlaceholder')}
                       />
                       <p className="text-slate-500 text-sm mt-1">
                         {formData.tour_name?.length || 0}/100
@@ -537,7 +540,7 @@ const CreateTab = ({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Tour Type</label>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.tourType')}</label>
                         <select
                             value={formData.tour_type}
                             onChange={(e) => handleFieldChange('tour_type', e.target.value)}
@@ -554,7 +557,7 @@ const CreateTab = ({
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Description *</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.description')} *</label>
                     <textarea
                       value={formData.description}
                       onChange={(e) => handleFieldChange('description', e.target.value)}
@@ -562,7 +565,7 @@ const CreateTab = ({
                         validationErrors.description ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                       }`}
                       rows="4"
-                      placeholder="Describe your tour experience in detail. What makes it special? What will participants see and do?"
+                      placeholder={t('form.descriptionPlaceholder')}
                     />
                     {validationErrors.description && (
                       <div className="flex items-center gap-2 mt-1">
@@ -582,14 +585,14 @@ const CreateTab = ({
                 <div className="p-4 bg-slate-700/30">
                   <div className="flex items-center gap-3">
                     <Calendar className="w-5 h-5 text-green-400" />
-                    <h4 className="text-md font-medium text-slate-300">Schedule & Duration</h4>
-                    <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">Required</span>
+                    <h4 className="text-md font-medium text-slate-300">{t('form.scheduleDuration')}</h4>
+                    <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">{t('form.required')}</span>
                   </div>
                 </div>
                 <div className="p-4 bg-slate-800/20 space-y-4">
                   {/* Quick Date Selection */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Quick Date Selection</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.quickDateSelection')}</label>
                     <div className="grid grid-cols-3 lg:grid-cols-7 gap-2 mb-4">
                       {getQuickDates().map(({ date, label }) => (
                         <button
@@ -610,7 +613,7 @@ const CreateTab = ({
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Custom Date *</label>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.customDate')} *</label>
                       <input
                         type="date"
                         value={formData.tour_date}
@@ -629,7 +632,7 @@ const CreateTab = ({
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Time Slot *</label>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.timeSlot')} *</label>
                       <select
                         value={formData.time_slot}
                         onChange={(e) => handleFieldChange('time_slot', e.target.value)}
@@ -645,8 +648,8 @@ const CreateTab = ({
 
                     <div>
                       <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                        Duration (hours)
-                        <Tooltip content="Include travel time to/from activity location. Half-day tours: 3-4h, Full-day: 6-8h">
+                        {t('form.duration')}
+                        <Tooltip content={t('tooltips.duration')}>
                             <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
                             ⏱️
                             </span>
@@ -666,20 +669,21 @@ const CreateTab = ({
                   </div>
                 </div>
               </div>
+              
 
               {/* Pricing Strategy */}
               <div className="border border-slate-600 rounded-lg overflow-hidden">
                 <div className="p-4 bg-slate-700/30">
                   <div className="flex items-center gap-3">
                     <DollarSign className="w-5 h-5 text-yellow-400" />
-                    <h4 className="text-md font-medium text-slate-300">Pricing & Capacity</h4>
-                    <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">Required</span>
+                    <h4 className="text-md font-medium text-slate-300">{t('form.pricingCapacity')}</h4>
+                    <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">{t('form.required')}</span>
                   </div>
                 </div>
                 <div className="p-4 bg-slate-800/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Max Capacity *</label>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.maxCapacity')} *</label>
                       <input
                         type="number"
                         value={formData.max_capacity}
@@ -690,7 +694,7 @@ const CreateTab = ({
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Available Spots</label>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.availableSpots')}</label>
                       <input
                         type="number"
                         value={formData.available_spots}
@@ -707,8 +711,8 @@ const CreateTab = ({
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                            Regular Price (Adult) *
-                            <Tooltip content="Set your standard price. Only values ending in 00 allowed (e.g., 5600, 7200, 8500)">
+                            {t('form.regularPrice')} *
+                            <Tooltip content={t('tooltips.pricing')}>
                                 <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
                                 💰
                                 </span>
@@ -726,7 +730,7 @@ const CreateTab = ({
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Discount %</label>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.discountPercent')}</label>
                         <input
                           type="range"
                           min="0"
@@ -740,10 +744,10 @@ const CreateTab = ({
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Final Price</label>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.finalPrice')}</label>
                         <div className="p-3 bg-slate-600/30 rounded-lg">
                           <div className="text-green-400 font-bold text-lg">{formatPrice(formData.discount_price_adult)}</div>
-                          <div className="text-slate-400 text-xs">Your revenue: {formatPrice(Math.round(formData.discount_price_adult * (1 - (operator?.commission_rate || 10) / 100)))}</div>
+                          <div className="text-slate-400 text-xs">{t('form.yourRevenue')}: {formatPrice(Math.round(formData.discount_price_adult * (1 - (operator?.commission_rate || 10) / 100)))}</div>
                         </div>
                       </div>
                     </div>
@@ -751,8 +755,8 @@ const CreateTab = ({
 
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                    Meeting Point *
-                    <Tooltip content="Be specific! Include known places for easy finding. Examples: 'Vaiare Ferry Terminal - Main Entrance'">
+                    {t('form.meetingPoint')} *
+                    <Tooltip content={t('tooltips.meetingPoint')}>
                         <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
                         📍
                         </span>
@@ -765,7 +769,7 @@ const CreateTab = ({
                       className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
                         validationErrors.meeting_point ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
                       }`}
-                      placeholder="e.g., Vaiare Ferry Terminal - Main Entrance"
+                      placeholder={t('form.meetingPointPlaceholder')}
                     />
                     {validationErrors.meeting_point && (
                       <div className="flex items-center gap-2 mt-1">
@@ -776,16 +780,17 @@ const CreateTab = ({
                   </div>
                 </div>
               </div>
+              
 
               {/* OPTIONAL SECTIONS - Toggleable */}
 
               <div className="bg-slate-700/30 rounded-lg p-4">
                 <h4 className="text-white font-medium mb-2 flex items-center gap-2">
                     <Settings className="w-5 h-5 text-slate-400" />
-                    Optional Settings
+                    {t('optionalSections.title')}
                 </h4>
                 <p className="text-slate-400 text-sm mb-4">
-                    Add these sections to provide more detailed information about your tour
+                    {t('optionalSections.subtitle')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-slate-600/20 transition-colors">
@@ -796,8 +801,8 @@ const CreateTab = ({
                         className="w-4 h-4 rounded border-slate-600"
                     />
                     <div>
-                        <span className="text-slate-300 text-sm font-medium">Location & Pickup</span>
-                        <p className="text-slate-400 text-xs">Pickup locations and meeting details</p>
+                        <span className="text-slate-300 text-sm font-medium">{t('optionalSections.location')}</span>
+                        <p className="text-slate-400 text-xs">{t('optionalSections.locationDesc')}</p>
                     </div>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-slate-600/20 transition-colors">
@@ -808,8 +813,8 @@ const CreateTab = ({
                         className="w-4 h-4 rounded border-slate-600"
                     />
                     <div>
-                        <span className="text-slate-300 text-sm font-medium">What's Included</span>
-                        <p className="text-slate-400 text-xs">Equipment, food, drinks, languages</p>
+                        <span className="text-slate-300 text-sm font-medium">{t('optionalSections.inclusions')}</span>
+                        <p className="text-slate-400 text-xs">{t('optionalSections.inclusionsDesc')}</p>
                     </div>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-slate-600/20 transition-colors">
@@ -820,8 +825,8 @@ const CreateTab = ({
                         className="w-4 h-4 rounded border-slate-600"
                     />
                     <div>
-                        <span className="text-slate-300 text-sm font-medium">Requirements</span>
-                        <p className="text-slate-400 text-xs">Fitness level, age limits, restrictions</p>
+                        <span className="text-slate-300 text-sm font-medium">{t('optionalSections.requirements')}</span>
+                        <p className="text-slate-400 text-xs">{t('optionalSections.requirementsDesc')}</p>
                     </div>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-slate-600/20 transition-colors">
@@ -832,152 +837,152 @@ const CreateTab = ({
                         className="w-4 h-4 rounded border-slate-600"
                     />
                     <div>
-                        <span className="text-slate-300 text-sm font-medium">Safety & Compliance</span>
-                        <p className="text-slate-400 text-xs">Weather plans, regulations, special notes</p>
+                        <span className="text-slate-300 text-sm font-medium">{t('optionalSections.compliance')}</span>
+                        <p className="text-slate-400 text-xs">{t('optionalSections.complianceDesc')}</p>
                     </div>
                     </label>
                 </div>
-                </div>
+              </div>
 
               {/* Location & Pickup (Optional) */}
-              {showOptionalSections.location && (
-                <div className="border border-slate-600 rounded-lg overflow-hidden">
-                  <div className="p-4 bg-slate-700/30">
-                    <div className="flex items-center gap-3">
-                      <MapPin className="w-5 h-5 text-red-400" />
-                      <h4 className="text-md font-medium text-slate-300">Location & Pickup</h4>
-                      <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Optional</span>
+                {showOptionalSections.location && (
+                  <div className="border border-slate-600 rounded-lg overflow-hidden">
+                    <div className="p-4 bg-slate-700/30">
+                      <div className="flex items-center gap-3">
+                        <MapPin className="w-5 h-5 text-red-400" />
+                        <h4 className="text-md font-medium text-slate-300">{t('locationPickup.title')}</h4>
+                        <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">{t('form.optional')}</span>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-slate-800/20 space-y-4">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={formData.pickup_available}
+                          onChange={(e) => handleFieldChange('pickup_available', e.target.checked)}
+                          className="w-4 h-4 rounded border-slate-600"
+                        />
+                        <span className="text-slate-300">{t('locationPickup.offerPickup')}</span>
+                      </label>
+
+                      {formData.pickup_available && (
+                        <div className="ml-6 space-y-3">
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              placeholder={t('locationPickup.addPickupLocation')}
+                              className="flex-1 p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400"
+                              onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault()
+                                  handlePickupLocationAdd(e.target.value)
+                                  e.target.value = ''
+                                }
+                              }}
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                const input = e.target.parentElement.querySelector('input')
+                                handlePickupLocationAdd(input.value)
+                                input.value = ''
+                              }}
+                              className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                            >
+                              {t('locationPickup.add')}
+                            </button>
+                          </div>
+                          {formData.pickup_locations?.length > 0 && (
+                            <div className="space-y-2">
+                              {formData.pickup_locations.map((location, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 bg-slate-600/30 rounded">
+                                  <span className="text-slate-200">{location}</span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handlePickupLocationRemove(index)}
+                                    className="text-red-400 hover:text-red-300 p-1"
+                                  >
+                                    <X className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="p-4 bg-slate-800/20 space-y-4">
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={formData.pickup_available}
-                        onChange={(e) => handleFieldChange('pickup_available', e.target.checked)}
-                        className="w-4 h-4 rounded border-slate-600"
-                      />
-                      <span className="text-slate-300">Offer pickup service</span>
-                    </label>
-
-                    {formData.pickup_available && (
-                      <div className="ml-6 space-y-3">
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            placeholder="Add pickup location..."
-                            className="flex-1 p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400"
-                            onKeyPress={(e) => {
-                              if (e.key === 'Enter') {
-                                e.preventDefault()
-                                handlePickupLocationAdd(e.target.value)
-                                e.target.value = ''
-                              }
-                            }}
-                          />
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              const input = e.target.parentElement.querySelector('input')
-                              handlePickupLocationAdd(input.value)
-                              input.value = ''
-                            }}
-                            className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                          >
-                            Add
-                          </button>
-                        </div>
-                        {formData.pickup_locations?.length > 0 && (
-                          <div className="space-y-2">
-                            {formData.pickup_locations.map((location, index) => (
-                              <div key={index} className="flex items-center justify-between p-2 bg-slate-600/30 rounded">
-                                <span className="text-slate-200">{location}</span>
-                                <button
-                                  type="button"
-                                  onClick={() => handlePickupLocationRemove(index)}
-                                  className="text-red-400 hover:text-red-300 p-1"
-                                >
-                                  <X className="w-4 h-4" />
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+                )}
 
               {/* Inclusions (Optional) */}
-              {showOptionalSections.inclusions && (
-                <div className="border border-slate-600 rounded-lg overflow-hidden">
-                  <div className="p-4 bg-slate-700/30">
-                    <div className="flex items-center gap-3">
-                      <Heart className="w-5 h-5 text-pink-400" />
-                      <h4 className="text-md font-medium text-slate-300">What's Included</h4>
-                      <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Optional</span>
-                    </div>
-                  </div>
-                  <div className="p-4 bg-slate-800/20 space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-3">
-                        <label className="flex items-center gap-3 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={formData.equipment_included}
-                            onChange={(e) => handleFieldChange('equipment_included', e.target.checked)}
-                            className="w-4 h-4 rounded border-slate-600"
-                          />
-                          <Camera className="w-5 h-5 text-slate-400" />
-                          <span className="text-slate-300">Equipment Included</span>
-                        </label>
-                        <label className="flex items-center gap-3 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={formData.food_included}
-                            onChange={(e) => handleFieldChange('food_included', e.target.checked)}
-                            className="w-4 h-4 rounded border-slate-600"
-                          />
-                          <Utensils className="w-5 h-5 text-slate-400" />
-                          <span className="text-slate-300">Food Included</span>
-                        </label>
-                        <label className="flex items-center gap-3 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={formData.drinks_included}
-                            onChange={(e) => handleFieldChange('drinks_included', e.target.checked)}
-                            className="w-4 h-4 rounded border-slate-600"
-                          />
-                          <Waves className="w-5 h-5 text-slate-400" />
-                          <span className="text-slate-300">Drinks Included</span>
-                        </label>
+                {showOptionalSections.inclusions && (
+                  <div className="border border-slate-600 rounded-lg overflow-hidden">
+                    <div className="p-4 bg-slate-700/30">
+                      <div className="flex items-center gap-3">
+                        <Heart className="w-5 h-5 text-pink-400" />
+                        <h4 className="text-md font-medium text-slate-300">{t('inclusions.title')}</h4>
+                        <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">{t('form.optional')}</span>
                       </div>
+                    </div>
+                    <div className="p-4 bg-slate-800/20 space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <label className="flex items-center gap-3 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={formData.equipment_included}
+                              onChange={(e) => handleFieldChange('equipment_included', e.target.checked)}
+                              className="w-4 h-4 rounded border-slate-600"
+                            />
+                            <Camera className="w-5 h-5 text-slate-400" />
+                            <span className="text-slate-300">{t('inclusions.equipment')}</span>
+                          </label>
+                          <label className="flex items-center gap-3 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={formData.food_included}
+                              onChange={(e) => handleFieldChange('food_included', e.target.checked)}
+                              className="w-4 h-4 rounded border-slate-600"
+                            />
+                            <Utensils className="w-5 h-5 text-slate-400" />
+                            <span className="text-slate-300">{t('inclusions.food')}</span>
+                          </label>
+                          <label className="flex items-center gap-3 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={formData.drinks_included}
+                              onChange={(e) => handleFieldChange('drinks_included', e.target.checked)}
+                              className="w-4 h-4 rounded border-slate-600"
+                            />
+                            <Waves className="w-5 h-5 text-slate-400" />
+                            <span className="text-slate-300">{t('inclusions.drinks')}</span>
+                          </label>
+                        </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-3">Languages Offered</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {availableLanguages.map(lang => (
-                            <button
-                              key={lang.code}
-                              type="button"
-                              onClick={() => handleLanguageToggle(lang.code)}
-                              className={`flex items-center gap-2 p-2 rounded-lg border text-sm transition-all ${
-                                formData.languages?.includes(lang.code)
-                                  ? 'bg-green-500/20 border-green-500/50 text-green-300'
-                                  : 'bg-slate-700/30 border-slate-600 text-slate-300 hover:border-slate-500'
-                              }`}
-                            >
-                              <span>{lang.flag}</span>
-                              <span>{lang.name}</span>
-                            </button>
-                          ))}
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-3">{t('inclusions.languages')}</label>
+                          <div className="grid grid-cols-2 gap-2">
+                            {availableLanguages.map(lang => (
+                              <button
+                                key={lang.code}
+                                type="button"
+                                onClick={() => handleLanguageToggle(lang.code)}
+                                className={`flex items-center gap-2 p-2 rounded-lg border text-sm transition-all ${
+                                  formData.languages?.includes(lang.code)
+                                    ? 'bg-green-500/20 border-green-500/50 text-green-300'
+                                    : 'bg-slate-700/30 border-slate-600 text-slate-300 hover:border-slate-500'
+                                }`}
+                              >
+                                <span>{lang.flag}</span>
+                                <span>{lang.name}</span>
+                              </button>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Requirements (Optional) */}
               {showOptionalSections.requirements && (

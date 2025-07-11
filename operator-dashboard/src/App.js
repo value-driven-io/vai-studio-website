@@ -1,5 +1,6 @@
 // operator-dashboard/src/App.js - Enhanced Booking Management System
 import React, { useState, useEffect } from 'react'
+import './i18n/config'
 import { 
   CheckCircle, XCircle, AlertCircle, Clock3, Award
 } from 'lucide-react'

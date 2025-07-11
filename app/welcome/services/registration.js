@@ -117,7 +117,7 @@ const registrationService = {
       return {
         success: true,
         user: newUser,
-        message: `Welcome ${firstName}! You'll receive launch updates when VAI goes live on July 14th.`,
+        message: `Welcome ${firstName}! You'll receive launch updates when VAI goes live on July 20th.`,
         next_step: user_type === 'tourist' ? 'download_app' : 'explore_local'
       }
       
@@ -378,7 +378,7 @@ const registrationService = {
         type: 'welcome_email',
         user_type: userType,
         timestamp: new Date().toISOString(),
-        launch_date: '2025-07-14',
+        launch_date: '2025-07-20',
         platform_url: userType === 'tourist' ? 'https://app.vai.studio' : 'https://vai-operator-dashboard.onrender.com',
         ...data
       };

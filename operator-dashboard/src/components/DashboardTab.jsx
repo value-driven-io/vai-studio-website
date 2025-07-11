@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { 
   RefreshCw, 
   Award, 
@@ -33,6 +34,8 @@ const DashboardTab = ({
   setFormData,      
   setShowForm       
 }) => {
+    const { t } = useTranslation()
+    
     const formatPrice = (amount) => {
         if (!amount) return '0 XPF'
         return new Intl.NumberFormat('fr-PF', {
@@ -50,14 +53,14 @@ const DashboardTab = ({
             {/* Dashboard Header */}
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">Dashboard Overview</h2>
-                <p className="text-slate-400">Monitor your tours and performance</p>
+                <h2 className="text-2xl font-bold text-white mb-2">{t('dashboard.title')}</h2>
+                <p className="text-slate-400">{t('dashboard.subtitle')}</p>
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => fetchTours()}
                   className="p-2 text-slate-400 hover:text-white border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
-                  title="Refresh data"
+                  title={t('dashboard.refreshData')}
                 >
                   <RefreshCw className="w-4 h-4" />
                 </button>
@@ -66,7 +69,7 @@ const DashboardTab = ({
                   className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
                 >
                   <Plus className="w-4 h-4" />
-                  Create Tour
+                  {t('dashboard.createTour')}
                 </button>
               </div>
             </div>
@@ -81,12 +84,12 @@ const DashboardTab = ({
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-white">{formatPrice(stats.operator_revenue)}</p>
-                    <p className="text-green-400 text-sm">Your Revenue</p>
+                    <p className="text-green-400 text-sm">{t('dashboard.yourRevenue')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-green-400">🔥 Total</span>
-                  <span className="text-slate-400">this month</span>
+                  <span className="text-green-400">🔥 {t('common.total')}</span>
+                  <span className="text-slate-400">{t('common.thisMonth')}</span>
                 </div>
               </div>
 
@@ -98,12 +101,12 @@ const DashboardTab = ({
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-white">{stats.totalBookings}</p>
-                    <p className="text-blue-400 text-sm">Total Bookings</p>
+                    <p className="text-blue-400 text-sm">{t('dashboard.totalBookings')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-blue-400">↗ +{stats.confirmedBookings}</span>
-                  <span className="text-slate-400">confirmed</span>
+                  <span className="text-slate-400">{t('common.confirmed')}</span>
                 </div>
               </div>
 
@@ -118,14 +121,14 @@ const DashboardTab = ({
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-white">{stats.pendingBookings}</p>
-                    <p className="text-orange-400 text-sm">Pending Actions</p>
+                    <p className="text-orange-400 text-sm">{t('dashboard.pendingActions')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   {stats.pendingBookings > 0 ? (
-                    <span className="text-orange-400">⚠ Needs attention</span>
+                    <span className="text-orange-400">⚠ {t('dashboard.needsAttention')}</span>
                   ) : (
-                    <span className="text-green-400">✓ All caught up</span>
+                    <span className="text-green-400">✓ {t('dashboard.allCaughtUp')}</span>
                   )}
                 </div>
               </button>
@@ -138,19 +141,19 @@ const DashboardTab = ({
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-white">{tours.filter(t => t.status === 'active').length}</p>
-                    <p className="text-purple-400 text-sm">Active Tours</p>
+                    <p className="text-purple-400 text-sm">{t('dashboard.activeTours')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-purple-400">📅 {tours.filter(t => new Date(t.tour_date) >= new Date()).length}</span>
-                  <span className="text-slate-400">upcoming</span>
+                  <span className="text-slate-400">{t('common.upcoming')}</span>
                 </div>
               </div>
             </div>
 
             {/* Quick Actions */}
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">{t('quickActions.title')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button
                   onClick={() => setActiveTab('create')}
@@ -160,8 +163,8 @@ const DashboardTab = ({
                     <Plus className="w-5 h-5 text-blue-400" />
                   </div>
                   <div>
-                    <h4 className="text-white font-medium">Create Tour</h4>
-                    <p className="text-slate-400 text-sm">Add new tour experience</p>
+                    <h4 className="text-white font-medium">{t('quickActions.createTour')}</h4>
+                    <p className="text-slate-400 text-sm">{t('quickActions.createTourDesc')}</p>
                   </div>
                 </button>
 
@@ -173,8 +176,8 @@ const DashboardTab = ({
                     <Clock className="w-5 h-5 text-orange-400" />
                   </div>
                   <div>
-                    <h4 className="text-white font-medium">Manage Bookings</h4>
-                    <p className="text-slate-400 text-sm">{stats.pendingBookings} pending requests</p>
+                    <h4 className="text-white font-medium">{t('quickActions.manageBookings')}</h4>
+                    <p className="text-slate-400 text-sm">{stats.pendingBookings} {t('quickActions.pendingRequests')}</p>
                   </div>
                 </button>
 
@@ -186,8 +189,8 @@ const DashboardTab = ({
                     <MessageCircle className="w-5 h-5 text-green-400" />
                   </div>
                   <div>
-                    <h4 className="text-white font-medium">Get Support</h4>
-                    <p className="text-slate-400 text-sm">Contact VAI Tickets</p>
+                    <h4 className="text-white font-medium">{t('quickActions.getSupport')}</h4>
+                    <p className="text-slate-400 text-sm">{t('quickActions.contactVAI')}</p>
                   </div>
                 </button>
               </div>
@@ -204,14 +207,14 @@ const DashboardTab = ({
                   <div className="flex items-center gap-3">
                     <BarChart3 className="w-5 h-5 text-blue-400" />
                     <div className="text-left">
-                      <h3 className="text-lg font-semibold text-white">All Tours</h3>
-                      <p className="text-slate-400 text-sm">{tours.length} total tours created</p>
+                      <h3 className="text-lg font-semibold text-white">{t('tours.allTours')}</h3>
+                      <p className="text-slate-400 text-sm">{tours.length} {t('tours.totalToursCreated')}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right text-sm">
-                      <div className="text-green-400">{tours.filter(t => new Date(t.tour_date) >= new Date()).length} upcoming</div>
-                      <div className="text-slate-400">{tours.filter(t => new Date(t.tour_date) < new Date()).length} completed</div>
+                      <div className="text-green-400">{tours.filter(t => new Date(t.tour_date) >= new Date()).length} {t('common.upcoming')}</div>
+                      <div className="text-slate-400">{tours.filter(t => new Date(t.tour_date) < new Date()).length} {t('common.completed')}</div>
                     </div>
                     {expandedSections.allTours ? (
                       <ChevronUp className="w-5 h-5 text-slate-400" />
@@ -226,7 +229,7 @@ const DashboardTab = ({
                     {loading ? (
                       <div className="text-center py-8">
                         <div className="w-6 h-6 border-2 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                        <div className="text-slate-400 text-sm">Loading tours...</div>
+                        <div className="text-slate-400 text-sm">{t('tours.loadingTours')}</div>
                       </div>
                     ) : (
                       <>
@@ -235,7 +238,7 @@ const DashboardTab = ({
                           <div className="mb-6">
                             <h4 className="text-white font-medium mb-3 flex items-center gap-2">
                               <Clock className="w-4 h-4 text-green-400" />
-                              Upcoming Tours ({tours.filter(t => new Date(t.tour_date) >= new Date()).length})
+                              {t('tours.upcomingTours')} ({tours.filter(t => new Date(t.tour_date) >= new Date()).length})
                             </h4>
                             <div className="space-y-3">
                               {tours.filter(t => new Date(t.tour_date) >= new Date()).map((tour) => {
@@ -250,7 +253,7 @@ const DashboardTab = ({
                                         <span>{new Date(tour.tour_date).toLocaleDateString()}</span>
                                         <span>{tour.time_slot}</span>
                                         <span className="text-slate-400">•</span>
-                                        <span>{bookedSpots}/{tour.max_capacity} booked</span>
+                                        <span>{bookedSpots}/{tour.max_capacity} {t('common.booked')}</span>
                                       </div>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -286,7 +289,7 @@ const DashboardTab = ({
                           <div>
                             <h4 className="text-white font-medium mb-3 flex items-center gap-2">
                               <Award className="w-4 h-4 text-slate-400" />
-                              Completed Tours ({tours.filter(t => new Date(t.tour_date) < new Date()).length})
+                              {t('tours.completedTours')} ({tours.filter(t => new Date(t.tour_date) < new Date()).length})
                             </h4>
                             <div className="space-y-3">
                               {tours.filter(t => new Date(t.tour_date) < new Date()).slice(0, 5).map((tour) => {
@@ -301,7 +304,7 @@ const DashboardTab = ({
                                         <span>{new Date(tour.tour_date).toLocaleDateString()}</span>
                                         <span>{tour.time_slot}</span>
                                         <span>•</span>
-                                        <span>{bookedSpots}/{tour.max_capacity} attended</span>
+                                        <span>{bookedSpots}/{tour.max_capacity} {t('common.attended')}</span>
                                       </div>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -325,7 +328,7 @@ const DashboardTab = ({
                               })}
                               {tours.filter(t => new Date(t.tour_date) < new Date()).length > 5 && (
                                 <p className="text-slate-400 text-xs text-center py-2">
-                                  + {tours.filter(t => new Date(t.tour_date) < new Date()).length - 5} more completed tours
+                                  + {tours.filter(t => new Date(t.tour_date) < new Date()).length - 5} {t('tours.moreCompletedTours')}
                                 </p>
                               )}
                             </div>
@@ -335,12 +338,12 @@ const DashboardTab = ({
                         {tours.length === 0 && (
                           <div className="text-center py-8">
                             <Calendar className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-                            <p className="text-slate-400">No tours created yet</p>
+                            <p className="text-slate-400">{t('tours.noToursYet')}</p>
                             <button
                               onClick={() => setActiveTab('create')}
                               className="mt-4 text-blue-400 hover:text-blue-300 text-sm"
                             >
-                              Create your first tour →
+                              {t('tours.createFirstTour')} →
                             </button>
                           </div>
                         )}
@@ -359,14 +362,14 @@ const DashboardTab = ({
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-orange-400" />
                     <div className="text-left">
-                      <h3 className="text-lg font-semibold text-white">Recent Activity</h3>
-                      <p className="text-slate-400 text-sm">Latest bookings and updates</p>
+                      <h3 className="text-lg font-semibold text-white">{t('activity.recentActivity')}</h3>
+                      <p className="text-slate-400 text-sm">{t('activity.latestBookings')}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right text-sm">
-                      <div className="text-blue-400">{allBookings.length} total</div>
-                      <div className="text-slate-400">this month</div>
+                      <div className="text-blue-400">{allBookings.length} {t('common.total')}</div>
+                      <div className="text-slate-400">{t('common.thisMonth')}</div>
                     </div>
                     {expandedSections.recentActivity ? (
                       <ChevronUp className="w-5 h-5 text-slate-400" />
@@ -381,7 +384,7 @@ const DashboardTab = ({
                     {bookingsLoading ? (
                       <div className="text-center py-8">
                         <div className="w-6 h-6 border-2 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                        <div className="text-slate-400 text-sm">Loading activity...</div>
+                        <div className="text-slate-400 text-sm">{t('activity.loadingActivity')}</div>
                       </div>
                     ) : (
                       <div className="space-y-4">
@@ -395,12 +398,12 @@ const DashboardTab = ({
                             }`} />
                             <div className="flex-1">
                               <p className="text-white text-sm">
-                                New booking for <span className="font-medium">{booking.tours?.tour_name}</span>
+                                {t('activity.newBookingFor')} <span className="font-medium">{booking.tours?.tour_name}</span>
                               </p>
                               <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
                                 <span>{new Date(booking.created_at).toLocaleDateString()}</span>
                                 <span>•</span>
-                                <span>{booking.num_adults + booking.num_children} participants</span>
+                                <span>{booking.num_adults + booking.num_children} {t('common.participants')}</span>
                                 <span>•</span>
                                 <span>{formatPrice(booking.subtotal)}</span>
                               </div>
@@ -418,7 +421,7 @@ const DashboardTab = ({
                         {allBookings.length === 0 && (
                           <div className="text-center py-8">
                             <Clock className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-                            <p className="text-slate-400">No recent activity</p>
+                            <p className="text-slate-400">{t('activity.noRecentActivity')}</p>
                           </div>
                         )}
                         {allBookings.length > 10 && (
@@ -426,7 +429,7 @@ const DashboardTab = ({
                             onClick={() => setActiveTab('bookings')}
                             className="w-full text-blue-400 hover:text-blue-300 text-sm py-2"
                           >
-                            View all {allBookings.length} bookings →
+                            {t('activity.viewAllBookings', { count: allBookings.length })} →
                           </button>
                         )}
                       </div>
@@ -445,8 +448,8 @@ const DashboardTab = ({
                 <div className="flex items-center gap-3">
                   <Award className="w-5 h-5 text-yellow-400" />
                   <div className="text-left">
-                    <h3 className="text-lg font-semibold text-white">Performance Insights</h3>
-                    <p className="text-slate-400 text-sm">Quick tips to improve your bookings</p>
+                    <h3 className="text-lg font-semibold text-white">{t('insights.performanceInsights')}</h3>
+                    <p className="text-slate-400 text-sm">{t('insights.quickTips')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -462,12 +465,12 @@ const DashboardTab = ({
                 <div className="px-6 pb-6 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                      <h4 className="text-green-400 font-medium text-sm mb-2">💡 Quick Tip</h4>
-                      <p className="text-slate-300 text-sm">Tours posted 4-6 hours before departure get 40% more bookings</p>
+                      <h4 className="text-green-400 font-medium text-sm mb-2">💡 {t('insights.quickTip')}</h4>
+                      <p className="text-slate-300 text-sm">{t('insights.timingTip')}</p>
                     </div>
                     <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                      <h4 className="text-blue-400 font-medium text-sm mb-2">📈 Trending</h4>
-                      <p className="text-slate-300 text-sm">Sunset tours are in high demand this week</p>
+                      <h4 className="text-blue-400 font-medium text-sm mb-2">📈 {t('insights.trending')}</h4>
+                      <p className="text-slate-300 text-sm">{t('insights.sunsetTrend')}</p>
                     </div>
                   </div>
                 </div>
