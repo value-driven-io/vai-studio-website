@@ -374,10 +374,12 @@ function App() {
 
   const fetchAllBookings = async () => {
     if (!operator?.id) return
+
+    const startTime = Date.now()
     
     setBookingsLoading(true)
     try {
-      // ✅ Use Supabase client instead of fetch API - MAJOR PERFORMANCE BOOST
+      // Use Supabase client instead of fetch API 
       const { data, error } = await supabase
         .from('bookings')
         .select(`
@@ -396,7 +398,7 @@ function App() {
         setAllBookings(data || [])
       }
       
-      // ✅ Still call loadDashboardStats but it will be optimized to use existing data
+      // Call loadDashboardStats but it will be optimized to use existing data
       await loadDashboardStats()
       
     } catch (error) {
@@ -404,6 +406,8 @@ function App() {
       setAllBookings([])
     } finally {
       setBookingsLoading(false)
+      // Log total timing
+      console.log(`🏁 Total fetchAllBookings completed in ${Date.now() - startTime}ms`)
     }
   }
 

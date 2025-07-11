@@ -201,6 +201,10 @@ const ProfileTab = ({ setActiveTab }) => {
     const loadDashboardData = useCallback(async () => {
     if (!operator?.id) return
 
+    // Track Performance Timer Start
+    const startTime = Date.now()
+
+
     try {
         setLoading(true)
 
@@ -257,8 +261,13 @@ const ProfileTab = ({ setActiveTab }) => {
         businessHealthScore
         })
 
+        // Console Log ProfileTab Performance
+          console.log(`📊 Profile data loaded in ${Date.now() - startTime}ms`)
+
     } catch (error) {
         console.error('Error loading dashboard data:', error)
+        // Console Log ProfileTab Performance Error
+        console.log(`❌ Profile data failed after ${Date.now() - startTime}ms`)
         // Set empty stats if error
         setStats({
         total_bookings: 0,
