@@ -130,7 +130,7 @@
   },
   "optionalSections": {
     "title": "Optionale Einstellungen",
-    "subtitle": "Fügen Sie diese Bereiche hinzu, um detailliertere Informationen über Ihre Tour zu geben",
+    "subtitle": "Füge diese Bereiche hinzu, um detailliertere Informationen über Deine Tour zu geben",
     "location": "Standort & Abholung",
     "locationDesc": "Abholorte und Treffpunktdetails",
     "inclusions": "Was ist enthalten",
@@ -192,15 +192,15 @@
     "sunsetTourDesc": "2,5-Stunden romantische Kreuzfahrt"
   },
   "tourManagement": {
-    "title": "Ihre Touren",
-    "subtitle": "Verwalten und bearbeiten Sie Ihre bestehenden Touren",
+    "title": "Deine Touren",
+    "subtitle": "Verwalte und bearbeite Deine bestehenden Touren",
     "totalTours": "Touren gesamt",
     "all": "Alle",
     "upcoming": "Kommend",
     "past": "Vergangen",
     "searchTours": "Touren suchen...",
     "noToursFound": "Keine Touren gefunden",
-    "createFirstTour": "Ihre erste Tour erstellen",
+    "createFirstTour": "Deine erste Tour erstellen",
     "cancelled": "Storniert",
     "completed": "Abgeschlossen",
     "cannotEdit": "Kann nicht bearbeitet werden",
@@ -234,16 +234,16 @@
     "operatorDashboard": "Operator Dashboard",
     "secureLoginRequired": "Sichere Anmeldung erforderlich",
     "emailAddress": "E-Mail-Adresse",
-    "emailPlaceholder": "ihre-email@operator.com",
+    "emailPlaceholder": "deine-email@operator.com",
     "password": "Passwort",
-    "passwordPlaceholder": "Ihr sicheres Passwort",
-    "emailRequired": "Bitte geben Sie Ihre E-Mail ein",
-    "passwordRequired": "Bitte geben Sie Ihr Passwort ein",
+    "passwordPlaceholder": "Dein sicheres Passwort",
+    "emailRequired": "Bitte gib Deine E-Mail ein",
+    "passwordRequired": "Bitte gib Dein Passwort ein",
     "signingIn": "Anmeldung läuft...",
     "signInSecurely": "Sicher anmelden",
-    "useCredentials": "Verwenden Sie Ihre sicheren Operator-Zugangsdaten",
-    "needHelp": "Benötigen Sie Hilfe? Kontaktieren Sie",
-    "passwordReminder": "Ihr sicheres Passwort wurde bei der Kontoeinrichtung bereitgestellt"
+    "useCredentials": "Verwende Deine sicheren Operator-Zugangsdaten",
+    "needHelp": "Benötigst Du Hilfe? Kontaktier uns",
+    "passwordReminder": "Dein sicheres Passwort wurde bei der Kontoeinrichtung bereitgestellt"
   },
 
   "bookings": {
@@ -308,7 +308,7 @@
     "statusMessages": {
       "confirmed": {
         "title": "✅ Buchung bestätigt!",
-        "message": "Kundenkontaktdaten sind jetzt verfügbar. Sie können direkt mit {{customerName}} kommunizieren."
+        "message": "Kundenkontaktdaten sind jetzt verfügbar. Du kannst direkt mit {{customerName}} kommunizieren."
       },
       "declined": {
         "title": "Buchung abgelehnt",
@@ -318,7 +318,7 @@
       "completed": {
         "title": "Tour abgeschlossen", 
         "message": "Großartige Arbeit! Diese Tour wurde erfolgreich abgeschlossen.",
-        "whatsappFollowUp": "Hallo {{customerName}}! Vielen Dank für die Teilnahme an unserer {{tourName}}! Wir hoffen, Sie hatten eine fantastische Erfahrung. Bitte teilen Sie Ihr Feedback mit!"
+        "whatsappFollowUp": "Hallo {{customerName}}! Vielen Dank für die Teilnahme an unserer {{tourName}}! Wir hoffen, Du hattest eine fantastische Erfahrung. Bitte gib uns Dein Feedback!"
       }
     }
   },
@@ -336,7 +336,7 @@
       "whaleTourCertified": "Walbeobachtung Zertifiziert",
       "premiumOperator": "Premium-Operator",
       "experiencedHost": "Erfahrener Gastgeber",
-      "earnedBadge": "Sie haben das {{badgeName}} Abzeichen erhalten"
+      "earnedBadge": "Du hast das {{badgeName}} Abzeichen erhalten"
     },
     "actions": {
       "quickActions": "Schnellaktionen",
