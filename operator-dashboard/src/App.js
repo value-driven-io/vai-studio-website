@@ -304,9 +304,8 @@ function App() {
       
       // Set up polling for real-time updates
       const interval = setInterval(() => {
-        fetchAllBookings()
-        loadDashboardStats()  // ✅ ADD this line
-      }, 30000) // Poll every 30 seconds
+        fetchAllBookings() // This will call loadDashboardStats internally, so no duplication
+      }, 60000) // Poll every 60 seconds 
 
       return () => clearInterval(interval)
     }
@@ -378,21 +377,31 @@ function App() {
     
     setBookingsLoading(true)
     try {
-      // Fetch all bookings (not just pending) - KEEP your existing fetch logic
-      const response = await fetch(`${supabaseUrl}/rest/v1/bookings?operator_id=eq.${operator.id}&select=*,tours:tour_id(tour_name,tour_date,time_slot,meeting_point,tour_type)&order=created_at.desc`, {
-        headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`
-        }
-      })
-      const data = await response.json()
-      setAllBookings(data || [])
+      // ✅ Use Supabase client instead of fetch API - MAJOR PERFORMANCE BOOST
+      const { data, error } = await supabase
+        .from('bookings')
+        .select(`
+          id, booking_reference, booking_status, created_at, 
+          customer_name, customer_email, customer_whatsapp,
+          num_adults, num_children, subtotal, total_amount, commission_amount,
+          tours:tour_id(tour_name, tour_date, time_slot, meeting_point, tour_type)
+        `)
+        .eq('operator_id', operator.id)
+        .order('created_at', { ascending: false })
       
-      // ✅ REPLACE: Use the new stats calculation instead of calculateStats
+      if (error) {
+        console.warn('Error fetching bookings:', error)
+        setAllBookings([])
+      } else {
+        setAllBookings(data || [])
+      }
+      
+      // ✅ Still call loadDashboardStats but it will be optimized to use existing data
       await loadDashboardStats()
       
     } catch (error) {
       console.error('Error fetching bookings:', error)
+      setAllBookings([])
     } finally {
       setBookingsLoading(false)
     }
@@ -420,17 +429,25 @@ function App() {
     if (!operator?.id) return
 
     try {
-      // Get bookings data directly from supabase (same logic as ProfileTab)
-      const { data: bookingsData, error: bookingsError } = await supabase
-        .from('bookings')
-        .select('*')
-        .eq('operator_id', operator.id)
+      // First try to use existing allBookings data to avoid duplicate query
+      let bookingsData = allBookings
 
-      if (bookingsError) {
-        console.warn('No bookings found:', bookingsError)
+      //  Only query if no existing data (like on initial load)
+      if (!bookingsData || bookingsData.length === 0) {
+        const { data, error: bookingsError } = await supabase
+          .from('bookings')
+          .select('booking_status, subtotal, commission_amount') //  needed for stats
+          .eq('operator_id', operator.id)
+
+        if (bookingsError) {
+          console.warn('No bookings found:', bookingsError)
+          bookingsData = []
+        } else {
+          bookingsData = data || []
+        }
       }
 
-      // Calculate stats using ProfileTab's correct business logic
+      // all existing calculation logic EXACTLY the same
       const totalBookings = bookingsData?.length || 0
       const confirmedBookings = bookingsData?.filter(b => b.booking_status === 'confirmed').length || 0
       const completedBookings = bookingsData?.filter(b => ['confirmed', 'completed'].includes(b.booking_status)).length || 0
@@ -438,7 +455,7 @@ function App() {
       const declinedBookings = bookingsData?.filter(b => b.booking_status === 'declined').length || 0
       const cancelledBookings = bookingsData?.filter(b => b.booking_status === 'cancelled').length || 0
       
-      // REVENUE CALCULATION (matches ProfileTab)
+      //  revenue calculation EXACTLY the same
       const operatorRevenue = bookingsData
         ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
@@ -447,7 +464,7 @@ function App() {
         ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
         ?.reduce((sum, b) => sum + (b.commission_amount || 0), 0) || 0
 
-      // Update stats with correct values
+      //  stats object structure EXACTLY the same
       setStats({
         totalBookings,
         pendingBookings,
@@ -456,7 +473,7 @@ function App() {
         cancelledBookings,
         completedBookings,
         activeTours: tours.filter(t => t.status === 'active' && new Date(t.tour_date) >= new Date()).length,
-        totalRevenue: operatorRevenue, // Keep existing field for compatibility
+        totalRevenue: operatorRevenue, //  field for compatibility
         operator_revenue: operatorRevenue,  // operator revenue
         total_commission: totalCommission,  // Commission amount
         avg_response_time_hours: 2
@@ -464,6 +481,20 @@ function App() {
 
     } catch (error) {
       console.error('Error loading dashboard stats:', error)
+      // Error fallback
+      setStats({
+        totalBookings: 0,
+        pendingBookings: 0,
+        confirmedBookings: 0,
+        declinedBookings: 0,
+        cancelledBookings: 0,
+        completedBookings: 0,
+        activeTours: 0,
+        totalRevenue: 0,
+        operator_revenue: 0,
+        total_commission: 0,
+        avg_response_time_hours: 0
+      })
     }
   }
 

@@ -30,10 +30,7 @@ const Header = ({ operator, logout }) => {
 
         {/* Right side - Actions */}
         <div className="flex items-center gap-3">
-          
-          {/* Language Dropdown - Portal handles z-index automatically */}
-          <LanguageDropdown />
-          
+
           {/* User info */}
           <div className="flex items-center gap-2 px-3 py-2 bg-slate-700/50 rounded-lg">
             <User className="w-4 h-4 text-slate-400" />
@@ -41,6 +38,11 @@ const Header = ({ operator, logout }) => {
               {operator?.email}
             </span>
           </div>
+          
+          
+          {/* Language Dropdown - Portal handles z-index automatically */}
+          <LanguageDropdown />
+          
 
           {/* Logout button */}
           <button

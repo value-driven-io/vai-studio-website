@@ -17,44 +17,43 @@ export const useAuth = () => {
 
 
     const checkSession = async () => {
-    try {
-      // Get session with shorter timeout
-      const { data: { session }, error: sessionError } = await Promise.race([
-        supabase.auth.getSession(),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Session timeout')), 3000)
-        )
-      ]);
-      
-      if (sessionError) throw sessionError;
-      
-      if (session?.user && isMounted) {
-        // Simplified operator lookup with specific fields only
-        const { data: operatorData, error } = await supabase
-          .from('operators')
-          .select('id, email, company_name, island, status, commission_rate')
-          .eq('auth_user_id', session.user.id)
-          .eq('status', 'active')
-          .single()
+      try {
+        // Increase timeout for Render.com environment
+        const { data: { session }, error: sessionError } = await Promise.race([
+          supabase.auth.getSession(),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Session timeout')), 15000) // ✅ 15s instead of 3s
+          )
+        ]);
         
-        if (operatorData && !error && isMounted) {
-          setOperator(operatorData)
-          console.log('✅ Session restored:', operatorData.company_name)
-        } else if (error) {
-          console.warn('⚠️ Operator lookup failed:', error.message)
-          // Force sign out if operator not found
-          await supabase.auth.signOut()
+        if (sessionError) throw sessionError;
+        
+        if (session?.user && isMounted) {
+          // ✅ SELECT ALL FIELDS to prevent breaking ProfileTab
+          const { data: operatorData, error } = await supabase
+            .from('operators')
+            .select('*') // ✅ Keep selecting all fields - optimization comes later
+            .eq('auth_user_id', session.user.id)
+            .eq('status', 'active')
+            .single()
+          
+          if (operatorData && !error && isMounted) {
+            setOperator(operatorData)
+            console.log('✅ Session restored:', operatorData.company_name)
+          } else if (error) {
+            console.warn('⚠️ Operator lookup failed:', error.message)
+            await supabase.auth.signOut()
+          }
+        }
+      } catch (error) {
+        console.error('❌ Session check error:', error.message)
+        // Don't block UI on timeout - just continue
+      } finally {
+        if (isMounted) {
+          setLoading(false)
         }
       }
-    } catch (error) {
-      console.error('❌ Session check error:', error.message)
-      // Don't throw - just continue
-    } finally {
-      if (isMounted) {
-        setLoading(false)
-      }
     }
-  }
 
     // Add timeout fallback for Chrome
     const timeoutId = setTimeout(() => {

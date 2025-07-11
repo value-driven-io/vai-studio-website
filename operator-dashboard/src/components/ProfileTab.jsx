@@ -207,7 +207,7 @@ const ProfileTab = ({ setActiveTab }) => {
         // Use direct queries instead of booking_summary table
         const { data: bookingsData, error: bookingsError } = await supabase
         .from('bookings')
-        .select('*')
+        .select('booking_status, subtotal, commission_amount, total_amount') // Only essential fields
         .eq('operator_id', operator.id)
 
         if (bookingsError) console.warn('No bookings found:', bookingsError)
