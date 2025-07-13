@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Link Issue - VAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(51, 65, 85, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 12px;
+        }
+        
+        .emoji {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .flag {
+            font-size: 14px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 14px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(71, 85, 105, 0.8);
+            color: #e2e8f0;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(100, 116, 139, 0.8);
+        }
+        
+        .btn-whatsapp {
+            background: #059669;
+            color: white;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #047857;
+            transform: translateY(-2px);
+        }
+        
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .technical {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+        }
+        
+        .technical-toggle {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .technical-info {
+            display: none;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #64748b;
+            text-align: left;
+        }
+        
+        .technical-info.show {
+            display: block;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .logo {
+                width: 100px;
+            }
+            
+            .row {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- VAI Logo -->
+        <img src="https://vai.studio/via-studio-images/logo/VAI%20-%20Logo%20Multicolor%202025.png" 
+             alt="VAI Logo" 
+             class="logo"
+             onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='block';">
+        
+        <!-- Fallback if image fails to load -->
+        <!--
+        <div class="logo-fallback" style="display: none; width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: white;">VAI</div>
+        -->
+        
+        <!-- Animated emoji -->
+        <div class="emoji">⚡</div>
+        
+        <!-- English Section -->
+        <div class="section">
+            <div class="flag">🇺🇸 English</div>
+            <h1>Email Link Issue</h1>
+            <p>
+                Your email link has expired or is no longer valid. This happens for security reasons - no worries! 
+                We can get you back on track quickly.
+            </p>
+            <p>
+                <strong>What can you do?</strong><br>
+                • Request a new link from the login page<br>
+                • Contact our support team for help<br>
+                • Visit our main website to get started again
+            </p>
+        </div>
+        
+        <!-- French Section -->
+        <div class="section">
+            <div class="flag">🇫🇷 Français</div>
+            <h1>Problème de Lien Email</h1>
+            <p>
+                Ton lien email a expiré ou n'est plus valide. C'est pour la sécurité - pas de souci ! 
+                On peut te remettre sur la bonne voie rapidement.
+            </p>
+            <p>
+                <strong>Que peux-tu faire ?</strong><br>
+                • Demander un nouveau lien depuis la page de connexion<br>
+                • Contacter notre équipe support pour de l'aide<br>
+                • Visiter notre site principal pour recommencer
+            </p>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="buttons">
+            <!-- Tourist App -->
+            <a href="https://app.vai.studio" class="btn btn-primary">
+                🌊 Tourist App / App Touristes
+            </a>
+            
+            <!-- Operator Dashboard -->
+            <a href="https://vai-operator-dashboard.onrender.com" class="btn btn-primary">
+                📊 Operator Dashboard / Tableau de Bord
+            </a>
+            
+            <!-- Row of secondary actions -->
+            <div class="row">
+                <a href="https://vai.studio" class="btn btn-secondary">
+                    🏠 Main Website / Site Principal
+                </a>
+                <a href="https://wa.me/68987269065" class="btn btn-whatsapp">
+                    💬 WhatsApp Support
+                </a>
+            </div>
+        </div>
+        
+        <!-- Technical Details -->
+        <div class="technical">
+            <button class="technical-toggle" onclick="toggleTechnical()">
+                Show technical details / Afficher les détails techniques
+            </button>
+            <div class="technical-info" id="technical-info">
+                <div>URL: <span id="current-url"></span></div>
+                <div>Timestamp: <span id="timestamp"></span></div>
+                <div>User Agent: <span id="user-agent"></span></div>
+                <div>Error Parameters: <span id="error-params"></span></div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="margin-top: 30px; font-size: 12px; color: #64748b;">
+            <strong>VAI Studio</strong> | French Polynesia's Digital Tourism Platform<br>
+            Professional support for authentic island experiences 🌺
+        </div>
+    </div>
+
+    <script>
+        // Parse URL parameters and show technical info
+        function populateTechnicalInfo() {
+            document.getElementById('current-url').textContent = window.location.href;
+            document.getElementById('timestamp').textContent = new Date().toLocaleString();
+            document.getElementById('user-agent').textContent = navigator.userAgent.substring(0, 80) + '...';
+            
+            // Parse error parameters from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const hashParams = new URLSearchParams(window.location.hash.slice(1));
+            
+            const errorInfo = [];
+            
+            // Check both search and hash parameters
+            ['error', 'error_code', 'error_description', 'message'].forEach(param => {
+                const value = urlParams.get(param) || hashParams.get(param);
+                if (value) {
+                    errorInfo.push(`${param}: ${decodeURIComponent(value)}`);
+                }
+            });
+            
+            document.getElementById('error-params').textContent = 
+                errorInfo.length > 0 ? errorInfo.join(', ') : 'None detected';
+        }
+        
+        function toggleTechnical() {
+            const info = document.getElementById('technical-info');
+            info.classList.toggle('show');
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', populateTechnicalInfo);
+        
+        // Add some interactive effects
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
