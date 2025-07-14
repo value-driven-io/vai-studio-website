@@ -96,11 +96,11 @@
                 <span class="logo-text">VAI</span>
             </a>
             <div class="nav-links">
-                <a href="/app/welcome/" class="nav-link">
+                <a href="/app/welcome/" class="nav-link" target="_blank">
                     <span data-lang="en">➜ More Info</span>
                     <span data-lang="fr">➜  Plus d'infos</span>
                 </a>
-                <a href="/app/operator-welcome/" class="nav-link">
+                <a href="/app/operator-welcome/" class="nav-link" target="_blank">
                     <span>[ VAI Operator ]</span>
                 </a>
             </div>
@@ -120,7 +120,7 @@
                 </div>
 
                 <!-- Countdown Timer -->
-                <div class="countdown-container">
+                <div class="countdown-container" onclick="scrollToRegistration()" style="cursor: pointer;">
                     <div class="countdown" id="countdown">
                         <div class="countdown-item">
                             <span class="countdown-number" id="days">07</span>
@@ -364,6 +364,38 @@
             </div>
         </div>
     </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="https://vai.studio/via-studio-images/logo/VAI Logo Square Big Transparent Multicolor.png" alt="VAI Logo" class="footer-logo">
+                    <p>
+                        <span data-lang="en">Unlock French Polynesia</span>
+                        <span data-lang="fr">Débloquez Polynésie française</span>
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <a href="/app/welcome/" target="_blank">
+                        <span data-lang="en">About VAI Tickets</span>
+                        <span data-lang="fr">À propos de VAI Tickets</span>
+                    </a>
+                    <a href="/app/operator-welcome/" target="_blank">
+                        <span data-lang="en">For Operators</span>
+                        <span data-lang="fr">Pour Opérateurs</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 VAI Studio. 
+                    <span data-lang="en">Made with ❤️ in Moorea, French Polynesia</span>
+                    <span data-lang="fr">Fait avec ❤️ à Moorea, Polynésie française</span>
+                </p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <!-- 1. Load Supabase CDN FIRST -->

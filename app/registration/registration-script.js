@@ -538,3 +538,21 @@ window.debugRegistration = function() {
 };
 
 console.log('🌺 VAI Registration Script Loaded Successfully!');
+
+
+// ================================
+// SCROLL TO REGISTRATION
+// ================================
+
+function scrollToRegistration() {
+    const registrationSection = document.querySelector('.registration-section');
+    if (registrationSection) {
+        registrationSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+
+// Make function globally available
+window.scrollToRegistration = scrollToRegistration;
