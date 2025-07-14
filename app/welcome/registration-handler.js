@@ -507,9 +507,9 @@ class RegistrationHandler {
   this.showSuccessScreen(form, message, userType)
   
   // Hide the success screen after 10 seconds (optional)
-  setTimeout(() => {
-    this.hideSuccessScreen(form, userType)
-  }, 10000)
+  //setTimeout(() => {
+  //  this.hideSuccessScreen(form, userType)
+  //}, 10000)
 }
   
   showMessage(form, message, type) {

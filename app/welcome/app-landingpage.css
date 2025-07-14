@@ -1198,7 +1198,7 @@ body {
     backdrop-filter: blur(15px);
     border: 1px solid rgba(249, 115, 22, 0.2);
     border-radius: 25px;
-    padding: 20px;
+    padding: 40px;
     position: relative;
     overflow: hidden;
 }
@@ -1605,7 +1605,7 @@ body {
     }
     
     .registration-form {
-        padding: 0px;
+        padding: 20px;
         margin: 0px;
     }
     
