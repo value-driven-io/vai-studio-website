@@ -371,10 +371,14 @@ const ProfileTab = ({ setActiveTab }) => {
       }
 
       // Update localStorage without calling login() to prevent re-render
-      if (updateResult[0]) {
-        localStorage.setItem('vai_operator', JSON.stringify(updateResult[0]))
-        await new Promise(resolve => setTimeout(resolve, 100))
-      }
+      //if (updateResult[0]) {
+      //  localStorage.setItem('vai_operator', JSON.stringify(updateResult[0]))
+      //  await new Promise(resolve => setTimeout(resolve, 100))
+      //}
+
+      // ✅ REPLACE WITH - let auth system handle state updates naturally:
+      // The auth system will pick up the database changes automatically
+      // No manual localStorage manipulation needed
 
       setIsEditing(false)
       setSaveMessage(t('profile.messages.profileUpdated'))

@@ -1,9 +1,5 @@
-// ==============================================
-// STEP 4: UPDATE OPERATOR DASHBOARD AUTHENTICATION
-// ==============================================
-
-// FILE: operator-dashboard/src/hooks/useAuth.js
-// REPLACE the entire file with this secure version:
+// operator-dashboard/src/hooks/useAuth.js
+// CHROME-COMPATIBLE VERSION - Fixes session timeout issues
 
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
@@ -14,25 +10,32 @@ export const useAuth = () => {
 
   useEffect(() => {
     let isMounted = true // Prevent state updates after unmount
-
+    let timeoutId = null
 
     const checkSession = async () => {
       try {
-        // Increase timeout for Render.com environment
+        console.log('🔍 Checking session...')
+        
+        // FIXED: Increased timeout for Chrome compatibility (3s → 8s)
         const { data: { session }, error: sessionError } = await Promise.race([
           supabase.auth.getSession(),
           new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Session timeout')), 15000) // ✅ 15s instead of 3s
+            setTimeout(() => reject(new Error('Session timeout')), 8000) // ← 8 seconds instead of 3
           )
         ]);
         
-        if (sessionError) throw sessionError;
+        if (sessionError) {
+          console.warn('⚠️ Session error:', sessionError.message)
+          throw sessionError
+        }
         
         if (session?.user && isMounted) {
-          // ✅ SELECT ALL FIELDS to prevent breaking ProfileTab
+          console.log('✅ Valid session found for:', session.user.email)
+          
+          // Get operator data - all fields to prevent additional fetches
           const { data: operatorData, error } = await supabase
             .from('operators')
-            .select('*') // ✅ Keep selecting all fields - optimization comes later
+            .select('*') // Get all fields to match what ProfileTab expects
             .eq('auth_user_id', session.user.id)
             .eq('status', 'active')
             .single()
@@ -42,12 +45,23 @@ export const useAuth = () => {
             console.log('✅ Session restored:', operatorData.company_name)
           } else if (error) {
             console.warn('⚠️ Operator lookup failed:', error.message)
-            await supabase.auth.signOut()
+            // Don't force sign out immediately - might be temporary DB issue
+            if (error.code === 'PGRST116') {
+              console.log('🔄 Operator not found, signing out...')
+              await supabase.auth.signOut()
+            }
           }
+        } else {
+          console.log('ℹ️ No valid session found')
         }
       } catch (error) {
         console.error('❌ Session check error:', error.message)
-        // Don't block UI on timeout - just continue
+        
+        // FIXED: Don't fail immediately on timeout - give Chrome more time
+        if (error.message === 'Session timeout') {
+          console.log('🔄 Session timeout, but continuing...')
+          // Let the fallback timeout handle this
+        }
       } finally {
         if (isMounted) {
           setLoading(false)
@@ -55,16 +69,20 @@ export const useAuth = () => {
       }
     }
 
-    // Add timeout fallback for Chrome
-    const timeoutId = setTimeout(() => {
+    // FIXED: Increased fallback timeout for Chrome (5s → 12s)
+    timeoutId = setTimeout(() => {
       if (isMounted) {
-        console.log('Session check timeout - forcing loading to false')
+        console.log('⏰ Session check timeout - forcing loading to false')
         setLoading(false)
       }
-    }, 5000) // 5 second fallback
+    }, 12000) // 12 second fallback for Chrome
 
+    // Start session check
     checkSession().then(() => {
-      clearTimeout(timeoutId)
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+        timeoutId = null
+      }
     })
 
     // Listen for auth changes
@@ -72,7 +90,7 @@ export const useAuth = () => {
       async (event, session) => {
         if (!isMounted) return
         
-        console.log('Auth state change:', event, session?.user?.email)
+        console.log('🔄 Auth state change:', event, session?.user?.email)
         
         if (event === 'SIGNED_IN' && session?.user) {
           const { data: operatorData, error } = await supabase
@@ -84,12 +102,12 @@ export const useAuth = () => {
           
           if (operatorData && !error && isMounted) {
             setOperator(operatorData)
-            console.log('Operator signed in:', operatorData.company_name)
+            console.log('✅ Operator signed in:', operatorData.company_name)
           }
         } else if (event === 'SIGNED_OUT') {
           if (isMounted) {
             setOperator(null)
-            console.log('Operator signed out')
+            console.log('👋 Operator signed out')
           }
         }
       }
@@ -97,43 +115,45 @@ export const useAuth = () => {
 
     return () => {
       isMounted = false
-      clearTimeout(timeoutId)
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
       subscription?.unsubscribe()
     }
   }, [])
 
-  // NEW: Secure login with email + password
+  // Secure login with email + password
   const login = async (email, password) => {
-  try {
-    setLoading(true)
-    
-    console.log('🔐 Attempting login for:', email)
-    
-    // Auth without timeout (Supabase handles timeouts internally)
-    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-      email: email.toLowerCase().trim(),
-      password: password
-    });
-    
-    if (authError) {
-      console.error('❌ Auth error:', authError)
-      return { 
-        success: false, 
-        error: authError.message || 'Login failed. Please check your credentials.' 
+    try {
+      setLoading(true)
+      
+      console.log('🔐 Attempting login for:', email)
+      
+      // Auth with Supabase (no custom timeout - let Supabase handle it)
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email: email.toLowerCase().trim(),
+        password: password
+      });
+      
+      if (authError) {
+        console.error('❌ Auth error:', authError)
+        return { 
+          success: false, 
+          error: authError.message || 'Login failed. Please check your credentials.' 
+        }
       }
-    }
-    
-    if (!authData.user) {
-      return { 
-        success: false, 
-        error: 'Login failed. No user data received.' 
+      
+      if (!authData.user) {
+        return { 
+          success: false, 
+          error: 'Login failed. No user data received.' 
+        }
       }
-    }
-    
-    // Quick operator lookup - only essential fields
-    const { data: operatorData, error: operatorError } = await supabase
+      
+      // Get full operator data
+      const { data: operatorData, error: operatorError } = await supabase
         .from('operators')
-        .select('id, email, company_name, island, status')
+        .select('*')
         .eq('auth_user_id', authData.user.id)
         .eq('status', 'active')
         .single()
@@ -173,14 +193,14 @@ export const useAuth = () => {
     }
   }
 
-  // NEW: Secure logout
+  // Secure logout
   const logout = async () => {
     try {
       await supabase.auth.signOut()
       setOperator(null)
-      console.log('Operator logged out securely')
+      console.log('👋 Operator logged out securely')
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error('❌ Logout error:', error)
       // Force local logout even if remote logout fails
       setOperator(null)
     }
