@@ -24,11 +24,24 @@ export const useAuth = () => {
           //)
         //]);
 
-        // TEST: Let's see how long getSession actually takes in Chrome
+        // CHROME FIX: getSession() hangs indefinitely on browser refresh in Chrome
+        // Use timeout but handle gracefully since onAuthStateChange works 
         console.log('⏱️ Starting getSession...')
         const start = Date.now()
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-        console.log(`⏱️ getSession took ${Date.now() - start}ms`)
+
+        const sessionPromise = supabase.auth.getSession()
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('getSession hung - relying on onAuthStateChange')), 3000)
+        )
+
+        const { data: { session }, error: sessionError } = await Promise.race([
+          sessionPromise,
+          timeoutPromise
+        ])
+
+        console.log(`⏱️ getSession completed in ${Date.now() - start}ms`)
+
+
         
         if (sessionError) {
           console.warn('⚠️ Session error:', sessionError.message)
@@ -63,10 +76,10 @@ export const useAuth = () => {
       } catch (error) {
         console.error('❌ Session check error:', error.message)
         
-        // FIXED: Don't fail immediately on timeout - give Chrome more time
-        if (error.message === 'Session timeout') {
-          console.log('🔄 Session timeout, but continuing...')
-          // Let the fallback timeout handle this
+        // CHROME FIX: If getSession hangs, rely on onAuthStateChange
+        if (error.message.includes('getSession hung')) {
+          console.log('🔄 getSession hung in Chrome - onAuthStateChange will handle auth')
+          // Don't throw - let onAuthStateChange handle authentication
         }
       } finally {
         if (isMounted) {
