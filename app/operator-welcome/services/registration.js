@@ -1,12 +1,12 @@
 // ================================
-// OPERATOR REGISTRATION SERVICE
-// File: services/registration.js
+// OPERATOR REGISTRATION SERVICE - COMPLETE WITH ALL HELPER FUNCTIONS
+// File: /app/operator-welcome/services/registration.js
 // ================================
 
 const registrationService = {
   
   // ===========================
-  // OPERATOR REGISTRATION
+  // OPERATOR REGISTRATION (FIXED FOR DUAL ROLES)
   // ===========================
   
   async registerOperator(formData) {
@@ -39,75 +39,142 @@ const registrationService = {
       const tourTypesArray = Array.isArray(tour_types_offered) ? tour_types_offered : 
                             typeof tour_types_offered === 'string' ? [tour_types_offered] : [];
       
-      // Split name into first/last
-      const [firstName, ...lastNameParts] = contact_person.trim().split(' ')
-      const lastName = lastNameParts.join(' ') || null
-      
-      // Check if user already exists
-      const { data: existingUser } = await supabase
-        .from('tourist_users')
+      // ✅ FIXED: Check for existing OPERATOR first (prevent duplicate operators)
+      const { data: existingOperator } = await supabase
+        .from('operators')
         .select('id, email, status')
         .eq('email', email.toLowerCase().trim())
         .single()
       
-      if (existingUser) {
+      if (existingOperator) {
         return {
           success: false,
-          error: 'Email already registered. Please use a different email address.',
+          error: 'Operator email already registered. Please contact support or use a different email address.',
           existing: true
         }
       }
       
-      // STEP 1: Create tourist_users record (for app access)
-      const touristData = {
-        email: email.toLowerCase().trim(),
-        first_name: firstName,
-        last_name: lastName,
-        whatsapp_number: whatsapp_number?.trim() || null,
-        marketing_emails: marketing_emails,
-        status: 'registered', // Will be activated after approval
+      // Split name into first/last
+      const [firstName, ...lastNameParts] = contact_person.trim().split(' ')
+      const lastName = lastNameParts.join(' ') || null
+      
+      // ✅ FIXED: Handle existing TOURIST user (reuse instead of error)
+      let touristUser;
+      const { data: existingTourist } = await supabase
+        .from('tourist_users')
+        .select('*')
+        .eq('email', email.toLowerCase().trim())
+        .single()
+      
+      if (existingTourist) {
+        // ✅ Reuse existing tourist record - UPDATE for operator role
+        touristUser = existingTourist;
+        console.log('✅ Using existing tourist user:', touristUser.id)
         
-        favorites: {
+        // Update tourist record with operator-specific data
+        const updatedFavorites = {
+          ...existingTourist.favorites,
           preferences: {
+            ...existingTourist.favorites?.preferences,
             registration_step: 'operator_complete',
             user_type: 'operator',
-            is_local: true, // Operators are local businesses
+            is_local: true,
             home_island: islands_served,
-            languages: Array.isArray(languages) ? languages : [languages],
-            primary_language: Array.isArray(languages) ? languages[0] : languages,
-            onboarding_completed: false,
-            preferred_language: Array.isArray(languages) ? languages[0] : languages,
             operator_account: true,
+            primary_language: Array.isArray(languages) ? languages[0] : languages,
+            preferred_language: Array.isArray(languages) ? languages[0] : languages,
+            target_bookings_monthly: target_bookings_monthly,
+            customer_type_preference: customer_type_preference,
             terms_accepted: terms_accepted,
-            terms_accepted_date: new Date().toISOString()
+            terms_accepted_date: new Date().toISOString(),
+            marketing_emails: marketing_emails,
+            founding_member: true,
+            application_number: Math.floor(Math.random() * 1000000)
           },
-          tour_ids: [],
           behavior_data: {
-            registration_date: new Date().toISOString(),
+            ...existingTourist.favorites?.behavior_data,
+            operator_registration_date: new Date().toISOString(),
             registration_source: 'operator_landing_page',
             registration_type: 'operator',
             company_name: company_name,
             islands_served: islands_served,
-            tour_types_offered: tourTypesArray
+            tour_types_offered: tourTypesArray,
+            business_description: business_description
           }
         }
-      }
-      
-      const { data: touristUser, error: touristError } = await supabase
-        .from('tourist_users')
-        .insert([touristData])
-        .select()
-        .single()
-      
-      if (touristError) {
-        console.error('Tourist user creation error:', touristError)
-        if (touristError.code === '23505') { // Unique constraint violation
-          throw new Error('Email already registered. Please use a different email address.')
+        
+        const { error: updateError } = await supabase
+          .from('tourist_users')
+          .update({ favorites: updatedFavorites })
+          .eq('id', existingTourist.id)
+        
+        if (updateError) {
+          console.error('Tourist update error:', updateError)
+          // Continue anyway - this is not critical for operator creation
         }
-        throw new Error('Registration failed. Please try again.')
+        
+      } else {
+        // ✅ Create NEW tourist record (STEP 1: Create tourist_users record for app access)
+        const touristData = {
+          email: email.toLowerCase().trim(),
+          first_name: firstName,
+          last_name: lastName,
+          whatsapp_number: whatsapp_number?.trim() || null,
+          marketing_emails: marketing_emails,
+          status: 'registered', // Will be activated after approval
+          
+          favorites: {
+            preferences: {
+              registration_step: 'operator_complete',
+              user_type: 'operator',
+              is_local: true, // Operators are local businesses
+              home_island: islands_served,
+              languages: Array.isArray(languages) ? languages : [languages],
+              primary_language: Array.isArray(languages) ? languages[0] : languages,
+              onboarding_completed: false,
+              preferred_language: Array.isArray(languages) ? languages[0] : languages,
+              operator_account: true,
+              
+              // Original form fields that you had
+              target_bookings_monthly: target_bookings_monthly,
+              customer_type_preference: customer_type_preference,
+              
+              // Legal and preferences
+              terms_accepted: terms_accepted,
+              terms_accepted_date: new Date().toISOString(),
+              marketing_emails: marketing_emails,
+              
+              // Founding member status
+              founding_member: true,
+              application_number: Math.floor(Math.random() * 1000000)
+            },
+            tour_ids: [],
+            behavior_data: {
+              registration_date: new Date().toISOString(),
+              registration_source: 'operator_landing_page',
+              registration_type: 'operator',
+              company_name: company_name,
+              islands_served: islands_served,
+              tour_types_offered: tourTypesArray,
+              business_description: business_description
+            }
+          }
+        }
+        
+        const { data: newTourist, error: touristError } = await supabase
+          .from('tourist_users')
+          .insert([touristData])
+          .select()
+          .single()
+        
+        if (touristError) {
+          console.error('Tourist user creation error:', touristError)
+          throw new Error('Registration failed. Please try again.')
+        }
+        
+        touristUser = newTourist;
+        console.log('✅ Created new tourist user:', touristUser.id)
       }
-      
-      console.log('✅ Tourist user created:', touristUser.id)
       
       // STEP 2: Create operators record (business data)
       const operatorData = {
@@ -144,7 +211,13 @@ const registrationService = {
           
           // Founding member status
           founding_member: true,
-          application_number: Math.floor(Math.random() * 1000000)
+          application_number: Math.floor(Math.random() * 1000000),
+          
+          // Technical details
+          user_agent: navigator.userAgent,
+          referrer: document.referrer,
+          timestamp: new Date().toISOString(),
+          existing_tourist: existingTourist ? true : false // Flag for dual role
         }
       }
       
@@ -158,10 +231,13 @@ const registrationService = {
         console.error('Operator creation error:', operatorError)
         
         // Clean up tourist_users record if operator creation fails
-        await supabase
-          .from('tourist_users')
-          .delete()
-          .eq('id', touristUser.id)
+        // BUT ONLY if we created a new tourist user (not if we reused existing)
+        if (!existingTourist) {
+          await supabase
+            .from('tourist_users')
+            .delete()
+            .eq('id', touristUser.id)
+        }
         
         if (operatorError.code === '23505') { // Unique constraint violation
           throw new Error('Email already registered. Please use a different email address.')
@@ -185,10 +261,14 @@ const registrationService = {
           tour_types_offered: tourTypesArray,
           languages: Array.isArray(languages) ? languages : [languages],
           business_description: business_description,
+          target_bookings_monthly: target_bookings_monthly,
+          customer_type_preference: customer_type_preference,
           registration_date: new Date().toISOString(),
           source: 'operator_landing_page',
           marketing_emails: marketing_emails,
-          terms_accepted: terms_accepted
+          terms_accepted: terms_accepted,
+          founding_member: true,
+          existing_tourist: existingTourist ? true : false // NEW: Flag for dual role
         }
         
         await fetch('https://n8n-stable-latest.onrender.com/webhook/vai-app-operator-registration', {
@@ -198,16 +278,21 @@ const registrationService = {
           },
           body: JSON.stringify(webhookData)
         })
+        
+        console.log('Webhook notification sent')
       } catch (webhookError) {
         console.warn('Webhook notification failed:', webhookError)
         // Don't fail registration if webhook fails
       }
       
+      // Return success with all original data
       return {
         success: true,
         user: touristUser,
         operator: operatorUser,
-        message: 'Registration successful! We\'ll review your application and contact you within 24 hours.'
+        message: 'Registration successful! We\'ll review your application and contact you within 24 hours.',
+        existing_tourist: existingTourist ? true : false, // NEW: Indicate dual role
+        dual_role: existingTourist ? true : false
       }
       
     } catch (error) {
@@ -250,7 +335,7 @@ const registrationService = {
   },
   
   // ===========================
-  // SUPABASE INITIALIZATION
+  // SUPABASE INITIALIZATION 
   // ===========================
   
   async initSupabase() {
@@ -288,6 +373,10 @@ const registrationService = {
     return window.getSupabase()
   }
 }
+
+// ===========================
+// INITIALIZATION CODE 
+// ===========================
 
 // Initialize Supabase when script loads
 if (typeof window !== 'undefined') {
