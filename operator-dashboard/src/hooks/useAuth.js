@@ -43,6 +43,12 @@ export const useAuth = () => {
           if (operatorData && !error && isMounted) {
             setOperator(operatorData)
             console.log('✅ Session restored:', operatorData.company_name)
+            // Clear timeout if session check completes successfully
+            if (timeoutId) {
+          clearTimeout(timeoutId)
+          timeoutId = null
+          }
+
           } else if (error) {
             console.warn('⚠️ Operator lookup failed:', error.message)
             // Don't force sign out immediately - might be temporary DB issue
@@ -77,13 +83,13 @@ export const useAuth = () => {
       }
     }, 12000) // 12 second fallback for Chrome
 
-    // Start session check (Remove the Competing Session Check that's why it is commented out)
-    // checkSession().then(() => {
-    //  if (timeoutId) {
-    //    clearTimeout(timeoutId)
-    //    timeoutId = null
-    //  }
-    //})
+    // Start session check
+    checkSession().then(() => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+        timeoutId = null
+      }
+    })
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
