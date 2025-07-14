@@ -77,13 +77,13 @@ export const useAuth = () => {
       }
     }, 12000) // 12 second fallback for Chrome
 
-    // Start session check
-    checkSession().then(() => {
-      if (timeoutId) {
-        clearTimeout(timeoutId)
-        timeoutId = null
-      }
-    })
+    // Start session check (Remove the Competing Session Check that's why it is commented out)
+    // checkSession().then(() => {
+    //  if (timeoutId) {
+    //    clearTimeout(timeoutId)
+    //    timeoutId = null
+    //  }
+    //})
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
