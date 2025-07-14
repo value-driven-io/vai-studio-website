@@ -17,12 +17,18 @@ export const useAuth = () => {
         console.log('🔍 Checking session...')
         
         // FIXED: Increased timeout for Chrome compatibility (3s → 8s)
-        const { data: { session }, error: sessionError } = await Promise.race([
-          supabase.auth.getSession(),
-          new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Session timeout')), 8000) // ← 8 seconds instead of 3
-          )
-        ]);
+        //const { data: { session }, error: sessionError } = await Promise.race([
+          //supabase.auth.getSession(),
+          //new Promise((_, reject) => 
+            //setTimeout(() => reject(new Error('Session timeout')), 8000) // ← Timeout
+          //)
+        //]);
+
+        // TEST: Let's see how long getSession actually takes in Chrome
+        console.log('⏱️ Starting getSession...')
+        const start = Date.now()
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        console.log(`⏱️ getSession took ${Date.now() - start}ms`)
         
         if (sessionError) {
           console.warn('⚠️ Session error:', sessionError.message)
