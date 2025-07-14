@@ -43,12 +43,6 @@ export const useAuth = () => {
           if (operatorData && !error && isMounted) {
             setOperator(operatorData)
             console.log('✅ Session restored:', operatorData.company_name)
-            // Clear timeout if session check completes successfully
-            if (timeoutId) {
-          clearTimeout(timeoutId)
-          timeoutId = null
-          }
-
           } else if (error) {
             console.warn('⚠️ Operator lookup failed:', error.message)
             // Don't force sign out immediately - might be temporary DB issue
@@ -76,12 +70,12 @@ export const useAuth = () => {
     }
 
     // FIXED: Increased fallback timeout for Chrome (5s → 12s)
-    timeoutId = setTimeout(() => {
-      if (isMounted) {
-        console.log('⏰ Session check timeout - forcing loading to false')
-        setLoading(false)
-      }
-    }, 12000) // 12 second fallback for Chrome
+    //timeoutId = setTimeout(() => {
+    //  if (isMounted) {
+    //    console.log('⏰ Session check timeout - forcing loading to false')
+    //    setLoading(false)
+    //  }
+    // }, 12000) // 12 second fallback for Chrome
 
     // Start session check
     checkSession().then(() => {
