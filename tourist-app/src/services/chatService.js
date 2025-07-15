@@ -228,14 +228,14 @@ class ChatService {
       // Get latest message and unread count for each booking
       const conversations = await Promise.all(
         bookings.map(async (booking) => {
-          // Get latest message
-          const { data: latestMessage } = await supabase
+          // Get latest message (handle case where no messages exist)
+            const { data: latestMessage, error: messageError } = await supabase
             .from('booking_conversations')
             .select('message_text, created_at, sender_type')
             .eq('booking_id', booking.id)
             .order('created_at', { ascending: false })
             .limit(1)
-            .single()
+            .maybeSingle()
 
           // Get unread count for this booking
           const { count: unreadCount } = await supabase
