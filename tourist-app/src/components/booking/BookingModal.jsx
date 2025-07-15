@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { X, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react'
 import { tourService } from '../../services/tourService'
 import { useAppStore } from '../../stores/bookingStore'
+import { authService } from '../../services/authService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import { formatPrice, formatDate, formatTime } from '../../lib/utils'
 import toast from 'react-hot-toast'
@@ -89,15 +90,29 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     if (!validateQuickForm()) return
 
     try {
-      setLoading(true)
-      
-      const totalParticipants = formData.num_adults + formData.num_children
-      const subtotal = (formData.num_adults * tour.discount_price_adult) + 
-                      (formData.num_children * (tour.discount_price_child || 0))
+        setLoading(true)
+        
+        // 🆕 STEP 1: Create tourist account first
+        const accountResult = await authService.createTouristAccount(
+          formData.customer_name,
+          formData.customer_email,
+          formData.customer_whatsapp,
+          formData.customer_phone
+        )
+
+        if (!accountResult.success) {
+          throw new Error(accountResult.error)
+        }
+
+        // ✅ STEP 2: Create booking with account linkage (existing logic)
+        const totalParticipants = formData.num_adults + formData.num_children
+        const subtotal = (formData.num_adults * tour.discount_price_adult) + 
+                        (formData.num_children * (tour.discount_price_child || 0))
 
       const bookingData = {
         tour_id: tour.id,
         operator_id: tour.operator_id,
+        tourist_user_id: accountResult.tourist_user_id,
         customer_name: formData.customer_name,
         customer_whatsapp: formData.customer_whatsapp,
         customer_email: formData.customer_email?.trim() || '',
@@ -117,11 +132,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       const result = await tourService.createBooking(bookingData)
       
       // Save user profile for future bookings lookup
-      updateUserProfile({
-        name: formData.customer_name,
-        email: formData.customer_email?.trim() || '',
-        whatsapp: formData.customer_whatsapp
-      })
+      //updateUserProfile({
+       // name: formData.customer_name,
+       // email: formData.customer_email?.trim() || '',
+       // whatsapp: formData.customer_whatsapp
+      //})
       
       setBookingResult(result)
       addBooking(result)
@@ -179,7 +194,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               </div>
             </div>
             
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6;" style="text-align: left">
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6" style={{textAlign: 'left'}}>
               <h4 className="font-semibold text-white mb-2">What's Next?</h4>
               <div className="text-sm text-slate-300 space-y-1">
                 <div>1. Operator confirms your booking request (Mail & via this VAI Tickets)</div>
