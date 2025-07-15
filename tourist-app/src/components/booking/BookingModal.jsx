@@ -60,8 +60,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       newErrors.customer_whatsapp = 'Please enter a valid phone number'
     }
 
-    // Email validation (optional but must be valid if provided)
-    if (formData.customer_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customer_email)) {
+    // Email validation (required)
+    if (!formData.customer_email.trim()) {
+      newErrors.customer_email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customer_email)) {
       newErrors.customer_email = 'Please enter a valid email address'
     }
 
@@ -303,7 +305,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Email Address
+                  Email Address *
                 </label>
                 <input
                   type="email"
