@@ -288,7 +288,7 @@ const TourCard = ({
                 e.stopPropagation()
                 setShowFullScreen(true)
               }}
-              className="w-full py-2 px-4 bg-slate-700 hover:bg-slate-600 text-slate-300 
+              className="w-full py-2 px-4 bg-slate-700 hover:bg-orange-600 text-white-300 
                        rounded-lg text-sm transition-colors duration-200 flex items-center justify-center gap-2"
             >
               View Complete Details
@@ -304,7 +304,7 @@ const TourCard = ({
           tour={tour}
           isOpen={showFullScreen}
           onClose={() => setShowFullScreen(false)}
-          onBookingClick={hideBookButton ? null : onBookingClick}  // 👈 FIXED: Pass null if hidden
+          onBookingClick={hideBookButton ? null : onBookingClick}  // Pass null if hidden
           onFavoriteToggle={onFavoriteToggle}
           isFavorite={isFavorite}
           formatPrice={formatPrice}
@@ -486,10 +486,10 @@ const TourDetailModal = ({
               {!hideBookButton && (
                 <button
                   onClick={handleModalBookingClick}
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg 
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg 
                            font-medium transition-colors duration-200 flex items-center gap-2"
                 >
-                  Book This Experience
+                  Book Now
                   <ArrowRight className="w-4 h-4" />
                 </button>
               )}

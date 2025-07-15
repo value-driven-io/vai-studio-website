@@ -16,6 +16,8 @@ import JourneyTab from './components/journey/JourneyTab'
 import ProfileTab from './components/profile/ProfileTab'
 import AuthModal from './components/auth/AuthModal'
 
+import VAILogo from './components/shared/VAILogo'
+
 // Import our store
 import { useAppStore } from './stores/bookingStore'
 
@@ -25,12 +27,12 @@ const AppHeader = () => {
   const [showAuthModal, setShowAuthModal] = useState(false)
 
   return (
-    <header className="bg-slate-800/95 backdrop-blur-sm border-b border-slate-700 px-4 py-3 sticky top-0 z-40">
-      <div className="flex items-center justify-between max-w-md mx-auto">
+    <header className="bg-slate-900/95 backdrop-blur-sm border-b border-slate-700 px-4 py-3 sticky top-0 z-40">
+      {/*<div className="flex items-center justify-between max-w-md mx-auto">*/}
+      <div className="flex items-center justify-between mx-auto">
         {/* Logo/Brand */}
         <div className="flex items-center gap-2">
-          <span className="text-xl">🌴</span>
-          <span className="font-bold text-white">VAI</span>
+          <VAILogo size="sm" />
         </div>
 
         {/* Login/User Section */}

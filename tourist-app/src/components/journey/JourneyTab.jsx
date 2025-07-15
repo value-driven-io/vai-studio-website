@@ -35,6 +35,7 @@ const JourneyTab = () => {
   } = useUserJourney()
 
   const { favorites, toggleFavorite, setActiveTab } = useAppStore()
+  const [showFavoritesInOverview, setShowFavoritesInOverview] = useState(false)
   
   // Enhanced state for journey stages
   const [activeStage, setActiveStage] = useState('overview')
@@ -65,6 +66,7 @@ const JourneyTab = () => {
   const safeFavorites = favorites || []
 
   // Enhanced journey stages
+
   const journeyStages = [
     {
       id: 'overview',
@@ -96,14 +98,8 @@ const JourneyTab = () => {
       emoji: '📸',
       description: 'Completed experiences',
       count: safeUserBookings.past.length
-    },
-    {
-      id: 'wishlist',
-      label: 'Wishlist',
-      emoji: '💕',
-      description: 'Favorited tours',
-      count: safeFavorites.length
     }
+    // Wishlist removed - functionality moved to Overview
   ]
 
   // Calculate user statistics
@@ -298,14 +294,9 @@ const JourneyTab = () => {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${getBackgroundGradient()} transition-all duration-1000`}>
-      <div className="flex items-center justify-center py-4 border-b border-slate-700">
-        {/* Wrapping the VAILogo with an anchor tag */}
-        <a href="https://vai.studio/app/" target="_blank" rel="noopener noreferrer">
-          <VAILogo size="sm" />
-        </a>
-      </div>
+      
       {/* Header */}
-      <div className="bg-slate-800/90 backdrop-blur-md border-b border-slate-700 sticky top-0 z-40">
+      <div className="bg-slate-800/90 backdrop-blur-md border-b border-slate-700 top-0 z-40">
         <div className="max-w-7xl mx-auto">
           
           {/* Progress Strip */}
@@ -399,33 +390,10 @@ const JourneyTab = () => {
             )}
           </div>
 
-          {/* Enhanced Stage Navigation with Scroll Indicators */}
-          <div className="px-4 sm:px-6 py-3 relative">
-            {/* Left Scroll Indicator */}
-            {canScrollLeft && (
-              <div className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                <div className="bg-gradient-to-r from-slate-800 to-transparent w-8 h-full flex items-center">
-                  <ChevronLeft className="w-5 h-5 text-slate-400" />
-                </div>
-              </div>
-            )}
-            
-            {/* Right Scroll Indicator */}
-            {canScrollRight && (
-              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
-                <div className="bg-gradient-to-l from-slate-800 to-transparent w-8 h-full flex items-center justify-end">
-                  <ChevronRight className="w-5 h-5 text-slate-400" />
-                </div>
-              </div>
-            )}
-
-            <div 
-              ref={stageContainerRef}
-              className="flex gap-2 overflow-x-auto scrollbar-hide pb-2"
-              onScroll={checkScrollPosition}
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-
+          {/* Responsive 4-Button Filter Navigation */}
+          <div className="px-4 sm:px-6 py-4">
+            {/* Mobile: 2x2 Grid | Desktop: 1x4 Row */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
               {journeyStages.map((stage) => {
                 const isActive = activeStage === stage.id
                 const hasUrgent = stage.urgent && stage.count > 0
@@ -434,40 +402,97 @@ const JourneyTab = () => {
                   <button
                     key={stage.id}
                     onClick={() => setActiveStage(stage.id)}
-                    className={`flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 min-w-max ${
-                      isActive
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25 scale-105'
-                        : hasUrgent
-                        ? 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30'
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
-                    }`}
+                    className="group relative transition-all duration-300 hover:scale-[1.02]"
+                    title={stage.description} // Tooltip for desktop
                   >
-                    <span className="text-lg">{stage.emoji}</span>
-                    <div className="text-left">
-                      <div className="flex items-center gap-2">
-                        <span>{stage.label}</span>
-                        {stage.count > 0 && (
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
-                            hasUrgent
-                              ? 'bg-red-500 text-white'
-                              : isActive
-                              ? 'bg-white text-blue-600'
-                              : 'bg-slate-600 text-slate-300'
+                    {/* Urgent pulse background */}
+                    {hasUrgent && !isActive && (
+                      <div className="absolute inset-0 bg-red-500/20 rounded-xl animate-pulse"></div>
+                    )}
+                    
+                    {/* Main card */}
+                    <div className={`relative rounded-xl backdrop-blur-sm border transition-all duration-300 p-3 lg:p-4 ${
+                      isActive
+                        ? 'border-blue-400 bg-slate-700/60 shadow-lg shadow-blue-500/20'
+                        : hasUrgent
+                        ? 'border-red-400/60 bg-slate-700/40 hover:border-red-400'
+                        : 'border-slate-600/40 bg-slate-700/40 hover:border-slate-500'
+                    }`}>
+                      
+                      {/* Urgent dot indicator */}
+                      {hasUrgent && !isActive && (
+                        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse border border-slate-800"></div>
+                      )}
+                      
+                      {/* Content */}
+                      <div className="flex flex-col items-center text-center space-y-2">
+                        
+                        {/* Emoji */}
+                        <div className={`transition-transform duration-300 ${
+                          isActive ? 'scale-110' : 'group-hover:scale-105'
+                        }`}>
+                          <span className="text-2xl lg:text-3xl">{stage.emoji}</span>
+                        </div>
+                        
+                        {/* Label and count row */}
+                        <div className="space-y-1">
+                          <div className={`font-semibold text-sm lg:text-base transition-colors ${
+                            isActive ? 'text-blue-300' : hasUrgent ? 'text-red-300' : 'text-slate-200'
                           }`}>
-                            {stage.count}
-                          </span>
-                        )}
+                            {stage.label}
+                          </div>
+                          
+                          {/* Count badge */}
+                          {stage.count > 0 && (
+                            <div className={`inline-flex items-center justify-center min-w-[20px] h-5 rounded-full transition-all duration-300 ${
+                              hasUrgent
+                                ? 'bg-red-500 text-white text-xs font-bold px-1.5'
+                                : isActive
+                                ? 'bg-blue-500 text-white text-xs font-bold px-1.5'
+                                : 'bg-slate-600 text-slate-300 text-xs font-bold px-1.5 group-hover:bg-slate-500'
+                            }`}>
+                              {stage.count}
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Description - visible on larger screens */}
+                        <div className={`hidden sm:block text-xs transition-colors leading-tight ${
+                          isActive 
+                            ? 'text-blue-200' 
+                            : hasUrgent 
+                            ? 'text-red-300/80' 
+                            : 'text-slate-400 group-hover:text-slate-300'
+                        }`}>
+                          {stage.description}
+                        </div>
                       </div>
-                      <div className="text-xs opacity-75">{stage.description}</div>
+
+                      {/* Active indicator line */}
+                      {isActive && (
+                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-400 rounded-t-full"></div>
+                      )}
                     </div>
                   </button>
                 )
               })}
             </div>
+            
+            {/* Mobile description tooltip */}
+            <div className="sm:hidden mt-3 text-center">
+              {journeyStages.find(stage => stage.id === activeStage) && (
+                <div className="inline-block bg-slate-800/60 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-slate-700/50">
+                  <span className="text-xs text-slate-400">
+                    {journeyStages.find(stage => stage.id === activeStage).description}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
+          
 
           {/* Search Bar for non-overview stages */}
-          {activeStage !== 'overview' && activeStage !== 'planning' && activeStage !== 'wishlist' && (
+          {activeStage !== 'overview' && (
             <div className="px-4 sm:px-6 pb-3">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -521,26 +546,125 @@ const JourneyTab = () => {
                     setActiveTab={setActiveTab}
                   />
                 )}
-                
-                {/* Quick Stats */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-blue-400">{safeUserBookings.upcoming.length}</div>
-                    <div className="text-sm text-slate-400">Upcoming</div>
+
+          {/* Interactive Quick Stats - Clickable counters */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {/* Upcoming Tours - Links to "Ready to Go" filter */}
+            <button
+              onClick={() => setActiveStage('confirmed')}
+              className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-slate-700/50 transition-all duration-300 hover:scale-105 group"
+            >
+              <div className="text-2xl font-bold text-blue-400 group-hover:text-blue-300 transition-colors">
+                {safeUserBookings.upcoming.length}
+              </div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Upcoming</div>
+              <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                Click to view →
+              </div>
+            </button>
+
+            {/* Completed Tours - Links to "Memories" filter */}
+            <button
+              onClick={() => setActiveStage('memories')}
+              className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-slate-700/50 transition-all duration-300 hover:scale-105 group"
+            >
+              <div className="text-2xl font-bold text-green-400 group-hover:text-green-300 transition-colors">
+                {safeUserBookings.past.length}
+              </div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Completed</div>
+              <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                Click to view →
+              </div>
+            </button>
+
+            {/* Favorites - Toggle inline favorites display */}
+            <button
+              onClick={() => setShowFavoritesInOverview(!showFavoritesInOverview)}
+              className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-slate-700/50 transition-all duration-300 hover:scale-105 group relative"
+            >
+              <div className="text-2xl font-bold text-purple-400 group-hover:text-purple-300 transition-colors">
+                {safeFavorites.length}
+              </div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Favorites</div>
+              <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                {showFavoritesInOverview ? 'Hide favorites ↑' : 'Show favorites ↓'}
+              </div>
+              {/* Heart icon for favorites */}
+              <div className="absolute top-2 right-2 opacity-20 group-hover:opacity-40 transition-opacity">
+                <Heart className="w-4 h-4 text-purple-400 fill-current" />
+              </div>
+            </button>
+
+            {/* Achievements - Scroll to achievements section */}
+            <button
+              onClick={() => {
+                // Scroll to achievements section if it exists
+                const achievementsSection = document.querySelector('[data-section="achievements"]');
+                if (achievementsSection) {
+                  achievementsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-slate-700/50 transition-all duration-300 hover:scale-105 group"
+            >
+              <div className="text-2xl font-bold text-orange-400 group-hover:text-orange-300 transition-colors">
+                {userStats.achievements.length}
+              </div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Achievements</div>
+              <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                View achievements →
+              </div>
+            </button>
+          </div>
+
+          
+          {/* Expandable Favorites Section */}
+                {showFavoritesInOverview && safeFavorites.length > 0 && (
+                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 animate-in slide-in-from-top duration-300">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <Heart className="w-5 h-5 text-purple-400 fill-current" />
+                        <h3 className="text-lg font-semibold text-white">Your Favorites</h3>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab && setActiveTab('explore')}
+                        className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Manage All
+                      </button>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {safeFavorites.slice(0, 6).map((tourId) => (
+                        <div key={tourId} className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-3">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-white font-medium text-sm">Favorited Tour</div>
+                              <div className="text-xs text-slate-400">ID: {tourId}</div>
+                            </div>
+                            <button
+                              onClick={() => toggleFavorite(tourId)}
+                              className="text-red-400 hover:text-red-300 transition-colors"
+                            >
+                              <Heart className="w-4 h-4 fill-current" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {safeFavorites.length > 6 && (
+                      <div className="mt-4 text-center">
+                        <button
+                          onClick={() => setActiveTab && setActiveTab('explore')}
+                          className="text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors"
+                        >
+                          View all {safeFavorites.length} favorites →
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-green-400">{safeUserBookings.past.length}</div>
-                    <div className="text-sm text-slate-400">Completed</div>
-                  </div>
-                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-purple-400">{safeFavorites.length}</div>
-                    <div className="text-sm text-slate-400">Favorites</div>
-                  </div>
-                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 text-center">
-                    <div className="text-2xl font-bold text-orange-400">{userStats.achievements.length}</div>
-                    <div className="text-sm text-slate-400">Achievements</div>
-                  </div>
-                </div>
+                )}
+
 
                 {/* Add missing booking */}
                 <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-purple-500/20">
@@ -561,7 +685,7 @@ const JourneyTab = () => {
 
                 {/* Achievements */}
                 {userStats.achievements.length > 0 && (
-                  <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6">
+                  <div data-section="achievements" className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6">
                     <h3 className="text-lg font-semibold text-white mb-4">🏆 Your Achievements</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {userStats.achievements.map((achievement, index) => (
@@ -599,19 +723,6 @@ const JourneyTab = () => {
               </div>
             )}
 
-            {/* Favorites/Wishlist */}
-            {(activeStage === 'planning' || activeStage === 'wishlist') && (
-              <FavoritesSection
-                favorites={safeFavorites}
-                toggleFavorite={toggleFavorite}
-                setActiveTab={setActiveTab}
-                formatPrice={formatPrice}
-                formatDate={formatDate}
-                formatTime={formatTime}
-                calculateSavings={calculateSavings}
-                getUrgencyColor={getUrgencyColor}
-              />
-            )}
 
             {/* Enhanced Booking Stages */}
             {(activeStage === 'urgent' || activeStage === 'confirmed' || activeStage === 'memories') && (

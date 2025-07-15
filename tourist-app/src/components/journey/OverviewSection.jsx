@@ -184,24 +184,6 @@ const OverviewSection = ({
         </div>
       )}
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-2 gap-4">
-        <button
-          onClick={() => setActiveTab('discover')}
-          className="p-4 bg-blue-600 hover:bg-blue-700 rounded-xl transition-all"
-        >
-          <div className="text-white font-medium">Discover Tours</div>
-          <div className="text-blue-200 text-sm">Find new adventures</div>
-        </button>
-        
-        <button
-          onClick={() => setActiveSection('wishlist')}
-          className="p-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-all"
-        >
-          <div className="text-white font-medium">My Favorites</div>
-          <div className="text-slate-400 text-sm">{favorites.length} saved</div>
-        </button>
-      </div>
 
       {/* Empty State */}
       {totalBookings === 0 && (
@@ -211,7 +193,7 @@ const OverviewSection = ({
           </div>
           <h3 className="text-lg font-semibold text-slate-400 mb-2">Start Your Journey</h3>
           <p className="text-slate-500 mb-6 max-w-md mx-auto">
-            You haven't made any bookings yet. Discover amazing tours and start your French Polynesia adventure!
+            You haven't made any bookings yet. Discover amazing tours and start your adventure with VAI Tickets!
           </p>
           <button
             onClick={() => setActiveTab('discover')}

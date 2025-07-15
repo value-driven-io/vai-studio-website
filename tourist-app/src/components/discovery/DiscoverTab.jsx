@@ -88,12 +88,7 @@ const DiscoverTab = () => {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <div className="flex items-center justify-center py-4 border-b border-slate-700">
-        {/* Wrapping the VAILogo with an anchor tag */}
-        <a href="https://vai.studio/app/" target="_blank" rel="noopener noreferrer">
-          <VAILogo size="sm" />
-        </a>
-      </div>
+      
       {/* Header with Gradient */}
       <div className="bg-gradient-to-br from-blue-600 via-teal-700 to-yellow-600 px-4 pt-8 pb-6">
         <div className="max-w-7xl mx-auto">
