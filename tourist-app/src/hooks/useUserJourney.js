@@ -205,7 +205,7 @@ export const useUserJourney = () => {
     return null
   }, [subscription])
 
-  // 🔧 ONLY FIX: Remove fetchUserBookings dependency to prevent infinite loop
+  // Remove fetchUserBookings dependency to prevent infinite loop
   useEffect(() => {
     console.log('🔄 Auto-fetch useEffect triggered')
     const contactInfo = getUserContactInfo()

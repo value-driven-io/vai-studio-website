@@ -772,8 +772,12 @@ body {
     }
     
     .language-switcher {
-        top: 10%;
-        right: 15px;
+        top: 50%;
+        right: -9px;
+        background: #0000005e;
+        padding: 15px;
+        border-radius: 20px;
+        border: solid 1px gray;
     }
     
     .lang-btn {
