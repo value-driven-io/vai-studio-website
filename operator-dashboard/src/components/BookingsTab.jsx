@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
   Calendar, Clock, MapPin, 
@@ -7,8 +7,11 @@ import {
   User, Loader2, Filter, Search, Star,
   Clock3, Award, Lock, Unlock
 } from 'lucide-react'
+import OperatorChatModal from './OperatorChatModal' 
 
-const BookingsTab = ({ 
+const BookingsTab = ({
+  allBookings, 
+  operator, 
   stats,
   bookingFilter,
   setBookingFilter,
@@ -17,7 +20,6 @@ const BookingsTab = ({
   searchTerm,
   setSearchTerm,
   filteredBookings,
-  allBookings,
   bookingsLoading,
   fetchAllBookings,
   processingBooking,
@@ -32,6 +34,9 @@ const BookingsTab = ({
   setActiveTab   
 }) => {
   const { t } = useTranslation()
+
+  const [selectedChatBooking, setSelectedChatBooking] = useState(null)
+  const [showChatModal, setShowChatModal] = useState(false)
 
   return (
     
@@ -401,7 +406,8 @@ const BookingsTab = ({
 
                         {booking.booking_status === 'confirmed' && (
                           <div className="space-y-4">
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              {/*
                               <a
                                 href={`https://wa.me/${booking.customer_whatsapp}?text=Hi ${booking.customer_name}! This is regarding your confirmed booking ${booking.booking_reference}`}
                                 target="_blank"
@@ -411,6 +417,21 @@ const BookingsTab = ({
                                 <MessageCircle className="w-4 h-4" />
                                 {t('bookings.actions.whatsappCustomer')}
                               </a>
+                              */}
+
+                              {/* CHAT button */}
+                                <button
+                                  onClick={() => {
+                                    setSelectedChatBooking(booking)
+                                    setShowChatModal(true)
+                                  }}
+                                  className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                                >
+                                  <MessageCircle className="w-4 h-4" />
+                                  <span>Chat</span>
+                                </button>
+
+                              {/*    
                               <a
                                 href={`tel:${booking.customer_phone}`}
                                 className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
@@ -418,10 +439,13 @@ const BookingsTab = ({
                                 <Phone className="w-4 h-4" />
                                 {t('bookings.actions.callCustomer')}
                               </a>
+                              */}
+
                               <button
                                 onClick={() => handleBookingAction(booking.id, 'completed')}
                                 className="flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm"
                               >
+                                
                                 <Award className="w-4 h-4" />
                                 {t('bookings.actions.markComplete')}
                               </button>
@@ -494,6 +518,18 @@ const BookingsTab = ({
                 })}
               </div>
             )}
+
+            {/* Chat Modal */}
+            <OperatorChatModal
+              isOpen={showChatModal}
+              onClose={() => {
+                setShowChatModal(false)
+                setSelectedChatBooking(null)
+              }}
+              booking={selectedChatBooking}
+              operator={operator} // Pass operator from props
+            />
+
           </div>
 
   )

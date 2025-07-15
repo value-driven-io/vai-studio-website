@@ -1197,6 +1197,7 @@ function App() {
         getStatusIcon={getStatusIcon}
         shouldShowCustomerDetails={shouldShowCustomerDetails}
         setActiveTab={setActiveTab}
+        operator={operator}
       />
     )}
 
