@@ -1,10 +1,9 @@
 // operator-dashboard/src/components/OperatorChatModal.jsx
 import React, { useState, useEffect, useRef } from 'react'
 import { 
-  X, Send, MessageCircle, Calendar, MapPin, User, Loader2
+  X, Send, MessageCircle, Calendar, MapPin, User, Loader2, AlertCircle
 } from 'lucide-react'
 
-//  chatService.js at operator-dashboard/src/services/
 import chatService from '../services/chatService'
 
 const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
@@ -12,6 +11,8 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
   const [newMessage, setNewMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [sending, setSending] = useState(false)
+  const [error, setError] = useState(null)
+  const [retryCount, setRetryCount] = useState(0)
   const messagesEndRef = useRef(null)
 
   // Auto-scroll to bottom
@@ -26,7 +27,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
     }
   }, [isOpen, booking])
 
-  // Real-time subscription
+  // 🔧 FIXED: Real-time subscription with optimistic updates
   useEffect(() => {
     if (!isOpen || !booking) return
 
@@ -34,46 +35,127 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
       booking.id,
       (payload) => {
         console.log('Operator real-time message:', payload)
-        loadMessages()
+        
+        if (payload.type === 'INSERT') {
+          // 🔧 FIXED: Add new message to existing messages instead of reloading
+          setMessages(prevMessages => {
+            // Check if message already exists to prevent duplicates
+            const messageExists = prevMessages.some(msg => msg.id === payload.message.id)
+            if (messageExists) return prevMessages
+            
+            // Add new message with sender info
+            const newMessageWithInfo = {
+              ...payload.message,
+              sender_info: payload.message.sender_type === 'operator' 
+                ? { company_name: operator?.company_name }
+                : null
+            }
+            
+            return [...prevMessages, newMessageWithInfo]
+          })
+          
+          // Mark as read if not from operator
+          if (payload.message.sender_type !== 'operator') {
+            chatService.markAsRead(booking.id, 'operator')
+          }
+        } else if (payload.type === 'UPDATE') {
+          // Handle message updates (like marking as read)
+          setMessages(prevMessages =>
+            prevMessages.map(msg =>
+              msg.id === payload.message.id ? { ...msg, ...payload.message } : msg
+            )
+          )
+        }
       }
     )
 
     return unsubscribe
-  }, [isOpen, booking])
+  }, [isOpen, booking, operator])
 
+  // 🔧 NEW: Enhanced error handling with retry
   const loadMessages = async () => {
     if (!booking) return
     
     try {
       setLoading(true)
-      const msgs = await chatService.getConversation(booking.id)
+      setError(null)
+      
+      const msgs = await chatService.withRetry(
+        () => chatService.getConversation(booking.id),
+        3
+      )
+      
       setMessages(msgs)
+      setRetryCount(0)
       
       // Mark messages as read for operator
       await chatService.markAsRead(booking.id, 'operator')
     } catch (error) {
       console.error('Error loading messages:', error)
+      setError('Failed to load messages. Please try again.')
+      setRetryCount(prev => prev + 1)
     } finally {
       setLoading(false)
     }
   }
 
+  // 🔧 NEW: Enhanced send message with optimistic updates
   const sendMessage = async () => {
     if (!newMessage.trim() || !booking || !operator) return
     
+    const messageText = newMessage.trim()
+    const tempId = `temp_${Date.now()}`
+    
+    // 🔧 FIXED: Optimistic update - add message immediately
+    const optimisticMessage = {
+      id: tempId,
+      booking_id: booking.id,
+      sender_type: 'operator',
+      sender_id: operator.auth_user_id, // 🔧 FIXED: Use auth_user_id
+      message_text: messageText,
+      is_read: false,
+      created_at: new Date().toISOString(),
+      sender_info: { company_name: operator.company_name },
+      _optimistic: true
+    }
+    
+    setMessages(prevMessages => [...prevMessages, optimisticMessage])
+    setNewMessage('')
+    
     try {
       setSending(true)
-      await chatService.sendMessage(
-        booking.id,
-        newMessage.trim(),
-        'operator',
-        operator.id
+      setError(null)
+      
+      const sentMessage = await chatService.withRetry(
+        () => chatService.sendMessage(
+          booking.id,
+          messageText,
+          'operator',
+          operator.auth_user_id // 🔧 FIXED: Use auth_user_id
+        ),
+        3
       )
       
-      setNewMessage('')
-      loadMessages()
+      // 🔧 FIXED: Replace optimistic message with real message
+      setMessages(prevMessages =>
+        prevMessages.map(msg =>
+          msg.id === tempId 
+            ? { ...sentMessage, sender_info: optimisticMessage.sender_info }
+            : msg
+        )
+      )
+      
     } catch (error) {
       console.error('Error sending message:', error)
+      setError('Failed to send message. Please try again.')
+      
+      // 🔧 FIXED: Remove optimistic message on error
+      setMessages(prevMessages =>
+        prevMessages.filter(msg => msg.id !== tempId)
+      )
+      
+      // Restore message text
+      setNewMessage(messageText)
     } finally {
       setSending(false)
     }
@@ -86,13 +168,17 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
     }
   }
 
+  const handleRetry = () => {
+    loadMessages()
+  }
+
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-800 rounded-2xl w-full max-w-2xl max-h-[80vh] border border-slate-700">
+      <div className="bg-slate-800 rounded-2xl w-full max-w-2xl max-h-[80vh] border border-slate-700 flex flex-col">
         {/* Header */}
-        <div className="p-6 border-b border-slate-700">
+        <div className="p-6 border-b border-slate-700 flex-shrink-0">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <h2 className="text-xl font-semibold text-white mb-2">
@@ -118,8 +204,22 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
           </div>
         </div>
 
+        {/* Error Banner */}
+        {error && (
+          <div className="p-4 bg-red-900/50 border-b border-red-700 flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-red-400" />
+            <span className="text-red-200 flex-1">{error}</span>
+            <button
+              onClick={handleRetry}
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-6 max-h-96">
+        <div className="flex-1 overflow-y-auto p-6">
           {loading ? (
             <div className="flex items-center justify-center py-8">
               <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
@@ -141,7 +241,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
                       message.sender_type === 'operator'
                         ? 'bg-blue-600 text-white rounded-br-sm'
                         : 'bg-slate-700 text-white rounded-bl-sm'
-                    }`}
+                    } ${message._optimistic ? 'opacity-70' : ''}`}
                   >
                     <p className="text-sm">{message.message_text}</p>
                     <div
@@ -152,6 +252,9 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
                       }`}
                     >
                       {chatService.formatMessageTime(message.created_at)}
+                      {message._optimistic && (
+                        <span className="ml-1">⏳</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -162,7 +265,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
         </div>
 
         {/* Message Input */}
-        <div className="p-6 border-t border-slate-700">
+        <div className="p-6 border-t border-slate-700 flex-shrink-0">
           <div className="flex gap-3">
             <input
               type="text"
@@ -176,10 +279,13 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
             <button
               onClick={sendMessage}
               disabled={!newMessage.trim() || sending}
-              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg transition-colors"
+              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg transition-colors flex items-center gap-2"
             >
               {sending ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Sending...</span>
+                </>
               ) : (
                 <Send className="w-5 h-5" />
               )}

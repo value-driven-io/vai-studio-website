@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+/* CHAT MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+  .chat-modal {
+    margin: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+  }
+  
+  .chat-messages {
+    max-height: calc(100vh - 200px) !important;
+  }
+}

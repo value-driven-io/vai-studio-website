@@ -1,4 +1,4 @@
-// tourist-app/src/services/chatService.js
+// operator-dashboard/src/services/chatService.js
 import { supabase } from '../lib/supabase'
 
 class ChatService {
@@ -36,14 +36,14 @@ class ChatService {
               const { data: touristData } = await supabase
                 .from('tourist_users')
                 .select('first_name, last_name')
-                .eq('id', message.sender_id)
+                .eq('auth_user_id', message.sender_id) // 🔧 FIXED: Use auth_user_id to match sender_id
                 .single()
               senderInfo = touristData
             } else if (message.sender_type === 'operator') {
               const { data: operatorData } = await supabase
                 .from('operators')
                 .select('company_name')
-                .eq('id', message.sender_id)
+                .eq('auth_user_id', message.sender_id) // 🔧 FIXED: Use auth_user_id to match sender_id
                 .single()
               senderInfo = operatorData
             }
@@ -69,7 +69,7 @@ class ChatService {
    * @param {string} bookingId - The booking ID
    * @param {string} messageText - The message content
    * @param {string} senderType - 'tourist' | 'operator' | 'admin'
-   * @param {string} senderId - The sender's ID (tourist_users.id or operators.id)
+   * @param {string} senderId - The sender's auth_user_id (from Supabase auth)
    * @returns {Promise<Object>} The created message
    */
   async sendMessage(bookingId, messageText, senderType, senderId) {
@@ -77,7 +77,7 @@ class ChatService {
       const messageData = {
         booking_id: bookingId,
         sender_type: senderType,
-        sender_id: senderId,
+        sender_id: senderId, // This should be the auth_user_id
         message_text: messageText.trim(),
         is_read: false,
         created_at: new Date().toISOString()
@@ -102,19 +102,20 @@ class ChatService {
   }
 
   /**
-   * Mark messages as read for a specific booking and sender type
+   * Mark messages as read for a user
    * @param {string} bookingId - The booking ID
-   * @param {string} readerType - 'tourist' | 'operator'
+   * @param {string} userType - 'tourist' | 'operator'
    * @returns {Promise<void>}
    */
-  async markAsRead(bookingId, readerType) {
+  async markAsRead(bookingId, userType) {
     try {
-      // Mark messages as read where the reader is NOT the sender
+      // Mark all messages in this booking as read, except those sent by the current user type
       const { error } = await supabase
         .from('booking_conversations')
         .update({ is_read: true })
         .eq('booking_id', bookingId)
-        .neq('sender_type', readerType)
+        .neq('sender_type', userType)
+        .eq('is_read', false)
 
       if (error) {
         console.error('Error marking messages as read:', error)
@@ -127,28 +128,45 @@ class ChatService {
   }
 
   /**
-   * Get unread message count for a user across all their bookings
-   * @param {string} userId - Tourist user ID or operator ID
+   * Get unread message count for a user
+   * @param {string} userId - Tourist auth_user_id or operator auth_user_id
    * @param {string} userType - 'tourist' | 'operator'
-   * @returns {Promise<number>} Unread message count
+   * @returns {Promise<number>} Number of unread messages
    */
   async getUnreadCount(userId, userType) {
     try {
-      // First get all booking IDs for this user
       let bookingIds = []
-      
+
       if (userType === 'tourist') {
-        const { data: bookings } = await supabase
-          .from('bookings')
+        // Get tourist_users.id from auth_user_id, then find bookings
+        const { data: tourists } = await supabase
+          .from('tourist_users')
           .select('id')
-          .eq('tourist_user_id', userId)
-        bookingIds = bookings ? bookings.map(b => b.id) : []
+          .eq('auth_user_id', userId)
+        
+        if (tourists && tourists.length > 0) {
+          const touristId = tourists[0].id
+          const { data: bookings } = await supabase
+            .from('bookings')
+            .select('id')
+            .eq('tourist_user_id', touristId)
+          bookingIds = bookings ? bookings.map(b => b.id) : []
+        }
       } else {
-        const { data: bookings } = await supabase
-          .from('bookings')
+        // Get bookings where operator.auth_user_id matches userId
+        const { data: operators } = await supabase
+          .from('operators')
           .select('id')
-          .eq('operator_id', userId)
-        bookingIds = bookings ? bookings.map(b => b.id) : []
+          .eq('auth_user_id', userId)
+        
+        if (operators && operators.length > 0) {
+          const operatorId = operators[0].id
+          const { data: bookings } = await supabase
+            .from('bookings')
+            .select('id')
+            .eq('operator_id', operatorId)
+          bookingIds = bookings ? bookings.map(b => b.id) : []
+        }
       }
 
       if (bookingIds.length === 0) {
@@ -176,98 +194,8 @@ class ChatService {
   }
 
   /**
-   * Get all conversations for a user with latest message and unread count
-   * @param {string} userId - Tourist user ID or operator ID  
-   * @param {string} userType - 'tourist' | 'operator'
-   * @returns {Promise<Array>} Array of conversations with metadata
-   */
-  async getUserConversations(userId, userType) {
-    try {
-      let bookingsQuery
-
-      if (userType === 'tourist') {
-        bookingsQuery = supabase
-          .from('bookings')
-          .select(`
-            id,
-            booking_status,
-            created_at,
-            tours:tour_id(tour_name, meeting_point, tour_date),
-            operators:operator_id(company_name)
-          `)
-          .eq('tourist_user_id', userId)
-          .eq('booking_status', 'confirmed') // Only confirmed bookings can chat
-          .order('created_at', { ascending: false })
-      } else {
-        bookingsQuery = supabase
-          .from('bookings')
-          .select(`
-            id,
-            booking_status,
-            created_at,
-            customer_name,
-            tours:tour_id(tour_name, meeting_point, tour_date),
-            tourist_users:tourist_user_id(first_name, last_name)
-          `)
-          .eq('operator_id', userId)
-          .eq('booking_status', 'confirmed') // Only confirmed bookings can chat
-          .order('created_at', { ascending: false })
-      }
-
-      const { data: bookings, error: bookingsError } = await bookingsQuery
-
-      if (bookingsError) {
-        console.error('Error fetching user bookings:', bookingsError)
-        throw bookingsError
-      }
-
-      if (!bookings || bookings.length === 0) {
-        return []
-      }
-
-      // Get latest message and unread count for each booking
-      const conversations = await Promise.all(
-        bookings.map(async (booking) => {
-          // Get latest message (handle case where no messages exist)
-            const { data: latestMessage, error: messageError } = await supabase
-            .from('booking_conversations')
-            .select('message_text, created_at, sender_type')
-            .eq('booking_id', booking.id)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .maybeSingle()
-
-          // Get unread count for this booking
-          const { count: unreadCount } = await supabase
-            .from('booking_conversations')
-            .select('id', { count: 'exact', head: true })
-            .eq('booking_id', booking.id)
-            .eq('is_read', false)
-            .neq('sender_type', userType)
-
-          return {
-            ...booking,
-            latestMessage: latestMessage || null,
-            unreadCount: unreadCount || 0
-          }
-        })
-      )
-
-      // Sort by latest activity (latest message or booking creation)
-      return conversations.sort((a, b) => {
-        const aDate = a.latestMessage?.created_at || a.created_at
-        const bDate = b.latestMessage?.created_at || b.created_at
-        return new Date(bDate) - new Date(aDate)
-      })
-
-    } catch (error) {
-      console.error('Error in getUserConversations:', error)
-      throw error
-    }
-  }
-
-  /**
    * Subscribe to real-time message updates for a specific booking
+   * 🔧 FIXED: No longer calls loadMessages() - uses optimistic updates
    * @param {string} bookingId - The booking ID
    * @param {Function} callback - Function to call when messages are updated
    * @returns {Function} Unsubscribe function
@@ -285,14 +213,35 @@ class ChatService {
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'INSERT',
+          schema: 'public',
+          table: 'booking_conversations',
+          filter: `booking_id=eq.${bookingId}`
+        },
+        (payload) => {
+          console.log('Real-time new message:', payload)
+          // 🔧 FIXED: Pass the new message directly, don't reload all messages
+          callback({
+            type: 'INSERT',
+            message: payload.new
+          })
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
           schema: 'public',
           table: 'booking_conversations',
           filter: `booking_id=eq.${bookingId}`
         },
         (payload) => {
           console.log('Real-time message update:', payload)
-          callback(payload)
+          // Handle message updates (like marking as read)
+          callback({
+            type: 'UPDATE',
+            message: payload.new
+          })
         }
       )
       .subscribe()
@@ -330,9 +279,15 @@ class ChatService {
         },
         async (payload) => {
           console.log('Real-time unread count update:', payload)
-          // Recalculate unread count and call callback
-          const newCount = await this.getUnreadCount(userId, userType)
-          callback(newCount)
+          // 🔧 FIXED: Add debouncing to prevent excessive recalculations
+          if (this.unreadCountTimeout) {
+            clearTimeout(this.unreadCountTimeout)
+          }
+          
+          this.unreadCountTimeout = setTimeout(async () => {
+            const newCount = await this.getUnreadCount(userId, userType)
+            callback(newCount)
+          }, 500) // 500ms debounce
         }
       )
       .subscribe()
@@ -379,12 +334,36 @@ class ChatService {
    * Clean up all subscriptions
    */
   cleanup() {
+    // Clear timeout if exists
+    if (this.unreadCountTimeout) {
+      clearTimeout(this.unreadCountTimeout)
+    }
+    
     this.subscriptions.forEach((subscription) => {
       supabase.removeChannel(subscription)
     })
     this.subscriptions.clear()
     this.messageCallbacks.clear()
     this.unreadCallbacks.clear()
+  }
+
+  /**
+   * 🔧 NEW: Enhanced error handling with retry mechanism
+   */
+  async withRetry(operation, maxRetries = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation()
+      } catch (error) {
+        if (attempt === maxRetries) {
+          throw error
+        }
+        
+        // Exponential backoff
+        const delay = Math.pow(2, attempt) * 1000
+        await new Promise(resolve => setTimeout(resolve, delay))
+      }
+    }
   }
 
   /**
