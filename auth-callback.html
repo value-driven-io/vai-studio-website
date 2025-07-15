@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VAI Authentication</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-align: center; 
+            padding: 50px 20px; 
+            margin: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 500px;
+            background: rgba(30, 41, 59, 0.8);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+        }
+        .loading { color: #60a5fa; }
+        .error { color: #f87171; }
+        .success { color: #34d399; }
+        .spinner {
+            border: 3px solid rgba(96, 165, 250, 0.3);
+            border-top: 3px solid #60a5fa;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+            padding: 12px 24px;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid #60a5fa;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+        a:hover {
+            background: rgba(96, 165, 250, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="message" class="loading">
+            <h2>🔄 Processing your authentication...</h2>
+            <div class="spinner"></div>
+            <p>Please wait while we redirect you to the right place.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js@2'
+        
+        const supabase = createClient(
+            'https://rizqwxcmpzhdmqjjqgyw.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpenF3eGNtcHpoZG1xampxZ3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MDM3MTIsImV4cCI6MjA2NjI3OTcxMn0.dlNpxINvs2yzlFQndTZIrfQTBgWpQ5Ee0aPGVwRPHo0'
+        )
+
+        async function handleAuth() {
+            try {
+                // Handle session from URL fragments
+                const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+                
+                if (sessionData.session) {
+                    // User is authenticated, check their role
+                    const user = sessionData.session.user
+                    
+                    // Check if user is an operator
+                    const { data: operator } = await supabase
+                        .from('operators')
+                        .select('id, company_name')
+                        .eq('auth_user_id', user.id)
+                        .single()
+                    
+                    if (operator) {
+                        // Redirect to operator dashboard
+                        document.getElementById('message').innerHTML = `
+                            <div class="success">
+                                <h2>✅ Welcome back, ${operator.company_name}!</h2>
+                                <p>Redirecting to your operator dashboard...</p>
+                            </div>
+                        `
+                        setTimeout(() => {
+                            window.location.href = 'https://vai-operator-dashboard.onrender.com/?message=welcome'
+                        }, 2000)
+                    } else {
+                        // Check if user is a tourist
+                        const { data: tourist } = await supabase
+                            .from('tourist_users')
+                            .select('id, first_name')
+                            .eq('auth_user_id', user.id)
+                            .single()
+                        
+                        // Redirect to tourist app
+                        document.getElementById('message').innerHTML = `
+                            <div class="success">
+                                <h2>✅ Welcome${tourist?.first_name ? `, ${tourist.first_name}` : ''}!</h2>
+                                <p>Redirecting to your VAI app...</p>
+                            </div>
+                        `
+                        setTimeout(() => {
+                            window.location.href = 'https://app.vai.studio/?message=welcome'
+                        }, 2000)
+                    }
+                } else {
+                    // Check URL parameters for errors
+                    const hash = window.location.hash.substring(1)
+                    const urlParams = new URLSearchParams(hash)
+                    const error = urlParams.get('error') || urlParams.get('error_code')
+                    const errorDescription = urlParams.get('error_description')
+                    
+                    if (error) {
+                        document.getElementById('message').innerHTML = `
+                            <div class="error">
+                                <h2>❌ Authentication Error</h2>
+                                <p>${errorDescription || 'Something went wrong with authentication'}</p>
+                                <a href="https://vai.studio">Go to Homepage</a>
+                            </div>
+                        `
+                    } else {
+                        // Check for success parameters
+                        const message = urlParams.get('message')
+                        if (message) {
+                            document.getElementById('message').innerHTML = `
+                                <div class="success">
+                                    <h2>✅ Success!</h2>
+                                    <p>Redirecting you to sign in...</p>
+                                </div>
+                            `
+                            setTimeout(() => {
+                                window.location.href = 'https://app.vai.studio/?message=signin'
+                            }, 2000)
+                        } else {
+                            // Default redirect to tourist app
+                            window.location.href = 'https://app.vai.studio/?message=signin'
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Auth error:', error)
+                document.getElementById('message').innerHTML = `
+                    <div class="error">
+                        <h2>❌ Something went wrong</h2>
+                        <p>Please try again or contact support if the problem persists.</p>
+                        <a href="https://vai.studio">Go to Homepage</a>
+                    </div>
+                `
+            }
+        }
+
+        // Run auth handler
+        handleAuth()
+    </script>
+</body>
+</html>

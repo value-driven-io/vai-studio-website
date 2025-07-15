@@ -2,7 +2,7 @@
 // FILE: tourist-app/src/App.jsx
 // ==============================================
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
@@ -69,9 +69,29 @@ const AppHeader = () => {
   )
 }
 
-// Main App Component
+  // Main App Component
 function AppContent() {
   const { activeTab } = useAppStore()
+
+  // 🆕 ADD THIS: Handle auth success messages from email links
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const message = urlParams.get('message')
+    
+    if (message === 'welcome') {
+      toast.success('🎉 Welcome! Your email has been confirmed.')
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+    if (message === 'signin') {
+      toast.info('📧 Please sign in to continue.')
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+    if (message === 'reset') {
+      toast.success('🔑 Password reset successful! You can now sign in.')
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">

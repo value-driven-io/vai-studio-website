@@ -351,6 +351,27 @@ function App() {
     setFilteredBookings(filtered)
   }, [allBookings, bookingFilter, timeFilter, searchTerm])
 
+  // 🆕 ADD THIS: Handle auth success messages from email links
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const message = urlParams.get('message')
+    
+    if (message === 'welcome') {
+      console.log('🎉 Welcome! Your email has been confirmed.')
+      // Optional: You can add a visual notification here later
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+    if (message === 'signin') {
+      console.log('📧 Please sign in to continue.')
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+    if (message === 'reset') {
+      console.log('🔑 Password reset successful! You can now sign in.')
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [])
+
   // API Functions
   const fetchTours = async () => {
     if (!operator?.id) return
