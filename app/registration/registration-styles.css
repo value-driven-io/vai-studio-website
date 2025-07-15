@@ -132,7 +132,7 @@ body {
 .nav-link {
     color: var(--vai-pearl);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 400;
     padding: 8px 16px;
     border-radius: 20px;
     transition: all 0.3s ease;
@@ -193,7 +193,7 @@ body {
 
 .countdown-container {
     background: linear-gradient(135deg, rgba(241, 103, 44, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%);
-    border: 2px solid var(--vai-coral);
+    border: 1px solid var(--vai-coral);
     border-radius: 25px;
     padding: 40px;
     max-width: 600px;
@@ -238,7 +238,7 @@ body {
 .countdown-message {
     font-size: 20px;
     font-weight: 700;
-    color: var(--vai-coral);
+    color: #f8fafccc;
     text-align: center;
 }
 
@@ -253,7 +253,7 @@ body {
 
 .phone-section {
     padding: 80px 0;
-    background: var(--vai-lagoon);
+    background: var(--vai-deep-ocean);
 }
 
 .phone-content {
@@ -309,8 +309,8 @@ body {
 
 .phone-text p {
     font-size: 18px;
-    opacity: 0.9;
-    max-width: 400px;
+    opacity: 0.8;
+    /*max-width: 400px;*/
 }
 
 /* ================================ */
@@ -330,8 +330,9 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(248,250,252,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-    opacity: 0.3;
+    /*background: url('/via-studio-images/landingpage/VAI Tickets Overview Activities wo text.jpg');*/
+    opacity: 0.1;
+    border-top:solid 2px white;
 }
 
 .registration-form-container {
