@@ -1,21 +1,84 @@
 // src/components/shared/Navigation.jsx
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Home, Search, Calendar, User } from 'lucide-react'
 import { useAppStore } from '../../stores/bookingStore'
+import { MessageCircle } from 'lucide-react' // Add MessageCircle to your existing lucide import
+import { useAuth } from '../../contexts/AuthContext'
+import chatService from '../../services/chatService'
+import { supabase } from '../../services/supabase'
 
 const Navigation = () => {
   const { activeTab, setActiveTab } = useAppStore()
+  const { user } = useAuth()
+  const [unreadCount, setUnreadCount] = useState(0)
+  const [touristUserId, setTouristUserId] = useState(null)
+
+  // Get tourist user ID
+  useEffect(() => {
+    const getTouristUserId = async () => {
+      if (user) {
+        try {
+          const { data: touristUser } = await supabase
+            .from('tourist_users')
+            .select('id')
+            .eq('auth_user_id', user.id)
+            .single()
+          
+          if (touristUser) {
+            setTouristUserId(touristUser.id)
+          }
+        } catch (error) {
+          console.error('Error getting tourist user ID:', error)
+        }
+      }
+    }
+    getTouristUserId()
+  }, [user])
+
+  // Load unread count
+  useEffect(() => {
+    const loadUnreadCount = async () => {
+      if (!touristUserId) return
+      
+      try {
+        const count = await chatService.getUnreadCount(touristUserId, 'tourist')
+        setUnreadCount(count)
+      } catch (error) {
+        console.error('Error loading unread count:', error)
+      }
+    }
+
+    loadUnreadCount()
+
+    // Subscribe to real-time unread count updates
+    if (touristUserId) {
+      const unsubscribe = chatService.subscribeToUnreadCount(
+        touristUserId,
+        'tourist',
+        (newCount) => {
+          setUnreadCount(newCount)
+        }
+      )
+      return unsubscribe
+    }
+  }, [touristUserId])
 
   const tabs = [
-    { id: 'discover', icon: Home, label: 'Discover' },
-    { id: 'explore', icon: Search, label: 'Explore' },
-    { id: 'journey', icon: Calendar, label: 'Journey' },
-    { id: 'profile', icon: User, label: 'Support' }
-  ]
+  { id: 'discover', icon: Home, label: 'Discover' },
+  { id: 'explore', icon: Search, label: 'Explore' },
+  { id: 'journey', icon: Calendar, label: 'Journey' },
+  { 
+    id: 'messages', 
+    icon: MessageCircle, 
+    label: 'Messages',
+    badge: unreadCount > 0 ? unreadCount : null
+  },
+  { id: 'profile', icon: User, label: 'Support' }
+]
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-50 pb-safe">
-      <div className="grid grid-cols-4 h-16">
+      <div className="grid grid-cols-5 h-16">
         {tabs.map((tab) => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -30,7 +93,14 @@ const Navigation = () => {
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Icon size={20} />
+              <div className="relative">
+                <Icon size={18} />
+                {tab.badge && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                    {tab.badge > 99 ? '99+' : tab.badge}
+                  </span>
+                )}
+              </div>
               <span className="text-xs font-medium">{tab.label}</span>
               {isActive && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-400 rounded-full" />

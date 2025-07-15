@@ -27,9 +27,28 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
         })
         
         if (result.user) {
-          toast.success('Account created! Please check your email to verify.')
+        // Clear form after successful signup
+        setFormData({
+          email: '',
+          password: '',
+          firstName: '',
+          whatsapp: ''
+        })
+        
+        toast.success('🎉 Account created! Please check your email to verify your account.', {
+          duration: 6000, // Show longer for important message
+          style: {
+            background: '#1e293b',
+            color: '#f1f5f9',
+            border: '1px solid #059669'
+          }
+        })
+        
+        // Don't close modal immediately - let user read the message
+        setTimeout(() => {
           onClose()
-        }
+        }, 1000)
+      }
       } else {
         const result = await signIn(formData.email, formData.password)
         
@@ -40,7 +59,19 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
       }
     } catch (error) {
       console.error('Auth error:', error)
-      toast.error(error.message || 'Authentication failed')
+      
+      // Handle specific email confirmation errors
+      if (error.message?.includes('email')) {
+        toast.error('Please check your email format and try again.')
+      } else if (error.message?.includes('password')) {
+        toast.error('Password must be at least 6 characters long.')
+      } else if (error.message?.includes('already registered')) {
+        toast.error('This email is already registered. Try signing in instead.')
+      } else if (error.message?.includes('rate limit')) {
+        toast.error('Too many attempts. Please wait a moment and try again.')
+      } else {
+        toast.error(error.message || 'Authentication failed. Please try again.')
+      }
     }
   }
 
@@ -196,7 +227,16 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
         {/* Mode Switch */}
         <div className="mt-6 text-center">
           <button
-            onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+            onClick={() => {
+              setMode(mode === 'login' ? 'register' : 'login')
+              // Clear form when switching modes
+              setFormData({
+                email: '',
+                password: '',
+                firstName: '',
+                whatsapp: ''
+              })
+            }}
             className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
           >
             {mode === 'login' 
@@ -208,13 +248,22 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
 
         {/* Benefits (Register mode) */}
         {mode === 'register' && (
-          <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-            <h4 className="text-blue-400 text-sm font-medium mb-2">Account Benefits:</h4>
-            <ul className="text-blue-300 text-xs space-y-1">
-              <li>• Track all your bookings in one place</li>
-              <li>• Sync favorites across devices</li>
-              <li>• Faster rebooking with saved preferences</li>
-            </ul>
+          <div className="space-y-3 mt-4">
+            <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              <h4 className="text-blue-400 text-sm font-medium mb-2">Account Benefits:</h4>
+              <ul className="text-blue-300 text-xs space-y-1">
+                <li>• Track all your bookings in one place</li>
+                <li>• Sync favorites across devices</li>
+                <li>• Faster rebooking with saved preferences</li>
+              </ul>
+            </div>
+            
+            <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+              <h4 className="text-yellow-400 text-sm font-medium mb-1">📧 Email Confirmation:</h4>
+              <p className="text-yellow-300 text-xs">
+                After signing up, check your email (including spam folder) and click the confirmation link to activate your account.
+              </p>
+            </div>
           </div>
         )}
       </div>

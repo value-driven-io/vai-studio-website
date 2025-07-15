@@ -17,7 +17,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: true       // ← Enable for email links
   },
   realtime: {
-    disabled: true // Keep disabled
+    disabled: false // Pro Plan Supabase
   }
 })
 

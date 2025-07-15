@@ -15,6 +15,8 @@ import ExploreTab from './components/explore/ExploreTab'
 import JourneyTab from './components/journey/JourneyTab'
 import ProfileTab from './components/profile/ProfileTab'
 import AuthModal from './components/auth/AuthModal'
+// Import Chat and Messages components
+import MessagesTab from './components/messages/MessagesTab'
 
 import VAILogo from './components/shared/VAILogo'
 
@@ -111,6 +113,9 @@ function AppContent() {
         </div>
         <div style={{ display: activeTab === 'profile' ? 'block' : 'none' }}>
           <ProfileTab />
+        </div>
+        <div style={{ display: activeTab === 'messages' ? 'block' : 'none' }}>
+          <MessagesTab />
         </div>
       </main>
 

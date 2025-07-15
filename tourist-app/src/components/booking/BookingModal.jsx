@@ -197,7 +197,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6" style={{textAlign: 'left'}}>
               <h4 className="font-semibold text-white mb-2">What's Next?</h4>
               <div className="text-sm text-slate-300 space-y-1">
-                <div>1. Operator confirms your booking request (Mail & via this VAI Tickets)</div>
+                <div>1. Operator confirms your booking request (Mail and on VAI Tickets)</div>
                 <div>2. Once confirmed: Communicate final details and meeting point with Operator</div>
                 <div>3. Payment directly with operator (no upfront cost to VAI Tickets)</div>
                 <div>4. Enjoy your adventure! 🌴</div>
