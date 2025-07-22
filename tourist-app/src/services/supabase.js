@@ -198,9 +198,16 @@ export const bookingService = {
           whatsapp_number,
           phone,
           contact_person
+        ),
+        tourist_users:tourist_user_id (
+          first_name,
+          last_name, 
+          email,
+          whatsapp_number,
+          phone
         )
       `)
-      .eq('customer_email', customerEmail)
+      .eq('tourist_users.email', customerEmail)
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -230,6 +237,13 @@ export const bookingService = {
           whatsapp_number,
           phone,
           contact_person
+        ),
+        tourist_users:tourist_user_id (
+          first_name,
+          last_name, 
+          email,
+          whatsapp_number,
+          phone
         )
       `)
       .eq('booking_reference', bookingReference)
@@ -253,7 +267,7 @@ export const bookingService = {
           event: 'UPDATE', 
           schema: 'public', 
           table: 'bookings',
-          filter: `customer_email=eq.${customerEmail}`
+          filter: `tourist_users.email=eq.${customerEmail}`
         },
         (payload) => callback(payload)
       )
@@ -303,6 +317,13 @@ export const operatorService = {
           tour_date,
           time_slot,
           meeting_point
+        ),
+        tourist_users:tourist_user_id (
+          first_name,
+          last_name, 
+          email,
+          whatsapp_number,
+          phone
         )
       `)
       .eq('operator_id', operatorId)
@@ -420,53 +441,121 @@ export const formatTime = (time) => {
 // Journey & Booking Management Functions
 export const journeyService = {
   // Get user's bookings by email or WhatsApp
+  // Get user's bookings by email or WhatsApp
   async getUserBookings(email, whatsapp) {
     try {
-      let query = supabase
-        .from('bookings')
-        .select(`
-          *,
-          tours:tour_id (
-            tour_name,
-            tour_date,
-            time_slot,
-            meeting_point,
-            tour_type,
-            duration_hours,
-            pickup_available,
-            pickup_locations,
-            requirements,
-            restrictions
-          ),
-          operators:operator_id (
-            company_name,
-            whatsapp_number,
-            phone,
-            contact_person,
-            island
-          )
-        `)
-        .order('created_at', { ascending: false })
-
-      // Search by email OR WhatsApp
-      if (email && whatsapp) {
-        query = query.or(`customer_email.eq.${email},customer_whatsapp.eq.${whatsapp}`)
-      } else if (email) {
-        query = query.eq('customer_email', email)
-      } else if (whatsapp) {
-        query = query.eq('customer_whatsapp', whatsapp)
-      } else {
+      console.log('🔍 getUserBookings called with:', { email, whatsapp });
+      
+      if (!email && !whatsapp) {
         throw new Error('Either email or WhatsApp is required')
       }
 
-      const { data, error } = await query
+      // 🔧 NEW APPROACH: Use separate queries to avoid .or() issues on related tables
+      let emailBookings = []
+      let whatsappBookings = []
 
-      if (error) {
-        console.error('Error fetching user bookings:', error)
-        throw error
+      // Query by email if provided
+      if (email) {
+        const { data: emailData, error: emailError } = await supabase
+          .from('bookings')
+          .select(`
+            *,
+            tours:tour_id (
+              tour_name,
+              tour_date,
+              time_slot,
+              meeting_point,
+              tour_type,
+              duration_hours,
+              pickup_available,
+              pickup_locations,
+              requirements,
+              restrictions
+            ),
+            operators:operator_id (
+              company_name,
+              whatsapp_number,
+              phone,
+              contact_person,
+              island
+            ),
+            tourist_users:tourist_user_id (
+              first_name,
+              last_name, 
+              email,
+              whatsapp_number,
+              phone
+            )
+          `)
+          .eq('tourist_users.email', email)
+          .order('created_at', { ascending: false })
+          
+        if (emailError) {
+          console.error('Error fetching bookings by email:', emailError)
+        } else {
+          emailBookings = emailData || []
+          console.log(`Found ${emailBookings.length} bookings by email`)
+        }
       }
+
+      // Query by WhatsApp if provided and different from email results
+      if (whatsapp) {
+        const { data: whatsappData, error: whatsappError } = await supabase
+          .from('bookings')
+          .select(`
+            *,
+            tours:tour_id (
+              tour_name,
+              tour_date,
+              time_slot,
+              meeting_point,
+              tour_type,
+              duration_hours,
+              pickup_available,
+              pickup_locations,
+              requirements,
+              restrictions
+            ),
+            operators:operator_id (
+              company_name,
+              whatsapp_number,
+              phone,
+              contact_person,
+              island
+            ),
+            tourist_users:tourist_user_id (
+              first_name,
+              last_name, 
+              email,
+              whatsapp_number,
+              phone
+            )
+          `)
+          .eq('tourist_users.whatsapp_number', whatsapp)
+          .order('created_at', { ascending: false })
+          
+        if (whatsappError) {
+          console.error('Error fetching bookings by WhatsApp:', whatsappError)
+        } else {
+          whatsappBookings = whatsappData || []
+          console.log(`Found ${whatsappBookings.length} bookings by WhatsApp`)
+        }
+      }
+
+      // Merge results and remove duplicates by booking ID
+      const allBookings = [...emailBookings, ...whatsappBookings]
+      const uniqueBookings = allBookings.filter((booking, index, self) => 
+        index === self.findIndex(b => b.id === booking.id)
+      )
+
+      // Sort by creation date (newest first)
+      const sortedBookings = uniqueBookings.sort((a, b) => 
+        new Date(b.created_at) - new Date(a.created_at)
+      )
+
+      console.log(`✅ Total unique bookings found: ${sortedBookings.length}`)
+      return sortedBookings
       
-      return data || []
     } catch (error) {
       console.error('Error in getUserBookings:', error)
       throw error
@@ -498,6 +587,13 @@ export const journeyService = {
             phone,
             contact_person,
             island
+          ),
+          tourist_users:tourist_user_id (
+            first_name,
+            last_name, 
+            email,
+            whatsapp_number,
+            phone
           )
         `)
         .eq('booking_reference', bookingReference)
@@ -525,7 +621,7 @@ export const journeyService = {
           event: 'UPDATE', 
           schema: 'public', 
           table: 'bookings',
-          filter: email ? `customer_email=eq.${email}` : `customer_whatsapp=eq.${whatsapp}`
+          filter: email ? `tourist_users.email=eq.${email}` : `tourist_users.whatsapp_number=eq.${whatsapp}`
         },
         (payload) => {
           console.log('Booking update received:', payload)
@@ -577,18 +673,25 @@ export const journeyService = {
         .from('bookings')
         .select(`
           *,
-          tours:tour_id (tour_name, tour_date, time_slot),
-          operators:operator_id (company_name)
+          tours:tour_id (tour_name, tour_date),
+          operators:operator_id (company_name),
+          tourist_users:tourist_user_id (
+            first_name,
+            last_name, 
+            email,
+            whatsapp_number,
+            phone
+          )
         `)
         .gte('created_at', yesterday.toISOString())
         .order('created_at', { ascending: false })
 
       if (email && whatsapp) {
-        query = query.or(`customer_email.eq.${email},customer_whatsapp.eq.${whatsapp}`)
+        query = query.or(`tourist_users.email.eq."${email}",tourist_users.whatsapp_number.eq."${whatsapp}"`)
       } else if (email) {
-        query = query.eq('customer_email', email)
+        query = query.eq('tourist_users.email', email)
       } else if (whatsapp) {
-        query = query.eq('customer_whatsapp', whatsapp)
+        query = query.eq('tourist_users.whatsapp_number', whatsapp)
       }
 
       const { data, error } = await query

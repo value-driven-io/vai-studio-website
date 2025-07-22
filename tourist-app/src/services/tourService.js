@@ -142,35 +142,42 @@ export const tourService = {
       let query = supabase
         .from('bookings')
         .select(`
-          *,
-          tours (
-            tour_name,
-            tour_type,
-            tour_date,
-            time_slot,
-            duration_hours,
-            meeting_point,
-            original_price_adult,
-            discount_price_adult
-          ),
-          operators (
-            company_name,
-            contact_person,
-            whatsapp_number,
-            phone,
-            email,
-            island
-          )
-        `)
+        *,
+        tours (
+          tour_name,
+          tour_type,
+          tour_date,
+          time_slot,
+          duration_hours,
+          meeting_point,
+          original_price_adult,
+          discount_price_adult
+        ),
+        operators (
+          company_name,
+          contact_person,
+          whatsapp_number,
+          phone,
+          email,
+          island
+        ),
+        tourist_users:tourist_user_id (
+          first_name,
+          last_name,
+          email,
+          whatsapp_number,
+          phone
+        )
+      `)
         .order('created_at', { ascending: false })
 
       // Search by email or WhatsApp
       if (email && whatsapp) {
-        query = query.or(`customer_email.eq.${email},customer_whatsapp.eq.${whatsapp}`)
+        query = query.or(`tourist_users.email.eq."${email}",tourist_users.whatsapp_number.eq."${whatsapp}"`)
       } else if (email) {
-        query = query.eq('customer_email', email)
+        query = query.eq('tourist_users.email', email)
       } else if (whatsapp) {
-        query = query.eq('customer_whatsapp', whatsapp)
+        query = query.eq('tourist_users.whatsapp_number', whatsapp)
       } else {
         return [] // No search criteria provided
       }
@@ -229,7 +236,14 @@ export const tourService = {
         .select(`
           *,
           tours (*),
-          operators (*)
+          operators (*),
+          tourist_users:tourist_user_id (
+            first_name,
+            last_name,
+            email,
+            whatsapp_number,
+            phone
+          )
         `)
         .eq('booking_reference', bookingReference)
         .single()
@@ -366,10 +380,13 @@ export const tourService = {
         // Required fields we can insert
         tour_id: bookingData.tour_id,
         operator_id: bookingData.operator_id,
-        customer_name: bookingData.customer_name,
-        customer_email: bookingData.customer_email,
-        customer_phone: bookingData.customer_phone,
-        customer_whatsapp: bookingData.customer_whatsapp,
+        
+        customer_name: bookingData.customer_name, // keep old approach as backup, but use tourist users as source of truth
+        customer_email: bookingData.customer_email || '',
+        customer_whatsapp: bookingData.customer_whatsapp || '',
+        customer_phone: bookingData.customer_phone || '',
+        
+        tourist_user_id: bookingData.tourist_user_id,  // This should be the user's ID from auth
         num_adults: bookingData.num_adults,
         num_children: bookingData.num_children,
         adult_price: bookingData.adult_price,

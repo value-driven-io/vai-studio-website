@@ -130,8 +130,12 @@ function AppContent() {
           style: {
             background: '#1e293b',
             color: '#f1f5f9',
-            border: '1px solid #334155'
+            border: '1px solid #334155',
+            zIndex: 100000 // 🔧 HIGHEST z-index
           }
+        }}
+        containerStyle={{
+          zIndex: 100000
         }}
       />
     </div>

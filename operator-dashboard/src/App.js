@@ -1017,8 +1017,8 @@ function App() {
         case 'original_price_adult':
           if (formData.original_price_adult < 1000) {
             errors.original_price_adult = 'Minimum price is 1,000 XPF - French Polynesia tourism standards'
-          } else if (formData.original_price_adult > 50000) {
-            errors.original_price_adult = 'Maximum price is 50,000 XPF - contact support for premium tours'
+          } else if (formData.original_price_adult > 200000) {
+            errors.original_price_adult = 'Maximum price is 200,000 XPF - contact support for higher premium tours'
           } else if (formData.original_price_adult % 100 !== 0) {
             errors.original_price_adult = 'Price must end in 00 (e.g., 5600, 7200) for professional appearance'
           }
@@ -1028,16 +1028,16 @@ function App() {
             errors.discount_price_adult = 'Discount price must be lower than regular price'
           }
           
-          if (formData.discount_percentage > 60) {
-            errors.discount_percentage = 'Maximum discount is 60% - higher discounts may seem suspicious to customers'
+          if (formData.discount_percentage > 90) {
+            errors.discount_percentage = 'Maximum discount is 90% - higher discounts may seem suspicious to customers'
           }
           break
           
         case 'duration_hours':
           if (formData.duration_hours < 0.5) {
             errors.duration_hours = 'Minimum duration is 30 minutes'
-          } else if (formData.duration_hours > 12) {
-            errors.duration_hours = 'Maximum duration is 12 hours - split longer experiences into multiple tours'
+          } else if (formData.duration_hours > 24) {
+            errors.duration_hours = 'Maximum duration is 24 hours - split longer experiences into multiple tours'
           }
           break
 

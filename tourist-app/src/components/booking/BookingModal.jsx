@@ -14,10 +14,12 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   const [showOptional, setShowOptional] = useState(false)
   const [loading, setLoading] = useState(false)
   const [bookingResult, setBookingResult] = useState(null)
+  const [accountResult, setAccountResult] = useState(null)
 
   // Form state
   const [formData, setFormData] = useState({
-    customer_name: '',
+    customer_first_name: '',
+    customer_last_name: '',
     customer_whatsapp: '',
     customer_email: '',
     customer_phone: '',
@@ -50,9 +52,13 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
   const validateQuickForm = () => {
     const newErrors = {}
+
+    if (!formData.customer_first_name.trim()) {
+      newErrors.customer_first_name = 'First name is required'
+    }
     
-    if (!formData.customer_name.trim()) {
-      newErrors.customer_name = 'Name is required'
+    if (!formData.customer_last_name.trim()) {
+      newErrors.customer_last_name = 'Last name is required'
     }
     
     if (!formData.customer_whatsapp.trim()) {
@@ -93,8 +99,9 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         setLoading(true)
         
         // 🆕 STEP 1: Create tourist account first
+        const fullName = `${formData.customer_first_name.trim()} ${formData.customer_last_name.trim()}`
         const accountResult = await authService.createTouristAccount(
-          formData.customer_name,
+          fullName,
           formData.customer_email,
           formData.customer_whatsapp,
           formData.customer_phone
@@ -103,6 +110,9 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         if (!accountResult.success) {
           throw new Error(accountResult.error)
         }
+
+        // NEW: Store account result for success screen
+        setAccountResult(accountResult)
 
         // ✅ STEP 2: Create booking with account linkage (existing logic)
         const totalParticipants = formData.num_adults + formData.num_children
@@ -113,7 +123,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         tour_id: tour.id,
         operator_id: tour.operator_id,
         tourist_user_id: accountResult.tourist_user_id,
-        customer_name: formData.customer_name,
+        customer_name: fullName, // Use combined name for backward compatibility
         customer_whatsapp: formData.customer_whatsapp,
         customer_email: formData.customer_email?.trim() || '',
         customer_phone: formData.customer_phone?.trim() || '', // Use empty string instead of null
@@ -182,6 +192,30 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <p className="text-slate-300 mb-6">
               Your adventure is reserved! Now the operator needs to confirm.
             </p>
+
+            {/* 🔧 NEW: Account Creation Success Info */}
+              {accountResult && !accountResult.existing_user && (
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4" style={{textAlign: 'left'}}>
+                  <h4 className="font-semibold text-blue-400 mb-2">✅ Account Created!</h4>
+                  <div className="text-sm text-blue-300 space-y-1">
+                    <div>Email: <span className="text-white font-mono">{formData.customer_email}</span></div>
+                    <div>Password: <span className="text-white font-mono">{accountResult.temp_password}</span></div>
+                    <div className="text-blue-200 text-xs mt-2">
+                      💡 Check your email to activate your account. Use the password above to sign in.
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 🔧 ENHANCED: Existing user info */}
+              {accountResult && accountResult.existing_user && (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-4" style={{textAlign: 'left'}}>
+                  <h4 className="font-semibold text-green-400 mb-2">✅ Account Linked!</h4>
+                  <div className="text-sm text-green-300">
+                    This booking has been added to your existing VAI account.
+                  </div>
+                </div>
+              )}
             
             <div className="bg-slate-700 rounded-xl p-4 mb-6 text-left">
               <h3 className="font-semibold text-white mb-2">Booking Details</h3>
@@ -197,7 +231,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6" style={{textAlign: 'left'}}>
               <h4 className="font-semibold text-white mb-2">What's Next?</h4>
               <div className="text-sm text-slate-300 space-y-1">
-                <div>1. Operator confirms your booking request (Mail and on VAI Tickets)</div>
+                <div>1. Operator confirms your booking request (check you Mail or VAI Tickets)</div>
                 <div>2. Once confirmed: Communicate final details and meeting point with Operator</div>
                 <div>3. Payment directly with operator (no upfront cost to VAI Tickets)</div>
                 <div>4. Enjoy your adventure! 🌴</div>
@@ -279,23 +313,46 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             </h4>
             
             <div className="space-y-4">
-              {/* Name */}
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Your Name *
-                </label>
-                <input
-                  type="text"
-                  value={formData.customer_name}
-                  onChange={(e) => handleInputChange('customer_name', e.target.value)}
-                  className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
-                    errors.customer_name ? 'border-red-500' : 'border-slate-600'
-                  }`}
-                  placeholder="Enter your full name"
-                />
-                {errors.customer_name && (
-                  <p className="text-red-400 text-sm mt-1">{errors.customer_name}</p>
-                )}
+
+
+              <div className="grid grid-cols-2 gap-4">
+                {/* First Name */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.customer_first_name}
+                    onChange={(e) => handleInputChange('customer_first_name', e.target.value)}
+                    className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
+                      errors.customer_first_name ? 'border-red-500' : 'border-slate-600'
+                    }`}
+                    placeholder="First name"
+                  />
+                  {errors.customer_first_name && (
+                    <p className="text-red-400 text-sm mt-1">{errors.customer_first_name}</p>
+                  )}
+                </div>
+
+                {/* Last Name */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.customer_last_name}
+                    onChange={(e) => handleInputChange('customer_last_name', e.target.value)}
+                    className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
+                      errors.customer_last_name ? 'border-red-500' : 'border-slate-600'
+                    }`}
+                    placeholder="Last name"
+                  />
+                  {errors.customer_last_name && (
+                    <p className="text-red-400 text-sm mt-1">{errors.customer_last_name}</p>
+                  )}
+                </div>
               </div>
 
               {/* WhatsApp */}

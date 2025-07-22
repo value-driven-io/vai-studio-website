@@ -65,8 +65,10 @@ export const authService = {
       const firstName = nameParts[0]
       const lastName = nameParts.slice(1).join(' ') || ''
 
-      // Generate secure password
-      const tempPassword = Math.random().toString(36).slice(-12) + Date.now().toString(36)
+      // Generate secure password with provided email
+      // This will be changed after email verification
+      // This ensures we can create the auth user first, then link to tourist_users
+      const tempPassword = `VAI_${email.trim()}`
 
       // 🔧 APPROACH: Try to create auth user first, then handle tourist_users with UPSERT
       let authResult
@@ -81,15 +83,15 @@ export const authService = {
         authUserId = authResult.user.id
         console.log('✅ Auth user created:', email.trim())
       } catch (authError) {
-        // If auth user already exists, that's fine - we'll get their ID
+        // If auth user already exists -  get their ID
         if (authError.message?.includes('already been registered')) {
           console.log('ℹ️ Auth user already exists, continuing...')
-          // Get the existing auth user (we'll link to existing tourist_users)
+          // Get the existing auth user (link to existing tourist_users)
           const { data: { user } } = await supabase.auth.getUser()
           if (user?.email === email.trim()) {
             authUserId = user.id
           } else {
-            // We can't easily get the auth user ID, so we'll try a different approach
+            // We can't easily get the auth user ID, so try a different approach
             throw new Error('Auth user exists but we cannot access it')
           }
         } else {
@@ -97,7 +99,7 @@ export const authService = {
         }
       }
 
-      // 🔧 UPSERT: Try INSERT, if fails due to duplicate, get existing record
+      // UPSERT: Try INSERT, if fails due to duplicate, get existing record
       const { data: touristData, error: touristError } = await supabase
         .from('tourist_users')
         .upsert([{
@@ -132,7 +134,8 @@ export const authService = {
             tourist_user_id: existing.id,
             auth_user_id: existing.auth_user_id,
             email: existing.email,
-            existing_user: true
+            existing_user: true,
+            temp_password: tempPassword // Return temp password for initial login
           }
         }
         throw touristError
@@ -144,7 +147,8 @@ export const authService = {
         tourist_user_id: touristData.id,
         auth_user_id: touristData.auth_user_id,
         email: email.trim(),
-        existing_user: false
+        existing_user: false,
+        temp_password: tempPassword // Return temp password for initial login
       }
 
     } catch (error) {
