@@ -1,6 +1,6 @@
 // src/components/booking/BookingModal.jsx
 import React, { useState } from 'react'
-import { X, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react'
+import { X, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle, Calendar, MessageCircle } from 'lucide-react'
 import { tourService } from '../../services/tourService'
 import { useAppStore } from '../../stores/bookingStore'
 import { authService } from '../../services/authService'
@@ -175,28 +175,74 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
   const pricing = calculatePricing()
 
-  // Success Screen
-  if (step === 3 && bookingResult) {
-    return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700">
-          <div className="p-6 text-center">
-            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-white" />
-            </div>
-            
-            <h2 className="text-2xl font-bold text-white mb-2">
-              Booking Confirmed! 🎉
-            </h2>
-            
-            <p className="text-slate-300 mb-6">
-              Your adventure is reserved! Now the operator needs to confirm.
-            </p>
+    // Success Screen (Step 3) - Enhanced Version
+    if (step === 3 && bookingResult) {
+      return (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700 max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              {/* Header with Success Icon */}
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-white" />
+                </div>
+                
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  Booking Requested! 🎉
+                </h2>
+                
+                <p className="text-slate-300">
+                  Your adventure request is on its way to the operator!
+                </p>
+              </div>
 
-            {/* 🔧 NEW: Account Creation Success Info */}
+              {/* 🆕 STATUS PROGRESSION BAR */}
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-slate-400">BOOKING PROGRESS</span>
+                </div>
+                
+                <div className="flex items-center justify-between relative">
+                  {/* Progress Line */}
+                  <div className="absolute top-4 left-4 right-4 h-0.5 bg-slate-600"></div>
+                  <div className="absolute top-4 left-4 h-0.5 bg-blue-500 transition-all duration-500" style={{width: '0%'}}></div>
+                  
+                  {/* Status Steps */}
+                  <div className="flex items-center justify-between w-full relative z-10">
+                    {/* Step 1: Requested (Current) */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center mb-2">
+                        <CheckCircle className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-xs font-medium text-blue-400">Requested</span>
+                    </div>
+                    
+                    {/* Step 2: Confirmed */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-slate-500 flex items-center justify-center mb-2">
+                        <div className="w-3 h-3 rounded-full bg-slate-400"></div>
+                      </div>
+                      <span className="text-xs font-medium text-slate-400">Confirmed!</span>
+                    </div>
+                    
+                    {/* Step 3: Complete */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-slate-500 flex items-center justify-center mb-2">
+                        <div className="w-3 h-3 rounded-full bg-slate-400"></div>
+                      </div>
+                      <span className="text-xs font-medium text-slate-400">Complete</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Account Creation Success Info */}
               {accountResult && !accountResult.existing_user && (
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4" style={{textAlign: 'left'}}>
-                  <h4 className="font-semibold text-blue-400 mb-2">✅ Account Created!</h4>
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
+                  <h4 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4" />
+                    Account Created!
+                  </h4>
                   <div className="text-sm text-blue-300 space-y-1">
                     <div>Email: <span className="text-white font-mono">{formData.customer_email}</span></div>
                     <div>Password: <span className="text-white font-mono">{accountResult.temp_password}</span></div>
@@ -207,58 +253,127 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* 🔧 ENHANCED: Existing user info */}
+              {/* Existing User Info */}
               {accountResult && accountResult.existing_user && (
-                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-4" style={{textAlign: 'left'}}>
-                  <h4 className="font-semibold text-green-400 mb-2">✅ Account Linked!</h4>
+                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-4">
+                  <h4 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4" />
+                    Account Linked!
+                  </h4>
                   <div className="text-sm text-green-300">
                     This booking has been added to your existing VAI account.
                   </div>
                 </div>
               )}
-            
-            <div className="bg-slate-700 rounded-xl p-4 mb-6 text-left">
-              <h3 className="font-semibold text-white mb-2">Booking Details</h3>
-              <div className="space-y-1 text-sm text-slate-300">
-                <div>Reference: <span className="text-white font-mono">{bookingResult.booking_reference}</span></div>
-                <div>Tour: {tour.tour_name}</div>
-                <div>Date: {formatDate(tour.tour_date)} {formatTime(tour.time_slot)}</div>
-                <div>Participants: {formData.num_adults + formData.num_children}</div>
-                <div>Total: {formatPrice(bookingResult.total_amount || (bookingResult.subtotal + bookingResult.commission_amount))}</div>
+              
+              {/* Booking Details */}
+              <div className="bg-slate-700 rounded-xl p-4 mb-6">
+                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Booking Details
+                </h3>
+                <div className="space-y-2 text-sm text-slate-300">
+                  <div className="flex justify-between">
+                    <span>Reference:</span>
+                    <span className="text-white font-mono">{bookingResult.booking_reference}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Tour:</span>
+                    <span className="text-white">{tour.tour_name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Date:</span>
+                    <span className="text-white">{formatDate(tour.tour_date)} {formatTime(tour.time_slot)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Participants:</span>
+                    <span className="text-white">{formData.num_adults + formData.num_children}</span>
+                  </div>
+                  <div className="flex justify-between font-semibold">
+                    <span>Total:</span>
+                    <span className="text-white">{formatPrice(bookingResult.total_amount || (bookingResult.subtotal + bookingResult.commission_amount))}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6" style={{textAlign: 'left'}}>
-              <h4 className="font-semibold text-white mb-2">What's Next?</h4>
-              <div className="text-sm text-slate-300 space-y-1">
-                <div>1. Operator confirms your booking request (check you Mail or VAI Tickets)</div>
-                <div>2. Once confirmed: Communicate final details and meeting point with Operator</div>
-                <div>3. Payment directly with operator (no upfront cost to VAI Tickets)</div>
-                <div>4. Enjoy your adventure! 🌴</div>
+              
+              {/* 🆕 ENHANCED WHAT'S NEXT SECTION */}
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
+                <h4 className="font-semibold text-white mb-3 flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  What's Next?
+                </h4>
+                <div className="text-sm text-slate-300 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-white text-xs font-bold">1</span>
+                    </div>
+                    <div>
+                      <div className="text-white font-medium">Operator Review</div>
+                      <div className="text-slate-400 text-xs">Operators will answer as soon as possible. Keep an eye on your mails/check this app!</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-slate-400 text-xs font-bold">2</span>
+                    </div>
+                    <div>
+                      <div className="text-slate-400 font-medium">Confirmation & Chat</div>
+                      <div className="text-slate-500 text-xs">Messages tab will unlock after confirmation</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-slate-400 text-xs font-bold">3</span>
+                    </div>
+                    <div>
+                      <div className="text-slate-400 font-medium">Ready for your Adventure</div>
+                      <div className="text-slate-500 text-xs">Once you have all info, it's time to enjoy! 🌴</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            <div className="flex gap-3">
-              <button
-                onClick={onClose}
-                className="flex-1 bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors"
-              >
-                Close
-              </button>
-              <a
-                href={`https://wa.me/68987269065?text=Hi! I have a question about my booking ${bookingResult.booking_reference}`}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-center"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Support
-              </a>
+
+              {/* 🆕 ACTION BUTTONS */}
+              <div className="space-y-3">
+                {/* Primary Action: Track Your Booking */}
+                <button
+                  onClick={() => {
+                    onClose() // Close modal
+                    setActiveTab('journey') // Switch to journey tab
+                    // Note: You'll need to add logic to focus on 'urgent' stage in JourneyTab
+                  }}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Track Your Booking
+                </button>
+                
+                {/* Secondary Actions */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={onClose}
+                    className="flex-1 bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+                  >
+                    Close
+                  </button>
+                  <a
+                    href={`https://wa.me/68987269065?text=Hi! I just booked ${tour.tour_name} (${bookingResult.booking_reference}). When will you confirm?`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-center text-sm flex items-center justify-center gap-1"
+                  >
+                    <MessageCircle className="w-3 h-3" />
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )
-  }
+      )
+    }
 
   // Main Booking Form
   return (
