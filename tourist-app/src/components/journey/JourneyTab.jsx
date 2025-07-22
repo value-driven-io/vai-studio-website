@@ -256,13 +256,21 @@ const JourneyTab = () => {
     }
   }
 
+  // Messages tab for confirmed, WhatsApp for pending
   const handleContactOperator = (booking) => {
-    if (booking.operators?.whatsapp_number) {
-      const message = `Hi! I have a confirmed booking: ${booking.booking_reference}. Looking forward to the tour!`
-      const url = `https://wa.me/${booking.operators.whatsapp_number}?text=${encodeURIComponent(message)}`
-      window.open(url, '_blank')
-    } else if (booking.operators?.phone) {
-      window.open(`tel:${booking.operators.phone}`, '_self')
+    if (booking.booking_status === 'confirmed') {
+      // Confirmed bookings → Messages tab
+      setActiveTab('messages')
+      toast.success(`Opening chat with ${booking.operators?.company_name || 'operator'}`)
+    } else {
+      // Pending bookings → WhatsApp (existing behavior)
+      if (booking.operators?.whatsapp_number) {
+        const message = `Hi! I have a booking request: ${booking.booking_reference}. When will you confirm?`
+        const url = `https://wa.me/${booking.operators.whatsapp_number}?text=${encodeURIComponent(message)}`
+        window.open(url, '_blank')
+      } else if (booking.operators?.phone) {
+        window.open(`tel:${booking.operators.phone}`, '_self')
+      }
     }
   }
 
