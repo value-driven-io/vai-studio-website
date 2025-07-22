@@ -15,6 +15,7 @@ import BookingSection from './BookingSection'
 import FavoritesSection from './FavoritesSection'
 import toast from 'react-hot-toast'
 import VAILogo from '../shared/VAILogo'
+import ModernBookingView from './ModernBookingView'
 
 const JourneyTab = () => {
   const { 
@@ -34,11 +35,11 @@ const JourneyTab = () => {
     getUserContactInfo
   } = useUserJourney()
 
-  const { favorites, toggleFavorite, setActiveTab } = useAppStore()
+  const { favorites, toggleFavorite, setActiveTab, journeyStage, setJourneyStage } = useAppStore()
   const [showFavoritesInOverview, setShowFavoritesInOverview] = useState(false)
   
   // Enhanced state for journey stages
-  const [activeStage, setActiveStage] = useState('overview')
+  const [activeStage, setActiveStage] = useState(journeyStage || 'overview')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedBooking, setSelectedBooking] = useState(null)
   const [showRebookModal, setShowRebookModal] = useState(false)
@@ -61,6 +62,21 @@ const JourneyTab = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false)
  const [canScrollRight, setCanScrollRight] = useState(true)
 
+  // Respond to external journey stage changes (from Track Your Booking button)
+    useEffect(() => {
+  if (journeyStage && journeyStage !== activeStage) {
+    setActiveStage(journeyStage)
+    setJourneyStage(null) // Reset to null instead of 'overview'
+  }
+}, [journeyStage, activeStage, setJourneyStage])
+
+    // Reset search query when switching to modern stage
+    useEffect(() => {
+      if (activeStage === 'modern') {
+        setSearchQuery('') // Clear old search when entering modern view
+      }
+    }, [activeStage])
+
   // Safe data access
   const safeUserBookings = userBookings || { active: [], upcoming: [], past: [] }
   const safeFavorites = favorites || []
@@ -73,6 +89,21 @@ const JourneyTab = () => {
       label: 'Overview',
       emoji: '📊',
       description: 'Your journey at a glance'
+    },
+    {
+      id: 'modern',
+      label: 'All Bookings',
+      emoji: '🎯',
+      description: 'Modern booking management',
+      count: safeUserBookings.active.length + safeUserBookings.upcoming.length + safeUserBookings.past.length,
+      new: true // Flag to show "NEW" badge
+    },
+    {
+      id: 'active',
+      label: 'Active',
+      emoji: '🎯',
+      description: 'All active bookings',
+      count: safeUserBookings.active.length + safeUserBookings.upcoming.length
     },
     {
       id: 'urgent',
@@ -208,6 +239,9 @@ const JourneyTab = () => {
   // Get filtered bookings for enhanced stages
   const getFilteredBookings = () => {
     switch (activeStage) {
+      case 'active':
+        // Show both pending and confirmed bookings
+        return [...safeUserBookings.active, ...safeUserBookings.upcoming]
       case 'urgent':
         return safeUserBookings.active.filter(booking => 
           booking?.booking_status === 'pending' || 
@@ -291,6 +325,14 @@ const JourneyTab = () => {
     if (hoursUntilDeadline <= 8) return 'bg-yellow-500/20 text-yellow-400'
     return 'bg-green-500/20 text-green-400'
   }
+
+  // 🔍 DEBUG
+  console.log('JourneyTab Debug:', {
+    activeStage,
+    userBookings: safeUserBookings,
+    totalBookings: safeUserBookings.active.length + safeUserBookings.upcoming.length + safeUserBookings.past.length,
+    modernStageActive: activeStage === 'modern'
+  })
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${getBackgroundGradient()} transition-all duration-1000`}>
@@ -418,6 +460,13 @@ const JourneyTab = () => {
                         ? 'border-red-400/60 bg-slate-700/40 hover:border-red-400'
                         : 'border-slate-600/40 bg-slate-700/40 hover:border-slate-500'
                     }`}>
+
+                      {/* 🆕 ADD NEW BADGE for the modern stage: */}
+                      {stage.new && (
+                        <div className="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-slate-800">
+                          NEW
+                        </div>
+                      )}
                       
                       {/* Urgent dot indicator */}
                       {hasUrgent && !isActive && (
@@ -491,8 +540,8 @@ const JourneyTab = () => {
           </div>
           
 
-          {/* Search Bar for non-overview stages */}
-          {activeStage !== 'overview' && (
+          {/* Search Bar for non-overview and non-modern stages */}
+            {activeStage !== 'overview' && activeStage !== 'modern' && ( 
             <div className="px-4 sm:px-6 pb-3">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -774,6 +823,24 @@ const JourneyTab = () => {
                 )}
               </div>
             )}
+
+            {/* 🆕 ADD THIS NEW MODERN VIEW SECTION: */}
+              {activeStage === 'modern' && (
+                <ModernBookingView
+                  userBookings={safeUserBookings}
+                  loading={loading}
+                  formatPrice={formatPrice}
+                  formatDate={formatDate}
+                  formatTime={formatTime}
+                  onContactOperator={handleContactOperator}
+                  onRebook={handleRebook}
+                  onGetSupport={handleGetSupport}
+                  canContactOperator={canContactOperator}
+                  canRebook={canRebook}
+                  onRefresh={refreshBookings}
+                />
+              )}
+
           </>
         )}
       </div>

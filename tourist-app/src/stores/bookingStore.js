@@ -35,6 +35,9 @@ export const useAppStore = create(
         whatsapp: '',
         name: ''
       },
+
+      // Journey stage management
+      journeyStage: null, // Default stage  
       
       // App state
       currentLanguage: 'en',
@@ -81,6 +84,10 @@ export const useAppStore = create(
           ? state.favorites.filter(id => id !== tourId)
           : [...state.favorites, tourId]
       })),
+
+      // 🆕 ADD THIS: Journey stage actions  
+       setJourneyStage: (stage) => set({ journeyStage: stage }),
+       resetJourneyStage: () => set({ journeyStage: 'overview' }),
       
       // Language actions
       setLanguage: (language) => set({ currentLanguage: language }),

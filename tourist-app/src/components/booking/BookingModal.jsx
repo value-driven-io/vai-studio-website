@@ -9,7 +9,7 @@ import { formatPrice, formatDate, formatTime } from '../../lib/utils'
 import toast from 'react-hot-toast'
 
 const BookingModal = ({ tour, isOpen, onClose }) => {
-  const { addBooking, updateUserProfile } = useAppStore()
+  const { addBooking, updateUserProfile, setActiveTab, setJourneyStage } = useAppStore()
   const [step, setStep] = useState(1) // 1: Quick Form, 2: Optional Details, 3: Success
   const [showOptional, setShowOptional] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -341,8 +341,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 <button
                   onClick={() => {
                     onClose() // Close modal
+                    setJourneyStage('modern') // Set to show modern booking view
                     setActiveTab('journey') // Switch to journey tab
-                    // Note: You'll need to add logic to focus on 'urgent' stage in JourneyTab
                   }}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
