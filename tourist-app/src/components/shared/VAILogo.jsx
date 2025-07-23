@@ -20,7 +20,7 @@ const VAILogo = ({
 
   return (
     <a 
-      href="https://vai.studio/app/" 
+      href="https://app.vai.studio/" 
       target="_blank" 
       rel="noopener noreferrer"
       className={`inline-flex items-center gap-2 hover:scale-105 transition-transform duration-200 ${className}`}

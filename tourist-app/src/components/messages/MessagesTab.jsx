@@ -175,28 +175,80 @@ const MessagesTab = () => {
     loadConversations()
   }, [touristUserId])
 
-  // Real-time updates for selected conversation
-  useEffect(() => {
+  
+    // Real-time updates for selected conversation
+    useEffect(() => {
     if (!selectedConversation) return
 
+    // ✅ ADD: Event deduplication tracking
+    const processedEvents = new Set()
+
     const unsubscribe = chatService.subscribeToConversation(
-      selectedConversation.id,
-      async (payload) => {
+        selectedConversation.id,
+        async (payload) => {
         console.log('Real-time message update:', payload)
-        // Reload messages for real-time updates WITHOUT loading spinner
-        try {
-          const msgs = await chatService.getConversation(selectedConversation.id)
-          setMessages(msgs)
-          await chatService.markAsRead(selectedConversation.id, 'tourist')
-          loadConversations()
-        } catch (error) {
-          console.error('Error loading real-time messages:', error)
+        
+        // ✅ DEDUPLICATE: Create unique event ID to prevent duplicates
+        const eventId = `${payload.commit_timestamp}_${payload.eventType}_${payload.new?.id || payload.old?.id}`
+        
+        if (processedEvents.has(eventId)) {
+            console.log('🚫 Duplicate event ignored:', eventId)
+            return
         }
-      }
+        
+        processedEvents.add(eventId)
+        
+        // ✅ HANDLE: Only process INSERT events for new messages
+        if (payload.eventType === 'INSERT' && payload.new) {
+            const newMessage = payload.new
+            
+            // Skip if message is from current user (already optimistically added)
+            if (newMessage.sender_type === 'tourist' && newMessage.sender_id === touristUserId) {
+            console.log('🚫 Skipping own message from real-time')
+            return
+            }
+            
+            // Add new message from operator
+            setMessages(prevMessages => {
+            // Check if message already exists
+            const messageExists = prevMessages.some(msg => msg.id === newMessage.id)
+            if (messageExists) {
+                console.log('🚫 Message already exists, skipping')
+                return prevMessages
+            }
+            
+            console.log('✅ Adding new operator message')
+            const enrichedMessage = {
+                ...newMessage,
+                sender_info: newMessage.sender_type === 'operator' 
+                ? { company_name: selectedConversation.operators?.company_name }
+                : null
+            }
+            
+            return [...prevMessages, enrichedMessage]
+            })
+            
+            // Mark as read in background
+            try {
+            await chatService.markAsRead(selectedConversation.id, 'tourist')
+            } catch (error) {
+            console.error('Error marking message as read:', error)
+            }
+            
+            // Auto-scroll to new message
+            scrollToBottom()
+        }
+        
+        // ✅ IGNORE: UPDATE events completely - no logging needed
+        if (payload.eventType === 'UPDATE') {
+            // Silent ignore - unread count handled separately
+            return
+        }
+        }
     )
 
     return unsubscribe
-  }, [selectedConversation?.id])
+    }, [selectedConversation?.id, touristUserId])
 
   // Handle keyboard shortcuts
   useEffect(() => {

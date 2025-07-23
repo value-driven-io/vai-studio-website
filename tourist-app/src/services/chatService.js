@@ -6,7 +6,167 @@ class ChatService {
     this.subscriptions = new Map()
     this.messageCallbacks = new Map()
     this.unreadCallbacks = new Map()
+    
+    // Connection health monitoring
+    this.connectionHealthy = true
+    this.healthCheckInterval = null
+    this.reconnectAttempts = 0
+    this.maxReconnectAttempts = 5
+    
+    // Start health monitoring
+    this.startHealthMonitoring()
   }
+
+
+  // ✅ NEW: Health monitoring methods
+  startHealthMonitoring() {
+    // Check connection health every 30 seconds
+    this.healthCheckInterval = setInterval(() => {
+      this.checkConnectionHealth()
+    }, 30000)
+    
+    // Listen for browser online/offline events
+    window.addEventListener('online', () => {
+      console.log('🌐 Browser back online, reconnecting...')
+      this.handleReconnection()
+    })
+    
+    window.addEventListener('offline', () => {
+      console.log('📵 Browser offline detected')
+      this.connectionHealthy = false
+    })
+  }
+
+  checkConnectionHealth() {
+    // Simple health check: try to query Supabase
+    supabase
+      .from('booking_conversations')
+      .select('id')
+      .limit(1)
+      .then(() => {
+        if (!this.connectionHealthy) {
+          console.log('✅ Connection restored')
+          this.connectionHealthy = true
+          this.reconnectAttempts = 0
+          this.handleReconnection()
+        }
+      })
+      .catch((error) => {
+        console.warn('⚠️ Connection health check failed:', error)
+        this.connectionHealthy = false
+        this.handleConnectionFailure()
+      })
+  }
+
+  handleConnectionFailure() {
+    if (this.reconnectAttempts < this.maxReconnectAttempts) {
+      this.reconnectAttempts++
+      console.log(`🔄 Attempting reconnection ${this.reconnectAttempts}/${this.maxReconnectAttempts}`)
+      
+      // Exponential backoff
+      const delay = Math.pow(2, this.reconnectAttempts) * 1000
+      setTimeout(() => {
+        this.handleReconnection()
+      }, delay)
+    } else {
+      console.error('❌ Max reconnection attempts reached. Manual refresh may be needed.')
+      // Optionally show user notification here
+    }
+  }
+
+  handleReconnection() {
+    console.log('🔄 Reconnecting subscriptions...')
+    
+    // Store current subscriptions info
+    const activeSubscriptions = []
+    this.subscriptions.forEach((subscription, key) => {
+      if (key.startsWith('conversation_')) {
+        const bookingId = key.replace('conversation_', '')
+        const callback = this.messageCallbacks.get(key)
+        if (callback) {
+          activeSubscriptions.push({ bookingId, callback })
+        }
+      }
+    })
+    
+    // Clean up old subscriptions
+    this.cleanup()
+    
+    // Recreate subscriptions
+    activeSubscriptions.forEach(({ bookingId, callback }) => {
+      console.log(`🔄 Reconnecting subscription for booking ${bookingId}`)
+      this.subscribeToConversation(bookingId, callback)
+    })
+  }
+
+  // ✅ ENHANCED: Cleanup method with health monitoring cleanup
+    cleanup() {
+    console.log('🧹 ChatService cleanup started')
+    
+    // Clear health monitoring
+    if (this.healthCheckInterval) {
+        clearInterval(this.healthCheckInterval)
+        this.healthCheckInterval = null
+        console.log('🧹 Health monitoring cleared')
+    }
+    
+    // Clear unread count timeout
+    if (this.unreadCountTimeout) {
+        clearTimeout(this.unreadCountTimeout)
+        this.unreadCountTimeout = null
+        console.log('🧹 Unread count timeout cleared')
+    }
+    
+    // Enhanced subscription cleanup with logging
+    let cleanupCount = 0
+    this.subscriptions.forEach((subscription, key) => {
+        if (Array.isArray(subscription)) {
+        // Handle multiple subscriptions (for unread count)
+        subscription.forEach(sub => {
+            supabase.removeChannel(sub)
+            cleanupCount++
+        })
+        } else {
+        // Handle single subscription
+        supabase.removeChannel(subscription)
+        cleanupCount++
+        }
+    })
+    
+    console.log(`🧹 Cleaned up ${cleanupCount} subscriptions`)
+    
+    this.subscriptions.clear()
+    this.messageCallbacks.clear()
+    this.unreadCallbacks.clear()
+    
+    console.log('🧹 ChatService cleanup completed')
+    }
+
+    // ✅ ALSO ADD: Debug method to check active subscriptions
+    getActiveSubscriptionsCount() {
+    let totalCount = 0
+    this.subscriptions.forEach((subscription) => {
+        if (Array.isArray(subscription)) {
+        totalCount += subscription.length
+        } else {
+        totalCount += 1
+        }
+    })
+    return {
+        subscriptionKeys: this.subscriptions.size,
+        totalSubscriptions: totalCount,
+        messageCallbacks: this.messageCallbacks.size,
+        unreadCallbacks: this.unreadCallbacks.size
+    }
+    }
+
+    // ✅ ADD: Method to log subscription status
+    logSubscriptionStatus() {
+    const status = this.getActiveSubscriptionsCount()
+    console.log('📊 Subscription Status:', status)
+    console.log('🔑 Active Keys:', Array.from(this.subscriptions.keys()))
+    }
+
 
   /**
    * Get conversation messages for a specific booking
@@ -374,44 +534,90 @@ class ChatService {
 
 
   /**
-   * Subscribe to real-time unread count updates for a user
-   * @param {string} userId - Tourist user ID or operator ID
-   * @param {string} userType - 'tourist' | 'operator'  
-   * @param {Function} callback - Function to call when unread count changes
-   * @returns {Function} Unsubscribe function
-   */
-  subscribeToUnreadCount(userId, userType, callback) {
+     * Subscribe to real-time unread count updates for a user
+     * @param {string} userId - Tourist user ID or operator ID
+     * @param {string} userType - 'tourist' | 'operator'  
+     * @param {Function} callback - Function to call when unread count changes
+     * @returns {Function} Unsubscribe function
+     */
+    subscribeToUnreadCount(userId, userType, callback) {
     const subscriptionKey = `unread_${userType}_${userId}`
     
     // Unsubscribe existing subscription if any
     if (this.subscriptions.has(subscriptionKey)) {
-      this.unsubscribeFromUnreadCount(userId, userType)
+        this.unsubscribeFromUnreadCount(userId, userType)
     }
 
-    const subscription = supabase
-      .channel(`unread_count_${userType}_${userId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'booking_conversations'
-        },
-        async (payload) => {
-          console.log('Real-time unread count update:', payload)
-          // Recalculate unread count and call callback
-          const newCount = await this.getUnreadCount(userId, userType)
-          callback(newCount)
+    // ✅ FIXED: Handle async booking fetch in a non-blocking way
+    const setupSubscriptions = async () => {
+        let bookingIds = []
+        try {
+        if (userType === 'tourist') {
+            const { data: bookings } = await supabase
+            .from('bookings')
+            .select('id')
+            .eq('tourist_user_id', userId)
+            bookingIds = bookings ? bookings.map(b => b.id) : []
+        } else {
+            const { data: bookings } = await supabase
+            .from('bookings')
+            .select('id')
+            .eq('operator_id', userId)
+            bookingIds = bookings ? bookings.map(b => b.id) : []
         }
-      )
-      .subscribe()
+        } catch (error) {
+        console.error('Error getting booking IDs for subscription:', error)
+        return
+        }
 
-    this.subscriptions.set(subscriptionKey, subscription)
-    this.unreadCallbacks.set(subscriptionKey, callback)
+        if (bookingIds.length === 0) {
+        console.log('No bookings found for unread subscription')
+        return
+        }
 
-    // Return unsubscribe function
+        // ✅ FIXED: Create separate subscription for each booking to avoid global events
+        const subscriptions = []
+        
+        bookingIds.forEach(bookingId => {
+        const subscription = supabase
+            .channel(`unread_${userType}_${userId}_${bookingId}`)
+            .on(
+            'postgres_changes',
+            {
+                event: 'UPDATE', // ✅ Only listen to UPDATE events (read status changes)
+                schema: 'public',
+                table: 'booking_conversations',
+                filter: `booking_id=eq.${bookingId}` // ✅ FILTER: Only this booking
+            },
+            async (payload) => {
+                console.log(`Real-time unread update for booking ${bookingId}:`, payload)
+                
+                // ✅ DEBOUNCE: Prevent multiple rapid calls
+                if (this.unreadCountTimeout) {
+                clearTimeout(this.unreadCountTimeout)
+                }
+                
+                this.unreadCountTimeout = setTimeout(async () => {
+                const newCount = await this.getUnreadCount(userId, userType)
+                callback(newCount)
+                }, 300) // 300ms debounce
+            }
+            )
+            .subscribe()
+        
+        subscriptions.push(subscription)
+        })
+
+        // Store all subscriptions
+        this.subscriptions.set(subscriptionKey, subscriptions)
+    }
+
+    // ✅ FIXED: Call async setup without blocking
+    setupSubscriptions().catch(console.error)
+
+    // Return synchronous unsubscribe function
     return () => this.unsubscribeFromUnreadCount(userId, userType)
-  }
+    }
 
   /**
    * Unsubscribe from conversation updates
@@ -433,28 +639,30 @@ class ChatService {
    * @param {string} userId - User ID
    * @param {string} userType - 'tourist' | 'operator'
    */
-  unsubscribeFromUnreadCount(userId, userType) {
+    unsubscribeFromUnreadCount(userId, userType) {
     const subscriptionKey = `unread_${userType}_${userId}`
-    const subscription = this.subscriptions.get(subscriptionKey)
+    const subscriptions = this.subscriptions.get(subscriptionKey)
     
-    if (subscription) {
-      supabase.removeChannel(subscription)
-      this.subscriptions.delete(subscriptionKey)
-      this.unreadCallbacks.delete(subscriptionKey)
+    if (subscriptions) {
+        // Handle both single subscription (old) and array (new)
+        if (Array.isArray(subscriptions)) {
+        subscriptions.forEach(subscription => {
+            supabase.removeChannel(subscription)
+        })
+        } else {
+        supabase.removeChannel(subscriptions)
+        }
+        
+        this.subscriptions.delete(subscriptionKey)
+        this.unreadCallbacks.delete(subscriptionKey)
     }
-  }
+    
+    // Clear timeout if exists
+    if (this.unreadCountTimeout) {
+        clearTimeout(this.unreadCountTimeout)
+    }
+    }
 
-  /**
-   * Clean up all subscriptions
-   */
-  cleanup() {
-    this.subscriptions.forEach((subscription) => {
-      supabase.removeChannel(subscription)
-    })
-    this.subscriptions.clear()
-    this.messageCallbacks.clear()
-    this.unreadCallbacks.clear()
-  }
 
   /**
    * Check if a booking allows chat (must be confirmed)
@@ -490,3 +698,8 @@ class ChatService {
 // Export singleton instance
 export const chatService = new ChatService()
 export default chatService
+
+// Global access for debugging (development only)
+if (typeof window !== 'undefined') {
+  window.chatService = chatService
+}
