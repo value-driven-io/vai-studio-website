@@ -5,7 +5,32 @@ class ChatService {
   constructor() {
     this.subscriptions = new Map()
     this.messageCallbacks = new Map()
-    this.unreadCallbacks = new Map()
+    this.unreadCallbacks = new Map() // 🔧 FIXED: Track unread callbacks
+    this.unreadCountTimeout = null
+  }
+
+  /**
+   * 🔧 NEW: Debug utility to monitor subscription health
+   */
+  logSubscriptionStatus() {
+    const subscriptionKeys = Array.from(this.subscriptions.keys())
+    const totalSubscriptions = Array.from(this.subscriptions.values()).reduce((total, sub) => {
+      return total + (Array.isArray(sub) ? sub.length : 1)
+    }, 0)
+    
+    console.log('📊 ChatService Subscription Status:', {
+      subscriptionKeys,
+      totalSubscriptions,
+      messageCallbacks: this.messageCallbacks.size,
+      unreadCallbacks: this.unreadCallbacks.size
+    })
+    
+    return {
+      subscriptionKeys: subscriptionKeys.length,
+      totalSubscriptions,
+      messageCallbacks: this.messageCallbacks.size,
+      unreadCallbacks: this.unreadCallbacks.size
+    }
   }
 
   /**
@@ -220,10 +245,11 @@ class ChatService {
         },
         (payload) => {
           console.log('Real-time new message:', payload)
-          // 🔧 FIXED: Pass the new message directly, don't reload all messages
+          // 🔧 FIXED: Pass the new message with commit_timestamp
           callback({
             type: 'INSERT',
-            message: payload.new
+            message: payload.new,
+            commit_timestamp: payload.commit_timestamp
           })
         }
       )
@@ -240,27 +266,28 @@ class ChatService {
           // Handle message updates (like marking as read)
           callback({
             type: 'UPDATE',
-            message: payload.new
+            message: payload.new,
+            commit_timestamp: payload.commit_timestamp
           })
         }
       )
       .subscribe()
 
     this.subscriptions.set(subscriptionKey, subscription)
-    this.messageCallbacks.set(subscriptionKey, callback)
+    this.messageCallbacks.set(subscriptionKey, callback) // 🔧 FIXED: Track callback
 
     // Return unsubscribe function
     return () => this.unsubscribeFromConversation(bookingId)
   }
 
   /**
-   * Subscribe to real-time unread count updates for a user
+   * 🔧 FIXED: Subscribe to real-time unread count updates with filtering
    * @param {string} userId - Tourist user ID or operator ID
    * @param {string} userType - 'tourist' | 'operator'  
    * @param {Function} callback - Function to call when unread count changes
    * @returns {Function} Unsubscribe function
    */
-  subscribeToUnreadCount(userId, userType, callback) {
+  async subscribeToUnreadCount(userId, userType, callback) {
     const subscriptionKey = `unread_${userType}_${userId}`
     
     // Unsubscribe existing subscription if any
@@ -268,35 +295,89 @@ class ChatService {
       this.unsubscribeFromUnreadCount(userId, userType)
     }
 
-    const subscription = supabase
-      .channel(`unread_count_${userType}_${userId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'booking_conversations'
-        },
-        async (payload) => {
-          console.log('Real-time unread count update:', payload)
-          // 🔧 FIXED: Add debouncing to prevent excessive recalculations
-          if (this.unreadCountTimeout) {
-            clearTimeout(this.unreadCountTimeout)
-          }
-          
-          this.unreadCountTimeout = setTimeout(async () => {
-            const newCount = await this.getUnreadCount(userId, userType)
-            callback(newCount)
-          }, 500) // 500ms debounce
+    try {
+      // 🔧 FIXED: Get user's booking IDs first to create filtered subscriptions
+      let bookingIds = []
+
+      if (userType === 'tourist') {
+        const { data: tourists } = await supabase
+          .from('tourist_users')
+          .select('id')
+          .eq('auth_user_id', userId)
+        
+        if (tourists && tourists.length > 0) {
+          const touristId = tourists[0].id
+          const { data: bookings } = await supabase
+            .from('bookings')
+            .select('id')
+            .eq('tourist_user_id', touristId)
+          bookingIds = bookings ? bookings.map(b => b.id) : []
         }
-      )
-      .subscribe()
+      } else {
+        const { data: operators } = await supabase
+          .from('operators')
+          .select('id')
+          .eq('auth_user_id', userId)
+        
+        if (operators && operators.length > 0) {
+          const operatorId = operators[0].id
+          const { data: bookings } = await supabase
+            .from('bookings')
+            .select('id')
+            .eq('operator_id', operatorId)
+          bookingIds = bookings ? bookings.map(b => b.id) : []
+        }
+      }
 
-    this.subscriptions.set(subscriptionKey, subscription)
-    this.unreadCallbacks.set(subscriptionKey, callback)
+      if (bookingIds.length === 0) {
+        console.log('No bookings found for user, skipping unread subscription')
+        return () => {}
+      }
 
-    // Return unsubscribe function
-    return () => this.unsubscribeFromUnreadCount(userId, userType)
+      console.log(`📻 Setting up filtered unread subscriptions for ${bookingIds.length} bookings`)
+
+      // 🔧 FIXED: Create separate subscription for each user's booking
+      const subscriptions = bookingIds.map(bookingId => {
+        return supabase
+          .channel(`unread_${userType}_${userId}_${bookingId}`)
+          .on(
+            'postgres_changes',
+            {
+              event: 'UPDATE', // 🔧 FIXED: Only listen to read status changes
+              schema: 'public',
+              table: 'booking_conversations',
+              filter: `booking_id=eq.${bookingId}` // 🔧 FIXED: Filtered by booking
+            },
+            async (payload) => {
+              console.log(`📻 Real-time unread update for booking ${bookingId}:`, payload)
+              
+              // 🔧 FIXED: Add debouncing to prevent excessive recalculations
+              if (this.unreadCountTimeout) {
+                clearTimeout(this.unreadCountTimeout)
+              }
+              
+              this.unreadCountTimeout = setTimeout(async () => {
+                const newCount = await this.getUnreadCount(userId, userType)
+                callback(newCount)
+              }, 500) // 500ms debounce
+            }
+          )
+          .subscribe()
+      })
+
+      // 🔧 FIXED: Store array of subscriptions
+      this.subscriptions.set(subscriptionKey, subscriptions)
+      this.unreadCallbacks.set(subscriptionKey, callback) // 🔧 FIXED: Track callback
+
+      console.log(`📻 Created ${subscriptions.length} filtered unread subscriptions`)
+
+      // Return unsubscribe function
+      return () => this.unsubscribeFromUnreadCount(userId, userType)
+      
+    } catch (error) {
+      console.error('Error setting up unread subscription:', error)
+      return () => {}
+    }
   }
 
   /**
@@ -315,7 +396,7 @@ class ChatService {
   }
 
   /**
-   * Unsubscribe from unread count updates
+   * 🔧 FIXED: Unsubscribe from unread count updates with Array handling
    * @param {string} userId - User ID
    * @param {string} userType - 'tourist' | 'operator'
    */
@@ -324,24 +405,46 @@ class ChatService {
     const subscription = this.subscriptions.get(subscriptionKey)
     
     if (subscription) {
-      supabase.removeChannel(subscription)
+      // 🔧 FIXED: Handle both single subscription and array of subscriptions
+      if (Array.isArray(subscription)) {
+        subscription.forEach(sub => supabase.removeChannel(sub))
+      } else {
+        supabase.removeChannel(subscription)
+      }
+      
       this.subscriptions.delete(subscriptionKey)
       this.unreadCallbacks.delete(subscriptionKey)
     }
   }
 
   /**
-   * Clean up all subscriptions
+   * 🔧 FIXED: Enhanced cleanup with Array handling and logging
    */
   cleanup() {
+    console.log('🧹 ChatService cleanup started')
+    
     // Clear timeout if exists
     if (this.unreadCountTimeout) {
       clearTimeout(this.unreadCountTimeout)
     }
     
-    this.subscriptions.forEach((subscription) => {
-      supabase.removeChannel(subscription)
+    // 🔧 FIXED: Enhanced cleanup with Array handling
+    let cleanupCount = 0
+    this.subscriptions.forEach((subscription, key) => {
+      if (Array.isArray(subscription)) {
+        subscription.forEach(sub => {
+          supabase.removeChannel(sub)
+          cleanupCount++
+        })
+      } else {
+        supabase.removeChannel(subscription)
+        cleanupCount++
+      }
     })
+    
+    console.log(`🧹 Cleaned up ${cleanupCount} subscriptions`)
+    
+    // Clear all maps
     this.subscriptions.clear()
     this.messageCallbacks.clear()
     this.unreadCallbacks.clear()
@@ -361,6 +464,7 @@ class ChatService {
         
         // Exponential backoff
         const delay = Math.pow(2, attempt) * 1000
+        console.log(`🔄 Retry attempt ${attempt}/${maxRetries} in ${delay}ms`)
         await new Promise(resolve => setTimeout(resolve, delay))
       }
     }
@@ -399,4 +503,10 @@ class ChatService {
 
 // Export singleton instance
 export const chatService = new ChatService()
+
+// 🔧 NEW: Expose for debugging in browser console
+if (typeof window !== 'undefined') {
+  window.chatService = chatService
+}
+
 export default chatService

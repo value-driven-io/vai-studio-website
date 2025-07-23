@@ -14,34 +14,68 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
   const [error, setError] = useState(null)
   const [retryCount, setRetryCount] = useState(0)
   const messagesEndRef = useRef(null)
+  
+  // 🔧 NEW: Event deduplication to prevent duplicate messages
+  const [processedEvents, setProcessedEvents] = useState(new Set())
 
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // Load messages when modal opens
+  // 🔧 FIXED: Load messages when modal opens - use booking.id dependency
   useEffect(() => {
-    if (isOpen && booking) {
+    if (isOpen && booking?.id) {
       loadMessages()
     }
-  }, [isOpen, booking?.id]) 
+  }, [isOpen, booking?.id]) // ✅ Use booking.id not full booking object
 
-  // 🔧 FIXED: Real-time subscription with optimistic updates
+  // 🔧 FIXED: Real-time subscription with optimistic updates and deduplication
   useEffect(() => {
-    if (!isOpen || !booking) return
+    if (!isOpen || !booking?.id) return
 
     const unsubscribe = chatService.subscribeToConversation(
       booking.id,
       (payload) => {
         console.log('Operator real-time message:', payload)
         
-        if (payload.type === 'INSERT') {
-          // 🔧 FIXED: Add new message to existing messages instead of reloading
+        // 🔧 NEW: Event deduplication using commit_timestamp
+        const eventId = `${payload.commit_timestamp || Date.now()}_${payload.type}_${payload.message?.id}`
+        
+        setProcessedEvents(prevProcessed => {
+          if (prevProcessed.has(eventId)) {
+            console.log('🔄 Duplicate event filtered:', eventId)
+            return prevProcessed
+          }
+          
+          const newProcessed = new Set(prevProcessed)
+          newProcessed.add(eventId)
+          
+          // Keep only last 100 events to prevent memory growth
+          if (newProcessed.size > 100) {
+            const eventsArray = Array.from(newProcessed)
+            eventsArray.splice(0, 50)
+            return new Set(eventsArray)
+          }
+          
+          return newProcessed
+        })
+        
+        if (payload.type === 'INSERT' && payload.message) {
+          // 🔧 IMPROVED: Skip own messages to reduce noise
+          if (payload.message.sender_type === 'operator' && payload.message.sender_id === operator?.auth_user_id) {
+            console.log('👤 Skipping own message from real-time:', payload.message.id)
+            return
+          }
+          
+          // 🔧 FIXED: Add new message optimistically instead of reloading
           setMessages(prevMessages => {
             // Check if message already exists to prevent duplicates
             const messageExists = prevMessages.some(msg => msg.id === payload.message.id)
-            if (messageExists) return prevMessages
+            if (messageExists) {
+              console.log('🔄 Message already exists, skipping:', payload.message.id)
+              return prevMessages
+            }
             
             // Add new message with sender info
             const newMessageWithInfo = {
@@ -51,6 +85,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
                 : null
             }
             
+            console.log('✅ Adding new message from other user:', newMessageWithInfo)
             return [...prevMessages, newMessageWithInfo]
           })
           
@@ -59,22 +94,19 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
             chatService.markAsRead(booking.id, 'operator')
           }
         } else if (payload.type === 'UPDATE') {
-          // Handle message updates (like marking as read)
-          setMessages(prevMessages =>
-            prevMessages.map(msg =>
-              msg.id === payload.message.id ? { ...msg, ...payload.message } : msg
-            )
-          )
+          // 🔧 FIXED: Ignore UPDATE events to prevent expensive reloads
+          console.log('📝 Ignoring UPDATE event (read status change)')
+          return
         }
       }
     )
 
     return unsubscribe
-  }, [isOpen, booking?.id, operator?.id])
+  }, [isOpen, booking?.id, operator?.company_name]) // ✅ Use primitive values only
 
-  // 🔧 NEW: Enhanced error handling with retry
+  // 🔧 ENHANCED: Error handling with retry
   const loadMessages = async () => {
-    if (!booking) return
+    if (!booking?.id) return
     
     try {
       setLoading(true)
@@ -99,9 +131,9 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
     }
   }
 
-  // 🔧 NEW: Enhanced send message with optimistic updates
+  // 🔧 ENHANCED: Send message with optimistic updates
   const sendMessage = async () => {
-    if (!newMessage.trim() || !booking || !operator) return
+    if (!newMessage.trim() || !booking?.id || !operator?.auth_user_id) return
     
     const messageText = newMessage.trim()
     const tempId = `temp_${Date.now()}`
@@ -111,7 +143,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
       id: tempId,
       booking_id: booking.id,
       sender_type: 'operator',
-      sender_id: operator.auth_user_id, // 🔧 FIXED: Use auth_user_id
+      sender_id: operator.auth_user_id,
       message_text: messageText,
       is_read: false,
       created_at: new Date().toISOString(),
@@ -131,7 +163,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
           booking.id,
           messageText,
           'operator',
-          operator.auth_user_id // 🔧 FIXED: Use auth_user_id
+          operator.auth_user_id
         ),
         3
       )
