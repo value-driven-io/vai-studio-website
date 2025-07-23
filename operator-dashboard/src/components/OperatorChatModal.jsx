@@ -25,7 +25,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
     if (isOpen && booking) {
       loadMessages()
     }
-  }, [isOpen, booking])
+  }, [isOpen, booking?.id]) 
 
   // 🔧 FIXED: Real-time subscription with optimistic updates
   useEffect(() => {
@@ -70,7 +70,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
     )
 
     return unsubscribe
-  }, [isOpen, booking, operator])
+  }, [isOpen, booking?.id, operator?.id])
 
   // 🔧 NEW: Enhanced error handling with retry
   const loadMessages = async () => {

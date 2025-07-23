@@ -163,7 +163,7 @@ const MessagesTab = () => {
     )
 
     return unsubscribe
-  }, [selectedConversation])
+  }, [selectedConversation?.id])
 
   // Handle keyboard shortcuts
   useEffect(() => {
