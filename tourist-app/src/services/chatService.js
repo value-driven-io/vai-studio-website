@@ -272,12 +272,21 @@ class ChatService {
    * @param {Function} callback - Function to call when messages are updated
    * @returns {Function} Unsubscribe function
    */
-  subscribeToConversation(bookingId, callback) {
+    subscribeToConversation(bookingId, callback) {
     const subscriptionKey = `conversation_${bookingId}`
     
-    // Unsubscribe existing subscription if any
+    // 🔧 FIXED: Force immediate cleanup with short delay
     if (this.subscriptions.has(subscriptionKey)) {
-      this.unsubscribeFromConversation(bookingId)
+        const oldSubscription = this.subscriptions.get(subscriptionKey)
+        supabase.removeChannel(oldSubscription)
+        this.subscriptions.delete(subscriptionKey)
+        this.messageCallbacks.delete(subscriptionKey)
+        
+        // Small synchronous delay to reduce race condition likelihood
+        const start = Date.now()
+        while (Date.now() - start < 10) {
+        // Busy wait for 10ms to allow cleanup
+        }
     }
 
     const subscription = supabase
@@ -303,6 +312,66 @@ class ChatService {
     // Return unsubscribe function
     return () => this.unsubscribeFromConversation(bookingId)
   }
+
+
+  // Add async unsubscribe methods
+    async unsubscribeFromConversationAsync(bookingId) {
+    const subscriptionKey = `conversation_${bookingId}`
+    const subscription = this.subscriptions.get(subscriptionKey)
+    
+    if (subscription) {
+        // Wait for channel removal to complete
+        await new Promise((resolve) => {
+        supabase.removeChannel(subscription)
+        // Small delay to ensure WebSocket cleanup completes
+        setTimeout(resolve, 100)
+        })
+        
+        this.subscriptions.delete(subscriptionKey)
+        this.messageCallbacks.delete(subscriptionKey)
+    }
+    }
+
+    async unsubscribeFromUnreadCountAsync(userId, userType) {
+    const subscriptionKey = `unread_${userType}_${userId}`
+    const subscription = this.subscriptions.get(subscriptionKey)
+    
+    if (subscription) {
+        await new Promise((resolve) => {
+        supabase.removeChannel(subscription)
+        setTimeout(resolve, 100)
+        })
+        
+        this.subscriptions.delete(subscriptionKey)
+        this.unreadCallbacks.delete(subscriptionKey)
+    }
+    }
+
+    // 🔧 ENHANCED: Async cleanup method
+    async cleanupAsync() {
+    // Clear timeout if exists
+    if (this.unreadCountTimeout) {
+        clearTimeout(this.unreadCountTimeout)
+    }
+    
+    // Wait for all channels to be properly removed
+    const cleanupPromises = []
+    this.subscriptions.forEach((subscription) => {
+        cleanupPromises.push(
+        new Promise((resolve) => {
+            supabase.removeChannel(subscription)
+            setTimeout(resolve, 50) // Shorter delay for bulk cleanup
+        })
+        )
+    })
+    
+    await Promise.all(cleanupPromises)
+    
+    this.subscriptions.clear()
+    this.messageCallbacks.clear()
+    this.unreadCallbacks.clear()
+    }
+
 
   /**
    * Subscribe to real-time unread count updates for a user

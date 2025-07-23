@@ -88,37 +88,70 @@ const MessagesTab = () => {
     }
   }
 
-  // Send message
-  const sendMessage = async () => {
-    if (!newMessage.trim() || !selectedConversation || !touristUserId) return
-    
-    try {
-      setSending(true)
-      
-      await chatService.sendMessage(
-        selectedConversation.id,
-        newMessage.trim(),
-        'tourist',
-        touristUserId
-      )
-      
-      setNewMessage('')
-      
-      // Reload messages and conversations
-      await loadMessages(selectedConversation.id)
-      loadConversations()
-      
-      // Scroll to new message
-      scrollToBottom()
-      
-      toast.success('Message sent!')
-    } catch (error) {
-      console.error('Error sending message:', error)
-      toast.error('Failed to send message')
-    } finally {
-      setSending(false)
+  // Send message with optimistic updates
+    const sendMessage = async () => {
+        if (!newMessage.trim() || !selectedConversation || !touristUserId) return
+        
+        const messageText = newMessage.trim()
+        const tempId = `temp_${Date.now()}`
+        
+        // Add message immediately to UI
+        const optimisticMessage = {
+        id: tempId,
+        booking_id: selectedConversation.id,
+        sender_type: 'tourist',
+        sender_id: touristUserId,
+        message_text: messageText,
+        is_read: false,
+        created_at: new Date().toISOString(),
+        sender_info: null, // Tourist messages don't need sender info
+        _optimistic: true
+        }
+        
+        setMessages(prevMessages => [...prevMessages, optimisticMessage])
+        setNewMessage('')
+        
+        try {
+        setSending(true)
+        
+        const sentMessage = await chatService.sendMessage(
+            selectedConversation.id,
+            messageText,
+            'tourist',
+            touristUserId
+        )
+        
+        // ✅ REPLACE: Replace optimistic message with real message
+        setMessages(prevMessages =>
+            prevMessages.map(msg =>
+            msg.id === tempId 
+                ? { ...sentMessage, sender_info: null }
+                : msg
+            )
+        )
+        
+        // ✅ BACKGROUND: Update conversations without loading spinner
+        loadConversations()
+        
+        // Scroll to new message
+        scrollToBottom()
+        
+        toast.success('Message sent!')
+        } catch (error) {
+        console.error('Error sending message:', error)
+        toast.error('Failed to send message')
+        
+        // ✅ ROLLBACK: Remove optimistic message on error
+        setMessages(prevMessages =>
+            prevMessages.filter(msg => msg.id !== tempId)
+        )
+        
+        // Restore message text so user can retry
+        setNewMessage(messageText)
+        } finally {
+        setSending(false)
+        }
     }
-  }
 
   // Simple auto-scroll only for conversation switches
   useEffect(() => {
@@ -299,10 +332,10 @@ const MessagesTab = () => {
                 >
                   <div
                     className={`max-w-[85%] sm:max-w-sm lg:max-w-md px-4 py-3 shadow-sm ${
-                      isFromTourist
+                    isFromTourist
                         ? `bg-blue-600 text-white ${
                             isConsecutive ? 'rounded-2xl rounded-br-md' : 'rounded-2xl rounded-br-sm'
-                          }`
+                        } ${message._optimistic ? 'opacity-70' : ''}`
                         : `bg-slate-700 text-white border border-slate-600/50 ${
                             isConsecutive ? 'rounded-2xl rounded-bl-md' : 'rounded-2xl rounded-bl-sm'
                           }`
@@ -315,7 +348,10 @@ const MessagesTab = () => {
                       }`}
                     >
                       <span>{chatService.formatMessageTime(message.created_at)}</span>
-                      {!isFromTourist && message.sender_info && (
+                        {message._optimistic && (
+                        <span className="ml-1">⏳</span>
+                        )}
+                        {!isFromTourist && message.sender_info && (
                         <>
                           <span>•</span>
                           <span>{message.sender_info.company_name || 'Operator'}</span>

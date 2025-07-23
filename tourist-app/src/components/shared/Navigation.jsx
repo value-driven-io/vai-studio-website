@@ -86,7 +86,15 @@ const Navigation = () => {
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                // 🔧 CRITICAL: Clean up chat subscriptions when leaving Messages tab
+                if (activeTab === 'messages' && tab.id !== 'messages') {
+                  console.log('🧹 Navigation cleanup: Leaving Messages tab, cleaning up chat subscriptions')
+                  chatService.cleanup()
+                }
+                
+                setActiveTab(tab.id)
+              }}
               className={`flex flex-col items-center justify-center space-y-1 transition-colors ${
                 isActive 
                   ? 'text-blue-400' 
