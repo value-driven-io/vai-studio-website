@@ -87,14 +87,30 @@ const Navigation = () => {
             <button
               key={tab.id}
               onClick={() => {
-                // 🔧 CRITICAL: Clean up chat subscriptions when leaving Messages tab
-                if (activeTab === 'messages' && tab.id !== 'messages') {
-                  console.log('🧹 Navigation cleanup: Leaving Messages tab, cleaning up chat subscriptions')
-                  chatService.cleanup()
-                }
+              // Only clean up conversation subscriptions, keep Navigation's unread subscription
+              if (activeTab === 'messages' && tab.id !== 'messages') {
+                console.log('🧹 Navigation cleanup: Leaving Messages tab, cleaning up conversation subscriptions only')
                 
-                setActiveTab(tab.id)
-              }}
+                // ✅ SELECTIVE CLEANUP: Only remove conversation subscriptions
+                chatService.subscriptions.forEach((subscription, key) => {
+                  if (key.startsWith('conversation_')) {
+                    console.log(`🧹 Removing conversation subscription: ${key}`)
+                    if (Array.isArray(subscription)) {
+                      subscription.forEach(sub => supabase.removeChannel(sub))
+                    } else {
+                      supabase.removeChannel(subscription)
+                    }
+                    chatService.subscriptions.delete(key)
+                    chatService.messageCallbacks.delete(key)
+                  }
+                })
+                
+                // ✅ KEEP: Unread subscriptions (for Navigation badge)
+                console.log('✅ Keeping unread subscriptions for Navigation badge')
+              }
+              
+              setActiveTab(tab.id)
+            }}
               className={`flex flex-col items-center justify-center space-y-1 transition-colors ${
                 isActive 
                   ? 'text-blue-400' 

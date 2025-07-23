@@ -18,7 +18,7 @@ class ChatService {
   }
 
 
-  // ✅ NEW: Health monitoring methods
+  // Health monitoring methods
   startHealthMonitoring() {
     // Check connection health every 30 seconds
     this.healthCheckInterval = setInterval(() => {
@@ -99,7 +99,7 @@ class ChatService {
     })
   }
 
-  // ✅ ENHANCED: Cleanup method with health monitoring cleanup
+  // Cleanup method with health monitoring cleanup
     cleanup() {
     console.log('🧹 ChatService cleanup started')
     
@@ -142,7 +142,7 @@ class ChatService {
     console.log('🧹 ChatService cleanup completed')
     }
 
-    // ✅ ALSO ADD: Debug method to check active subscriptions
+    // Debug method to check active subscriptions
     getActiveSubscriptionsCount() {
     let totalCount = 0
     this.subscriptions.forEach((subscription) => {
@@ -160,7 +160,7 @@ class ChatService {
     }
     }
 
-    // ✅ ADD: Method to log subscription status
+    // Method to log subscription status
     logSubscriptionStatus() {
     const status = this.getActiveSubscriptionsCount()
     console.log('📊 Subscription Status:', status)
@@ -548,7 +548,7 @@ class ChatService {
         this.unsubscribeFromUnreadCount(userId, userType)
     }
 
-    // ✅ FIXED: Handle async booking fetch in a non-blocking way
+    // Handle async booking fetch in a non-blocking way
     const setupSubscriptions = async () => {
         let bookingIds = []
         try {
@@ -575,7 +575,7 @@ class ChatService {
         return
         }
 
-        // ✅ FIXED: Create separate subscription for each booking to avoid global events
+        // Create separate subscription for each booking to avoid global events
         const subscriptions = []
         
         bookingIds.forEach(bookingId => {
@@ -584,15 +584,15 @@ class ChatService {
             .on(
             'postgres_changes',
             {
-                event: 'UPDATE', // ✅ Only listen to UPDATE events (read status changes)
+                event: 'UPDATE', // Only listen to UPDATE events (read status changes)
                 schema: 'public',
                 table: 'booking_conversations',
-                filter: `booking_id=eq.${bookingId}` // ✅ FILTER: Only this booking
+                filter: `booking_id=eq.${bookingId}` // FILTER: Only this booking
             },
             async (payload) => {
                 console.log(`Real-time unread update for booking ${bookingId}:`, payload)
                 
-                // ✅ DEBOUNCE: Prevent multiple rapid calls
+                // DEBOUNCE: Prevent multiple rapid calls
                 if (this.unreadCountTimeout) {
                 clearTimeout(this.unreadCountTimeout)
                 }
@@ -610,9 +610,10 @@ class ChatService {
 
         // Store all subscriptions
         this.subscriptions.set(subscriptionKey, subscriptions)
+        this.unreadCallbacks.set(subscriptionKey, callback)
     }
 
-    // ✅ FIXED: Call async setup without blocking
+    // Call async setup without blocking
     setupSubscriptions().catch(console.error)
 
     // Return synchronous unsubscribe function
