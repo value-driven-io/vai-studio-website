@@ -161,7 +161,7 @@ const StatusCard = ({
           </div>
           
           <div className="text-center">
-            <span className="text-slate-400 text-lg font-mono">€</span>
+            <span className="text-slate-400 text-lg font-mono">▼</span>
             <div className="text-slate-300 font-medium">
               {formatPrice(booking.total_amount || booking.subtotal)}
             </div>

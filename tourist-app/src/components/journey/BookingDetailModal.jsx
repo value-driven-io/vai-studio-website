@@ -250,16 +250,6 @@ const BookingDetailModal = ({
                     Pricing
                   </h3>
                   <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Subtotal:</span>
-                      <span className="text-white">{formatPrice(booking.subtotal)}</span>
-                    </div>
-                    {booking.commission_amount && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Service fee:</span>
-                        <span className="text-white">{formatPrice(booking.commission_amount)}</span>
-                      </div>
-                    )}
                     <div className="flex justify-between font-semibold pt-2 border-t border-slate-600">
                       <span className="text-white">Total:</span>
                       <span className="text-white">{formatPrice(booking.total_amount || booking.subtotal)}</span>
