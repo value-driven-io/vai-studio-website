@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import OperatorChatModal from './OperatorChatModal' 
 import BookingsHeader from './BookingsHeader'
+import BookingsList from './BookingsList'
 
 const BookingsTab = ({
   allBookings, 
@@ -38,27 +39,60 @@ const BookingsTab = ({
 
   const [selectedChatBooking, setSelectedChatBooking] = useState(null)
   const [showChatModal, setShowChatModal] = useState(false)
+  const [selectedDetailBooking, setSelectedDetailBooking] = useState(null)
+
+  // Handle booking row click
+  const handleBookingClick = (booking) => {
+    setSelectedDetailBooking(booking)
+    // TODO: Module 4 - Open booking detail modal
+  }
+
+  // Handle chat button click  
+  const handleChatClick = (booking) => {
+    setSelectedChatBooking(booking)
+    setShowChatModal(true)
+  }
 
   return (
     
               <div className="space-y-6">
 
                 {/* 🔥 NEW: Enhanced Header replaces old stats section */}
-                  <BookingsHeader
+                <BookingsHeader
+                  allBookings={allBookings}
+                  operator={operator}
+                  stats={stats}
+                  bookingFilter={bookingFilter}
+                  setBookingFilter={setBookingFilter}
+                  timeFilter={timeFilter}
+                  setTimeFilter={setTimeFilter}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  fetchAllBookings={fetchAllBookings}
+                  formatPrice={formatPrice}
+                  bookingsLoading={bookingsLoading}
+                />
+
+                {/* 🔥 NEW: Optional Compact List View */}
+                <div className="mb-6">
+                  <BookingsList
+                    filteredBookings={filteredBookings}
                     allBookings={allBookings}
-                    operator={operator}
-                    stats={stats}
-                    bookingFilter={bookingFilter}
-                    setBookingFilter={setBookingFilter}
-                    timeFilter={timeFilter}
-                    setTimeFilter={setTimeFilter}
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    fetchAllBookings={fetchAllBookings}
-                    formatPrice={formatPrice}
                     bookingsLoading={bookingsLoading}
+                    operator={operator}
+                    formatDate={formatDate}
+                    formatPrice={formatPrice}
+                    getTimeUntilDeadline={getTimeUntilDeadline}
+                    shouldShowCustomerDetails={shouldShowCustomerDetails}
+                    onBookingClick={(booking) => console.log('TODO: Open detail modal', booking)}
+                    onChatClick={(booking) => {
+                      setSelectedChatBooking(booking)
+                      setShowChatModal(true)
+                    }}
+                    setActiveTab={setActiveTab}
                   />
-                  
+                </div>
+
             {/* Enhanced Clickable Stats */}
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-4">
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-3">

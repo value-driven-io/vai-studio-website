@@ -267,6 +267,33 @@
       "todaysTours": "📅 Heutige Touren"
     },
 
+    "list": {
+      "title": "Buchungsliste",
+      "noBookings": "Noch keine Buchungen",
+      "createFirstTour": "Erstellen Sie Ihre erste Tour, um Buchungen zu erhalten",
+      "createTour": "Tour Erstellen",
+      "sortedBy": "Sortiert nach",
+      "priority": "Priorität",
+      "netEarnings": "Netto-Einkommen",
+      "net": "Netto",
+      "tour": "Tour",
+      "date": "Datum",
+      "reference": "Referenz",
+      "headers": {
+        "status": "Status",
+        "customer": "Kunde",
+        "tour": "Tour",
+        "date": "Datum",
+        "netRevenue": "Netto-Umsatz", 
+        "actions": "Aktionen"
+      }
+    },
+    "priority": {
+      "critical": "Kritisch",
+      "high": "Hoch",
+      "medium": "Mittel"
+    },
+
     "stats": {
       "total": "Gesamt",
       "pending": "Ausstehend",

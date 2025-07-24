@@ -269,6 +269,33 @@
       "todaysTours": "📅 Tours Aujourd'hui"
     },
 
+    "list": {
+      "title": "Liste des Réservations",
+      "noBookings": "Aucune réservation",
+      "createFirstTour": "Crée ta première excursion pour recevoir des réservations",
+      "createTour": "Créer une Excursion",
+      "sortedBy": "Trié par",
+      "priority": "Priorité",
+      "netEarnings": "Revenus Nets",
+      "net": "Net",
+      "tour": "Excursion",
+      "date": "Date",
+      "reference": "Référence",
+      "headers": {
+        "status": "Statut",
+        "customer": "Client",
+        "tour": "Excursion", 
+        "date": "Date",
+        "netRevenue": "Revenus Nets",
+        "actions": "Actions"
+      }
+    },
+    "priority": {
+      "critical": "Critique",
+      "high": "Élevée",
+      "medium": "Moyenne"
+    },
+
     "stats": {
       "total": "Total",
       "pending": "En attente",

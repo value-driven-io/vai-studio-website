@@ -268,6 +268,33 @@
       "todaysTours": "📅 Tours de Hoy"
     },
 
+    "list": {
+      "title": "Lista de Reservas",
+      "noBookings": "Sin reservas aún",
+      "createFirstTour": "Crea tu primer tour para comenzar a recibir reservas",
+      "createTour": "Crear Tour",
+      "sortedBy": "Ordenado por",
+      "priority": "Prioridad",
+      "netEarnings": "Ingresos Netos",
+      "net": "Neto",
+      "tour": "Tour",
+      "date": "Fecha",
+      "reference": "Referencia",
+      "headers": {
+        "status": "Estado",
+        "customer": "Cliente",
+        "tour": "Tour",
+        "date": "Fecha",
+        "netRevenue": "Ingresos Netos",
+        "actions": "Acciones"
+      }
+    },
+    "priority": {
+      "critical": "Crítico",
+      "high": "Alto",
+      "medium": "Medio"
+    },
+
     "stats": {
       "total": "Total",
       "pending": "Pendientes",

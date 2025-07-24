@@ -268,6 +268,33 @@
       "todaysTours": "📅ṽisita Teie Mahana"
     },
 
+    "list": {
+      "title": "Lista Fa'anahora",
+      "noBookings": "Aita fa'anahora",
+      "createFirstTour": "Haaapi i to mata'u fa'anahora'a e faahaere ai",
+      "createTour": "Haaapi Fa'anahora",
+      "sortedBy": "Faaora na",
+      "priority": "Hōho'a",
+      "netEarnings": "Moni Māita'i",
+      "net": "Net",
+      "tour": "Tarava",
+      "date": "Mahana",
+      "reference": "Numera",
+      "headers": {
+        "status": "Tu'aro",
+        "customer": "Taata",
+        "tour": "Tarava",
+        "date": "Mahana", 
+        "netRevenue": "Moni Net",
+        "actions": "Ravehi"
+      }
+    },
+    "priority": {
+      "critical": "Rahi",
+      "high": "Teitei",
+      "medium": "Aveave"
+    },
+
     "stats": {
       "total": "Atoa",
       "pending": "E fa'arue nei",
