@@ -66,15 +66,15 @@ const BookingDetailModal = ({
   const commissionRate = ((booking.commission_amount || 0) / (booking.subtotal || 1)) * 100
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      {/* Modal */}
-      <div className="relative min-h-screen flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+        {/* Backdrop */}
+        <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={onClose}
+        />
+        
+        {/* Modal */}
+        <div className="relative w-full max-w-4xl mx-auto my-8">
         <div className="relative w-full max-w-4xl bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 max-h-[90vh] overflow-hidden">
           
           {/* 📋 MODAL HEADER */}
@@ -131,7 +131,7 @@ const BookingDetailModal = ({
               }`}
             >
               <Info className="w-4 h-4 inline mr-2" />
-              {t('bookings.modal.tabs.overview')}
+              {t('bookings.detail.tabs.details')}
             </button>
             
             <button
@@ -143,7 +143,7 @@ const BookingDetailModal = ({
               }`}
             >
               <User className="w-4 h-4 inline mr-2" />
-              {t('bookings.modal.tabs.customer')}
+              {t('bookings.detail.tabs.customer')}
               {!showDetails && <Lock className="w-3 h-3 inline ml-1" />}
             </button>
             
@@ -156,12 +156,12 @@ const BookingDetailModal = ({
               }`}
             >
               <DollarSign className="w-4 h-4 inline mr-2" />
-              {t('bookings.modal.tabs.financial')}
+              {t('bookings.detail.tabs.actions')}
             </button>
           </div>
 
           {/* 📋 MODAL CONTENT */}
-          <div className="p-6 max-h-[60vh] overflow-y-auto">
+          <div className="p-6 max-h-[60vh] overflow-y-auto pb-safe">
             
             {/* OVERVIEW TAB */}
             {activeTab === 'overview' && (
@@ -170,20 +170,20 @@ const BookingDetailModal = ({
                 <div className="bg-slate-700/30 rounded-lg p-4">
                   <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
                     <Calendar className="w-5 h-5 text-blue-400" />
-                    {t('bookings.modal.sections.tourInfo')}
+                    {t('bookings.detail.tourInformation')}
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-3">
                       <div>
-                        <span className="text-slate-400 text-sm">{t('bookings.modal.fields.tourDate')}</span>
+                        <span className="text-slate-400 text-sm">{t('bookings.detail.tourDate')}</span>
                         <p className="text-white font-medium">
                           {formatDate(booking.tours?.tour_date)}
                         </p>
                       </div>
                       
                       <div>
-                        <span className="text-slate-400 text-sm">{t('bookings.modal.fields.timeSlot')}</span>
+                        <span className="text-slate-400 text-sm">{t('bookings.detail.timeSlot')}</span>
                         <p className="text-white">
                           {booking.tours?.time_slot || t('bookings.labels.timeTbd')}
                         </p>
@@ -199,14 +199,14 @@ const BookingDetailModal = ({
                     
                     <div className="space-y-3">
                       <div>
-                        <span className="text-slate-400 text-sm">{t('bookings.modal.fields.meetingPoint')}</span>
+                        <span className="text-slate-400 text-sm">{t('bookings.detail.meetingPoint')}</span>
                         <p className="text-white">
                           {booking.tours?.meeting_point || t('bookings.labels.locationTbd')}
                         </p>
                       </div>
                       
                       <div>
-                        <span className="text-slate-400 text-sm">{t('bookings.modal.fields.participants')}</span>
+                        <span className="text-slate-400 text-sm">{t('bookings.detail.participants')}</span>
                         <p className="text-white flex items-center gap-2">
                           <Users className="w-4 h-4" />
                           {booking.num_adults || 0} {t('bookings.labels.adults')}, {booking.num_children || 0} {t('bookings.labels.children')}
@@ -215,7 +215,7 @@ const BookingDetailModal = ({
                       </div>
                       
                       <div>
-                        <span className="text-slate-400 text-sm">{t('bookings.modal.fields.bookingDate')}</span>
+                        <span className="text-slate-400 text-sm">{t('bookings.detail.bookingDate')}</span>
                         <p className="text-white">
                           {formatDate(booking.created_at)}
                         </p>
@@ -263,7 +263,7 @@ const BookingDetailModal = ({
                   <div className="bg-slate-700/30 rounded-lg p-4">
                     <h3 className="text-lg font-medium text-white mb-3 flex items-center gap-2">
                       <Flag className="w-5 h-5 text-purple-400" />
-                      {t('bookings.modal.sections.specialRequests')}
+                      {t('bookings.detail.specialRequests')}
                     </h3>
                     <p className="text-white bg-slate-800/50 rounded p-3">
                       {booking.special_requests}
@@ -282,7 +282,7 @@ const BookingDetailModal = ({
                     <div className="bg-slate-700/30 rounded-lg p-4">
                       <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
                         <User className="w-5 h-5 text-green-400" />
-                        {t('bookings.modal.sections.customerInfo')}
+                        {t('bookings.detail.customerInformation')}
                         <Unlock className="w-4 h-4 text-green-400" />
                       </h3>
                       
@@ -465,7 +465,7 @@ const BookingDetailModal = ({
           </div>
 
           {/* 🎬 MODAL ACTIONS */}
-          <div className="p-6 border-t border-slate-700 bg-slate-700/30">
+          <div className="p-6 border-t border-slate-700 bg-slate-700/30 sticky bottom-0 sm:static">
             <div className="flex items-center justify-between">
               <div className="text-sm text-slate-400">
                 {t('bookings.modal.lastUpdated')}: {formatDate(booking.updated_at || booking.created_at)}

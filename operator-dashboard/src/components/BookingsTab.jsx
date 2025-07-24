@@ -10,6 +10,7 @@ import {
 import OperatorChatModal from './OperatorChatModal' 
 import BookingsHeader from './BookingsHeader'
 import BookingsList from './BookingsList'
+import BookingDetailModal from './BookingDetailModal'
 
 const BookingsTab = ({
   allBookings, 
@@ -40,11 +41,12 @@ const BookingsTab = ({
   const [selectedChatBooking, setSelectedChatBooking] = useState(null)
   const [showChatModal, setShowChatModal] = useState(false)
   const [selectedDetailBooking, setSelectedDetailBooking] = useState(null)
+  const [showDetailModal, setShowDetailModal] = useState(false)
 
   // Handle booking row click
   const handleBookingClick = (booking) => {
     setSelectedDetailBooking(booking)
-    // TODO: Module 4 - Open booking detail modal
+    setShowDetailModal(true)
   }
 
   // Handle chat button click  
@@ -73,7 +75,7 @@ const BookingsTab = ({
                   bookingsLoading={bookingsLoading}
                 />
 
-                {/* 🔥 NEW: Optional Compact List View */}
+                {/* Optional Compact List View */}
                 <div className="mb-6">
                   <BookingsList
                     filteredBookings={filteredBookings}
@@ -84,7 +86,7 @@ const BookingsTab = ({
                     formatPrice={formatPrice}
                     getTimeUntilDeadline={getTimeUntilDeadline}
                     shouldShowCustomerDetails={shouldShowCustomerDetails}
-                    onBookingClick={(booking) => console.log('TODO: Open detail modal', booking)}
+                    onBookingClick={handleBookingClick}
                     onChatClick={(booking) => {
                       setSelectedChatBooking(booking)
                       setShowChatModal(true)
@@ -580,6 +582,27 @@ const BookingsTab = ({
               }}
               booking={selectedChatBooking}
               operator={operator} // Pass operator from props
+            />
+
+            {/* Booking Detail Modal */}
+            <BookingDetailModal
+              isOpen={showDetailModal}
+              onClose={() => {
+                setShowDetailModal(false)
+                setSelectedDetailBooking(null)
+              }}
+              booking={selectedDetailBooking}
+              operator={operator}
+              formatDate={formatDate}
+              formatPrice={formatPrice}
+              getTimeUntilDeadline={getTimeUntilDeadline}
+              shouldShowCustomerDetails={shouldShowCustomerDetails}
+              handleBookingAction={handleBookingAction}
+              handleDeclineBooking={handleDeclineBooking}
+              processingBooking={processingBooking}
+              onChatClick={handleChatClick}
+              getStatusColor={getStatusColor} 
+              getStatusIcon={getStatusIcon}
             />
 
           </div>

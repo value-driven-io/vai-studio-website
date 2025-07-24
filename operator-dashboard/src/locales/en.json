@@ -19,7 +19,8 @@
     "participants": "participants",
     "booked": "booked",
     "attended": "attended",
-    "spots": "spots"  
+    "spots": "spots",
+    "close": "Close"  
   },
   "header": {
     "title": "Operator Dashboard",
@@ -268,6 +269,103 @@
       "todaysTours": "📅 Today's Tours"
     },
 
+     "detail": {
+      "netRevenue": "Net Revenue",
+      "tabs": {
+        "details": "Details",
+        "customer": "Customer", 
+        "actions": "Actions"
+      },
+      "tourInformation": "Tour Information",
+      "tourDate": "Tour Date",
+      "timeSlot": "Time Slot",
+      "meetingPoint": "Meeting Point",
+      "participants": "Participants",
+      "revenueBreakdown": "Revenue Breakdown",
+      "subtotal": "Subtotal",
+      "commission": "Commission",
+      "yourEarnings": "Your Earnings",
+      "customerPays": "Customer pays",
+      "specialRequests": "Special Requests",
+      "timeline": "Timeline",
+      "customerInformation": "Customer Information",
+      "customerName": "Customer Name",
+      "email": "Email",
+      "phone": "Phone",
+      "bookingDate": "Booking Date",
+      "bookingSource": "Booking Source",
+      "quickContact": "Quick Contact",
+      "sendEmail": "Send Email",
+      "callCustomer": "Call Customer",
+      "customerDetailsLocked": "Customer Details Locked",
+      "confirmToUnlock": "Confirm this booking to unlock customer contact details",
+      "availableActions": "Available Actions",
+      "tourCompleted": "Tour Completed!",
+      "tourCompletedDesc": "This tour has been successfully completed.",
+      "bookingDeclined": "Booking Declined",
+      "bookingDeclinedDesc": "This booking was declined and cannot be modified.",
+      "declineReason": "Decline Reason",
+      "declineReasonPlaceholder": "Please provide a reason for declining this booking...",
+      "timeline": {
+        "bookingCreated": "Booking Created",
+        "bookingConfirmed": "Booking Confirmed",
+        "bookingDeclined": "Booking Declined", 
+        "bookingCompleted": "Tour Completed"
+      }
+    },
+
+    "modal": {
+      "tabs": {
+        "overview": "Overview",
+        "customer": "Customer",
+        "financial": "Financial"
+      },
+      "sections": {
+        "tourInfo": "Tour Information",
+        "status": "Booking Status", 
+        "specialRequests": "Special Requests",
+        "customerInfo": "Customer Information",
+        "communication": "Communication",
+        "revenueBreakdown": "Revenue Breakdown",
+        "paymentInfo": "Payment Information"
+      },
+      "fields": {
+        "tourDate": "Tour Date",
+        "timeSlot": "Time Slot",
+        "duration": "Duration",
+        "meetingPoint": "Meeting Point",
+        "participants": "Participants",
+        "bookingDate": "Booking Date",
+        "currentStatus": "Current Status",
+        "deadline": "Booking Deadline",
+        "customerName": "Customer Name",
+        "email": "Email",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "language": "Preferred Language",
+        "customerType": "Customer Type",
+        "subtotal": "Subtotal",
+        "commission": "Commission",
+        "yourRevenue": "Your Revenue",
+        "customerPaid": "Customer Paid",
+        "paymentStatus": "Payment Status",
+        "paymentMethod": "Payment Method",
+        "commissionRate": "Commission Rate",
+        "commissionLocked": "Commission Locked"
+      },
+      "customerLocked": {
+        "title": "Customer Details Locked",
+        "message": "Customer contact details are locked until booking is confirmed.",
+        "hint": "Confirm this booking to unlock customer information."
+      },
+      "notSpecified": "Not specified",
+      "urgent": "URGENT",
+      "pending": "Pending",
+      "tourist": "Tourist",
+      "notLocked": "Not locked",
+      "lastUpdated": "Last updated"
+    },
+
     "list": {
       "title": "Bookings List",
       "noBookings": "No bookings yet",
@@ -351,7 +449,8 @@
       "declineReason": "Decline Reason:",
       "unknownTour": "Unknown Tour",
       "timeTbd": "Time TBD",
-      "locationTbd": "Location TBD"
+      "locationTbd": "Location TBD",
+      "notProvided": "not provided"
     },
     "actions": {
       "confirmBooking": "CONFIRM BOOKING",
@@ -361,7 +460,15 @@
       "markComplete": "Mark Complete",
       "followUp": "Follow Up",
       "requestReview": "Request Review",
-      "unlockNotice": "Customer contact details will be unlocked after confirmation"
+      "unlockNotice": "Customer contact details will be unlocked after confirmation",
+      "confirming": "Confirming...",
+      "completing": "Completing...",
+      "confirmDecline": "Confirm Decline",
+      "complete": "Complete",
+      "viewDetails": "View Details",
+      "chat": "Live Chat",
+      "email": "Send Email",
+      "confirm": "CONFIRM"
     },
     "statusMessages": {
       "confirmed": {
