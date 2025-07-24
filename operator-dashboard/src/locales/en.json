@@ -119,7 +119,7 @@
     "meetingPoint": "Meeting Point",
     "meetingPointPlaceholder": "e.g., Vaiare Ferry Terminal - Main Entrance",
     "tourTypeHelper": "Select the category that best describes your tour experience",
-    "bookings": "Reservations", 
+    "bookings": "Bookings", 
     "profile": "Profile"
   },
   "tooltips": {
@@ -247,6 +247,27 @@
   },
 
   "bookings": {
+
+    "header": {
+      "revenueDashboard": "Revenue Dashboard",
+      "smartFilters": "Smart Filters", 
+      "clearAll": "Clear All"
+    },
+    
+    "revenue": {
+      "todayNet": "Today Net",
+      "weekNet": "Week Net",
+      "pendingRevenue": "Pending Revenue", 
+      "criticalDeadline": "Critical (8h)",
+      "avgBooking": "Avg Booking"
+    },
+    
+    "quickActions": {
+      "needsAction": "⚠️ Needs Action",
+      "deadlineSoon": "🔥 Deadline Soon",
+      "todaysTours": "📅 Today's Tours"
+    },
+
     "stats": {
       "total": "Total",
       "pending": "Pending",
@@ -265,7 +286,17 @@
       "refreshBookings": "Refresh bookings",
       "filteredBy": "Filtered by:",
       "clearFilter": "Clear filter",
-      "clearSearch": "Clear search"
+      "clearSearch": "Clear search",
+      "status": "Status",
+      "timePeriod": "Time Period",
+      "priority": "Priority", 
+      "search": "Search",
+      "allBookings": "All Bookings",
+      "needsAction": "⚠️ Needs Action",
+      "nextWeek": "Next Week",
+      "allPriorities": "All Priorities",
+      "critical": "🔥 Critical",
+      "allPending": "⚠️ All Pending"
     },
     "messages": {
       "loading": "Loading bookings...",

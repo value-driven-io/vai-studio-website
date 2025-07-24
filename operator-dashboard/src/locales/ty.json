@@ -247,6 +247,27 @@
   },
 
   "bookings": {
+
+    "header": {
+      "revenueDashboard": "Papa'i Moni",
+      "smartFilters": "Faaora Māita'i", 
+      "clearAll": "Faaore Atoa"
+    },
+    
+    "revenue": {
+      "todayNet": "Moni Teie Mahana",
+      "weekNet": "Moni Teie Hepetoma",
+      "pendingRevenue": "Moni Taraho", 
+      "criticalDeadline": "Rahi (8 hora)",
+      "avgBooking": "Averee Fa'anahora"
+    },
+    
+    "quickActions": {
+      "needsAction": "⚠️ Hināro i te Ravehi",
+      "deadlineSoon": "🔥 Taime Vave",
+      "todaysTours": "📅ṽisita Teie Mahana"
+    },
+
     "stats": {
       "total": "Atoa",
       "pending": "E fa'arue nei",
@@ -265,7 +286,17 @@
       "refreshBookings": "Fa'ahou i te mau fa'ari'ira'a",
       "filteredBy": "Tata'a na:",
       "clearFilter": "Fa'a'ore i te tata'a",
-      "clearSearch": "Fa'a'ore i te ki'ira'a"
+      "clearSearch": "Fa'a'ore i te ki'ira'a",
+      "status": "Tu'aro",
+      "timePeriod": "Taime",
+      "priority": "Hōho'a", 
+      "search": "Tāpapa",
+      "allBookings": "Atoa Fa'anahora",
+      "needsAction": "⚠️ Hināro i te Ravehi",
+      "nextWeek": "Hepetoma A'e",
+      "allPriorities": "Atoa Hōho'a",
+      "critical": "🔥 Rahi",
+      "allPending": "⚠️ Atoa Taraho"
     },
     "messages": {
       "loading": "E 'ite nei i te mau fa'ari'ira'a...",

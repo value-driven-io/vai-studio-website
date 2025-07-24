@@ -249,6 +249,26 @@
   },
 
   "bookings": {
+    "header": {
+      "revenueDashboard": "Tableau des Revenus",
+      "smartFilters": "Filtres Intelligents", 
+      "clearAll": "Effacer Tout"
+    },
+    
+    "revenue": {
+      "todayNet": "Net Aujourd'hui",
+      "weekNet": "Net Semaine",
+      "pendingRevenue": "Revenus en Attente", 
+      "criticalDeadline": "Critique (8h)",
+      "avgBooking": "Moy. Réservation"
+    },
+    
+    "quickActions": {
+      "needsAction": "⚠️ Action Requise",
+      "deadlineSoon": "🔥 Échéance Proche",
+      "todaysTours": "📅 Tours Aujourd'hui"
+    },
+
     "stats": {
       "total": "Total",
       "pending": "En attente",
@@ -267,7 +287,17 @@
       "refreshBookings": "Actualiser les réservations",
       "filteredBy": "Filtré par:",
       "clearFilter": "Effacer le filtre",
-      "clearSearch": "Effacer la recherche"
+      "clearSearch": "Effacer la recherche",
+      "status": "Statut",
+      "timePeriod": "Période",
+      "priority": "Priorité", 
+      "search": "Rechercher",
+      "allBookings": "Toutes Réservations",
+      "needsAction": "⚠️ Action Requise",
+      "nextWeek": "Semaine Prochaine",
+      "allPriorities": "Toutes Priorités",
+      "critical": "🔥 Critique",
+      "allPending": "⚠️ Toutes en Attente"
     },
     "messages": {
       "loading": "Chargement des réservations...",

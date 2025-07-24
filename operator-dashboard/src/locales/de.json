@@ -247,6 +247,26 @@
   },
 
   "bookings": {
+    "header": {
+      "revenueDashboard": "Umsatz-Dashboard",
+      "smartFilters": "Intelligente Filter", 
+      "clearAll": "Alle Löschen"
+    },
+    
+    "revenue": {
+      "todayNet": "Heute Netto",
+      "weekNet": "Woche Netto",
+      "pendingRevenue": "Ausstehende Umsätze", 
+      "criticalDeadline": "Kritisch (8h)",
+      "avgBooking": "Ø Buchung"
+    },
+    
+    "quickActions": {
+      "needsAction": "⚠️ Handlung Erforderlich",
+      "deadlineSoon": "🔥 Frist Bald",
+      "todaysTours": "📅 Heutige Touren"
+    },
+
     "stats": {
       "total": "Gesamt",
       "pending": "Ausstehend",
@@ -265,7 +285,17 @@
       "refreshBookings": "Buchungen aktualisieren",
       "filteredBy": "Gefiltert nach:",
       "clearFilter": "Filter löschen",
-      "clearSearch": "Suche löschen"
+      "clearSearch": "Suche löschen",
+      "status": "Status",
+      "timePeriod": "Zeitraum",
+      "priority": "Priorität", 
+      "search": "Suchen",
+      "allBookings": "Alle Buchungen",
+      "needsAction": "⚠️ Handlung Erforderlich",
+      "nextWeek": "Nächste Woche",
+      "allPriorities": "Alle Prioritäten",
+      "critical": "🔥 Kritisch",
+      "allPending": "⚠️ Alle Ausstehend"
     },
     "messages": {
       "loading": "Buchungen werden geladen...",

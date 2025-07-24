@@ -247,6 +247,27 @@
   },
 
   "bookings": {
+
+    "header": {
+      "revenueDashboard": "收入仪表板",
+      "smartFilters": "智能筛选", 
+      "clearAll": "清除全部"
+    },
+    
+    "revenue": {
+      "todayNet": "今日净收入",
+      "weekNet": "本周净收入",
+      "pendingRevenue": "待确认收入", 
+      "criticalDeadline": "紧急 (8小时)",
+      "avgBooking": "平均预订"
+    },
+    
+    "quickActions": {
+      "needsAction": "⚠️ 需要处理",
+      "deadlineSoon": "🔥 即将截止",
+      "todaysTours": "📅 今日行程"
+    },
+
     "stats": {
       "total": "总计",
       "pending": "待处理",
@@ -265,7 +286,17 @@
       "refreshBookings": "刷新预订",
       "filteredBy": "筛选条件：",
       "clearFilter": "清除筛选",
-      "clearSearch": "清除搜索"
+      "clearSearch": "清除搜索",
+      "status": "状态",
+      "timePeriod": "时间段",
+      "priority": "优先级", 
+      "search": "搜索",
+      "allBookings": "所有预订",
+      "needsAction": "⚠️ 需要处理",
+      "nextWeek": "下周",
+      "allPriorities": "所有优先级",
+      "critical": "🔥 紧急",
+      "allPending": "⚠️ 所有待处理"
     },
     "messages": {
       "loading": "加载预订中...",

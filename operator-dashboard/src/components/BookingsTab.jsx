@@ -8,6 +8,7 @@ import {
   Clock3, Award, Lock, Unlock
 } from 'lucide-react'
 import OperatorChatModal from './OperatorChatModal' 
+import BookingsHeader from './BookingsHeader'
 
 const BookingsTab = ({
   allBookings, 
@@ -41,6 +42,23 @@ const BookingsTab = ({
   return (
     
               <div className="space-y-6">
+
+                {/* 🔥 NEW: Enhanced Header replaces old stats section */}
+                  <BookingsHeader
+                    allBookings={allBookings}
+                    operator={operator}
+                    stats={stats}
+                    bookingFilter={bookingFilter}
+                    setBookingFilter={setBookingFilter}
+                    timeFilter={timeFilter}
+                    setTimeFilter={setTimeFilter}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    fetchAllBookings={fetchAllBookings}
+                    formatPrice={formatPrice}
+                    bookingsLoading={bookingsLoading}
+                  />
+                  
             {/* Enhanced Clickable Stats */}
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-4">
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
