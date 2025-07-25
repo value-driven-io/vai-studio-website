@@ -19,7 +19,8 @@
     "participants": "participantes",
     "booked": "reservado",
     "attended": "asistieron",
-    "spots": "plazas"  
+    "spots": "plazas",
+    "close": "Cerrar"   
   },
   "header": {
     "title": "Operator Dashboard",
@@ -353,15 +354,121 @@
       "timeTbd": "Hora por determinar",
       "locationTbd": "Ubicación por determinar"
     },
+
+    "detail": {
+      "netRevenue": "Ingresos Netos",
+      "tabs": {
+        "details": "Detalles",
+        "customer": "Cliente", 
+        "actions": "Finanzas"
+      },
+      "tourInformation": "Información del Tour",
+      "tourDate": "Fecha del Tour",
+      "timeSlot": "Horario",
+      "meetingPoint": "Punto de Encuentro",
+      "participants": "Participantes",
+      "revenueBreakdown": "Desglose de Ingresos",
+      "subtotal": "Subtotal",
+      "commission": "Comisión",
+      "yourEarnings": "Tus Ganancias",
+      "customerPays": "Cliente paga",
+      "specialRequests": "Solicitudes Especiales",
+      "timeline": "Cronología",
+      "customerInformation": "Información del Cliente",
+      "customerName": "Nombre Cliente",
+      "email": "Email",
+      "phone": "Teléfono",
+      "bookingDate": "Fecha Reserva",
+      "bookingSource": "Fuente Reserva",
+      "quickContact": "Contacto Rápido",
+      "sendEmail": "Enviar Email",
+      "callCustomer": "Llamar Cliente",
+      "customerDetailsLocked": "Detalles Cliente Bloqueados",
+      "confirmToUnlock": "Confirma esta reserva para desbloquear los datos de contacto",
+      "availableActions": "Acciones Disponibles",
+      "tourCompleted": "¡Tour Completado!",
+      "tourCompletedDesc": "Este tour se completó exitosamente.",
+      "bookingDeclined": "Reserva Rechazada",
+      "bookingDeclinedDesc": "Esta reserva fue rechazada y no se puede modificar.",
+      "declineReason": "Motivo de Rechazo",
+      "declineReasonPlaceholder": "Por favor proporciona un motivo para rechazar esta reserva...",
+      "timeline": {
+        "bookingCreated": "Reserva Creada",
+        "bookingConfirmed": "Reserva Confirmada",
+        "bookingDeclined": "Reserva Rechazada", 
+        "bookingCompleted": "Tour Completado"
+      }
+    },
+
+    "modal": {
+      "tabs": {
+        "overview": "Vista General",
+        "customer": "Cliente",
+        "financial": "Finanzas"
+      },
+      "sections": {
+        "tourInfo": "Información del Tour",
+        "status": "Estado Reserva", 
+        "specialRequests": "Solicitudes Especiales",
+        "customerInfo": "Información del Cliente",
+        "communication": "Comunicación",
+        "revenueBreakdown": "Desglose de Ingresos",
+        "paymentInfo": "Información de Pago"
+      },
+      "fields": {
+        "tourDate": "Fecha del Tour",
+        "timeSlot": "Horario",
+        "duration": "Duración",
+        "meetingPoint": "Punto de Encuentro",
+        "participants": "Participantes",
+        "bookingDate": "Fecha Reserva",
+        "currentStatus": "Estado Actual",
+        "deadline": "Fecha Límite Reserva",
+        "customerName": "Nombre Cliente",
+        "email": "Email",
+        "phone": "Teléfono",
+        "whatsapp": "WhatsApp",
+        "language": "Idioma Preferido",
+        "customerType": "Tipo Cliente",
+        "subtotal": "Subtotal",
+        "commission": "Comisión",
+        "yourRevenue": "Tus Ingresos",
+        "customerPaid": "Cliente Pagó",
+        "paymentStatus": "Estado Pago",
+        "paymentMethod": "Método Pago",
+        "commissionRate": "Tasa Comisión",
+        "commissionLocked": "Comisión Bloqueada"
+      },
+      "customerLocked": {
+        "title": "Detalles Cliente Bloqueados",
+        "message": "Los datos de contacto del cliente están bloqueados hasta confirmar la reserva.",
+        "hint": "Confirma esta reserva para desbloquear la información del cliente."
+      },
+      "notSpecified": "No especificado",
+      "urgent": "URGENTE",
+      "pending": "Pendiente",
+      "tourist": "Turista",
+      "notLocked": "No bloqueado",
+      "lastUpdated": "Última actualización"
+    },
+
     "actions": {
-      "confirmBooking": "CONFIRMAR RESERVA",
+      "confirmBooking": "CONFIRMAR",
       "decline": "RECHAZAR",
       "whatsappCustomer": "WhatsApp Cliente",
       "callCustomer": "Llamar Cliente", 
       "markComplete": "Marcar Completo",
       "followUp": "Seguimiento",
       "requestReview": "Solicitar Reseña",
-      "unlockNotice": "Los detalles de contacto del cliente se desbloquearán después de la confirmación"
+      "unlockNotice": "Los detalles de contacto del cliente se desbloquearán después de la confirmación",
+      "confirming": "Confirmando...",
+      "completing": "Completando...",
+      "confirmDecline": "Confirmar Rechazo",
+      "complete": "Tour completo",
+      "viewDetails": "Ver detalles",
+      "chat": "Live Chat",
+      "email": "Email",
+      "confirm": "CONFIRMAR"
     },
     "statusMessages": {
       "confirmed": {

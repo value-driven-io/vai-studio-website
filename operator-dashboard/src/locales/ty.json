@@ -353,6 +353,104 @@
       "timeTbd": "Taime e fa'ata'a",
       "locationTbd": "Vāhi e fa'ata'a"
     },
+
+    "detail": {
+      "netRevenue": "Moni Net",
+      "tabs": {
+        "details": "Parau",
+        "customer": "Taata", 
+        "actions": "Moni"
+      },
+      "tourInformation": "Parau Tarava",
+      "tourDate": "Mahana Tarava",
+      "timeSlot": "Taime",
+      "meetingPoint": "Ananahi",
+      "participants": "Taata Trava",
+      "revenueBreakdown": "Faaaraara Moni",
+      "subtotal": "Moni Atu",
+      "commission": "Faanahora",
+      "yourEarnings": "To Moni",
+      "customerPays": "Te taata faanahora",
+      "specialRequests": "Hinaaro Rahi",
+      "timeline": "Taime Tauturu",
+      "customerInformation": "Parau Taata",
+      "customerName": "Ioa Taata",
+      "email": "Email",
+      "phone": "Numera",
+      "bookingDate": "Mahana Faanahora",
+      "bookingSource": "Puna Faanahora",
+      "quickContact": "Faanahora Vave",
+      "sendEmail": "Haapii Email",
+      "callCustomer": "Piha Taata",
+      "customerDetailsLocked": "Parau Taata Rahirahi",
+      "confirmToUnlock": "Faafaaite teie faanahora no te rahirahi i te parau",
+      "availableActions": "Ravehi Nehenehe",
+      "tourCompleted": "Tarava Hopea !",
+      "tourCompletedDesc": "Teie tarava ua hopea maita'i.",
+      "bookingDeclined": "Faanahora Hooia",
+      "bookingDeclinedDesc": "Teie faanahora ua hooia e aore e nehenehe te taui.",
+      "declineReason": "Raison Hooia",
+      "declineReasonPlaceholder": "E parau mai i te hooia...",
+      "timeline": {
+        "bookingCreated": "Faanahora Haaapi",
+        "bookingConfirmed": "Faanahora Faafaaite",
+        "bookingDeclined": "Faanahora Hooia", 
+        "bookingCompleted": "Tarava Hopea"
+      }
+    },
+
+    "modal": {
+      "tabs": {
+        "overview": "Matahiti",
+        "customer": "Taata",
+        "financial": "Moni"
+      },
+      "sections": {
+        "tourInfo": "Parau Tarava",
+        "status": "Tu'aro Faanahora", 
+        "specialRequests": "Hinaaro Rahi",
+        "customerInfo": "Parau Taata",
+        "communication": "Parauraa",
+        "revenueBreakdown": "Faaaraara Moni",
+        "paymentInfo": "Parau Faanahora Moni"
+      },
+      "fields": {
+        "tourDate": "Mahana Tarava",
+        "timeSlot": "Taime Faanahora",
+        "duration": "Roa",
+        "meetingPoint": "Ananahi",
+        "participants": "Taata Trava",
+        "bookingDate": "Mahana Faanahora",
+        "currentStatus": "Tu'aro Teie",
+        "deadline": "Taime Hopea Faanahora",
+        "customerName": "Ioa Taata",
+        "email": "Email",
+        "phone": "Numera",
+        "whatsapp": "WhatsApp",
+        "language": "Reo Hinaaro",
+        "customerType": "Huru Taata",
+        "subtotal": "Moni Atu",
+        "commission": "Faanahora Moni",
+        "yourRevenue": "To Moni",
+        "customerPaid": "Te Taata ua Faanahora",
+        "paymentStatus": "Tu'aro Faanahora",
+        "paymentMethod": "Huru Faanahora",
+        "commissionRate": "Feia Faanahora",
+        "commissionLocked": "Faanahora Rahirahi"
+      },
+      "customerLocked": {
+        "title": "Parau Taata Rahirahi",
+        "message": "Te parau taata e rahirahi nei a faafaaite ai te faanahora.",
+        "hint": "Faafaaite teie faanahora no te rahirahi i te parau taata."
+      },
+      "notSpecified": "Aita i faaite",
+      "urgent": "VAVE",
+      "pending": "Taraho",
+      "tourist": "Taata Tarava",
+      "notLocked": "Aita rahirahi",
+      "lastUpdated": "Taui hopea"
+    },
+
     "actions": {
       "confirmBooking": "FA'ARI'I TE FA'ARI'IRA'A",
       "decline": "HŌ'Ē",
@@ -361,7 +459,10 @@
       "markComplete": "Fa'ailoa 'oti'",
       "followUp": "Tui a'e",
       "requestReview": "Taotoga mata'ira'a",
-      "unlockNotice": "Te mau fa'ahōho'ara'a fa'a'itehia kirimita e fa'aohi'a i muri o te fa'ari'ira'a"
+      "unlockNotice": "Te mau fa'ahōho'ara'a fa'a'itehia kirimita e fa'aohi'a i muri o te fa'ari'ira'a",
+      "confirming": "Faafaaite nei...",
+      "completing": "Hopea nei...",
+      "confirmDecline": "Faafaaite Hooia"
     },
     "statusMessages": {
       "confirmed": {

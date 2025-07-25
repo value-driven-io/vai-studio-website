@@ -19,7 +19,8 @@
     "participants": "参与者",
     "booked": "已预订",
     "attended": "已参加",
-    "spots": "位置"  
+    "spots": "位置",
+    "close": "关闭"
   },
   "header": {
     "title": "运营商控制面板",
@@ -353,6 +354,104 @@
       "timeTbd": "时间待定",
       "locationTbd": "地点待定"
     },
+
+    "detail": {
+      "netRevenue": "净收入",
+      "tabs": {
+        "details": "详情",
+        "customer": "客户", 
+        "actions": "操作"
+      },
+      "tourInformation": "行程信息",
+      "tourDate": "行程日期",
+      "timeSlot": "时间段",
+      "meetingPoint": "集合地点",
+      "participants": "参与者",
+      "revenueBreakdown": "收入明细",
+      "subtotal": "小计",
+      "commission": "佣金",
+      "yourEarnings": "您的收入",
+      "customerPays": "客户支付",
+      "specialRequests": "特殊要求",
+      "timeline": "时间轴",
+      "customerInformation": "客户信息",
+      "customerName": "客户姓名",
+      "email": "邮箱",
+      "phone": "电话",
+      "bookingDate": "预订日期",
+      "bookingSource": "预订来源",
+      "quickContact": "快速联系",
+      "sendEmail": "发送邮件",
+      "callCustomer": "致电客户",
+      "customerDetailsLocked": "客户详情已锁定",
+      "confirmToUnlock": "确认此预订以解锁客户联系详情",
+      "availableActions": "可用操作",
+      "tourCompleted": "行程已完成！",
+      "tourCompletedDesc": "此行程已成功完成。",
+      "bookingDeclined": "预订已拒绝",
+      "bookingDeclinedDesc": "此预订已被拒绝，无法修改。",
+      "declineReason": "拒绝原因",
+      "declineReasonPlaceholder": "请提供拒绝此预订的原因...",
+      "timeline": {
+        "bookingCreated": "预订已创建",
+        "bookingConfirmed": "预订已确认",
+        "bookingDeclined": "预订已拒绝", 
+        "bookingCompleted": "行程已完成"
+      }
+    },
+
+    "modal": {
+      "tabs": {
+        "overview": "概览",
+        "customer": "客户",
+        "financial": "财务"
+      },
+      "sections": {
+        "tourInfo": "行程信息",
+        "status": "预订状态", 
+        "specialRequests": "特殊要求",
+        "customerInfo": "客户信息",
+        "communication": "沟通",
+        "revenueBreakdown": "收入明细",
+        "paymentInfo": "支付信息"
+      },
+      "fields": {
+        "tourDate": "行程日期",
+        "timeSlot": "时间段",
+        "duration": "时长",
+        "meetingPoint": "集合地点",
+        "participants": "参与者",
+        "bookingDate": "预订日期",
+        "currentStatus": "当前状态",
+        "deadline": "预订截止时间",
+        "customerName": "客户姓名",
+        "email": "邮箱",
+        "phone": "电话",
+        "whatsapp": "WhatsApp",
+        "language": "首选语言",
+        "customerType": "客户类型",
+        "subtotal": "小计",
+        "commission": "佣金",
+        "yourRevenue": "您的收入",
+        "customerPaid": "客户支付",
+        "paymentStatus": "支付状态",
+        "paymentMethod": "支付方式",
+        "commissionRate": "佣金比例",
+        "commissionLocked": "佣金已锁定"
+      },
+      "customerLocked": {
+        "title": "客户详情已锁定",
+        "message": "客户联系详情在预订确认前已锁定。",
+        "hint": "确认此预订以解锁客户信息。"
+      },
+      "notSpecified": "未指定",
+      "urgent": "紧急",
+      "pending": "待处理",
+      "tourist": "游客",
+      "notLocked": "未锁定",
+      "lastUpdated": "最后更新"
+    },
+
     "actions": {
       "confirmBooking": "确认预订",
       "decline": "拒绝",
@@ -361,7 +460,10 @@
       "markComplete": "标记完成",
       "followUp": "跟进",
       "requestReview": "请求评价",
-      "unlockNotice": "确认后将解锁客户联系详情"
+      "unlockNotice": "确认后将解锁客户联系详情",
+      "confirming": "确认中...",
+      "completing": "完成中...",
+      "confirmDecline": "确认拒绝"
     },
     "statusMessages": {
       "confirmed": {

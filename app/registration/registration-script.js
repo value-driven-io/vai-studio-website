@@ -102,7 +102,7 @@ function initCountdown() {
 
     function updateCountdown() {
         try {
-            const launchDate = new Date('July 31, 2025 00:00:00').getTime();
+            const launchDate = new Date('August 1, 2025 00:00:00').getTime();
             const now = new Date().getTime();
             const distance = launchDate - now;
 

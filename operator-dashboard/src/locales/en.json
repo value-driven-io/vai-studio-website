@@ -271,10 +271,12 @@
 
      "detail": {
       "netRevenue": "Net Revenue",
+      "duration": "Duration",
+      "notSpecified": "Not specified",
       "tabs": {
         "details": "Details",
         "customer": "Customer", 
-        "actions": "Actions"
+        "actions": "Finances"
       },
       "tourInformation": "Tour Information",
       "tourDate": "Tour Date",

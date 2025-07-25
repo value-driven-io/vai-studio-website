@@ -19,7 +19,8 @@
     "participants": "Teilnehmer",
     "booked": "gebucht",
     "attended": "teilgenommen",
-    "spots": "Plätze"  
+    "spots": "Plätze",
+    "close": "Schließen"   
   },
   "header": {
     "title": "Operator Dashboard",
@@ -350,17 +351,124 @@
       "declineReason": "Ablehnungsgrund:",
       "unknownTour": "Unbekannte Tour",
       "timeTbd": "Zeit noch festzulegen",
-      "locationTbd": "Ort noch festzulegen"
+      "locationTbd": "Ort noch festzulegen",
+      "notProvided": "Nicht angegeben"
     },
+
+    "detail": {
+      "netRevenue": "Netto-Umsatz",
+      "tabs": {
+        "details": "Details",
+        "customer": "Kunde", 
+        "actions": "Finanzen"
+      },
+      "tourInformation": "Tour-Informationen",
+      "tourDate": "Tour-Datum",
+      "timeSlot": "Zeitfenster",
+      "meetingPoint": "Treffpunkt",
+      "participants": "Teilnehmer",
+      "revenueBreakdown": "Umsatz-Aufschlüsselung",
+      "subtotal": "Zwischensumme",
+      "commission": "Provision",
+      "yourEarnings": "Ihre Einnahmen",
+      "customerPays": "Kunde zahlt",
+      "specialRequests": "Sonderwünsche",
+      "timeline": "Zeitverlauf",
+      "customerInformation": "Kunden-Informationen",
+      "customerName": "Kundenname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "bookingDate": "Buchungsdatum",
+      "bookingSource": "Buchungsquelle",
+      "quickContact": "Schnellkontakt",
+      "sendEmail": "E-Mail Senden",
+      "callCustomer": "Kunde Anrufen",
+      "customerDetailsLocked": "Kundendaten Gesperrt",
+      "confirmToUnlock": "Bestätigen Sie diese Buchung, um Kundenkontaktdaten freizuschalten",
+      "availableActions": "Verfügbare Aktionen",
+      "tourCompleted": "Tour Abgeschlossen!",
+      "tourCompletedDesc": "Diese Tour wurde erfolgreich abgeschlossen.",
+      "bookingDeclined": "Buchung Abgelehnt",
+      "bookingDeclinedDesc": "Diese Buchung wurde abgelehnt und kann nicht geändert werden.",
+      "declineReason": "Ablehnungsgrund",
+      "declineReasonPlaceholder": "Bitte geben Sie einen Grund für die Ablehnung an...",
+      "timeline": {
+        "bookingCreated": "Buchung Erstellt",
+        "bookingConfirmed": "Buchung Bestätigt",
+        "bookingDeclined": "Buchung Abgelehnt", 
+        "bookingCompleted": "Tour Abgeschlossen"
+      }
+    },
+
+    "modal": {
+      "tabs": {
+        "overview": "Übersicht",
+        "customer": "Kunde",
+        "financial": "Finanzen"
+      },
+      "sections": {
+        "tourInfo": "Tour-Informationen",
+        "status": "Buchungsstatus", 
+        "specialRequests": "Sonderwünsche",
+        "customerInfo": "Kunden-Informationen",
+        "communication": "Kommunikation",
+        "revenueBreakdown": "Umsatz-Aufschlüsselung",
+        "paymentInfo": "Zahlungsinformationen"
+      },
+      "fields": {
+        "tourDate": "Tour-Datum",
+        "timeSlot": "Zeitfenster",
+        "duration": "Dauer",
+        "meetingPoint": "Treffpunkt",
+        "participants": "Teilnehmer",
+        "bookingDate": "Buchungsdatum",
+        "currentStatus": "Aktueller Status",
+        "deadline": "Buchungsfrist",
+        "customerName": "Kundenname",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "whatsapp": "WhatsApp",
+        "language": "Bevorzugte Sprache",
+        "customerType": "Kundentyp",
+        "subtotal": "Zwischensumme",
+        "commission": "VAI Operator Service",
+        "yourRevenue": "Deine Einnahmen",
+        "customerPaid": "Zahlung von Kunde",
+        "paymentStatus": "Zahlungsstatus",
+        "paymentMethod": "Zahlungsmethode",
+        "commissionRate": "Provisionssatz",
+        "commissionLocked": "Provision Gesperrt"
+      },
+      "customerLocked": {
+        "title": "Kundendaten Gesperrt",
+        "message": "Kundenkontaktdaten sind gesperrt bis die Buchung bestätigt wird.",
+        "hint": "Bestätige diese Buchung um Kundeninformationen freizuschalten."
+      },
+      "notSpecified": "Nicht angegeben",
+      "urgent": "DRINGEND",
+      "pending": "Ausstehend",
+      "tourist": "Tourist",
+      "notLocked": "Nicht gesperrt",
+      "lastUpdated": "Zuletzt aktualisiert"
+    },
+
     "actions": {
-      "confirmBooking": "BUCHUNG BESTÄTIGEN",
+      "confirmBooking": "BESTÄTIGEN",
       "decline": "ABLEHNEN",
       "whatsappCustomer": "WhatsApp Kunde",
       "callCustomer": "Kunde anrufen", 
       "markComplete": "Als abgeschlossen markieren",
       "followUp": "Nachfassen",
       "requestReview": "Bewertung anfordern",
-      "unlockNotice": "Kundenkontaktdaten werden nach Bestätigung freigeschaltet"
+      "unlockNotice": "Kundenkontaktdaten werden nach Bestätigung freigeschaltet",
+      "confirming": "Bestätige...",
+      "completing": "Wird geschlossen...",
+      "confirmDecline": "Ablehnung Bestätigen",
+      "chat": "Chat öffnen",
+      "email": "E-Mail senden",
+      "complete": "Tour abschließen",
+      "viewDetails": "Details",
+      "confirm": "BESTÄTIGEN"
     },
     "statusMessages": {
       "confirmed": {

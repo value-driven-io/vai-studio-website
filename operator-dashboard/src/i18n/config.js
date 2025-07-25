@@ -27,7 +27,14 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'fr', // French as default for French Polynesia
+    fallbackLng: {
+      'de': ['en', 'fr'],     // German → English → French
+      'es': ['en', 'fr'],     // Spanish → English → French  
+      'zh': ['en', 'fr'],     // Chinese → English → French
+      'ty': ['fr', 'en'],     // Tahitian → French → English
+      'fr': ['en'],           // French → English
+      'default': ['en', 'fr'] // Any other language → English → French
+    },
     supportedLngs: supportedLanguages,
     
     // Language detection with localStorage persistence
@@ -36,6 +43,9 @@ i18n
     interpolation: {
       escapeValue: false, // React already does escaping
     },
+
+    returnEmptyString: false,  // Don't return empty strings for missing keys
+    returnNull: false,         // Don't return null for missing keys
     
     // Development settings
     debug: process.env.NODE_ENV === 'development',
@@ -49,7 +59,7 @@ i18n
     saveMissing: process.env.NODE_ENV === 'development',
     missingKeyHandler: (lng, ns, key) => {
       if (process.env.NODE_ENV === 'development') {
-        console.warn(`🌍 Missing translation key: ${key} for language: ${lng}`)
+        console.warn(`🌍 Missing translation key: ${key} for language: ${lng} - falling back`)
       }
     },
     

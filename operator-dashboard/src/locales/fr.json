@@ -21,7 +21,8 @@
     "attended": "présents",
     "spots": "places",
     "bookings": "Réservations", 
-    "profile": "Profil"
+    "profile": "Profil",
+    "close": "Fermer"  
   },
   "header": {
     "title": "Operator Dashboard",
@@ -296,6 +297,105 @@
       "medium": "Moyenne"
     },
 
+    "detail": {
+      "netRevenue": "Revenus Nets",
+      "duration": "Durée", 
+      "notSpecified": "Non spécifié",
+      "tabs": {
+        "details": "Détails",
+        "customer": "Client", 
+        "actions": "Finances"
+      },
+      "tourInformation": "Informations Excursion",
+      "tourDate": "Date Excursion",
+      "timeSlot": "Créneau Horaire",
+      "meetingPoint": "Point de Rendez-vous",
+      "participants": "Participants",
+      "revenueBreakdown": "Répartition Revenus",
+      "subtotal": "Sous-total",
+      "commission": "Commission",
+      "yourEarnings": "Tes Revenus",
+      "customerPays": "Le client paie",
+      "specialRequests": "Demandes Spéciales",
+      "timeline": "Chronologie",
+      "customerInformation": "Informations Client",
+      "customerName": "Nom Client",
+      "email": "Email",
+      "phone": "Téléphone",
+      "bookingDate": "Date Réservation",
+      "bookingSource": "Source Réservation",
+      "quickContact": "Contact Rapide",
+      "sendEmail": "Envoyer Email",
+      "callCustomer": "Appeler Client",
+      "customerDetailsLocked": "Détails Client Verrouillés",
+      "confirmToUnlock": "Confirme cette réservation pour déverrouiller les coordonnées",
+      "availableActions": "Actions Disponibles",
+      "tourCompleted": "Excursion Terminée !",
+      "tourCompletedDesc": "Cette excursion a été terminée avec succès.",
+      "bookingDeclined": "Réservation Refusée",
+      "bookingDeclinedDesc": "Cette réservation a été refusée et ne peut être modifiée.",
+      "declineReason": "Raison du Refus",
+      "declineReasonPlaceholder": "Veuillez indiquer une raison pour refuser cette réservation...",
+      "timeline": {
+        "bookingCreated": "Réservation Créée",
+        "bookingConfirmed": "Réservation Confirmée",
+        "bookingDeclined": "Réservation Refusée", 
+        "bookingCompleted": "Excursion Terminée"
+      }
+    },
+
+    "modal": {
+      "tabs": {
+        "overview": "Aperçu",
+        "customer": "Client",
+        "financial": "Finances"
+      },
+      "sections": {
+        "tourInfo": "Informations Excursion",
+        "status": "Statut Réservation", 
+        "specialRequests": "Demandes Spéciales",
+        "customerInfo": "Informations Client",
+        "communication": "Communication",
+        "revenueBreakdown": "Répartition Revenus",
+        "paymentInfo": "Informations Paiement"
+      },
+      "fields": {
+        "tourDate": "Date Excursion",
+        "timeSlot": "Créneau Horaire",
+        "duration": "Durée",
+        "meetingPoint": "Point de Rendez-vous",
+        "participants": "Participants",
+        "bookingDate": "Date Réservation",
+        "currentStatus": "Statut Actuel",
+        "deadline": "Échéance Réservation",
+        "customerName": "Nom Client",
+        "email": "Email",
+        "phone": "Téléphone",
+        "whatsapp": "WhatsApp",
+        "language": "Langue Préférée",
+        "customerType": "Type Client",
+        "subtotal": "Sous-total",
+        "commission": "Commission",
+        "yourRevenue": "Tes Revenus",
+        "customerPaid": "Client a Payé",
+        "paymentStatus": "Statut Paiement",
+        "paymentMethod": "Méthode Paiement",
+        "commissionRate": "Taux Commission",
+        "commissionLocked": "Commission Verrouillée"
+      },
+      "customerLocked": {
+        "title": "Détails Client Verrouillés",
+        "message": "Les coordonnées client sont verrouillées jusqu'à confirmation de la réservation.",
+        "hint": "Confirme cette réservation pour déverrouiller les informations client."
+      },
+      "notSpecified": "Non spécifié",
+      "urgent": "URGENT",
+      "pending": "En attente",
+      "tourist": "Touriste",
+      "notLocked": "Non verrouillé",
+      "lastUpdated": "Dernière mise à jour"
+    },
+
     "stats": {
       "total": "Total",
       "pending": "En attente",
@@ -355,14 +455,22 @@
       "locationTbd": "Lieu à définir"
     },
     "actions": {
-      "confirmBooking": "CONFIRMER RÉSERVATION",
+      "confirmBooking": "CONFIRMER",
       "decline": "REFUSER",
       "whatsappCustomer": "WhatsApp Client",
       "callCustomer": "Appeler Client", 
       "markComplete": "Marquer Terminé",
       "followUp": "Suivi",
       "requestReview": "Demander Avis",
-      "unlockNotice": "Les coordonnées du client seront débloquées après confirmation"
+      "unlockNotice": "Les coordonnées du client seront débloquées après confirmation",
+      "confirming": "Confirmation...",
+      "completing": "Finalisation...",
+      "confirmDecline": "Confirmer Refus",
+      "complete": "Visite complète",
+      "viewDetails": "Détails",
+      "chat": "Live Chat",
+      "email": "Envoyer Email",
+      "confirm": "CONFIRMER"
     },
     "statusMessages": {
       "confirmed": {

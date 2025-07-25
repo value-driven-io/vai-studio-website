@@ -156,7 +156,7 @@ function initCountdown() {
 
     function updateCountdown() {
         try {
-            const launchDate = new Date('July 31, 2025 00:00:00').getTime();
+            const launchDate = new Date('August 1, 2025 00:00:00').getTime();
             const now = new Date().getTime();
             const distance = launchDate - now;
 
@@ -606,12 +606,12 @@ const SafeStorage = {
 const landingPageSEO = {
     en: {
         title: 'VAI - Unlock Paradise in French Polynesia | Launching Soon',
-        description: 'Stop missing authentic French Polynesia experiences. VAI unlocks paradise with instant access to local operators, transparent pricing, and mood-powered discovery. Register for July 20th launch.',
+        description: 'Stop missing authentic French Polynesia experiences. VAI unlocks paradise with instant access to local operators, transparent pricing, and mood-powered discovery. Register for August 1st launch.',
         keywords: 'French Polynesia, Tahiti, Bora Bora, Moorea, Rangiroa, tours, authentic experiences, local operators, last minute booking, spontaneous travel, Polynesian culture'
     },
     fr: {
         title: 'VAI - Débloque le Paradis en Polynésie Française | Lancement Bientôt',
-        description: 'Arrête de rater les expériences authentiques de la Polynésie française. VAI débloque le paradis avec un accès instantané aux opérateurs locaux, des prix transparents et une découverte basée sur l\'humeur. Inscris-toi pour le lancement du 20 juillet.',
+        description: 'Arrête de rater les expériences authentiques de la Polynésie française. VAI débloque le paradis avec un accès instantané aux opérateurs locaux, des prix transparents et une découverte basée sur l\'humeur. Inscris-toi pour le lancement du 1er août.',
         keywords: 'Polynésie française, Tahiti, Bora Bora, Moorea, Rangiroa, tours, expériences authentiques, opérateurs locaux, réservation dernière minute, voyage spontané, culture polynésienne'
     }
 };
@@ -713,9 +713,9 @@ const messageTranslations = {
     },
     
     // Registration service success messages
-    'You\'ll receive launch updates when VAI goes live on July 20th.': {
-        en: 'You\'ll receive launch updates when VAI goes live on July 20th.',
-        fr: 'Tu recevras les updates de lancement quand VAI sera en ligne le 20 juillet.'
+    'You\'ll receive launch updates when VAI goes live on August 1st.': {
+        en: 'You\'ll receive launch updates when VAI goes live on August 1st.',
+        fr: 'Tu recevras les updates de lancement quand VAI sera en ligne le 1er août.'
     },
     'Your founding member application is being reviewed. You\'ll hear from us within 24 hours.': {
         en: 'Your founding member application is being reviewed. You\'ll hear from us within 24 hours.',
@@ -971,7 +971,7 @@ function updateCountdownLabels(lang) {
     if (!daysElement || !hoursElement || !minutesElement) return;
 
     // Check if launch date has passed
-    const launchDate = new Date('July 31, 2025 00:00:00').getTime();
+    const launchDate = new Date('August 1, 2025 00:00:00').getTime();
     const now = new Date().getTime();
     
     if (launchDate - now < 0) {
@@ -1008,8 +1008,8 @@ function translateMessage(message, lang) {
             en: /Welcome (.+)! You'll receive launch updates/,
             fr: /Bienvenue (.+) ! Tu recevras les updates de lancement/,
             template: {
-                en: 'Welcome $1! You\'ll receive launch updates when VAI goes live on July 20th.',
-                fr: 'Bienvenue $1 ! Tu recevras les updates de lancement quand VAI sera en ligne le 20 juillet.'
+                en: 'Welcome $1! You\'ll receive launch updates when VAI goes live on August 1st.',
+                fr: 'Bienvenue $1 ! Tu recevras les updates de lancement quand VAI sera en ligne le 1er août.'
             }
         },
         {

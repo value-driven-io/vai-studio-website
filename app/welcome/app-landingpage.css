@@ -130,6 +130,17 @@ body {
     animation: pulse 2s infinite;
 }
 
+.operator-lp-button {
+    background: var(--var-deep-ocean);
+    color: grey;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+    border: 1px solid grey;
+}
+
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.8; }
@@ -1094,6 +1105,11 @@ body {
         font-size: 12px;
         padding: 6px 12px;
     }
+
+    .operator-lp-button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
     
     .logo {
         font-size: 24px;
@@ -1963,6 +1979,41 @@ body[data-current-lang="en"] [data-lang="en"] {
 }
 
 .clickable-launch-date:hover::before {
+    left: 100%;
+}
+
+.clickable-operator-lp-button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.clickable-operator-lp-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.clickable-operator-lp-button:active {
+    transform: translateY(0);
+}
+
+.clickable-operator-lp-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.clickable-operator-lp-button:hover::before {
     left: 100%;
 }
 

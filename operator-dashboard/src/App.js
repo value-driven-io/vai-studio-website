@@ -581,8 +581,8 @@ function App() {
       } else if (action === 'completed') {
         updateData.completed_at = toPolynesianISO(new Date())
         
-        // Lock commission rate when marking complete
-        await lockBookingCommission(bookingId)
+        // Lock commission rate when marking complete not necessary
+        // await lockBookingCommission(bookingId)
         
       } else if (action === 'declined') {
         updateData.cancelled_at = toPolynesianISO(new Date())
