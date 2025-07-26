@@ -589,8 +589,8 @@ class RegistrationHandler {
       // This method is now replaced by the success screen overlay
       
       tourist: {
-        download_app: '🎉 Perfect! You\'ll get an email when VAI launches on August 1st. Get ready to unlock paradise!',
-        explore_local: '🌺 Welcome! Discover local experiences starting August 1st when VAI goes live.'
+        download_app: '🎉 Perfect! You\'ll get an email when VAI launches on August 11th. Get ready to unlock paradise!',
+        explore_local: '🌺 Welcome! Discover local experiences starting August 11th when VAI goes live.'
       }, */
       operator: {
         await_approval: '🚀 Excellent! Your application is under review. You\'ll hear from us within 24 hours.',
