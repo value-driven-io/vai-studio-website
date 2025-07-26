@@ -97,7 +97,10 @@ function App() {
   const [allBookings, setAllBookings] = useState([])
   const [filteredBookings, setFilteredBookings] = useState([])
   const [bookingsLoading, setBookingsLoading] = useState(false)
-  const [activeTab, setActiveTab] = useState('dashboard')
+  const [activeTab, setActiveTab] = useState(() => {
+    // Try to get saved tab from localStorage, fallback to 'dashboard'
+    return localStorage.getItem('operator-activeTab') || 'dashboard'
+  })
   const [bookingFilter, setBookingFilter] = useState('all') // 'all', 'pending', 'confirmed', 'declined', 'completed'
   const [timeFilter, setTimeFilter] = useState('all') // 'all', 'today', 'tomorrow', 'week'
   const [searchTerm, setSearchTerm] = useState('')
@@ -351,7 +354,7 @@ function App() {
     setFilteredBookings(filtered)
   }, [allBookings, bookingFilter, timeFilter, searchTerm])
 
-  // 🆕 ADD THIS: Handle auth success messages from email links
+  // Handle auth success messages from email links
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const message = urlParams.get('message')
@@ -371,6 +374,11 @@ function App() {
       window.history.replaceState({}, '', window.location.pathname)
     }
   }, [])
+
+  // useEffect to save tab changes:
+  useEffect(() => {
+    localStorage.setItem('operator-activeTab', activeTab)
+  }, [activeTab])
 
   // API Functions
   const fetchTours = async () => {
