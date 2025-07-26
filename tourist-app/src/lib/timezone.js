@@ -8,7 +8,12 @@ const FRENCH_POLYNESIA_TIMEZONE = 'Pacific/Tahiti' // UTC-10
  * Get current date in French Polynesia timezone
  */
 export const getCurrentDateInFP = () => {
-  return new Date(new Date().toLocaleString("en-US", { timeZone: FRENCH_POLYNESIA_TIMEZONE }))
+  const now = new Date()
+  
+  // French Polynesia is UTC-10, so subtract 10 hours from current time
+  const fpTime = new Date(now.getTime() - (10 * 60 * 60 * 1000))
+  
+  return fpTime
 }
 
 /**
@@ -64,8 +69,8 @@ export const getRelativeDateTextFP = (dateString) => {
   if (isTodayInFP(dateString)) return 'Today'
   if (isTomorrowInFP(dateString)) return 'Tomorrow'
   
-  // For other dates, format nicely
-  const date = new Date(dateString + 'T00:00:00')
+  // For other dates, format nicely with timezone awareness
+  const date = new Date(dateString + 'T00:00:00-10:00')  // Specify FP timezone!
   return date.toLocaleDateString('en-US', {
     weekday: 'short',
     month: 'short',
@@ -79,14 +84,25 @@ export const getRelativeDateTextFP = (dateString) => {
 export const formatDateFP = (dateString) => {
   if (!dateString) return ''
   
-  // Add timezone info to ensure correct parsing
-  const date = new Date(dateString + 'T00:00:00')
+  // TEMPORARY DEBUG
+  console.log('=== FORMAT DATE DEBUG ===')
+  console.log('Input dateString:', dateString)
   
-  return date.toLocaleDateString('en-US', {
+  // Parse date string as if it's in French Polynesia timezone
+  const date = new Date(dateString + 'T00:00:00-10:00')
+  console.log('Parsed date object:', date)
+  console.log('Date toISOString:', date.toISOString())
+  
+  const result = date.toLocaleDateString('en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric'
   })
+  
+  console.log('Final formatted result:', result)
+  console.log('========================')
+  
+  return result
 }
 
 /**

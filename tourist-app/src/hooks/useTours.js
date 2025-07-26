@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { tourService } from '../services/tourService'
 import { useAppStore } from '../stores/bookingStore'
 import toast from 'react-hot-toast'
+import { formatDate as formatDateUtil } from '../lib/utils'
 
 export const useTours = () => {
   const { 
@@ -217,15 +218,7 @@ export const useTours = () => {
     return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
   }
 
-  const formatDate = (dateString) => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric'
-    })
-  }
+  const formatDate = formatDateUtil  // Use the timezone-aware version
 
   const formatTime = (timeSlot) => {
     if (!timeSlot) return ''

@@ -6,7 +6,7 @@ export const polynesianNow = () => {
 }
 
 export const toPolynesianISO = (date) => {
-  return new Date(date).toLocaleString("en-US", {timeZone: POLYNESIA_TZ})
+  return new Date(date).toISOString()
 }
 
 export const formatPolynesianDate = (date) => {

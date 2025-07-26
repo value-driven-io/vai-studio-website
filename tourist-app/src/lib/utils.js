@@ -16,10 +16,13 @@ export const formatDate = (dateString) => {
   return formatDateFP(dateString)
 }
 
-// Full date formatting
+// Full date formatting (timezone-aware)
 export const formatFullDate = (dateString) => {
   if (!dateString) return ''
-  const date = new Date(dateString)
+  
+  // Use timezone-aware parsing like formatDateFP
+  const date = new Date(dateString + 'T00:00:00-10:00')
+  
   return date.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',

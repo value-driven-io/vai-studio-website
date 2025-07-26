@@ -579,7 +579,7 @@ function App() {
         await lockBookingCommission(bookingId)
         
       } else if (action === 'completed') {
-        updateData.completed_at = toPolynesianISO(new Date())
+      // Only set booking_status, no completed_at field exists
         
         // Lock commission rate when marking complete not necessary
         // await lockBookingCommission(bookingId)
