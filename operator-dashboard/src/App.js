@@ -636,13 +636,17 @@ function App() {
 
   // Utility functions
   const formatDate = (dateStr) => {
-    if (!dateStr) return 'Date TBD'
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric'
-    })
-  }
+  if (!dateStr) return 'Date TBD'
+  
+  // Use timezone-aware parsing for French Polynesia
+  const date = new Date(dateStr + 'T00:00:00-10:00')
+  
+  return date.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  })
+}
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('fr-FR').format(price || 0) + ' XPF'
