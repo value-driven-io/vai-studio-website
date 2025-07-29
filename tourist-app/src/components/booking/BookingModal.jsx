@@ -1,7 +1,7 @@
 // src/components/booking/BookingModal.jsx
 import React, { useState } from 'react'
 import { X, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle, Calendar, MessageCircle } from 'lucide-react'
-import { tourService } from '../../services/tourService'
+import { bookingService } from '../../services/supabase'
 import { useAppStore } from '../../stores/bookingStore'
 import { authService } from '../../services/authService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
@@ -135,11 +135,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         subtotal: subtotal,
         special_requirements: formData.special_requirements?.trim() || '',
         dietary_restrictions: formData.dietary_restrictions?.trim() || '',
-        accessibility_needs: formData.accessibility_needs?.trim() || '',
-        available_spots: tour.available_spots // Pass this for updating spots
+        accessibility_needs: formData.accessibility_needs?.trim() || ''
       }
 
-      const result = await tourService.createBooking(bookingData)
+      const result = await bookingService.createBooking(bookingData)
       
       // Save user profile for future bookings lookup
       //updateUserProfile({

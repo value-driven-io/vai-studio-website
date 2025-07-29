@@ -129,16 +129,16 @@ export const bookingService = {
         throw new Error('Unable to retrieve commission rate')
       }
 
-      const commissionRate = operatorData.commission_rate || 10.00 // fallback to 10%
+      const commissionRate = operatorData.commission_rate || 11.00 // fallback to 11%
 
       // Calculate totals with dynamic commission rate
       const adultTotal = bookingData.num_adults * bookingData.adult_price
       const childTotal = bookingData.num_children * (bookingData.child_price || Math.round(bookingData.adult_price * 0.7))
-      const subtotal = adultTotal + childTotal
-      
-      // FIXED: Use dynamic commission rate instead of hard-coded 10%
-      const commissionAmount = Math.round(subtotal * (commissionRate / 100))
-      const totalAmount = subtotal + commissionAmount
+      const totalAmount = adultTotal + childTotal  // What tourist pays (Final Price)
+
+      // Calculate commission from total amount (Final Price Model)
+      const commissionAmount = Math.round(totalAmount * (commissionRate / 100))
+      const subtotal = totalAmount - commissionAmount  // What operator receives
 
       // Generate booking reference
       const now = Date.now()
@@ -176,8 +176,6 @@ export const bookingService = {
       throw error
     }
   },
-
-  // 🔥 MISSING FUNCTIONS - ADD THESE:
 
   // Get user's bookings
   async getUserBookings(customerEmail) {
