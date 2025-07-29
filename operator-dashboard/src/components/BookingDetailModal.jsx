@@ -62,7 +62,7 @@ const BookingDetailModal = ({
   const priority = getBookingPriority()
   const showDetails = shouldShowCustomerDetails(booking)
   const totalParticipants = (booking.num_adults || 0) + (booking.num_children || 0)
-  const netRevenue = (booking.subtotal || 0) - (booking.commission_amount || 0)
+  const netRevenue = booking.subtotal || 0
   const commissionRate = booking.applied_commission_rate || 
   ((booking.commission_amount || 0) / (booking.total_amount || 1)) * 100
 

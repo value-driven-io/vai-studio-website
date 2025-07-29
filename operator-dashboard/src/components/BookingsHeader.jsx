@@ -51,7 +51,7 @@ const BookingsHeader = ({
         const tourDate = new Date(b.tours?.tour_date)
         return tourDate.toDateString() === today
       })
-      .reduce((sum, b) => sum + (b.subtotal || 0) - (b.commission_amount || 0), 0)
+      .reduce((sum, b) => sum + (b.subtotal || 0), 0)
 
     // This week's net revenue
     const weekNet = revenueBookings

@@ -57,7 +57,7 @@ const BookingsList = ({
 
   // 💰 NET REVENUE CALCULATION
   const calculateNetRevenue = (booking) => {
-    return (booking.subtotal || 0) - (booking.commission_amount || 0)
+    return booking.subtotal || 0
   }
 
   // 📋 BOOKINGS TO DISPLAY
