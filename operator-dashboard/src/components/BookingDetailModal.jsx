@@ -403,16 +403,18 @@ const BookingDetailModal = ({
                   </h3>
                   
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center py-2 border-b border-slate-600">
-                      <span className="text-slate-300">{t('bookings.modal.fields.subtotal')}</span>
-                      <span className="text-white font-semibold">{formatPrice(booking.subtotal || 0)}</span>
-                    </div>
-                    
+
                     <div className="flex justify-between items-center py-2 border-b border-slate-600">
                       <span className="text-slate-300">
+                        {t('bookings.modal.fields.customerPaid')}</span>
+                      <span className="text-red-400 font-semibold">{formatPrice(booking.total_amount || booking.subtotal || 0)}</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center py-2 text-sm text-slate-400">
+                      <span>
                         {t('bookings.modal.fields.commission')} ({commissionRate.toFixed(1)}%)
                       </span>
-                      <span className="text-red-400 font-semibold">-{formatPrice(booking.commission_amount || 0)}</span>
+                      <span>-{formatPrice(booking.commission_amount || 0)}</span>
                     </div>
                     
                     <div className="flex justify-between items-center py-3 bg-green-500/10 rounded-lg px-3">
@@ -420,10 +422,6 @@ const BookingDetailModal = ({
                       <span className="text-green-400 font-bold text-lg">{formatPrice(netRevenue)}</span>
                     </div>
                     
-                    <div className="flex justify-between items-center py-2 text-sm text-slate-400">
-                      <span>{t('bookings.modal.fields.customerPaid')}</span>
-                      <span>{formatPrice(booking.total_amount || booking.subtotal || 0)}</span>
-                    </div>
                   </div>
                 </div>
 
