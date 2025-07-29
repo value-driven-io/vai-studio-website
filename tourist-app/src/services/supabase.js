@@ -169,6 +169,41 @@ export const bookingService = {
 
       if (error) throw error
 
+      // Update available spots in tours table
+        const totalParticipants = bookingData.num_adults + bookingData.num_children
+
+        try {
+          // Get current available spots
+          const { data: tourData, error: tourError } = await supabase
+            .from('tours')
+            .select('available_spots')
+            .eq('id', bookingData.tour_id)
+            .single()
+
+          if (tourError) {
+            console.warn('Failed to fetch tour for spots update:', tourError)
+          } else if (tourData) {
+            // Calculate new available spots
+            const newAvailableSpots = Math.max(0, tourData.available_spots - totalParticipants)
+            
+            // Update tours table
+            const { error: spotsError } = await supabase
+              .from('tours')
+              .update({ available_spots: newAvailableSpots })
+              .eq('id', bookingData.tour_id)
+
+            if (spotsError) {
+              console.warn('Failed to update available spots:', spotsError)
+              // Don't throw error - booking was successful, spots update is secondary
+            } else {
+              console.log(`✅ Updated available spots: ${tourData.available_spots} → ${newAvailableSpots}`)
+            }
+          }
+        } catch (spotsError) {
+          console.warn('Available spots update failed:', spotsError)
+          // Don't throw - booking creation succeeded, spots update is non-critical
+        }
+
       return data
 
     } catch (error) {
@@ -384,6 +419,43 @@ export const operatorService = {
       .single()
 
     if (error) throw error
+
+    // Restore available spots when declining
+    if (status === 'declined' && data) {
+      try {
+        const totalParticipants = (data.num_adults || 0) + (data.num_children || 0)
+        
+        // Get current available spots
+        const { data: tourData, error: tourError } = await supabase
+          .from('tours')
+          .select('available_spots')
+          .eq('id', data.tour_id)
+          .single()
+
+        if (tourError) {
+          console.warn('Failed to fetch tour for spots restoration:', tourError)
+        } else if (tourData) {
+          // Add participants back to available spots
+          const newAvailableSpots = tourData.available_spots + totalParticipants
+          
+          // Update tours table
+          const { error: spotsError } = await supabase
+            .from('tours')
+            .update({ available_spots: newAvailableSpots })
+            .eq('id', data.tour_id)
+
+          if (spotsError) {
+            console.warn('Failed to restore available spots:', spotsError)
+          } else {
+            console.log(`✅ Restored available spots: ${tourData.available_spots} → ${newAvailableSpots}`)
+          }
+        }
+      } catch (spotsError) {
+        console.warn('Available spots restoration failed:', spotsError)
+        // Don't throw - booking status update succeeded
+      }
+    }
+
     return data
   }
 }

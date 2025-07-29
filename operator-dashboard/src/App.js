@@ -440,22 +440,6 @@ function App() {
     }
   }
 
-  /*
-  const calculateStats = (bookings) => {
-    const stats = {
-      totalBookings: bookings.length,
-      pendingBookings: bookings.filter(b => b.booking_status === 'pending').length,
-      confirmedBookings: bookings.filter(b => b.booking_status === 'confirmed').length,
-      declinedBookings: bookings.filter(b => b.booking_status === 'declined').length,
-      completedBookings: bookings.filter(b => b.booking_status === 'completed').length,
-      activeTours: tours.filter(t => t.status === 'active' && new Date(t.tour_date) >= new Date()).length,
-      totalRevenue: bookings
-        .filter(b => b.booking_status === 'confirmed' || b.booking_status === 'completed')
-        .reduce((sum, b) => sum + (b.subtotal || 0), 0)
-    }
-    return stats
-  }
-    */
 
   // Dashboard Stats
   const loadDashboardStats = async () => {
@@ -613,6 +597,55 @@ function App() {
       })
 
       if (response.ok) {
+
+        // Restore spots when declining
+      if (action === 'declined') {
+        try {
+          // Get booking details to find participants count
+          const bookingResponse = await fetch(`${supabaseUrl}/rest/v1/bookings?id=eq.${bookingId}&select=tour_id,num_adults,num_children`, {
+            headers: {
+              'apikey': supabaseAnonKey,
+              'Authorization': `Bearer ${supabaseAnonKey}`
+            }
+          })
+          
+          if (bookingResponse.ok) {
+            const [booking] = await bookingResponse.json()
+            const totalParticipants = (booking.num_adults || 0) + (booking.num_children || 0)
+            
+            // Get current tour spots
+            const tourResponse = await fetch(`${supabaseUrl}/rest/v1/tours?id=eq.${booking.tour_id}&select=available_spots`, {
+              headers: {
+                'apikey': supabaseAnonKey,
+                'Authorization': `Bearer ${supabaseAnonKey}`
+              }
+            })
+            
+            if (tourResponse.ok) {
+              const [tour] = await tourResponse.json()
+              const newAvailableSpots = tour.available_spots + totalParticipants
+              
+              // Update tour spots
+              await fetch(`${supabaseUrl}/rest/v1/tours?id=eq.${booking.tour_id}`, {
+                method: 'PATCH',
+                headers: {
+                  'apikey': supabaseAnonKey,
+                  'Authorization': `Bearer ${supabaseAnonKey}`,
+                  'Content-Type': 'application/json',
+                  'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({ available_spots: newAvailableSpots })
+              })
+              
+              console.log(`✅ Restored ${totalParticipants} spots to tour`)
+            }
+          }
+        } catch (spotsError) {
+          console.warn('Failed to restore spots:', spotsError)
+          // Don't show error to user - booking decline succeeded
+        }
+      }
+
         // Refresh all bookings to update the UI
         await fetchAllBookings()
         await loadDashboardStats()  

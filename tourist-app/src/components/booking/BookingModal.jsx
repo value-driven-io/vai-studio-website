@@ -164,12 +164,9 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   const calculatePricing = () => {
     const adultTotal = formData.num_adults * tour.discount_price_adult
     const childTotal = formData.num_children * (tour.discount_price_child || 0)
-    const subtotal = adultTotal + childTotal
-    const commission = Math.round(subtotal * 0.1)
-    // Note: total_amount is calculated by database, but we show it for UX
-    const total = subtotal + commission
+    const total = adultTotal + childTotal  // Clean total for tourist
     
-    return { subtotal, commission, total, adultTotal, childTotal }
+    return { total, adultTotal, childTotal }
   }
 
   const pricing = calculatePricing()
@@ -646,8 +643,6 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
               )}
               <div className="flex justify-between text-slate-300 text-xs">
-                <span>Platform fee (10%)</span>
-                <span>{formatPrice(pricing.commission)}</span>
               </div>
               <div className="border-t border-slate-700 pt-2 flex justify-between font-semibold text-white">
                 <span>Estimated Total</span>
