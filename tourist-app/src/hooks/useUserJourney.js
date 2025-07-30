@@ -267,6 +267,78 @@ export const useUserJourney = () => {
     }
   }, [getUserContactInfo, fetchUserBookings])
 
+  // Smart polling for booking updates (replaces real-time subscriptions)
+    const setupSmartPolling = useCallback(() => {
+    const contactInfo = getUserContactInfo()
+    
+    // Only poll if user has contact info (meaning they have bookings to check)
+    if (!contactInfo.email && !contactInfo.whatsapp) {
+      console.log('❌ No contact info - skipping smart polling')
+      return null
+    }
+
+    console.log('🔄 Starting optimized smart polling for booking updates')
+    
+    const pollInterval = setInterval(async () => {
+      try {
+        // Check if user is still on Journey tab before polling
+        const { activeTab } = useAppStore.getState()
+        
+        if (activeTab !== 'journey') {
+          console.log('📍 User left Journey tab - smart polling paused')
+          return
+        }
+        
+        // Use silent fetch to avoid loading indicators during polling
+        await fetchUserBookings(contactInfo.email, contactInfo.whatsapp, true)
+        console.log('📊 Smart polling: Bookings checked for updates')
+      } catch (error) {
+        console.warn('⚠️ Smart polling error:', error)
+      }
+    }, 30000) // Poll every 30 seconds
+
+    return pollInterval
+  }, [getUserContactInfo, fetchUserBookings])
+
+  // Smart polling when user has bookings (simplified)
+  useEffect(() => {
+    const { activeTab } = useAppStore.getState()
+    const contactInfo = getUserContactInfo()
+    
+    let pollInterval = null
+    
+    // Start polling only if:
+    // 1. User is on Journey tab
+    // 2. User has contact info (has bookings)
+    if (activeTab === 'journey' && (contactInfo.email || contactInfo.whatsapp)) {
+      console.log('🎯 Starting smart polling - Journey tab active with contact info')
+      pollInterval = setupSmartPolling()
+    } else {
+      console.log('⏸️ Smart polling conditions not met:', { 
+        activeTab, 
+        hasContact: !!(contactInfo.email || contactInfo.whatsapp) 
+      })
+    }
+    
+    // Cleanup interval on unmount or when leaving Journey tab
+    return () => {
+      if (pollInterval) {
+        clearInterval(pollInterval)
+        console.log('🔄 Smart polling stopped - cleanup')
+      }
+    }
+  }, [setupSmartPolling]) // Only restart when setupSmartPolling changes
+
+  // 3. Listen to tab changes for polling control
+  useEffect(() => {
+    const unsubscribe = useAppStore.subscribe((state) => {
+      // This will trigger the polling useEffect above when tab changes
+      console.log('📍 Tab changed to:', state.activeTab)
+    })
+    
+    return unsubscribe
+  }, [])
+
   // Get booking details by reference
   const getBookingDetails = useCallback(async (bookingReference) => {
     try {
