@@ -1,10 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LogOut, User, Settings } from 'lucide-react'
+import { LogOut, User, Settings, MessageCircle, Bell } from 'lucide-react'
 import LanguageDropdown from './LanguageDropdown'
+import chatService from '../services/chatService'
 
-const Header = ({ operator, logout }) => {
+const Header = ({ operator, logout, setActiveTab }) => {
   const { t } = useTranslation()
+  
+  // Notification state
+  const [unreadChatCount, setUnreadChatCount] = useState(0)
+
+  // Load unread chat count
+  useEffect(() => {
+    const loadUnreadCount = async () => {
+      if (!operator?.auth_user_id) return
+      
+      try {
+        const count = await chatService.getUnreadCount(operator.auth_user_id, 'operator')
+        setUnreadChatCount(count)
+        console.log(`📬 Unread chat count: ${count}`) // Temporary debug
+      } catch (error) {
+        console.error('Error loading unread count:', error)
+      }
+    }
+
+    // Initial load
+    loadUnreadCount()
+
+    // 🔧 SIMPLE POLLING: Refresh every 30 seconds
+    const interval = setInterval(loadUnreadCount, 30000)
+    
+    return () => clearInterval(interval)
+  }, [operator?.auth_user_id])
 
   return (
     <header className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 mb-8">
@@ -30,6 +57,32 @@ const Header = ({ operator, logout }) => {
 
         {/* Right side - Actions */}
         <div className="flex items-center gap-3">
+
+          {/* Chat Messages Badge */}
+            <button
+              onClick={() => {
+                setActiveTab && setActiveTab('bookings')
+                // Optional: Add filter for bookings with messages in the future
+              }}
+              className="relative p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-700/50"
+              title={unreadChatCount > 0 ? `${unreadChatCount} unread messages - Click to view bookings` : 'No unread messages'}
+            >
+              <MessageCircle className="w-5 h-5" />
+              {unreadChatCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                  {unreadChatCount > 99 ? '99+' : unreadChatCount}
+                </span>
+              )}
+            </button>
+
+          {/* Future Notification Center */}
+          <button
+            className="relative p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-700/50"
+            title="Notifications (Coming Soon)"
+            disabled
+          >
+            <Bell className="w-5 h-5 opacity-50" />
+          </button>
 
           {/* User info */}
           <div className="flex items-center gap-2 px-3 py-2 bg-slate-700/50 rounded-lg">

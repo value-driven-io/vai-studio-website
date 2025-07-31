@@ -15,6 +15,8 @@ import BookingsTab from './components/BookingsTab'
 import ProfileTab from './components/ProfileTab'
 import { supabase } from './lib/supabase'
 import { polynesianNow, toPolynesianISO } from './utils/timezone'
+import toast, { Toaster } from 'react-hot-toast'
+import chatService from './services/chatService'
 
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
@@ -109,6 +111,7 @@ function App() {
   const [declineReason, setDeclineReason] = useState('')
   const [expandedBookings, setExpandedBookings] = useState({})
   const [sortBy, setSortBy] = useState('created_at')
+  const [lastFetchTime, setLastFetchTime] = useState(new Date())
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -401,44 +404,74 @@ function App() {
     }
   }
 
-  const fetchAllBookings = async () => {
-    if (!operator?.id) return
+  // fetchAllBookings function
+    const fetchAllBookings = async () => {
+      if (!operator?.id) return
 
-    const startTime = Date.now()
-    
-    setBookingsLoading(true)
-    try {
-      // Use Supabase client instead of fetch API 
-      const { data, error } = await supabase
-        .from('bookings')
-        .select(`
-          id, booking_reference, booking_status, created_at, 
-          customer_name, customer_email, customer_whatsapp,
-          num_adults, num_children, subtotal, total_amount, commission_amount,
-          tours:tour_id(tour_name, tour_date, time_slot, meeting_point, tour_type)
-        `)
-        .eq('operator_id', operator.id)
-        .order('created_at', { ascending: false })
+      const startTime = Date.now()
+      const currentFetchTime = new Date()
       
-      if (error) {
-        console.warn('Error fetching bookings:', error)
+      setBookingsLoading(true)
+      try {
+        // Use Supabase client instead of fetch API 
+        const { data, error } = await supabase
+          .from('bookings')
+          .select(`
+            id, booking_reference, booking_status, created_at, 
+            customer_name, customer_email, customer_whatsapp,
+            num_adults, num_children, subtotal, total_amount, commission_amount,
+            tours:tour_id(tour_name, tour_date, time_slot, meeting_point, tour_type)
+          `)
+          .eq('operator_id', operator.id)
+          .order('created_at', { ascending: false })
+        
+        if (error) {
+          console.warn('Error fetching bookings:', error)
+          setAllBookings([])
+        } else {
+          // Detect new bookings for toast notifications
+          if (allBookings.length > 0) { // Only check after initial load
+            const newBookings = (data || []).filter(booking => 
+              new Date(booking.created_at) > lastFetchTime
+            )
+            
+            // 🎉 SMART TOAST: Only for new bookings (revenue opportunities)
+            newBookings.forEach(booking => {
+              toast.success(`🎉 New booking: ${booking.tours?.tour_name || 'Tour'}`, {
+                duration: 6000,
+                style: {
+                  background: '#059669',
+                  color: 'white',
+                  fontWeight: '500'
+                },
+                onClick: () => {
+                  setActiveTab('bookings')
+                  setBookingFilter('pending')
+                }
+              })
+            })
+            
+            if (newBookings.length > 0) {
+              console.log(`🎉 ${newBookings.length} new booking(s) detected`)
+            }
+          }
+          
+          setAllBookings(data || [])
+          setLastFetchTime(currentFetchTime) // Update timestamp
+        }
+        
+        // Call loadDashboardStats but it will be optimized to use existing data
+        await loadDashboardStats()
+        
+      } catch (error) {
+        console.error('Error fetching bookings:', error)
         setAllBookings([])
-      } else {
-        setAllBookings(data || [])
+      } finally {
+        setBookingsLoading(false)
+        // Log total timing
+        console.log(`🏁 Total fetchAllBookings completed in ${Date.now() - startTime}ms`)
       }
-      
-      // Call loadDashboardStats but it will be optimized to use existing data
-      await loadDashboardStats()
-      
-    } catch (error) {
-      console.error('Error fetching bookings:', error)
-      setAllBookings([])
-    } finally {
-      setBookingsLoading(false)
-      // Log total timing
-      console.log(`🏁 Total fetchAllBookings completed in ${Date.now() - startTime}ms`)
     }
-  }
 
 
   // Dashboard Stats
@@ -1213,7 +1246,11 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-4 md:p-6 pb-24 md:pb-20">
       <div className="max-w-7xl mx-auto">
 
-        <Header operator={operator} logout={logout} />
+        <Header 
+          operator={operator}
+          logout={logout}
+          setActiveTab={setActiveTab}
+        />
 
 
 
@@ -1371,6 +1408,33 @@ function App() {
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} stats={stats} />
         
       </div>
+
+      {/* Toast Notification System */}
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#1e293b',
+            color: '#f1f5f9',
+            border: '1px solid #475569',
+            borderRadius: '8px'
+          },
+          success: {
+            iconTheme: {
+              primary: '#059669',
+              secondary: '#ffffff'
+            }
+          },
+          error: {
+            iconTheme: {
+              primary: '#dc2626',
+              secondary: '#ffffff'
+            }
+          }
+        }}
+      />
+
     </div>
   )
 }
