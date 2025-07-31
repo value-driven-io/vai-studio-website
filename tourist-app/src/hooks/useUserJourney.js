@@ -2,12 +2,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { journeyService } from '../services/supabase'
 import { useAppStore } from '../stores/bookingStore'
-import { useAuth } from '../contexts/AuthContext'  // ← ADD THIS IMPORT
+import { useAuth } from '../contexts/AuthContext'  
 import toast from 'react-hot-toast'
 
 export const useUserJourney = () => {
 
-  const { user } = useAuth()  // ← ADD THIS LINE
+  const { user } = useAuth()  
 
   const { 
     bookings: storeBookings, 
@@ -30,11 +30,31 @@ export const useUserJourney = () => {
   // Use ref to prevent infinite loops
   const lastFetchRef = useRef({ email: '', whatsapp: '', timestamp: 0 })
 
-  // 🔧 ONLY FIX: Use ref to get latest store values without dependencies
+  // Performance monitoring
+  const performanceTracker = useRef({
+    startTime: null,
+    
+    start(operation) {
+      this.startTime = performance.now()
+      console.log(`⏱️ Starting ${operation}`)
+    },
+    
+    end(operation) {
+      if (this.startTime) {
+        const duration = performance.now() - this.startTime
+        const status = duration < 100 ? '🚀 ULTRA-FAST' : duration < 200 ? '⚡ FAST' : duration < 500 ? '🟡 GOOD' : '🐌 SLOW'
+        console.log(`${status} ${operation} completed in ${duration.toFixed(2)}ms`)
+        this.startTime = null
+        return duration
+      }
+    }
+  })
+
+  // Use ref to get latest store values without dependencies
   const storeRef = useRef()
   storeRef.current = { userProfile, storeBookings, updateUserProfile }
 
-  // 🔧 ONLY FIX: Remove dependencies that cause infinite loop + ADD AUTH INTEGRATION
+  // Remove dependencies that cause infinite loop + ADD AUTH INTEGRATION
   const getUserContactInfo = useCallback(() => {
     // 🔧 FIX: FIRST check authenticated user's email
     if (user?.email) {
@@ -158,11 +178,13 @@ export const useUserJourney = () => {
     setError(null)
 
     try {
+      performanceTracker.current.start('fetchUserBookings')
       console.log('🔄 fetchUserBookings called with:', { email: cleanEmail, whatsapp: cleanWhatsApp, silent })
       console.log('Fetching bookings for:', { email: cleanEmail, whatsapp: cleanWhatsApp })
       
       const bookings = await journeyService.getUserBookings(cleanEmail, cleanWhatsApp)
       console.log('Fetched bookings:', bookings)
+      performanceTracker.current.end('fetchUserBookings')
       
       // Save contact info if bookings found
       if (bookings.length > 0) {
@@ -178,6 +200,7 @@ export const useUserJourney = () => {
       
       return bookings
     } catch (error) {
+      performanceTracker.current.end('fetchUserBookings (with error)')
       console.error('Error fetching user bookings:', error)
       setError(error.message)
       toast.error('Failed to load your bookings')
@@ -277,7 +300,10 @@ export const useUserJourney = () => {
       return null
     }
 
-    console.log('🔄 Starting optimized smart polling for booking updates')
+    console.log('🚀 Starting smart polling for booking updates')
+    
+    // Track last update timestamp to only fetch changes
+    let lastUpdateTimestamp = new Date().toISOString()
     
     const pollInterval = setInterval(async () => {
       try {
@@ -289,9 +315,36 @@ export const useUserJourney = () => {
           return
         }
         
-        // Use silent fetch to avoid loading indicators during polling
-        await fetchUserBookings(contactInfo.email, contactInfo.whatsapp, true)
-        console.log('📊 Smart polling: Bookings checked for updates')
+        // 🚀 STEP 1: Ultra-lightweight status check (4 columns only)
+        performanceTracker.current.start('Smart Polling Status Check')
+        const statusUpdates = await journeyService.getUserBookingStatusUpdates(
+          contactInfo.email, 
+          contactInfo.whatsapp, 
+          lastUpdateTimestamp
+        )
+        performanceTracker.current.end('Smart Polling Status Check')
+        
+        if (statusUpdates && statusUpdates.length > 0) {
+          console.log(`📊 ${statusUpdates.length} booking status changes detected`)
+          
+          // 🚀 STEP 2: Only fetch full data if there are actual changes
+          await fetchUserBookings(contactInfo.email, contactInfo.whatsapp, true)
+          
+          // Update timestamp
+          lastUpdateTimestamp = new Date().toISOString()
+          
+          // Show notifications for important changes
+          statusUpdates.forEach(update => {
+            if (update.booking_status === 'confirmed') {
+              toast.success(`Booking ${update.booking_reference} confirmed! 🎉`)
+            } else if (update.booking_status === 'cancelled') {
+              toast.error(`Booking ${update.booking_reference} was cancelled`)
+            }
+          })
+        } else {
+          console.log('📊 Smart polling: No updates (ultra-fast check)')
+        }
+        
       } catch (error) {
         console.warn('⚠️ Smart polling error:', error)
       }
@@ -300,7 +353,7 @@ export const useUserJourney = () => {
     return pollInterval
   }, [getUserContactInfo, fetchUserBookings])
 
-  // Smart polling when user has bookings (simplified)
+  // Smart polling when user has bookings
   useEffect(() => {
     const contactInfo = getUserContactInfo()
     
