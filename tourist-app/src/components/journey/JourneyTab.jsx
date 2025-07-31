@@ -334,14 +334,6 @@ const JourneyTab = () => {
     return 'bg-green-500/20 text-green-400'
   }
 
-  // 🔍 DEBUG
-  console.log('JourneyTab Debug:', {
-    activeStage,
-    userBookings: safeUserBookings,
-    totalBookings: safeUserBookings.active.length + safeUserBookings.upcoming.length + safeUserBookings.past.length,
-    modernStageActive: activeStage === 'modern'
-  })
-
   return (
     <div className={`min-h-screen bg-gradient-to-br ${getBackgroundGradient()} transition-all duration-1000`}>
       
