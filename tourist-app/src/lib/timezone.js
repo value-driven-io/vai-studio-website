@@ -84,23 +84,14 @@ export const getRelativeDateTextFP = (dateString) => {
 export const formatDateFP = (dateString) => {
   if (!dateString) return ''
   
-  // TEMPORARY DEBUG
-  console.log('=== FORMAT DATE DEBUG ===')
-  console.log('Input dateString:', dateString)
-  
   // Parse date string as if it's in French Polynesia timezone
   const date = new Date(dateString + 'T00:00:00-10:00')
-  console.log('Parsed date object:', date)
-  console.log('Date toISOString:', date.toISOString())
   
   const result = date.toLocaleDateString('en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric'
   })
-  
-  console.log('Final formatted result:', result)
-  console.log('========================')
   
   return result
 }

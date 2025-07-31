@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { journeyService } from '../services/supabase'
 import { useAppStore } from '../stores/bookingStore'
 import { useAuth } from '../contexts/AuthContext'  
+import { formatDate as formatDateUtil } from '../lib/utils'
 import toast from 'react-hot-toast'
 
 export const useUserJourney = () => {
@@ -451,16 +452,7 @@ export const useUserJourney = () => {
   }, [])
 
   // Format date
-  const formatDate = useCallback((dateString) => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }, [])
+  const formatDate = formatDateUtil  // Uses timezone-aware formatDateFP
 
   const formatTime = useCallback((timeSlot) => {
     return timeSlot || ''
