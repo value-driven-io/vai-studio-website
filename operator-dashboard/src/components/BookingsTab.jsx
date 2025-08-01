@@ -59,7 +59,7 @@ const BookingsTab = ({
     
               <div className="space-y-6">
 
-                {/* 🔥 NEW: Enhanced Header replaces old stats section */}
+                {/* Enhanced Header replaces old stats section */}
                 <BookingsHeader
                   allBookings={allBookings}
                   operator={operator}
@@ -182,7 +182,8 @@ const BookingsTab = ({
             
 
             {/* Filters and Search */}
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
+            {/*
+            div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
               <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex items-center gap-2">
@@ -245,8 +246,10 @@ const BookingsTab = ({
                 </div>
               )}
             </div>
+            */}
 
             {/* Bookings List */}
+            {/*
             {bookingsLoading ? (
               <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-8 border border-slate-700 text-center">
                 <Loader2 className="w-8 h-8 animate-spin text-blue-400 mx-auto mb-4" />
@@ -278,7 +281,11 @@ const BookingsTab = ({
                   
                   return (
                     <div key={booking.id} className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
+                      
+                      */}
+                      
                       {/* Booking Header */}
+                      {/*
                       <div className="p-6 border-b border-slate-700">
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex-1">
@@ -316,8 +323,10 @@ const BookingsTab = ({
                             </div>
                           )}
                         </div>
+                        */}
 
                         {/* Tour Details */}
+                        {/*
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-slate-300">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4" />
@@ -338,8 +347,10 @@ const BookingsTab = ({
                           </div>
                         </div>
                       </div>
+                      */}
 
                       {/* Customer Information - Progressive Disclosure */}
+                      {/*
                       <div className="p-6 bg-slate-700/30">
                         <div className="flex items-center justify-between mb-3">
                           <h4 className="text-white font-medium flex items-center gap-2">
@@ -425,8 +436,10 @@ const BookingsTab = ({
                           </div>
                         </div>
                       </div>
+                      */}
 
                       {/* Action Buttons - Context Sensitive */}
+                      {/*
                       <div className="p-6 border-t border-slate-700">
                         {booking.booking_status === 'pending' && (
                           <div className="space-y-4">
@@ -471,9 +484,11 @@ const BookingsTab = ({
                                 <MessageCircle className="w-4 h-4" />
                                 {t('bookings.actions.whatsappCustomer')}
                               </a>
+
                               */}
 
                               {/* CHAT button */}
+                                {/*
                                 <button
                                   onClick={() => {
                                     setSelectedChatBooking(booking)
@@ -493,7 +508,6 @@ const BookingsTab = ({
                                 <Phone className="w-4 h-4" />
                                 {t('bookings.actions.callCustomer')}
                               </a>
-                              */}
 
                               <button
                                 onClick={() => handleBookingAction(booking.id, 'completed')}
@@ -572,6 +586,7 @@ const BookingsTab = ({
                 })}
               </div>
             )}
+            */}
 
             {/* Chat Modal */}
             <OperatorChatModal
