@@ -161,7 +161,7 @@
 
 .contact-mockup-container {
     position: relative;
-    background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+    /*background: linear-gradient(145deg, #2a2a3e, #1a1a2e);*/
     border-radius: 20px;
     padding: 20px;
     box-shadow: 

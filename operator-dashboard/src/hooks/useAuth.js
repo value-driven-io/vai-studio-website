@@ -112,18 +112,43 @@ export const useAuth = () => {
         console.log('🔄 Auth state change:', event, session?.user?.email)
         
         if (event === 'SIGNED_IN' && session?.user) {
-          const { data: operatorData, error } = await supabase
-            .from('operators')
-            .select('*')
-            .eq('auth_user_id', session.user.id)
-            .eq('status', 'active')
-            .single()
+          console.log('🔍 Looking up operator for:', session.user.email)
           
-          if (operatorData && !error && isMounted) {
-            setOperator(operatorData)
-            console.log('✅ Operator signed in:', operatorData.company_name)
+          try {
+            // 🔧 CHROME FIX: Wrap hanging operator query with timeout
+            const { data: operatorData, error } = await Promise.race([
+              supabase
+                .from('operators')
+                .select('*')
+                .eq('auth_user_id', session.user.id)
+                .eq('status', 'active')
+                .single(),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Operator lookup timeout')), 5000)
+              )
+            ])
+            
+            if (operatorData && !error && isMounted) {
+              setOperator(operatorData) 
+              setLoading(false) // 🔧 ENSURE loading clears
+              console.log('✅ Operator signed in:', operatorData.company_name)
+            } else if (error) {
+              console.warn('⚠️ Operator lookup error:', error.message)
+              setLoading(false) // 🔧 ENSURE loading clears even on error
+            }
+          } catch (error) {
+            console.error('❌ Operator query failed:', error.message)
+            // 🔧 CRITICAL: Clear loading even if operator lookup fails
+            setLoading(false)
+            
+            if (error.message.includes('timeout')) {
+              console.log('🔄 Chrome operator query hung - user stays authenticated but no operator data')
+              // User stays SIGNED_IN but without operator context
+              // They can still access basic functionality
+            }
           }
-        } else if (event === 'SIGNED_OUT') {
+        }
+ else if (event === 'SIGNED_OUT') {
           if (isMounted) {
             setOperator(null)
             console.log('👋 Operator signed out')

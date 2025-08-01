@@ -306,7 +306,7 @@ function App() {
     if (isAuthenticated && operator?.id) {
       fetchTours()
       fetchAllBookings()
-      loadDashboardStats()  // ✅ ADD this line
+      loadDashboardStats() 
       
       // Set up polling for real-time updates
       const interval = setInterval(() => {
@@ -377,6 +377,47 @@ function App() {
       window.history.replaceState({}, '', window.location.pathname)
     }
   }, [])
+  
+
+  // Multiple loading clearance strategies
+    useEffect(() => {
+      // Strategy 1: Clear when authentication completes successfully
+      if (isAuthenticated && operator) {
+        console.log('🔧 Authentication completed - clearing App loading state')
+        setLoading(false)
+        return
+      }
+      
+      // Strategy 2: Clear when authenticated even if operator lookup is slow
+      if (isAuthenticated) {
+        console.log('🔧 Authenticated but operator loading - clearing App loading anyway')
+        setLoading(false)
+        return
+      }
+    }, [isAuthenticated, operator])
+
+    // 🔧 ENHANCED: More aggressive fallback timeout
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        console.log('⏰ Fallback timeout - forcing App loading to false regardless of auth state')
+        setLoading(false)
+      }, 2000) // Reduced to 2 seconds for faster recovery
+
+      return () => clearTimeout(timeout)
+    }, []) // No dependencies - always runs
+
+    // 🔧 NEW: Additional safety net for auth state changes
+    useEffect(() => {
+      if (isAuthenticated) {
+        // Small delay to allow operator lookup, then force clear
+        const authTimeout = setTimeout(() => {
+          console.log('🔧 Auth timeout - clearing loading after auth success')
+          setLoading(false)
+        }, 1000) // 1 second after authentication
+        
+        return () => clearTimeout(authTimeout)
+      }
+    }, [isAuthenticated])
 
   // useEffect to save tab changes:
   useEffect(() => {
