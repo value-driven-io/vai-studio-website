@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { LogOut, User, Settings, MessageCircle, Bell } from 'lucide-react'
 import LanguageDropdown from './LanguageDropdown'
 import chatService from '../services/chatService'
+import VAILogo from './VAILogo'
 
 const Header = ({ operator, logout, setActiveTab }) => {
   const { t } = useTranslation()
@@ -39,8 +40,11 @@ const Header = ({ operator, logout, setActiveTab }) => {
         
         {/* Left side - Branding */}
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-lg">V</span>
+        
+
+          {/* Logo/Brand */}
+          <div className="flex items-center gap-2">
+            <VAILogo size="sm" />
           </div>
           
           <div>
