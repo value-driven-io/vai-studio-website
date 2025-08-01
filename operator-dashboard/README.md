@@ -13,16 +13,16 @@ The VAI Operator Dashboard empowers French Polynesian tour operators to scale th
 
 VAI Operator is the comprehensive business platform designed specifically for French Polynesian tourism operators, featuring:
 
-- **10% Commission Structure**: Industry-leading low fees
+- **11% Commission Structure**: Industry-leading low fees
 - **Revenue Recovery System**: Capture bookings from cancellations
 - **Advanced Booking Technology**: Real-time availability management
-- **Direct Customer Relationships**: WhatsApp integration for personal service
+- **Direct Customer Relationships**: Live Chat integration for personal service
 - **Automated Marketing**: n8n workflows for customer engagement
 
 ## 🚀 Key Business Benefits
 
 ### Revenue Optimization
-- **Low 10% Commission**: Keep more of your earnings
+- **Low 11% Commission**: Keep more of your earnings
 - **Cancellation Recovery**: Automatic rebooking from cancellations
 - **Dynamic Pricing**: Adjust rates based on demand
 - **Upselling Tools**: Increase booking values automatically
@@ -30,7 +30,7 @@ VAI Operator is the comprehensive business platform designed specifically for Fr
 ### Operational Efficiency
 - **Real-Time Availability**: Instant tour slot management
 - **Automated Confirmations**: Reduce manual booking tasks
-- **Customer Communication**: Direct WhatsApp integration
+- **Customer Communication**: Direct Chat integration
 - **Analytics Dashboard**: Track performance and growth
 
 ### Marketing & Growth
@@ -119,9 +119,9 @@ REACT_APP_WHATSAPP_SUPPORT=+68987269065
 - Sunset cruise operators
 
 **Business Sizes**:
+- Established tour companies
 - Solo operators seeking growth
 - Small family businesses
-- Established tour companies
 - New operators entering the market
 
 ## 🌺 Operator Success Stories

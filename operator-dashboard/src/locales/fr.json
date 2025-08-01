@@ -234,7 +234,7 @@
   },
 
   "login": {
-    "operatorDashboard": "Operator Dashboard",
+    "operatorDashboard": "Plateforme de réservation pour la Polynésie française",
     "secureLoginRequired": "Connexion Sécurisée Requise",
     "emailAddress": "Adresse Email",
     "emailPlaceholder": "votre-email@operateur.com",
@@ -246,7 +246,8 @@
     "signInSecurely": "Se Connecter de Manière Sécurisée",
     "useCredentials": "Utilise tes identifiants d'opérateur sécurisés",
     "needHelp": "Besoin d'aide ? Contacte",
-    "passwordReminder": "Ton mot de passe sécurisé a été fourni lors de la configuration du compte"
+    "passwordReminder": "Ton mot de passe sécurisé a été fourni lors de la configuration du compte",
+    "registeraccount": "Pas de compte ? Enregistre ton entreprise et deviens un "
   },
 
   "bookings": {

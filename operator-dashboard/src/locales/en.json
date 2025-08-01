@@ -232,7 +232,7 @@
     "age": "Age"
   },
   "login": {
-    "operatorDashboard": "Operator Dashboard",
+    "operatorDashboard": "The Booking Platform for French Polynesia",
     "secureLoginRequired": "Secure Login Required",
     "emailAddress": "Email Address",
     "emailPlaceholder": "your-email@operator.com",
@@ -244,7 +244,8 @@
     "signInSecurely": "Sign In Securely",
     "useCredentials": "Use your secure operator credentials",
     "needHelp": "Need help? Contact",
-    "passwordReminder": "Your secure password was provided during account setup"
+    "passwordReminder": "Your secure password was provided during account setup",
+    "registeraccount": "No Account? Register your business and become a "
   },
 
   "bookings": {
