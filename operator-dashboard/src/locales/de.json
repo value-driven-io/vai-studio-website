@@ -264,8 +264,8 @@
     },
     
     "quickActions": {
-      "needsAction": "⚠️ Handlung Erforderlich",
-      "deadlineSoon": "🔥 Frist Bald",
+      "needsAction": "⚠️ Aktion erforderlich",
+      "deadlineSoon": "🔥 Frist endet bald",
       "todaysTours": "📅 Heutige Touren"
     },
 
@@ -320,7 +320,7 @@
       "priority": "Priorität", 
       "search": "Suchen",
       "allBookings": "Alle Buchungen",
-      "needsAction": "⚠️ Handlung Erforderlich",
+      "needsAction": "⚠️ Handlung erforderlich",
       "nextWeek": "Nächste Woche",
       "allPriorities": "Alle Prioritäten",
       "critical": "🔥 Kritisch",
