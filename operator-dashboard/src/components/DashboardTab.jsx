@@ -440,6 +440,7 @@ const DashboardTab = ({
             </div>
 
             {/* Performance Insights - Optional Expandable */}
+            {/*
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
               <button
                 onClick={() => setExpandedSections(prev => ({ ...prev, insights: !prev.insights }))}
@@ -475,7 +476,7 @@ const DashboardTab = ({
                   </div>
                 </div>
               )}
-            </div>
+            </div>*/}
           </div>
 
 
