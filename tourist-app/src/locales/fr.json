@@ -1,0 +1,106 @@
+{
+  "common": {
+    "discover": "Découvrir",
+    "explore": "Explorer", 
+    "journey": "Ton parcours",
+    "messages": "Messages",
+    "loading": "Chargement...",
+    "refresh": "Actualiser",
+    "bookNow": "Réserver maintenant",
+    "close": "Fermer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "back": "Retour",
+    "next": "Suivant",
+    "login": "Connexion",
+    "signOut": "Déconnexion",
+    "hi": "Ia ora na",
+    "welcome": "Maeva",
+    "thankYou": "Mauruuru",
+    "goodbye": "Nana"
+  },
+
+  "navigation": {
+    "discover": "Découvrir",
+    "explore": "Explorer",
+    "journey": "Ton parcours", 
+    "messages": "Messages",
+    "profile": "Support"
+  },
+
+  "discovery": {
+    "title": "Découvre ta Polynésie",
+    "subtitle": "Trouve ton aventure parfaite",
+    "refreshTours": "Actualiser les tours",
+    "moodQuestion": "Comment tu te sens aujourd'hui ?",
+    "clearMood": "Changer d'humeur",
+    "browseAllTours": "Voir tous les tours",
+    "lastMinuteDeals": "Deals de dernière minute",
+    "urgent": "URGENT",
+    "endingSoon": "se terminent bientôt",
+    "moreUrgentDeals": "Voir {{count}} autres deals urgents",
+    "perfectForMood": "Parfait pour ton humeur {{mood}}",
+    "availableAdventures": "🌴 Aventures disponibles",
+    "viewAll": "Voir tout",
+    "seeMoreTours": "Voir {{count}} autres tours",
+    "noToursFound": "Aucun tour trouvé pour cette humeur",
+    "tryDifferentMood": "Essaie une autre humeur ou reviens plus tard",
+    "didntFindQuestion": "Tu n'as pas trouvé ce que tu cherches ?",
+    "tours": "tour",
+    "toursPlural": "tours"
+  },
+
+  "moods": {
+    "adventure": {
+      "title": "Aventure",
+      "subtitle": "Fais monter ton adrénaline",
+      "description": "Des expériences palpitantes qui te font vibrer"
+    },
+    "relax": {
+      "title": "Zen", 
+      "subtitle": "Trouve ta paix intérieure",
+      "description": "Des moments paisibles pour recharger tes batteries"
+    },
+    "culture": {
+      "title": "Culture",
+      "subtitle": "Connecte-toi aux traditions",
+      "description": "Des expériences authentiques de notre héritage polynésien"
+    },
+    "ocean": {
+      "title": "Océan",
+      "subtitle": "Plonge au paradis", 
+      "description": "Explore l'incroyable monde sous-marin de nos lagons"
+    }
+  },
+
+  "tours": {
+    "availableSpots": "places disponibles",
+    "participants": "participants",
+    "adults": "Adultes",
+    "children": "Enfants",
+    "totalAmount": "Montant total",
+    "bookingDeadline": "Date limite de réservation",
+    "meetingPoint": "Point de rendez-vous",
+    "duration": "Durée",
+    "inclusions": "Inclusions",
+    "requirements": "Exigences",
+    "restrictions": "Restrictions"
+  },
+
+  "booking": {
+    "bookTour": "Réserver le tour",
+    "customerInfo": "Tes informations",
+    "fullName": "Ton nom complet",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "phone": "Téléphone",
+    "participants": "Participants",
+    "specialRequirements": "Demandes spéciales",
+    "totalCost": "Coût total",
+    "confirmBooking": "Confirmer ta réservation",
+    "processingBooking": "Traitement en cours...",
+    "bookingSuccess": "Réservation réussie ! Mauruuru",
+    "bookingError": "Erreur de réservation"
+  }
+}

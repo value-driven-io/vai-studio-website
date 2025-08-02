@@ -1,17 +1,21 @@
-// src/components/shared/Navigation.jsx
+// src/components/shared/Navigation.jsx (CONVERTED TO i18n)
 import React, { useState, useEffect } from 'react'
 import { Home, Search, Calendar, User } from 'lucide-react'
 import { useAppStore } from '../../stores/bookingStore'
-import { MessageCircle } from 'lucide-react' // Add MessageCircle to your existing lucide import
+import { MessageCircle } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import chatService from '../../services/chatService'
 import { supabase } from '../../services/supabase'
+// Import useTranslation
+import { useTranslation } from 'react-i18next'
 
 const Navigation = () => {
   const { activeTab, setActiveTab } = useAppStore()
   const { user } = useAuth()
   const [unreadCount, setUnreadCount] = useState(0)
   const [touristUserId, setTouristUserId] = useState(null)
+  // Initialize translation hook
+  const { t } = useTranslation()
 
   // Get tourist user ID
   useEffect(() => {
@@ -63,18 +67,19 @@ const Navigation = () => {
     }
   }, [touristUserId])
 
+  // Hardcoded labels replaced with translations
   const tabs = [
-  { id: 'discover', icon: Home, label: 'Discover' },
-  { id: 'explore', icon: Search, label: 'Explore' },
-  { id: 'journey', icon: Calendar, label: 'Journey' },
-  { 
-    id: 'messages', 
-    icon: MessageCircle, 
-    label: 'Messages',
-    badge: unreadCount > 0 ? unreadCount : null
-  },
-  { id: 'profile', icon: User, label: 'Support' }
-]
+    { id: 'discover', icon: Home, label: t('navigation.discover') },
+    { id: 'explore', icon: Search, label: t('navigation.explore') },
+    { id: 'journey', icon: Calendar, label: t('navigation.journey') },
+    { 
+      id: 'messages', 
+      icon: MessageCircle, 
+      label: t('navigation.messages'),
+      badge: unreadCount > 0 ? unreadCount : null
+    },
+    { id: 'profile', icon: User, label: t('navigation.profile') }
+  ]
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-50 pb-safe">
@@ -87,30 +92,30 @@ const Navigation = () => {
             <button
               key={tab.id}
               onClick={() => {
-              // Only clean up conversation subscriptions, keep Navigation's unread subscription
-              if (activeTab === 'messages' && tab.id !== 'messages') {
-                console.log('🧹 Navigation cleanup: Leaving Messages tab, cleaning up conversation subscriptions only')
-                
-                // ✅ SELECTIVE CLEANUP: Only remove conversation subscriptions
-                chatService.subscriptions.forEach((subscription, key) => {
-                  if (key.startsWith('conversation_')) {
-                    console.log(`🧹 Removing conversation subscription: ${key}`)
-                    if (Array.isArray(subscription)) {
-                      subscription.forEach(sub => supabase.removeChannel(sub))
-                    } else {
-                      supabase.removeChannel(subscription)
+                // Only clean up conversation subscriptions, keep Navigation's unread subscription
+                if (activeTab === 'messages' && tab.id !== 'messages') {
+                  console.log('🧹 Navigation cleanup: Leaving Messages tab, cleaning up conversation subscriptions only')
+                  
+                  // Only remove conversation subscriptions
+                  chatService.subscriptions.forEach((subscription, key) => {
+                    if (key.startsWith('conversation_')) {
+                      console.log(`🧹 Removing conversation subscription: ${key}`)
+                      if (Array.isArray(subscription)) {
+                        subscription.forEach(sub => supabase.removeChannel(sub))
+                      } else {
+                        supabase.removeChannel(subscription)
+                      }
+                      chatService.subscriptions.delete(key)
+                      chatService.messageCallbacks.delete(key)
                     }
-                    chatService.subscriptions.delete(key)
-                    chatService.messageCallbacks.delete(key)
-                  }
-                })
+                  })
+                  
+                  // Unread subscriptions (for Navigation badge)
+                  console.log('✅ Keeping unread subscriptions for Navigation badge')
+                }
                 
-                // ✅ KEEP: Unread subscriptions (for Navigation badge)
-                console.log('✅ Keeping unread subscriptions for Navigation badge')
-              }
-              
-              setActiveTab(tab.id)
-            }}
+                setActiveTab(tab.id)
+              }}
               className={`flex flex-col items-center justify-center space-y-1 transition-colors ${
                 isActive 
                   ? 'text-blue-400' 

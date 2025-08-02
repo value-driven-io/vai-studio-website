@@ -1,5 +1,5 @@
 // ==============================================
-// FILE: tourist-app/src/App.jsx
+// FILE: tourist-app/src/App.jsx (ENHANCED WITH i18n)
 // ==============================================
 
 import React, { useState, useEffect } from 'react'
@@ -7,6 +7,9 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
 import { useAuth } from './contexts/AuthContext'
+import './i18n/config'
+// 🌍 NEW: Import useTranslation
+import { useTranslation } from 'react-i18next'
 
 // Import our main components 
 import Navigation from './components/shared/Navigation'
@@ -19,14 +22,17 @@ import AuthModal from './components/auth/AuthModal'
 import MessagesTab from './components/messages/MessagesTab'
 
 import VAILogo from './components/shared/VAILogo'
+import LanguageSelector from './components/shared/LanguageSelector'
 
 // Import our store
 import { useAppStore } from './stores/bookingStore'
 
-// NEW: Header Component with Login
+// Header Component with Login (ENHANCED with Cultural Translations)
 const AppHeader = () => {
   const { user, signOut } = useAuth()
   const [showAuthModal, setShowAuthModal] = useState(false)
+  // 🌍 NEW: Add translation hook
+  const { t } = useTranslation()
 
   return (
     <header className="bg-slate-900/95 backdrop-blur-sm border-b border-slate-700 px-4 py-3 sticky top-0 z-40">
@@ -37,18 +43,24 @@ const AppHeader = () => {
           <VAILogo size="sm" />
         </div>
 
-        {/* Login/User Section */}
+        {/* Language Selector + Login/User Section */}
         <div className="flex items-center gap-3">
+          {/* Language Selector */}
+          <LanguageSelector size="sm" />
+
+        {/* Login/User Section */}
           {user ? (
             <div className="flex items-center gap-3">
               <span className="text-slate-300 text-sm">
-                Hi, {user.user_metadata?.first_name || 'User'}!
+                {/* 🌍 ENHANCED: Cultural Polynesian greeting */}
+                {t('common.hi')}, {user.user_metadata?.first_name || 'User'}!
               </span>
               <button
                 onClick={signOut}
                 className="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-sm transition-colors"
               >
-                Sign Out
+                {/* 🌍 ENHANCED: Translated sign out */}
+                {t('common.signOut')}
               </button>
             </div>
           ) : (
@@ -56,7 +68,8 @@ const AppHeader = () => {
               onClick={() => setShowAuthModal(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
             >
-              Login
+              {/* 🌍 ENHANCED: Translated login */}
+              {t('common.login')}
             </button>
           )}
         </div>
@@ -71,7 +84,7 @@ const AppHeader = () => {
   )
 }
 
-  // Main App Component
+  // Main App Component (UNCHANGED - Preserving ALL existing functionality)
 function AppContent() {
   const { activeTab } = useAppStore()
 
@@ -142,7 +155,7 @@ function AppContent() {
   )
 }
 
-// Wrapper with AuthProvider
+// Wrapper with AuthProvider (UNCHANGED)
 function App() {
   return (
     <AuthProvider>

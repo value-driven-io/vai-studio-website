@@ -1,0 +1,106 @@
+{
+  "common": {
+    "discover": "Discover",
+    "explore": "Explore", 
+    "journey": "Your Journey",
+    "messages": "Messages",
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "bookNow": "Book Now",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "login": "Login",
+    "signOut": "Sign Out",
+    "hi": "Ia ora na",
+    "welcome": "Maeva",
+    "thankYou": "Mauruuru",
+    "goodbye": "Nana"
+  },
+
+  "navigation": {
+    "discover": "Discover",
+    "explore": "Explore",
+    "journey": "Your Journey", 
+    "messages": "Messages",
+    "profile": "Support"
+  },
+
+  "discovery": {
+    "title": "Discover Your Polynesia",
+    "subtitle": "Find your perfect adventure",
+    "refreshTours": "Refresh Tours",
+    "moodQuestion": "What's your vibe today?",
+    "clearMood": "Change Mood",
+    "browseAllTours": "Browse All Tours",
+    "lastMinuteDeals": "Last-Minute Island Deals",
+    "urgent": "URGENT",
+    "endingSoon": "ending soon",
+    "moreUrgentDeals": "View {{count}} More Urgent Deals",
+    "perfectForMood": "Perfect for your {{mood}} vibe",
+    "availableAdventures": "🌴 Available Adventures",
+    "viewAll": "View All",
+    "seeMoreTours": "See {{count}} More Tours",
+    "noToursFound": "No tours found for this vibe",
+    "tryDifferentMood": "Try a different mood or check back later",
+    "didntFindQuestion": "Didn't find what you're looking for?",
+    "tours": "tour",
+    "toursPlural": "tours"
+  },
+
+  "moods": {
+    "adventure": {
+      "title": "Adventure",
+      "subtitle": "Get your adrenaline pumping",
+      "description": "Thrilling experiences that'll get your heart racing"
+    },
+    "relax": {
+      "title": "Chill", 
+      "subtitle": "Find your inner peace",
+      "description": "Peaceful vibes to restore your island soul"
+    },
+    "culture": {
+      "title": "Culture",
+      "subtitle": "Connect with traditions",
+      "description": "Authentic Polynesian experiences and island heritage"
+    },
+    "ocean": {
+      "title": "Ocean",
+      "subtitle": "Dive into paradise", 
+      "description": "Explore the incredible underwater world of our lagoons"
+    }
+  },
+
+  "tours": {
+    "availableSpots": "spots available",
+    "participants": "participants",
+    "adults": "Adults",
+    "children": "Children",
+    "totalAmount": "Total Amount",
+    "bookingDeadline": "Booking Deadline",
+    "meetingPoint": "Meeting Point",
+    "duration": "Duration",
+    "inclusions": "Inclusions",
+    "requirements": "Requirements",
+    "restrictions": "Restrictions"
+  },
+
+  "booking": {
+    "bookTour": "Book Your Adventure",
+    "customerInfo": "Your Details",
+    "fullName": "Your Full Name",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "phone": "Phone",
+    "participants": "Participants",
+    "specialRequirements": "Special Requests",
+    "totalCost": "Total Cost",
+    "confirmBooking": "Confirm Your Booking",
+    "processingBooking": "Processing your booking...",
+    "bookingSuccess": "Booking successful! Mauruuru",
+    "bookingError": "Booking error"
+  }
+}
