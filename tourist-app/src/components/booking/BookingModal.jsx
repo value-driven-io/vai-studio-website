@@ -7,8 +7,13 @@ import { authService } from '../../services/authService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import { formatPrice, formatDate, formatTime } from '../../lib/utils'
 import toast from 'react-hot-toast'
+// 🌍 ONLY NEW ADDITION: Import useTranslation
+import { useTranslation } from 'react-i18next'
 
 const BookingModal = ({ tour, isOpen, onClose }) => {
+  // 🌍 ONLY NEW ADDITION: Add translation hook
+  const { t } = useTranslation()
+  
   const { addBooking, updateUserProfile, setActiveTab, setJourneyStage } = useAppStore()
   const [step, setStep] = useState(1) // 1: Quick Form, 2: Optional Details, 3: Success
   const [showOptional, setShowOptional] = useState(false)
@@ -54,44 +59,45 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     const newErrors = {}
 
     if (!formData.customer_first_name.trim()) {
-      newErrors.customer_first_name = 'First name is required'
+      newErrors.customer_first_name = t('validation.firstNameRequired')
     }
     
     if (!formData.customer_last_name.trim()) {
-      newErrors.customer_last_name = 'Last name is required'
+      newErrors.customer_last_name = t('validation.lastNameRequired')
     }
     
     if (!formData.customer_whatsapp.trim()) {
-      newErrors.customer_whatsapp = 'WhatsApp number is required'
+      newErrors.customer_whatsapp = t('validation.whatsappRequired')
     } else if (!/^\+?[\d\s\-\(\)]{8,}$/.test(formData.customer_whatsapp)) {
-      newErrors.customer_whatsapp = 'Please enter a valid phone number'
+      newErrors.customer_whatsapp = t('validation.whatsappInvalid')
     }
 
     // Email validation (required)
     if (!formData.customer_email.trim()) {
-      newErrors.customer_email = 'Email is required'
+      newErrors.customer_email = t('validation.emailRequired')
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customer_email)) {
-      newErrors.customer_email = 'Please enter a valid email address'
+      newErrors.customer_email = t('validation.emailInvalid')
     }
 
     // Phone validation (optional but must be valid if provided)
     if (formData.customer_phone && !/^\+?[\d\s\-\(\)]{8,}$/.test(formData.customer_phone)) {
-      newErrors.customer_phone = 'Please enter a valid phone number'
+      newErrors.customer_phone = t('validation.phoneInvalid')
     }
     
     if (formData.num_adults < 1) {
-      newErrors.num_adults = 'At least 1 adult is required'
+      newErrors.num_adults = t('validation.adultsRequired')
     }
     
     const totalParticipants = formData.num_adults + formData.num_children
     if (totalParticipants > tour.available_spots) {
-      newErrors.num_adults = `Only ${tour.available_spots} spots available`
+      newErrors.num_adults = t('validation.spotsExceeded', { count: tour.available_spots })
     }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
+  //  BOOKING LOGIC
   const handleQuickBooking = async () => {
     if (!validateQuickForm()) return
 
@@ -140,22 +146,15 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
       const result = await bookingService.createBooking(bookingData)
       
-      // Save user profile for future bookings lookup
-      //updateUserProfile({
-       // name: formData.customer_name,
-       // email: formData.customer_email?.trim() || '',
-       // whatsapp: formData.customer_whatsapp
-      //})
-      
       setBookingResult(result)
       addBooking(result)
       setStep(3)
       
-      toast.success('Booking request sent! Check your WhatsApp for updates.')
+      toast.success(t('booking.bookingSuccess'))
       
     } catch (error) {
       console.error('Booking error:', error)
-      toast.error('Failed to create booking. Please try again.')
+      toast.error(t('booking.bookingError'))
     } finally {
       setLoading(false)
     }
@@ -171,7 +170,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
   const pricing = calculatePricing()
 
-    // Success Screen (Step 3) - Enhanced Version
+    // SUCCESS SCREEN 
     if (step === 3 && bookingResult) {
       return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -184,18 +183,18 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
                 
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  Booking Requested! 🎉
+                  {t('success.bookingRequested')}
                 </h2>
                 
                 <p className="text-slate-300">
-                  Your adventure request is on its way to the operator!
+                  {t('success.adventureRequest')}
                 </p>
               </div>
 
-              {/* 🆕 STATUS PROGRESSION BAR */}
+              {/* 🆕 STATUS PROGRESSION BAR  */}
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-slate-400">BOOKING PROGRESS</span>
+                  <span className="text-xs font-medium text-slate-400">{t('success.bookingProgress')}</span>
                 </div>
                 
                 <div className="flex items-center justify-between relative">
@@ -210,7 +209,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                       <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center mb-2">
                         <CheckCircle className="w-4 h-4 text-white" />
                       </div>
-                      <span className="text-xs font-medium text-blue-400">Requested</span>
+                      <span className="text-xs font-medium text-blue-400">{t('success.requested')}</span>
                     </div>
                     
                     {/* Step 2: Confirmed */}
@@ -218,7 +217,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                       <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-slate-500 flex items-center justify-center mb-2">
                         <div className="w-3 h-3 rounded-full bg-slate-400"></div>
                       </div>
-                      <span className="text-xs font-medium text-slate-400">Confirmed!</span>
+                      <span className="text-xs font-medium text-slate-400">{t('success.confirmed')}</span>
                     </div>
                     
                     {/* Step 3: Complete */}
@@ -226,18 +225,18 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                       <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-slate-500 flex items-center justify-center mb-2">
                         <div className="w-3 h-3 rounded-full bg-slate-400"></div>
                       </div>
-                      <span className="text-xs font-medium text-slate-400">Complete</span>
+                      <span className="text-xs font-medium text-slate-400">{t('success.complete')}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Account Creation Success Info */}
+              {/* Account Creation Success Info  */}
               {accountResult && !accountResult.existing_user && (
                 <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
                   <h4 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4" />
-                    Account Created!
+                    {t('success.accountCreated')}
                   </h4>
                   <div className="text-sm text-blue-300 space-y-1">
                     <div>Email: <span className="text-white font-mono">{formData.customer_email}</span></div>
@@ -254,49 +253,49 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-4">
                   <h4 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4" />
-                    Account Linked!
+                    {t('success.accountLinked')}
                   </h4>
                   <div className="text-sm text-green-300">
-                    This booking has been added to your existing VAI account.
+                    {t('success.accountCreatedDesc')}
                   </div>
                 </div>
               )}
               
-              {/* Booking Details */}
+              {/* Booking Details  */}
               <div className="bg-slate-700 rounded-xl p-4 mb-6">
                 <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
-                  Booking Details
+                  {t('success.bookingDetails')}
                 </h3>
                 <div className="space-y-2 text-sm text-slate-300">
                   <div className="flex justify-between">
-                    <span>Reference:</span>
+                    <span>{t('success.reference')}</span>
                     <span className="text-white font-mono">{bookingResult.booking_reference}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Tour:</span>
+                    <span>{t('success.tour')}</span>
                     <span className="text-white">{tour.tour_name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Date:</span>
+                    <span>{t('success.date')}</span>
                     <span className="text-white">{formatDate(tour.tour_date)} {formatTime(tour.time_slot)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Participants:</span>
+                    <span>{t('success.participants')}</span>
                     <span className="text-white">{formData.num_adults + formData.num_children}</span>
                   </div>
                   <div className="flex justify-between font-semibold">
-                    <span>Total:</span>
+                    <span>{t('success.total')}</span>
                     <span className="text-white">{formatPrice(bookingResult.total_amount || (bookingResult.subtotal + bookingResult.commission_amount))}</span>
                   </div>
                 </div>
               </div>
               
-              {/* 🆕 ENHANCED WHAT'S NEXT SECTION */}
+              {/* WHAT'S NEXT SECTION  */}
               <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
                 <h4 className="font-semibold text-white mb-3 flex items-center gap-2">
                   <Clock className="w-4 h-4" />
-                  What's Next?
+                  {t('success.whatsNext')}
                 </h4>
                 <div className="text-sm text-slate-300 space-y-3">
                   <div className="flex items-start gap-3">
@@ -304,8 +303,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                       <span className="text-white text-xs font-bold">1</span>
                     </div>
                     <div>
-                      <div className="text-white font-medium">Operator Review</div>
-                      <div className="text-slate-400 text-xs">Operators will answer as soon as possible. Keep an eye on your mails/check this app!</div>
+                      <div className="text-white font-medium">{t('success.operatorReview')}</div>
+                      <div className="text-slate-400 text-xs">{t('success.operatorReviewDesc')}</div>
                     </div>
                   </div>
                   
@@ -314,8 +313,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                       <span className="text-slate-400 text-xs font-bold">2</span>
                     </div>
                     <div>
-                      <div className="text-slate-400 font-medium">Confirmation & Chat</div>
-                      <div className="text-slate-500 text-xs">Messages tab will unlock after confirmation</div>
+                      <div className="text-slate-400 font-medium">{t('success.confirmationChat')}</div>
+                      <div className="text-slate-500 text-xs">{t('success.confirmationChatDesc')}</div>
                     </div>
                   </div>
                   
@@ -324,8 +323,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                       <span className="text-slate-400 text-xs font-bold">3</span>
                     </div>
                     <div>
-                      <div className="text-slate-400 font-medium">Ready for your Adventure</div>
-                      <div className="text-slate-500 text-xs">Once you have all info, it's time to enjoy! 🌴</div>
+                      <div className="text-slate-400 font-medium">{t('success.readyAdventure')}</div>
+                      <div className="text-slate-500 text-xs">{t('success.readyAdventureDesc')}</div>
                     </div>
                   </div>
                 </div>
@@ -343,7 +342,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   <Calendar className="w-4 h-4" />
-                  Track Your Booking
+                  {t('buttons.trackBooking')}
                 </button>
                 
                 {/* Secondary Actions */}
@@ -352,7 +351,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     onClick={onClose}
                     className="flex-1 bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors text-sm"
                   >
-                    Close
+                    {t('buttons.close')}
                   </button>
                   <a
                     href={`https://wa.me/68987269065?text=Hi! I just booked ${tour.tour_name} (${bookingResult.booking_reference}). When will you confirm?`}
@@ -361,7 +360,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-center text-sm flex items-center justify-center gap-1"
                   >
                     <MessageCircle className="w-3 h-3" />
-                    WhatsApp
+                    {t('buttons.whatsapp')}
                   </a>
                 </div>
               </div>
@@ -371,13 +370,13 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       )
     }
 
-  // Main Booking Form
+  // MAIN BOOKING FORM
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-slate-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-700">
         {/* Header */}
         <div className="sticky top-0 bg-slate-800 p-6 border-b border-slate-700 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-white">Book Your Adventure</h2>
+          <h2 className="text-xl font-bold text-white">{t('bookingModal.header')}</h2>
           <button
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-white transition-colors"
@@ -405,7 +404,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
                 <div className="flex items-center gap-1">
                   <Users className="w-3 h-3" />
-                  {tour.available_spots} spots left
+                  {tour.available_spots === 1 
+                    ? t('bookingModal.spotsLeft', { count: tour.available_spots })
+                    : t('bookingModal.spotsLeftPlural', { count: tour.available_spots })
+                  }
                 </div>
                 <div className="text-green-400 font-medium">
                   {formatPrice(tour.discount_price_adult)}
@@ -420,17 +422,15 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           {/* Quick Booking Section */}
           <div className="mb-6">
             <h4 className="text-lg font-semibold text-white mb-4">
-              ⚡ Quick Booking
+              {t('bookingModal.quickBooking')}
             </h4>
             
             <div className="space-y-4">
-
-
               <div className="grid grid-cols-2 gap-4">
                 {/* First Name */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    First Name *
+                    {t('form.firstName')}
                   </label>
                   <input
                     type="text"
@@ -439,7 +439,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
                       errors.customer_first_name ? 'border-red-500' : 'border-slate-600'
                     }`}
-                    placeholder="First name"
+                    placeholder={t('placeholders.firstName')}
                   />
                   {errors.customer_first_name && (
                     <p className="text-red-400 text-sm mt-1">{errors.customer_first_name}</p>
@@ -449,7 +449,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 {/* Last Name */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Last Name *
+                    {t('form.lastName')}
                   </label>
                   <input
                     type="text"
@@ -458,7 +458,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
                       errors.customer_last_name ? 'border-red-500' : 'border-slate-600'
                     }`}
-                    placeholder="Last name"
+                    placeholder={t('placeholders.lastName')}
                   />
                   {errors.customer_last_name && (
                     <p className="text-red-400 text-sm mt-1">{errors.customer_last_name}</p>
@@ -469,7 +469,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               {/* WhatsApp */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">
-                  WhatsApp Number *
+                  {t('form.whatsappNumber')}
                 </label>
                 <input
                   type="tel"
@@ -478,7 +478,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
                     errors.customer_whatsapp ? 'border-red-500' : 'border-slate-600'
                   }`}
-                  placeholder="+689 12 34 56 78"
+                  placeholder={t('placeholders.whatsapp')}
                 />
                 {errors.customer_whatsapp && (
                   <p className="text-red-400 text-sm mt-1">{errors.customer_whatsapp}</p>
@@ -488,7 +488,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Email Address *
+                  {t('form.emailAddress')}
                 </label>
                 <input
                   type="email"
@@ -497,7 +497,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
                     errors.customer_email ? 'border-red-500' : 'border-slate-600'
                   }`}
-                  placeholder="your@email.com"
+                  placeholder={t('placeholders.email')}
                 />
                 {errors.customer_email && (
                   <p className="text-red-400 text-sm mt-1">{errors.customer_email}</p>
@@ -509,7 +509,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Adults *
+                    {t('form.adults')}
                   </label>
                   <select
                     value={formData.num_adults}
@@ -523,7 +523,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Children
+                    {t('form.children')}
                   </label>
                   <select
                     value={formData.num_children}
@@ -550,7 +550,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               className="flex items-center justify-between w-full p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
             >
               <span className="text-white font-medium">
-                Optional Details (Phone, Special Requests)
+                {t('bookingModal.optionalDetails')}
               </span>
               {showOptional ? (
                 <ChevronUp className="w-5 h-5 text-slate-400" />
@@ -564,7 +564,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 {/* Phone */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Phone Number
+                    {t('form.phoneNumber')}
                   </label>
                   <input
                     type="tel"
@@ -573,62 +573,62 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
                       errors.customer_phone ? 'border-red-500' : 'border-slate-600'
                     }`}
-                    placeholder="+689 12 34 56 78"
+                    placeholder={t('placeholders.phone')}
                   />
                   {errors.customer_phone && (
                     <p className="text-red-400 text-sm mt-1">{errors.customer_phone}</p>
                   )}
-                  <p className="text-xs text-slate-400 mt-1">Optional - for backup contact</p>
+                  <p className="text-xs text-slate-400 mt-1">{t('placeholders.backupContact')}</p>
                 </div>
 
                 {/* Special Requirements */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Special Requirements
+                    {t('form.specialRequirements')}
                   </label>
                   <textarea
                     value={formData.special_requirements}
                     onChange={(e) => handleInputChange('special_requirements', e.target.value)}
                     rows={2}
                     className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
-                    placeholder="Any special requests or questions..."
+                    placeholder={t('placeholders.specialRequests')}
                   />
                 </div>
 
                 {/* Dietary Restrictions */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Dietary Restrictions
+                    {t('form.dietaryRestrictions')}
                   </label>
                   <input
                     type="text"
                     value={formData.dietary_restrictions}
                     onChange={(e) => handleInputChange('dietary_restrictions', e.target.value)}
                     className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
-                    placeholder="Vegetarian, allergies, etc."
+                    placeholder={t('placeholders.dietary')}
                   />
                 </div>
 
                 {/* Accessibility */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">
-                    Accessibility Needs
+                    {t('form.accessibilityNeeds')}
                   </label>
                   <input
                     type="text"
                     value={formData.accessibility_needs}
                     onChange={(e) => handleInputChange('accessibility_needs', e.target.value)}
                     className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
-                    placeholder="Wheelchair access, mobility assistance, etc."
+                    placeholder={t('placeholders.accessibility')}
                   />
                 </div>
               </div>
             )}
           </div>
 
-          {/* Pricing Summary */}
+          {/* Pricing Summary  */}
           <div className="bg-slate-900 rounded-xl p-4 mb-6">
-            <h4 className="font-semibold text-white mb-3">Pricing Summary</h4>
+            <h4 className="font-semibold text-white mb-3">{t('bookingModal.pricingSummary')}</h4>
             <div className="space-y-2 text-sm">
               {formData.num_adults > 0 && (
                 <div className="flex justify-between text-slate-300">
@@ -642,14 +642,12 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   <span>{formatPrice(pricing.childTotal)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-slate-300 text-xs">
-              </div>
               <div className="border-t border-slate-700 pt-2 flex justify-between font-semibold text-white">
-                <span>Estimated Total</span>
+                <span>{t('bookingModal.estimatedTotal')}</span>
                 <span>{formatPrice(pricing.total)}</span>
               </div>
               <p className="text-xs text-slate-400 mt-2">
-                💡 Payment is made directly with the operator - no upfront cost!
+                {t('bookingModal.paymentNote')}
               </p>
             </div>
           </div>
@@ -663,17 +661,17 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             {loading ? (
               <>
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Creating Booking...
+                {t('buttons.creatingBooking')}
               </>
             ) : (
               <>
-                🎫 Reserve My Spot
+                {t('buttons.reserveSpot')}
               </>
             )}
           </button>
 
           <p className="text-xs text-slate-400 text-center mt-3">
-            By booking, you agree that payment will be handled directly with the tour operator.
+            {t('bookingModal.termsNote')}
           </p>
         </div>
       </div>

@@ -102,5 +102,88 @@
     "processingBooking": "Processing your booking...",
     "bookingSuccess": "Booking successful! Mauruuru",
     "bookingError": "Booking error"
+  },
+
+  "bookingModal": {
+    "header": "Book Your Adventure",
+    "tourSummary": "Tour Summary",
+    "quickBooking": "⚡ Quick Booking",
+    "optionalDetails": "Optional Details (Phone, Special Requests)",
+    "pricingSummary": "Pricing Summary", 
+    "estimatedTotal": "Estimated Total",
+    "paymentNote": "💡 Payment is made directly with the operator - no upfront cost!",
+    "termsNote": "By booking, you agree that payment will be handled directly with the tour operator.",
+    "spotsLeft": "{{count}} spot left",
+    "spotsLeftPlural": "{{count}} spots left"
+  },
+  
+  "form": {
+    "firstName": "First Name *",
+    "lastName": "Last Name *", 
+    "whatsappNumber": "WhatsApp Number *",
+    "emailAddress": "Email Address *",
+    "adults": "Adults *",
+    "children": "Children",
+    "phoneNumber": "Phone Number",
+    "specialRequirements": "Special Requirements",
+    "dietaryRestrictions": "Dietary Restrictions",
+    "accessibilityNeeds": "Accessibility Needs"
+  },
+  
+  "placeholders": {
+    "firstName": "Your first name",
+    "lastName": "Your last name", 
+    "whatsapp": "+689 12 34 56 78",
+    "email": "your@email.com",
+    "phone": "+689 12 34 56 78",
+    "specialRequests": "Any special requests or questions...",
+    "dietary": "Vegetarian, allergies, etc.",
+    "accessibility": "Wheelchair access, mobility assistance, etc.",
+    "backupContact": "Optional - for backup contact"
+  },
+  
+  "validation": {
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "whatsappRequired": "WhatsApp number is required", 
+    "whatsappInvalid": "Please enter a valid phone number",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "phoneInvalid": "Please enter a valid phone number",
+    "adultsRequired": "At least 1 adult is required",
+    "spotsExceeded": "Only {{count}} spots available"
+  },
+  
+  "buttons": {
+    "reserveSpot": "🎫 Reserve My Spot",
+    "creatingBooking": "Creating Booking...",
+    "trackBooking": "Track Your Booking",
+    "close": "Close",
+    "whatsapp": "WhatsApp"
+  },
+  
+  "success": {
+    "bookingRequested": "Booking Requested! 🎉",
+    "adventureRequest": "Your adventure request is on its way to the operator!",
+    "bookingProgress": "BOOKING PROGRESS",
+    "requested": "Requested",
+    "confirmed": "Confirmed!",
+    "complete": "Complete",
+    "accountCreated": "Account Created!",
+    "accountLinked": "Account Linked!",
+    "accountCreatedDesc": "This booking has been added to your existing VAI account.",
+    "bookingDetails": "Booking Details",
+    "reference": "Reference:",
+    "tour": "Tour:",
+    "date": "Date:",
+    "participants": "Participants:",
+    "total": "Total:",
+    "whatsNext": "What's Next?",
+    "operatorReview": "Operator Review",
+    "operatorReviewDesc": "Operators will answer as soon as possible. Keep an eye on your mails/check this app!",
+    "confirmationChat": "Confirmation & Chat",
+    "confirmationChatDesc": "Messages tab will unlock after confirmation",
+    "readyAdventure": "Ready for your Adventure",
+    "readyAdventureDesc": "Once you have all info, it's time to enjoy! 🌴"
   }
 }

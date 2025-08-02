@@ -102,5 +102,88 @@
     "processingBooking": "Traitement en cours...",
     "bookingSuccess": "Réservation réussie ! Mauruuru",
     "bookingError": "Erreur de réservation"
+  },
+
+  "bookingModal": {
+    "header": "Réserver ton aventure",
+    "tourSummary": "Résumé du tour",
+    "quickBooking": "⚡ Réservation express",
+    "optionalDetails": "Détails optionnels (Téléphone, demandes spéciales)",
+    "pricingSummary": "Résumé des prix",
+    "estimatedTotal": "Total estimé",
+    "paymentNote": "💡 Le paiement se fait directement avec l'opérateur - aucun coût à l'avance !",
+    "termsNote": "En réservant, tu acceptes que le paiement se fasse directement avec l'opérateur du tour.",
+    "spotsLeft": "{{count}} place restante",
+    "spotsLeftPlural": "{{count}} places restantes"
+  },
+  
+  "form": {
+    "firstName": "Prénom *",
+    "lastName": "Nom *",
+    "whatsappNumber": "Numéro WhatsApp *", 
+    "emailAddress": "Adresse email *",
+    "adults": "Adultes *",
+    "children": "Enfants",
+    "phoneNumber": "Numéro de téléphone",
+    "specialRequirements": "Demandes spéciales",
+    "dietaryRestrictions": "Restrictions alimentaires",
+    "accessibilityNeeds": "Besoins d'accessibilité"
+  },
+  
+  "placeholders": {
+    "firstName": "Ton prénom",
+    "lastName": "Ton nom",
+    "whatsapp": "+689 12 34 56 78",
+    "email": "ton@email.com", 
+    "phone": "+689 12 34 56 78",
+    "specialRequests": "Des demandes particulières ou questions...",
+    "dietary": "Végétarien, allergies, etc.",
+    "accessibility": "Accès fauteuil roulant, assistance mobilité, etc.",
+    "backupContact": "Optionnel - pour contact de secours"
+  },
+  
+  "validation": {
+    "firstNameRequired": "Le prénom est obligatoire",
+    "lastNameRequired": "Le nom est obligatoire",
+    "whatsappRequired": "Le numéro WhatsApp est obligatoire",
+    "whatsappInvalid": "Merci d'entrer un numéro de téléphone valide",
+    "emailRequired": "L'email est obligatoire", 
+    "emailInvalid": "Merci d'entrer une adresse email valide",
+    "phoneInvalid": "Merci d'entrer un numéro de téléphone valide",
+    "adultsRequired": "Au moins 1 adulte est requis",
+    "spotsExceeded": "Seulement {{count}} places disponibles"
+  },
+  
+  "buttons": {
+    "reserveSpot": "🎫 Réserver ma place",
+    "creatingBooking": "Création de la réservation...",
+    "trackBooking": "Suivre ta réservation", 
+    "close": "Fermer",
+    "whatsapp": "WhatsApp"
+  },
+  
+  "success": {
+    "bookingRequested": "Réservation demandée ! 🎉",
+    "adventureRequest": "Ta demande d'aventure est en route vers l'opérateur !",
+    "bookingProgress": "PROGRESSION DE LA RÉSERVATION",
+    "requested": "Demandée",
+    "confirmed": "Confirmée !",
+    "complete": "Complète",
+    "accountCreated": "Compte créé !",
+    "accountLinked": "Compte lié !",
+    "accountCreatedDesc": "Cette réservation a été ajoutée à ton compte VAI existant.",
+    "bookingDetails": "Détails de la réservation",
+    "reference": "Référence :",
+    "tour": "Tour :",
+    "date": "Date :",
+    "participants": "Participants :",
+    "total": "Total :",
+    "whatsNext": "Et maintenant ?",
+    "operatorReview": "Examen par l'opérateur",
+    "operatorReviewDesc": "Les opérateurs répondront dès que possible. Garde un œil sur tes emails/vérifie cette app !",
+    "confirmationChat": "Confirmation & Chat",
+    "confirmationChatDesc": "L'onglet Messages se débloquera après confirmation",
+    "readyAdventure": "Prêt pour ton aventure",
+    "readyAdventureDesc": "Une fois que tu as toutes les infos, c'est le moment de profiter ! 🌴"
   }
 }
