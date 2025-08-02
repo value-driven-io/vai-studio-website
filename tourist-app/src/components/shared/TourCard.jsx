@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 
-// Enhanced TourCard with progressive disclosure
+//  TourCard with progressive disclosure
 const TourCard = ({ 
   tour, 
   isUrgent = false, 
@@ -19,7 +19,7 @@ const TourCard = ({
   formatTime,
   calculateSavings,
   getUrgencyColor,
-  hideBookButton = false, // 👈 NEW: Hide book button for journey bookings
+  hideBookButton = false, //  Hide book button for journey bookings
   className = ""
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -56,7 +56,7 @@ const TourCard = ({
     }
   }
 
-  // 👈 FIXED: Proper handleBookingClick function
+  // Proper handleBookingClick function
   const handleBookingClick = (e) => {
     e.stopPropagation()
     if (onBookingClick && !hideBookButton) {
@@ -92,22 +92,26 @@ const TourCard = ({
             </div>
           )}
 
-          {/* Card Content */}
-          <div className={`p-4 ${urgency ? 'pt-10' : ''}`}>
-            {/* Header Row */}
-            <div className="flex items-start justify-between mb-3">
+          {/* 🎨 ENHANCED: Visual Header Section */}
+          <div className={`relative bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-slate-800/20 ${urgency ? 'pt-8' : 'pt-4'} pb-4 px-4`}>
+            <div className="flex items-start justify-between">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xl" role="img" aria-label={tour.tour_type}>
-                    {tourEmoji}
-                  </span>
-                  <h3 className="text-lg font-semibold text-white truncate">
-                    {tour.tour_name}
-                  </h3>
+                {/* 🎨 ENHANCED: Prominent Emoji Container */}
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center border border-blue-500/20">
+                    <span className="text-2xl" role="img" aria-label={tour.tour_type}>
+                      {tourEmoji}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-white truncate leading-tight">
+                      {tour.tour_name}
+                    </h3>
+                    <p className="text-slate-400 text-sm mt-0.5">
+                      {tour.company_name} • 📍 {tour.operator_island || tour.island}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-slate-400 text-sm">
-                  {tour.company_name} • {tour.operator_island || tour.island}
-                </p>
               </div>
 
               {/* Favorite Button */}
@@ -116,16 +120,19 @@ const TourCard = ({
                 className={`p-2 rounded-full transition-all duration-200 ${
                   isFavorite 
                     ? 'bg-red-500 text-white hover:bg-pink-600 scale-110' 
-                    : 'bg-slate-700 text-slate-400 hover:bg-slate-600 hover:text-red-400'
+                    : 'bg-slate-700/80 text-slate-400 hover:bg-slate-600 hover:text-red-400'
                 }`}
                 aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
               >
                 <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
               </button>
             </div>
+          </div>
 
+          {/* Card Content */}
+          <div className="p-4 pt-0">
             {/* Key Info Row */}
-            <div className="grid grid-cols-2 gap-4 mb-3 text-sm">
+            <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
               <div className="flex items-center gap-2 text-slate-300">
                 <Calendar className="w-4 h-4 text-slate-400" />
                 <div>
@@ -145,52 +152,63 @@ const TourCard = ({
               </div>
             </div>
 
-            {/* Pricing Row */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                {tour.original_price_adult > tour.discount_price_adult && (
-                  <span className="text-slate-400 line-through text-sm">
-                    {formatPrice?.(tour.original_price_adult) || `${tour.original_price_adult} XPF`}
-                  </span>
-                )}
-                <span className="text-xl font-bold text-white">
-                  {formatPrice?.(tour.discount_price_adult) || `${tour.discount_price_adult} XPF`}
-                </span>
+            {/* 🎨 ENHANCED: Pricing Card */}
+            <div className="bg-gradient-to-r from-slate-700/30 to-slate-600/20 border border-slate-600/50 rounded-lg p-4 mb-4">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3">
+                    {tour.original_price_adult > tour.discount_price_adult && (
+                      <span className="text-slate-400 line-through text-sm">
+                        {formatPrice?.(tour.original_price_adult) || `${tour.original_price_adult} XPF`}
+                      </span>
+                    )}
+                    <div className="text-xl font-bold text-white">
+                      {formatPrice?.(tour.discount_price_adult) || `${tour.discount_price_adult} XPF`}
+                    </div>
+                  </div>
+                  <div className="text-xs text-slate-400 mt-1">per adult</div>
+                </div>
+                
                 {savings && (
-                  <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                  <div className="bg-green-500 text-white text-sm px-3 py-1.5 rounded-full font-semibold">
                     Save {savings}%
-                  </span>
+                  </div>
                 )}
               </div>
               
               {/* Quick Inclusions */}
-              <div className="flex gap-1">
+              <div className="flex gap-2 mt-3">
                 {tour.equipment_included && (
-                  <div className="w-6 h-6 bg-blue-500/20 rounded text-blue-400 flex items-center justify-center" title="Equipment included">
+                  <div className="flex items-center gap-1 text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded">
                     <Shield className="w-3 h-3" />
+                    <span>Equipment</span>
                   </div>
                 )}
                 {tour.food_included && (
-                  <div className="w-6 h-6 bg-green-500/20 rounded text-green-400 flex items-center justify-center" title="Food included">
+                  <div className="flex items-center gap-1 text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded">
                     <Coffee className="w-3 h-3" />
+                    <span>Food</span>
                   </div>
                 )}
                 {tour.pickup_available && (
-                  <div className="w-6 h-6 bg-purple-500/20 rounded text-purple-400 flex items-center justify-center" title="Pickup available">
+                  <div className="flex items-center gap-1 text-xs text-purple-400 bg-purple-500/10 px-2 py-1 rounded">
                     <Car className="w-3 h-3" />
+                    <span>Pickup</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* 🎨 ENHANCED: Action Buttons */}
             <div className="flex gap-2">
-              {/* 👈 FIXED: Conditional Book Button with proper function */}
+              {/* Conditional Book Button with Gradient */}
               {!hideBookButton && (
                 <button
                   onClick={handleBookingClick}
-                  className="flex-1 bg-blue-600 hover:bg-blue-800 text-white py-2 px-4 border-slate-700 rounded-lg
-                           font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+                  className="flex-1 bg-gradient-to-br from-blue-500/20 to-purple-500/20 
+                              hover:from-blue-500/40 hover:to-purple-500/40
+                              text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 
+                              flex items-center justify-center gap-2 shadow-lg shadow-slate-600/25 border border-slate-600/50"
                 >
                   Book Now
                   <ArrowRight className="w-4 h-4" />
@@ -202,19 +220,26 @@ const TourCard = ({
                   e.stopPropagation()
                   setIsExpanded(!isExpanded)
                 }}
-                className={`px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 
-                         rounded-lg transition-colors duration-200 ${
-                           hideBookButton ? 'flex-1' : ''  // 👈 FIXED: Expand when book button hidden
+                className={`px-4 py-3 bg-slate-700/80 hover:bg-slate-600/80 text-slate-300 hover:text-white
+                         rounded-lg transition-all duration-200 flex items-center justify-center gap-2 ${
+                           hideBookButton ? 'flex-1' : ''  // Expand when book button hidden
                          }`}
                 aria-label={isExpanded ? 'Show less' : 'Show more'}
               >
-                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                {hideBookButton ? (
+                  <>
+                    <span>Details</span>
+                    {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </>
+                ) : (
+                  isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                )}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Expanded Content */}
+        {/* Expanded Content - PRESERVED: No changes to expanded state */}
         {isExpanded && (
           <div className="border-t border-slate-700 p-4 bg-slate-800/50 animate-in slide-in-from-top duration-300">
             {/* Meeting Point */}
@@ -288,7 +313,7 @@ const TourCard = ({
                 e.stopPropagation()
                 setShowFullScreen(true)
               }}
-              className="w-full py-2 px-4 bg-slate-700 hover:bg-orange-600 text-white-300 
+              className="w-full py-2 px-4 bg-slate-700 hover:bg-yellow-600 text-white-300 
                        rounded-lg text-sm transition-colors duration-200 flex items-center justify-center gap-2"
             >
               View Complete Details
@@ -298,7 +323,7 @@ const TourCard = ({
         )}
       </div>
 
-      {/* Full Screen Modal */}
+      {/* Full Screen Modal - PRESERVED: No changes */}
       {showFullScreen && (
         <TourDetailModal 
           tour={tour}
@@ -311,14 +336,14 @@ const TourCard = ({
           formatDate={formatDate}
           formatTime={formatTime}
           calculateSavings={calculateSavings}
-          hideBookButton={hideBookButton}  // 👈 FIXED: Pass hideBookButton prop
+          hideBookButton={hideBookButton}  // Pass hideBookButton prop
         />
       )}
     </>
   )
 }
 
-// Inclusion Item Component
+// Inclusion Item Component - PRESERVED
 const InclusionItem = ({ included, icon: Icon, label }) => (
   <div className={`flex items-center gap-2 text-xs ${
     included ? 'text-green-400' : 'text-slate-500'
@@ -329,7 +354,7 @@ const InclusionItem = ({ included, icon: Icon, label }) => (
   </div>
 )
 
-// 👈 FIXED: Full Screen Tour Detail Modal with hideBookButton support
+// Full Screen Tour Detail Modal - PRESERVED: No changes
 const TourDetailModal = ({ 
   tour, 
   isOpen, 
@@ -341,14 +366,14 @@ const TourDetailModal = ({
   formatDate,
   formatTime,
   calculateSavings,
-  hideBookButton = false  // 👈 FIXED: Add hideBookButton prop
+  hideBookButton = false
 }) => {
   if (!isOpen) return null
 
   const tourEmoji = TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'
   const savings = calculateSavings?.(tour.original_price_adult, tour.discount_price_adult)
 
-  // 👈 FIXED: Safe booking click handler
+  // Safe booking click handler
   const handleModalBookingClick = () => {
     if (onBookingClick && !hideBookButton) {
       onBookingClick(tour)
@@ -482,7 +507,7 @@ const TourDetailModal = ({
                 )}
               </div>
               
-              {/* 👈 FIXED: Conditional Book Button in Modal */}
+              {/* Conditional Book Button in Modal */}
               {!hideBookButton && (
                 <button
                   onClick={handleModalBookingClick}
@@ -501,7 +526,7 @@ const TourDetailModal = ({
   )
 }
 
-// Detail Item Component for Modal
+// Detail Item Component for Modal - PRESERVED
 const DetailItem = ({ icon: Icon, label, children }) => (
   <div className="flex items-start gap-3">
     <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -514,7 +539,7 @@ const DetailItem = ({ icon: Icon, label, children }) => (
   </div>
 )
 
-// Detailed Inclusion Item for Modal
+// Detailed Inclusion Item for Modal - PRESERVED
 const InclusionDetailItem = ({ included, title, description }) => (
   <div className={`p-3 rounded-lg border ${
     included 
