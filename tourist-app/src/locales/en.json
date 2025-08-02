@@ -277,5 +277,94 @@
       "removeFromFavorites": "Remove from favorites",
       "viewDetails": "View details"
     }
+  },
+
+  "tourDetail": {
+    "languages": {
+      "tbd": "Languages TBD",
+      "offered": "Languages Offered"
+    },
+    
+    "age": {
+      "ageRange": "Ages {{min}}-{{max}} years",
+      "minimumAge": "Minimum age: {{min}} years", 
+      "maximumAge": "Maximum age: {{max}} years",
+      "suitableForAll": "Suitable for all ages",
+      "ageRequirements": "Age requirements for this tour"
+    },
+    
+    "fitness": {
+      "easy": "Easy - Everyone",
+      "moderate": "Moderate - Some activity",
+      "challenging": "Challenging - Good fitness", 
+      "expert": "Expert - Excellent fitness",
+      "tbd": "Fitness level TBD",
+      "allLevels": "All levels"
+    },
+    
+    "sections": {
+      "aboutExperience": "About This Experience",
+      "whatsIncluded": "What's Included",
+      "meetingPoint": "Meeting Point & Location",
+      "ageRequirements": "Age & Requirements", 
+      "weatherSafety": "Weather & Safety",
+      "specialNotes": "Special Notes"
+    },
+    
+    "details": {
+      "dateTime": "Date & Time",
+      "availability": "Availability", 
+      "duration": "Duration",
+      "fitnessLevel": "Fitness Level",
+      "spotsLeft": "spots left",
+      "ofMax": "of {{max}} max",
+      "hoursExperience": "{{hours}}h experience",
+      "fullAdventure": "Full adventure",
+      "toursCompleted": "tours completed"
+    },
+    
+    "inclusions": {
+      "professionalEquipment": "Professional Equipment",
+      "equipmentDesc": "All necessary gear provided",
+      "foodRefreshments": "Food & Refreshments", 
+      "foodDesc": "Meals and snacks during tour",
+      "beverages": "Beverages",
+      "beveragesDesc": "Water and drinks provided",
+      "hotelTransfer": "Hotel Transfer",
+      "transferDesc": "Convenient pickup service"
+    },
+    
+    "meetingPoint": {
+      "willBeConfirmed": "Meeting point will be confirmed after booking",
+      "detailsAfterBooking": "Exact location details and directions provided after booking confirmation",
+      "pickupLocations": "Available Pickup Locations:"
+    },
+    
+    "requirements": {
+      "importantRequirements": "Important Requirements"
+    },
+    
+    "weather": {
+      "weatherDependent": "Weather Dependent Activity",
+      "alternativeArrangements": "Alternative arrangements will be made in case of adverse weather conditions",
+      "regulationCompliant": "Regulation Compliant",
+      "certifiedMarine": "Certified for French Polynesia marine wildlife"
+    },
+    
+    "pricing": {
+      "perAdult": "per adult",
+      "children": "Children:",
+      "save": "Save",
+      "bookThisExperience": "Book This Experience"
+    },
+    
+    "trust": {
+      "socialImpact": "🌱 Social Impact Contribution", 
+      "authenticExperience": "🔥 100% Authentic Experience"
+    },
+    
+    "defaults": {
+      "experienceDescription": "Experience the beauty of French Polynesia with our carefully crafted tour. Details will be provided upon booking."
+    }
   }
 }

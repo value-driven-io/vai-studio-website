@@ -277,5 +277,94 @@
       "removeFromFavorites": "Retirer des favoris", 
       "viewDetails": "Voir les détails"
     }
+  },
+
+  "tourDetail": {
+    "languages": {
+      "tbd": "Langues à définir",
+      "offered": "Langues proposées"
+    },
+    
+    "age": {
+      "ageRange": "Âges {{min}}-{{max}} ans",
+      "minimumAge": "Âge minimum : {{min}} ans",
+      "maximumAge": "Âge maximum : {{max}} ans", 
+      "suitableForAll": "Adapté à tous les âges",
+      "ageRequirements": "Exigences d'âge pour ce tour"
+    },
+    
+    "fitness": {
+      "easy": "Facile - Tout le monde",
+      "moderate": "Modéré - Un peu d'activité",
+      "challenging": "Exigeant - Bonne forme physique",
+      "expert": "Expert - Excellente forme physique", 
+      "tbd": "Niveau physique à définir",
+      "allLevels": "Tous niveaux"
+    },
+    
+    "sections": {
+      "aboutExperience": "À propos de cette expérience",
+      "whatsIncluded": "Ce qui est inclus",
+      "meetingPoint": "Point de rendez-vous & Localisation", 
+      "ageRequirements": "Âge & Exigences",
+      "weatherSafety": "Météo & Sécurité",
+      "specialNotes": "Notes spéciales"
+    },
+    
+    "details": {
+      "dateTime": "Date & Heure",
+      "availability": "Disponibilité",
+      "duration": "Durée", 
+      "fitnessLevel": "Niveau physique",
+      "spotsLeft": "places restantes",
+      "ofMax": "sur {{max}} max",
+      "hoursExperience": "{{hours}}h d'expérience",
+      "fullAdventure": "Aventure complète",
+      "toursCompleted": "tours complétés"
+    },
+    
+    "inclusions": {
+      "professionalEquipment": "Équipement professionnel",
+      "equipmentDesc": "Tout le matériel nécessaire fourni",
+      "foodRefreshments": "Nourriture & Rafraîchissements",
+      "foodDesc": "Repas et collations pendant le tour", 
+      "beverages": "Boissons",
+      "beveragesDesc": "Eau et boissons fournies",
+      "hotelTransfer": "Transfert hôtel",
+      "transferDesc": "Service de transport pratique"
+    },
+    
+    "meetingPoint": {
+      "willBeConfirmed": "Le point de rendez-vous sera confirmé après réservation",
+      "detailsAfterBooking": "Détails exacts de localisation et directions fournis après confirmation de réservation",
+      "pickupLocations": "Lieux de prise en charge disponibles :"
+    },
+    
+    "requirements": {
+      "importantRequirements": "Exigences importantes"
+    },
+    
+    "weather": {
+      "weatherDependent": "Activité dépendante de la météo",
+      "alternativeArrangements": "Des arrangements alternatifs seront pris en cas de conditions météo défavorables",
+      "regulationCompliant": "Conforme aux réglementations",
+      "certifiedMarine": "Certifié pour la faune marine de Polynésie française"
+    },
+    
+    "pricing": {
+      "perAdult": "par adulte",
+      "children": "Enfants :",
+      "save": "Économie",
+      "bookThisExperience": "Réserver cette expérience"
+    },
+    
+    "trust": {
+      "socialImpact": "🌱 Contribution à l'impact social",
+      "authenticExperience": "🔥 100% Expérience authentique"
+    },
+    
+    "defaults": {
+      "experienceDescription": "Découvre la beauté de la Polynésie française avec notre tour soigneusement conçu. Les détails seront fournis lors de la réservation."
+    }
   }
 }
