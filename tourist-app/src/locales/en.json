@@ -240,5 +240,42 @@
       "availability": "Spots",
       "urgency": "Urgent"
     }
-}
+},
+
+"tourCard": {
+    "urgency": {
+      "bookingEndsSoon": "Booking ends soon!",
+      "limitedTime": "Limited time", 
+      "bookToday": "Book today",
+      "minutesLeft": "m left",
+      "hoursLeft": "h left"
+    },
+    
+    "capacity": {
+      "spotsLeft": "spots left",
+      "max": "Max"
+    },
+    
+    "pricing": {
+      "perAdult": "per adult",
+      "save": "Save"
+    },
+    
+    "inclusions": {
+      "equipment": "Equipment",
+      "food": "Food",
+      "pickup": "Pickup"
+    },
+    
+    "actions": {
+      "bookNow": "Book Now",
+      "details": "Details"
+    },
+    
+    "accessibility": {
+      "addToFavorites": "Add to favorites",
+      "removeFromFavorites": "Remove from favorites",
+      "viewDetails": "View details"
+    }
+  }
 }

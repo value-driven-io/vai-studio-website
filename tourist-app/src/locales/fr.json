@@ -240,5 +240,42 @@
       "availability": "Places", 
       "urgency": "Urgent"
     }
+  },
+
+  "tourCard": {
+    "urgency": {
+      "bookingEndsSoon": "Réservation bientôt fermée !",
+      "limitedTime": "Temps limité",
+      "bookToday": "Réserve aujourd'hui", 
+      "minutesLeft": "m restantes",
+      "hoursLeft": "h restantes"
+    },
+    
+    "capacity": {
+      "spotsLeft": "places restantes",
+      "max": "Max"
+    },
+    
+    "pricing": {
+      "perAdult": "par adulte",
+      "save": "Économie"
+    },
+    
+    "inclusions": {
+      "equipment": "Équipement",
+      "food": "Repas",
+      "pickup": "Transport"
+    },
+    
+    "actions": {
+      "bookNow": "Réserver",
+      "details": "Détails"
+    },
+    
+    "accessibility": {
+      "addToFavorites": "Ajouter aux favoris",
+      "removeFromFavorites": "Retirer des favoris", 
+      "viewDetails": "Voir les détails"
+    }
   }
 }

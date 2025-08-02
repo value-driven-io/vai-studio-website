@@ -1,4 +1,4 @@
-// 🎯 NEW FILE: src/components/shared/TourDetailModal.jsx
+// src/components/shared/TourDetailModal.jsx
 import React from 'react'
 import { 
   Heart, Clock, Users, MapPin, Star, ArrowRight, Calendar,
@@ -90,7 +90,7 @@ const TourDetailModal = ({
                   {tour.company_name} • 📍 {tour.operator_island}
                 </p>
                 
-                {/* 🎯 NEW: Trust Indicators */}
+                {/* Trust Indicators */}
                 <div className="flex items-center gap-4 mt-2 text-sm">
                   {tour.operator_average_rating && (
                     <div className="flex items-center gap-1 text-yellow-400">
@@ -132,12 +132,12 @@ const TourDetailModal = ({
           </div>
         </div>
 
-        {/* 🎨 ENHANCED CONTENT - Mobile Responsive */}
+        {/* CONTENT - Mobile Responsive */}
         <div className="flex flex-col lg:flex-row">
           {/* Main Content */}
           <div className="flex-1 p-4 sm:p-6 space-y-6">
             
-            {/* 🎯 KEY DETAILS CARDS - Always Show */}
+            {/* KEY DETAILS CARDS - Always Show */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <DetailCard icon={Calendar} label="Date & Time" highlight>
                 <div className="font-semibold">{formatDate?.(tour.tour_date) || tour.tour_date}</div>
@@ -162,7 +162,7 @@ const TourDetailModal = ({
               </DetailCard>
             </div>
 
-            {/* 🎯 DESCRIPTION - Always Show */}
+            {/* DESCRIPTION - Always Show */}
             <div>
               <h3 className="text-lg font-semibold text-white mb-3">About This Experience</h3>
               <p className="text-slate-300 leading-relaxed">
@@ -196,14 +196,14 @@ const TourDetailModal = ({
                 />
               </div>
               
-              {/* 🎯 NEW: Languages Section */}
+              {/* Languages Section */}
               <div className="mt-4 p-3 bg-slate-700/30 rounded-lg">
                 <div className="font-medium text-slate-200 mb-1">Languages Offered</div>
                 <div className="text-sm text-slate-300">{formatLanguages(tour.languages)}</div>
               </div>
             </div>
 
-            {/* 🎯 MEETING POINT - Always Show */}
+            {/* MEETING POINT - Always Show */}
             <div>
               <h3 className="text-lg font-semibold text-white mb-3">Meeting Point & Location</h3>
               <div className="bg-slate-700/30 rounded-lg p-4">
@@ -231,7 +231,7 @@ const TourDetailModal = ({
               </div>
             </div>
 
-            {/* 🎯 AGE & REQUIREMENTS - Always Show Core, Conditional Details */}
+            {/* AGE & REQUIREMENTS - Always Show Core, Conditional Details */}
             <div>
               <h3 className="text-lg font-semibold text-white mb-3">Age & Requirements</h3>
               <div className="space-y-3">
@@ -259,7 +259,7 @@ const TourDetailModal = ({
               </div>
             </div>
 
-            {/* 🎯 NEW: Weather & Safety - Show if relevant */}
+            {/* Weather & Safety - Show if relevant */}
             {(tour.weather_dependent || tour.whale_regulation_compliant || tour.backup_plan) && (
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">Weather & Safety</h3>
@@ -289,7 +289,7 @@ const TourDetailModal = ({
               </div>
             )}
 
-            {/* 🎯 NEW: Special Notes - Show only if exists */}
+            {/* Special Notes - Show only if exists */}
             {tour.special_notes && (
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">Special Notes</h3>
@@ -300,7 +300,7 @@ const TourDetailModal = ({
             )}
           </div>
 
-          {/* 🎯 ENHANCED PRICING SIDEBAR - Mobile Bottom, Desktop Side */}
+          {/* PRICING SIDEBAR - Mobile Bottom, Desktop Side */}
           <div className="lg:w-80 border-t lg:border-t-0 lg:border-l border-slate-700 p-4 sm:p-6">
             <div className="sticky top-6">
               <div className="bg-gradient-to-r from-slate-700/30 to-slate-600/20 border border-slate-600/50 rounded-xl p-4 space-y-4">
@@ -320,7 +320,7 @@ const TourDetailModal = ({
                   
                   <div className="text-sm text-slate-400 mb-3">per adult</div>
                   
-                  {/* 🎯 NEW: Child Pricing Display */}
+                  {/* Child Pricing Display */}
                   {tour.discount_price_child && tour.discount_price_child !== tour.discount_price_adult && (
                     <div className="text-sm text-slate-300">
                       Children: {formatPrice?.(tour.discount_price_child) || `${tour.discount_price_child} XPF`}
