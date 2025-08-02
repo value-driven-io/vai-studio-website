@@ -185,5 +185,60 @@
     "confirmationChatDesc": "L'onglet Messages se débloquera après confirmation",
     "readyAdventure": "Prêt pour ton aventure",
     "readyAdventureDesc": "Une fois que tu as toutes les infos, c'est le moment de profiter ! 🌴"
+  },
+
+  "explore": {
+    "title": "🔍 Explore tes aventures", 
+    "subtitle": "Trouve ton expérience parfaite",
+    "available": "disponibles",
+    "loading": "Chargement...",
+    "refresh": "Actualiser",
+    "searchPlaceholder": "Cherche tes tours, îles...",
+    "filters": "Filtres", 
+    "clear": "Effacer",
+    "applyFilters": "Appliquer les filtres",
+    "clearAllFilters": "Tout effacer",
+    "toursFound": "tours trouvés",
+    "noToursFound": "Aucun tour trouvé",
+    "noToursFoundDesc": "Essaie d'ajuster tes filtres ou mots-clés",
+    
+    "timeFilters": {
+      "today": "Aujourd'hui",
+      "tomorrow": "Demain",
+      "thisWeek": "Cette semaine"
+    },
+    
+    "filterLabels": {
+      "island": "📍 Île",
+      "activityType": "🎯 Type d'activité", 
+      "duration": "⏱️ Durée",
+      "priceRange": "💰 Gamme de prix (XPF)"
+    },
+    
+    "filterOptions": {
+      "allIslands": "Toutes les îles",
+      "allTypes": "Tous les types",
+      "anyDuration": "Toute durée",
+      "under3Hours": "Moins de 3 heures",
+      "3to6Hours": "3-6 heures",
+      "over6Hours": "6+ heures"
+    },
+    
+    "placeholders": {
+      "minPrice": "Prix min",
+      "maxPrice": "Prix max"
+    },
+    
+    "favorites": {
+      "added": "❤️ Ajouté aux favoris",
+      "removed": "💔 Retiré des favoris"
+    },
+    
+    "sortOptions": {
+      "date": "Date",
+      "price": "Prix",
+      "availability": "Places", 
+      "urgency": "Urgent"
+    }
   }
 }

@@ -185,5 +185,60 @@
     "confirmationChatDesc": "Messages tab will unlock after confirmation",
     "readyAdventure": "Ready for your Adventure",
     "readyAdventureDesc": "Once you have all info, it's time to enjoy! 🌴"
-  }
+  },
+
+  "explore": {
+    "title": "🔍 Explore Tours",
+    "subtitle": "Find your next experience", 
+    "available": "available",
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "searchPlaceholder": "Search tours, islands...",
+    "filters": "Filters",
+    "clear": "Clear",
+    "applyFilters": "Apply Filters",
+    "clearAllFilters": "Clear All Filters",
+    "toursFound": "tours found",
+    "noToursFound": "No tours found",
+    "noToursFoundDesc": "Try adjusting your filters or search terms",
+    
+    "timeFilters": {
+      "today": "Today",
+      "tomorrow": "Tomorrow", 
+      "thisWeek": "This Week"
+    },
+    
+    "filterLabels": {
+      "island": "📍 Island",
+      "activityType": "🎯 Activity Type",
+      "duration": "⏱️ Duration", 
+      "priceRange": "💰 Price Range (XPF)"
+    },
+    
+    "filterOptions": {
+      "allIslands": "All Islands",
+      "allTypes": "All Types",
+      "anyDuration": "Any Duration",
+      "under3Hours": "Under 3 hours",
+      "3to6Hours": "3-6 hours", 
+      "over6Hours": "6+ hours"
+    },
+    
+    "placeholders": {
+      "minPrice": "Min price",
+      "maxPrice": "Max price"
+    },
+    
+    "favorites": {
+      "added": "❤️ Added to favorites",
+      "removed": "💔 Removed from favorites"
+    },
+    
+    "sortOptions": {
+      "date": "Date",
+      "price": "Price", 
+      "availability": "Spots",
+      "urgency": "Urgent"
+    }
+}
 }

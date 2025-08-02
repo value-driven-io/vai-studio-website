@@ -1,4 +1,4 @@
-// REPLACE: src/components/explore/ExploreTab.jsx
+// src/components/explore/ExploreTab.jsx (CONVERTED TO i18n)
 import React, { useState, useEffect } from 'react'
 import { 
   Search, Filter, SlidersHorizontal, X, ChevronDown, 
@@ -12,8 +12,13 @@ import BookingModal from '../booking/BookingModal'
 import toast from 'react-hot-toast'
 import TourCard from '../shared/TourCard'
 import VAILogo from '../shared/VAILogo'
+// 🌍 ONLY NEW ADDITION: Import useTranslation
+import { useTranslation } from 'react-i18next'
 
 const ExploreTab = () => {
+  // 🌍 ONLY NEW ADDITION: Add translation hook
+  const { t } = useTranslation()
+  
   const { 
     filters, 
     updateFilter, 
@@ -37,14 +42,14 @@ const ExploreTab = () => {
     calculateSavings 
   } = useTours()
 
-  // Local state
+  // Local state 
   const [viewMode, setViewMode] = useState('grid') // 'grid' or 'list'
   const [showFilters, setShowFilters] = useState(false)
   const [selectedTour, setSelectedTour] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [localSearch, setLocalSearch] = useState(filters.search || '')
 
-  // Debounce search
+  // Debounce search 
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(localSearch)
@@ -52,7 +57,7 @@ const ExploreTab = () => {
     return () => clearTimeout(timer)
   }, [localSearch, setSearch])
 
-  // Get unique values for filter options
+  // Get unique values for filter options 
   const [availableIslands, setAvailableIslands] = useState([])
   const [availableTourTypes, setAvailableTourTypes] = useState([])
   const [priceRange, setPriceRangeLocal] = useState({ min: 0, max: 50000 })
@@ -78,6 +83,7 @@ const ExploreTab = () => {
     }
   }, [tours])
 
+  // HANDLERS 
   const handleBookTour = (tour) => {
     setSelectedTour(tour)
     setShowBookingModal(true)
@@ -105,7 +111,7 @@ const ExploreTab = () => {
     const isFavorite = favorites.includes(tourId)
     toggleFavorite(tourId)
     toast.success(
-      isFavorite ? '💔 Removed from favorites' : '❤️ Added to favorites',
+      isFavorite ? t('explore.favorites.removed') : t('explore.favorites.added'),
       {
         duration: 2000,
         style: {
@@ -116,7 +122,7 @@ const ExploreTab = () => {
     )
   }
 
-  // Add the FilterChip Component
+  // FilterChip Component
   const FilterChip = ({ label, onRemove }) => (
     <span className="inline-flex items-center gap-1.5 bg-blue-600/20 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg text-xs font-medium filter-chip">
       {label}
@@ -142,13 +148,13 @@ const ExploreTab = () => {
           <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
             <div className="flex-1 min-w-0"> {/* min-w-0 prevents flex overflow */}
               <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mb-1">
-                🔍 Explore Tours
+                {t('explore.title')}
               </h1>
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="text-sm text-slate-400">Find your next experience</p>
+                <p className="text-sm text-slate-400">{t('explore.subtitle')}</p>
                 {tours.length > 0 && (
                   <span className="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full">
-                    {tours.length} available
+                    {tours.length} {t('explore.available')}
                   </span>
                 )}
               </div>
@@ -161,7 +167,7 @@ const ExploreTab = () => {
               disabled={loading}
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">{loading ? 'Loading...' : 'Refresh'}</span>
+              <span className="hidden sm:inline">{loading ? t('explore.loading') : t('explore.refresh')}</span>
             </button>
           </div>
 
@@ -171,9 +177,9 @@ const ExploreTab = () => {
               {/* Quick Date Filters */}
               <div className="flex gap-2 flex-shrink-0">
                 {[
-                  { id: 'today', label: 'Today', icon: '☀️' },
-                  { id: 'tomorrow', label: 'Tomorrow', icon: '🌅' },
-                  { id: 'week', label: 'This Week', icon: '📆' }
+                  { id: 'today', label: t('explore.timeFilters.today'), icon: '☀️' },
+                  { id: 'tomorrow', label: t('explore.timeFilters.tomorrow'), icon: '🌅' },
+                  { id: 'week', label: t('explore.timeFilters.thisWeek'), icon: '📆' }
                 ].map((timeOption) => (
                   <button
                     key={timeOption.id}
@@ -195,10 +201,10 @@ const ExploreTab = () => {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="bg-slate-700 border border-slate-600 text-white rounded-lg px-2 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto flex-shrink-0"
               >
-                <option value="date">Date</option>
-                <option value="price">Price</option>
-                <option value="availability">Spots</option>
-                <option value="urgency">Urgent</option>
+                <option value="date">{t('explore.sortOptions.date')}</option>
+                <option value="price">{t('explore.sortOptions.price')}</option>
+                <option value="availability">{t('explore.sortOptions.availability')}</option>
+                <option value="urgency">{t('explore.sortOptions.urgency')}</option>
               </select>*/}
               </div>
             </div>
@@ -214,7 +220,7 @@ const ExploreTab = () => {
                   type="text"
                   value={localSearch}
                   onChange={(e) => setLocalSearch(e.target.value)}
-                  placeholder="Search tours, islands..."
+                  placeholder={t('explore.searchPlaceholder')}
                   className="w-full pl-12 pr-4 py-2.5 sm:py-3 bg-slate-700 border border-slate-600 rounded-xl text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                 />
                 {localSearch && (
@@ -238,7 +244,7 @@ const ExploreTab = () => {
                   }`}
                 >
                   <SlidersHorizontal className="w-4 h-4" />
-                  <span className="hidden xs:inline">Filters</span>
+                  <span className="hidden xs:inline">{t('explore.filters')}</span>
                   {getActiveFiltersCount() > 0 && (
                     <span className="bg-white text-blue-600 text-xs px-2 py-0.5 rounded-full font-bold">
                       {getActiveFiltersCount()}
@@ -253,13 +259,13 @@ const ExploreTab = () => {
                     className="flex items-center gap-1.5 px-3 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all min-h-44"
                   >
                     <X className="w-4 h-4" />
-                    <span className="hidden xs:inline">Clear</span>
+                    <span className="hidden xs:inline">{t('explore.clear')}</span>
                   </button>
                 )}
               </div>
             </div>
 
-            {/* Active Filters Display */}
+            {/* Active Filters Display  */}
             {getActiveFiltersCount() > 0 && (
               <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-700/50">
                 {filters.island !== 'all' && (
@@ -290,20 +296,20 @@ const ExploreTab = () => {
             )}
           </div>
 
-          {/* ADVANCED FILTER PANEL - Same as before but simplified sorting since it's in lane 2 */}
+          {/* ADVANCED FILTER PANEL */}
           {showFilters && (
             <div className="border-t border-slate-700 bg-slate-800/95 backdrop-blur-sm">
               <div className="px-3 sm:px-4 md:px-6 py-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {/* Island Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">📍 Island</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.island')}</label>
                     <select
                       value={filters.island}
                       onChange={(e) => updateFilter('island', e.target.value)}
                       className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                     >
-                      <option value="all">All Islands</option>
+                      <option value="all">{t('explore.filterOptions.allIslands')}</option>
                       {availableIslands.map(island => (
                         <option key={island} value={island}>{island}</option>
                       ))}
@@ -312,13 +318,13 @@ const ExploreTab = () => {
 
                   {/* Tour Type Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">🎯 Activity Type</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.activityType')}</label>
                     <select
                       value={filters.tourType}
                       onChange={(e) => updateFilter('tourType', e.target.value)}
                       className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                     >
-                      <option value="all">All Types</option>
+                      <option value="all">{t('explore.filterOptions.allTypes')}</option>
                       {availableTourTypes.map(type => (
                         <option key={type} value={type}>{type}</option>
                       ))}
@@ -327,27 +333,27 @@ const ExploreTab = () => {
 
                   {/* Duration Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">⏱️ Duration</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.duration')}</label>
                     <select
                       value={filters.duration}
                       onChange={(e) => updateFilter('duration', e.target.value)}
                       className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                     >
-                      <option value="all">Any Duration</option>
-                      <option value="short">Under 3 hours</option>
-                      <option value="medium">3-6 hours</option>
-                      <option value="long">6+ hours</option>
+                      <option value="all">{t('explore.filterOptions.anyDuration')}</option>
+                      <option value="short">{t('explore.filterOptions.under3Hours')}</option>
+                      <option value="medium">{t('explore.filterOptions.3to6Hours')}</option>
+                      <option value="long">{t('explore.filterOptions.over6Hours')}</option>
                     </select>
                   </div>
                 </div>
 
                 {/* Price Range - Full width section */}
                 <div className="mt-4">
-                  <label className="block text-sm font-medium text-slate-300 mb-2">💰 Price Range (XPF)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.priceRange')}</label>
                   <div className="grid grid-cols-2 gap-3 max-w-md">
                     <input
                       type="number"
-                      placeholder="Min price"
+                      placeholder={t('explore.placeholders.minPrice')}
                       className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                       value={filters.priceRange?.min || ''}
                       onChange={(e) => {
@@ -361,7 +367,7 @@ const ExploreTab = () => {
                     />
                     <input
                       type="number"
-                      placeholder="Max price"
+                      placeholder={t('explore.placeholders.maxPrice')}
                       className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
                       value={filters.priceRange?.max || ''}
                       onChange={(e) => {
@@ -379,13 +385,13 @@ const ExploreTab = () => {
                 {/* Filter Actions */}
                 <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-700">
                   <div className="text-sm text-slate-400">
-                    {loading ? 'Loading...' : `${tours.length} tours found`}
+                    {loading ? t('explore.loading') : `${tours.length} ${t('explore.toursFound')}`}
                   </div>
                   <button
                     onClick={() => setShowFilters(false)}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                   >
-                    Apply Filters
+                    {t('explore.applyFilters')}
                   </button>
                 </div>
               </div>
@@ -411,13 +417,13 @@ const ExploreTab = () => {
             <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
               <Search className="w-8 h-8 text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-slate-400 mb-2">No tours found</h3>
-            <p className="text-slate-500 mb-4">Try adjusting your filters or search terms</p>
+            <h3 className="text-xl font-semibold text-slate-400 mb-2">{t('explore.noToursFound')}</h3>
+            <p className="text-slate-500 mb-4">{t('explore.noToursFoundDesc')}</p>
             <button
               onClick={clearFilters}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
-              Clear All Filters
+              {t('explore.clearAllFilters')}
             </button>
           </div>
         ) : (
@@ -436,7 +442,7 @@ const ExploreTab = () => {
                   const isFavorite = favorites.includes(tourId)
                   toggleFavorite(tourId)
                   toast.success(
-                    isFavorite ? '💔 Removed from favorites' : '❤️ Added to favorites',
+                    isFavorite ? t('explore.favorites.removed') : t('explore.favorites.added'),
                     { duration: 2000, style: { background: isFavorite ? '#dc2626' : '#16a34a', color: 'white' }}
                   )
                 }}
