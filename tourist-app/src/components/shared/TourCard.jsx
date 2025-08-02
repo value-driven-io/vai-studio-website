@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { 
   Heart, Clock, Users, MapPin, Star, ArrowRight, Calendar,
   Zap, Shield, Coffee, Car, Globe, AlertTriangle, ChevronDown,
-  ChevronUp, X
+  ChevronUp, X, Cloud
 } from 'lucide-react'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
+import TourDetailModalNew from './TourDetailModal'
 
 //  TourCard with progressive disclosure
 const TourCard = ({ 
@@ -22,7 +23,7 @@ const TourCard = ({
   hideBookButton = false, //  Hide book button for journey bookings
   className = ""
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false)
+  
   const [showFullScreen, setShowFullScreen] = useState(false)
   
   if (!tour) return null
@@ -48,12 +49,9 @@ const TourCard = ({
     onFavoriteToggle?.(tour.id)
   }
 
+  // Card click opens modal directly
   const handleCardClick = () => {
-    if (mode === 'compact') {
-      setIsExpanded(!isExpanded)
-    } else if (mode === 'expanded') {
-      setShowFullScreen(true)
-    }
+    setShowFullScreen(true)
   }
 
   // Proper handleBookingClick function
@@ -69,8 +67,7 @@ const TourCard = ({
       {/* Main Card */}
       <div 
         className={`bg-slate-800 rounded-xl border border-slate-700 hover:border-slate-600 
-                    transition-all duration-300 overflow-hidden cursor-pointer mobile-card
-                   ${isExpanded ? 'border-blue-500/50' : ''} ${className}`}
+            transition-all duration-300 overflow-hidden cursor-pointer mobile-card ${className}`}
         onClick={handleCardClick}
       >
         {/* Compact View */}
@@ -92,11 +89,11 @@ const TourCard = ({
             </div>
           )}
 
-          {/* 🎨 ENHANCED: Visual Header Section */}
+          {/* Visual Header Section */}
           <div className={`relative bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-slate-800/20 ${urgency ? 'pt-8' : 'pt-4'} pb-4 px-4`}>
             <div className="flex items-start justify-between">
               <div className="flex-1 min-w-0">
-                {/* 🎨 ENHANCED: Prominent Emoji Container */}
+                {/* Prominent Emoji Container */}
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center border border-blue-500/20">
                     <span className="text-2xl" role="img" aria-label={tour.tour_type}>
@@ -206,7 +203,7 @@ const TourCard = ({
                 <button
                   onClick={handleBookingClick}
                   className="flex-1 bg-gradient-to-br from-blue-500/20 to-purple-500/20 
-                              hover:from-blue-500/40 hover:to-purple-500/40
+                              hover:from-blue-600/40 hover:to-purple-600/40
                               text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 
                               flex items-center justify-center gap-2 shadow-lg shadow-slate-600/25 border border-slate-600/50"
                 >
@@ -215,347 +212,55 @@ const TourCard = ({
                 </button>
               )}
               
+              
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  setIsExpanded(!isExpanded)
+                  setShowFullScreen(true)
                 }}
-                className={`px-4 py-3 bg-slate-700/80 hover:bg-slate-600/80 text-slate-300 hover:text-white
-                         rounded-lg transition-all duration-200 flex items-center justify-center gap-2 ${
-                           hideBookButton ? 'flex-1' : ''  // Expand when book button hidden
-                         }`}
-                aria-label={isExpanded ? 'Show less' : 'Show more'}
+                className={`px-4 py-3 bg-slate-600/80 hover:bg-slate-700/80 text-slate-300 hover:text-white
+                        rounded-lg transition-all duration-200 border border-pink-400/30 flex items-center justify-center gap-2 ${
+                          hideBookButton ? 'flex-1' : ''
+                        }`}
+                aria-label="View details"
               >
                 {hideBookButton ? (
                   <>
                     <span>Details</span>
-                    {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 ) : (
-                  isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                  <>
+                    <span>Details</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
                 )}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Expanded Content - PRESERVED: No changes to expanded state */}
-        {isExpanded && (
-          <div className="border-t border-slate-700 p-4 bg-slate-800/50 animate-in slide-in-from-top duration-300">
-            {/* Meeting Point */}
-            <div className="flex items-start gap-2 mb-3 text-sm">
-              <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
-              <div>
-                <div className="text-slate-300 font-medium">
-                  {tour.meeting_point || 'Meeting point TBD'}
-                </div>
-                <div className="text-slate-400 text-xs">Meeting location</div>
-              </div>
-            </div>
-
-            {/* Description */}
-            {tour.description && (
-              <div className="mb-3">
-                <p className="text-slate-300 text-sm leading-relaxed line-clamp-3">
-                  {tour.description}
-                </p>
-              </div>
-            )}
-
-            {/* Inclusions Grid */}
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <InclusionItem 
-                included={tour.equipment_included} 
-                icon={Shield}
-                label="Equipment provided"
-              />
-              <InclusionItem 
-                included={tour.food_included} 
-                icon={Coffee}
-                label="Food & drinks"
-              />
-              <InclusionItem 
-                included={tour.pickup_available} 
-                icon={Car}
-                label="Hotel pickup"
-              />
-              <InclusionItem 
-                included={tour.languages?.includes('en')} 
-                icon={Globe}
-                label="English guide"
-              />
-            </div>
-
-            {/* Requirements & Restrictions */}
-            {(tour.requirements || tour.restrictions || tour.min_age) && (
-              <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3 mb-3">
-                <div className="flex items-center gap-2 text-orange-400 mb-2">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span className="text-sm font-medium">Important Info</span>
-                </div>
-                <div className="space-y-1 text-xs text-slate-300">
-                  {tour.min_age && (
-                    <div>• Minimum age: {tour.min_age} years</div>
-                  )}
-                  {tour.fitness_level && (
-                    <div>• Fitness level: {tour.fitness_level}</div>
-                  )}
-                  {tour.requirements && (
-                    <div>• {tour.requirements}</div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* View Full Details Button */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                setShowFullScreen(true)
-              }}
-              className="w-full py-2 px-4 bg-slate-700 hover:bg-yellow-600 text-white-300 
-                       rounded-lg text-sm transition-colors duration-200 flex items-center justify-center gap-2"
-            >
-              View Complete Details
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
+        
       </div>
 
-      {/* Full Screen Modal - PRESERVED: No changes */}
-      {showFullScreen && (
-        <TourDetailModal 
-          tour={tour}
-          isOpen={showFullScreen}
-          onClose={() => setShowFullScreen(false)}
-          onBookingClick={hideBookButton ? null : onBookingClick}  // Pass null if hidden
-          onFavoriteToggle={onFavoriteToggle}
-          isFavorite={isFavorite}
-          formatPrice={formatPrice}
-          formatDate={formatDate}
-          formatTime={formatTime}
-          calculateSavings={calculateSavings}
-          hideBookButton={hideBookButton}  // Pass hideBookButton prop
-        />
-      )}
+        {/* Tourcarddetail MODAL */}
+          {showFullScreen && (
+            <TourDetailModalNew 
+              tour={tour}
+              isOpen={showFullScreen}
+              onClose={() => setShowFullScreen(false)}
+              onBookingClick={hideBookButton ? null : onBookingClick}
+              onFavoriteToggle={onFavoriteToggle}
+              isFavorite={isFavorite}
+              formatPrice={formatPrice}
+              formatDate={formatDate}
+              formatTime={formatTime}
+              calculateSavings={calculateSavings}
+              hideBookButton={hideBookButton}
+            />
+          )}
     </>
   )
 }
-
-// Inclusion Item Component - PRESERVED
-const InclusionItem = ({ included, icon: Icon, label }) => (
-  <div className={`flex items-center gap-2 text-xs ${
-    included ? 'text-green-400' : 'text-slate-500'
-  }`}>
-    <Icon className="w-3 h-3" />
-    <span className={included ? '' : 'line-through'}>{label}</span>
-    {included && <span className="text-green-400">✓</span>}
-  </div>
-)
-
-// Full Screen Tour Detail Modal - PRESERVED: No changes
-const TourDetailModal = ({ 
-  tour, 
-  isOpen, 
-  onClose, 
-  onBookingClick, 
-  onFavoriteToggle,
-  isFavorite,
-  formatPrice,
-  formatDate,
-  formatTime,
-  calculateSavings,
-  hideBookButton = false
-}) => {
-  if (!isOpen) return null
-
-  const tourEmoji = TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'
-  const savings = calculateSavings?.(tour.original_price_adult, tour.discount_price_adult)
-
-  // Safe booking click handler
-  const handleModalBookingClick = () => {
-    if (onBookingClick && !hideBookButton) {
-      onBookingClick(tour)
-      onClose() // Close modal after booking
-    }
-  }
-
-  return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start justify-center p-4 overflow-y-auto">
-      <div className="bg-slate-800 rounded-2xl max-w-2xl w-full border border-slate-700 my-8">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">{tourEmoji}</span>
-            <div>
-              <h2 className="text-xl font-bold text-white">{tour.tour_name}</h2>
-              <p className="text-slate-400">{tour.company_name} • {tour.operator_island}</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => onFavoriteToggle?.(tour.id)}
-              className={`p-2 rounded-full transition-all ${
-                isFavorite 
-                  ? 'bg-red-500 text-white' 
-                  : 'bg-slate-700 text-slate-400 hover:bg-slate-600'
-              }`}
-            >
-              <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
-            </button>
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full bg-slate-700 text-slate-400 hover:bg-slate-600"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 space-y-6">
-          {/* Key Details Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <DetailItem icon={Calendar} label="Date & Time">
-              <div>{formatDate?.(tour.tour_date) || tour.tour_date}</div>
-              <div className="text-slate-400">{formatTime?.(tour.time_slot) || tour.time_slot}</div>
-            </DetailItem>
-            
-            <DetailItem icon={Users} label="Capacity">
-              <div>{tour.available_spots} spots available</div>
-              <div className="text-slate-400">Max {tour.max_capacity} people</div>
-            </DetailItem>
-            
-            <DetailItem icon={Clock} label="Duration">
-              <div>{tour.duration_hours}h experience</div>
-              <div className="text-slate-400">Full adventure</div>
-            </DetailItem>
-          </div>
-
-          {/* Description */}
-          {tour.description && (
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">About This Experience</h3>
-              <p className="text-slate-300 leading-relaxed">{tour.description}</p>
-            </div>
-          )}
-
-          {/* What's Included */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">What's Included</h3>
-            <div className="grid grid-cols-2 gap-3">
-              <InclusionDetailItem 
-                included={tour.equipment_included}
-                title="Professional Equipment"
-                description="All necessary gear provided"
-              />
-              <InclusionDetailItem 
-                included={tour.food_included}
-                title="Food & Beverages"
-                description="Refreshments during tour"
-              />
-              <InclusionDetailItem 
-                included={tour.pickup_available}
-                title="Hotel Transfer"
-                description="Convenient pickup service"
-              />
-              <InclusionDetailItem 
-                included={tour.languages?.includes('en')}
-                title="English Guide"
-                description="Professional local guide"
-              />
-            </div>
-          </div>
-
-          {/* Meeting Point */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Meeting Point</h3>
-            <div className="flex items-start gap-3 bg-slate-700/50 rounded-lg p-4">
-              <MapPin className="w-5 h-5 text-blue-400 mt-0.5" />
-              <div>
-                <div className="text-white font-medium">
-                  {tour.meeting_point || 'Meeting point will be confirmed'}
-                </div>
-                <div className="text-slate-400 text-sm mt-1">
-                  Exact location details provided after booking confirmation
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Pricing */}
-          <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-white text-lg font-semibold">
-                  {formatPrice?.(tour.discount_price_adult) || `${tour.discount_price_adult} XPF`}
-                  <span className="text-slate-400 text-sm ml-2">per adult</span>
-                </div>
-                {tour.original_price_adult > tour.discount_price_adult && (
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-slate-400 line-through text-sm">
-                      {formatPrice?.(tour.original_price_adult) || `${tour.original_price_adult} XPF`}
-                    </span>
-                    {savings && (
-                      <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                        {savings}% OFF
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-              
-              {/* Conditional Book Button in Modal */}
-              {!hideBookButton && (
-                <button
-                  onClick={handleModalBookingClick}
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg 
-                           font-medium transition-colors duration-200 flex items-center gap-2"
-                >
-                  Book Now
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// Detail Item Component for Modal - PRESERVED
-const DetailItem = ({ icon: Icon, label, children }) => (
-  <div className="flex items-start gap-3">
-    <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-      <Icon className="w-5 h-5 text-blue-400" />
-    </div>
-    <div>
-      <div className="text-slate-400 text-sm font-medium">{label}</div>
-      <div className="text-white">{children}</div>
-    </div>
-  </div>
-)
-
-// Detailed Inclusion Item for Modal - PRESERVED
-const InclusionDetailItem = ({ included, title, description }) => (
-  <div className={`p-3 rounded-lg border ${
-    included 
-      ? 'bg-green-500/10 border-green-500/20 text-green-400' 
-      : 'bg-slate-700/50 border-slate-600 text-slate-500'
-  }`}>
-    <div className="flex items-center gap-2 mb-1">
-      <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
-        included ? 'bg-green-500' : 'bg-slate-600'
-      }`}>
-        {included && <span className="text-white text-xs">✓</span>}
-      </div>
-      <span className="font-medium text-sm">{title}</span>
-    </div>
-    <p className="text-xs opacity-80">{description}</p>
-  </div>
-)
 
 export default TourCard
