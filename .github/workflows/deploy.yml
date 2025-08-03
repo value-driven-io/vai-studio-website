@@ -1,14 +1,11 @@
 name: VAI Platform Deployment
 
-# When to run this automation
 on:
   push:
-    branches: [develop, main]  # Run when code is pushed to these branches
-  workflow_dispatch:  # Allow manual triggering from GitHub
+    branches: [develop, main]
+  workflow_dispatch:
 
-# Define the automation jobs
 jobs:
-  # Deploy to STAGING when pushing to 'develop' branch
   deploy-staging:
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
@@ -23,6 +20,7 @@ jobs:
           version: latest
           
       - name: Deploy database to staging
+        working-directory: ./tourist-app  # ← FIX: Run from tourist-app directory
         run: |
           echo "🚀 Deploying database changes to staging..."
           supabase link --project-ref wewwhxhtpqjqhxfxbzyz
@@ -34,10 +32,7 @@ jobs:
       - name: Notify staging deployment
         run: |
           echo "✅ Staging deployment complete!"
-          echo "Database: wewwhxhtpqjqhxfxbzyz"
-          echo "Apps will auto-deploy via Render.com"
 
-  # Deploy to PRODUCTION when pushing to 'main' branch  
   deploy-production:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -52,6 +47,7 @@ jobs:
           version: latest
           
       - name: Deploy database to production
+        working-directory: ./tourist-app  # ← FIX: Run from tourist-app directory
         run: |
           echo "🚀 Deploying database changes to production..."
           supabase link --project-ref rizqwxcmpzhdmqjjqgyw
@@ -63,5 +59,3 @@ jobs:
       - name: Notify production deployment
         run: |
           echo "🎉 Production deployment complete!"
-          echo "Database: rizqwxcmpzhdmqjjqgyw"
-          echo "Apps will auto-deploy via Render.com"
