@@ -626,9 +626,164 @@
       "securityPolicyError": "Update failed: Database security policy prevented the update. Please contact support at hello@vai.studio to configure your account permissions."
     },
     "footer": {
-      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "vaiTickets": "VAI Operator",
       "copyright": "© 2025 All rights reserved",
       "needWebsite": "Need a website or app?"
     }
+  },
+
+  "registration": {
+    "title": "Join VAI Operators",
+    "subtitle": "Create your operator account",
+    "steps": {
+      "company": "Company Information",
+      "business": "Business Details", 
+      "terms": "Terms & Preferences"
+    },
+    "companyInfo": {
+      "title": "Company Information",
+      "subtitle": "Tell us about your tour business",
+      "companyName": "Company Name",
+      "companyNamePlaceholder": "Your tour company name",
+      "contactPerson": "Contact Person",
+      "contactPersonPlaceholder": "Your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "whatsapp": "WhatsApp Number",
+      "whatsappPlaceholder": "+689 12 34 56 78",
+      "island": "Primary Island",
+      "islandPlaceholder": "Select your main island"
+    },
+    "businessDetails": {
+      "title": "Business Details",
+      "subtitle": "Help us understand your tour offerings",
+      "description": "Business Description",
+      "descriptionPlaceholder": "Describe your tour business, unique experiences you offer...",
+      "tourTypes": "Tour Types Offered",
+      "tourTypesSubtitle": "Select all that apply",
+      "targetBookings": "Target Monthly Bookings",
+      "targetBookingsPlaceholder": "Select target bookings",
+      "customerType": "Primary Customer Type",
+      "customerTypePlaceholder": "Select customer type"
+    },
+    "terms": {
+      "title": "Terms & Preferences",
+      "subtitle": "Almost done! Just a few final details",
+      "acceptTerms": "I accept the Terms of Service and Privacy Policy. I understand that my account requires manual approval before activation.",
+      "marketingEmails": "I'd like to receive marketing emails about VAI updates, new features, and operator tips.",
+      "foundingMember": "Founding Member Benefits",
+      "foundingMemberText": "As one of our first 25 operators, you'll receive premium placement in search results, and dedicated support."
+    },
+    "islands": {
+      "tahiti": "Tahiti",
+      "moorea": "Moorea", 
+      "boraBora": "Bora Bora",
+      "huahine": "Huahine",
+      "raiatea": "Raiatea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti",
+      "tikehau": "Tikehau",
+      "rangiroa": "Rangiroa",
+      "fakarava": "Fakarava",
+      "nukuHiva": "Nuku Hiva",
+      "other": "Other"
+    },
+    "tourTypes": {
+      "whaleWatching": "Whale Watching",
+      "snorkeling": "Snorkeling",
+      "diving": "Diving",
+      "lagoonTours": "Lagoon Tours",
+      "islandTours": "Island Tours",
+      "hiking": "Hiking",
+      "cultural": "Cultural Experiences",
+      "fishing": "Fishing",
+      "sunset": "Sunset Tours",
+      "photography": "Photography Tours",
+      "other": "Other"
+    },
+    "targetBookings": {
+      "1-5": "1-5 bookings/month",
+      "6-15": "6-15 bookings/month",
+      "16-30": "16-30 bookings/month",
+      "31+": "31+ bookings/month"
+    },
+    "customerTypes": {
+      "families": "Families with children",
+      "couples": "Couples", 
+      "solo": "Solo travelers",
+      "groups": "Small groups",
+      "luxury": "Luxury travelers",
+      "budget": "Budget travelers",
+      "mixed": "Mixed clientele"
+    },
+    "navigation": {
+      "previous": "Previous",
+      "next": "Next",
+      "complete": "Complete Registration",
+      "creating": "Creating Account..."
+    },
+    "validation": {
+      "companyNameRequired": "Company name is required",
+      "contactPersonRequired": "Contact person is required",
+      "emailRequired": "Email is required",
+      "whatsappRequired": "WhatsApp number is required",
+      "islandRequired": "Island selection is required",
+      "descriptionRequired": "Business description is required",
+      "tourTypesRequired": "At least one tour type must be selected",
+      "targetBookingsRequired": "Target bookings selection is required",
+      "customerTypeRequired": "Customer type preference is required",
+      "termsRequired": "Terms of service must be accepted",
+      "emailInvalid": "Valid email address is required",
+      "phoneInvalid": "Valid WhatsApp number is required",
+      "companyNameTooShort": "Company name must be at least 2 characters"
+    },
+    "messages": {
+      "success": "Registration submitted successfully!",
+      "failed": "Registration failed. Please try again.",
+      "duplicateEmail": "An operator account with this email already exists."
+    }
+  },
+  "pendingApproval": {
+    "title": "Application Status",
+    "status": {
+      "pending": "Application Under Review",
+      "pendingMessage": "Your operator application is being reviewed by our team. We'll notify you within 24 hours.",
+      "approved": "Account Approved!",
+      "approvedMessage": "Your operator account has been approved. You can now login to start creating tours.",
+      "suspended": "Account Under Review", 
+      "suspendedMessage": "Your account is temporarily suspended. Please contact support for more information.",
+      "inactive": "Account Inactive",
+      "inactiveMessage": "Your account has been deactivated. Please contact support to reactivate."
+    },
+    "applicationDetails": "Application Details",
+    "nextSteps": "Next Steps",
+    "company": "Company",
+    "contact": "Contact",
+    "island": "Island",
+    "submitted": "Submitted",
+    "today": "Today",
+    "foundingBenefits": "Founding Member Benefits",
+    "foundingBenefitsText": "Reduced commission rates, premium placement, dedicated support, and early access to new features.",
+    "actions": {
+      "refresh": "Refresh Status",
+      "checking": "Checking...",
+      "login": "Login to Dashboard"
+    },
+    "lastChecked": "Last checked",
+    "timeAgo": {
+      "justNow": "Just now",
+      "minutesAgo": "{{minutes}} minutes ago",
+      "hoursAgo": "{{hours}} hours ago", 
+      "daysAgo": "{{days}} days ago"
+    },
+    "contact": {
+      "questions": "Questions about your application?",
+      "email": "hello@vai.studio",
+      "whatsapp": "WhatsApp Support"
+    }
+  },
+  "login": {
+    "newOperator": "New operator?",
+    "createAccount": "Create Operator Account"
   }
 }
