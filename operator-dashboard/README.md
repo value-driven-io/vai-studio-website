@@ -1,4 +1,4 @@
-# 🚤 VAI Operator Dashboard - Grow Your French Polynesian Tourism Business
+# 🚤 VAI Operator Dashboard - Grow Your French Polynesian Tourism Business with a local Platform
 
 **Transform Your Tourism Business with Digital Excellence**
 
