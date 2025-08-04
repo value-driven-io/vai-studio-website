@@ -5,11 +5,13 @@ class OperatorRegistrationService {
   
   /**
    * Register a new operator with complete validation and dual-table insert
-   * Maintains exact compatibility with existing landing page registration
+   * ✅ SCHEMA-COMPATIBLE - Uses actual database structure
+   * ✅ PROVEN PATTERN - Follows existing landing page registration logic
    */
   async registerOperator(formData) {
     try {
-      console.log('🚀 Starting operator registration for:', formData.email)
+      console.log('🎯 Database URL being used:', import.meta.env.VITE_SUPABASE_URL || process.env.REACT_APP_SUPABASE_URL)
+      console.log('🚀 Starting schema-compatible operator registration for:', formData.email)
       
       // Validate input data
       const validation = this.validateRegistrationData(formData)
@@ -24,6 +26,15 @@ class OperatorRegistrationService {
       } = formData
 
       const normalizedEmail = email.toLowerCase().trim()
+      const languageCode = this.convertLanguageToCode(Array.isArray(languages) ? languages[0] : languages)
+      
+      console.log('📝 Registration data processed:', {
+        email: normalizedEmail,
+        company: company_name.trim(),
+        island: island,
+        languageCode: languageCode,
+        originalLanguages: languages
+      })
       
       // STEP 1: Check for existing tourist user (dual role capability)
       let touristUser = null
@@ -39,49 +50,100 @@ class OperatorRegistrationService {
         touristUser = existingUser
         existingTourist = true
         console.log('✅ Found existing tourist user for dual role:', touristUser.id)
-      }
-
-      // STEP 2: Create tourist_users record if needed
-      if (!existingTourist) {
-        const touristData = {
-          email: normalizedEmail,
-          whatsapp_number: whatsapp_number?.trim() || null,
-          first_name: contact_person.trim(),
-          
-          // Enhanced profile data for operators
-          profile_data: {
-            contact_person: contact_person.trim(),
-            company_name: company_name.trim(),
-            islands_served: island,
-            tour_types_offered: tour_types,
+        
+        // Update existing tourist with operator preferences (following landing page pattern)
+        const updatedFavorites = {
+          ...existingUser.favorites,
+          preferences: {
+            ...existingUser.favorites?.preferences,
+            registration_step: 'operator_complete',
+            user_type: 'operator',
+            is_local: true,
+            home_island: island,
             languages: Array.isArray(languages) ? languages : [languages],
-            primary_language: Array.isArray(languages) ? languages[0] : languages,
-            onboarding_completed: false,
-            preferred_language: Array.isArray(languages) ? languages[0] : languages,
+            primary_language: languageCode,
             operator_account: true,
-            
-            // Business targeting data
             target_bookings_monthly: target_bookings_monthly,
             customer_type_preference: customer_type_preference,
-            
-            // Legal and preferences
             terms_accepted: terms_accepted,
             terms_accepted_date: new Date().toISOString(),
             marketing_emails: marketing_emails,
-            
-            // Founding member status
             founding_member: true,
-            application_number: Math.floor(Math.random() * 1000000)
+            application_number: existingUser.favorites?.preferences?.application_number || Math.floor(Math.random() * 1000000)
           },
-          tour_ids: [],
           behavior_data: {
-            registration_date: new Date().toISOString(),
+            ...existingUser.favorites?.behavior_data,
+            operator_registration_date: new Date().toISOString(),
             registration_source: 'operator_dashboard_app',
             registration_type: 'operator',
-            company_name: company_name.trim(),
+            company_name: company_name,
             islands_served: island,
             tour_types_offered: tour_types,
-            business_description: business_description.trim()
+            business_description: business_description
+          }
+        }
+        
+        const { error: updateError } = await supabase
+          .from('tourist_users')
+          .update({ favorites: updatedFavorites })
+          .eq('id', existingUser.id)
+        
+        if (updateError) {
+          console.warn('⚠️ Tourist update warning:', updateError)
+          // Continue anyway - this is not critical for operator creation
+        }
+      }
+
+      // STEP 2: Create tourist_users record if needed (using ACTUAL schema)
+      if (!existingTourist) {
+        // Split contact_person into first/last name
+        const [firstName, ...lastNameParts] = contact_person.trim().split(' ')
+        const lastName = lastNameParts.join(' ') || null
+
+        const touristData = {
+          // ✅ Using ACTUAL columns that exist
+          email: normalizedEmail,
+          first_name: firstName,
+          last_name: lastName,
+          whatsapp_number: whatsapp_number?.trim() || null,
+          marketing_emails: marketing_emails,
+          preferred_language: languageCode,
+          status: 'registered', // Will be activated after operator approval
+          
+          // ✅ Store extra data in favorites JSONB (ACTUAL column, proven pattern)
+          favorites: {
+            preferences: {
+              registration_step: 'operator_complete',
+              user_type: 'operator',
+              is_local: true, // Operators are local businesses
+              home_island: island,
+              languages: Array.isArray(languages) ? languages : [languages],
+              primary_language: languageCode,
+              onboarding_completed: false,
+              operator_account: true,
+              
+              // Business targeting data
+              target_bookings_monthly: target_bookings_monthly,
+              customer_type_preference: customer_type_preference,
+              
+              // Legal and preferences
+              terms_accepted: terms_accepted,
+              terms_accepted_date: new Date().toISOString(),
+              marketing_emails: marketing_emails,
+              
+              // Founding member status
+              founding_member: true,
+              application_number: Math.floor(Math.random() * 1000000)
+            },
+            behavior_data: {
+              registration_date: new Date().toISOString(),
+              registration_source: 'operator_dashboard_app',
+              registration_type: 'operator',
+              company_name: company_name.trim(),
+              islands_served: island,
+              tour_types_offered: tour_types,
+              business_description: business_description.trim()
+            }
           }
         }
 
@@ -100,8 +162,9 @@ class OperatorRegistrationService {
         console.log('✅ Created new tourist user:', touristUser.id)
       }
 
-      // STEP 3: Create operators record (business data)
+      // STEP 3: Create operators record (using ACTUAL schema)
       const operatorData = {
+        // ✅ Using ACTUAL columns that exist
         email: normalizedEmail,
         company_name: company_name.trim(),
         contact_person: contact_person.trim(),
@@ -109,11 +172,11 @@ class OperatorRegistrationService {
         island: island,
         status: 'pending', // 🔑 CRITICAL: Requires manual approval
         
-        // Business description as direct column
+        // ✅ business_description is an ACTUAL column (TEXT)
         business_description: business_description?.trim() || null,
         
-        // Store additional business data in notes JSONB field
-        notes: {
+        // ✅ Store additional business data in notes TEXT field (as JSON string)
+        notes: JSON.stringify({
           tourist_user_id: touristUser.id,
           registration_source: 'operator_dashboard_app',
           registration_date: new Date().toISOString(),
@@ -122,7 +185,7 @@ class OperatorRegistrationService {
           islands_served: island,
           tour_types_offered: tour_types,
           languages: Array.isArray(languages) ? languages : [languages],
-          primary_language: Array.isArray(languages) ? languages[0] : languages,
+          primary_language: languageCode,
           
           // Business metrics
           target_bookings_monthly: target_bookings_monthly,
@@ -136,8 +199,8 @@ class OperatorRegistrationService {
           // Founding member tracking
           founding_member: true,
           existing_tourist: existingTourist,
-          application_number: touristUser.profile_data?.application_number || Math.floor(Math.random() * 1000000)
-        }
+          application_number: touristUser.favorites?.preferences?.application_number || Math.floor(Math.random() * 1000000)
+        })
       }
 
       const { data: operatorUser, error: operatorError } = await supabase
@@ -242,6 +305,29 @@ class OperatorRegistrationService {
   }
 
   /**
+   * Convert language names to language codes for database storage
+   * Database field: tourist_users.preferred_language character varying(5)
+   */
+  convertLanguageToCode(language) {
+    const languageMap = {
+      'French': 'fr',
+      'English': 'en', 
+      'Français': 'fr',
+      'Anglais': 'en',
+      'french': 'fr',
+      'english': 'en'
+    }
+    
+    // If it's already a code (2-3 chars), return as is
+    if (typeof language === 'string' && language.length <= 3) {
+      return language.toLowerCase()
+    }
+    
+    // Convert full name to code
+    return languageMap[language] || 'fr' // Default to French for French Polynesia
+  }
+
+  /**
    * Email validation helper
    */
   validateEmail(email) {
@@ -260,6 +346,7 @@ class OperatorRegistrationService {
 
   /**
    * Send registration notification to n8n webhook
+   * ✅ UNCHANGED - This part was working correctly
    */
   async sendRegistrationNotification(data) {
     try {
@@ -307,6 +394,7 @@ class OperatorRegistrationService {
 
   /**
    * Check operator approval status
+   * ✅ UNCHANGED - This part was working correctly
    */
   async checkApprovalStatus(email) {
     try {

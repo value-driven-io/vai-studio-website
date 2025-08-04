@@ -43,7 +43,7 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
   const tourTypes = [
     'whaleWatching', 'snorkeling', 'diving', 'lagoonTours',
     'islandTours', 'hiking', 'cultural', 'fishing',
-    'sunset', 'photography', 'other'
+    'sunset', 'mindfulness', 'other'
   ]
 
   const targetBookings = [
@@ -109,9 +109,9 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
           case 'whaleWatching': return 'Whale Watching'
           case 'lagoonTours': return 'Lagoon Tours'
           case 'islandTours': return 'Island Tours'
-          case 'cultural': return 'Cultural Experiences'
+          case 'cultural': return 'Cultural Activities'
           case 'sunset': return 'Sunset Tours'
-          case 'photography': return 'Photography Tours'
+          case 'mindfulness': return 'Mindful Events'
           default: return type.charAt(0).toUpperCase() + type.slice(1)
         }
       })
