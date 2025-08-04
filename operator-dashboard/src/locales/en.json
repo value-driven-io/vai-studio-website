@@ -22,7 +22,13 @@
     "booked": "booked",
     "attended": "attended",
     "spots": "spots",
-    "close": "Close"  
+    "close": "Close",
+    "required": "Required",
+    "reset": "Reset", 
+    "cancel": "Cancel",
+    "update": "Update",
+    "saving": "Saving...",
+    "optional": "Optional"
   },
   "header": {
     "title": "Operator Dashboard",
@@ -798,7 +804,55 @@
       "createFunctionality": "Create functionality coming in Phase 3",
       "loading": "Loading schedules...",
       "refresh": "Refresh",
-      "showing": "Showing {{count}} schedule{{count !== 1 ? 's' : ''}}"
+      "showing": "Showing {{count}} schedule{{count !== 1 ? 's' : ''}}",
+      "createSchedule": "Create Schedule",
+      "editSchedule": "Edit Schedule", 
+      "setupRecurring": "Set up recurring tour experiences",
+      "showPreview": "Show Preview",
+      "hidePreview": "Hide Preview"
+    },
+
+    "sections": {
+      "basicInfo": "Basic Information",
+      "recurrencePattern": "Recurrence Pattern", 
+      "dateRange": "Date Range",
+      "exceptions": "Exception Dates"
+    },
+    
+    "recurrence": {
+      "once": "One Time",
+      "daily": "Daily", 
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    },
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday", 
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "preview": {
+      "title": "Schedule Preview",
+      "fillFormToSee": "Fill out the form to see generated tour instances",
+      "showingFirst10": "Showing first 10 instances...",
+      "completeFormHint": "Select a tour, dates, and recurrence pattern to preview",
+      "moreWillBeGenerated": "More instances will be generated based on your settings",
+      "instances": "instances",
+      "onDays": "on days",
+      "excluding": "excluding",
+      "dates": "dates",
+      "willCreate": "will create",
+      "refresh": "Refresh Preview"
+    },
+
+    "quickSelect": {
+      "weekdays": "Weekdays",
+      "weekends": "Weekends", 
+      "allDays": "All Days",
+      "clear": "Clear"
     },
     
     "errors": {
@@ -872,7 +926,14 @@
       "updating": "Updating...",
       "cancel": "Cancel",
       "save": "Save Schedule",
-      "create": "Create Schedule"
+      "create": "Create Schedule",
+      "chooseTour": "Choose a tour to schedule...",
+      "selectedDays": "Selected days",
+      "addExceptionDate": "Add Exception Date",
+      "exceptionDescription": "Select specific dates to skip (holidays, maintenance days, etc.)",
+      "addDate": "Add Date",
+      "removeDate": "Remove Date",
+      "exceptionDates": "Exception Dates"
     },
 
     "actions": {
@@ -894,13 +955,6 @@
       "created": "Created",
       "noData": "No data available",
       "unknownTour": "Unknown Tour"
-    },
-
-    "recurrence": {
-      "oneTime": "One-time",
-      "daily": "Daily",
-      "weekly": "Weekly",
-      "monthly": "Monthly"
     },
 
     "success": {

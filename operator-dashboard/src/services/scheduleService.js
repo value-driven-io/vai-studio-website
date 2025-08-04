@@ -347,6 +347,43 @@ export const scheduleService = {
   },
 
   /**
+   * Get active tours for schedule creation
+   * @param {string} operatorId - The operator ID
+   * @returns {Promise<Object>} Tours data or error
+   */
+    async getOperatorTours(operatorId) {
+        try {
+        const { data: tours, error } = await supabase
+            .from('tours')
+            .select(`
+            id,
+            tour_name,
+            tour_type,
+            tour_date,
+            time_slot,
+            status,
+            max_capacity,
+            available_spots
+            `)
+            .eq('operator_id', operatorId)
+            .eq('status', 'active')
+            .gte('tour_date', new Date().toISOString().split('T')[0]) // Only future tours
+            .order('tour_date', { ascending: true })
+            .order('time_slot', { ascending: true })
+
+        if (error) {
+            console.error('Error fetching operator tours:', error)
+            throw error
+        }
+
+        return { data: tours || [], error: null }
+        } catch (error) {
+        console.error('Error in getOperatorTours:', error)
+        return { data: null, error }
+        }
+    },
+
+  /**
    * 🛡️ EDGE CASE HELPER: Check for schedule conflicts
    */
   async checkScheduleConflicts(scheduleData, tour) {
@@ -665,3 +702,4 @@ export const scheduleService = {
     }
   }
 }
+
