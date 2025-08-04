@@ -7,7 +7,7 @@
     <meta name="description" content="Welcome to VAI - Your gateway to authentic French Polynesia experiences">
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="via-studio-images/logo/VAI - Logo Multicolor 2025.png" as="image">
+    <link rel="preload" href="https://vai.studio/via-studio-images/logo/VAI%20-%20Logo%20Multicolor%202025.png" as="image">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -378,7 +378,7 @@
             <div class="logo-frame">
                 <div class="logo-inner">
                     <img 
-                        src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" 
+                        src="https://vai.studio/via-studio-images/logo/VAI%20-%20Logo%20Multicolor%202025.png" 
                         alt="VAI Logo" 
                         class="logo-image"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -461,20 +461,18 @@
                     }
                     
                     // Send to Supabase (optional - requires QR tracking table)
-                    /*
                     const response = await fetch('https://rizqwxcmpzhdmqjjqgyw.supabase.co/rest/v1/qr_scans', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'apikey': 'YOUR_SUPABASE_ANON_KEY',
-                            'Authorization': 'Bearer YOUR_SUPABASE_ANON_KEY'
+                            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpenF3eGNtcHpoZG1xampxZ3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MDM3MTIsImV4cCI6MjA2NjI3OTcxMn0.dlNpxINvs2yzlFQndTZIrfQTBgWpQ5Ee0aPGVwRPHo0',
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpenF3eGNtcHpoZG1xampxZ3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MDM3MTIsImV4cCI6MjA2NjI3OTcxMn0.dlNpxINvs2yzlFQndTZIrfQTBgWpQ5Ee0aPGVwRPHo0'
                         },
                         body: JSON.stringify(trackingData)
                     });
-                    */
                     
                     // Store in localStorage for landing page
-                    localStorage.setItem('vai_qr_tracking', JSON.stringify(trackingData));
+                    redirectUrl.searchParams.set('qr_data', btoa(JSON.stringify(trackingData)));
                     
                     // Console log for debugging
                     console.log('QR Tracking Data:', trackingData);
@@ -488,7 +486,7 @@
             trackQRScan();
             
             // Build redirect URL with UTM parameters
-            const baseUrl = 'https://vai.studio/app/registration/';
+            const baseUrl = 'https://app.vai.studio/';
             const redirectUrl = new URL(baseUrl);
             
             // Add UTM parameters for Google Analytics
@@ -520,22 +518,25 @@
             
             // Redirect after 2 seconds (enough time for a nice experience)
             setTimeout(() => {
-                clearInterval(textInterval);
-                
-                // Add a final animation before redirect
-                document.body.style.transition = 'opacity 0.5s ease-out';
-                document.body.style.opacity = '0';
-                
-                setTimeout(() => {
-                    window.location.href = redirectUrl.toString();
-                }, 300);
-                
-            }, 2500);
+                    try {
+                        clearInterval(textInterval);
+                        document.body.style.transition = 'opacity 0.5s ease-out';
+                        document.body.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            window.location.href = redirectUrl.toString();
+                        }, 300);
+                    } catch (error) {
+                        console.error('Redirect error:', error);
+                        // Fallback direct redirect
+                        window.location.href = 'https://app.vai.studio/';
+                    }
+                }, 2500);
             
             // Fallback redirect in case of issues (after 5 seconds)
             setTimeout(() => {
                 if (window.location.href.includes('/qr/')) {
-                    window.location.href = 'https://vai.studio/app/welcome/';
+                    window.location.href = 'https://app.vai.studio/';
                 }
             }, 5000);
             
@@ -557,7 +558,7 @@
             // Preload the welcome page for faster navigation
             const link = document.createElement('link');
             link.rel = 'prefetch';
-            link.href = 'https://vai.studio/app/welcome/';
+            link.href = 'https://app.vai.studio/';
             document.head.appendChild(link);
         });
     </script>
