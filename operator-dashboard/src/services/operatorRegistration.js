@@ -7,9 +7,11 @@ class OperatorRegistrationService {
    * Register a new operator with complete validation and dual-table insert
    * ✅ SCHEMA-COMPATIBLE - Uses actual database structure
    * ✅ PROVEN PATTERN - Follows existing landing page registration logic
+   * ✅ IMMEDIATE AUTH - Creates Supabase auth for instant login
    */
   async registerOperator(formData) {
     try {
+      // 🎯 DEBUG: Verify which database we're connecting to (operator-dashboard uses process.env)
       console.log('🎯 Database URL being used:', process.env.REACT_APP_SUPABASE_URL)
       console.log('🚀 Starting schema-compatible operator registration for:', formData.email)
       
@@ -35,6 +37,10 @@ class OperatorRegistrationService {
         languageCode: languageCode,
         originalLanguages: languages
       })
+
+      // ✅ IMMEDIATE AUTH: Prepare credentials upfront
+      const tempPassword = `VAIOPERATOR_${normalizedEmail}`
+      let authUserId = null
       
       // STEP 1: Check for existing tourist user (dual role capability)
       let touristUser = null
@@ -162,6 +168,26 @@ class OperatorRegistrationService {
         console.log('✅ Created new tourist user:', touristUser.id)
       }
 
+      // STEP 2.5: Create Supabase Auth User (IMMEDIATE AUTH)
+      console.log('🔐 Creating Supabase auth for operator:', normalizedEmail)
+      
+      const { data: authUser, error: authError } = await supabase.auth.signUp({
+        email: normalizedEmail,
+        password: tempPassword,
+        options: {
+          emailRedirectTo: undefined // Prevent email confirmation requirement
+        }
+      })
+
+      if (authError) {
+        console.warn('⚠️ Auth creation failed:', authError.message)
+        // Continue without auth - can be created later by admin
+        // Don't fail the entire registration
+      } else if (authUser?.user) {
+        authUserId = authUser.user.id
+        console.log('✅ Created Supabase auth user:', authUserId)
+      }
+
       // STEP 3: Create operators record (using ACTUAL schema)
       const operatorData = {
         // ✅ Using ACTUAL columns that exist
@@ -172,6 +198,12 @@ class OperatorRegistrationService {
         island: island,
         status: 'pending', // 🔑 CRITICAL: Requires manual approval
         
+        // ✅ Store auth_user_id for immediate login capability
+        auth_user_id: authUserId, // Links to Supabase auth
+        
+        // ✅ Store temp password for reference
+        temp_password: authUserId ? tempPassword : null,
+        
         // ✅ business_description is an ACTUAL column (TEXT)
         business_description: business_description?.trim() || null,
         
@@ -180,6 +212,11 @@ class OperatorRegistrationService {
           tourist_user_id: touristUser.id,
           registration_source: 'operator_dashboard_app',
           registration_date: new Date().toISOString(),
+          
+          // Auth information
+          auth_created: !!authUserId,
+          temp_password_set: !!authUserId,
+          immediate_login_enabled: !!authUserId,
           
           // Business details
           islands_served: island,
@@ -237,7 +274,7 @@ class OperatorRegistrationService {
       })
 
       // STEP 5: Return success with comprehensive data
-      return {
+      const successResponse = {
         success: true,
         user: touristUser,
         operator: operatorUser,
@@ -245,13 +282,28 @@ class OperatorRegistrationService {
         status: 'pending_approval',
         existing_tourist: existingTourist,
         dual_role: existingTourist,
-        next_steps: [
+        
+        // ✅ NEW: Immediate login capability
+        immediate_login: !!authUserId,
+        login_credentials: authUserId ? {
+          email: normalizedEmail,
+          temp_password: tempPassword
+        } : null,
+        
+        next_steps: authUserId ? [
+          'You can login immediately to check your approval status',
+          'Use your email and temporary password "VAIOperator_',email,'" to access VAI Operator',
+          'Our team will review your application within 24 hours',
+          'Once approved, you\'ll have full access to create tours'
+        ] : [
           'Check your email for confirmation',
           'Our team will review your application',
           'You\'ll receive approval notification within 24 hours',
           'Once approved, you can login and start creating tours'
         ]
       }
+
+      return successResponse
 
     } catch (error) {
       console.error('❌ Operator registration error:', error)
@@ -262,6 +314,29 @@ class OperatorRegistrationService {
         details: error
       }
     }
+  }
+
+  /**
+   * Convert language names to language codes for database storage
+   * Database field: tourist_users.preferred_language character varying(5)
+   */
+  convertLanguageToCode(language) {
+    const languageMap = {
+      'French': 'fr',
+      'English': 'en', 
+      'Français': 'fr',
+      'Anglais': 'en',
+      'french': 'fr',
+      'english': 'en'
+    }
+    
+    // If it's already a code (2-3 chars), return as is
+    if (typeof language === 'string' && language.length <= 3) {
+      return language.toLowerCase()
+    }
+    
+    // Convert full name to code
+    return languageMap[language] || 'fr' // Default to French for French Polynesia
   }
 
   /**
@@ -302,29 +377,6 @@ class OperatorRegistrationService {
       error: errors.length > 0 ? errors.join(', ') : null,
       errors: errors
     }
-  }
-
-  /**
-   * Convert language names to language codes for database storage
-   * Database field: tourist_users.preferred_language character varying(5)
-   */
-  convertLanguageToCode(language) {
-    const languageMap = {
-      'French': 'fr',
-      'English': 'en', 
-      'Français': 'fr',
-      'Anglais': 'en',
-      'french': 'fr',
-      'english': 'en'
-    }
-    
-    // If it's already a code (2-3 chars), return as is
-    if (typeof language === 'string' && language.length <= 3) {
-      return language.toLowerCase()
-    }
-    
-    // Convert full name to code
-    return languageMap[language] || 'fr' // Default to French for French Polynesia
   }
 
   /**

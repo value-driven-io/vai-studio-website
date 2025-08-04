@@ -53,11 +53,11 @@ export const useAuth = () => {
           
           // Get operator data - all fields to prevent additional fetches
           const { data: operatorData, error } = await supabase
-            .from('operators')
-            .select('*') // Get all fields to match what ProfileTab expects
-            .eq('auth_user_id', session.user.id)
-            .eq('status', 'active')
-            .single()
+          .from('operators')
+          .select('*')
+          .eq('auth_user_id', session.user.id)
+          // ✅ REMOVED: .eq('status', 'active') - now allows pending operators
+          .single()
           
           if (operatorData && !error && isMounted) {
             setOperator(operatorData)
@@ -121,7 +121,7 @@ export const useAuth = () => {
                 .from('operators')
                 .select('*')
                 .eq('auth_user_id', session.user.id)
-                .eq('status', 'active')
+                // ✅ REMOVED: .eq('status', 'active') - now allows pending operators
                 .single(),
               new Promise((_, reject) => 
                 setTimeout(() => reject(new Error('Operator lookup timeout')), 5000)
@@ -194,20 +194,30 @@ export const useAuth = () => {
         }
       }
       
-      // Get full operator data
+      // Get Operator data 
+      console.log('🔍 Looking up operator for user:', authData.user.email)
       const { data: operatorData, error: operatorError } = await supabase
         .from('operators')
         .select('*')
         .eq('auth_user_id', authData.user.id)
-        .eq('status', 'active')
+        // ✅ REMOVED: .eq('status', 'active') - now allows pending operators
         .single()
-      
+
       if (operatorError || !operatorData) {
         console.error('❌ Operator lookup error:', operatorError)
         await supabase.auth.signOut()
         return { 
           success: false, 
-          error: 'No active operator account found. Please contact support.' 
+          error: 'No operator account found. Please contact support.' 
+        }
+      }
+
+      // Handle different operator statuses
+      if (operatorData.status === 'suspended' || operatorData.status === 'inactive') {
+        await supabase.auth.signOut()
+        return {
+          success: false,
+          error: 'Your operator account has been suspended. Please contact support.'
         }
       }
       
