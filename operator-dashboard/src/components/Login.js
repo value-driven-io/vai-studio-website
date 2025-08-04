@@ -6,6 +6,7 @@ import LanguageDropdown from './LanguageDropdown'
 import RegistrationForm from './auth/RegistrationForm'
 import PendingApprovalScreen from './auth/PendingApprovalScreen'
 import { useRegistration } from '../hooks/useRegistration'
+import VAILogo from './VAILogo'
 
 const Login = ({ onLogin, loading }) => {
   const { t } = useTranslation()
@@ -126,10 +127,9 @@ const Login = ({ onLogin, loading }) => {
       </div>
 
       <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-8 border border-slate-700 max-w-md w-full relative z-10">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">🏝️ VAI Operator</h1>
-          <p className="text-slate-300">{t('login.operatorDashboard')}</p>
-          <p className="text-slate-400 text-sm mt-2">{t('login.secureLoginRequired')}</p>
+        <div className="text-center mb-8"><VAILogo/>
+          <h1 className="text-3xl font-bold text-white mb-2">Operator</h1>
+          <p className="text-slate-400 text-sm mt-2">{t('login.operatorDashboard')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -203,6 +203,13 @@ const Login = ({ onLogin, loading }) => {
               t('login.signInSecurely')
             )}
           </button>
+          {/* Credential Reminder */}
+        <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+          <p className="text-blue-400 text-xs text-center">
+            💡 {t('login.passwordReminder')}
+          </p>
+          
+        </div>
         </form>
 
         {/* Registration Section */}
@@ -226,13 +233,26 @@ const Login = ({ onLogin, loading }) => {
             {t('login.createAccount')}
           </button>
         </div>
+        {/* more info  */}
+        <div className="mt-6 text-center">
+            <p className="text-slate-500 text-xs">
+            {t('login.moreInfo')}{' '}
+            <a 
+              href="https://vai.studio/app/operator-welcome" 
+              className="text-yellow-400 hover:text-yellow-300 transition-colors"
+            >
+              VAI Operator
+            </a>
+          </p>
+        </div>
+
+            
 
         {/* Help Section */}
         <div className="mt-6 text-center">
-          <p className="text-slate-400 text-sm mb-2">
-            {t('login.useCredentials')}
-          </p>
-          <p className="text-slate-500 text-xs">
+          <div className="w-full border-t border-slate-600"></div>
+          <div className="mt-6 text-center">
+            </div><p className="text-slate-500 text-xs">
             {t('login.needHelp')}{' '}
             <a 
               href="mailto:hello@vai.studio" 
@@ -245,26 +265,6 @@ const Login = ({ onLogin, loading }) => {
               className="text-blue-400 hover:text-blue-300 transition-colors underline decoration-dotted"
             >
               WhatsApp
-            </a>
-          </p>
-        </div>
-
-        {/* Credential Reminder */}
-        <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-          <p className="text-blue-400 text-xs text-center">
-            💡 {t('login.passwordReminder')}
-          </p>
-        </div>
-
-        {/* Operator Registration Section */}
-        <div className="mt-6 text-center">
-          <p className="text-slate-500 text-xs">
-            {t('login.registeraccount')}{' '}  
-            <a 
-              href="https://vai.studio/app/operator-welcome" 
-              className="text-yellow-400 hover:text-yellow-300 transition-colors underline decoration-dotted"
-            >
-               VAI Operator
             </a>
           </p>
         </div>

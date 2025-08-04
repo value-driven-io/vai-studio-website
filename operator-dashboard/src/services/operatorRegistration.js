@@ -39,7 +39,7 @@ class OperatorRegistrationService {
       })
 
       // ✅ IMMEDIATE AUTH: Prepare credentials upfront
-      const tempPassword = `VAIOPERATOR_${normalizedEmail}`
+      const tempPassword = `VAI_${normalizedEmail}`
       let authUserId = null
       
       // STEP 1: Check for existing tourist user (dual role capability)
@@ -292,7 +292,7 @@ class OperatorRegistrationService {
         
         next_steps: authUserId ? [
           'You can login immediately to check your approval status',
-          'Use your email and temporary password "VAIOperator_',email,'" to access VAI Operator',
+          'Use your email and temporary password "VAI_',email,'" to access VAI Operator',
           'Our team will review your application within 24 hours',
           'Once approved, you\'ll have full access to create tours'
         ] : [

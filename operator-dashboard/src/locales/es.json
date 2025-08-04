@@ -249,7 +249,8 @@
     "passwordReminder": "Tu contraseña segura fue proporcionada durante la configuración de cuenta",
     "registeraccount": "¿No cuenta? Registra tu empresa y conviértete en un ",
     "newOperator": "Nuevo operador?",
-    "createAccount": "Crear nueva cuenta"
+    "createAccount": "Crear nueva cuenta",
+    "moreInfo": "Más información sobre "
   },
 
   "bookings": {

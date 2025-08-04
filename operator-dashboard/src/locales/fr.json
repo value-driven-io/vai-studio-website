@@ -250,7 +250,8 @@
     "passwordReminder": "Ton mot de passe sécurisé a été fourni lors de la configuration du compte",
     "registeraccount": "Pas de compte ? Enregistre ton entreprise et deviens un ",
     "newOperator": "Nouvel opérateur ?",
-    "createAccount": "Créer un nouveau compte"
+    "createAccount": "Créer un nouveau compte",
+    "moreInfo": "Plus d'informations sur "
   },
 
   "bookings": {

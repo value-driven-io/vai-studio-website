@@ -249,7 +249,8 @@
     "passwordReminder": "Dein sicheres Passwort wurde bei der Kontoeinrichtung bereitgestellt",
     "registeraccount": "Kein Account? Registrier Dein Unternehmen und werde ein ",
     "newOperator": "Noch kein Account?",
-    "createAccount": "Neuer Operator Account"
+    "createAccount": "Neuer Operator Account",
+    "moreInfo": "Weitere Infos über "
   },
 
   "bookings": {

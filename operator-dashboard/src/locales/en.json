@@ -255,7 +255,8 @@
     "passwordReminder": "Your secure password was provided during account setup",
     "registeraccount": "No Account? Register your business and become a ",
     "newOperator": "New operator?",
-    "createAccount": "Create Operator Account"
+    "createAccount": "Create Operator Account",
+    "moreInfo": "More info about "
   },
 
   "bookings": {
