@@ -787,5 +787,127 @@
       "email": "hello@vai.studio",
       "whatsapp": "WhatsApp Support"
     }
+  },
+
+  "schedules": {
+    "management": {
+      "title": "Schedule Management",
+      "subtitle": "Manage your recurring tour schedules",
+      "noSchedulesYet": "No Schedules Yet",
+      "noSchedulesMessage": "You haven't created any recurring schedules yet. When you do, they'll appear here.",
+      "createFunctionality": "Create functionality coming in Phase 3",
+      "loading": "Loading schedules...",
+      "refresh": "Refresh",
+      "showing": "Showing {{count}} schedule{{count !== 1 ? 's' : ''}}"
+    },
+    
+    "errors": {
+      "VALIDATION_FAILED": "Validation failed",
+      "OPERATOR_NOT_FOUND": "Operator not found",
+      "OPERATOR_INACTIVE": "Operator account is {{status}} and cannot create schedules",
+      "TOUR_NOT_FOUND_OR_ACCESS_DENIED": "Tour not found or access denied",
+      "TOUR_INACTIVE": "Tour is {{status}} and cannot be scheduled",
+      "SCHEDULE_CONFLICT": "Schedule conflicts with existing schedule",
+      "SINGLE_SCHEDULE_DATE_MISMATCH": "Single schedule date must match tour date",
+      "DATABASE_INSERT_FAILED": "Failed to create schedule",
+      "DATABASE_UPDATE_FAILED": "Failed to update schedule",
+      "DATABASE_DELETE_FAILED": "Failed to delete schedule",
+      "SCHEDULE_NOT_FOUND_OR_ACCESS_DENIED": "Schedule not found or access denied",
+      "SCHEDULE_HAS_ACTIVE_BOOKINGS": "Cannot modify schedule with {{count}} active booking{{count !== 1 ? 's' : ''}}",
+      "SCHEDULE_HAS_LOCKED_BOOKINGS": "Cannot delete schedule with {{count}} commission-locked booking{{count !== 1 ? 's' : ''}}",
+      "LINKED_TOUR_INACTIVE": "Linked tour is {{status}} and cannot be modified",
+      "BOOKINGS_CHECK_FAILED": "Failed to check active bookings",
+      "ORIGINAL_TOUR_INACTIVE": "Original tour is {{status}} and cannot be duplicated",
+      
+      "TOUR_ID_REQUIRED": "Tour selection is required",
+      "OPERATOR_ID_REQUIRED": "Operator ID is required",
+      "RECURRENCE_TYPE_REQUIRED": "Recurrence type is required",
+      "START_TIME_REQUIRED": "Start time is required",
+      "START_DATE_REQUIRED": "Start date is required",
+      "END_DATE_REQUIRED": "End date is required",
+      "INVALID_RECURRENCE_TYPE": "Recurrence type must be once, daily, weekly, or monthly",
+      "DAYS_OF_WEEK_MUST_BE_ARRAY": "Days of week must be an array",
+      "INVALID_DAYS_OF_WEEK": "Days of week must be integers between 1 (Monday) and 7 (Sunday)",
+      "WEEKLY_REQUIRES_DAYS": "Weekly recurrence requires at least one day of week to be specified",
+      "INVALID_TIME_FORMAT": "Start time must be in HH:MM format (e.g., 09:30)",
+      "INVALID_START_DATE_FORMAT": "Start date must be in YYYY-MM-DD format",
+      "INVALID_END_DATE_FORMAT": "End date must be in YYYY-MM-DD format",
+      "START_DATE_IN_PAST": "Start date cannot be in the past",
+      "END_DATE_BEFORE_START": "End date must be after start date",
+      "DATE_RANGE_TOO_LARGE": "Date range cannot exceed 2 years",  
+      "EXCEPTIONS_MUST_BE_ARRAY": "Exceptions must be an array of dates",
+      "INVALID_EXCEPTION_DATES": "All exception dates must be in YYYY-MM-DD format",
+      "INVALID_TOUR_ID_FORMAT": "Tour ID must be a valid UUID",
+      "INVALID_OPERATOR_ID_FORMAT": "Operator ID must be a valid UUID"
+    },
+
+    "form": {
+      "createSchedule": "Create Schedule",
+      "editSchedule": "Edit Schedule",
+      "duplicateSchedule": "Duplicate Schedule",
+      "selectTour": "Select Tour",
+      "selectTourPlaceholder": "Choose a tour to schedule",
+      "recurrenceType": "Recurrence Type",
+      "once": "One-time",
+      "daily": "Daily",
+      "weekly": "Weekly", 
+      "monthly": "Monthly",
+      "daysOfWeek": "Days of Week",
+      "monday": "Monday",
+      "tuesday": "Tuesday", 
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "startTime": "Start Time",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "exceptions": "Exception Dates",
+      "exceptionsHelp": "Dates to skip (holidays, etc.)",
+      "preview": "Preview",
+      "previewInstances": "Preview Generated Instances",
+      "noPreview": "No instances to preview",
+      "creating": "Creating...",
+      "updating": "Updating...",
+      "cancel": "Cancel",
+      "save": "Save Schedule",
+      "create": "Create Schedule"
+    },
+
+    "actions": {
+      "create": "Create",
+      "edit": "Edit", 
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this schedule?",
+      "confirmDeleteMessage": "This action cannot be undone.",
+      "deleting": "Deleting..."
+    },
+
+    "table": {
+      "tour": "Tour",
+      "recurrence": "Recurrence", 
+      "days": "Days",
+      "time": "Time",
+      "period": "Period",
+      "created": "Created",
+      "noData": "No data available",
+      "unknownTour": "Unknown Tour"
+    },
+
+    "recurrence": {
+      "oneTime": "One-time",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    },
+
+    "success": {
+      "created": "Schedule created successfully",
+      "updated": "Schedule updated successfully", 
+      "deleted": "Schedule deleted successfully",
+      "duplicated": "Schedule duplicated successfully"
+    }
   }
 }
