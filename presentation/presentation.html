@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAI | Strategic Consultation</title>
+    
+    <style>
+/* --- BASE & BRAND STYLES --- */
+:root {
+    --primary-color: #ff3b81;
+    --secondary-color: #00c2ff;
+    --accent-color: #10b981;
+    --text-color: #2c3e50;
+    --text-light: #5a6a7a;
+    --background-color: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-color: #e9ecef;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-gray);
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+/* --- LAYOUT & SLIDES --- */
+.slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    scroll-snap-align: start;
+    padding: 2rem 4rem;
+    box-sizing: border-box;
+    background-color: var(--background-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.slide:nth-child(even) {
+     background-color: var(--light-gray);
+}
+
+.slide .content {
+    max-width: 1100px;
+    width: 100%;
+    text-align: center;
+    color: var(--text-color);
+}
+
+/* --- TYPOGRAPHY --- */
+h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+h2 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 1rem auto;
+}
+
+p.intro-text {
+    font-size: 1.4rem;
+    margin-bottom: 3rem;
+}
+
+p.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+/* --- COMPONENTS --- */
+.language-switcher {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px;
+    border-radius: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.lang-btn {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 8px 15px;
+    margin: 0 2px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.lang-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 2rem;
+}
+.logo-small {
+    width: 80px;
+    margin-top: 3rem;
+    opacity: 0.7;
+}
+
+.presenter {
+    margin-top: 2rem;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.slide-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin: 1rem auto 2rem auto;
+}
+
+.two-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.three-col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.two-col .col {
+    flex: 1;
+    max-width: 500px;
+}
+.two-col .image-col {
+    text-align: center;
+}
+.two-col .image-col .slide-image {
+    max-width: 100%;
+}
+
+.card {
+    background: var(--background-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+    display: inline-block;
+}
+
+.features-list li {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+    padding-left: 35px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff3b81" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>') no-repeat left center;
+    background-size: 24px;
+    color: var(--text-color);
+}
+
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--border-color);
+    z-index: 1;
+}
+
+.timeline-item {
+    background: var(--background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    z-index: 2;
+    position: relative;
+    text-align: center;
+    max-width: 150px;
+}
+
+
+.highlight-box {
+    background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+    color: white !important;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1rem 0;
+}
+
+.highlight-box h4 {
+    color: white !important;
+}
+
+.highlight-box p {
+    color: white !important;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.next-steps { text-align: center; }
+.next-steps li {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* --- ANIMATIONS --- */
+.content.animated {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.content.animated.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- CONTACT SLIDE --- */
+.contact-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+    background: var(--background-color);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-color);
+}
+
+.contact-details {
+    text-align: left;
+}
+
+.contact-details h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.contact-details p {
+    margin: 0.25rem 0 1.5rem 0;
+    font-size: 1.1rem;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.contact-link {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    transition: color 0.3s;
+    padding-left: 30px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 20px;
+}
+.contact-link:hover {
+    color: var(--primary-color);
+}
+
+/* Icons for contact links */
+a[href^="mailto:"] {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
+}
+a[href*="linkedin.com"] {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>');
+}
+a[href*="kevindesilva.de"] {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>');
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .slide {
+        padding: 1rem 1.5rem;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    
+    .two-col, .three-col {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .timeline {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .timeline::before {
+        display: none;
+    }
+    
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .contact-details {
+        text-align: center;
+    }
+}
+    </style>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="language-switcher">
+        <a href="#" class="lang-btn active" data-lang="en">EN</a>
+        <a href="#" class="lang-btn" data-lang="fr">FR</a>
+    </div>
+
+    <main id="presentation">
+        <!-- TITLE SLIDE -->
+        <section class="slide title-slide">
+            <div class="content animated">
+                <img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="VAI Logo" class="logo">
+                <h1 data-i18n-key="pres_title"></h1>
+                <p data-i18n-key="pres_subtitle"></p>
+                <p class="presenter" data-i18n-key="pres_presenter"></p>
+            </div>
+        </section>
+
+        <!-- MARKET CONTEXT -->
+        <!--
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="market_title"></h2>
+                <div class="three-col">
+                    <div class="stat-card">
+                        <div class="stat-number">27%</div>
+                        <div class="stat-label" data-i18n-key="market_stat1"></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0.7%</div>
+                        <div class="stat-label" data-i18n-key="market_stat2"></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50%</div>
+                        <div class="stat-label" data-i18n-key="market_stat3"></div>
+                    </div>
+                </div>
+                <p data-i18n-key="market_context"></p>
+            </div>
+        </section>
+        -->
+
+        <!-- PROBLEM -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="pres_problem_title"></h2>
+                <img src="/via-studio-images/landingpage/Looked Beach w Elements - No Access.jpg" alt="Illustration of the Paradise Paradox" class="slide-image">
+                <p data-i18n-key="pres_problem_text"></p>
+                <div class="highlight-box">
+                    <h4 data-i18n-key="problem_impact_title"></h4>
+                    <p data-i18n-key="problem_impact_text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOLUTION -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="pres_solution_title"></h2>
+                <div class="two-col">
+                    <div class="col text-col">
+                        <p data-i18n-key="pres_solution_text"></p>
+                        <ul class="features-list">
+                            <li data-i18n-key="pres_solution_f1"></li>
+                            <li data-i18n-key="pres_solution_f2"></li>
+                            <li data-i18n-key="pres_solution_f3"></li>
+                            <li data-i18n-key="pres_solution_f4"></li>
+                            <li data-i18n-key="pres_solution_f5"></li>
+                        </ul>
+                    </div>
+                    <div class="col image-col">
+                         <img src="/via-studio-images/landingpage/VAI Tickets and VAI Operator Screenshot Devices 2025.png" alt="Screenshot of the VAI App" class="slide-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BUSINESS MODEL -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="business_model_title"></h2>
+                <div class="impact-grid">
+                    <div class="card">
+                        <h3 data-i18n-key="business_revenue_title"></h3>
+                        <p data-i18n-key="business_revenue_text"></p>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="business_fair_title"></h3>
+                        <p data-i18n-key="business_fair_text"></p>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="business_social_title"></h3>
+                        <p data-i18n-key="business_social_text"></p>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="business_local_title"></h3>
+                        <p data-i18n-key="business_local_text"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECHNICAL PROOF -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="pres_proof_title"></h2>
+                 <img src="/via-studio-images/landingpage/Digital tech made in fenua.png" alt="Illustration of technical excellence" class="slide-image">
+                <p data-i18n-key="pres_proof_text"></p>
+                <div class="two-col">
+                    <div class="card">
+                        <h4 data-i18n-key="tech_features_title"></h4>
+                        <ul class="features-list">
+                            <li data-i18n-key="tech_f1"></li>
+                            <li data-i18n-key="tech_f2"></li>
+                            <li data-i18n-key="tech_f3"></li>
+                            <li data-i18n-key="tech_f4"></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4 data-i18n-key="tech_integration_title"></h4>
+                        <ul class="features-list">
+                            <li data-i18n-key="tech_i1"></li>
+                            <li data-i18n-key="tech_i2"></li>
+                            <li data-i18n-key="tech_i3"></li>
+                            <li data-i18n-key="tech_i4"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAUNCH STRATEGY -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="launch_title"></h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4 data-i18n-key="launch_t2_title"></h4>
+                        <p data-i18n-key="launch_t2_desc"></p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 data-i18n-key="launch_t1_title"></h4>
+                        <p data-i18n-key="launch_t1_desc"></p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h4 data-i18n-key="launch_t3_title"></h4>
+                        <p data-i18n-key="launch_t3_desc"></p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 data-i18n-key="launch_t4_title"></h4>
+                        <p data-i18n-key="launch_t4_desc"></p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <h4 data-i18n-key="launch_urgency_title"></h4>
+                    <p data-i18n-key="launch_urgency_text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VAI SKILLS VISION -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="pres_vision_title"></h2>
+                 <img src="/via-studio-images/landingpage/VAI Skill Share - Educational Platform.png" alt="Illustration of skill sharing" class="slide-image">
+                <p data-i18n-key="pres_vision_text"></p>
+                <div class="two-col">
+                    <div class="card">
+                        <h3 data-i18n-key="vision_route1_title"></h3>
+                        <p data-i18n-key="vision_route1_text"></p>
+                        <ul class="features-list">
+                            <li data-i18n-key="vision_r1_f1"></li>
+                            <li data-i18n-key="vision_r1_f2"></li>
+                            <li data-i18n-key="vision_r1_f3"></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="vision_route2_title"></h3>
+                        <p data-i18n-key="vision_route2_text"></p>
+                        <ul class="features-list">
+                            <li data-i18n-key="vision_r2_f1"></li>
+                            <li data-i18n-key="vision_r2_f2"></li>
+                            <li data-i18n-key="vision_r2_f3"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARTNERSHIP VALUE -->
+        <!--<section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="partnership_title"></h2>
+                <div class="impact-grid">
+                    <div class="card">
+                        <h3 data-i18n-key="partnership_odile_title"></h3>
+                        <ul class="features-list">
+                            <li data-i18n-key="partnership_o1"></li>
+                            <li data-i18n-key="partnership_o2"></li>
+                            <li data-i18n-key="partnership_o3"></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="partnership_students_title"></h3>
+                        <ul class="features-list">
+                            <li data-i18n-key="partnership_s1"></li>
+                            <li data-i18n-key="partnership_s2"></li>
+                            <li data-i18n-key="partnership_s3"></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="partnership_ecosystem_title"></h3>
+                        <ul class="features-list">
+                            <li data-i18n-key="partnership_e1"></li>
+                            <li data-i18n-key="partnership_e2"></li>
+                            <li data-i18n-key="partnership_e3"></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="partnership_kevin_title"></h3>
+                        <ul class="features-list">
+                            <li data-i18n-key="partnership_k1"></li>
+                            <li data-i18n-key="partnership_k2"></li>
+                            <li data-i18n-key="partnership_k3"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>-->
+
+        <!-- FUNDING STRATEGY -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="funding_title"></h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4 data-i18n-key="funding_step1_title"></h4>
+                        <p data-i18n-key="funding_step1_amount"></p>
+                        <p class="subtitle" data-i18n-key="funding_step1_desc"></p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 data-i18n-key="funding_step2_title"></h4>
+                        <p data-i18n-key="funding_step2_amount"></p>
+                        <p class="subtitle" data-i18n-key="funding_step2_desc"></p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 data-i18n-key="funding_step3_title"></h4>
+                        <p data-i18n-key="funding_step3_amount"></p>
+                        <p class="subtitle" data-i18n-key="funding_step3_desc"></p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <h4 data-i18n-key="funding_rationale_title"></h4>
+                    <p data-i18n-key="funding_rationale_text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL IMPACT -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="impact_title"></h2>
+                <div class="three-col">
+                    <div class="card">
+                        <h3 data-i18n-key="impact_economic_title"></h3>
+                        <p data-i18n-key="impact_economic_text"></p>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="impact_cultural_title"></h3>
+                        <p data-i18n-key="impact_cultural_text"></p>
+                    </div>
+                    <div class="card">
+                        <h3 data-i18n-key="impact_digital_title"></h3>
+                        <p data-i18n-key="impact_digital_text"></p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <h4 data-i18n-key="impact_vision_title"></h4>
+                    <p data-i18n-key="impact_vision_text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STRATEGIC ASK -->
+        <!--<section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="pres_ask_title"></h2>
+                <p class="intro-text" data-i18n-key="pres_ask_intro"></p>
+                <div class="two-col">
+                    <div class="col card">
+                        <h3 data-i18n-key="pres_ask_q1_title"></h3>
+                        <p data-i18n-key="pres_ask_q1_text"></p>
+                    </div>
+                     <div class="col card">
+                        <h3 data-i18n-key="pres_ask_q2_title"></h3>
+                        <p data-i18n-key="pres_ask_q2_text"></p>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 2rem;">
+                    <h3 data-i18n-key="pres_ask_q3_title"></h3>
+                    <p data-i18n-key="pres_ask_q3_text"></p>
+                </div>
+            </div>
+        </section>
+        -->
+
+        <!-- NEXT STEPS -->
+        <section class="slide">
+             <div class="content animated">
+                <h2 data-i18n-key="pres_next_title"></h2>
+                <br>
+                <ul class="features-list next-steps">
+                    <li data-i18n-key="pres_next_s1"></li>
+                    <li data-i18n-key="pres_next_s2"></li>
+                    <li data-i18n-key="pres_next_s3"></li>
+                    <li data-i18n-key="pres_next_s4"></li>
+                </ul>
+                <br><img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="VAI Logo" class="logo-small">
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="pres_contact_title"></h2>
+                <div class="contact-card">
+                    <div class="contact-image">
+                        <img src="/via-studio-images/founder/Kevin De Silva.jpeg" alt="Kevin De Silva">
+                    </div>
+                    <div class="contact-details">
+                        <h3>Kevin De Silva</h3>
+                        <p data-i18n-key="pres_contact_role"></p>
+                        <div class="contact-links">
+                            <a href="mailto:hello@vai.studio" class="contact-link" data-i18n-key="pres_contact_email"></a>
+                            <a href="https://www.linkedin.com/in/kevin-desilva/" target="_blank" class="contact-link" data-i18n-key="pres_contact_linkedin"></a>
+                            <a href="https://www.kevindesilva.de" target="_blank" class="contact-link" data-i18n-key="pres_contact_website"></a>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 1rem; color: var(--text-light);" data-i18n-key="pres_contact_location"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- EMBEDDED TRANSLATIONS ---
+            const translations = {
+                en: {
+                    "pres_title": "Strategic Consultation",
+                    "pres_subtitle": "A Proposal for the Polynesian Digital Ecosystem",
+                    "pres_presenter": "Kevin De Silva | August 1, 2025",
+                    
+                    "market_title": "Market Context: French Polynesia's Digital Challenge",
+                    "market_stat1": "Businesses Not Computerized",
+                    "market_stat2": "Tourist Growth Rate",
+                    "market_stat3": "Youth Unemployment",
+                    "market_context": "French Polynesia faces a critical digital divide while tourism growth stagnates. Small operators lose revenue daily due to technology barriers, while young talent lacks pathways to opportunity.",
+                    
+                    "pres_problem_title": "The Problem: Cultural Connection Barrier",
+                    "pres_problem_text": "Tourists travel thousands of kilometers seeking authentic connections, while local experts—the keepers of Polynesian culture—remain invisible due to digital barriers.",
+                    "problem_impact_title": "Daily Revenue Loss",
+                    "problem_impact_text": "Local operators lose 25-30% of potential bookings to cancellations and lack of visibility. This isn't just lost income—it's lost cultural exchange opportunities.",
+                    
+                    "pres_solution_title": "The Solution: VAI Tickets",
+                    "pres_solution_text": "A multilingual, mobile-first platform that democratizes access to the tourism market for local operators. VAI is a digital <strong>accelerator</strong> for authentic Polynesian experiences.",
+                    "pres_solution_f1": "✅ Production-ready tourist & operator apps",
+                    "pres_solution_f2": "✅ Launching in peak of whale season",
+                    "pres_solution_f3": "✅ Fair 11-15% commission vs. 25-50% competitors",
+                    "pres_solution_f4": "✅ 6-language support including Tahitian",
+                    "pres_solution_f5": "✅ Mood-based discovery & instant booking",
+                    
+                    "business_model_title": "Sustainable Business Model",
+                    "business_revenue_title": "Revenue Recovery",
+                    "business_revenue_text": "Convert 70% of cancellations into revenue instead of total loss. Our platform captures the 25-30% cancellation gap.",
+                    "business_fair_title": "Fair Economics",
+                    "business_fair_text": "11-15% commission keeps more money in local pockets vs. 25-50% from international platforms.",
+                    "business_social_title": "Social Impact",
+                    "business_social_text": "5% of revenue dedicated to environmental and cultural preservation projects across French Polynesia.",
+                    "business_local_title": "Local First",
+                    "business_local_text": "Platform designed by locals, for locals. Direct relationships maintained between operators and customers.",
+                    
+                    "pres_proof_title": "Proof of Local Digital Excellence",
+                    "pres_proof_text": "VAI was developed entirely in French Polynesia to international enterprise standards. We can build world-class technology here—this is powerful evidence for the École du Numérique's mission.",
+                    "tech_features_title": "Technical Excellence",
+                    "tech_f1": "Enterprise-grade security & performance",
+                    "tech_f2": "Real-time booking & availability",
+                    "tech_f3": "Progressive Web App (offline capable)",
+                    "tech_f4": "Automated workflow integration",
+                    "tech_integration_title": "Smart Integrations",
+                    "tech_i1": "Live Chat for operator communication",
+                    "tech_i2": "Supabase for real-time data synchronization",
+                    "tech_i3": "n8n automation for booking workflows",
+                    "tech_i4": "Multi-language content management",
+                    
+                    "launch_title": "Strategic Launch Timeline",
+                    "launch_t1_title": "Week 2",
+                    "launch_t1_desc": "VAI Tickets launch",
+                    "launch_t2_title": "Today",
+                    "launch_t2_desc": "Operator onboarding",
+                    "launch_t3_title": "Month 1",
+                    "launch_t3_desc": "Tourism Office partnerships",
+                    "launch_t4_title": "Month 3",
+                    "launch_t4_desc": "VAI Skills pilot",
+                    "launch_urgency_title": "Why Timing Matters",
+                    "launch_urgency_text": "Whale season (August-November) represents peak tourism opportunity. Early launch allows us to capture maximum seasonal revenue and prove market demand.",
+                    
+                    "pres_vision_title": "Long-term Vision: VAI Skills Partnership",
+                    "pres_vision_text": "Leveraging VAI's proven infrastructure to co-develop a platform with the École du Numérique. A digital accelerator for French Polynesia's knowledge economy.",
+                    "vision_route1_title": "Route 1: École du Numérique Platform",
+                    "vision_route1_text": "Dedicated platform for your school's specific needs and student success.",
+                    "vision_r1_f1": "Student portfolio showcases",
+                    "vision_r1_f2": "Industry project matchmaking",
+                    "vision_r1_f3": "Graduate employment pipeline",
+                    "vision_route2_title": "Route 2: Inter-School Coordination",
+                    "vision_route2_text": "Platform connecting schools across all French Polynesian islands.",
+                    "vision_r2_f1": "Resource sharing between institutions",
+                    "vision_r2_f2": "Cross-island student opportunities",
+                    "vision_r2_f3": "Unified digital education ecosystem",
+                    
+                    "partnership_title": "Partnership Value Proposition",
+                    "partnership_odile_title": "For Odile & École du Numérique",
+                    "partnership_o1": "Concrete progress demonstration for stakeholders",
+                    "partnership_o2": "Real-world platform for student placement",
+                    "partnership_o3": "Evidence of innovative local partnerships",
+                    "partnership_students_title": "For Students",
+                    "partnership_s1": "Direct pipeline to employment opportunities",
+                    "partnership_s2": "Portfolio showcase platform",
+                    "partnership_s3": "Real-world project experience",
+                    "partnership_ecosystem_title": "For Polynesian Ecosystem",
+                    "partnership_e1": "Strengthened digital skills market",
+                    "partnership_e2": "Reduced youth unemployment",
+                    "partnership_e3": "Knowledge retention in French Polynesia",
+                    "partnership_kevin_title": "For Kevin & VAI",
+                    "partnership_k1": "Expert guidance on local needs",
+                    "partnership_k2": "Credible institutional partnership",
+                    "partnership_k3": "Sustainable platform expansion model",
+                    
+                    "funding_title": "Strategic Funding Pathway",
+                    "funding_step1_title": "Phase 1: Prêt d'Honneur",
+                    "funding_step1_amount": "500k - 2.5M CFP",
+                    "funding_step1_desc": "0% interest, immediate working capital",
+                    "funding_step2_title": "Phase 2: DAD Category 1",
+                    "funding_step2_amount": "Up to 2M CFP",
+                    "funding_step2_desc": "70% coverage, 30% matching from Phase 1",
+                    "funding_step3_title": "Phase 3: Growth Capital",
+                    "funding_step3_amount": "Strategic partners",
+                    "funding_step3_desc": "Based on proven market traction",
+                    "funding_rationale_title": "Why This Sequence Works",
+                    "funding_rationale_text": "Prêt d'Honneur provides immediate launch capital while creating the matching funds needed for DAD Category 1. This de-risks the growth phase and maximizes public support efficiency.",
+                    
+                    "impact_title": "Long-term Social Impact",
+                    "impact_economic_title": "Economic Empowerment",
+                    "impact_economic_text": "Redirecting tourism revenue from international platforms to local operators. Creating sustainable income streams for Polynesian families.",
+                    "impact_cultural_title": "Cultural Preservation",
+                    "impact_cultural_text": "Making traditional knowledge visible and valued. Ensuring cultural exchange benefits flow to knowledge keepers.",
+                    "impact_digital_title": "Digital Sovereignty",
+                    "impact_digital_text": "Building local digital capacity. Proving French Polynesia can create technology solutions, not just consume them.",
+                    "impact_vision_title": "The Bigger Picture",
+                    "impact_vision_text": "VAI isn't just about tourism bookings—it's about building a digital ecosystem where Polynesian expertise is visible, valued, and economically viable. It's technology in service of cultural continuity.",
+                    
+                    "pres_ask_title": "Strategic Consultation Needed",
+                    "pres_ask_intro": "I have a clear strategy and proven platform, but your expert guidance is essential before moving forward. Help me choose the optimal path.",
+                    "pres_ask_q1_title": "Funding Pathway Validation",
+                    "pres_ask_q1_text": "Does the Prêt d'Honneur → DAD Category 1 sequence make strategic sense? Are there better alternatives I should consider?",
+                    "pres_ask_q2_title": "VAI Skills Partnership Structure",
+                    "pres_ask_q2_text": "Which route would most effectively serve your students and École du Numérique's mission? What would success look like?",
+                    "pres_ask_q3_title": "Tourism Office Introduction",
+                    "pres_ask_q3_text": "With whale season launching in days, could you facilitate an introduction to relevant tourism contacts? Speed is critical for seasonal opportunity capture.",
+                    
+                    "pres_next_title": "Immediate Next Steps",
+                    "pres_next_s1": "Finalize funding application strategy with your guidance",
+                    "pres_next_s2": "Launch VAI Tickets for whale season",
+                    "pres_next_s3": "Develop VAI Skills collaboration framework",
+                    "pres_next_s4": "Schedule stakeholder meeting presentation",
+                    
+                    "pres_contact_title": "Let's Build Together",
+                    "pres_contact_role": "Founder & Digital Transformation Expert",
+                    "pres_contact_email": "hello@vai.studio",
+                    "pres_contact_linkedin": "LinkedIn Profile",
+                    "pres_contact_website": "kevindesilva.de",
+                    "pres_contact_location": "🇩🇪 from Germany - Based in Moorea, French Polynesia"
+                },
+                fr: {
+                    "pres_title": "Consultation Stratégique",
+                    "pres_subtitle": "Une proposition pour l'écosystème numérique polynésien",
+                    "pres_presenter": "Kevin De Silva | 1er août 2025",
+                    
+                    "market_title": "Contexte du marché : Le défi numérique de la Polynésie française",
+                    "market_stat1": "Entreprises non informatisées",
+                    "market_stat2": "Taux de croissance touristique",
+                    "market_stat3": "Chômage des jeunes",
+                    "market_context": "La Polynésie française fait face à une fracture numérique critique alors que la croissance touristique stagne. Les petits opérateurs perdent quotidiennement des revenus à cause des barrières technologiques, tandis que les jeunes talents manquent de voies vers les opportunités.",
+                    
+                    "pres_problem_title": "Le problème : Barrière de connexion culturelle",
+                    "pres_problem_text": "Les touristes parcourent des milliers de kilomètres à la recherche de connexions authentiques, tandis que les experts locaux—les gardiens de la culture polynésienne—restent invisibles à cause des barrières numériques.",
+                    "problem_impact_title": "Perte de revenus quotidienne",
+                    "problem_impact_text": "Les opérateurs locaux perdent 25-30% des réservations potentielles à cause des annulations et du manque de visibilité. Ce n'est pas seulement un revenu perdu—ce sont des opportunités d'échange culturel perdues.",
+                    
+                    "pres_solution_title": "La Solution : VAI Tickets",
+                    "pres_solution_text": "Une plateforme multilingue, mobile-first qui démocratise l'accès au marché touristique pour les opérateurs locaux. VAI est un <strong>accélérateur</strong> numérique pour les expériences polynésiennes authentiques.",
+                    "pres_solution_f1": "✅ Applications touriste & opérateur prêtes en production",
+                    "pres_solution_f2": "✅ Lancement en pleine saison des baleines",
+                    "pres_solution_f3": "✅ Commission équitable de 11-15% vs 25-50% concurrents",
+                    "pres_solution_f4": "✅ Support 6 langues incluant le tahitien",
+                    "pres_solution_f5": "✅ Découverte par humeur & réservation instantanée",
+                    
+                    "business_model_title": "Modèle économique durable",
+                    "business_revenue_title": "Récupération de revenus",
+                    "business_revenue_text": "Convertir 70% des annulations en revenus au lieu d'une perte totale. Notre plateforme capture l'écart d'annulation de 25-30%.",
+                    "business_fair_title": "Économie équitable",
+                    "business_fair_text": "Commission de 11-15% garde plus d'argent dans les poches locales vs 25-50% des plateformes internationales.",
+                    "business_social_title": "Impact social",
+                    "business_social_text": "5% des revenus dédiés aux projets de préservation environnementale et culturelle à travers la Polynésie française.",
+                    "business_local_title": "Local d'abord",
+                    "business_local_text": "Plateforme conçue par des locaux, pour des locaux. Relations directes maintenues entre opérateurs et clients.",
+                    
+                    "pres_proof_title": "Preuve d'excellence numérique locale",
+                    "pres_proof_text": "VAI a été développé entièrement en Polynésie française selon les standards d'entreprise internationaux. Nous pouvons construire une technologie de classe mondiale ici—c'est une preuve puissante pour la mission de l'École du Numérique.",
+                    "tech_features_title": "Excellence technique",
+                    "tech_f1": "Sécurité & performance niveau entreprise",
+                    "tech_f2": "Réservation & disponibilité temps réel",
+                    "tech_f3": "Application Web Progressive (capable hors ligne)",
+                    "tech_f4": "Intégration de flux de travail automatisés",
+                    "tech_integration_title": "Intégrations intelligentes",
+                    "tech_i1": "Live Chat pour communication opérateur",
+                    "tech_i2": "Supabase pour synchronisation de données temps réel",
+                    "tech_i3": "Automatisation n8n pour flux de réservation",
+                    "tech_i4": "Gestion de contenu multilingue",
+                    
+                    "launch_title": "Calendrier de lancement stratégique",
+                    "launch_t1_title": "Semaine 2",
+                    "launch_t1_desc": "Lancement saison baleines",
+                    "launch_t2_title": "Aujourd'hui",
+                    "launch_t2_desc": "Intégration opérateurs",
+                    "launch_t3_title": "Mois 1",
+                    "launch_t3_desc": "Partenariats touristiques",
+                    "launch_t4_title": "Mois 3",
+                    "launch_t4_desc": "Pilote VAI Skills",
+                    "launch_urgency_title": "Pourquoi le timing compte",
+                    "launch_urgency_text": "La saison des baleines (août-novembre) représente l'opportunité touristique maximale. Un lancement précoce nous permet de capturer les revenus saisonniers maximaux et de prouver la demande du marché.",
+                    
+                    "pres_vision_title": "Vision à long terme : Partenariat VAI Skills",
+                    "pres_vision_text": "Exploiter l'infrastructure prouvée de VAI pour co-développer une plateforme avec l'École du Numérique. Un accélérateur numérique pour l'économie de la connaissance de la Polynésie française.",
+                    "vision_route1_title": "Route 1 : Plateforme École du Numérique",
+                    "vision_route1_text": "Plateforme dédiée aux besoins spécifiques de votre école et au succès des étudiants.",
+                    "vision_r1_f1": "Vitrines de portfolios étudiants",
+                    "vision_r1_f2": "Mise en relation projets industriels",
+                    "vision_r1_f3": "Pipeline d'emploi des diplômés",
+                    "vision_route2_title": "Route 2 : Coordination inter-écoles",
+                    "vision_route2_text": "Plateforme connectant les écoles à travers toutes les îles de Polynésie française.",
+                    "vision_r2_f1": "Partage de ressources entre institutions",
+                    "vision_r2_f2": "Opportunités étudiantes inter-îles",
+                    "vision_r2_f3": "Écosystème d'éducation numérique unifié",
+                    
+                    "partnership_title": "Proposition de valeur partenariat",
+                    "partnership_odile_title": "Pour Odile & École du Numérique",
+                    "partnership_o1": "Démonstration de progrès concrets pour les parties prenantes",
+                    "partnership_o2": "Plateforme réelle pour placement étudiant",
+                    "partnership_o3": "Preuve de partenariats locaux innovants",
+                    "partnership_students_title": "Pour les étudiants",
+                    "partnership_s1": "Pipeline direct vers opportunités d'emploi",
+                    "partnership_s2": "Plateforme de vitrine portfolio",
+                    "partnership_s3": "Expérience de projet réel",
+                    "partnership_ecosystem_title": "Pour l'écosystème polynésien",
+                    "partnership_e1": "Marché des compétences numériques renforcé",
+                    "partnership_e2": "Chômage des jeunes réduit",
+                    "partnership_e3": "Rétention des connaissances en Polynésie française",
+                    "partnership_kevin_title": "Pour Kevin & VAI",
+                    "partnership_k1": "Guidance experte sur les besoins locaux",
+                    "partnership_k2": "Partenariat institutionnel crédible",
+                    "partnership_k3": "Modèle d'expansion de plateforme durable",
+                    
+                    "funding_title": "Parcours de financement stratégique",
+                    "funding_step1_title": "Phase 1 : Prêt d'Honneur",
+                    "funding_step1_amount": "500k - 2.5M CFP",
+                    "funding_step1_desc": "0% d'intérêt, capital de travail immédiat",
+                    "funding_step2_title": "Phase 2 : DAD Catégorie 1",
+                    "funding_step2_amount": "Jusqu'à 2M CFP",
+                    "funding_step2_desc": "70% couverture, 30% correspondance Phase 1",
+                    "funding_step3_title": "Phase 3 : Capital de croissance",
+                    "funding_step3_amount": "Partenaires stratégiques",
+                    "funding_step3_desc": "Basé sur traction marché prouvée",
+                    "funding_rationale_title": "Pourquoi cette séquence fonctionne",
+                    "funding_rationale_text": "Le Prêt d'Honneur fournit le capital de lancement immédiat tout en créant les fonds de correspondance nécessaires pour DAD Catégorie 1. Cela dé-risque la phase de croissance et maximise l'efficacité du soutien public.",
+                    
+                    "impact_title": "Impact social à long terme",
+                    "impact_economic_title": "Autonomisation économique",
+                    "impact_economic_text": "Rediriger les revenus touristiques des plateformes internationales vers les opérateurs locaux. Créer des flux de revenus durables pour les familles polynésiennes.",
+                    "impact_cultural_title": "Préservation culturelle",
+                    "impact_cultural_text": "Rendre les connaissances traditionnelles visibles et valorisées. Assurer que les bénéfices d'échange culturel profitent aux gardiens du savoir.",
+                    "impact_digital_title": "Souveraineté numérique",
+                    "impact_digital_text": "Construire une capacité numérique locale. Prouver que la Polynésie française peut créer des solutions technologiques, pas seulement les consommer.",
+                    "impact_vision_title": "La vision d'ensemble",
+                    "impact_vision_text": "VAI n'est pas seulement des réservations touristiques—c'est construire un écosystème numérique où l'expertise polynésienne est visible, valorisée et économiquement viable. C'est la technologie au service de la continuité culturelle.",
+                    
+                    "pres_ask_title": "Consultation stratégique nécessaire",
+                    "pres_ask_intro": "J'ai une stratégie claire et une plateforme prouvée, mais tes conseils d'experte sont essentiels avant d'avancer. Aide-moi à choisir le chemin optimal.",
+                    "pres_ask_q1_title": "Validation du parcours de financement",
+                    "pres_ask_q1_text": "La séquence Prêt d'Honneur → DAD Catégorie 1 a-t-elle un sens stratégique ? Y a-t-il de meilleures alternatives que je devrais considérer ?",
+                    "pres_ask_q2_title": "Structure de partenariat VAI Skills",
+                    "pres_ask_q2_text": "Quelle route servirait le plus efficacement tes étudiants et la mission de l'École du Numérique ? À quoi ressemblerait le succès ?",
+                    "pres_ask_q3_title": "Introduction office de tourisme",
+                    "pres_ask_q3_text": "Avec le lancement de la saison des baleines dans quelques jours, pourrais-tu faciliter une introduction aux contacts touristiques pertinents ? La vitesse est critique pour capturer l'opportunité saisonnière.",
+                    
+                    "pres_next_title": "Prochaines étapes immédiates",
+                    "pres_next_s1": "Finaliser la stratégie de demande de financement avec tes conseils",
+                    "pres_next_s2": "Lancer VAI Tickets pour la saison des baleines",
+                    "pres_next_s3": "Développer le cadre de collaboration VAI Skills",
+                    "pres_next_s4": "Programmer la présentation de réunion des parties prenantes",
+                    
+                    "pres_contact_title": "Construisons ensemble",
+                    "pres_contact_role": "Fondateur & Expert en transformation numérique",
+                    "pres_contact_email": "hello@vai.studio",
+                    "pres_contact_linkedin": "Profil LinkedIn",
+                    "pres_contact_website": "kevindesilva.de",
+                    "pres_contact_location": "🇩🇪 d'Allemagne - Basé à Moorea, Polynésie française"
+                }
+            };
+
+            const languageSwitcher = document.querySelector('.language-switcher');
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            const setLanguage = (lang) => {
+                const elements = document.querySelectorAll('[data-i18n-key]');
+                elements.forEach(element => {
+                    const key = element.getAttribute('data-i18n-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+                langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+                document.documentElement.lang = lang;
+                localStorage.setItem('preferredLanguage', lang);
+            };
+
+            languageSwitcher.addEventListener('click', (event) => {
+                event.preventDefault();
+                const selectedLang = event.target.dataset.lang;
+                if (selectedLang) setLanguage(selectedLang);
+            });
+
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            setLanguage(preferredLanguage);
+
+            // Simple animation on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelector('.content').classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            document.querySelectorAll('.slide').forEach(slide => {
+                observer.observe(slide);
+            });
+        });
+    </script>
+</body>
+</html>

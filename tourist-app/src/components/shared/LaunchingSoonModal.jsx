@@ -24,17 +24,59 @@ const LaunchingSoonModal = () => {
     setLoading(true);
     setError('');
 
-    const { error } = await supabase.from('waitlist').insert({ email, agreed_to_marketing: agreed });
+    try {
+        // 1. Insert into waitlist (current behavior)
+        const { error: supabaseError } = await supabase
+        .from('waitlist')
+        .insert({ 
+            email, 
+            agreed_to_marketing: agreed 
+        });
 
-    if (error) {
-      console.error('Error signing up for waitlist:', error);
-      setError(t('launchingSoon.form.error', 'An error occurred. Please try again.'));
-      setSubmitted(false);
-    } else {
-      setSubmitted(true);
+        if (supabaseError) {
+        throw supabaseError;
+        }
+
+        // 2. Trigger n8n welcome email flow
+        const n8nPayload = {
+        type: "welcome_email",
+        user_type: "tourist", 
+        user_id: crypto.randomUUID(), // Generate unique ID
+        email: email,
+        first_name: "Friend", // Default since we don't collect name
+        island: null,
+        languages: ["english"], // Default
+        marketing_emails: agreed,
+        timestamp: new Date().toISOString(),
+        launch_date: "2025-08-11",
+        platform_url: "https://app.vai.studio",
+        registration_source: "waitlist_modal"
+        };
+
+        // Call n8n webhook
+        await fetch('https://n8n-stable-latest.onrender.com/webhook/vai-app-user-registration', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(n8nPayload)
+        });
+
+        setSubmitted(true);
+        
+    } catch (error) {
+        console.error('Error during signup:', error);
+        
+        if (error.code === '23505') { // Unique constraint violation
+        setError(t('launchingSoon.form.duplicate', 'You are already on our waitlist!'));
+        } else {
+        setError(t('launchingSoon.form.error', 'An error occurred. Please try again.'));
+        }
+        setSubmitted(false);
     }
+    
     setLoading(false);
-  };
+    };
 
   return (
     <div className="fixed inset-0 z-system bg-vai-deep-ocean/80 backdrop-blur-vai flex items-center justify-center p-4 animate-fade-in">
