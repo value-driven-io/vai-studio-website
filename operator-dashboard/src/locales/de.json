@@ -632,5 +632,158 @@
       "copyright": "© 2025 Alle Rechte vorbehalten",
       "needWebsite": "Brauchst du eine Website oder App?"
     }
+  },
+  
+  "registration": {
+    "title": "Werde VAI-Operator",
+    "subtitle": "Erstelle dein Operatorkonto",
+    "steps": {
+      "company": "Angaben zum Unternehmen",
+      "business": "Geschäftsdetails",
+      "terms": "Bedingungen & Präferenzen"
+    },
+    "companyInfo": {
+      "title": "Angaben zum Unternehmen",
+      "subtitle": "Erzähl uns von deinem Tour-Unternehmen",
+      "companyName": "Name des Unternehmens",
+      "companyNamePlaceholder": "Der Name deines Tour-Unternehmens",
+      "contactPerson": "Ansprechpartner",
+      "contactPersonPlaceholder": "Dein vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "deine@email.com",
+      "whatsapp": "WhatsApp-Nummer",
+      "whatsappPlaceholder": "+689 12 34 56 78",
+      "island": "Hauptinsel",
+      "islandPlaceholder": "Wähle deine Hauptinsel"
+    },
+    "businessDetails": {
+      "title": "Geschäftsdetails",
+      "subtitle": "Hilf uns, deine Tour-Angebote zu verstehen",
+      "description": "Geschäftsbeschreibung",
+      "descriptionPlaceholder": "Beschreibe dein Tour-Unternehmen, die einzigartigen Erlebnisse, die du anbietest...",
+      "tourTypes": "Angebotene Tour-Arten",
+      "tourTypesSubtitle": "Wähle alle zutreffenden aus",
+      "targetBookings": "Monatliches Buchungsziel",
+      "targetBookingsPlaceholder": "Wähle ein Buchungsziel",
+      "customerType": "Haupt-Kundentyp",
+      "customerTypePlaceholder": "Wähle einen Kundentyp"
+    },
+    "terms": {
+      "title": "Bedingungen & Präferenzen",
+      "subtitle": "Fast geschafft! Nur noch ein paar letzte Details",
+      "acceptTerms": "Ich akzeptiere die Nutzungsbedingungen und die Datenschutzrichtlinie. Ich verstehe, dass mein Konto vor der Aktivierung manuell genehmigt werden muss.",
+      "marketingEmails": "Ich möchte Marketing-E-Mails über VAI-Updates, neue Funktionen und Tipps für Partner erhalten.",
+      "foundingMember": "Vorteile für Gründungsmitglieder",
+      "foundingMemberText": "Als einer unserer ersten 25 Partner erhältst du eine Premium-Platzierung in den Suchergebnissen und engagierten Support."
+    },
+    "islands": {
+      "tahiti": "Tahiti",
+      "moorea": "Moorea",
+      "boraBora": "Bora Bora",
+      "huahine": "Huahine",
+      "raiatea": "Raiatea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti",
+      "tikehau": "Tikehau",
+      "rangiroa": "Rangiroa",
+      "fakarava": "Fakarava",
+      "nukuHiva": "Nuku Hiva",
+      "other": "Andere"
+    },
+    "tourTypes": {
+      "whaleWatching": "🐋 Walbeobachtung",
+      "snorkeling": "🐠 Schnorcheln",
+      "diving": "🤿 Tauchen",
+      "lagoonTours": "🏝️ Lagunentouren",
+      "islandTours": "⛵️ Inseltouren",
+      "hiking": "🥾 Wandern",
+      "cultural": "🗿 Kulturelle Erlebnisse",
+      "fishing": "🎣 Angeln",
+      "sunset": "🌅 Touren zum Sonnenuntergang",
+      "photography": "📸 Fototouren",
+      "mindfulness": "🧘 Achtsamkeits-Events",
+      "food": "🥭 Kulinarische Erlebnisse",
+      "other": "Andere"
+    },
+    "targetBookings": {
+      "1-5": "1-5 Buchungen/Monat",
+      "6-15": "6-15 Buchungen/Monat",
+      "16-30": "16-30 Buchungen/Monat",
+      "31+": "31+ Buchungen/Monat"
+    },
+    "customerTypes": {
+      "families": "Familien mit Kindern",
+      "couples": "Paare",
+      "solo": "Alleinreisende",
+      "groups": "Kleine Gruppen",
+      "luxury": "Luxusreisende",
+      "budget": "Budget-Reisende",
+      "mixed": "Gemischte Kundschaft"
+    },
+    "navigation": {
+      "previous": "Zurück",
+      "next": "Weiter",
+      "complete": "Registrierung abschließen",
+      "creating": "Konto wird erstellt..."
+    },
+    "validation": {
+      "companyNameRequired": "Name des Unternehmens ist erforderlich",
+      "contactPersonRequired": "Ansprechpartner ist erforderlich",
+      "emailRequired": "E-Mail ist erforderlich",
+      "whatsappRequired": "WhatsApp-Nummer ist erforderlich",
+      "islandRequired": "Du musst eine Insel auswählen",
+      "descriptionRequired": "Geschäftsbeschreibung ist erforderlich",
+      "tourTypesRequired": "Es muss mindestens eine Tour-Art ausgewählt werden",
+      "targetBookingsRequired": "Buchungsziel ist erforderlich",
+      "customerTypeRequired": "Kundentyp ist erforderlich",
+      "termsRequired": "Du musst den Nutzungsbedingungen zustimmen",
+      "emailInvalid": "Gültige E-Mail-Adresse ist erforderlich",
+      "phoneInvalid": "Gültige WhatsApp-Nummer ist erforderlich",
+      "companyNameTooShort": "Der Name des Unternehmens muss mindestens 2 Zeichen lang sein"
+    },
+    "messages": {
+      "success": "Registrierung erfolgreich übermittelt!",
+      "failed": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
+      "duplicateEmail": "Ein Partnerkonto mit dieser E-Mail existiert bereits."
+    }
+  },
+  "pendingApproval": {
+    "title": "Status deines Antrags",
+    "status": {
+      "pending": "Antrag wird geprüft",
+      "pendingMessage": "Dein Partner-Antrag wird von unserem Team geprüft. Wir benachrichtigen dich innerhalb von 24 Stunden.",
+      "approved": "Konto genehmigt!",
+      "approvedMessage": "Dein Partnerkonto wurde genehmigt. Du kannst dich jetzt einloggen, um deine Touren zu erstellen.",
+      "suspended": "Konto wird überprüft",
+      "suspendedMessage": "Dein Konto ist vorübergehend gesperrt. Bitte kontaktiere den Support für weitere Informationen.",
+      "inactive": "Konto inaktiv",
+      "inactiveMessage": "Dein Konto wurde deaktiviert. Bitte kontaktiere den Support, um es zu reaktivieren."
+    },
+    "applicationDetails": "Details zum Antrag",
+    "nextSteps": "Nächste Schritte",
+    "company": "Unternehmen",
+    "contact": "Kontakt",
+    "island": "Insel",
+    "submitted": "Eingereicht",
+    "today": "Heute",
+    "foundingBenefits": "Vorteile für Early Birds",
+    "foundingBenefitsText": "Reduzierte Kommissionssätze, Premium-Platzierung, Support und früherer Zugang zu neuen Funktionen.",
+    "actions": {
+      "refresh": "Status aktualisieren",
+      "checking": "Wird geprüft...",
+      "login": "Zum Dashboard anmelden"
+    },
+    "lastChecked": "Zuletzt geprüft",
+    "timeAgo": {
+      "justNow": "Gerade eben",
+      "minutesAgo": "Vor {{minutes}} Minuten",
+      "hoursAgo": "Vor {{hours}} Stunden",
+      "daysAgo": "Vor {{days}} Tagen"
+    },
+    "contact": {
+      "questions": "Fragen zu deinem Antrag?",
+      "email": "hello@vai.studio",
+      "whatsapp": "WhatsApp-Support"
+    }
   }
 }

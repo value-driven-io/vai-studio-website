@@ -632,5 +632,158 @@
       "copyright": "© 2025 Todos los derechos reservados",
       "needWebsite": "¿Necesitas un sitio web o app?"
     }
+  },
+
+  "registration": {
+    "title": "Únete a los VAI Operators",
+    "subtitle": "Crea tu cuenta de Operator",
+    "steps": {
+      "company": "Información de la empresa",
+      "business": "Detalles del negocio",
+      "terms": "Términos y Preferencias"
+    },
+    "companyInfo": {
+      "title": "Información de la empresa",
+      "subtitle": "Cuéntanos sobre tu negocio de actividades",
+      "companyName": "Nombre de la empresa",
+      "companyNamePlaceholder": "El nombre de tu empresa de actividades",
+      "contactPerson": "Persona de contacto",
+      "contactPersonPlaceholder": "Tu nombre completo",
+      "email": "Dirección de correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "whatsapp": "Número de WhatsApp",
+      "whatsappPlaceholder": "+689 12 34 56 78",
+      "island": "Isla principal",
+      "islandPlaceholder": "Selecciona tu isla principal"
+    },
+    "businessDetails": {
+      "title": "Detalles del negocio",
+      "subtitle": "Ayúdanos a entender los tours que ofreces",
+      "description": "Descripción del negocio",
+      "descriptionPlaceholder": "Describe tu negocio de tours, las experiencias únicas que ofreces...",
+      "tourTypes": "Tipos de tours ofrecidos",
+      "tourTypesSubtitle": "Selecciona todos los que apliquen",
+      "targetBookings": "Objetivo de reservas mensuales",
+      "targetBookingsPlaceholder": "Selecciona el objetivo de reservas",
+      "customerType": "Tipo de cliente principal",
+      "customerTypePlaceholder": "Selecciona el tipo de cliente"
+    },
+    "terms": {
+      "title": "Términos y Preferencias",
+      "subtitle": "¡Casi listo! Solo unos últimos detalles",
+      "acceptTerms": "Acepto los Términos de Servicio y la Política de Privacidad. Entiendo que mi cuenta requiere aprobación manual antes de su activación.",
+      "marketingEmails": "Me gustaría recibir correos de marketing sobre actualizaciones de VAI, nuevas funciones y consejos para socios.",
+      "foundingMember": "Beneficios para Miembros Fundadores",
+      "foundingMemberText": "Como uno de nuestros primeros 25 socios, recibirás un lugar preferente en los resultados de búsqueda y soporte dedicado."
+    },
+    "islands": {
+      "tahiti": "Tahití",
+      "moorea": "Moorea",
+      "boraBora": "Bora Bora",
+      "huahine": "Huahine",
+      "raiatea": "Raiatea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti",
+      "tikehau": "Tikehau",
+      "rangiroa": "Rangiroa",
+      "fakarava": "Fakarava",
+      "nukuHiva": "Nuku Hiva",
+      "other": "Otra"
+    },
+    "tourTypes": {
+      "whaleWatching": "🐋 Avistamiento de Ballenas",
+      "snorkeling": "🐠 Snorkel",
+      "diving": "🤿 Buceo",
+      "lagoonTours": "🏝️ Tours por la Laguna",
+      "islandTours": "⛵️ Tours por la Isla",
+      "hiking": "🥾 Senderismo",
+      "cultural": "🗿 Experiencias Culturales",
+      "fishing": "🎣 Pesca",
+      "sunset": "🌅 Tours al Atardecer",
+      "photography": "📸 Tours de Fotografía",
+      "mindfulness": "🧘 Eventos de Mindfulness",
+      "food": "🥭 Experiencia Gastronómica",
+      "other": "Otro"
+    },
+    "targetBookings": {
+      "1-5": "1-5 reservas/mes",
+      "6-15": "6-15 reservas/mes",
+      "16-30": "16-30 reservas/mes",
+      "31+": "31+ reservas/mes"
+    },
+    "customerTypes": {
+      "families": "Familias con niños",
+      "couples": "Parejas",
+      "solo": "Viajeros solos",
+      "groups": "Grupos pequeños",
+      "luxury": "Viajeros de lujo",
+      "budget": "Viajeros con presupuesto limitado",
+      "mixed": "Clientela mixta"
+    },
+    "navigation": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "complete": "Completar Registro",
+      "creating": "Creando cuenta..."
+    },
+    "validation": {
+      "companyNameRequired": "El nombre de la empresa es obligatorio",
+      "contactPersonRequired": "La persona de contacto es obligatoria",
+      "emailRequired": "El correo electrónico es obligatorio",
+      "whatsappRequired": "El número de WhatsApp es obligatorio",
+      "islandRequired": "Debes seleccionar una isla",
+      "descriptionRequired": "La descripción del negocio es obligatoria",
+      "tourTypesRequired": "Se debe seleccionar al menos un tipo de tour",
+      "targetBookingsRequired": "El objetivo de reservas es obligatorio",
+      "customerTypeRequired": "La preferencia de tipo de cliente es obligatoria",
+      "termsRequired": "Debes aceptar los términos de servicio",
+      "emailInvalid": "Se requiere una dirección de correo electrónico válida",
+      "phoneInvalid": "Se requiere un número de WhatsApp válido",
+      "companyNameTooShort": "El nombre de la empresa debe tener al menos 2 caracteres"
+    },
+    "messages": {
+      "success": "¡Registro enviado con éxito!",
+      "failed": "El registro falló. Por favor, inténtalo de nuevo.",
+      "duplicateEmail": "Ya existe una cuenta de socio con este correo electrónico."
+    }
+  },
+  "pendingApproval": {
+    "title": "Estado de tu solicitud",
+    "status": {
+      "pending": "Solicitud en revisión",
+      "pendingMessage": "Tu solicitud de socio está siendo revisada por nuestro equipo. Te avisaremos en un plazo de 24 horas.",
+      "approved": "¡Cuenta aprobada!",
+      "approvedMessage": "Tu cuenta de socio ha sido aprobada. Ya puedes iniciar sesión para empezar a crear tours.",
+      "suspended": "Cuenta en revisión",
+      "suspendedMessage": "Tu cuenta está suspendida temporalmente. Por favor, contacta con soporte para más información.",
+      "inactive": "Cuenta inactiva",
+      "inactiveMessage": "Tu cuenta ha sido desactivada. Por favor, contacta con soporte para reactivarla."
+    },
+    "applicationDetails": "Detalles de la solicitud",
+    "nextSteps": "Próximos pasos",
+    "company": "Empresa",
+    "contact": "Contacto",
+    "island": "Isla",
+    "submitted": "Enviada",
+    "today": "Hoy",
+    "foundingBenefits": "Beneficios para Miembros Fundadores",
+    "foundingBenefitsText": "Tarifas de comisión reducidas, posicionamiento preferente, soporte dedicado y acceso anticipado a nuevas funciones.",
+    "actions": {
+      "refresh": "Actualizar estado",
+      "checking": "Comprobando...",
+      "login": "Iniciar sesión en el panel"
+    },
+    "lastChecked": "Última comprobación",
+    "timeAgo": {
+      "justNow": "Ahora mismo",
+      "minutesAgo": "Hace {{minutes}} minutos",
+      "hoursAgo": "Hace {{hours}} horas",
+      "daysAgo": "Hace {{days}} días"
+    },
+    "contact": {
+      "questions": "¿Preguntas sobre tu solicitud?",
+      "email": "hello@vai.studio",
+      "whatsapp": "Soporte por WhatsApp"
+    }
   }
 }

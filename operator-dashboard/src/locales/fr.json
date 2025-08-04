@@ -552,7 +552,7 @@
       "whatsappTooltip": "Utilisé pour les notifications instantanées de réservation et la communication client",
       "whatsappPlaceholder": "+689 XX XX XX XX",
       "operatingIsland": "Île d'Opération",
-      "islandTooltip": "Île principale où tu opères des excursions",
+      "islandTooltip": "Île principale où tu opères des activités",
       "selectIsland": "Sélectionner une Île",
       "businessAddress": "Adresse de l'Entreprise",
       "addressTooltip": "Emplacement physique de ton entreprise",
@@ -633,6 +633,159 @@
       "vaiTickets": "VAI Operator",
       "copyright": "© 2025 Tous droits réservés",
       "needWebsite": "Besoin d'un site web ou d'une app?"
+    }
+  },
+
+  "registration": {
+    "title": "Rejoins les VAI Operators",
+    "subtitle": "Crée ton compte partenaire",
+    "steps": {
+      "company": "Infos sur ta société",
+      "business": "Détails de ton activité",
+      "terms": "Conditions & Préférences"
+    },
+    "companyInfo": {
+      "title": "Infos sur ta société",
+      "subtitle": "Parle-nous de ton activité d'excursions",
+      "companyName": "Nom de la société",
+      "companyNamePlaceholder": "Le nom de ta société d'excursions",
+      "contactPerson": "Personne de contact",
+      "contactPersonPlaceholder": "Ton nom complet",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "ton@email.com",
+      "whatsapp": "Numéro WhatsApp",
+      "whatsappPlaceholder": "+689 12 34 56 78",
+      "island": "Île principale",
+      "islandPlaceholder": "Choisis ton île principale"
+    },
+    "businessDetails": {
+      "title": "Détails de ton activité",
+      "subtitle": "Aide-nous à comprendre les excursions que tu proposes",
+      "description": "Description de l'activité",
+      "descriptionPlaceholder": "Décris ton activité, les expériences uniques que tu proposes...",
+      "tourTypes": "Types d'excursions proposées",
+      "tourTypesSubtitle": "Sélectionne tout ce qui s'applique",
+      "targetBookings": "Objectif de réservations mensuelles",
+      "targetBookingsPlaceholder": "Choisis un objectif de réservations",
+      "customerType": "Type de clientèle principal",
+      "customerTypePlaceholder": "Choisis le type de clientèle"
+    },
+    "terms": {
+      "title": "Conditions & Préférences",
+      "subtitle": "Presque fini ! Encore quelques détails",
+      "acceptTerms": "J'accepte les Conditions d'Utilisation et la Politique de Confidentialité. Je comprends que mon compte nécessite une approbation manuelle avant d'être activé.",
+      "marketingEmails": "Je souhaite recevoir des e-mails sur les actus VAI, les nouveautés et des conseils pour les partenaires.",
+      "foundingMember": "Avantages Membre Fondateur",
+      "foundingMemberText": "En tant que l'un de nos 25 premiers partenaires, tu bénéficieras d'un placement prioritaire dans les résultats de recherche et d'un support dédié."
+    },
+    "islands": {
+      "tahiti": "Tahiti",
+      "moorea": "Moorea",
+      "boraBora": "Bora Bora",
+      "huahine": "Huahine",
+      "raiatea": "Raiatea",
+      "tahaa": "Taha'a",
+      "maupiti": "Maupiti",
+      "tikehau": "Tikehau",
+      "rangiroa": "Rangiroa",
+      "fakarava": "Fakarava",
+      "nukuHiva": "Nuku Hiva",
+      "other": "Autre"
+    },
+    "tourTypes": {
+      "whaleWatching": "🐋 Sortie Baleines",
+      "snorkeling": "🐠 Snorkeling",
+      "diving": "🤿 Plongée",
+      "lagoonTours": "🏝️ Tour du Lagon",
+      "islandTours": "⛵️ Tour de l'Île",
+      "hiking": "🥾 Randonnée",
+      "cultural": "🗿 Expériences Culturelles",
+      "fishing": "🎣 Pêche",
+      "sunset": "🌅 Sortie Coucher de Soleil",
+      "photography": "📸 Tours Photo",
+      "mindfulness": "🧘 Événements Pleine Conscience",
+      "food": "🥭 Expérience Culinaire",
+      "other": "Autre"
+    },
+    "targetBookings": {
+      "1-5": "1-5 réservations/mois",
+      "6-15": "6-15 réservations/mois",
+      "16-30": "16-30 réservations/mois",
+      "31+": "31+ réservations/mois"
+    },
+    "customerTypes": {
+      "families": "Familles avec enfants",
+      "couples": "Couples",
+      "solo": "Voyageurs solo",
+      "groups": "Petits groupes",
+      "luxury": "Voyageurs luxe",
+      "budget": "Voyageurs à petit budget",
+      "mixed": "Clientèle mixte"
+    },
+    "navigation": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "complete": "Finaliser l'inscription",
+      "creating": "Création du compte..."
+    },
+    "validation": {
+      "companyNameRequired": "Le nom de la société est requis",
+      "contactPersonRequired": "Le nom du contact est requis",
+      "emailRequired": "L'e-mail est requis",
+      "whatsappRequired": "Le numéro WhatsApp est requis",
+      "islandRequired": "Tu dois choisir une île",
+      "descriptionRequired": "La description de l'activité est requise",
+      "tourTypesRequired": "Au moins un type d'excursion doit être sélectionné",
+      "targetBookingsRequired": "L'objectif de réservations est requis",
+      "customerTypeRequired": "La préférence de clientèle est requise",
+      "termsRequired": "Tu dois accepter les conditions d'utilisation",
+      "emailInvalid": "Une adresse e-mail valide est requise",
+      "phoneInvalid": "Un numéro WhatsApp valide est requis",
+      "companyNameTooShort": "Le nom de la société doit faire au moins 2 caractères"
+    },
+    "messages": {
+      "success": "Inscription envoyée avec succès !",
+      "failed": "L'inscription a échoué. Essaye à nouveau.",
+      "duplicateEmail": "Un compte partenaire existe déjà avec cet e-mail."
+    }
+  },
+  "pendingApproval": {
+    "title": "Statut de ta demande",
+    "status": {
+      "pending": "Demande en cours d'examen",
+      "pendingMessage": "Ta demande de partenariat est en cours d'examen par notre équipe. Nous te préviendrons sous 24 heures.",
+      "approved": "Compte Approuvé !",
+      "approvedMessage": "Ton compte partenaire a été approuvé. Tu peux maintenant te connecter pour créer tes excursions.",
+      "suspended": "Compte Suspendu",
+      "suspendedMessage": "Ton compte est temporairement suspendu. Contacte le support pour plus d'informations.",
+      "inactive": "Compte Inactif",
+      "inactiveMessage": "Ton compte a été désactivé. Contacte le support pour le réactiver."
+    },
+    "applicationDetails": "Détails de la demande",
+    "nextSteps": "Prochaines étapes",
+    "company": "Société",
+    "contact": "Contact",
+    "island": "Île",
+    "submitted": "Envoyée le",
+    "today": "Aujourd'hui",
+    "foundingBenefits": "Avantages Membre Fondateur",
+    "foundingBenefitsText": "Taux de commission réduits, placement prioritaire, support dédié et accès en avant-première aux nouvelles fonctionnalités.",
+    "actions": {
+      "refresh": "Actualiser le statut",
+      "checking": "Vérification...",
+      "login": "Se connecter au tableau de bord"
+    },
+    "lastChecked": "Dernière vérification",
+    "timeAgo": {
+      "justNow": "À l'instant",
+      "minutesAgo": "Il y a {{minutes}} minutes",
+      "hoursAgo": "Il y a {{hours}} heures",
+      "daysAgo": "Il y a {{days}} jours"
+    },
+    "contact": {
+      "questions": "Des questions sur ta demande ?",
+      "email": "hello@vai.studio",
+      "whatsapp": "Support WhatsApp"
     }
   }
 
