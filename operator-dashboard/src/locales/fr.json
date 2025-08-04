@@ -248,7 +248,9 @@
     "useCredentials": "Utilise tes identifiants d'opérateur sécurisés",
     "needHelp": "Besoin d'aide ? Contacte",
     "passwordReminder": "Ton mot de passe sécurisé a été fourni lors de la configuration du compte",
-    "registeraccount": "Pas de compte ? Enregistre ton entreprise et deviens un "
+    "registeraccount": "Pas de compte ? Enregistre ton entreprise et deviens un ",
+    "newOperator": "Nouvel opérateur ?",
+    "createAccount": "Créer un nouveau compte"
   },
 
   "bookings": {
@@ -628,7 +630,7 @@
       "securityPolicyError": "Échec de la mise à jour: La politique de sécurité de la base de données a empêché la mise à jour. Veuillez contacter le support à hello@vai.studio pour configurer les permissions de votre compte."
     },
     "footer": {
-      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "vaiTickets": "VAI Operator",
       "copyright": "© 2025 Tous droits réservés",
       "needWebsite": "Besoin d'un site web ou d'une app?"
     }

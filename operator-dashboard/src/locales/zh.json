@@ -618,7 +618,7 @@
       "securityPolicyError": "更新失败：数据库安全策略阻止了更新。请联系hello@vai.studio支持配置您的账户权限。"
     },
     "footer": {
-      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "vaiTickets": "VAI Operator",
       "copyright": "© 2025 版权所有",
       "needWebsite": "需要网站或应用？"
     }

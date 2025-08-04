@@ -247,7 +247,9 @@
     "useCredentials": "Use your secure operator credentials",
     "needHelp": "Need help? Contact",
     "passwordReminder": "Your secure password was provided during account setup",
-    "registeraccount": "No Account? Register your business and become a "
+    "registeraccount": "No Account? Register your business and become a ",
+    "newOperator": "New operator?",
+    "createAccount": "Create Operator Account"
   },
 
   "bookings": {
@@ -691,17 +693,18 @@
       "other": "Other"
     },
     "tourTypes": {
-      "whaleWatching": "Whale Watching",
-      "snorkeling": "Snorkeling",
-      "diving": "Diving",
-      "lagoonTours": "Lagoon Tours",
-      "islandTours": "Island Tours",
-      "hiking": "Hiking",
-      "cultural": "Cultural Experiences",
-      "fishing": "Fishing",
-      "sunset": "Sunset Tours",
-      "photography": "Photography Tours",
-      "mindfulness": "Mindful Events",
+      "whaleWatching": "🐋 Whale Watching",
+      "snorkeling": "🐠 Snorkeling",
+      "diving": "🤿 Diving",
+      "lagoonTours": "🏝️ Lagoon Tours",
+      "islandTours": "⛵️ Island Tours",
+      "hiking": "🥾 Hiking",
+      "cultural": "🗿 Cultural Experiences",
+      "fishing": "🎣 Fishing",
+      "sunset": "🌅 Sunset Tours",
+      "photography": "📸 Photography Tours",
+      "mindfulness": "🧘 Mindful Events",
+      "food": "🥭 Food Experience",
       "other": "Other"
     },
     "targetBookings": {
@@ -784,9 +787,5 @@
       "email": "hello@vai.studio",
       "whatsapp": "WhatsApp Support"
     }
-  },
-  "login": {
-    "newOperator": "New operator?",
-    "createAccount": "Create Operator Account"
   }
 }

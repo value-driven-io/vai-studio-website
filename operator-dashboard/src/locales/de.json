@@ -247,7 +247,9 @@
     "useCredentials": "Verwende Deine sicheren Operator-Zugangsdaten",
     "needHelp": "Benötigst Du Hilfe? Kontaktier uns",
     "passwordReminder": "Dein sicheres Passwort wurde bei der Kontoeinrichtung bereitgestellt",
-    "registeraccount": "Kein Account? Registrier Dein Unternehmen und werde ein "
+    "registeraccount": "Kein Account? Registrier Dein Unternehmen und werde ein ",
+    "newOperator": "Noch kein Account?",
+    "createAccount": "Neuer Operator Account"
   },
 
   "bookings": {
@@ -626,7 +628,7 @@
       "securityPolicyError": "Update fehlgeschlagen: Datenbank-Sicherheitsrichtlinie verhinderte die Aktualisierung. Bitte kontaktiere den Support unter hello@vai.studio zur Konfiguration deiner Kontoberechtigungen."
     },
     "footer": {
-      "vaiTickets": "VAI Tickets - Operator Dashboard",
+      "vaiTickets": "VAI Operator",
       "copyright": "© 2025 Alle Rechte vorbehalten",
       "needWebsite": "Brauchst du eine Website oder App?"
     }
