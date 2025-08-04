@@ -246,7 +246,7 @@ const PendingApprovalScreen = ({
         <div className="bg-slate-800/30 rounded-lg p-4">
           <div className="text-center">
             <p className="text-slate-400 text-sm mb-3">
-              {t('pendingApproval.contact.questions')}
+              {t('pendingApproval.contactApproval.questions')}
             </p>
             <div className="flex justify-center gap-4">
               <a
@@ -254,7 +254,7 @@ const PendingApprovalScreen = ({
                 className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors text-sm"
               >
                 <Mail className="w-4 h-4" />
-                {t('pendingApproval.contact.email')}
+                {t('pendingApproval.contactApproval.email')}
               </a>
               <a
                 href="https://wa.me/68987269065"
@@ -263,7 +263,7 @@ const PendingApprovalScreen = ({
                 className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors text-sm"
               >
                 <MessageCircle className="w-4 h-4" />
-                {t('pendingApproval.contact.whatsapp')}
+                {t('pendingApproval.contactApproval.whatsapp')}
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>

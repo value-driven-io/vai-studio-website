@@ -780,7 +780,7 @@
       "hoursAgo": "Hace {{hours}} horas",
       "daysAgo": "Hace {{days}} días"
     },
-    "contact": {
+    "contactApproval": {
       "questions": "¿Preguntas sobre tu solicitud?",
       "email": "hello@vai.studio",
       "whatsapp": "Soporte por WhatsApp"
