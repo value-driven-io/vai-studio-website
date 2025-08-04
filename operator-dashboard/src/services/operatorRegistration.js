@@ -10,7 +10,7 @@ class OperatorRegistrationService {
    */
   async registerOperator(formData) {
     try {
-      console.log('🎯 Database URL being used:', import.meta.env.VITE_SUPABASE_URL || process.env.REACT_APP_SUPABASE_URL)
+      console.log('🎯 Database URL being used:', process.env.REACT_APP_SUPABASE_URL)
       console.log('🚀 Starting schema-compatible operator registration for:', formData.email)
       
       // Validate input data
