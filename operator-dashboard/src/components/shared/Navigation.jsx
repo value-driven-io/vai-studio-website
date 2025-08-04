@@ -1,7 +1,7 @@
 // src/components/Navigation.jsx
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { BarChart3, Plus, Calendar, User } from 'lucide-react'
+import { BarChart3, Plus, Calendar, User, TrendingUp } from 'lucide-react'
 
 const Navigation = ({ activeTab, setActiveTab, stats }) => {
   const { t } = useTranslation()
@@ -21,10 +21,18 @@ const Navigation = ({ activeTab, setActiveTab, stats }) => {
     },
     {
       id: 'bookings',
-      icon: Calendar,
+      icon: TrendingUp,
       label: t('common.bookings'),
       badge: stats?.pendingBookings > 0 ? stats.pendingBookings : null
     },
+
+    {
+      id: 'schedules',
+      icon: Calendar, // You can import a different icon if preferred
+      label: t('common.schedules'), 
+      badge: null
+    },
+
     {
       id: 'profile',
       icon: User,
@@ -35,7 +43,7 @@ const Navigation = ({ activeTab, setActiveTab, stats }) => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-slate-800/90 backdrop-blur-sm border-t border-slate-700 z-50">
-      <div className="grid grid-cols-4 h-16 max-w-7xl mx-auto">
+      <div className="grid grid-cols-5 h-16 max-w-7xl mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.id

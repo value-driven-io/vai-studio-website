@@ -12,6 +12,7 @@ import Header from './components/Header'
 import DashboardTab from './components/DashboardTab'
 import CreateTab from './components/CreateTab'
 import BookingsTab from './components/BookingsTab'
+import SchedulesTab from './components/SchedulesTab'
 import ProfileTab from './components/ProfileTab'
 import { supabase } from './lib/supabase'
 import { polynesianNow, toPolynesianISO } from './utils/timezone'
@@ -1383,7 +1384,12 @@ function App() {
           />
         )}
           
-
+        {/* Schedules Tab */}
+          {activeTab === 'schedules' && (
+            <SchedulesTab 
+              operator={operator}
+            />
+          )}
 
         {/* Profile Tab */}
         {activeTab === 'profile' && (

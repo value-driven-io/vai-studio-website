@@ -20,7 +20,9 @@
     "booked": "reservado",
     "attended": "asistieron",
     "spots": "plazas",
-    "close": "Cerrar"   
+    "close": "Cerrar",
+    "schedules": "Horarios",
+    "bookings": "Reservas"   
   },
   "header": {
     "title": "Operator Dashboard",
