@@ -147,6 +147,7 @@ const Login = ({ onLogin, loading }) => {
                 className="w-full pl-10 pr-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="your@email.com"
                 required
+                autoComplete="email"
               />
             </div>
           </div>
@@ -165,11 +166,15 @@ const Login = ({ onLogin, loading }) => {
                 className="w-full pl-10 pr-10 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="••••••••"
                 required
+                minLength={6}
+                autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
+                disabled={loading}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -250,6 +255,20 @@ const Login = ({ onLogin, loading }) => {
             💡 {t('login.passwordReminder')}
           </p>
         </div>
+
+        {/* Operator Registration Section */}
+        <div className="mt-6 text-center">
+          <p className="text-slate-500 text-xs">
+            {t('login.registeraccount')}{' '}  
+            <a 
+              href="https://vai.studio/app/operator-welcome" 
+              className="text-yellow-400 hover:text-yellow-300 transition-colors underline decoration-dotted"
+            >
+               VAI Operator
+            </a>
+          </p>
+        </div>
+
       </div>
     </div>
   )

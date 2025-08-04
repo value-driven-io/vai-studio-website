@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from './hooks/useAuth'
 import Login from './components/Login'
+import PendingApprovalScreen from './components/auth/PendingApprovalScreen'
 import Navigation from './components/shared/Navigation'
 import { operatorService } from './lib/supabase'
 import Header from './components/Header'
@@ -1281,6 +1282,21 @@ function App() {
 
   if (!isAuthenticated) {
     return <Login onLogin={login} loading={authLoading} />
+  }
+
+  // 🔒 Pending operators see approval screen instead of dashboard
+  if (operator.status === 'pending') {
+    return (
+      <PendingApprovalScreen 
+        operator={operator}
+        onBack={() => logout()}
+        onCheckStatus={(statusData) => {
+          if (statusData.canLogin) {
+            window.location.reload() // Refresh to get updated operator status
+          }
+        }}
+      />
+    )
   }
 
   // MAIN COMPONENT RENDER
