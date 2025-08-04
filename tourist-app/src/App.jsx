@@ -18,6 +18,7 @@ import ExploreTab from './components/explore/ExploreTab'
 import JourneyTab from './components/journey/JourneyTab'
 import ProfileTab from './components/profile/ProfileTab'
 import AuthModal from './components/auth/AuthModal'
+import LaunchingSoonModal from './components/shared/LaunchingSoonModal';
 // Import Chat and Messages components
 import MessagesTab from './components/messages/MessagesTab'
 
@@ -26,6 +27,11 @@ import LanguageSelector from './components/shared/LanguageSelector'
 
 // Import our store
 import { useAppStore } from './stores/bookingStore'
+
+// 2. CHECK THE ENVIRONMENT VARIABLE
+// This variable will control whether the app is "live" or shows the "coming soon" screen.
+// You will set this in your .env file.
+const isAppLaunched = import.meta.env.VITE_APP_LAUNCHED === 'true';
 
 // Header Component with Login (ENHANCED with Cultural Translations)
 const AppHeader = () => {
@@ -157,13 +163,33 @@ function AppContent() {
 
 // Wrapper with AuthProvider (UNCHANGED)
 function App() {
-  return (
-    <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </AuthProvider>
-  )
-}
+
+    return (
+      <AuthProvider>
+        <Router>
+          <div className="bg-vai-deep-ocean min-h-screen text-white">
+            {/* 3. CONDITIONAL RENDERING LOGIC */}
+            {!isAppLaunched ? (
+              <LaunchingSoonModal />
+            ) : (
+              <>
+                <main className="pb-20">
+                  <Routes>
+                    <Route path="/" element={<DiscoverTab />} />
+                    <Route path="/explore" element={<ExploreTab />} />
+                    <Route path="/journey" element={<JourneyTab />} />
+                    <Route path="/messages" element={<MessagesTab />} />
+                    <Route path="/profile" element={<ProfileTab />} />
+                  </Routes>
+                </main>
+                <Navigation />
+              </>
+            )}
+          </div>
+        </Router>
+      </AuthProvider>
+    );
+  }
+  
 
 export default App

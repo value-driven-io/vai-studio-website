@@ -30,21 +30,21 @@
   },
 
   "discovery": {
-    "title": "Discover Your Polynesia",
+    "title": "Discover French Polynesia",
     "subtitle": "Find your perfect adventure",
     "refreshTours": "Refresh Tours",
-    "moodQuestion": "What's your vibe today?",
+    "moodQuestion": "What's your mood today?",
     "clearMood": "Change Mood",
-    "browseAllTours": "Browse All Tours",
+    "browseAllTours": "Browse All Activities",
     "lastMinuteDeals": "Last-Minute Island Deals",
     "urgent": "URGENT",
     "endingSoon": "ending soon",
     "moreUrgentDeals": "View {{count}} More Urgent Deals",
-    "perfectForMood": "Perfect for your {{mood}} vibe",
+    "perfectForMood": "Perfect for your {{mood}} mood",
     "availableAdventures": "🌴 Available Adventures",
     "viewAll": "View All",
     "seeMoreTours": "See {{count}} More Tours",
-    "noToursFound": "No tours found for this vibe",
+    "noToursFound": "No tours found for this mood",
     "tryDifferentMood": "Try a different mood or check back later",
     "didntFindQuestion": "Didn't find what you're looking for?",
     "tours": "tour",
@@ -366,5 +366,20 @@
     "defaults": {
       "experienceDescription": "Experience the beauty of French Polynesia with our carefully crafted tour. Details will be provided upon booking."
     }
+  },
+
+  "launchingSoon": {
+    "title": "Launching Soon!",
+    "message": "Ia Orana! We are preparing an unforgettable experience for you in French Polynesia. Be the first to know when we go live.",
+    "form": {
+      "placeholder": "Enter your email",
+      "button": "Notify Me",
+      "submitting": "Submitting...",
+      "successTitle": "Māuruuru!",
+      "successMessage": "You're on the list. We will notify you at launch.",
+      "error": "An error occurred. Please try again.",
+      "marketing": "✅ By registering, you agree to receive updates about VAI's launch on August 11th, 2025."
+    },
+    "footer": "VAI Tickets - Your Key to Paradise"
   }
 }
