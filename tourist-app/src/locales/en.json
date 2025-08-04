@@ -370,7 +370,7 @@
 
   "launchingSoon": {
     "title": "Launching Soon!",
-    "message": "Ia Orana! We are preparing an unforgettable experience for you in French Polynesia. Be the first to know when we go live.",
+    "message": "Ia ora na! We are preparing an unforgettable experience for you in French Polynesia. Be the first to know when we go live.",
     "form": {
       "placeholder": "Enter your email",
       "button": "Notify Me",
@@ -378,8 +378,13 @@
       "successTitle": "Māuruuru!",
       "successMessage": "You're on the list. We will notify you at launch.",
       "error": "An error occurred. Please try again.",
-      "marketing": "✅ By registering, you agree to receive updates about VAI's launch on August 11th, 2025."
+      "consent": "By registering, you agree to receive updates about the launch of VAI Tickets."
+      
     },
     "footer": "VAI Tickets - Your Key to Paradise"
-  }
+  },
+
+  "login": {
+    "moreInfo": "More info about "
+    }
 }

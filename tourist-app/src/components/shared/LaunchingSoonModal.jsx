@@ -95,7 +95,7 @@ const LaunchingSoonModal = () => {
                 onClick={() => setAgreed(!agreed)} 
                 className="text-xs text-slate-400 cursor-pointer"
               >
-                {t('launchingSoon.form.consent', 'By registering, you agree to receive updates about the launch of VAI.')}
+                {t('launchingSoon.form.consent')}
               </label>
             </div>
 
@@ -118,8 +118,20 @@ const LaunchingSoonModal = () => {
         )}
 
         <p className="text-xs text-slate-500 mt-6">
-          {t('launchingSoon.footer', 'VAI Tickets - Your key to paradise.')}
+          {t('launchingSoon.footer')}
         </p>
+        {/* more info  */}
+        <div className="mt-6 text-center">
+            <p className="text-slate-500 text-xs">
+            {t('login.moreInfo')}{' '}
+            <a 
+              href="https://vai.studio/app/welcome" 
+              className="text-yellow-400 hover:text-yellow-300 transition-colors"
+            >
+              VAI Tickets
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

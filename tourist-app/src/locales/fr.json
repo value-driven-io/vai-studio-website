@@ -366,5 +366,25 @@
     "defaults": {
       "experienceDescription": "Découvre la beauté de la Polynésie française avec notre tour soigneusement conçu. Les détails seront fournis lors de la réservation."
     }
-  }
+  },
+
+  
+  "launchingSoon": {
+    "title": "Lancement imminent !",
+    "message": "Ia ora na ! Nous te préparons une expérience inoubliable en Polynésie française. Sois le premier informé de notre lancement.",
+    "form": {
+      "placeholder": "Saisis ton e-mail",
+      "button": "Préviens-moi",
+      "submitting": "Envoi en cours...",
+      "successTitle": "Māuruuru !",
+      "successMessage": "Tu es bien sur la liste. Nous te préviendrons lors du lancement.",
+      "error": "Une erreur est survenue. Essaye à nouveau.",
+      "consent": "En t'inscrivant, tu acceptes de recevoir des informations sur le lancement de VAI Tickets."
+    },
+    "footer": "VAI Tickets - Ta clé du paradis"
+  },
+  
+  "login": {
+    "moreInfo": "Plus d'infos sur "
+    }
 }
