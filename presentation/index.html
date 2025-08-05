@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta name="robots" content="noindex">
     <meta charset="UTF-8">
@@ -15,8 +15,8 @@
 </head>
 <body>
     <div class="language-switcher">
-        <a href="#" class="lang-btn active" data-lang="en">EN</a>
-        <a href="#" class="lang-btn" data-lang="fr">FR</a>
+        <a href="#" class="lang-btn" data-lang="en">EN</a>
+        <a href="#" class="lang-btn active" data-lang="fr">FR</a>
     </div>
 
     <main id="presentation">
@@ -661,7 +661,7 @@
                 if (selectedLang) setLanguage(selectedLang);
             });
 
-            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'fr';
             setLanguage(preferredLanguage);
 
             // Simple animation on scroll
