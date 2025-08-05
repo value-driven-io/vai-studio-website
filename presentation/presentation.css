@@ -558,9 +558,13 @@ a[href*="vai.studio"] {
         margin-bottom: 2rem;
     }
     
-    .two-col, .three-col {
-        grid-template-columns: 1fr;
+   .two-col, .solution-columns {
         flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .three-col, .impact-grid, .problem-grid {
+        grid-template-columns: 1fr;
         gap: 1.5rem;
     }
     
