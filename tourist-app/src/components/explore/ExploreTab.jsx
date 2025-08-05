@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { 
   Search, Filter, SlidersHorizontal, X, ChevronDown, 
   RefreshCw, Grid, List, MapPin, Clock, Users, Star,
-  Calendar, DollarSign, Timer, Heart
+  Calendar, DollarSign, Timer, Heart, Trash2
 } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
@@ -141,7 +141,7 @@ const ExploreTab = () => {
       {/* Header */}
 
       {/* Mobile-First 3-Lane Header */}
-      <div className="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
+      <div className="bg-slate-800 border-b border-slate-700">
         <div className="max-w-7xl mx-auto">
           
           {/* LANE 1: Title + subtitle + counter + refresh button */}
@@ -195,17 +195,6 @@ const ExploreTab = () => {
                   </button>
                 ))}
 
-                {/* Sort Dropdown - Brought back */}
-              {/*<select
-                value={filters.sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-2 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto flex-shrink-0"
-              >
-                <option value="date">{t('explore.sortOptions.date')}</option>
-                <option value="price">{t('explore.sortOptions.price')}</option>
-                <option value="availability">{t('explore.sortOptions.availability')}</option>
-                <option value="urgency">{t('explore.sortOptions.urgency')}</option>
-              </select>*/}
               </div>
             </div>
           </div>
@@ -233,6 +222,18 @@ const ExploreTab = () => {
                 )}
               </div>
 
+              {/* Sort Dropdown - Brought back */}
+              <select
+                value={filters.sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-2 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto flex-shrink-0"
+              >
+                <option value="date">{t('explore.sortOptions.date')}</option>
+                <option value="price">{t('explore.sortOptions.price')}</option>
+                <option value="availability">{t('explore.sortOptions.availability')}</option>
+                <option value="urgency">{t('explore.sortOptions.urgency')}</option>
+              </select>
+              
               {/* Advanced Filter Button - 35% space */}
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button
@@ -244,7 +245,6 @@ const ExploreTab = () => {
                   }`}
                 >
                   <SlidersHorizontal className="w-4 h-4" />
-                  <span className="hidden xs:inline">{t('explore.filters')}</span>
                   {getActiveFiltersCount() > 0 && (
                     <span className="bg-white text-blue-600 text-xs px-2 py-0.5 rounded-full font-bold">
                       {getActiveFiltersCount()}
@@ -252,14 +252,15 @@ const ExploreTab = () => {
                   )}
                 </button>
 
+                
+
                 {/* Clear Filters Button */}
                 {getActiveFiltersCount() > 0 && (
                   <button
                     onClick={clearFilters}
                     className="flex items-center gap-1.5 px-3 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all min-h-44"
                   >
-                    <X className="w-4 h-4" />
-                    <span className="hidden xs:inline">{t('explore.clear')}</span>
+                    <Trash2 className="w-4 h-4" />
                   </button>
                 )}
               </div>
