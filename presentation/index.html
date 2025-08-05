@@ -42,6 +42,7 @@ body, html {
     background-color: var(--background-color);
     position: relative;
     overflow: hidden;
+    padding-bottom:250px; 
 }
 
 .slide:nth-child(even) {
@@ -397,6 +398,7 @@ a[href*="kevindesilva.de"] {
         padding: 1rem 1.5rem;
         height: auto;
         min-height: 100vh;
+        padding-bottom:150px; 
     }
     
     h1 { font-size: 2.5rem; }
@@ -428,6 +430,161 @@ a[href*="kevindesilva.de"] {
     
     .contact-details {
         text-align: center;
+    }
+}
+
+/* Problem Grid Styles */
+.problem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.problem-item {
+    background: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid #ffaebd;
+    transition: transform 0.3s ease;
+}
+
+.problem-item:hover {
+    transform: translateY(-3px);
+}
+
+.problem-item h4 {
+    color: var(--primary-color);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+.problem-item p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.highlight-problem {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.highlight-problem h4,
+.highlight-problem p {
+    color: white;
+}
+
+/* Solution Columns Styles */
+.solution-columns {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.solution-col {
+    flex: 1;
+}
+
+.solution-col h3 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin: 1.5rem 0 1rem 0;
+}
+
+.solution-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.solution-features li {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    padding-left: 25px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23ff3b81" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>') no-repeat left center;
+    background-size: 18px;
+    color: var(--text-color);
+}
+
+.solution-features strong {
+    color: var(--text-color);
+}
+
+/* Device Mockups */
+.device-mockup {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.device-frame {
+    position: relative;
+    background: #f0f0f0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.mobile-mockup .device-frame {
+    max-width: 250px;
+    border-radius: 25px;
+    padding: 0px;
+}
+
+.tablet-mockup .device-frame {
+    max-width: 440px;
+    border-radius: 15px;
+    padding: 0px;
+}
+
+.device-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    object-fit: cover;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .problem-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .solution-columns {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .mobile-mockup .device-frame {
+        max-width: 200px;
+    }
+    
+    .tablet-mockup .device-frame {
+        max-width: 450px;
+    }
+    
+    .solution-features li {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+        padding-left: 22px;
+        background-size: 16px;
     }
 }
     </style>
@@ -490,6 +647,48 @@ a[href*="kevindesilva.de"] {
             </div>
         </section>
 
+        <!-- ENHANCED PROBLEM SLIDE -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="problem_title"></h2>
+                <img src="/via-studio-images/landingpage/Looked Beach w Elements - No Access.jpg" alt="Illustration of the Paradise Paradox" class="slide-image">
+                <div class="problem-grid">
+                    
+                    <div class="problem-item">
+                        <h4 data-i18n-key="problem_fragmented_title"></h4>
+                        <p data-i18n-key="problem_fragmented_text"></p>
+                    </div>
+                    <div class="problem-item">
+                        <h4 data-i18n-key="problem_revenue_title"></h4>
+                        <p data-i18n-key="problem_revenue_text"></p>
+                    </div>
+                    <div class="problem-item">
+                        <h4 data-i18n-key="problem_platform_title"></h4>
+                        <p data-i18n-key="problem_platform_text"></p>
+                    </div>
+                    <div class="problem-item">
+                        <h4 data-i18n-key="problem_language_title"></h4>
+                        <p data-i18n-key="problem_language_text"></p>
+                    </div>
+                    <div class="problem-item">
+                        <h4 data-i18n-key="problem_regulatory_title"></h4>
+                        <p data-i18n-key="problem_regulatory_text"></p>
+                    </div>
+                    <div class="problem-item">
+                        <h4 data-i18n-key="problem_digital_title"></h4>
+                        <p data-i18n-key="problem_digital_text"></p>
+                    </div>
+
+                    <!--
+                    <div class="problem-item highlight-problem">
+                        <h4 data-i18n-key="problem_visitor_title"></h4>
+                        <p data-i18n-key="problem_visitor_text"></p>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </section>
+
         <!-- SOLUTION -->
         <section class="slide">
             <div class="content animated">
@@ -506,7 +705,55 @@ a[href*="kevindesilva.de"] {
                         </ul>
                     </div>
                     <div class="col image-col">
-                         <img src="/via-studio-images/landingpage/VAI Tickets and VAI Operator Screenshot Devices 2025.png" alt="Screenshot of the VAI App" class="slide-image">
+                         <img src="/via-studio-images/app-screens/VAI Operator Tablet and Phone Screen 1 with Badge.png" alt="Screenshot of the VAI App" class="slide-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENHANCED SOLUTION SLIDE -->
+        <section class="slide">
+            <div class="content animated">
+                <h2 data-i18n-key="solution_title"></h2>
+                <div class="solution-columns">
+                    <div class="solution-col tourist-col">
+                        <div class="device-mockup mobile-mockup">
+                            <div class="device-frame">
+                                <img src="/via-studio-images/app-screens/VAI Tickets Phone Screen 1 (multicolor).png" 
+                                        alt="Tourist Mobile App Interface" 
+                                        class="device-screen">
+                            </div>
+                        </div>
+                        <h3 data-i18n-key="solution_for_visitors"></h3>
+                        <ul class="solution-features">
+                            <li><strong data-i18n-key="visitor_f1_title"></strong> <span data-i18n-key="visitor_f1_desc"></span></li>
+                            <li><strong data-i18n-key="visitor_f2_title"></strong> <span data-i18n-key="visitor_f2_desc"></span></li>
+                            <li><strong data-i18n-key="visitor_f3_title"></strong> <span data-i18n-key="visitor_f3_desc"></span></li>
+                            <li><strong data-i18n-key="visitor_f4_title"></strong> <span data-i18n-key="visitor_f4_desc"></span></li>
+                            <li><strong data-i18n-key="visitor_f5_title"></strong> <span data-i18n-key="visitor_f5_desc"></span></li>
+                            <li><strong data-i18n-key="visitor_f6_title"></strong> <span data-i18n-key="visitor_f6_desc"></span></li>
+                            <li><strong data-i18n-key="visitor_f7_title"></strong> <span data-i18n-key="visitor_f7_desc"></span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="solution-col operator-col">
+                        <div class="device-mockup tablet-mockup">
+                            <div class="device-frame">
+                                <img src="/via-studio-images/app-screens/VAI Operator Tablet Screen 1 with Badge.png" 
+                            alt="Operator Tablet Dashboard" 
+                            class="device-screen">
+                            </div>
+                        </div>
+                        <h3 data-i18n-key="solution_for_operators"></h3>
+                        <ul class="solution-features">
+                            <li><strong data-i18n-key="operator_f1_title"></strong> <span data-i18n-key="operator_f1_desc"></span></li>
+                            <li><strong data-i18n-key="operator_f2_title"></strong> <span data-i18n-key="operator_f2_desc"></span></li>
+                            <li><strong data-i18n-key="operator_f3_title"></strong> <span data-i18n-key="operator_f3_desc"></span></li>
+                            <li><strong data-i18n-key="operator_f4_title"></strong> <span data-i18n-key="operator_f4_desc"></span></li>
+                            <li><strong data-i18n-key="operator_f5_title"></strong> <span data-i18n-key="operator_f5_desc"></span></li>
+                            <li><strong data-i18n-key="operator_f6_title"></strong> <span data-i18n-key="operator_f6_desc"></span></li>
+                            <li><strong data-i18n-key="operator_f7_title"></strong> <span data-i18n-key="operator_f7_desc"></span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -803,11 +1050,11 @@ a[href*="kevindesilva.de"] {
                     
                     "pres_solution_title": "The Solution: VAI Tickets",
                     "pres_solution_text": "A multilingual, mobile-first platform that democratizes access to the tourism market for local operators. VAI is a digital <strong>accelerator</strong> for authentic Polynesian experiences.",
-                    "pres_solution_f1": "✅ Production-ready tourist & operator apps",
-                    "pres_solution_f2": "✅ Launching in peak of whale season",
-                    "pres_solution_f3": "✅ Fair 11-15% commission vs. 25-50% competitors",
-                    "pres_solution_f4": "✅ 6-language support including Tahitian",
-                    "pres_solution_f5": "✅ Mood-based discovery & instant booking",
+                    "pres_solution_f1": "High-quality Tourist & Operator Apps",
+                    "pres_solution_f2": "6-language support including Tahitian",
+                    "pres_solution_f3": "Fair 11-15% commission vs. 25-50% competitors",
+                    "pres_solution_f4": "Mood-based discovery & instant booking",
+                    "pres_solution_f5": "Launching in peak of whale season",
                     
                     "business_model_title": "Sustainable Business Model",
                     "business_revenue_title": "Revenue Recovery",
@@ -918,7 +1165,63 @@ a[href*="kevindesilva.de"] {
                     "pres_contact_email": "hello@vai.studio",
                     "pres_contact_linkedin": "LinkedIn Profile",
                     "pres_contact_website": "kevindesilva.de",
-                    "pres_contact_location": "🇩🇪 from Germany - Based in Moorea, French Polynesia"
+                    "pres_contact_location": "🇩🇪 from Germany - Based in Moorea, French Polynesia",
+
+                    // Enhanced Problem Section
+                    "problem_title": "The Problem: What does Tourism in French Polynesian really offer?",
+                    "problem_fragmented_title": "👀 Fragmented Market",
+                    "problem_fragmented_text": "No unified booking system across French Polynesia's 5 archipelagos - visitors book separately per island. No transparent offer.",
+                    "problem_revenue_title": "📉 Revenue Loss",
+                    "problem_revenue_text": "25-30% of tourism revenue is lost to cancellations and last-minute availability gaps",
+                    "problem_platform_title": "🔒 Platform Dependency",
+                    "problem_platform_text": "Local operators pay 25-50% commissions to international booking platforms like TripAdvisor or Viator vs. keeping revenue on the islands",
+                    "problem_language_title": "🗯️ Language Barrier",
+                    "problem_language_text": "Most websites operate only in French, excluding English, German/Spanish/Italian-speaking visitors (significant market segments)",
+                    "problem_regulatory_title": "📄 Compliance Challenge",
+                    "problem_regulatory_text": "2025 whale watching regulations require specialized booking management that operators struggle to implement independently",
+                    "problem_digital_title": "💾 Digital Challenge",
+                    "problem_digital_text": "20% of local businesses remain under-computerized, losing market access to digitally-native tourists",
+                    "problem_visitor_title": "🙁 Visitor Dissatisfaction",
+                    "problem_visitor_text": "Tourists report difficulty finding authentic local experiences beyond commercial offerings. \"French Polynesia is beautiful but not affordable\"",
+                    
+                    // Solution Section
+                    "solution_title": "The Solution: Unify Digital Tourism Infrastructure",
+                    "tourist_app_placeholder": "Tourist Mobile App",
+                    "operator_app_placeholder": "Operator Tablet Dashboard",
+                    "solution_for_visitors": "For Visitors:",
+                    "solution_for_operators": "For Local Operators:",
+                    
+                    // Visitor Features
+                    "visitor_f1_title": "One App, all islands:",
+                    "visitor_f1_desc": "Single platform for activities across all 5 archipelagos",
+                    "visitor_f2_title": "Real-Time Availability:",
+                    "visitor_f2_desc": "Live booking for same-day experiences",
+                    "visitor_f3_title": "Smart Recommendations:",
+                    "visitor_f3_desc": "Mood and weather-based activity suggestions",
+                    "visitor_f4_title": "Multi-Language Interface:",
+                    "visitor_f4_desc": "French, English, Tahitian, Spanish, Italian, German support",
+                    "visitor_f5_title": "Transparent pricing with local operator discounts:",
+                    "visitor_f5_desc": "Authentic local experiences with clear, upfront pricing",
+                    "visitor_f6_title": "Integrated Communication:",
+                    "visitor_f6_desc": "Direct chat with operators without leaving the platform",
+                    "visitor_f7_title": "Social Impact:",
+                    "visitor_f7_desc": "Committed contributions to ocean & cultural preservation",
+                    
+                    // Operator Features
+                    "operator_f1_title": "Free marketing platform:",
+                    "operator_f1_desc": "Sophisticated digital presence in French Polynesia without need of own booking or reservation system",
+                    "operator_f2_title": "Fair Commission Structure:",
+                    "operator_f2_desc": "Very low commission at 11-15% (instead of high 25-50% from other platforms)",
+                    "operator_f3_title": "Revenue Recovery:",
+                    "operator_f3_desc": "Convert any cancellations into last-minute bookings",
+                    "operator_f4_title": "Regulatory Compliance:",
+                    "operator_f4_desc": "Built-in 2025 whale watching regulation management",
+                    "operator_f5_title": "Direct Customer Communication:",
+                    "operator_f5_desc": "Maintain personal relationships while gaining digital presence",
+                    "operator_f6_title": "Enterprise Features:",
+                    "operator_f6_desc": "Real-time availability, automated confirmations, payment processing",
+                    "operator_f7_title": "Multi-Island Reach:",
+                    "operator_f7_desc": "Access visitors globally and all across the French Polynesian islands"
                 },
                 fr: {
                     "pres_title": "Consultation Stratégique",
@@ -1053,7 +1356,63 @@ a[href*="kevindesilva.de"] {
                     "pres_contact_email": "hello@vai.studio",
                     "pres_contact_linkedin": "Profil LinkedIn",
                     "pres_contact_website": "kevindesilva.de",
-                    "pres_contact_location": "🇩🇪 d'Allemagne - Basé à Moorea, Polynésie française"
+                    "pres_contact_location": "🇩🇪 d'Allemagne - Basé à Moorea, Polynésie française",
+
+                    // Problem Section
+                    "problem_title": "Inefficacités du marché du tourisme en Polynésie française",
+                    "problem_fragmented_title": "Marché fragmenté",
+                    "problem_fragmented_text": "Aucun système de réservation unifié à travers les 5 archipels de Polynésie française - les visiteurs réservent séparément par île. Aucune offre transparente.",
+                    "problem_revenue_title": "Fuite de revenus",
+                    "problem_revenue_text": "25-30% des revenus touristiques sont perdus à cause des annulations et des écarts de disponibilité de dernière minute",
+                    "problem_platform_title": "Dépendance aux plateformes",
+                    "problem_platform_text": "Les opérateurs locaux paient 25-50% de commissions aux plateformes de réservation internationales comme TripAdvisor ou Viator vs. garder les revenus sur les îles",
+                    "problem_language_title": "Barrière linguistique",
+                    "problem_language_text": "La plupart des sites web ne fonctionnent qu'en français, excluant les visiteurs anglophones, germanophones/hispanophones/italophones (segments de marché significatifs)",
+                    "problem_regulatory_title": "Défi de conformité réglementaire",
+                    "problem_regulatory_text": "Les réglementations 2025 sur l'observation des baleines nécessitent une gestion de réservation spécialisée que les opérateurs peinent à mettre en œuvre indépendamment",
+                    "problem_digital_title": "Défi numérique",
+                    "problem_digital_text": "20% des entreprises locales restent sous-informatisées, perdant l'accès au marché des touristes numériques",
+                    "problem_visitor_title": "Friction de l'expérience visiteur",
+                    "problem_visitor_text": "Les touristes rapportent des difficultés à trouver des expériences locales authentiques au-delà des offres commerciales. \"La Polynésie française est belle mais pas abordable\"",
+                    
+                    // Solution Section
+                    "solution_title": "VAI Tickets : Infrastructure touristique numérique unifiée",
+                    "tourist_app_placeholder": "App Mobile Touriste",
+                    "operator_app_placeholder": "Tableau de Bord Tablette Opérateur",
+                    "solution_for_visitors": "Pour les Visiteurs :",
+                    "solution_for_operators": "Pour les Opérateurs Locaux :",
+                    
+                    // Visitor Features
+                    "visitor_f1_title": "Une App, toutes les îles :",
+                    "visitor_f1_desc": "Plateforme unique pour les activités à travers les 5 archipels",
+                    "visitor_f2_title": "Disponibilité temps réel :",
+                    "visitor_f2_desc": "Réservation en direct pour les expériences du jour même",
+                    "visitor_f3_title": "Recommandations intelligentes :",
+                    "visitor_f3_desc": "Suggestions d'activités basées sur l'humeur et la météo",
+                    "visitor_f4_title": "Interface multilingue :",
+                    "visitor_f4_desc": "Support français, anglais, tahitien, espagnol, italien, allemand",
+                    "visitor_f5_title": "Prix transparents avec remises opérateurs locaux :",
+                    "visitor_f5_desc": "Expériences locales authentiques avec prix clairs et à l'avance",
+                    "visitor_f6_title": "Communication intégrée :",
+                    "visitor_f6_desc": "Chat direct avec les opérateurs sans quitter la plateforme",
+                    "visitor_f7_title": "Impact social :",
+                    "visitor_f7_desc": "Contributions engagées à la préservation océanique et culturelle",
+                    
+                    // Operator Features
+                    "operator_f1_title": "Plateforme marketing gratuite pour toute la Polynésie française :",
+                    "operator_f1_desc": "Présence numérique sophistiquée sans avoir besoin de son propre système de réservation",
+                    "operator_f2_title": "Structure de commission équitable :",
+                    "operator_f2_desc": "Commission très faible à 11-15% au lieu de 25-50% des plateformes internationales",
+                    "operator_f3_title": "Récupération de revenus :",
+                    "operator_f3_desc": "Convertir toutes les annulations en réservations de dernière minute",
+                    "operator_f4_title": "Conformité réglementaire :",
+                    "operator_f4_desc": "Gestion intégrée des réglementations 2025 sur l'observation des baleines",
+                    "operator_f5_title": "Communication directe client :",
+                    "operator_f5_desc": "Maintenir les relations personnelles tout en gagnant une présence numérique",
+                    "operator_f6_title": "Fonctionnalités d'entreprise :",
+                    "operator_f6_desc": "Disponibilité temps réel, confirmations automatisées, traitement des paiements",
+                    "operator_f7_title": "Portée multi-îles :",
+                    "operator_f7_desc": "Accéder aux visiteurs mondialement et à travers toutes les îles de Polynésie française"
                 }
             };
 
