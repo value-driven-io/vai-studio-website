@@ -3,7 +3,6 @@
 // ==============================================
 
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
 import { useAuth } from './contexts/AuthContext'
@@ -161,35 +160,38 @@ function AppContent() {
   )
 }
 
-// Wrapper with AuthProvider (UNCHANGED)
+// Wrapper with AuthProvider (FIXED)
 function App() {
-
-    return (
-      <AuthProvider>
-        <Router>
-          <div className="bg-vai-deep-ocean min-h-screen text-white">
-            {/* 3. CONDITIONAL RENDERING LOGIC */}
-            {!isAppLaunched ? (
-              <LaunchingSoonModal />
-            ) : (
-              <>
-                <main className="pb-20">
-                  <Routes>
-                    <Route path="/" element={<DiscoverTab />} />
-                    <Route path="/explore" element={<ExploreTab />} />
-                    <Route path="/journey" element={<JourneyTab />} />
-                    <Route path="/messages" element={<MessagesTab />} />
-                    <Route path="/profile" element={<ProfileTab />} />
-                  </Routes>
-                </main>
-                <Navigation />
-              </>
-            )}
-          </div>
-        </Router>
-      </AuthProvider>
-    );
-  }
+  return (
+    <AuthProvider>
+      <div className="bg-vai-deep-ocean min-h-screen text-white">
+        {/* 3. CONDITIONAL RENDERING LOGIC */}
+        {!isAppLaunched ? (
+          <LaunchingSoonModal />
+        ) : (
+          <AppContent />
+        )}
+        
+        {/* Toast Notifications - Move here so they work in both modes */}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#1e293b',
+              color: '#f1f5f9',
+              border: '1px solid #334155',
+              zIndex: 100000
+            }
+          }}
+          containerStyle={{
+            zIndex: 100000
+          }}
+        />
+      </div>
+    </AuthProvider>
+  );
+}
   
 
 export default App
