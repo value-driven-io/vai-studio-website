@@ -6,588 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VAI | Strategic Consultation</title>
     
-    <style>
-/* --- BASE & BRAND STYLES --- */
-:root {
-    --primary-color: #ff3b81;
-    --secondary-color: #00c2ff;
-    --accent-color: #10b981;
-    --text-color: #2c3e50;
-    --text-light: #5a6a7a;
-    --background-color: #ffffff;
-    --light-gray: #f8f9fa;
-    --border-color: #e9ecef;
-}
-
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--light-gray);
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    height: 100%;
-}
-
-/* --- LAYOUT & SLIDES --- */
-.slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100vw;
-    scroll-snap-align: start;
-    padding: 2rem 4rem;
-    box-sizing: border-box;
-    background-color: var(--background-color);
-    position: relative;
-    overflow: hidden;
-    padding-bottom:250px; 
-}
-
-.slide:nth-child(even) {
-     background-color: var(--light-gray);
-}
-
-.slide .content {
-    max-width: 1100px;
-    width: 100%;
-    text-align: center;
-    color: var(--text-color);
-}
-
-/* --- TYPOGRAPHY --- */
-h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin: 0;
-}
-
-h2 {
-    font-size: 3rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 2rem;
-    position: relative;
-    display: inline-block;
-}
-
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    border-radius: 2px;
-}
-
-h3 {
-    font-size: 1.5rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-h4 {
-    font-size: 1.2rem;
-    color: var(--text-color);
-    margin-bottom: 0.8rem;
-    font-weight: 600;
-}
-
-p {
-    font-size: 1.25rem;
-    line-height: 1.7;
-    color: var(--text-color);
-    max-width: 800px;
-    margin: 1rem auto;
-}
-
-p.intro-text {
-    font-size: 1.4rem;
-    margin-bottom: 3rem;
-}
-
-p.subtitle {
-    font-size: 1.1rem;
-    color: var(--text-light);
-    font-weight: 400;
-    margin-top: 0.5rem;
-}
-
-/* --- COMPONENTS --- */
-.language-switcher {
-    position: fixed;
-    top: 25px;
-    right: 25px;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 5px;
-    border-radius: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.lang-btn {
-    color: var(--primary-color);
-    text-decoration: none;
-    padding: 8px 15px;
-    margin: 0 2px;
-    border-radius: 20px;
-    font-weight: 600;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.lang-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.logo {
-    width: 150px;
-    margin-bottom: 2rem;
-}
-.logo-small {
-    width: 80px;
-    margin-top: 3rem;
-    opacity: 0.7;
-}
-
-.presenter {
-    margin-top: 2rem;
-    font-style: italic;
-    font-size: 1.1rem;
-}
-
-.slide-image {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    margin: 1rem auto 2rem auto;
-}
-
-.two-col {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
-    margin-top: 2rem;
-    text-align: left;
-}
-
-.three-col {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 2rem;
-    text-align: center;
-}
-
-.two-col .col {
-    flex: 1;
-    max-width: 500px;
-}
-.two-col .image-col {
-    text-align: center;
-}
-.two-col .image-col .slide-image {
-    max-width: 100%;
-}
-
-.card {
-    background: var(--background-color);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
-}
-
-.stat-card {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    text-align: center;
-    padding: 1.5rem;
-    border-radius: 12px;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    opacity: 0.9;
-}
-
-.features-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 1.5rem;
-    display: inline-block;
-}
-
-.features-list li {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 1.2rem;
-    padding-left: 35px;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff3b81" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>') no-repeat left center;
-    background-size: 24px;
-    color: var(--text-color);
-}
-
-.timeline {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2rem 0;
-    position: relative;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--border-color);
-    z-index: 1;
-}
-
-.timeline-item {
-    background: var(--background-color);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 2px solid var(--primary-color);
-    z-index: 2;
-    position: relative;
-    text-align: center;
-    max-width: 150px;
-}
-
-
-.highlight-box {
-    background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-    color: white !important;
-    padding: 1.5rem;
-    border-radius: 12px;
-    margin: 1rem 0;
-}
-
-.highlight-box h4 {
-    color: white !important;
-}
-
-.highlight-box p {
-    color: white !important;
-}
-
-.impact-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.next-steps { text-align: center; }
-.next-steps li {
-    font-size: 1.4rem;
-    font-weight: 600;
-}
-
-/* --- ANIMATIONS --- */
-.content.animated {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.content.animated.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* --- CONTACT SLIDE --- */
-.contact-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3rem;
-    margin-top: 3rem;
-    background: var(--background-color);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.contact-image img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--primary-color);
-}
-
-.contact-details {
-    text-align: left;
-}
-
-.contact-details h3 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--text-color);
-}
-
-.contact-details p {
-    margin: 0.25rem 0 1.5rem 0;
-    font-size: 1.1rem;
-}
-
-.contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.contact-link {
-    text-decoration: none;
-    color: var(--text-light);
-    font-weight: 500;
-    transition: color 0.3s;
-    padding-left: 30px;
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 20px;
-}
-.contact-link:hover {
-    color: var(--primary-color);
-}
-
-/* Icons for contact links */
-a[href^="mailto:"] {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>');
-}
-a[href*="linkedin.com"] {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>');
-}
-a[href*="kevindesilva.de"] {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>');
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .slide {
-        padding: 1rem 1.5rem;
-        height: auto;
-        min-height: 100vh;
-        padding-bottom:150px; 
-    }
     
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    
-    .two-col, .three-col {
-        grid-template-columns: 1fr;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
-    .timeline {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .timeline::before {
-        display: none;
-    }
-    
-    .impact-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .contact-card {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .contact-details {
-        text-align: center;
-    }
-}
-
-/* Problem Grid Styles */
-.problem-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 1rem;
-    text-align: left;
-}
-
-.problem-item {
-    background: var(--background-color);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border: 1px solid #ffaebd;
-    transition: transform 0.3s ease;
-}
-
-.problem-item:hover {
-    transform: translateY(-3px);
-}
-
-.problem-item h4 {
-    color: var(--primary-color);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
-    font-weight: 600;
-}
-
-.problem-item p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin: 0;
-    color: var(--text-color);
-}
-
-.highlight-problem {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-}
-
-.highlight-problem h4,
-.highlight-problem p {
-    color: white;
-}
-
-/* Solution Columns Styles */
-.solution-columns {
-    display: flex;
-    gap: 3rem;
-    margin-top: 2rem;
-    text-align: left;
-}
-
-.solution-col {
-    flex: 1;
-}
-
-.solution-col h3 {
-    text-align: center;
-    color: var(--primary-color);
-    font-size: 1.4rem;
-    margin: 1.5rem 0 1rem 0;
-}
-
-.solution-features {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.solution-features li {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-    padding-left: 25px;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23ff3b81" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>') no-repeat left center;
-    background-size: 18px;
-    color: var(--text-color);
-}
-
-.solution-features strong {
-    color: var(--text-color);
-}
-
-/* Device Mockups */
-.device-mockup {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.device-frame {
-    position: relative;
-    background: #f0f0f0;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.mobile-mockup .device-frame {
-    max-width: 250px;
-    border-radius: 25px;
-    padding: 0px;
-}
-
-.tablet-mockup .device-frame {
-    max-width: 440px;
-    border-radius: 15px;
-    padding: 0px;
-}
-
-.device-screen {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 600;
-    text-align: center;
-    object-fit: cover;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .problem-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .solution-columns {
-        flex-direction: column;
-        gap: 2rem;
-    }
-    
-    .mobile-mockup .device-frame {
-        max-width: 200px;
-    }
-    
-    .tablet-mockup .device-frame {
-        max-width: 450px;
-    }
-    
-    .solution-features li {
-        font-size: 0.9rem;
-        margin-bottom: 0.8rem;
-        padding-left: 22px;
-        background-size: 16px;
-    }
-}
-    </style>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -740,7 +159,7 @@ a[href*="kevindesilva.de"] {
                     <div class="solution-col operator-col">
                         <div class="device-mockup tablet-mockup">
                             <div class="device-frame">
-                                <img src="/via-studio-images/app-screens/VAI Operator Tablet Screen 1 with Badge.png" 
+                                <img src="/via-studio-images/app-screens/VAI Operator Tablet Screen 2.png" 
                             alt="Operator Tablet Dashboard" 
                             class="device-screen">
                             </div>
@@ -873,75 +292,6 @@ a[href*="kevindesilva.de"] {
             </div>
         </section>
 
-        <!-- PARTNERSHIP VALUE -->
-        <!--<section class="slide">
-            <div class="content animated">
-                <h2 data-i18n-key="partnership_title"></h2>
-                <div class="impact-grid">
-                    <div class="card">
-                        <h3 data-i18n-key="partnership_odile_title"></h3>
-                        <ul class="features-list">
-                            <li data-i18n-key="partnership_o1"></li>
-                            <li data-i18n-key="partnership_o2"></li>
-                            <li data-i18n-key="partnership_o3"></li>
-                        </ul>
-                    </div>
-                    <div class="card">
-                        <h3 data-i18n-key="partnership_students_title"></h3>
-                        <ul class="features-list">
-                            <li data-i18n-key="partnership_s1"></li>
-                            <li data-i18n-key="partnership_s2"></li>
-                            <li data-i18n-key="partnership_s3"></li>
-                        </ul>
-                    </div>
-                    <div class="card">
-                        <h3 data-i18n-key="partnership_ecosystem_title"></h3>
-                        <ul class="features-list">
-                            <li data-i18n-key="partnership_e1"></li>
-                            <li data-i18n-key="partnership_e2"></li>
-                            <li data-i18n-key="partnership_e3"></li>
-                        </ul>
-                    </div>
-                    <div class="card">
-                        <h3 data-i18n-key="partnership_kevin_title"></h3>
-                        <ul class="features-list">
-                            <li data-i18n-key="partnership_k1"></li>
-                            <li data-i18n-key="partnership_k2"></li>
-                            <li data-i18n-key="partnership_k3"></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>-->
-
-        <!-- FUNDING STRATEGY -->
-        <section class="slide">
-            <div class="content animated">
-                <h2 data-i18n-key="funding_title"></h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h4 data-i18n-key="funding_step1_title"></h4>
-                        <p data-i18n-key="funding_step1_amount"></p>
-                        <p class="subtitle" data-i18n-key="funding_step1_desc"></p>
-                    </div>
-                    <div class="timeline-item">
-                        <h4 data-i18n-key="funding_step2_title"></h4>
-                        <p data-i18n-key="funding_step2_amount"></p>
-                        <p class="subtitle" data-i18n-key="funding_step2_desc"></p>
-                    </div>
-                    <div class="timeline-item">
-                        <h4 data-i18n-key="funding_step3_title"></h4>
-                        <p data-i18n-key="funding_step3_amount"></p>
-                        <p class="subtitle" data-i18n-key="funding_step3_desc"></p>
-                    </div>
-                </div>
-                <div class="highlight-box">
-                    <h4 data-i18n-key="funding_rationale_title"></h4>
-                    <p data-i18n-key="funding_rationale_text"></p>
-                </div>
-            </div>
-        </section>
-
         <!-- SOCIAL IMPACT -->
         <section class="slide">
             <div class="content animated">
@@ -966,29 +316,6 @@ a[href*="kevindesilva.de"] {
                 </div>
             </div>
         </section>
-
-        <!-- STRATEGIC ASK -->
-        <!--<section class="slide">
-            <div class="content animated">
-                <h2 data-i18n-key="pres_ask_title"></h2>
-                <p class="intro-text" data-i18n-key="pres_ask_intro"></p>
-                <div class="two-col">
-                    <div class="col card">
-                        <h3 data-i18n-key="pres_ask_q1_title"></h3>
-                        <p data-i18n-key="pres_ask_q1_text"></p>
-                    </div>
-                     <div class="col card">
-                        <h3 data-i18n-key="pres_ask_q2_title"></h3>
-                        <p data-i18n-key="pres_ask_q2_text"></p>
-                    </div>
-                </div>
-                <div class="card" style="margin-top: 2rem;">
-                    <h3 data-i18n-key="pres_ask_q3_title"></h3>
-                    <p data-i18n-key="pres_ask_q3_text"></p>
-                </div>
-            </div>
-        </section>
-        -->
 
         <!-- NEXT STEPS -->
         <section class="slide">
@@ -1020,6 +347,7 @@ a[href*="kevindesilva.de"] {
                             <a href="mailto:hello@vai.studio" class="contact-link" data-i18n-key="pres_contact_email"></a>
                             <a href="https://www.linkedin.com/in/kevin-desilva/" target="_blank" class="contact-link" data-i18n-key="pres_contact_linkedin"></a>
                             <a href="https://www.kevindesilva.de" target="_blank" class="contact-link" data-i18n-key="pres_contact_website"></a>
+                            <a href="https://www.vai.studio" target="_blank" class="contact-link" data-i18n-key="pres_contact_company"></a>
                         </div>
                         <p style="margin-top: 1rem; font-size: 1rem; color: var(--text-light);" data-i18n-key="pres_contact_location"></p>
                     </div>
@@ -1034,20 +362,9 @@ a[href*="kevindesilva.de"] {
             // --- EMBEDDED TRANSLATIONS ---
             const translations = {
                 en: {
-                    "pres_title": "Strategic Consultation",
-                    "pres_subtitle": "A Proposal for the Polynesian Digital Ecosystem",
-                    "pres_presenter": "Kevin De Silva | August 1, 2025",
-                    
-                    "market_title": "Market Context: French Polynesia's Digital Challenge",
-                    "market_stat1": "Businesses Not Computerized",
-                    "market_stat2": "Tourist Growth Rate",
-                    "market_stat3": "Youth Unemployment",
-                    "market_context": "French Polynesia faces a critical digital divide while tourism growth stagnates. Small operators lose revenue daily due to technology barriers, while young talent lacks pathways to opportunity.",
-                    
-                    "pres_problem_title": "The Problem: Cultural Connection Barrier",
-                    "pres_problem_text": "Tourists travel thousands of kilometers seeking authentic connections, while local experts—the keepers of Polynesian culture—remain invisible due to digital barriers.",
-                    "problem_impact_title": "Daily Revenue Loss",
-                    "problem_impact_text": "Local operators lose 25-30% of potential bookings to cancellations and lack of visibility. This isn't just lost income—it's lost cultural exchange opportunities.",
+                    "pres_title": "The Key to Paradise",
+                    "pres_subtitle": "A Proposal for the French Polynesian Digital Ecosystem",
+                    "pres_presenter": "Empowering businesses in French Polynesia © 2025 VAI Studio",
                     
                     "pres_solution_title": "The Solution: VAI Tickets",
                     "pres_solution_text": "A multilingual, mobile-first platform that democratizes access to the tourism market for local operators. VAI is a digital <strong>accelerator</strong> for authentic Polynesian experiences.",
@@ -1058,17 +375,17 @@ a[href*="kevindesilva.de"] {
                     "pres_solution_f5": "Launching in peak of whale season",
                     
                     "business_model_title": "Sustainable Business Model",
-                    "business_revenue_title": "Revenue Recovery",
-                    "business_revenue_text": "Convert 70% of cancellations into revenue instead of total loss. Our platform captures the 25-30% cancellation gap.",
-                    "business_fair_title": "Fair Economics",
-                    "business_fair_text": "11-15% commission keeps more money in local pockets vs. 25-50% from international platforms.",
-                    "business_social_title": "Social Impact",
+                    "business_revenue_title": "💰 Revenue Recovery",
+                    "business_revenue_text": "Convert cancellations from tourist into new revenue. Our platform captures the 25-30% cancellation gap.",
+                    "business_fair_title": "🍬 Fair Commission",
+                    "business_fair_text": "Very low 11-15% keeps more money in local pockets vs. 25-50% from international platforms.",
+                    "business_social_title": "🌱 Social Impact",
                     "business_social_text": "5% of revenue dedicated to environmental and cultural preservation projects across French Polynesia.",
-                    "business_local_title": "Local First",
-                    "business_local_text": "Platform designed by locals, for locals. Direct relationships maintained between operators and customers.",
+                    "business_local_title": "🤙 Local First",
+                    "business_local_text": "Platform designed for locals. Direct relationships maintained between operators and customers.",
                     
                     "pres_proof_title": "Proof of Local Digital Excellence",
-                    "pres_proof_text": "VAI was developed entirely in French Polynesia to international enterprise standards. We can build world-class technology here—this is powerful evidence for the École du Numérique's mission.",
+                    "pres_proof_text": "VAI was developed entirely in French Polynesia to international enterprise standards. A powerful evidence that we can truly build world-class technology here.",
                     "tech_features_title": "Technical Excellence",
                     "tech_f1": "Enterprise-grade security & performance",
                     "tech_f2": "Real-time booking & availability",
@@ -1092,10 +409,10 @@ a[href*="kevindesilva.de"] {
                     "launch_urgency_title": "Why Timing Matters",
                     "launch_urgency_text": "Whale season (August-November) represents peak tourism opportunity. Early launch allows us to capture maximum seasonal revenue and prove market demand.",
                     
-                    "pres_vision_title": "Long-term Vision: VAI Skills Partnership",
-                    "pres_vision_text": "Leveraging VAI's proven infrastructure to co-develop a platform with the École du Numérique. A digital accelerator for French Polynesia's knowledge economy.",
-                    "vision_route1_title": "Route 1: École du Numérique Platform",
-                    "vision_route1_text": "Dedicated platform for your school's specific needs and student success.",
+                    "pres_vision_title": "Vision: VAI Skills Partnership",
+                    "pres_vision_text": "Looking for a Partner! - We want to leverage VAI's proven infrastructure to co-develop a platform. A digital accelerator for French Polynesia's knowledge economy.",
+                    "vision_route1_title": "Route 1: Digital Education Platform",
+                    "vision_route1_text": "Dedicated platform for your students specific needs and educational success.",
                     "vision_r1_f1": "Student portfolio showcases",
                     "vision_r1_f2": "Industry project matchmaking",
                     "vision_r1_f3": "Graduate employment pipeline",
@@ -1104,37 +421,6 @@ a[href*="kevindesilva.de"] {
                     "vision_r2_f1": "Resource sharing between institutions",
                     "vision_r2_f2": "Cross-island student opportunities",
                     "vision_r2_f3": "Unified digital education ecosystem",
-                    
-                    "partnership_title": "Partnership Value Proposition",
-                    "partnership_odile_title": "For Odile & École du Numérique",
-                    "partnership_o1": "Concrete progress demonstration for stakeholders",
-                    "partnership_o2": "Real-world platform for student placement",
-                    "partnership_o3": "Evidence of innovative local partnerships",
-                    "partnership_students_title": "For Students",
-                    "partnership_s1": "Direct pipeline to employment opportunities",
-                    "partnership_s2": "Portfolio showcase platform",
-                    "partnership_s3": "Real-world project experience",
-                    "partnership_ecosystem_title": "For Polynesian Ecosystem",
-                    "partnership_e1": "Strengthened digital skills market",
-                    "partnership_e2": "Reduced youth unemployment",
-                    "partnership_e3": "Knowledge retention in French Polynesia",
-                    "partnership_kevin_title": "For Kevin & VAI",
-                    "partnership_k1": "Expert guidance on local needs",
-                    "partnership_k2": "Credible institutional partnership",
-                    "partnership_k3": "Sustainable platform expansion model",
-                    
-                    "funding_title": "Strategic Funding Pathway",
-                    "funding_step1_title": "Phase 1: Prêt d'Honneur",
-                    "funding_step1_amount": "500k - 2.5M CFP",
-                    "funding_step1_desc": "0% interest, immediate working capital",
-                    "funding_step2_title": "Phase 2: DAD Category 1",
-                    "funding_step2_amount": "Up to 2M CFP",
-                    "funding_step2_desc": "70% coverage, 30% matching from Phase 1",
-                    "funding_step3_title": "Phase 3: Growth Capital",
-                    "funding_step3_amount": "Strategic partners",
-                    "funding_step3_desc": "Based on proven market traction",
-                    "funding_rationale_title": "Why This Sequence Works",
-                    "funding_rationale_text": "Prêt d'Honneur provides immediate launch capital while creating the matching funds needed for DAD Category 1. This de-risks the growth phase and maximizes public support efficiency.",
                     
                     "impact_title": "Long-term Social Impact",
                     "impact_economic_title": "Economic Empowerment",
@@ -1146,30 +432,21 @@ a[href*="kevindesilva.de"] {
                     "impact_vision_title": "The Bigger Picture",
                     "impact_vision_text": "VAI isn't just about tourism bookings—it's about building a digital ecosystem where Polynesian expertise is visible, valued, and economically viable. It's technology in service of cultural continuity.",
                     
-                    "pres_ask_title": "Strategic Consultation Needed",
-                    "pres_ask_intro": "I have a clear strategy and proven platform, but your expert guidance is essential before moving forward. Help me choose the optimal path.",
-                    "pres_ask_q1_title": "Funding Pathway Validation",
-                    "pres_ask_q1_text": "Does the Prêt d'Honneur → DAD Category 1 sequence make strategic sense? Are there better alternatives I should consider?",
-                    "pres_ask_q2_title": "VAI Skills Partnership Structure",
-                    "pres_ask_q2_text": "Which route would most effectively serve your students and École du Numérique's mission? What would success look like?",
-                    "pres_ask_q3_title": "Tourism Office Introduction",
-                    "pres_ask_q3_text": "With whale season launching in days, could you facilitate an introduction to relevant tourism contacts? Speed is critical for seasonal opportunity capture.",
-                    
                     "pres_next_title": "Immediate Next Steps",
-                    "pres_next_s1": "Finalize funding application strategy with your guidance",
-                    "pres_next_s2": "Launch VAI Tickets for whale season",
-                    "pres_next_s3": "Develop VAI Skills collaboration framework",
-                    "pres_next_s4": "Schedule stakeholder meeting presentation",
+                    "pres_next_s1": "Finalize funding application strategy",
+                    "pres_next_s2": "Launch VAI Tickets & VAI Operator for whale season",
+                    "pres_next_s3": "Develop VAI Skills collaboration framework in a Partnership",
                     
                     "pres_contact_title": "Let's Build Together",
                     "pres_contact_role": "Founder & Digital Transformation Expert",
                     "pres_contact_email": "hello@vai.studio",
                     "pres_contact_linkedin": "LinkedIn Profile",
                     "pres_contact_website": "kevindesilva.de",
-                    "pres_contact_location": "🇩🇪 from Germany - Based in Moorea, French Polynesia",
+                    "pres_contact_company": "vai.studio",
+                    "pres_contact_location": "from Germany 🇩🇪 - Living in Moorea, French Polynesia 🌸",
 
                     // Enhanced Problem Section
-                    "problem_title": "The Problem: What does Tourism in French Polynesian really offer?",
+                    "problem_title": "The Problem of Tourism in French Polynesian",
                     "problem_fragmented_title": "👀 Fragmented Market",
                     "problem_fragmented_text": "No unified booking system across French Polynesia's 5 archipelagos - visitors book separately per island. No transparent offer.",
                     "problem_revenue_title": "📉 Revenue Loss",
@@ -1189,8 +466,8 @@ a[href*="kevindesilva.de"] {
                     "solution_title": "The Solution: Unify Digital Tourism Infrastructure",
                     "tourist_app_placeholder": "Tourist Mobile App",
                     "operator_app_placeholder": "Operator Tablet Dashboard",
-                    "solution_for_visitors": "For Visitors:",
-                    "solution_for_operators": "For Local Operators:",
+                    "solution_for_visitors": "For Visitors: VAI Tickets",
+                    "solution_for_operators": "For Local Operators: VAI Operator",
                     
                     // Visitor Features
                     "visitor_f1_title": "One App, all islands:",
@@ -1224,197 +501,142 @@ a[href*="kevindesilva.de"] {
                     "operator_f7_title": "Multi-Island Reach:",
                     "operator_f7_desc": "Access visitors globally and all across the French Polynesian islands"
                 },
-                fr: {
-                    "pres_title": "Consultation Stratégique",
-                    "pres_subtitle": "Une proposition pour l'écosystème numérique polynésien",
-                    "pres_presenter": "Kevin De Silva | 1er août 2025",
-                    
-                    "market_title": "Contexte du marché : Le défi numérique de la Polynésie française",
-                    "market_stat1": "Entreprises non informatisées",
-                    "market_stat2": "Taux de croissance touristique",
-                    "market_stat3": "Chômage des jeunes",
-                    "market_context": "La Polynésie française fait face à une fracture numérique critique alors que la croissance touristique stagne. Les petits opérateurs perdent quotidiennement des revenus à cause des barrières technologiques, tandis que les jeunes talents manquent de voies vers les opportunités.",
-                    
-                    "pres_problem_title": "Le problème : Barrière de connexion culturelle",
-                    "pres_problem_text": "Les touristes parcourent des milliers de kilomètres à la recherche de connexions authentiques, tandis que les experts locaux—les gardiens de la culture polynésienne—restent invisibles à cause des barrières numériques.",
-                    "problem_impact_title": "Perte de revenus quotidienne",
-                    "problem_impact_text": "Les opérateurs locaux perdent 25-30% des réservations potentielles à cause des annulations et du manque de visibilité. Ce n'est pas seulement un revenu perdu—ce sont des opportunités d'échange culturel perdues.",
-                    
-                    "pres_solution_title": "La Solution : VAI Tickets",
-                    "pres_solution_text": "Une plateforme multilingue, mobile-first qui démocratise l'accès au marché touristique pour les opérateurs locaux. VAI est un <strong>accélérateur</strong> numérique pour les expériences polynésiennes authentiques.",
-                    "pres_solution_f1": "Applications Touriste & Opérateur de haute qualité",
-                    "pres_solution_f2": "Support 6 langues incluant le tahitien",
-                    "pres_solution_f3": "Commission équitable de 11-15% vs 25-50% concurrents",
-                    "pres_solution_f4": "Découverte par humeur & réservation instantanée",
-                    "pres_solution_f5": "Lancement en pleine saison des baleines",
-                    
-                    "business_model_title": "Modèle économique durable",
-                    "business_revenue_title": "Récupération de revenus",
-                    "business_revenue_text": "Convertir 70% des annulations en revenus au lieu d'une perte totale. Notre plateforme capture l'écart d'annulation de 25-30%.",
-                    "business_fair_title": "Économie équitable",
-                    "business_fair_text": "Commission de 11-15% garde plus d'argent dans les poches locales vs 25-50% des plateformes internationales.",
-                    "business_social_title": "Impact social",
-                    "business_social_text": "5% des revenus dédiés aux projets de préservation environnementale et culturelle à travers la Polynésie française.",
-                    "business_local_title": "Local d'abord",
-                    "business_local_text": "Plateforme conçue par des locaux, pour des locaux. Relations directes maintenues entre opérateurs et clients.",
-                    
-                    "pres_proof_title": "Preuve d'excellence numérique locale",
-                    "pres_proof_text": "VAI a été développé entièrement en Polynésie française selon les standards d'entreprise internationaux. Nous pouvons construire une technologie de classe mondiale ici—c'est une preuve puissante pour la mission de l'École du Numérique.",
-                    "tech_features_title": "Excellence technique",
-                    "tech_f1": "Sécurité & performance niveau entreprise",
-                    "tech_f2": "Réservation & disponibilité temps réel",
-                    "tech_f3": "Application Web Progressive (capable hors ligne)",
-                    "tech_f4": "Intégration de flux de travail automatisés",
-                    "tech_integration_title": "Intégrations intelligentes",
-                    "tech_i1": "Live Chat pour communication opérateur",
-                    "tech_i2": "Supabase pour synchronisation de données temps réel",
-                    "tech_i3": "Automatisation n8n pour flux de réservation",
-                    "tech_i4": "Gestion de contenu multilingue",
-                    
-                    "launch_title": "Calendrier de lancement stratégique",
-                    "launch_t1_title": "Semaine 2",
-                    "launch_t1_desc": "Lancement VAI Tickets",
-                    "launch_t2_title": "Aujourd'hui",
-                    "launch_t2_desc": "Intégration opérateurs",
-                    "launch_t3_title": "Mois 1",
-                    "launch_t3_desc": "Partenariats Office de Tourisme",
-                    "launch_t4_title": "Mois 3",
-                    "launch_t4_desc": "Pilote VAI Skills",
-                    "launch_urgency_title": "Pourquoi le timing compte",
-                    "launch_urgency_text": "La saison des baleines (août-novembre) représente l'opportunité touristique maximale. Un lancement précoce nous permet de capturer les revenus saisonniers maximaux et de prouver la demande du marché.",
-                    
-                    "pres_vision_title": "Vision à long terme : Partenariat VAI Skills",
-                    "pres_vision_text": "Exploiter l'infrastructure prouvée de VAI pour co-développer une plateforme avec l'École du Numérique. Un accélérateur numérique pour l'économie de la connaissance de la Polynésie française.",
-                    "vision_route1_title": "Route 1 : Plateforme École du Numérique",
-                    "vision_route1_text": "Plateforme dédiée aux besoins spécifiques de votre école et au succès des étudiants.",
-                    "vision_r1_f1": "Vitrines de portfolios étudiants",
-                    "vision_r1_f2": "Mise en relation projets industriels",
-                    "vision_r1_f3": "Pipeline d'emploi des diplômés",
-                    "vision_route2_title": "Route 2 : Coordination inter-écoles",
-                    "vision_route2_text": "Plateforme connectant les écoles à travers toutes les îles de Polynésie française.",
-                    "vision_r2_f1": "Partage de ressources entre institutions",
-                    "vision_r2_f2": "Opportunités étudiantes inter-îles",
-                    "vision_r2_f3": "Écosystème d'éducation numérique unifié",
-                    
-                    "partnership_title": "Proposition de valeur partenariat",
-                    "partnership_odile_title": "Pour Odile & École du Numérique",
-                    "partnership_o1": "Démonstration de progrès concrets pour les parties prenantes",
-                    "partnership_o2": "Plateforme réelle pour placement étudiant",
-                    "partnership_o3": "Preuve de partenariats locaux innovants",
-                    "partnership_students_title": "Pour les étudiants",
-                    "partnership_s1": "Pipeline direct vers opportunités d'emploi",
-                    "partnership_s2": "Plateforme de vitrine portfolio",
-                    "partnership_s3": "Expérience de projet réel",
-                    "partnership_ecosystem_title": "Pour l'écosystème polynésien",
-                    "partnership_e1": "Marché des compétences numériques renforcé",
-                    "partnership_e2": "Chômage des jeunes réduit",
-                    "partnership_e3": "Rétention des connaissances en Polynésie française",
-                    "partnership_kevin_title": "Pour Kevin & VAI",
-                    "partnership_k1": "Guidance experte sur les besoins locaux",
-                    "partnership_k2": "Partenariat institutionnel crédible",
-                    "partnership_k3": "Modèle d'expansion de plateforme durable",
-                    
-                    "funding_title": "Parcours de financement stratégique",
-                    "funding_step1_title": "Phase 1 : Prêt d'Honneur",
-                    "funding_step1_amount": "500k - 2.5M CFP",
-                    "funding_step1_desc": "0% d'intérêt, capital de travail immédiat",
-                    "funding_step2_title": "Phase 2 : DAD Catégorie 1",
-                    "funding_step2_amount": "Jusqu'à 2M CFP",
-                    "funding_step2_desc": "70% couverture, 30% correspondance Phase 1",
-                    "funding_step3_title": "Phase 3 : Capital de croissance",
-                    "funding_step3_amount": "Partenaires stratégiques",
-                    "funding_step3_desc": "Basé sur traction marché prouvée",
-                    "funding_rationale_title": "Pourquoi cette séquence fonctionne",
-                    "funding_rationale_text": "Le Prêt d'Honneur fournit le capital de lancement immédiat tout en créant les fonds de correspondance nécessaires pour DAD Catégorie 1. Cela dé-risque la phase de croissance et maximise l'efficacité du soutien public.",
-                    
-                    "impact_title": "Impact social à long terme",
-                    "impact_economic_title": "Autonomisation économique",
-                    "impact_economic_text": "Rediriger les revenus touristiques des plateformes internationales vers les opérateurs locaux. Créer des flux de revenus durables pour les familles polynésiennes.",
-                    "impact_cultural_title": "Préservation culturelle",
-                    "impact_cultural_text": "Rendre les connaissances traditionnelles visibles et valorisées. Assurer que les bénéfices d'échange culturel profitent aux gardiens du savoir.",
-                    "impact_digital_title": "Souveraineté numérique",
-                    "impact_digital_text": "Construire une capacité numérique locale. Prouver que la Polynésie française peut créer des solutions technologiques, pas seulement les consommer.",
-                    "impact_vision_title": "La vision d'ensemble",
-                    "impact_vision_text": "VAI n'est pas seulement des réservations touristiques—c'est construire un écosystème numérique où l'expertise polynésienne est visible, valorisée et économiquement viable. C'est la technologie au service de la continuité culturelle.",
-                    
-                    "pres_ask_title": "Consultation stratégique nécessaire",
-                    "pres_ask_intro": "J'ai une stratégie claire et une plateforme prouvée, mais tes conseils d'experte sont essentiels avant d'avancer. Aide-moi à choisir le chemin optimal.",
-                    "pres_ask_q1_title": "Validation du parcours de financement",
-                    "pres_ask_q1_text": "La séquence Prêt d'Honneur → DAD Catégorie 1 a-t-elle un sens stratégique ? Y a-t-il de meilleures alternatives que je devrais considérer ?",
-                    "pres_ask_q2_title": "Structure de partenariat VAI Skills",
-                    "pres_ask_q2_text": "Quelle route servirait le plus efficacement tes étudiants et la mission de l'École du Numérique ? À quoi ressemblerait le succès ?",
-                    "pres_ask_q3_title": "Introduction office de tourisme",
-                    "pres_ask_q3_text": "Avec le lancement de la saison des baleines dans quelques jours, pourrais-tu faciliter une introduction aux contacts touristiques pertinents ? La vitesse est critique pour capturer l'opportunité saisonnière.",
-                    
-                    "pres_next_title": "Prochaines étapes immédiates",
-                    "pres_next_s1": "Finaliser la stratégie de demande de financement avec tes conseils",
-                    "pres_next_s2": "Lancer VAI Tickets pour la saison des baleines",
-                    "pres_next_s3": "Développer le cadre de collaboration VAI Skills",
-                    "pres_next_s4": "Programmer la présentation de réunion des parties prenantes",
-                    
-                    "pres_contact_title": "Construisons ensemble",
-                    "pres_contact_role": "Fondateur & Expert en transformation numérique",
-                    "pres_contact_email": "hello@vai.studio",
-                    "pres_contact_linkedin": "Profil LinkedIn",
-                    "pres_contact_website": "kevindesilva.de",
-                    "pres_contact_location": "🇩🇪 d'Allemagne - Basé à Moorea, Polynésie française",
+            "fr": {
+                "pres_title": "La Clé du Paradis",
+                "pres_subtitle": "Une Proposition pour l'Écosystème Numérique de la Polynésie française",
+                "pres_presenter": "Renforcer les entreprises en Polynésie française © 2025 VAI Studio",
+                
+                "pres_solution_title": "La Solution : VAI Tickets",
+                "pres_solution_text": "Une plateforme multilingue et mobile-first qui démocratise l'accès au marché du tourisme pour les opérateurs locaux. VAI est un <strong>accélérateur</strong> numérique pour les expériences polynésiennes authentiques.",
+                "pres_solution_f1": "Applications de haute qualité pour touristes & opérateurs",
+                "pres_solution_f2": "Support en 6 langues, y compris le tahitien",
+                "pres_solution_f3": "Commission équitable de 11-15% contre 25-50% pour les concurrents",
+                "pres_solution_f4": "Découverte basée sur l'humeur & réservation instantanée",
+                "pres_solution_f5": "Lancement au plus fort de la saison des baleines",
+                
+                "business_model_title": "Un Modèle Économique Durable",
+                "business_revenue_title": "💰 Récupération de Revenus",
+                "business_revenue_text": "Convertir les annulations des touristes en nouveaux revenus. Notre plateforme comble le manque à gagner de 25-30% dû aux annulations.",
+                "business_fair_title": "🍬 Commission Équitable",
+                "business_fair_text": "Une commission très basse de 11-15% qui maintient plus d'argent dans l'économie locale, contre 25-50% pour les plateformes internationales.",
+                "business_social_title": "🌱 Impact Social",
+                "business_social_text": "5% des revenus dédiés à des projets de préservation environnementale et culturelle en Polynésie française.",
+                "business_local_title": "🤙 Priorité au Local",
+                "business_local_text": "Plateforme conçue pour les locaux. Les relations directes entre opérateurs et clients sont préservées.",
+                
+                "pres_proof_title": "Preuve de l'Excellence Numérique Locale",
+                "pres_proof_text": "VAI a été entièrement développé en Polynésie française selon les standards internationaux des entreprises. C'est la preuve tangible que nous pouvons créer ici une technologie de classe mondiale.",
+                "tech_features_title": "Excellence Technique",
+                "tech_f1": "Sécurité et performance de niveau entreprise",
+                "tech_f2": "Réservation et disponibilité en temps réel",
+                "tech_f3": "Progressive Web App (capable de fonctionner hors ligne)",
+                "tech_f4": "Intégration de flux de travail automatisés",
+                "tech_integration_title": "Intégrations Intelligentes",
+                "tech_i1": "Chat en direct pour la communication avec les opérateurs",
+                "tech_i2": "Supabase pour la synchronisation des données en temps réel",
+                "tech_i3": "Automatisation n8n pour les flux de réservation",
+                "tech_i4": "Gestion de contenu multilingue",
+                
+                "launch_title": "Calendrier de Lancement Stratégique",
+                "launch_t1_title": "Semaine 2",
+                "launch_t1_desc": "Lancement de VAI Tickets",
+                "launch_t2_title": "Aujourd'hui",
+                "launch_t2_desc": "Intégration des opérateurs",
+                "launch_t3_title": "Mois 1",
+                "launch_t3_desc": "Partenariats avec l'Office du Tourisme",
+                "launch_t4_title": "Mois 3",
+                "launch_t4_desc": "Projet pilote VAI Skills",
+                "launch_urgency_title": "Pourquoi le timing est crucial",
+                "launch_urgency_text": "La saison des baleines (août-novembre) représente une opportunité touristique de pointe. Un lancement précoce nous permet de capter un maximum de revenus saisonniers et de prouver la demande du marché.",
+                
+                "pres_vision_title": "Vision : Partenariat VAI Skills",
+                "pres_vision_text": "Recherche d'un partenaire ! - Nous souhaitons capitaliser sur l'infrastructure éprouvée de VAI pour co-développer une plateforme. Un accélérateur numérique pour l'économie du savoir en Polynésie française.",
+                "vision_route1_title": "Option 1 : Plateforme d'Éducation Numérique",
+                "vision_route1_text": "Une plateforme dédiée aux besoins spécifiques de tes étudiants et à leur réussite pédagogique.",
+                "vision_r1_f1": "Vitrines de portfolios étudiants",
+                "vision_r1_f2": "Mise en relation pour des projets industriels",
+                "vision_r1_f3": "Canal d'emploi pour les diplômés",
+                "vision_route2_title": "Option 2 : Coordination Inter-Écoles",
+                "vision_route2_text": "Plateforme connectant les écoles à travers toutes les îles de la Polynésie française.",
+                "vision_r2_f1": "Partage de ressources entre les établissements",
+                "vision_r2_f2": "Opportunités pour les étudiants entre les îles",
+                "vision_r2_f3": "Écosystème d'éducation numérique unifié",
+                
+                "impact_title": "Impact Social à Long Terme",
+                "impact_economic_title": "Autonomisation Économique",
+                "impact_economic_text": "Réorienter les revenus du tourisme des plateformes internationales vers les opérateurs locaux. Créer des sources de revenus durables pour les familles polynésiennes.",
+                "impact_cultural_title": "Préservation Culturelle",
+                "impact_cultural_text": "Rendre les savoirs traditionnels visibles et valorisés. Assurer que les bénéfices des échanges culturels reviennent aux gardiens du savoir.",
+                "impact_digital_title": "Souveraineté Numérique",
+                "impact_digital_text": "Développer la capacité numérique locale. Prouver que la Polynésie française peut créer des solutions technologiques, et pas seulement les consommer.",
+                "impact_vision_title": "La Vision d'Ensemble",
+                "impact_vision_text": "VAI ne se limite pas aux réservations touristiques, il s'agit de bâtir un écosystème numérique où l'expertise polynésienne est visible, valorisée et économiquement viable. C'est la technologie au service de la continuité culturelle.",
+                
+                "pres_next_title": "Prochaines Étapes Immédiates",
+                "pres_next_s1": "Finaliser la stratégie de demande de financement",
+                "pres_next_s2": "Lancer VAI Tickets & VAI Operator pour la saison des baleines",
+                "pres_next_s3": "Développer un cadre de collaboration pour VAI Skills en partenariat",
+                
+                "pres_contact_title": "Construisons Ensemble",
+                "pres_contact_role": "Fondateur & Expert en Transformation Numérique",
+                "pres_contact_email": "hello@vai.studio",
+                "pres_contact_linkedin": "Profil LinkedIn",
+                "pres_contact_website": "kevindesilva.de",
+                "pres_contact_company": "vai.studio",
+                "pres_contact_location": "d'Allemagne 🇩🇪 - Vivant à Moorea, Polynésie française 🌸",
 
-                    // Enhanced Problem Section
-                    "problem_title": "Le Problème : Que propose vraiment le tourisme en Polynésie française ?",
-                    "problem_fragmented_title": "👀 Marché fragmenté",
-                    "problem_fragmented_text": "Aucun système de réservation unifié à travers les 5 archipels de Polynésie française - les visiteurs réservent séparément par île. Aucune offre transparente.",
-                    "problem_revenue_title": "📉 Perte de revenus",
-                    "problem_revenue_text": "25-30% des revenus touristiques sont perdus à cause des annulations et des écarts de disponibilité de dernière minute",
-                    "problem_platform_title": "🔒 Dépendance aux plateformes",
-                    "problem_platform_text": "Les opérateurs locaux paient 25-50% de commissions aux plateformes de réservation internationales comme TripAdvisor ou Viator vs. garder les revenus sur les îles",
-                    "problem_language_title": "🗯️ Barrière linguistique",
-                    "problem_language_text": "La plupart des sites web ne fonctionnent qu'en français, excluant les visiteurs anglophones, germanophones/hispanophones/italophones (segments de marché significatifs)",
-                    "problem_regulatory_title": "📄 Défi de conformité",
-                    "problem_regulatory_text": "Les réglementations 2025 sur l'observation des baleines nécessitent une gestion de réservation spécialisée que les opérateurs peinent à mettre en œuvre indépendamment",
-                    "problem_digital_title": "💾 Défi numérique",
-                    "problem_digital_text": "20% des entreprises locales restent sous-informatisées, perdant l'accès au marché des touristes numériques",
-                    "problem_visitor_title": "🙁 Insatisfaction des visiteurs",
-                    "problem_visitor_text": "Les touristes rapportent des difficultés à trouver des expériences locales authentiques au-delà des offres commerciales. \"La Polynésie française est belle mais pas abordable\"",
-                    
-                    // Solution Section
-                    "solution_title": "La Solution : Unifier l'infrastructure touristique numérique",
-                    "tourist_app_placeholder": "App Mobile Touriste",
-                    "operator_app_placeholder": "Tableau de Bord Tablette Opérateur",
-                    "solution_for_visitors": "Pour les Visiteurs :",
-                    "solution_for_operators": "Pour les Opérateurs Locaux :",
-                    
-                    // Visitor Features
-                    "visitor_f1_title": "Une App, toutes les îles :",
-                    "visitor_f1_desc": "Plateforme unique pour les activités à travers les 5 archipels",
-                    "visitor_f2_title": "Disponibilité temps réel :",
-                    "visitor_f2_desc": "Réservation en direct pour les expériences du jour même",
-                    "visitor_f3_title": "Recommandations intelligentes :",
-                    "visitor_f3_desc": "Suggestions d'activités basées sur l'humeur et la météo",
-                    "visitor_f4_title": "Interface multilingue :",
-                    "visitor_f4_desc": "Support français, anglais, tahitien, espagnol, italien, allemand",
-                    "visitor_f5_title": "Prix transparents avec remises opérateurs locaux :",
-                    "visitor_f5_desc": "Expériences locales authentiques avec prix clairs et à l'avance",
-                    "visitor_f6_title": "Communication intégrée :",
-                    "visitor_f6_desc": "Chat direct avec les opérateurs sans quitter la plateforme",
-                    "visitor_f7_title": "Impact social :",
-                    "visitor_f7_desc": "Contributions engagées à la préservation océanique et culturelle",
-                    
-                    // Operator Features
-                    "operator_f1_title": "Plateforme marketing gratuite :",
-                    "operator_f1_desc": "Présence numérique sophistiquée en Polynésie française sans besoin de son propre système de réservation",
-                    "operator_f2_title": "Structure de commission équitable :",
-                    "operator_f2_desc": "Commission très faible à 11-15% (au lieu des 25-50% élevés d'autres plateformes)",
-                    "operator_f3_title": "Récupération de revenus :",
-                    "operator_f3_desc": "Convertir toutes les annulations en réservations de dernière minute",
-                    "operator_f4_title": "Conformité réglementaire :",
-                    "operator_f4_desc": "Gestion intégrée des réglementations 2025 sur l'observation des baleines",
-                    "operator_f5_title": "Communication directe client :",
-                    "operator_f5_desc": "Maintenir les relations personnelles tout en gagnant une présence numérique",
-                    "operator_f6_title": "Fonctionnalités d'entreprise :",
-                    "operator_f6_desc": "Disponibilité temps réel, confirmations automatisées, traitement des paiements",
-                    "operator_f7_title": "Portée multi-îles :",
-                    "operator_f7_desc": "Accéder aux visiteurs mondialement et à travers toutes les îles de Polynésie française"
-                },
+                "problem_title": "La Problématique du Tourisme en Polynésie française",
+                "problem_fragmented_title": "👀 Marché Fragmenté",
+                "problem_fragmented_text": "Aucun système de réservation unifié pour les 5 archipels de Polynésie française - les visiteurs réservent séparément sur chaque île. Manque de transparence de l'offre.",
+                "problem_revenue_title": "📉 Perte de Revenus",
+                "problem_revenue_text": "25-30% des revenus touristiques sont perdus à cause des annulations et des disponibilités de dernière minute non pourvues.",
+                "problem_platform_title": "🔒 Dépendance aux Plateformes",
+                "problem_platform_text": "Les opérateurs locaux paient 25-50% de commissions aux plateformes de réservation internationales comme TripAdvisor ou Viator, au lieu de conserver ces revenus sur les îles.",
+                "problem_language_title": "🗯️ Barrière de la Langue",
+                "problem_language_text": "La plupart des sites web sont uniquement en français, excluant les visiteurs anglophones, germanophones, hispanophones ou italophones (des segments de marché importants).",
+                "problem_regulatory_title": "📄 Défi de Conformité",
+                "problem_regulatory_text": "La réglementation 2025 sur l'observation des baleines exige une gestion spécialisée des réservations que les opérateurs peinent à mettre en œuvre seuls.",
+                "problem_digital_title": "💾 Défi Numérique",
+                "problem_digital_text": "20% des entreprises locales restent sous-informatisées, perdant l'accès au marché des touristes 'natifs du numérique'.",
+                "problem_visitor_title": "🙁 Insatisfaction des Visiteurs",
+                "problem_visitor_text": "Les touristes signalent des difficultés à trouver des expériences locales authentiques au-delà des offres commerciales. \"La Polynésie française est magnifique mais pas abordable\"",
+                
+                "solution_title": "La Solution : Unifier l'Infrastructure Touristique Numérique",
+                "tourist_app_placeholder": "Application Mobile pour Touristes",
+                "operator_app_placeholder": "Tableau de Bord pour Opérateurs",
+                "solution_for_visitors": "Pour les Visiteurs : VAI Tickets",
+                "solution_for_operators": "Pour les Opérateurs Locaux : VAI Operator",
+                
+                "visitor_f1_title": "Une seule app, toutes les îles :",
+                "visitor_f1_desc": "Plateforme unique pour les activités sur les 5 archipels.",
+                "visitor_f2_title": "Disponibilité en temps réel :",
+                "visitor_f2_desc": "Réservation en direct pour des expériences le jour même.",
+                "visitor_f3_title": "Recommandations intelligentes :",
+                "visitor_f3_desc": "Suggestions d'activités basées sur l'humeur et la météo.",
+                "visitor_f4_title": "Interface multilingue :",
+                "visitor_f4_desc": "Support en français, anglais, tahitien, espagnol, italien, allemand.",
+                "visitor_f5_title": "Tarifs transparents avec remises des opérateurs locaux :",
+                "visitor_f5_desc": "Expériences locales authentiques avec des prix clairs et sans surprise.",
+                "visitor_f6_title": "Communication intégrée :",
+                "visitor_f6_desc": "Chat direct avec les opérateurs sans quitter la plateforme.",
+                "visitor_f7_title": "Impact social :",
+                "visitor_f7_desc": "Contributions engagées pour la préservation de l'océan et de la culture.",
+                
+                "operator_f1_title": "Plateforme de marketing gratuite :",
+                "operator_f1_desc": "Présence numérique sophistiquée en Polynésie française sans avoir besoin de son propre système de réservation.",
+                "operator_f2_title": "Structure de commission équitable :",
+                "operator_f2_desc": "Commission très basse de 11-15% (au lieu des 25-50% élevés des autres plateformes).",
+                "operator_f3_title": "Récupération de revenus :",
+                "operator_f3_desc": "Convertir les annulations en réservations de dernière minute.",
+                "operator_f4_title": "Conformité réglementaire :",
+                "operator_f4_desc": "Gestion intégrée de la réglementation 2025 sur l'observation des baleines.",
+                "operator_f5_title": "Communication directe avec les clients :",
+                "operator_f5_desc": "Maintenir des relations personnelles tout en gagnant une présence numérique.",
+                "operator_f6_title": "Fonctionnalités professionnelles :",
+                "operator_f6_desc": "Disponibilité en temps réel, confirmations automatisées, traitement des paiements.",
+                "operator_f7_title": "Portée multi-îles :",
+                "operator_f7_desc": "Atteindre des visiteurs du monde entier et à travers toutes les îles de la Polynésie française."
+            },
             };
 
             const languageSwitcher = document.querySelector('.language-switcher');
