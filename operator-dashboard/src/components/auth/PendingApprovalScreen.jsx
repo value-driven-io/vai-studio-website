@@ -186,7 +186,7 @@ const PendingApprovalScreen = ({
                   'Check your email for confirmation',
                   'Our team will review your application',
                   'You\'ll receive approval notification',
-                  'Once approved, you can start creating tours'
+                  'Once approved, you can start creating activities'
                 ].map((step, index) => (
                   <div key={index} className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />

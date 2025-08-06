@@ -94,7 +94,7 @@ const JourneyTab = () => {
       id: 'modern',
       label: 'All Bookings',
       emoji: '🎯',
-      description: 'Modern booking management',
+      description: 'Booking management',
       count: safeUserBookings.active.length + safeUserBookings.upcoming.length + safeUserBookings.past.length,
       new: true // Flag to show "NEW" badge
     },

@@ -752,9 +752,9 @@
     "title": "Status deines Antrags",
     "status": {
       "pending": "Antrag wird geprüft",
-      "pendingMessage": "Dein Partner-Antrag wird von unserem Team geprüft. Wir benachrichtigen dich innerhalb von 24 Stunden.",
+      "pendingMessage": "Dein Partner-Antrag wird von unserem Team geprüft. Wir benachrichtigen dich schnellstmöglich.",
       "approved": "Konto genehmigt!",
-      "approvedMessage": "Dein Partnerkonto wurde genehmigt. Du kannst dich jetzt einloggen, um deine Touren zu erstellen.",
+      "approvedMessage": "Dein Partnerkonto wurde genehmigt. Du kannst dich jetzt einloggen, um deine Aktivitäten zu erstellen.",
       "suspended": "Konto wird überprüft",
       "suspendedMessage": "Dein Konto ist vorübergehend gesperrt. Bitte kontaktiere den Support für weitere Informationen.",
       "inactive": "Konto inaktiv",

@@ -754,9 +754,9 @@
     "title": "Statut de ta demande",
     "status": {
       "pending": "Demande en cours d'examen",
-      "pendingMessage": "Ta demande de partenariat est en cours d'examen par notre équipe. Nous te préviendrons sous 24 heures.",
+      "pendingMessage": "Ta demande de partenariat est en cours d'examen par notre équipe. Nous t'en informerons dès que possible",
       "approved": "Compte Approuvé !",
-      "approvedMessage": "Ton compte partenaire a été approuvé. Tu peux maintenant te connecter pour créer tes excursions.",
+      "approvedMessage": "Ton compte partenaire a été approuvé. Tu peux maintenant te connecter pour créer tes activités.",
       "suspended": "Compte Suspendu",
       "suspendedMessage": "Ton compte est temporairement suspendu. Contacte le support pour plus d'informations.",
       "inactive": "Compte Inactif",

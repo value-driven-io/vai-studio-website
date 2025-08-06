@@ -752,9 +752,9 @@
     "title": "Estado de tu solicitud",
     "status": {
       "pending": "Solicitud en revisión",
-      "pendingMessage": "Tu solicitud de socio está siendo revisada por nuestro equipo. Te avisaremos en un plazo de 24 horas.",
+      "pendingMessage": "Tu solicitud de socio está siendo revisada por nuestro equipo. Le informaremos lo antes posible.",
       "approved": "¡Cuenta aprobada!",
-      "approvedMessage": "Tu cuenta de socio ha sido aprobada. Ya puedes iniciar sesión para empezar a crear tours.",
+      "approvedMessage": "Tu cuenta de socio ha sido aprobada. Ya puedes iniciar sesión para empezar a crear actividades.",
       "suspended": "Cuenta en revisión",
       "suspendedMessage": "Tu cuenta está suspendida temporalmente. Por favor, contacta con soporte para más información.",
       "inactive": "Cuenta inactiva",
