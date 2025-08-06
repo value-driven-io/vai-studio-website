@@ -23,7 +23,34 @@ const LanguageSelector = ({ size = 'sm', showText = false }) => {
       name: 'English',
       flag: '🇺🇸',
       nativeName: 'English'
+    },
+
+    {
+      code: 'es', 
+      name: 'English',
+      flag: '🇪🇸',
+      nativeName: 'Español'
+    },
+    {
+      code: 'de', 
+      name: 'German',
+      flag: '🇩🇪',
+      nativeName: 'Deutsch'
+    },
+    {
+      code: 'it', 
+      name: 'Italian',
+      flag: '🇮🇹',
+      nativeName: 'Italiano'
+    },
+
+    {
+      code:'ty',
+      name: 'Tahitian',
+      flag: '🇵🇫',
+        nativeName: 'Reo Tahiti'
     }
+
   ]
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0]
@@ -96,42 +123,28 @@ const LanguageSelector = ({ size = 'sm', showText = false }) => {
 
   return (
     <div className="flex items-center gap-2">
-      {/* Current Language Button */}
-      <div className={`flex items-center ${currentSizeClass} bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors ${isChanging ? 'opacity-50' : ''}`}>
-        <Globe className="w-4 h-4 text-slate-300" />
-        <span className="text-slate-300">{currentLanguage.flag}</span>
-        {showText && (
-          <span className="text-white font-medium">
-            {currentLanguage.nativeName}
-          </span>
-        )}
-      </div>
 
       {/* Language Toggle Buttons */}
-      <div className="flex gap-1">
-        {languages.map((language) => (
-          <button
-            key={language.code}
-            onClick={() => handleLanguageChange(language.code)}
-            disabled={isChanging}
-            className={`px-2 py-1 rounded text-sm transition-colors ${
-              language.code === i18n.language 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            } ${isChanging ? 'opacity-50 cursor-not-allowed' : ''}`}
-            title={`Switch to ${language.name}`}
-          >
-            {language.flag}
-          </button>
-        ))}
-      </div>
-      
-      {/* Debug info in development */}
-      {process.env.NODE_ENV === 'development' && (
-        <span className="text-xs text-slate-500">
-          [{i18n.language}] {user ? '🔐' : '👤'}
-        </span>
-      )}
+      <div className="flex items-center gap-2">
+        <Globe className="w-4 h-4 text-slate-400" />
+        <div className="flex gap-1">
+            {languages.map((language) => (
+            <button
+                key={language.code}
+                onClick={() => handleLanguageChange(language.code)}
+                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors ${
+                language.code === i18n.language 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 hover:text-white border border-slate-600'
+                }`}
+                title={`Switch to ${language.name}`}
+            >
+                <span>{language.flag}</span>
+                <span className="hidden sm:inline">{language.nativeName}</span>
+            </button>
+            ))}
+        </div>
+        </div>
     </div>
   )
 }

@@ -190,7 +190,7 @@ const getDateRangeLabel = () => {
     let count = 0
     if (filters.island !== 'all') count++
     if (filters.tourType !== 'all') count++
-    if (filters.timeframe !== 'week') count++
+    if (filters.timeframe !== 'all') count++
     if (filters.duration !== 'all') count++
     if (filters.search) count++
     if (filters.dateRange) count++
@@ -266,42 +266,47 @@ const getDateRangeLabel = () => {
           {/* LANE 2: Date filters + Sort dropdown */}
           <div className="px-3 sm:px-4 md:px-6 py-3 border-b border-slate-700/50">
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                  {/* Quick Date Filters */}
-                  <div className="flex gap-2 flex-shrink-0">
-                    {[
-                      { id: 'today', label: t('explore.timeFilters.today'), icon: '☀️' },
-                      { id: 'tomorrow', label: t('explore.timeFilters.tomorrow'), icon: '🌅' },
-                      { id: 'week', label: t('explore.timeFilters.thisWeek'), icon: '📆' }
-                    ].map((timeOption) => (
-                      <button
-                        key={timeOption.id}
-                        onClick={() => {
-                          updateFilter('timeframe', timeOption.id)
-                          setDateRange(null) // Clear custom date range when quick filter is selected
-                        }}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
-                          filters.timeframe === timeOption.id
-                            ? 'bg-blue-600 text-white shadow-lg'
-                            : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
-                        }`}
-                      >
-                        <span className="text-base">{timeOption.icon}</span>
-                        <span className="whitespace-nowrap">{timeOption.label}</span>
-                      </button>
-                    ))}
+                  {/* Quick Date Filters - Mobile Responsive */}
+                      <div className="flex gap-2 flex-wrap overflow-x-auto">
+                        {[
+                          { id: 'today', label: t('explore.timeFilters.today'), icon: '☀️' },
+                          { id: 'tomorrow', label: t('explore.timeFilters.tomorrow'), icon: '🌅' },
+                        ].map((timeOption) => (
+                          <button
+                            key={timeOption.id}
+                            onClick={() => {
+                              updateFilter('timeframe', timeOption.id)
+                              setDateRange(null)
+                            }}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 flex-shrink-0 ${
+                              filters.timeframe === timeOption.id
+                                ? 'bg-blue-600 text-white shadow-lg'
+                                : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                            }`}
+                          >
+                            <span className="text-base">{timeOption.icon}</span>
+                          <span className="whitespace-nowrap hidden sm:inline">{timeOption.label}</span>
+                          <span className="whitespace-nowrap text-xs sm:hidden">
+                            {timeOption.id === 'today' ? t('explore.timeFilters.today') : 
+                            t('explore.timeFilters.tomorrow')}
+                          </span>
+                            
+                          </button>
+                        ))}
 
-                    {/* Calendar Date Picker Button */}
-                    <button
-                      onClick={() => setShowDatePicker(true)}
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
-                        filters.dateRange
-                          ? 'bg-purple-600 text-white shadow-lg'
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
-                      }`}
-                    >
-                      <Calendar className="w-4 h-4" />
-                    </button>
-                  </div>
+                        {/* Calendar Date Picker Button */}
+                        <button
+                          onClick={() => setShowDatePicker(true)}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 flex-shrink-0 ${
+                            filters.dateRange
+                              ? 'bg-purple-600 text-white shadow-lg'
+                              : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                          }`}
+                        >
+                          <Calendar className="w-4 h-4" />
+                          <span className="whitespace-nowrap hidden sm:inline">Custom</span>
+                        </button>
+                      </div>
             </div>
           </div>
 

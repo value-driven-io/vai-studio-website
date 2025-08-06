@@ -22,7 +22,7 @@ import LaunchingSoonModal from './components/shared/LaunchingSoonModal';
 import MessagesTab from './components/messages/MessagesTab'
 
 import VAILogo from './components/shared/VAILogo'
-import LanguageSelector from './components/shared/LanguageSelector'
+import LanguageDropdown from './components/shared/LanguageDropdown'
 
 // Import our store
 import { useAppStore } from './stores/bookingStore'
@@ -36,48 +36,71 @@ const isAppLaunched = import.meta.env.VITE_APP_LAUNCHED === 'true';
 const AppHeader = () => {
   const { user, signOut } = useAuth()
   const [showAuthModal, setShowAuthModal] = useState(false)
-  // 🌍 NEW: Add translation hook
   const { t } = useTranslation()
 
   return (
-    <header className="bg-slate-900/95 backdrop-blur-sm border-b border-slate-700 px-4 py-3 sticky top-0 z-40">
-      {/*<div className="flex items-center justify-between max-w-md mx-auto">*/}
-      <div className="flex items-center justify-between mx-auto">
-        {/* Logo/Brand */}
-        <div className="flex items-center gap-2">
-          <VAILogo size="sm" />
-        </div>
-
-        {/* Language Selector + Login/User Section */}
-        <div className="flex items-center gap-3">
-          {/* Language Selector */}
-          <LanguageSelector size="sm" />
-
-        {/* Login/User Section */}
-          {user ? (
-            <div className="flex items-center gap-3">
-              <span className="text-slate-300 text-sm">
-                {/* 🌍 ENHANCED: Cultural Polynesian greeting */}
-                {t('common.hi')}, {user.user_metadata?.first_name || 'User'}!
-              </span>
-              <button
-                onClick={signOut}
-                className="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-sm transition-colors"
-              >
-                {/* 🌍 ENHANCED: Translated sign out */}
-                {t('common.signOut')}
-              </button>
+    <>
+      {/* Sticky container with spacing */}
+      <div className="top-0 z-40 px-4 pt-4">
+        <header className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 mx-auto max-w-7xl">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            
+            {/* Left side - Branding */}
+            <div className="flex items-center gap-4">
+              {/* Logo/Brand */}
+              <div className="app-logo-container flex items-center gap-2">
+                <VAILogo size="sm" />
+              </div>
+              
+              <div>
+                <h1 className="text-lg font-bold text-white">
+                  {t('header.title', 'VAI Tickets')}
+                </h1>
+                <p className="text-slate-400 text-sm">
+                  {user 
+                    ? t('header.greeting', `Welcome back, ${user.user_metadata?.first_name || 'Explorer'}!`)
+                    : t('header.subtitle', 'Discover French Polynesia')
+                  }
+                </p>
+              </div>
             </div>
-          ) : (
-            <button
-              onClick={() => setShowAuthModal(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-            >
-              {/* 🌍 ENHANCED: Translated login */}
-              {t('common.login')}
-            </button>
-          )}
-        </div>
+
+            {/* Right side - Actions */}
+            <div className="flex items-center gap-3">
+              
+              {/* User info when logged in */}
+              {user && (
+                <div className="flex items-center gap-2 px-3 py-2 bg-slate-700/50 rounded-lg">
+                  <span className="text-slate-300 text-sm hidden sm:inline">
+                    {user.email}
+                  </span>
+                </div>
+              )}
+              
+              {/* Language Selector */}
+              <LanguageDropdown />
+              
+              {/* Login/Logout Section */}
+              {user ? (
+                <button
+                  onClick={signOut}
+                  className="flex items-center gap-2 px-3 py-2 bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 hover:text-red-300 rounded-lg transition-colors"
+                  title={t('common.logout')}
+                >
+                  <span className="hidden sm:inline">{t('common.signOut')}</span>
+                  <span className="sm:hidden">🚪</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                >
+                  {t('common.login')}
+                </button>
+              )}
+            </div>
+          </div>
+        </header>
       </div>
 
       {/* Auth Modal */}
@@ -85,7 +108,7 @@ const AppHeader = () => {
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)} 
       />
-    </header>
+    </>
   )
 }
 
@@ -119,7 +142,7 @@ function AppContent() {
       <AppHeader />
 
       {/* Main Content Area */}
-      <main className="pb-20"> {/* pb-20 keeps space for bottom navigation */}
+      <main className="pb-20 px-4"> {/* pb-20 keeps space for bottom navigation */}
         <div style={{ display: activeTab === 'discover' ? 'block' : 'none' }}>
           <DiscoverTab />
         </div>

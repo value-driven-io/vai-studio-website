@@ -18,7 +18,7 @@ export const useAppStore = create(
       filters: {
         island: 'all',
         tourType: 'all',
-        timeframe: 'week', // Default to week for explore tab
+        timeframe: 'all', // Default to all for explore tab
         duration: 'all',
         search: '',
         sortBy: 'date',
@@ -97,7 +97,7 @@ export const useAppStore = create(
         filters: {
           island: 'all',
           tourType: 'all',
-          timeframe: 'week',
+          timeframe: 'all',
           duration: 'all',
           search: '',
           sortBy: 'date',

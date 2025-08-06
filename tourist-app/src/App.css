@@ -7,6 +7,16 @@
   pointer-events: none;
 }
 
+.app-logo-container {
+    border: 1px solid blueviolet;
+    border-radius: 5px;
+    padding: 5px;
+    background: radial-gradient(#fdfdfd, #c4e7ff);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

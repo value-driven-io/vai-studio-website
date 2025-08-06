@@ -21,6 +21,12 @@
     "goodbye": "Nana"
   },
 
+  "header": {
+    "title": "VAI Tickets",
+    "subtitle": "La clé du paradis",
+    "greeting": "Ia ora na, {{name}}!"
+    },
+
   "navigation": {
     "discover": "Découvrir",
     "explore": "Explorer",
