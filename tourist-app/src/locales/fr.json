@@ -205,7 +205,7 @@
     "timeFilters": {
       "today": "Aujourd'hui",
       "tomorrow": "Demain",
-      "thisWeek": "Cette semaine"
+      "thisWeek": "Semaine"
     },
     
     "filterLabels": {

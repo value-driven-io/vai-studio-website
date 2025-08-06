@@ -12,8 +12,81 @@ import BookingModal from '../booking/BookingModal'
 import toast from 'react-hot-toast'
 import TourCard from '../shared/TourCard'
 import VAILogo from '../shared/VAILogo'
-// 🌍 ONLY NEW ADDITION: Import useTranslation
 import { useTranslation } from 'react-i18next'
+
+// Date Picker
+const DatePickerModal = ({ isOpen, onClose, onDateSelect, currentDateRange }) => {
+  const [startDate, setStartDate] = useState(currentDateRange?.start || '')
+  const [endDate, setEndDate] = useState(currentDateRange?.end || '')
+
+  const handleApply = () => {
+    if (startDate && endDate) {
+      onDateSelect({ start: startDate, end: endDate })
+    } else if (startDate) {
+      onDateSelect({ start: startDate, end: startDate })
+    }
+    onClose()
+  }
+
+  const handleClear = () => {
+    onDateSelect(null)
+    onClose()
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-slate-800 rounded-xl border border-slate-700 w-full max-w-sm mx-4">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-slate-700">
+          <h3 className="text-lg font-semibold text-white">Select Dates</h3>
+          <button onClick={onClose} className="text-slate-400 hover:text-white">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        {/* Date Inputs */}
+        <div className="p-4 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">From Date</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">To Date</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 focus:border-blue-500"
+            />
+          </div>
+        </div>
+        
+        {/* Actions */}
+        <div className="flex items-center justify-between p-4 border-t border-slate-700">
+          <button
+            onClick={handleClear}
+            className="px-4 py-2 text-slate-400 hover:text-white transition-colors"
+          >
+            Clear
+          </button>
+          <button
+            onClick={handleApply}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const ExploreTab = () => {
   // 🌍 ONLY NEW ADDITION: Add translation hook
@@ -48,6 +121,7 @@ const ExploreTab = () => {
   const [selectedTour, setSelectedTour] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [localSearch, setLocalSearch] = useState(filters.search || '')
+  const [showDatePicker, setShowDatePicker] = useState(false)
 
   // Debounce search 
   useEffect(() => {
@@ -93,6 +167,24 @@ const ExploreTab = () => {
     setShowBookingModal(false)
     setSelectedTour(null)
   }
+
+  // Date Picker Handler
+const handleDateSelect = (dateRange) => {
+  setDateRange(dateRange)
+  if (dateRange) {
+    // Clear timeframe filter when custom date is selected
+    updateFilter('timeframe', 'all')
+  }
+}
+
+const getDateRangeLabel = () => {
+  if (filters.dateRange) {
+    const start = new Date(filters.dateRange.start).toLocaleDateString()
+    const end = new Date(filters.dateRange.end).toLocaleDateString()
+    return start === end ? start : `${start} - ${end}`
+  }
+  return 'Select Dates'
+}
 
   const getActiveFiltersCount = () => {
     let count = 0
@@ -174,28 +266,42 @@ const ExploreTab = () => {
           {/* LANE 2: Date filters + Sort dropdown */}
           <div className="px-3 sm:px-4 md:px-6 py-3 border-b border-slate-700/50">
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-              {/* Quick Date Filters */}
-              <div className="flex gap-2 flex-shrink-0">
-                {[
-                  { id: 'today', label: t('explore.timeFilters.today'), icon: '☀️' },
-                  { id: 'tomorrow', label: t('explore.timeFilters.tomorrow'), icon: '🌅' },
-                  { id: 'week', label: t('explore.timeFilters.thisWeek'), icon: '📆' }
-                ].map((timeOption) => (
-                  <button
-                    key={timeOption.id}
-                    onClick={() => updateFilter('timeframe', timeOption.id)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
-                      filters.timeframe === timeOption.id
-                        ? 'bg-blue-600 text-white shadow-lg'
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
-                    }`}
-                  >
-                    <span className="text-base">{timeOption.icon}</span>
-                    <span className="whitespace-nowrap">{timeOption.label}</span>
-                  </button>
-                ))}
+                  {/* Quick Date Filters */}
+                  <div className="flex gap-2 flex-shrink-0">
+                    {[
+                      { id: 'today', label: t('explore.timeFilters.today'), icon: '☀️' },
+                      { id: 'tomorrow', label: t('explore.timeFilters.tomorrow'), icon: '🌅' },
+                      { id: 'week', label: t('explore.timeFilters.thisWeek'), icon: '📆' }
+                    ].map((timeOption) => (
+                      <button
+                        key={timeOption.id}
+                        onClick={() => {
+                          updateFilter('timeframe', timeOption.id)
+                          setDateRange(null) // Clear custom date range when quick filter is selected
+                        }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
+                          filters.timeframe === timeOption.id
+                            ? 'bg-blue-600 text-white shadow-lg'
+                            : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                        }`}
+                      >
+                        <span className="text-base">{timeOption.icon}</span>
+                        <span className="whitespace-nowrap">{timeOption.label}</span>
+                      </button>
+                    ))}
 
-              </div>
+                    {/* Calendar Date Picker Button */}
+                    <button
+                      onClick={() => setShowDatePicker(true)}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 ${
+                        filters.dateRange
+                          ? 'bg-purple-600 text-white shadow-lg'
+                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                      }`}
+                    >
+                      <Calendar className="w-4 h-4" />
+                    </button>
+                  </div>
             </div>
           </div>
 
@@ -222,7 +328,7 @@ const ExploreTab = () => {
                 )}
               </div>
 
-              {/* Sort Dropdown - Brought back */}
+              {/* Sort Dropdown */}
               <select
                 value={filters.sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
@@ -464,6 +570,14 @@ const ExploreTab = () => {
         tour={selectedTour}
         isOpen={showBookingModal}
         onClose={handleCloseBookingModal}
+      />
+
+      {/* Date Picker Modal */}
+      <DatePickerModal
+        isOpen={showDatePicker}
+        onClose={() => setShowDatePicker(false)}
+        onDateSelect={handleDateSelect}
+        currentDateRange={filters.dateRange}
       />
     </div>
   )

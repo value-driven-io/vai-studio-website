@@ -93,7 +93,7 @@ const AppHeader = () => {
 function AppContent() {
   const { activeTab } = useAppStore()
 
-  // 🆕 ADD THIS: Handle auth success messages from email links
+  // Handle auth success messages from email links
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const message = urlParams.get('message')
@@ -115,7 +115,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      {/* NEW: Header with Login */}
+      {/* Header with Login */}
       <AppHeader />
 
       {/* Main Content Area */}
