@@ -233,7 +233,7 @@ const getDateRangeLabel = () => {
       {/* Header */}
 
       {/* Mobile-First 3-Lane Header */}
-      <div className="bg-slate-800 border-b border-slate-700">
+      <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-2 border border-slate-700 mt-2">
         <div className="max-w-7xl mx-auto">
           
           {/* LANE 1: Title + subtitle + counter + refresh button */}

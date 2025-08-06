@@ -2,8 +2,8 @@
   "common": {
     "discover": "Découvrir",
     "explore": "Explorer", 
-    "journey": "Ton parcours",
-    "messages": "Messages",
+    "journey": "Réservations",
+    "messages": "Chat",
     "loading": "Chargement...",
     "refresh": "Actualiser",
     "bookNow": "Réserver maintenant",
@@ -30,8 +30,8 @@
   "navigation": {
     "discover": "Découvrir",
     "explore": "Explorer",
-    "journey": "Ton parcours", 
-    "messages": "Messages",
+    "journey": "Réservations", 
+    "messages": "Chat",
     "profile": "Support"
   },
 

@@ -2,8 +2,8 @@
   "common": {
     "discover": "Discover",
     "explore": "Explore", 
-    "journey": "Your Journey",
-    "messages": "Messages",
+    "journey": "Bookings",
+    "messages": "Chat",
     "loading": "Loading...",
     "refresh": "Refresh",
     "bookNow": "Book Now",
@@ -30,8 +30,8 @@
   "navigation": {
     "discover": "Discover",
     "explore": "Explore",
-    "journey": "Your Journey", 
-    "messages": "Messages",
+    "journey": "Bookings", 
+    "messages": "Chat",
     "profile": "Support"
   },
 
