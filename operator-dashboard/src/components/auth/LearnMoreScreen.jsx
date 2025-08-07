@@ -14,14 +14,7 @@ import {
   ExternalLink
 } from 'lucide-react'
 import VAILogo from '../VAILogo'
-<<<<<<< HEAD
-<<<<<<< HEAD
 import LanguageDropdown from '../LanguageDropdown'
-=======
->>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
-=======
-import LanguageDropdown from '../LanguageDropdown'
->>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
 
 const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
   const { t } = useTranslation()
@@ -131,10 +124,6 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
       <div className="max-w-4xl mx-auto p-6">
         
         {/* Header */}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
         <div className="flex items-center justify-between mb-8">
           {/* Left side - Back button and branding */}
           <div className="flex items-center gap-3">
@@ -154,22 +143,6 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
           {/* Right side - Language switcher */}
           <div className="flex-shrink-0">
             <LanguageDropdown />
-<<<<<<< HEAD
-=======
-        <div className="flex items-center gap-3 mb-8">
-          <button
-            onClick={onBack}
-            className="p-2 text-slate-400 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <VAILogo size="sm" />
-          <div>
-            <h1 className="text-2xl font-bold text-white">VAI Operator</h1>
-            <p className="text-slate-300">{t('learnMore.subtitle')}</p>
->>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
-=======
->>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
           </div>
         </div>
 
