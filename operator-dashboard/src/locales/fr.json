@@ -25,6 +25,62 @@
     "profile": "Profil",
     "close": "Fermer"  
   },
+  
+  "learnMore": {
+    "subtitle": "Transforme ton entreprise touristique",
+    "hero": {
+      "title": "Transforme tes annulations de dernière minute en revenus",
+      "subtitle": "La plateforme essentielle pour tous les opérateurs de Polynésie française",
+      "commission": "Seulement 11% de commission"
+    },
+    "valueProp": {
+      "revenue": {
+        "title": "Récupération de revenus",
+        "description": "Arrête de perdre de l'argent à cause des annulations de dernière minute. VAI te connecte instantanément aux touristes prêts à combler les places libérées.",
+        "benefit": "Récupère automatiquement les revenus perdus"
+      },
+      "instant": {
+        "title": "Découverte instantanée",
+        "description": "Les touristes cherchent des expériences authentiques en Polynésie française MAINTENANT. Sois trouvé instantanément quand ils sont prêts à réserver.",
+        "benefit": "Aucun système de réservation nécessaire"
+      },
+      "mood": {
+        "title": "Correspondance basée sur l'humeur",
+        "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons TON activité !",
+        "benefit": "Correspondance parfaite à chaque fois"
+      }
+    },
+    "benefits": {
+      "title": "Pourquoi choisir VAI Opérateur ?",
+      "commission": {
+        "title": "Commission faible leader du marché",
+        "description": "Garde 89% de tes revenus avec notre structure de commission transparente de 11%"
+      },
+      "noSetup": {
+        "title": "Aucune configuration complexe requise",
+        "description": "Garde tes méthodes de paiement existantes. Publie la disponibilité quand tu l'as"
+      },
+      "liveChat": {
+        "title": "Intégration chat en direct",
+        "description": "Communication directe avec les touristes via notre système de chat intégré"
+      },
+      "realTime": {
+        "title": "Notifications en temps réel",
+        "description": "Alertes instantanées pour les nouvelles réservations, confirmations et messages clients"
+      }
+    },
+    "cta": {
+      "title": "Prêt à développer ton entreprise ?",
+      "description": "Rejoins des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour augmenter leurs revenus",
+      "getAccess": "Accès gratuit maintenant",
+      "learnMore": "En savoir plus sur VAI"
+    },
+    "footer": {
+      "madeIn": "Fait avec",
+      "polynesia": "en Polynésie française"
+    }
+  },
+
   "header": {
     "title": "Operator Dashboard",
     "greeting": "Ia ora na, {{companyName}} 🌸"
@@ -495,7 +551,7 @@
         "whatsappFollowUp": "Salut {{customerName}}! Merci d'avoir participé à notre {{tourName}}! Nous espérons que tu as vécu une expérience formidable. Partage ton avis!"
       }
     }
-},
+  },
 
   "profile": {
     "header": {
@@ -765,6 +821,7 @@
       "duplicateEmail": "Un compte partenaire existe déjà avec cet e-mail."
     }
   },
+  
   "pendingApproval": {
     "title": "Statut de ta demande",
     "status": {
@@ -808,64 +865,6 @@
       "questions": "Des questions sur ta demande ?",
       "email": "hello@vai.studio",
       "whatsapp": "Support WhatsApp"
-    },
-
-    "learnMore": {
-      "subtitle": "Transforme ton entreprise touristique",
-      "hero": {
-        "title": "Transforme tes annulations de dernière minute en revenus",
-        "subtitle": "La plateforme essentielle pour tous les opérateurs de Polynésie française",
-        "commission": "Seulement 11% de commission"
-      },
-      "valueProp": {
-        "revenue": {
-          "title": "Récupération de revenus",
-          "description": "Arrête de perdre de l'argent à cause des annulations de dernière minute. VAI te connecte instantanément aux touristes prêts à combler les places libérées.",
-          "benefit": "Récupère automatiquement les revenus perdus"
-        },
-        "instant": {
-          "title": "Découverte instantanée",
-          "description": "Les touristes cherchent des expériences authentiques en Polynésie française MAINTENANT. Sois trouvé instantanément quand ils sont prêts à réserver.",
-          "benefit": "Aucun système de réservation nécessaire"
-        },
-        "mood": {
-          "title": "Correspondance basée sur l'humeur",
-          "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons TON activité !",
-          "benefit": "Correspondance parfaite à chaque fois"
-        }
-      },
-      "benefits": {
-        "title": "Pourquoi choisir VAI Opérateur ?",
-        "commission": {
-          "title": "Commission faible leader du marché",
-          "description": "Garde 89% de tes revenus avec notre structure de commission transparente de 11%"
-        },
-        "noSetup": {
-          "title": "Aucune configuration complexe requise",
-          "description": "Garde tes méthodes de paiement existantes. Publie la disponibilité quand tu l'as"
-        },
-        "liveChat": {
-          "title": "Intégration chat en direct",
-          "description": "Communication directe avec les touristes via notre système de chat intégré"
-        },
-        "realTime": {
-          "title": "Notifications en temps réel",
-          "description": "Alertes instantanées pour les nouvelles réservations, confirmations et messages clients"
-        }
-      },
-      "cta": {
-        "title": "Prêt à développer ton entreprise ?",
-        "description": "Rejoins des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour augmenter leurs revenus",
-        "getAccess": "Accès gratuit maintenant",
-        "learnMore": "En savoir plus sur VAI"
-      },
-      "footer": {
-        "madeIn": "Fait avec",
-        "polynesia": "en Polynésie française"
-      }
-    },
-    "login": {
-      "learnMoreLink": "En savoir plus sur VAI Opérateur"
     }
   }
- }
+}
