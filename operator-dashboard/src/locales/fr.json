@@ -793,6 +793,7 @@
 
   "learnMore": {
 <<<<<<< HEAD
+<<<<<<< HEAD
       "subtitle": "Transforme ton entreprise touristique",
       "hero": {
         "title": "Transforme tes annulations de dernière minute en revenus",
@@ -815,30 +816,39 @@
           "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons TON activité !",
 =======
       "subtitle": "Transformez Votre Entreprise Touristique",
+=======
+      "subtitle": "Transforme ton entreprise touristique",
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
       "hero": {
-        "title": "Transformez Vos Annulations de Dernière Minute en Revenus",
-        "subtitle": "La Plateforme Essentielle Pour Tous les Opérateurs de Polynésie Française",
-        "commission": "Seulement 11% de Commission"
+        "title": "Transforme tes annulations de dernière minute en revenus",
+        "subtitle": "La plateforme essentielle pour tous les opérateurs de Polynésie française",
+        "commission": "Seulement 11% de commission"
       },
       "valueProp": {
         "revenue": {
-          "title": "Récupération de Revenus",
-          "description": "Arrêtez de perdre de l'argent à cause des annulations de dernière minute. VAI vous connecte instantanément aux touristes prêts à combler les places libérées.",
-          "benefit": "Récupérez automatiquement les revenus perdus"
+          "title": "Récupération de revenus",
+          "description": "Arrête de perdre de l'argent à cause des annulations de dernière minute. VAI te connecte instantanément aux touristes prêts à combler les places libérées.",
+          "benefit": "Récupère automatiquement les revenus perdus"
         },
         "instant": {
-          "title": "Découverte Instantanée",
-          "description": "Les touristes cherchent des expériences authentiques en Polynésie française MAINTENANT. Soyez trouvé instantanément quand ils sont prêts à réserver.",
+          "title": "Découverte instantanée",
+          "description": "Les touristes cherchent des expériences authentiques en Polynésie française MAINTENANT. Sois trouvé instantanément quand ils sont prêts à réserver.",
           "benefit": "Aucun système de réservation nécessaire"
         },
         "mood": {
+<<<<<<< HEAD
           "title": "Correspondance Basée sur l'Humeur",
           "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons VOTRE activité !",
 >>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
+=======
+          "title": "Correspondance basée sur l'humeur",
+          "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons TON activité !",
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
           "benefit": "Correspondance parfaite à chaque fois"
         }
       },
       "benefits": {
+<<<<<<< HEAD
 <<<<<<< HEAD
         "title": "Pourquoi choisir VAI Opérateur ?",
         "commission": {
@@ -857,36 +867,49 @@
           "title": "Notifications en temps réel",
 =======
         "title": "Pourquoi Choisir VAI Opérateur ?",
+=======
+        "title": "Pourquoi choisir VAI Opérateur ?",
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
         "commission": {
-          "title": "Commission Faible Leader du Marché",
-          "description": "Gardez 89% de vos revenus avec notre structure de commission transparente de 11%"
+          "title": "Commission faible leader du marché",
+          "description": "Garde 89% de tes revenus avec notre structure de commission transparente de 11%"
         },
         "noSetup": {
-          "title": "Aucune Configuration Complexe Requise",
-          "description": "Gardez vos méthodes de paiement existantes. Publiez la disponibilité quand vous l'avez"
+          "title": "Aucune configuration complexe requise",
+          "description": "Garde tes méthodes de paiement existantes. Publie la disponibilité quand tu l'as"
         },
         "liveChat": {
-          "title": "Intégration Chat en Direct",
+          "title": "Intégration chat en direct",
           "description": "Communication directe avec les touristes via notre système de chat intégré"
         },
         "realTime": {
+<<<<<<< HEAD
           "title": "Notifications en Temps Réel",
 >>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
+=======
+          "title": "Notifications en temps réel",
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
           "description": "Alertes instantanées pour les nouvelles réservations, confirmations et messages clients"
         }
       },
       "cta": {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
         "title": "Prêt à développer ton entreprise ?",
         "description": "Rejoins des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour augmenter leurs revenus",
         "getAccess": "Accès gratuit maintenant",
         "learnMore": "En savoir plus sur VAI"
+<<<<<<< HEAD
 =======
         "title": "Prêt à Développer Votre Entreprise ?",
         "description": "Rejoignez des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour augmenter leurs revenus",
         "getAccess": "Accès Gratuit Maintenant",
         "learnMore": "En Savoir Plus sur VAI"
 >>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
+=======
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
       },
       "footer": {
         "madeIn": "Fait avec",

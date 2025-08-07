@@ -15,9 +15,13 @@ import {
 } from 'lucide-react'
 import VAILogo from '../VAILogo'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import LanguageDropdown from '../LanguageDropdown'
 =======
 >>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
+=======
+import LanguageDropdown from '../LanguageDropdown'
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
 
 const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
   const { t } = useTranslation()
@@ -128,6 +132,9 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
         
         {/* Header */}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
         <div className="flex items-center justify-between mb-8">
           {/* Left side - Back button and branding */}
           <div className="flex items-center gap-3">
@@ -147,6 +154,7 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
           {/* Right side - Language switcher */}
           <div className="flex-shrink-0">
             <LanguageDropdown />
+<<<<<<< HEAD
 =======
         <div className="flex items-center gap-3 mb-8">
           <button
@@ -160,6 +168,8 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
             <h1 className="text-2xl font-bold text-white">VAI Operator</h1>
             <p className="text-slate-300">{t('learnMore.subtitle')}</p>
 >>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
+=======
+>>>>>>> 1a4467a (updated languages for learn more screen + switcher on page)
           </div>
         </div>
 
