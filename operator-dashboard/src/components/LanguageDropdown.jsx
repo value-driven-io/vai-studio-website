@@ -63,15 +63,49 @@ const LanguageDropdown = () => {
 
   const currentLanguage = supportedLanguages.find(lang => lang.code === i18n.language)
 
-  // Calculate dropdown position when opening
+  // FIXED: Mobile-responsive dropdown positioning
   const updateDropdownPosition = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect()
       const scrollY = window.scrollY || document.documentElement.scrollTop
+      const viewportWidth = window.innerWidth
+      const viewportHeight = window.innerHeight
+      
+      // Mobile detection (using Tailwind's sm breakpoint)
+      const isMobile = viewportWidth < 640
+      
+      // Dropdown dimensions
+      const dropdownWidth = isMobile ? Math.min(viewportWidth - 32, 320) : 288 // w-full with padding on mobile, w-72 on desktop
+      const estimatedDropdownHeight = 400 // Approximate height
+      
+      // Calculate positions
+      let top = rect.bottom + scrollY + 8
+      let left = rect.right - dropdownWidth
+      
+      // Mobile positioning adjustments
+      if (isMobile) {
+        // On mobile, center the dropdown with padding
+        left = Math.max(16, Math.min(
+          (viewportWidth - dropdownWidth) / 2,
+          viewportWidth - dropdownWidth - 16
+        ))
+      } else {
+        // Desktop positioning with edge protection
+        left = Math.max(16, Math.min(left, viewportWidth - dropdownWidth - 16))
+      }
+      
+      // Prevent dropdown from going below viewport
+      if (top + estimatedDropdownHeight > viewportHeight + scrollY) {
+        top = rect.top + scrollY - estimatedDropdownHeight - 8
+      }
+      
+      // Final boundary checks
+      top = Math.max(scrollY + 16, top)
       
       setDropdownPosition({
-        top: rect.bottom + scrollY + 8, // 8px gap
-        left: rect.right - 288, // 288px = w-72 (72 * 4 = 288px)
+        top,
+        left,
+        width: dropdownWidth
       })
     }
   }
@@ -84,9 +118,12 @@ const LanguageDropdown = () => {
     setIsOpen(!isOpen)
   }
 
-  // Close dropdown when clicking outside or pressing escape
+  // FIXED: Improved mobile scroll handling
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Don't close on scroll events or touch events within dropdown
+      if (event.type === 'scroll' || event.type === 'touchmove') return
+      
       if (
         buttonRef.current && 
         !buttonRef.current.contains(event.target) &&
@@ -103,7 +140,26 @@ const LanguageDropdown = () => {
       }
     }
 
-    const handleScroll = () => {
+    const handleScroll = (event) => {
+      if (isOpen) {
+        // Ignore scroll events from the dropdown itself
+        if (dropdownRef.current && dropdownRef.current.contains(event.target)) {
+          return
+        }
+        
+        // Only handle window/document scroll, not dropdown internal scroll
+        if (event.target === document || event.target === document.documentElement || event.target === document.body || event.target === window) {
+          const isMobile = window.innerWidth < 640
+          if (isMobile) {
+            setIsOpen(false)
+          } else {
+            updateDropdownPosition()
+          }
+        }
+      }
+    }
+
+    const handleResize = () => {
       if (isOpen) {
         updateDropdownPosition()
       }
@@ -112,15 +168,15 @@ const LanguageDropdown = () => {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside)
       document.addEventListener('keydown', handleEscape)
-      window.addEventListener('scroll', handleScroll, true)
-      window.addEventListener('resize', updateDropdownPosition)
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('resize', handleResize)
     }
     
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
       document.removeEventListener('keydown', handleEscape)
-      window.removeEventListener('scroll', handleScroll, true)
-      window.removeEventListener('resize', updateDropdownPosition)
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
     }
   }, [isOpen])
 
@@ -159,17 +215,21 @@ const LanguageDropdown = () => {
     'Asia': supportedLanguages.filter(lang => lang.region === 'Asia')
   }
 
-  // Dropdown Menu Component (Rendered via Portal)
+  // FIXED: Mobile-responsive dropdown component
   const DropdownMenu = () => (
     <div 
       ref={dropdownRef}
-      className="fixed w-72 bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden"
+      className="fixed bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden"
+      onScroll={(e) => e.stopPropagation()} // Prevent scroll events from bubbling up
       style={{
         top: `${dropdownPosition.top}px`,
-        left: `${Math.max(16, dropdownPosition.left)}px`, // Ensure it doesn't go off screen
-        zIndex: 999999, // Ultra-high z-index
-        maxHeight: '80vh',
-        overflowY: 'auto'
+        left: `${dropdownPosition.left}px`,
+        width: `${dropdownPosition.width}px`,
+        zIndex: 999999,
+        maxHeight: 'min(80vh, 400px)', // Responsive height
+        overflowY: 'auto',
+        // Enhanced mobile scroll behavior
+        WebkitOverflowScrolling: 'touch'
       }}
     >
       <div className="py-2">
@@ -194,7 +254,7 @@ const LanguageDropdown = () => {
                 <button
                   key={language.code}
                   onClick={() => handleLanguageChange(language.code)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700/50 transition-colors text-left ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700/50 transition-colors text-left touch-target ${
                     language.code === i18n.language 
                       ? 'bg-blue-500/10 text-blue-400' 
                       : 'text-slate-300 hover:text-white'
