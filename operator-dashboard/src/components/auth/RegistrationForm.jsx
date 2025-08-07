@@ -69,24 +69,39 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
   }
 
   const validateStep = (stepNumber) => {
-    switch (stepNumber) {
-      case 1:
-        return formData.company_name.trim() && 
-               formData.contact_person.trim() && 
-               formData.email.trim() && 
-               formData.whatsapp_number.trim() && 
-               formData.island
-      case 2:
-        return formData.business_description.trim() && 
-               formData.tour_types.length > 0 &&
-               formData.target_bookings_monthly &&
-               formData.customer_type_preference
-      case 3:
-        return formData.terms_accepted
-      default:
-        return true
-    }
+  switch (stepNumber) {
+    case 1:
+      // Enhanced validation with email and phone format checking
+      return formData.company_name.trim().length >= 2 && 
+             formData.contact_person.trim().length >= 2 && 
+             isValidEmail(formData.email.trim()) && 
+             isValidPhone(formData.whatsapp_number.trim()) && 
+             formData.island
+    case 2:
+      // Enhanced validation with minimum description length
+      return formData.business_description.trim().length >= 10 && 
+             formData.tour_types.length > 0 &&
+             formData.target_bookings_monthly &&
+             formData.customer_type_preference
+    case 3:
+      return formData.terms_accepted
+    default:
+      return true
   }
+}
+
+// 🚨 ADD these helper functions after validateStep
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+const isValidPhone = (phone) => {
+  // Basic international phone validation
+  const phoneRegex = /^[\+]?[1-9]\d{7,14}$/
+  const cleanPhone = phone.replace(/[\s\-\(\)]/g, '')
+  return cleanPhone.length >= 8 && phoneRegex.test(cleanPhone)
+}
 
   const handleNext = () => {
     if (validateStep(step)) {
@@ -94,33 +109,69 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
     }
   }
 
+  // 🚨 SURGICAL FIX: Complete handleSubmit function
   const handleSubmit = async () => {
     if (!validateStep(3)) return
     
-    // Convert tour_types and island from translation keys to actual values
-    const submissionData = {
-      ...formData,
-      // Convert island from translation key to actual value
-      island: formData.island === 'boraBora' ? 'Bora Bora' : 
-              formData.island === 'nukuHiva' ? 'Nuku Hiva' : 
-              formData.island.charAt(0).toUpperCase() + formData.island.slice(1),
-      // Convert tour_types from translation keys to actual values  
-      tour_types: formData.tour_types.map(type => {
-        switch(type) {
-          case 'whaleWatching': return 'Whale Watching'
-          case 'lagoonTours': return 'Lagoon Tours'
-          case 'islandTours': return 'Island Tours'
-          case 'cultural': return 'Cultural Activities'
-          case 'sunset': return 'Sunset Tours'
-          case 'mindfulness': return 'Mindful Events'
-          default: return type.charAt(0).toUpperCase() + type.slice(1)
-        }
-      })
-    }
-    
-    const result = await registerOperator(submissionData)
-    if (result.success) {
-      onSuccess(result)
+    try {
+      // ✅ Complete island mapping for ALL database constraint values
+      const islandMapping = {
+        'tahiti': 'Tahiti',
+        'moorea': 'Moorea', 
+        'boraBora': 'Bora Bora',
+        'huahine': 'Huahine',
+        'raiatea': 'Raiatea',
+        'tahaa': 'Taha\'a',
+        'maupiti': 'Maupiti',
+        'tikehau': 'Tikehau',
+        'rangiroa': 'Rangiroa',
+        'fakarava': 'Fakarava',
+        'nukuHiva': 'Nuku Hiva',
+        'other': 'Other'
+      }
+
+      // ✅ Complete tour type mapping
+      const tourTypeMapping = {
+        'whaleWatching': 'Whale Watching',
+        'snorkeling': 'Snorkeling',
+        'diving': 'Diving',
+        'lagoonTours': 'Lagoon Tours',
+        'islandTours': 'Island Tours',
+        'hiking': 'Hiking',
+        'cultural': 'Cultural Activities',
+        'fishing': 'Fishing',
+        'sunset': 'Sunset Tours',
+        'mindfulness': 'Mindful Events',
+        'other': 'Other'
+      }
+
+      // ✅ Prepare data for your sophisticated backend service
+      const submissionData = {
+        ...formData,
+        // Map island to database constraint value
+        island: islandMapping[formData.island] || formData.island,
+        // Map tour types to readable format
+        tour_types: formData.tour_types.map(type => 
+          tourTypeMapping[type] || type.charAt(0).toUpperCase() + type.slice(1)
+        )
+        // ✅ REMOVED commission_rate - your sophisticated backend handles this automatically
+      }
+
+      console.log('🎯 Submitting to sophisticated backend service:', submissionData)
+      
+      const result = await registerOperator(submissionData)
+      
+      if (result.success) {
+        console.log('✅ Registration successful:', result)
+        onSuccess(result)
+      } else {
+        console.error('❌ Registration failed:', result.error)
+        // Error handling is done by useRegistration hook automatically
+      }
+      
+    } catch (error) {
+      console.error('❌ Registration submission error:', error)
+      // Error is automatically handled by useRegistration hook
     }
   }
 
