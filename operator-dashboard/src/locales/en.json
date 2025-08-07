@@ -256,7 +256,9 @@
     "registeraccount": "No Account? Register your business and become a ",
     "newOperator": "New operator?",
     "createAccount": "Create Operator Account",
-    "moreInfo": "More info about "
+    "moreInfo": "More info about ",
+    "learnMoreLink": "Learn more about VAI Operator",
+    "welcomeBack": "Maeva ! 🌸"
   },
 
   "bookings": {
@@ -639,7 +641,9 @@
     "footer": {
       "vaiTickets": "VAI Operator",
       "copyright": "© 2025 All rights reserved",
-      "needWebsite": "Need a website or app?"
+      "needWebsite": "Need a website or app?",
+      "madeIn": "Made with",
+        "polynesia": "in French Polynesia"
     }
   },
 
@@ -964,5 +968,60 @@
       "deleted": "Schedule deleted successfully",
       "duplicated": "Schedule duplicated successfully"
     }
-  }
+  },
+
+  "learnMore": {
+      "subtitle": "Transform Your Tourism Business",
+      "hero": {
+        "title": "Turn Last-Minute Cancellations Into Revenue",
+        "subtitle": "The Essential Platform Every French Polynesian Operator Needs",
+        "commission": "Only 11% Commission"
+      },
+      "valueProp": {
+        "revenue": {
+          "title": "Revenue Recovery",
+          "description": "Stop losing money to last-minute cancellations. VAI instantly connects you with tourists ready to fill cancelled spots.",
+          "benefit": "Recover lost revenue automatically"
+        },
+        "instant": {
+          "title": "Instant Discovery",
+          "description": "Tourists are looking for authentic experiences in French Polynesia RIGHT NOW. Get found instantly when they're ready to book.",
+          "benefit": "No booking system needed"
+        },
+        "mood": {
+          "title": "Mood-Based Matching",
+          "description": "Revolutionary: Tourists tell us their mood (Adventure, Relax, Culture, Ocean) and we show them YOUR activity!",
+          "benefit": "Perfect matching every time"
+        }
+      },
+      "benefits": {
+        "title": "Why Choose VAI Operator?",
+        "commission": {
+          "title": "Industry-Leading Low Commission",
+          "description": "Keep 89% of your revenue with our transparent 11% commission structure"
+        },
+        "noSetup": {
+          "title": "No Complex Setup Required",
+          "description": "Keep your existing payment methods. Post availability when you have it"
+        },
+        "liveChat": {
+          "title": "Live Chat Integration",
+          "description": "Direct communication with tourists through our built-in chat system"
+        },
+        "realTime": {
+          "title": "Real-Time Notifications",
+          "description": "Instant alerts for new bookings, confirmations, and customer messages"
+        }
+      },
+      "cta": {
+        "title": "Ready to Grow Your Business?",
+        "description": "Join hundreds of French Polynesian operators already using VAI to boost their revenue",
+        "getAccess": "Get Free Access Now",
+        "learnMore": "Learn More About VAI"
+      },
+      "footer": {
+        "madeIn": "Made with",
+        "polynesia": "in French Polynesia"
+      }
+    }
 }
