@@ -792,6 +792,7 @@
   },
 
   "learnMore": {
+<<<<<<< HEAD
       "subtitle": "Transforme ton entreprise touristique",
       "hero": {
         "title": "Transforme tes annulations de dernière minute en revenus",
@@ -812,10 +813,33 @@
         "mood": {
           "title": "Correspondance basée sur l'humeur",
           "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons TON activité !",
+=======
+      "subtitle": "Transformez Votre Entreprise Touristique",
+      "hero": {
+        "title": "Transformez Vos Annulations de Dernière Minute en Revenus",
+        "subtitle": "La Plateforme Essentielle Pour Tous les Opérateurs de Polynésie Française",
+        "commission": "Seulement 11% de Commission"
+      },
+      "valueProp": {
+        "revenue": {
+          "title": "Récupération de Revenus",
+          "description": "Arrêtez de perdre de l'argent à cause des annulations de dernière minute. VAI vous connecte instantanément aux touristes prêts à combler les places libérées.",
+          "benefit": "Récupérez automatiquement les revenus perdus"
+        },
+        "instant": {
+          "title": "Découverte Instantanée",
+          "description": "Les touristes cherchent des expériences authentiques en Polynésie française MAINTENANT. Soyez trouvé instantanément quand ils sont prêts à réserver.",
+          "benefit": "Aucun système de réservation nécessaire"
+        },
+        "mood": {
+          "title": "Correspondance Basée sur l'Humeur",
+          "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons VOTRE activité !",
+>>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
           "benefit": "Correspondance parfaite à chaque fois"
         }
       },
       "benefits": {
+<<<<<<< HEAD
         "title": "Pourquoi choisir VAI Opérateur ?",
         "commission": {
           "title": "Commission faible leader du marché",
@@ -831,14 +855,38 @@
         },
         "realTime": {
           "title": "Notifications en temps réel",
+=======
+        "title": "Pourquoi Choisir VAI Opérateur ?",
+        "commission": {
+          "title": "Commission Faible Leader du Marché",
+          "description": "Gardez 89% de vos revenus avec notre structure de commission transparente de 11%"
+        },
+        "noSetup": {
+          "title": "Aucune Configuration Complexe Requise",
+          "description": "Gardez vos méthodes de paiement existantes. Publiez la disponibilité quand vous l'avez"
+        },
+        "liveChat": {
+          "title": "Intégration Chat en Direct",
+          "description": "Communication directe avec les touristes via notre système de chat intégré"
+        },
+        "realTime": {
+          "title": "Notifications en Temps Réel",
+>>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
           "description": "Alertes instantanées pour les nouvelles réservations, confirmations et messages clients"
         }
       },
       "cta": {
+<<<<<<< HEAD
         "title": "Prêt à développer ton entreprise ?",
         "description": "Rejoins des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour augmenter leurs revenus",
         "getAccess": "Accès gratuit maintenant",
         "learnMore": "En savoir plus sur VAI"
+=======
+        "title": "Prêt à Développer Votre Entreprise ?",
+        "description": "Rejoignez des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour augmenter leurs revenus",
+        "getAccess": "Accès Gratuit Maintenant",
+        "learnMore": "En Savoir Plus sur VAI"
+>>>>>>> 07b3aef (new screen in operator dashboard - learn more screen incl deeplink)
       },
       "footer": {
         "madeIn": "Fait avec",
