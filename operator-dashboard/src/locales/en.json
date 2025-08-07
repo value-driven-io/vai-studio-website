@@ -623,11 +623,7 @@
       "raiatea": "Raiatea",
       "tahaa": "Taha'a",
       "maupiti": "Maupiti"
-    },
-    "validation": {
-      "companyNameRequired": "Company name is required",
-      "whatsappRequired": "WhatsApp number is required",
-      "islandRequired": "Island is required"
+    
     },
     "messages": {
       "profileUpdated": "✅ Profile updated successfully!",
@@ -637,7 +633,10 @@
       "conflictingInfo": "This information conflicts with another account. Please check your data.",
       "noPermission": "You don't have permission to update this profile. Contact support.",
       "updateError": "Unable to save changes. Please try again or contact support if the problem persists.",
-      "securityPolicyError": "Update failed: Database security policy prevented the update. Please contact support at hello@vai.studio to configure your account permissions."
+      "securityPolicyError": "Update failed: Database security policy prevented the update. Please contact support at hello@vai.studio to configure your account permissions.",
+      "success": "Registration successful! We'll contact you within 24 hours.",
+      "failed": "Registration failed. Please try again.",
+      "duplicateEmail": "This email is already registered. Please use a different email address."
     },
     "footer": {
       "vaiTickets": "VAI Operator",
@@ -737,7 +736,7 @@
     "navigation": {
       "previous": "Previous",
       "next": "Next",
-      "complete": "Complete Registration",
+      "complete": "Send",
       "creating": "Creating Account..."
     },
     "validation": {
@@ -757,7 +756,7 @@
     },
     "messages": {
       "success": "Registration submitted successfully!",
-      "failed": "Registration failed. Please try again.",
+      "failed": "Registration failed. Please try again or contact Support.",
       "duplicateEmail": "An operator account with this email already exists."
     }
   },
@@ -785,7 +784,7 @@
     "actions": {
       "refresh": "Refresh Status",
       "checking": "Checking...",
-      "login": "Login to Dashboard"
+      "login": "Login to VAI Operator"
     },
     "lastChecked": "Last checked",
     "timeAgo": {

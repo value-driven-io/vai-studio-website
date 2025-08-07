@@ -342,38 +342,52 @@ class OperatorRegistrationService {
     return languageMap[language] || 'fr' // Default to French for French Polynesia
   }
 
-  /**
+    /**
+   * Phone number validation helper
+   * 🔧 UPDATED: Handles optional WhatsApp field properly
+   */
+  validatePhone(phone) {
+    if (!phone || !phone.trim()) return true // Empty is valid (optional field)
+    
+    // Allow various international formats
+    const phoneRegex = /^[\+]?[\d\s\-\(\)]{8,}$/
+    return phoneRegex.test(phone.trim())
+  }  /**
    * Validate registration data before processing
+   * 🔧 UPDATED: Made WhatsApp, target_bookings, customer_type optional per requirements
    */
   validateRegistrationData(formData) {
     const errors = []
 
-    // Required fields validation
+    // ✅ REQUIRED FIELDS (per your specifications)
     if (!formData.company_name?.trim()) errors.push('Company name is required')
     if (!formData.contact_person?.trim()) errors.push('Contact person is required')
     if (!formData.email?.trim()) errors.push('Email is required')
-    if (!formData.whatsapp_number?.trim()) errors.push('WhatsApp number is required')
     if (!formData.island) errors.push('Island selection is required')
     if (!formData.business_description?.trim()) errors.push('Business description is required')
     if (!formData.tour_types?.length) errors.push('At least one tour type must be selected')
-    if (!formData.target_bookings_monthly) errors.push('Target bookings selection is required')
-    if (!formData.customer_type_preference) errors.push('Customer type preference is required')
     if (!formData.terms_accepted) errors.push('Terms of service must be accepted')
+
+    // ✅ OPTIONAL FIELDS - Only validate format if provided
+    // WhatsApp: Optional, but validate format if provided
+    if (formData.whatsapp_number?.trim() && !this.validatePhone(formData.whatsapp_number)) {
+      errors.push('Valid WhatsApp number format is required')
+    }
 
     // Email format validation
     if (formData.email && !this.validateEmail(formData.email)) {
       errors.push('Valid email address is required')
     }
 
-    // Phone number basic validation
-    if (formData.whatsapp_number && !this.validatePhone(formData.whatsapp_number)) {
-      errors.push('Valid WhatsApp number is required')
-    }
-
     // Company name length validation
     if (formData.company_name && formData.company_name.trim().length < 2) {
       errors.push('Company name must be at least 2 characters')
     }
+
+    // 🗑️ REMOVED: These are now optional
+    // - whatsapp_number (optional)
+    // - target_bookings_monthly (optional) 
+    // - customer_type_preference (optional)
 
     return {
       valid: errors.length === 0,
@@ -392,13 +406,16 @@ class OperatorRegistrationService {
 
   /**
    * Phone number validation helper
+   * 🔧 UPDATED: Handles optional WhatsApp field properly
    */
   validatePhone(phone) {
+    if (!phone || !phone.trim()) return true // Empty is valid (optional field)
+    
     // Allow various international formats
     const phoneRegex = /^[\+]?[\d\s\-\(\)]{8,}$/
     return phoneRegex.test(phone.trim())
   }
-
+  
   /**
    * Send registration notification to n8n webhook
    * ✅ UNCHANGED - This part was working correctly

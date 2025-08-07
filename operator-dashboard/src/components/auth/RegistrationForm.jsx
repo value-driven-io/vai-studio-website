@@ -1,5 +1,5 @@
 // src/components/auth/RegistrationForm.jsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
   Building2, User, Mail, Phone, MapPin, 
@@ -8,6 +8,136 @@ import {
 } from 'lucide-react'
 import { useRegistration } from '../../hooks/useRegistration'
 import LanguageDropdown from '../LanguageDropdown'
+
+// 🔧 FIELD COMPONENTS DEFINED OUTSIDE TO PREVENT FOCUS LOSS
+const InputField = ({ 
+  label, 
+  name, 
+  type = 'text', 
+  required = false, 
+  value, 
+  onChange, 
+  onBlur,
+  placeholder,
+  fieldErrors = {},
+  touchedFields = {},
+  ...props 
+}) => {
+  const hasError = touchedFields[name] && fieldErrors[name]
+  
+  return (
+    <div>
+      <label className="block text-sm font-medium text-slate-300 mb-2">
+        {label} {required && <span className="text-red-400">*</span>}
+        {!required && <span className="text-slate-500 text-xs ml-1">(optional)</span>}
+      </label>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+        onBlur={(e) => onBlur && onBlur(name, e.target.value)}
+        className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:outline-none transition-colors ${
+          hasError 
+            ? 'border-red-500 focus:border-red-400' 
+            : 'border-slate-600 focus:border-blue-500'
+        }`}
+        placeholder={placeholder}
+        pattern={type === 'tel' ? '[+]?[0-9\\s\\-\\(\\)]{8,}' : undefined}
+        {...props}
+      />
+      {hasError && (
+        <p className="text-red-400 text-sm mt-1">{fieldErrors[name]}</p>
+      )}
+      {type === 'tel' && !hasError && (
+        <p className="text-slate-500 text-xs mt-1">
+          Format: +689 12 34 56 78 (French Polynesia) or +33 6 12 34 56 78 (International)
+        </p>
+      )}
+    </div>
+  )
+}
+
+const SelectField = ({ 
+  label, 
+  name, 
+  required = false, 
+  value, 
+  onChange, 
+  onBlur,
+  children,
+  placeholder,
+  fieldErrors = {},
+  touchedFields = {}
+}) => {
+  const hasError = touchedFields[name] && fieldErrors[name]
+  
+  return (
+    <div>
+      <label className="block text-sm font-medium text-slate-300 mb-2">
+        {label} {required && <span className="text-red-400">*</span>}
+        {!required && <span className="text-slate-500 text-xs ml-1">(optional)</span>}
+      </label>
+      <select
+        name={name}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+        onBlur={(e) => onBlur && onBlur(name, e.target.value)}
+        className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:outline-none transition-colors ${
+          hasError 
+            ? 'border-red-500 focus:border-red-400' 
+            : 'border-slate-600 focus:border-blue-500'
+        }`}
+      >
+        <option value="">{placeholder}</option>
+        {children}
+      </select>
+      {hasError && (
+        <p className="text-red-400 text-sm mt-1">{fieldErrors[name]}</p>
+      )}
+    </div>
+  )
+}
+
+const TextareaField = ({ 
+  label, 
+  name, 
+  required = false, 
+  value, 
+  onChange, 
+  onBlur,
+  placeholder,
+  rows = 3,
+  fieldErrors = {},
+  touchedFields = {}
+}) => {
+  const hasError = touchedFields[name] && fieldErrors[name]
+  
+  return (
+    <div>
+      <label className="block text-sm font-medium text-slate-300 mb-2">
+        {label} {required && <span className="text-red-400">*</span>}
+        {!required && <span className="text-slate-500 text-xs ml-1">(optional)</span>}
+      </label>
+      <textarea
+        name={name}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+        onBlur={(e) => onBlur && onBlur(name, e.target.value)}
+        rows={rows}
+        className={`w-full px-3 py-2 bg-slate-700 border rounded-lg text-white focus:outline-none transition-colors resize-none ${
+          hasError 
+            ? 'border-red-500 focus:border-red-400' 
+            : 'border-slate-600 focus:border-blue-500'
+        }`}
+        placeholder={placeholder}
+      />
+      {hasError && (
+        <p className="text-red-400 text-sm mt-1">{fieldErrors[name]}</p>
+      )}
+    </div>
+  )
+}
 
 const RegistrationForm = ({ onBack, onSuccess }) => {
   const { t } = useTranslation()
@@ -34,6 +164,34 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
     marketing_emails: false
   })
 
+  // 🆕 FIELD-LEVEL VALIDATION STATE
+  const [fieldErrors, setFieldErrors] = useState({})
+  const [touchedFields, setTouchedFields] = useState({})
+
+  // 🆕 FORM STATE PRESERVATION
+  useEffect(() => {
+    // Load saved form data on component mount
+    const savedData = sessionStorage.getItem('vai_registration_form')
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData)
+        setFormData(parsedData)
+      } catch (error) {
+        console.warn('Failed to load saved form data:', error)
+      }
+    }
+  }, [])
+
+  // Save form data whenever it changes
+  useEffect(() => {
+    sessionStorage.setItem('vai_registration_form', JSON.stringify(formData))
+  }, [formData])
+
+  // Clear saved data on successful submission
+  const clearSavedData = () => {
+    sessionStorage.removeItem('vai_registration_form')
+  }
+
   // Static data arrays with i18n
   const islands = [
     'tahiti', 'moorea', 'boraBora', 'huahine', 
@@ -55,53 +213,192 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
     'families', 'couples', 'solo', 'groups', 'luxury', 'budget', 'mixed'
   ]
 
+  // 🆕 ENHANCED VALIDATION HELPERS
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email.trim())
+  }
+
+  // 🆕 ENHANCED PHONE VALIDATION (ITU E.164 compliant but user-friendly)
+  const isValidPhone = (phone) => {
+    if (!phone) return true // Optional field - empty is valid
+    
+    // Remove all non-digit characters except +
+    const cleanPhone = phone.replace(/[^\d+]/g, '')
+    
+    // Must be 8-15 digits (international standard)
+    const digitCount = cleanPhone.replace(/\+/g, '').length
+    
+    // French Polynesia: +689 followed by 8 digits, or local 8 digits
+    const polynesianPattern = /^(\+689|689)?\d{8}$/
+    // International pattern: + followed by country code and number
+    const internationalPattern = /^\+\d{8,15}$/
+    // Local pattern: 8+ digits
+    const localPattern = /^\d{8,15}$/
+    
+    return polynesianPattern.test(cleanPhone) || 
+           internationalPattern.test(cleanPhone) || 
+           localPattern.test(cleanPhone)
+  }
+
+  // 🆕 GENTLER FIELD VALIDATION (Less aggressive)
+  const validateField = (fieldName, value) => {
+    let error = null
+
+    // Only validate if field has been interacted with meaningfully
+    if (!touchedFields[fieldName]) return null
+
+    switch (fieldName) {
+      case 'company_name':
+        if (!value.trim()) {
+          error = t('registration.validation.companyNameRequired')
+        } else if (value.trim().length < 2) {
+          error = t('registration.validation.companyNameTooShort')
+        }
+        break
+      
+      case 'contact_person':
+        if (!value.trim()) {
+          error = t('registration.validation.contactPersonRequired')
+        }
+        break
+      
+      case 'email':
+        if (!value.trim()) {
+          error = t('registration.validation.emailRequired')
+        } else if (value.trim().length > 3 && !isValidEmail(value)) {
+          // Only validate format if user has typed more than 3 characters
+          error = t('registration.validation.emailInvalid')
+        }
+        break
+      
+      case 'whatsapp_number':
+        // WhatsApp is now optional - only validate format if provided
+        if (value.trim() && value.trim().length > 5 && !isValidPhone(value)) {
+          error = t('registration.validation.phoneInvalid')
+        }
+        break
+      
+      case 'island':
+        if (!value) {
+          error = t('registration.validation.islandRequired')
+        }
+        break
+      
+      case 'business_description':
+        if (!value.trim()) {
+          error = t('registration.validation.descriptionRequired')
+        }
+        break
+      
+      case 'tour_types':
+        if (!Array.isArray(value) || value.length === 0) {
+          error = t('registration.validation.tourTypesRequired')
+        }
+        break
+      
+      case 'terms_accepted':
+        if (!value) {
+          error = t('registration.validation.termsRequired')
+        }
+        break
+      
+      default:
+        break
+    }
+
+    return error
+  }
+
+  // 🆕 HANDLE FIELD BLUR (Validation on field exit)
+  const handleFieldBlur = (fieldName, value) => {
+    setTouchedFields(prev => ({ ...prev, [fieldName]: true }))
+    
+    const error = validateField(fieldName, value)
+    setFieldErrors(prev => ({ ...prev, [fieldName]: error }))
+  }
+
+  // 🆕 OPTIMIZED INPUT CHANGE (Prevents unnecessary re-renders)
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
+    
+    // Only clear error if there is one (prevent unnecessary re-renders)
+    if (fieldErrors[field]) {
+      setFieldErrors(prev => ({ ...prev, [field]: null }))
+    }
   }
 
   const handleTourTypeToggle = (tourType) => {
-    setFormData(prev => ({
-      ...prev,
-      tour_types: prev.tour_types.includes(tourType)
-        ? prev.tour_types.filter(t => t !== tourType)
-        : [...prev.tour_types, tourType]
-    }))
+    const newTourTypes = formData.tour_types.includes(tourType)
+      ? formData.tour_types.filter(t => t !== tourType)
+      : [...formData.tour_types, tourType]
+    
+    setFormData(prev => ({ ...prev, tour_types: newTourTypes }))
+    
+    // Only clear error if there is one
+    if (fieldErrors.tour_types) {
+      setFieldErrors(prev => ({ ...prev, tour_types: null }))
+    }
   }
 
+  // 🆕 ENHANCED STEP VALIDATION
   const validateStep = (stepNumber) => {
-  switch (stepNumber) {
-    case 1:
-      // Enhanced validation with email and phone format checking
-      return formData.company_name.trim().length >= 2 && 
-             formData.contact_person.trim().length >= 2 && 
-             isValidEmail(formData.email.trim()) && 
-             isValidPhone(formData.whatsapp_number.trim()) && 
-             formData.island
-    case 2:
-      // Enhanced validation with minimum description length
-      return formData.business_description.trim().length >= 10 && 
-             formData.tour_types.length > 0 &&
-             formData.target_bookings_monthly &&
-             formData.customer_type_preference
-    case 3:
-      return formData.terms_accepted
-    default:
-      return true
+    let isValid = true
+    const errors = {}
+
+    switch (stepNumber) {
+      case 1:
+        // Required fields for step 1 (WhatsApp now optional)
+        const step1Fields = ['company_name', 'contact_person', 'email', 'island']
+        step1Fields.forEach(field => {
+          const error = validateField(field, formData[field])
+          if (error) {
+            errors[field] = error
+            isValid = false
+          }
+        })
+        break
+      
+      case 2:
+        // Required fields for step 2
+        const error1 = validateField('business_description', formData.business_description)
+        const error2 = validateField('tour_types', formData.tour_types)
+        
+        if (error1) {
+          errors.business_description = error1
+          isValid = false
+        }
+        if (error2) {
+          errors.tour_types = error2
+          isValid = false
+        }
+        break
+      
+      case 3:
+        const error3 = validateField('terms_accepted', formData.terms_accepted)
+        if (error3) {
+          errors.terms_accepted = error3
+          isValid = false
+        }
+        break
+      
+      default:
+        break
+    }
+
+    // Update field errors if validation failed
+    if (!isValid) {
+      setFieldErrors(prev => ({ ...prev, ...errors }))
+      // Mark fields as touched so errors show
+      const touchedUpdates = {}
+      Object.keys(errors).forEach(field => {
+        touchedUpdates[field] = true
+      })
+      setTouchedFields(prev => ({ ...prev, ...touchedUpdates }))
+    }
+
+    return isValid
   }
-}
-
-// 🚨 ADD these helper functions after validateStep
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-const isValidPhone = (phone) => {
-  // Basic international phone validation
-  const phoneRegex = /^[\+]?[1-9]\d{7,14}$/
-  const cleanPhone = phone.replace(/[\s\-\(\)]/g, '')
-  return cleanPhone.length >= 8 && phoneRegex.test(cleanPhone)
-}
 
   const handleNext = () => {
     if (validateStep(step)) {
@@ -109,12 +406,12 @@ const isValidPhone = (phone) => {
     }
   }
 
-  // 🚨 SURGICAL FIX: Complete handleSubmit function
+  // 🆕 ENHANCED SUBMIT WITH CLEANUP
   const handleSubmit = async () => {
     if (!validateStep(3)) return
     
     try {
-      // ✅ Complete island mapping for ALL database constraint values
+      // Island mapping for database constraint values
       const islandMapping = {
         'tahiti': 'Tahiti',
         'moorea': 'Moorea', 
@@ -130,7 +427,7 @@ const isValidPhone = (phone) => {
         'other': 'Other'
       }
 
-      // ✅ Complete tour type mapping
+      // Tour type mapping
       const tourTypeMapping = {
         'whaleWatching': 'Whale Watching',
         'snorkeling': 'Snorkeling',
@@ -145,35 +442,33 @@ const isValidPhone = (phone) => {
         'other': 'Other'
       }
 
-      // ✅ Prepare data for your sophisticated backend service
+      // Prepare data for backend service
       const submissionData = {
         ...formData,
-        // Map island to database constraint value
         island: islandMapping[formData.island] || formData.island,
-        // Map tour types to readable format
         tour_types: formData.tour_types.map(type => 
           tourTypeMapping[type] || type.charAt(0).toUpperCase() + type.slice(1)
         )
-        // ✅ REMOVED commission_rate - your sophisticated backend handles this automatically
       }
 
-      console.log('🎯 Submitting to sophisticated backend service:', submissionData)
+      console.log('🎯 Submitting registration:', submissionData)
       
       const result = await registerOperator(submissionData)
       
       if (result.success) {
         console.log('✅ Registration successful:', result)
+        clearSavedData() // Clear form data on success
         onSuccess(result)
       } else {
         console.error('❌ Registration failed:', result.error)
-        // Error handling is done by useRegistration hook automatically
       }
       
     } catch (error) {
       console.error('❌ Registration submission error:', error)
-      // Error is automatically handled by useRegistration hook
     }
   }
+
+
 
   const renderStepIndicator = () => (
     <div className="flex items-center justify-center mb-8">
@@ -207,79 +502,74 @@ const isValidPhone = (phone) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            {t('registration.companyInfo.companyName')} *
-          </label>
-          <input
-            type="text"
-            value={formData.company_name}
-            onChange={(e) => handleInputChange('company_name', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            placeholder={t('registration.companyInfo.companyNamePlaceholder')}
-            required
-          />
-        </div>
+        <InputField
+          label={t('registration.companyInfo.companyName')}
+          name="company_name"
+          required={true}
+          value={formData.company_name}
+          onChange={handleInputChange}
+          onBlur={handleFieldBlur}
+          placeholder={t('registration.companyInfo.companyNamePlaceholder')}
+          fieldErrors={fieldErrors}
+          touchedFields={touchedFields}
+        />
 
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            {t('registration.companyInfo.contactPerson')} *
-          </label>
-          <input
-            type="text"
-            value={formData.contact_person}
-            onChange={(e) => handleInputChange('contact_person', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            placeholder={t('registration.companyInfo.contactPersonPlaceholder')}
-            required
-          />
-        </div>
+        <InputField
+          label={t('registration.companyInfo.contactPerson')}
+          name="contact_person"
+          required={true}
+          value={formData.contact_person}
+          onChange={handleInputChange}
+          onBlur={handleFieldBlur}
+          placeholder={t('registration.companyInfo.contactPersonPlaceholder')}
+          fieldErrors={fieldErrors}
+          touchedFields={touchedFields}
+        />
 
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            {t('registration.companyInfo.email')} *
-          </label>
-          <input
-            type="email"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            placeholder={t('registration.companyInfo.emailPlaceholder')}
-            required
-          />
-        </div>
+        <InputField
+          label={t('registration.companyInfo.email')}
+          name="email"
+          type="email"
+          required={true}
+          value={formData.email}
+          onChange={handleInputChange}
+          onBlur={handleFieldBlur}
+          placeholder={t('registration.companyInfo.emailPlaceholder')}
+          fieldErrors={fieldErrors}
+          touchedFields={touchedFields}
+        />
 
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            {t('registration.companyInfo.whatsapp')} *
-          </label>
-          <input
-            type="tel"
-            value={formData.whatsapp_number}
-            onChange={(e) => handleInputChange('whatsapp_number', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            placeholder={t('registration.companyInfo.whatsappPlaceholder')}
-            required
-          />
-        </div>
+        <InputField
+          label={t('registration.companyInfo.whatsapp')}
+          name="whatsapp_number"
+          type="tel"
+          required={false}
+          value={formData.whatsapp_number}
+          onChange={handleInputChange}
+          onBlur={handleFieldBlur}
+          placeholder="+689 12 34 56 78"
+          fieldErrors={fieldErrors}
+          touchedFields={touchedFields}
+        />
 
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            {t('registration.companyInfo.island')} *
-          </label>
-          <select
+          <SelectField
+            label={t('registration.companyInfo.island')}
+            name="island"
+            required={true}
             value={formData.island}
-            onChange={(e) => handleInputChange('island', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            required
+            onChange={handleInputChange}
+            onBlur={handleFieldBlur}
+            placeholder={t('registration.companyInfo.islandPlaceholder')}
+            fieldErrors={fieldErrors}
+            touchedFields={touchedFields}
           >
-            <option value="">{t('registration.companyInfo.islandPlaceholder')}</option>
             {islands.map(island => (
               <option key={island} value={island}>
                 {t(`registration.islands.${island}`)}
               </option>
             ))}
-          </select>
+          </SelectField>
         </div>
       </div>
     </div>
@@ -293,23 +583,24 @@ const isValidPhone = (phone) => {
         <p className="text-slate-400">{t('registration.businessDetails.subtitle')}</p>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          {t('registration.businessDetails.description')} *
-        </label>
-        <textarea
-          value={formData.business_description}
-          onChange={(e) => handleInputChange('business_description', e.target.value)}
-          rows="3"
-          className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-          placeholder={t('registration.businessDetails.descriptionPlaceholder')}
-          required
-        />
-      </div>
+      <TextareaField
+        label={t('registration.businessDetails.description')}
+        name="business_description"
+        required={true}
+        value={formData.business_description}
+        onChange={handleInputChange}
+        onBlur={handleFieldBlur}
+        placeholder={t('registration.businessDetails.descriptionPlaceholder')}
+        fieldErrors={fieldErrors}
+        touchedFields={touchedFields}
+      />
 
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-3">
-          {t('registration.businessDetails.tourTypes')} * ({t('registration.businessDetails.tourTypesSubtitle')})
+          {t('registration.businessDetails.tourTypes')} <span className="text-red-400">*</span>
+          <span className="block text-xs text-slate-500 mt-1">
+            {t('registration.businessDetails.tourTypesSubtitle')}
+          </span>
         </label>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {tourTypes.map(type => (
@@ -327,46 +618,45 @@ const isValidPhone = (phone) => {
             </button>
           ))}
         </div>
+        {touchedFields.tour_types && fieldErrors.tour_types && (
+          <p className="text-red-400 text-sm mt-2">{fieldErrors.tour_types}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            {t('registration.businessDetails.targetBookings')} *
-          </label>
-          <select
-            value={formData.target_bookings_monthly}
-            onChange={(e) => handleInputChange('target_bookings_monthly', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            required
-          >
-            <option value="">{t('registration.businessDetails.targetBookingsPlaceholder')}</option>
-            {targetBookings.map(option => (
-              <option key={option} value={option}>
-                {t(`registration.targetBookings.${option}`)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SelectField
+          label={t('registration.businessDetails.targetBookings')}
+          name="target_bookings_monthly"
+          required={false}
+          value={formData.target_bookings_monthly}
+          onChange={handleInputChange}
+          placeholder={t('registration.businessDetails.targetBookingsPlaceholder')}
+          fieldErrors={fieldErrors}
+          touchedFields={touchedFields}
+        >
+          {targetBookings.map(option => (
+            <option key={option} value={option}>
+              {t(`registration.targetBookings.${option}`)}
+            </option>
+          ))}
+        </SelectField>
 
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            {t('registration.businessDetails.customerType')} *
-          </label>
-          <select
-            value={formData.customer_type_preference}
-            onChange={(e) => handleInputChange('customer_type_preference', e.target.value)}
-            className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-            required
-          >
-            <option value="">{t('registration.businessDetails.customerTypePlaceholder')}</option>
-            {customerTypes.map(option => (
-              <option key={option} value={option}>
-                {t(`registration.customerTypes.${option}`)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SelectField
+          label={t('registration.businessDetails.customerType')}
+          name="customer_type_preference"
+          required={false}
+          value={formData.customer_type_preference}
+          onChange={handleInputChange}
+          placeholder={t('registration.businessDetails.customerTypePlaceholder')}
+          fieldErrors={fieldErrors}
+          touchedFields={touchedFields}
+        >
+          {customerTypes.map(option => (
+            <option key={option} value={option}>
+              {t(`registration.customerTypes.${option}`)}
+            </option>
+          ))}
+        </SelectField>
       </div>
     </div>
   )
@@ -380,18 +670,25 @@ const isValidPhone = (phone) => {
       </div>
 
       <div className="space-y-4">
-        <div className="flex items-start gap-3">
-          <input
-            type="checkbox"
-            id="terms"
-            checked={formData.terms_accepted}
-            onChange={(e) => handleInputChange('terms_accepted', e.target.checked)}
-            className="mt-1 w-4 h-4 text-blue-500 border-slate-600 rounded focus:ring-blue-500 bg-slate-700"
-            required
-          />
-          <label htmlFor="terms" className="text-slate-300 text-sm">
-            {t('registration.terms.acceptTerms')} *
-          </label>
+        <div>
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={formData.terms_accepted}
+              onChange={(e) => {
+                handleInputChange('terms_accepted', e.target.checked)
+              }}
+              onBlur={() => handleFieldBlur('terms_accepted', formData.terms_accepted)}
+              className="mt-1 w-4 h-4 text-blue-500 border-slate-600 rounded focus:ring-blue-500 bg-slate-700"
+            />
+            <label htmlFor="terms" className="text-slate-300 text-sm">
+              {t('registration.terms.acceptTerms')} <span className="text-red-400">*</span>
+            </label>
+          </div>
+          {touchedFields.terms_accepted && fieldErrors.terms_accepted && (
+            <p className="text-red-400 text-sm mt-1 ml-7">{fieldErrors.terms_accepted}</p>
+          )}
         </div>
 
         <div className="flex items-start gap-3">
@@ -403,7 +700,7 @@ const isValidPhone = (phone) => {
             className="mt-1 w-4 h-4 text-blue-500 border-slate-600 rounded focus:ring-blue-500 bg-slate-700"
           />
           <label htmlFor="marketing" className="text-slate-300 text-sm">
-            {t('registration.terms.marketingEmails')}
+            {t('registration.terms.marketingEmails')} <span className="text-slate-500 text-xs">(optional)</span>
           </label>
         </div>
       </div>
@@ -426,7 +723,6 @@ const isValidPhone = (phone) => {
     <div className="mx-auto min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        {/* Left side - Back button and title */}
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
@@ -440,7 +736,6 @@ const isValidPhone = (phone) => {
           </div>
         </div>
         
-        {/* Right side - Language switcher */}
         <div className="flex-shrink-0">
           <LanguageDropdown />
         </div>
@@ -469,9 +764,9 @@ const isValidPhone = (phone) => {
         <div className="flex justify-between mt-8">
           <button
             onClick={() => setStep(prev => prev - 1)}
-            disabled={step === 1}
+            disabled={step === 1 || loading}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              step === 1
+              step === 1 || loading
                 ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
                 : 'bg-slate-700 text-white hover:bg-slate-600'
             }`}
@@ -482,11 +777,11 @@ const isValidPhone = (phone) => {
           {step < 3 ? (
             <button
               onClick={handleNext}
-              disabled={!validateStep(step)}
+              disabled={loading}
               className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                validateStep(step)
-                  ? 'bg-blue-500 text-white hover:bg-blue-600'
-                  : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                loading
+                  ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
               }`}
             >
               {t('registration.navigation.next')}
@@ -494,9 +789,9 @@ const isValidPhone = (phone) => {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={loading || !validateStep(3)}
+              disabled={loading}
               className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
-                loading || !validateStep(3)
+                loading
                   ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
                   : 'bg-green-500 text-white hover:bg-green-600'
               }`}

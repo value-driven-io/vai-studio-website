@@ -619,7 +619,17 @@
     "validation": {
       "companyNameRequired": "Le nom de l'entreprise est obligatoire",
       "whatsappRequired": "Le numéro WhatsApp est obligatoire",
-      "islandRequired": "L'île est obligatoire"
+      "islandRequired": "L'île est obligatoire",
+      "contactPersonRequired": "La personne de contact est requise", 
+      "emailRequired": "L'adresse email est requise",
+      "emailInvalid": "Veuillez saisir une adresse email valide",
+      "phoneInvalid": "Veuillez saisir un numéro de téléphone valide",
+      "descriptionRequired": "La description de l'entreprise est requise",
+      "tourTypesRequired": "Veuillez sélectionner au moins un type d'excursion",
+      "targetBookingsRequired": "Veuillez sélectionner votre objectif de réservations",
+      "customerTypeRequired": "Veuillez sélectionner votre préférence de clientèle",
+      "termsRequired": "Vous devez accepter les conditions générales",
+      "companyNameTooShort": "Le nom de l'entreprise doit contenir au moins 2 caractères"
     },
     "messages": {
       "profileUpdated": "✅ Profil mis à jour avec succès!",
@@ -629,7 +639,11 @@
       "conflictingInfo": "Ces informations entrent en conflit avec un autre compte. Veuillez vérifier vos données.",
       "noPermission": "Vous n'avez pas la permission de mettre à jour ce profil. Contactez le support.",
       "updateError": "Impossible d'enregistrer les modifications. Veuillez réessayer ou contacter le support si le problème persiste.",
-      "securityPolicyError": "Échec de la mise à jour: La politique de sécurité de la base de données a empêché la mise à jour. Veuillez contacter le support à hello@vai.studio pour configurer les permissions de votre compte."
+      "securityPolicyError": "Échec de la mise à jour: La politique de sécurité de la base de données a empêché la mise à jour. Veuillez contacter le support à hello@vai.studio pour configurer les permissions de votre compte.",
+       "success": "Inscription réussie ! Nous vous contacterons dans les 24 heures.",
+      "failed": "Échec de l'inscription. Veuillez réessayer.",
+      "duplicateEmail": "Cet email est déjà enregistré. Veuillez utiliser une autre adresse email."
+    
     },
     "footer": {
       "vaiTickets": "VAI Operator",
@@ -727,7 +741,7 @@
     "navigation": {
       "previous": "Précédent",
       "next": "Suivant",
-      "complete": "Finaliser l'inscription",
+      "complete": "Envoyer",
       "creating": "Création du compte..."
     },
     "validation": {
