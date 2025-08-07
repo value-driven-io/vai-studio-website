@@ -621,5 +621,63 @@
       "copyright": "© 2025 Te mau 'ā'au atoa",
       "needWebsite": "Ti'a pāpā pe taputapu?"
     }
-  }
+  },
+
+  "learnMore": {
+      "subtitle": "Hāpao i Tō Feia Tāmau Rā",
+      "hero": {
+        "title": "Hōro'a i Nā Fa'aea Hope i Te Moni",
+        "subtitle": "Te Pū Rahi Roa no Nā Ta'ata Feia Tāmau o Pōrīnetia Farāni",
+        "commission": "11% Anae Commission"
+      },
+      "valueProp": {
+        "revenue": {
+          "title": "Fa'ahou i Te Moni",
+          "description": "Aita e fa'aea i te moni na roto i te fa'aea hope. VAI e fa'atau roa ia oe i te ta'ata tāmau e rave nei e fa'ahou.",
+          "benefit": "Fa'ahou māori i te moni tahuri"
+        },
+        "instant": {
+          "title": "Ite Tere",
+          "description": "Te ta'ata tāmau ra e 'imi nei i te mau taime maitai i Pōrīnetia Farāni. E ite roa hia oe i te taime e rave ai.",
+          "benefit": "Aita te pū fa'atau i hinaaro ia"
+        },
+        "mood": {
+          "title": "Fa'atau ma te Ā",
+          "description": "Hou roa: Te ta'ata tāmau e ha'apa'o mai i to rātou ā (Tere, Hāmani, Apu, Moana) e fāna'o matou iā rātou i TŌ taime!",
+          "benefit": "Fa'atau maita'i i taime atoa"
+        }
+      },
+      "benefits": {
+        "title": "Eaha ai a VAI Operator?",
+        "commission": {
+          "title": "Commission Iti Roa",
+          "description": "Fa'aāru i te 89% o tō moni ma te commission 11% māori"
+        },
+        "noSetup": {
+          "title": "Aita te Hāpao Faito",
+          "description": "Fa'aāru i tō mau taime fa'atau. Ha'apa'o i te taime e rave ai"
+        },
+        "liveChat": {
+          "title": "Pārau Tē Roa",
+          "description": "Pārau tōtahi i te ta'ata tāmau ma tā matou pū pārau"
+        },
+        "realTime": {
+          "title": "Ha'apa'o Tere",
+          "description": "Ha'apa'o tere no te mau fa'atau hou, fa'amaoro e te mau pārau"
+        }
+      },
+      "cta": {
+        "title": "Ua Rave e Hāpao i Tō Feia?",
+        "description": "Amo ia te mau ta'ata feia tāmau Pōrīnetia e 'ore nei a VAI no te fa'arahira'a i to rātou moni",
+        "getAccess": "Fa'anahia te Āmui Ē",
+        "learnMore": "A'o Noa i VAI"
+      },
+      "footer": {
+        "madeIn": "Hāpao hia ma te",
+        "polynesia": "i Pōrīnetia Farāni"
+      }
+    },
+    "login": {
+      "learnMoreLink": "A'o noa i VAI Operator"
+    }
 }

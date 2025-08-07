@@ -14,6 +14,7 @@ import {
   ExternalLink
 } from 'lucide-react'
 import VAILogo from '../VAILogo'
+import LanguageDropdown from '../LanguageDropdown'
 
 const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
   const { t } = useTranslation()
@@ -123,17 +124,25 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
       <div className="max-w-4xl mx-auto p-6">
         
         {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
-          <button
-            onClick={onBack}
-            className="p-2 text-slate-400 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <VAILogo size="sm" />
-          <div>
-            <h1 className="text-2xl font-bold text-white">VAI Operator</h1>
-            <p className="text-slate-300">{t('learnMore.subtitle')}</p>
+        <div className="flex items-center justify-between mb-8">
+          {/* Left side - Back button and branding */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onBack}
+              className="p-2 text-slate-400 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <VAILogo size="sm" />
+            <div>
+              <h1 className="text-2xl font-bold text-white">VAI Operator</h1>
+              <p className="text-slate-300">{t('learnMore.subtitle')}</p>
+            </div>
+          </div>
+          
+          {/* Right side - Language switcher */}
+          <div className="flex-shrink-0">
+            <LanguageDropdown />
           </div>
         </div>
 

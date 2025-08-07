@@ -623,6 +623,64 @@
       "vaiTickets": "VAI Operator",
       "copyright": "© 2025 版权所有",
       "needWebsite": "需要网站或应用？"
+    },
+
+    "learnMore": {
+      "subtitle": "转变您的旅游业务",
+      "hero": {
+        "title": "将最后一刻的取消转化为收入",
+        "subtitle": "每个法属波利尼西亚运营商必备的平台",
+        "commission": "仅收取11%佣金"
+      },
+      "valueProp": {
+        "revenue": {
+          "title": "收入恢复",
+          "description": "不再因最后一刻的取消而损失金钱。VAI即时将您与准备填补取消位置的游客连接。",
+          "benefit": "自动恢复失去的收入"
+        },
+        "instant": {
+          "title": "即时发现",
+          "description": "游客正在寻找法属波利尼西亚的正宗体验。当他们准备预订时立即被发现。",
+          "benefit": "无需预订系统"
+        },
+        "mood": {
+          "title": "基于心情的匹配",
+          "description": "革命性：游客告诉我们他们的心情（冒险、放松、文化、海洋），我们向他们展示您的活动！",
+          "benefit": "每次都完美匹配"
+        }
+      },
+      "benefits": {
+        "title": "为什么选择VAI运营商？",
+        "commission": {
+          "title": "行业领先的低佣金",
+          "description": "通过我们透明的11%佣金结构保留89%的收入"
+        },
+        "noSetup": {
+          "title": "无需复杂设置",
+          "description": "保留您现有的付款方式。有空位时发布可用性"
+        },
+        "liveChat": {
+          "title": "实时聊天集成",
+          "description": "通过我们内置的聊天系统与游客直接沟通"
+        },
+        "realTime": {
+          "title": "实时通知",
+          "description": "新预订、确认和客户消息的即时提醒"
+        }
+      },
+      "cta": {
+        "title": "准备发展您的业务了吗？",
+        "description": "加入数百名已经使用VAI提高收入的波利尼西亚运营商",
+        "getAccess": "立即获得免费访问",
+        "learnMore": "了解更多关于VAI"
+      },
+      "footer": {
+        "madeIn": "制作于",
+        "polynesia": "法属波利尼西亚"
+      }
+    },
+    "login": {
+      "learnMoreLink": "了解更多关于VAI运营商"
     }
   }
 }
