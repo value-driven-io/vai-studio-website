@@ -135,7 +135,6 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
             </button>
             <VAILogo size="sm" />
             <div>
-              <h1 className="text-2xl font-bold text-white">VAI Operator</h1>
               <p className="text-slate-300">{t('learnMore.subtitle')}</p>
             </div>
           </div>
