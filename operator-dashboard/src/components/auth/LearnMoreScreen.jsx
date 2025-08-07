@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
   ArrowLeft, 
+  ArrowRight,
   DollarSign, 
   Zap, 
   Target, 
@@ -155,11 +156,23 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
           </p>
           <div className="text-center">
             <span className="inline-flex items-center gap-2 bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-lg font-semibold">
-              <Star className="w-5 h-5" />
+             
               {t('learnMore.hero.commission')}
             </span>
           </div>
+
+           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={handleGetAccess}
+              className="flex items-center justify-center gap-2 hover:bg-green-600 text-white font-semibold py-3 px-6 border border-green-500 rounded-lg transition-all transform hover:scale-105 mt-4"
+            >
+              <ArrowRight className="w-5 h-5" />
+              {t('learnMore.cta.getAccess')}
+            </button>
+          </div>
         </div>
+
+        
 
         {/* Three Value Propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -276,7 +289,7 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
               onClick={handleGetAccess}
               className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105"
             >
-              <Star className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5" />
               {t('learnMore.cta.getAccess')}
             </button>
             
