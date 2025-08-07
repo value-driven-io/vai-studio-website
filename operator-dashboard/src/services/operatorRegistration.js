@@ -197,6 +197,9 @@ class OperatorRegistrationService {
         whatsapp_number: whatsapp_number?.trim() || null,
         island: island,
         status: 'pending', // 🔑 CRITICAL: Requires manual approval
+
+        // Flexible commission rate management >> Set up the default commission rate
+        commission_rate: parseFloat(process.env.REACT_APP_DEFAULT_COMMISSION_RATE) || 11.00,
         
         // ✅ Store auth_user_id for immediate login capability
         auth_user_id: authUserId, // Links to Supabase auth
