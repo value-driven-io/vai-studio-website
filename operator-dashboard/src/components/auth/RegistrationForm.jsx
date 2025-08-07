@@ -7,6 +7,7 @@ import {
   Loader2, AlertCircle, CheckCircle
 } from 'lucide-react'
 import { useRegistration } from '../../hooks/useRegistration'
+import LanguageDropdown from '../LanguageDropdown'
 
 const RegistrationForm = ({ onBack, onSuccess }) => {
   const { t } = useTranslation()
@@ -373,16 +374,24 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
   return (
     <div className="mx-auto min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <button
-          onClick={onBack}
-          className="p-2 text-slate-400 hover:text-white transition-colors"
-        >
-          <ArrowLeft size={20} />
-        </button>
-        <div>
-          <h2 className="text-2xl font-bold text-white">{t('registration.title')}</h2>
-          <p className="text-slate-400">{t('registration.subtitle')}</p>
+      <div className="flex items-center justify-between mb-6">
+        {/* Left side - Back button and title */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onBack}
+            className="p-2 text-slate-400 hover:text-white transition-colors"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <div>
+            <h2 className="text-2xl font-bold text-white">{t('registration.title')}</h2>
+            <p className="text-slate-400">{t('registration.subtitle')}</p>
+          </div>
+        </div>
+        
+        {/* Right side - Language switcher */}
+        <div className="flex-shrink-0">
+          <LanguageDropdown />
         </div>
       </div>
 

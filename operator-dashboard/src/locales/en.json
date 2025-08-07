@@ -258,7 +258,8 @@
     "createAccount": "Create Operator Account",
     "moreInfo": "More info about ",
     "learnMoreLink": "Learn more about VAI Operator",
-    "welcomeBack": "Maeva ! 🌸"
+    "welcomeBack": "Maeva ! 🌸",
+    "email": "Email"
   },
 
   "bookings": {
