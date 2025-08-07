@@ -786,5 +786,62 @@
       "email": "hello@vai.studio",
       "whatsapp": "Soporte por WhatsApp"
     }
-  }
+  },
+    "learnMore": {
+      "subtitle": "Transforma Tu Negocio Turístico",
+      "hero": {
+        "title": "Convierte las Cancelaciones de Último Minuto en Ingresos",
+        "subtitle": "La Plataforma Esencial que Todo Operador de Polinesia Francesa Necesita",
+        "commission": "Solo 11% de Comisión"
+      },
+      "valueProp": {
+        "revenue": {
+          "title": "Recuperación de Ingresos",
+          "description": "Deja de perder dinero por cancelaciones de último minuto. VAI te conecta instantáneamente con turistas listos para llenar los espacios cancelados.",
+          "benefit": "Recupera automáticamente los ingresos perdidos"
+        },
+        "instant": {
+          "title": "Descubrimiento Instantáneo",
+          "description": "Los turistas buscan experiencias auténticas en Polinesia Francesa AHORA MISMO. Sé encontrado instantáneamente cuando estén listos para reservar.",
+          "benefit": "No se necesita sistema de reservas"
+        },
+        "mood": {
+          "title": "Coincidencia Basada en Estado de Ánimo",
+          "description": "¡Revolucionario: Los turistas nos dicen su estado de ánimo (Aventura, Relajación, Cultura, Océano) y les mostramos TU actividad!",
+          "benefit": "Coincidencia perfecta cada vez"
+        }
+      },
+      "benefits": {
+        "title": "¿Por Qué Elegir VAI Operator?",
+        "commission": {
+          "title": "Comisión Baja Líder en la Industria",
+          "description": "Mantén el 89% de tus ingresos con nuestra estructura de comisión transparente del 11%"
+        },
+        "noSetup": {
+          "title": "No Se Requiere Configuración Compleja",
+          "description": "Mantén tus métodos de pago existentes. Publica disponibilidad cuando la tengas"
+        },
+        "liveChat": {
+          "title": "Integración de Chat en Vivo",
+          "description": "Comunicación directa con turistas a través de nuestro sistema de chat integrado"
+        },
+        "realTime": {
+          "title": "Notificaciones en Tiempo Real",
+          "description": "Alertas instantáneas para nuevas reservas, confirmaciones y mensajes de clientes"
+        }
+      },
+      "cta": {
+        "title": "¿Listo para Hacer Crecer Tu Negocio?",
+        "description": "Únete a cientos de operadores polinesios que ya usan VAI para aumentar sus ingresos",
+        "getAccess": "Obtener Acceso Gratuito Ahora",
+        "learnMore": "Aprender Más Sobre VAI"
+      },
+      "footer": {
+        "madeIn": "Hecho con",
+        "polynesia": "en Polinesia Francesa"
+      }
+    },
+    "login": {
+      "learnMoreLink": "Aprender más sobre VAI Operator"
+    }
 }

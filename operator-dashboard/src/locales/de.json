@@ -786,5 +786,63 @@
       "email": "hello@vai.studio",
       "whatsapp": "WhatsApp-Support"
     }
-  }
+  },
+
+  "learnMore": {
+      "subtitle": "Transformiere dein Tourismusgeschäft",
+      "hero": {
+        "title": "Verwandle Last-Minute-Stornierungen in Einnahmen",
+        "subtitle": "Die unverzichtbare Plattform für jeden französisch-polynesischen Anbieter",
+        "commission": "Nur 11% Provision"
+      },
+      "valueProp": {
+        "revenue": {
+          "title": "Einnahmen-Wiederherstellung",
+          "description": "Hör auf, Geld durch Last-Minute-Stornierungen zu verlieren. VAI verbindet dich sofort mit Touristen, die bereit sind, stornierte Plätze zu füllen.",
+          "benefit": "Verlorene Einnahmen automatisch zurückgewinnen"
+        },
+        "instant": {
+          "title": "Sofortige Entdeckung",
+          "description": "Touristen suchen JETZT SOFORT nach authentischen Erlebnissen in Französisch-Polynesien. Werde sofort gefunden, wenn sie bereit zum Buchen sind.",
+          "benefit": "Kein Buchungssystem erforderlich"
+        },
+        "mood": {
+          "title": "Stimmungsbasierte Zuordnung",
+          "description": "Revolutionär: Touristen teilen uns ihre Stimmung mit (Abenteuer, Entspannung, Kultur, Ozean) und wir zeigen ihnen DEINE Aktivität!",
+          "benefit": "Perfekte Zuordnung jedes Mal"
+        }
+      },
+      "benefits": {
+        "title": "Warum VAI Operator wählen?",
+        "commission": {
+          "title": "Branchenführende niedrige Provision",
+          "description": "Behalte 89% deiner Einnahmen mit unserer transparenten 11% Provisionsstruktur"
+        },
+        "noSetup": {
+          "title": "Keine komplexe Einrichtung erforderlich",
+          "description": "Behalte deine bestehenden Zahlungsmethoden. Veröffentliche Verfügbarkeit, wenn du sie hast"
+        },
+        "liveChat": {
+          "title": "Live-Chat-Integration",
+          "description": "Direkte Kommunikation mit Touristen über unser integriertes Chat-System"
+        },
+        "realTime": {
+          "title": "Echtzeit-Benachrichtigungen",
+          "description": "Sofortige Warnungen für neue Buchungen, Bestätigungen und Kundennachrichten"
+        }
+      },
+      "cta": {
+        "title": "Bereit, dein Geschäft zu erweitern?",
+        "description": "Schließe dich Hunderten polynesischen Anbietern an, die bereits VAI nutzen, um ihre Einnahmen zu steigern",
+        "getAccess": "Jetzt kostenlosen Zugang erhalten",
+        "learnMore": "Mehr über VAI erfahren"
+      },
+      "footer": {
+        "madeIn": "Gemacht mit",
+        "polynesia": "in Französisch-Polynesien"
+      }
+    },
+    "login": {
+      "learnMoreLink": "Mehr über VAI Operator erfahren"
+    }
 }
