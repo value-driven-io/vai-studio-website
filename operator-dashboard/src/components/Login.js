@@ -224,7 +224,6 @@ const Login = ({ onLogin, loading }) => {
         <div className="text-center mb-8">
           <VAILogo size="lg" />
           <h1 className="text-3xl font-bold text-white mb-2">Operator</h1>
-          <p className="text-slate-400">{t('login.welcomeBack')}</p>
         </div>
 
         {/* Language Selector */}

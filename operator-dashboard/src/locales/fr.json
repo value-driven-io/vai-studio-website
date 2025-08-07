@@ -250,7 +250,7 @@
     "passwordReminder": "Ton mot de passe sécurisé a été fourni lors de la configuration du compte",
     "registeraccount": "Pas de compte ? Enregistre ton entreprise et deviens un ",
     "newOperator": "Nouvel opérateur ?",
-    "createAccount": "Créer un nouveau compte",
+    "createAccount": "Créer un compte",
     "moreInfo": "Plus d'informations sur ",
     "learnMoreLink": "En savoir plus sur VAI Opérateur"
   },
@@ -779,6 +779,12 @@
     },
     "applicationDetails": "Détails de la demande",
     "nextSteps": "Prochaines étapes",
+    "steps": {
+      "loginImmediate": "Tu peux te connecter immédiatement pour vérifier ton statut d'approbation",
+      "useCredentials": "Utilise ton email et mot de passe temporaire \"VAI_{{email}}\" pour accéder à VAI Operator",
+      "teamReview": "Notre équipe va examiner ta candidature dans les 24 heures",
+      "fullAccess": "Une fois approuvé, tu auras un accès complet pour créer des tours"
+    },
     "company": "Société",
     "contact": "Contact",
     "island": "Île",

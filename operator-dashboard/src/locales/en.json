@@ -255,7 +255,7 @@
     "passwordReminder": "Your secure password was provided during account setup",
     "registeraccount": "No Account? Register your business and become a ",
     "newOperator": "New operator?",
-    "createAccount": "Create Operator Account",
+    "createAccount": "Create VAI Account",
     "moreInfo": "More info about ",
     "learnMoreLink": "Learn more about VAI Operator",
     "welcomeBack": "Maeva ! 🌸",
@@ -774,6 +774,12 @@
     },
     "applicationDetails": "Application Details",
     "nextSteps": "Next Steps",
+    "steps": {
+      "loginImmediate": "You can login immediately to check your approval status",
+      "useCredentials": "Use your email and temporary password \"VAI_{{email}}\" to access VAI Operator",
+      "teamReview": "Our team will review your application within 24 hours",
+      "fullAccess": "Once approved, you'll have full access to create tours"
+      },
     "company": "Company",
     "contact": "Contact",
     "island": "Island",

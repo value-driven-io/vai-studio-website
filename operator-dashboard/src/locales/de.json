@@ -249,8 +249,9 @@
     "passwordReminder": "Dein sicheres Passwort wurde bei der Kontoeinrichtung bereitgestellt",
     "registeraccount": "Kein Account? Registrier Dein Unternehmen und werde ein ",
     "newOperator": "Noch kein Account?",
-    "createAccount": "Neuer Operator Account",
-    "moreInfo": "Weitere Infos über "
+    "createAccount": "Neuer Account",
+    "moreInfo": "Weitere Infos über ",
+    "learnMoreLink": "Mehr über VAI Operator erfahren"
   },
 
   "bookings": {
@@ -762,6 +763,12 @@
     },
     "applicationDetails": "Details zum Antrag",
     "nextSteps": "Nächste Schritte",
+    "steps": {
+      "loginImmediate": "Du kannst dich sofort einloggen, um deinen Genehmigungsstatus zu überprüfen",
+      "useCredentials": "Verwende deine E-Mail und das temporäre Passwort \"VAI_{{email}}\" für den Zugang zu VAI Operator",
+      "teamReview": "Unser Team wird deine Bewerbung innerhalb von 24 Stunden prüfen",
+      "fullAccess": "Nach der Genehmigung hast du vollen Zugang zur Erstellung von Touren"
+    },
     "company": "Unternehmen",
     "contact": "Kontakt",
     "island": "Insel",
@@ -841,8 +848,5 @@
         "madeIn": "Gemacht mit",
         "polynesia": "in Französisch-Polynesien"
       }
-    },
-    "login": {
-      "learnMoreLink": "Mehr über VAI Operator erfahren"
     }
 }

@@ -172,29 +172,40 @@ const PendingApprovalScreen = ({
               </div>
             </div>
 
+            
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">
-                {t('pendingApproval.nextSteps')}
-              </h3>
-              <div className="space-y-3">
-                {registrationResult?.next_steps?.map((step, index) => (
+            <h3 className="text-lg font-semibold text-white mb-3">
+              {t('pendingApproval.nextSteps')}
+            </h3>
+            <div className="space-y-3">
+              {(() => {
+                // 🔧 FIX: Build proper steps array to prevent password splitting
+                const buildSteps = () => {
+                  // If we have registration result, use it carefully
+                  if (registrationResult?.next_steps && Array.isArray(registrationResult.next_steps)) {
+                    return registrationResult.next_steps;
+                  }
+                  
+                  // Otherwise, build default steps with proper interpolation
+                  return [
+                    t('pendingApproval.steps.loginImmediate'),
+                    t('pendingApproval.steps.useCredentials', { 
+                      email: registrationResult?.operator?.email || registrationResult?.email || 'your-email@example.com'
+                    }),
+                    t('pendingApproval.steps.teamReview'),
+                    t('pendingApproval.steps.fullAccess')
+                  ];
+                };
+                
+                return buildSteps().map((step, index) => (
                   <div key={index} className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
                     <span className="text-slate-300 text-sm">{step}</span>
                   </div>
-                )) || [
-                  'Check your email for confirmation',
-                  'Our team will review your application',
-                  'You\'ll receive approval notification',
-                  'Once approved, you can start creating activities'
-                ].map((step, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-slate-300 text-sm">{step}</span>
-                  </div>
-                ))}
-              </div>
+                ));
+              })()}
             </div>
+          </div>
           </div>
 
           {/* Founding Member Benefits */}

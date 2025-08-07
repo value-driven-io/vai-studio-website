@@ -245,7 +245,7 @@ const LanguageDropdown = () => {
           aria-label="Select language"
           aria-expanded={isOpen}
         >
-          <Globe className="w-4 h-4" />
+          
           <span className="text-lg">{currentLanguage?.flag}</span>
           <span className="hidden sm:inline font-medium">
             {currentLanguage?.nativeName || 'Language'}
