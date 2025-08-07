@@ -22,7 +22,17 @@
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1819393808789777&ev=PageView&noscript=1"
     /></noscript>
-<!-- End Meta Pixel Code -->
+    <!-- End Meta Pixel Code -->
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA_TRACKING_ID%"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '%REACT_APP_GA_TRACKING_ID%');
+    </script>
+    <!-- End Google Analytics -->
 
     <meta
       name="description"
