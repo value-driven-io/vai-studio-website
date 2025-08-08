@@ -5,11 +5,19 @@ import { initReactI18next } from 'react-i18next'
 // Import language files
 import en from '../locales/en.json'
 import fr from '../locales/fr.json'
+import es from '../locales/es.json'  
+import de from '../locales/de.json'  
+import it from '../locales/it.json'  
+import ty from '../locales/ty.json'  
 
 // Language resources (starting with 2 languages)
 const resources = {
   fr: { translation: fr },
-  en: { translation: en }
+  en: { translation: en },
+  es: { translation: es },  // NEW
+  de: { translation: de },  // NEW
+  it: { translation: it },  // NEW
+  ty: { translation: ty }   // NEW
 }
 
 // Supported languages - automatically derived from resources
@@ -20,6 +28,10 @@ i18n
   .init({
     resources,
     fallbackLng: {
+      'es': ['en', 'fr'],     // Spanish → English → French
+      'de': ['en', 'fr'],     // German → English → French  
+      'it': ['en', 'fr'],     // Italian → English → French
+      'ty': ['fr', 'en'],     // Tahitian → French → English
       'en': ['fr'],           // English → French
       'default': ['fr', 'en'] // Any other language → French → English
     },

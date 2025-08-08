@@ -1,0 +1,20 @@
+{
+  "launchingSoon": {
+    "title": "Bald geht's los!",
+    "message": "Ia ora na! Wir bereiten dir ein unvergessliches Insel-Abenteuer in Französisch-Polynesien vor. Sei der Erste, der erfährt, wann wir live gehen!",
+    "form": {
+      "placeholder": "Deine E-Mail eingeben",
+      "button": "Benachrichtige mich",
+      "submitting": "Wird gesendet...",
+      "successTitle": "Māuruuru!",
+      "successMessage": "Du bist dabei! Wir melden uns bei dir, sobald es losgeht.",
+      "error": "Ups, da ist was schiefgelaufen. Versuch's nochmal!",
+      "consent": "Mit deiner Anmeldung stimmst du zu, Infos über den Start von VAI Tickets zu bekommen.",
+      "duplicate": "Du stehst schon auf unserer Insel-Liste! 🌴"
+    },
+    "footer": "VAI Tickets - Dein Schlüssel zum Paradies"
+  },
+  "login": {
+    "moreInfo": "Mehr Infos über"
+  }
+}

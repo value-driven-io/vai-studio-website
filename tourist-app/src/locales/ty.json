@@ -1,0 +1,20 @@
+{
+  "launchingSoon": {
+    "title": "E tae nei!",
+    "message": "Ia ora na! Ua rave nei mātou i te tamaraa e ore roa e pohe ai no oe i Pōrīnetia farāni. Oia oe te taata mua e ite ai ina tae mātou.",
+    "form": {
+      "placeholder": "Haamana i to vahi rata",
+      "button": "A fa'a'ite mai",
+      "submitting": "Ua horo...",
+      "successTitle": "Māuruuru!",
+      "successMessage": "Ua ite oe i te parau. E haamana atu mātou ia oe ina tae.",
+      "error": "Ua roa te hape. Haamana hou mai.",
+      "consent": "Na roto i to ineine, ua ite oe e amui i te mau parau no VAI Tickets.",
+      "duplicate": "Ua ite oe i te lista!"
+    },
+    "footer": "VAI Tickets - To oe te ki no te paradiso"
+  },
+  "login": {
+    "moreInfo": "Te mau parau oire no"
+  }
+}

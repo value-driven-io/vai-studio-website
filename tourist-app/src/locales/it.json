@@ -1,0 +1,20 @@
+{
+  "launchingSoon": {
+    "title": "In arrivo!",
+    "message": "Ia ora na! Stiamo preparando un'esperienza indimenticabile per te nella Polinesia Francese. Sii il primo a sapere quando lanceremo.",
+    "form": {
+      "placeholder": "Inserisci la tua email",
+      "button": "Avvisami",
+      "submitting": "Invio in corso...",
+      "successTitle": "Māuruuru!",
+      "successMessage": "Sei nella lista. Ti avviseremo al lancio.",
+      "error": "Si è verificato un errore. Riprova.",
+      "consent": "Registrandoti, accetti di ricevere informazioni sul lancio di VAI Tickets.",
+      "duplicate": "Sei già nella nostra lista d'attesa!"
+    },
+    "footer": "VAI Tickets - La tua chiave per il paradiso"
+  },
+  "login": {
+    "moreInfo": "Maggiori informazioni su"
+  }
+}

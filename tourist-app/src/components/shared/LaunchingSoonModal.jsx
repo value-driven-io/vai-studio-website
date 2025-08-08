@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rocket, Mail, Send, Check } from 'lucide-react';
 import { supabase } from '../../services/supabase';
-import LanguageSelector from './LanguageSelector'; // Import the language selector
+import LanguageDropdown from './LanguageDropdown';
 
 const VAILogo = () => (
   <img src="/logos/vai-logo-2025.png" alt="VAI Tickets Logo" className="h-12 w-auto" />
@@ -83,7 +83,7 @@ const LaunchingSoonModal = () => {
       
       {/* Language Selector in the top right corner */}
       <div className="absolute top-4 right-4 z-10">
-        <LanguageSelector />
+        <LanguageDropdown />
       </div>
 
       <div className="w-full max-w-md bg-vai-lagoon/80 rounded-mobile-xl border border-white/10 shadow-vai-float p-6 sm:p-8 text-center">
