@@ -246,7 +246,8 @@
     "signInSecurely": "安全登录",
     "useCredentials": "使用您的安全运营商凭据",
     "needHelp": "需要帮助？联系",
-    "passwordReminder": "您的安全密码在账户设置期间提供"
+    "passwordReminder": "您的安全密码在账户设置期间提供",
+    "createAccount": "免费注册"
   },
 
   "bookings": {

@@ -243,7 +243,9 @@
     "signInSecurely": "Tomo haumaru",
     "useCredentials": "Fa'aaara i tō mau fa'a'itehia haumaru",
     "needHelp": "Ti'a 'ā'ō? Fa'a'ite ia",
-    "passwordReminder": "Tō uira huna haumaru na riro i te taime fa'atū aita'a"
+    "passwordReminder": "Tō uira huna haumaru na riro i te taime fa'atū aita'a",
+    "learnMoreLink": "A'o noa i VAI Operator",
+    "createAccount": "A tomo mai (moni 'ore)"
   },
 
   "bookings": {
@@ -676,8 +678,5 @@
         "madeIn": "Hāpao hia ma te",
         "polynesia": "i Pōrīnetia Farāni"
       }
-    },
-    "login": {
-      "learnMoreLink": "A'o noa i VAI Operator"
     }
 }
