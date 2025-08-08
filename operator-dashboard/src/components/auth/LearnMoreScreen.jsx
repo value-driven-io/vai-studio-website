@@ -442,6 +442,7 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
               {t('learnMore.cta.getAccess')}
             </button>
             
+            {/* 
             <button
               onClick={handleLearnMore}
               className="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-white font-medium py-3 px-6 rounded-lg transition-colors border border-slate-600"
@@ -449,6 +450,7 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
               <ExternalLink className="w-4 h-4" />
               {t('learnMore.cta.learnMore')}
             </button>
+            */}
           </div>
         </div>
 
