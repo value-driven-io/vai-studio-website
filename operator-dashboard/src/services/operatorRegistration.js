@@ -267,7 +267,7 @@ class OperatorRegistrationService {
       // STEP 4: Send notification webhook (non-blocking)
       this.sendRegistrationNotification({
         ...formData,
-        languages: [languageCode], // 🆕 Use the actual selected language
+        languages: [this.convertCodeToLanguageName(formData.preferred_language || 'fr')], 
         tourist_user_id: touristUser.id,
         operator_id: operatorUser.id,
         existing_tourist: existingTourist,
@@ -341,6 +341,22 @@ class OperatorRegistrationService {
     
     // Convert full name to code
     return languageMap[language] || 'fr' // Default to French for French Polynesia
+  }
+
+  /**
+ * Convert language codes back to language names for n8n compatibility
+ */
+convertCodeToLanguageName(code) {
+    const codeToNameMap = {
+      'fr': 'French',
+      'en': 'English', 
+      'de': 'German',
+      'es': 'Spanish',
+      'ty': 'French', // Tahitian maps to French for n8n
+      'zh': 'Chinese'
+    }
+    
+    return codeToNameMap[code] || 'English' // Default to English
   }
 
     /**
@@ -431,8 +447,11 @@ class OperatorRegistrationService {
         island: data.island,
         business_description: data.business_description,
         tour_types: data.tour_types,
-        languages: data.languages,
-        preferred_language: data.preferred_language,
+        
+        // 🆕 SEND PROPER LANGUAGE NAMES
+        languages: [this.convertCodeToLanguageName(data.preferred_language)], // Convert code back to name
+        preferred_language: data.preferred_language, // Keep the code too
+        
         target_bookings_monthly: data.target_bookings_monthly,
         customer_type_preference: data.customer_type_preference,
         registration_date: new Date().toISOString(),
