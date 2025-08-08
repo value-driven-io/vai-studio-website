@@ -798,57 +798,110 @@
   },
 
   "learnMore": {
-      "subtitle": "Transformiere dein Tourismusgeschäft",
-      "hero": {
-        "title": "Verwandle Last-Minute-Stornierungen in Einnahmen",
-        "subtitle": "Die unverzichtbare Plattform für jeden französisch-polynesischen Anbieter",
-        "commission": "Nur 11% Provision"
+    "subtitle": "Verwandle dein Tourismus-Business",
+    "hero": {
+      "title": "Last-Minute Angebote • Kostenlose Buchungsplattform",
+      "subtitle": "DIE Plattform, die jeder polynesische Anbieter braucht",
+      "commission": "Nur 11% Provision"
+    },
+    "valueProp": {
+      "revenue": {
+        "title": "Umsatz-Wiederherstellung",
+        "description": "Hör auf, Geld durch Last-Minute Stornierungen zu verlieren. VAI verbindet dich sofort mit Touristen, die bereit sind, stornierte Plätze zu füllen.",
+        "benefit": "Hole dir verlorene Umsätze automatisch zurück"
       },
-      "valueProp": {
-        "revenue": {
-          "title": "Einnahmen-Wiederherstellung",
-          "description": "Hör auf, Geld durch Last-Minute-Stornierungen zu verlieren. VAI verbindet dich sofort mit Touristen, die bereit sind, stornierte Plätze zu füllen.",
-          "benefit": "Verlorene Einnahmen automatisch zurückgewinnen"
-        },
-        "instant": {
-          "title": "Sofortige Entdeckung",
-          "description": "Touristen suchen JETZT SOFORT nach authentischen Erlebnissen in Französisch-Polynesien. Werde sofort gefunden, wenn sie bereit zum Buchen sind.",
-          "benefit": "Kein Buchungssystem erforderlich"
-        },
-        "mood": {
-          "title": "Stimmungsbasierte Zuordnung",
-          "description": "Revolutionär: Touristen teilen uns ihre Stimmung mit (Abenteuer, Entspannung, Kultur, Ozean) und wir zeigen ihnen DEINE Aktivität!",
-          "benefit": "Perfekte Zuordnung jedes Mal"
-        }
+      "instant": {
+        "title": "Sofort-Entdeckung",
+        "description": "Touristen suchen JETZT GERADE nach authentischen Erlebnissen in Französisch-Polynesien. Lass dich sofort finden, wenn sie buchungsbereit sind.",
+        "benefit": "Kein Buchungssystem nötig"
       },
-      "benefits": {
-        "title": "Warum VAI Operator wählen?",
-        "commission": {
-          "title": "Branchenführende niedrige Provision",
-          "description": "Behalte 89% deiner Einnahmen mit unserer transparenten 11% Provisionsstruktur"
-        },
-        "noSetup": {
-          "title": "Keine komplexe Einrichtung erforderlich",
-          "description": "Behalte deine bestehenden Zahlungsmethoden. Veröffentliche Verfügbarkeit, wenn du sie hast"
-        },
-        "liveChat": {
-          "title": "Live-Chat-Integration",
-          "description": "Direkte Kommunikation mit Touristen über unser integriertes Chat-System"
-        },
-        "realTime": {
-          "title": "Echtzeit-Benachrichtigungen",
-          "description": "Sofortige Warnungen für neue Buchungen, Bestätigungen und Kundennachrichten"
-        }
-      },
-      "cta": {
-        "title": "Bereit, dein Geschäft zu erweitern?",
-        "description": "Schließe dich Hunderten polynesischen Anbietern an, die bereits VAI nutzen, um ihre Einnahmen zu steigern",
-        "getAccess": "Get Free Access Now",
-        "learnMore": "Mehr über VAI erfahren"
-      },
-      "footer": {
-        "madeIn": "Gemacht mit",
-        "polynesia": "in Französisch-Polynesien"
+      "mood": {
+        "title": "Stimmungs-Matching",
+        "description": "Revolutionär: Touristen sagen uns ihre Stimmung (Abenteuer, Entspannung, Kultur, Ozean) und wir zeigen ihnen DEINE Aktivität!",
+        "benefit": "Perfektes Matching jedes Mal"
       }
+    },
+    "benefits": {
+      "title": "Warum VAI Operator wählen?",
+      "commission": {
+        "title": "Branchenführend niedrige Provision",
+        "description": "Behalte 89% deiner Einnahmen mit unserer transparenten 11% Provisionsstruktur"
+      },
+      "noSetup": {
+        "title": "Keine komplexe Einrichtung nötig",
+        "description": "Behalte deine bestehenden Zahlungsmethoden. Poste Verfügbarkeiten, wenn du welche hast"
+      },
+      "liveChat": {
+        "title": "Live-Chat Integration",
+        "description": "Direkte Kommunikation mit Touristen über unser eingebautes Chat-System"
+      },
+      "realTime": {
+        "title": "Echtzeit-Benachrichtigungen",
+        "description": "Sofortige Alerts für neue Buchungen, Bestätigungen und Kundennachrichten"
+      }
+    },
+    "dualPreview": {
+      "title": "Zwei mächtige Plattformen. Ein nahtloses Erlebnis.",
+      "touristSide": "Deine Kunden entdecken",
+      "operatorSide": "Du verwaltest professionell",
+      "description": "Schöne stimmungsbasierte Entdeckung trifft professionelles Anbieter-Management"
+    },
+    "activityTypes": {
+      "title": "Alle Aktivitäten willkommen",
+      "subtitle": "Von Ozean-Abenteuern bis Kultur-Workshops - jedes Erlebnis findet sein Publikum",
+      "ocean": {
+        "title": "Ozean & Abenteuer",
+        "activities": "Tauchen • Schnorcheln • Walbeobachtung • Segeln • Jet Ski • Surfen"
+      },
+      "mindful": {
+        "title": "Achtsamkeit & Wellness",
+        "activities": "Yoga • Atemarbeit • Meditation • Spa • Massage • Klang-Heilung"
+      },
+      "culture": {
+        "title": "Kultur & Lernen",
+        "activities": "Kochkurse • Traditionelles Handwerk • Musik • Tanz • Sprache • Geschichte"
+      },
+      "active": {
+        "title": "Aktiv & Erkundung",
+        "activities": "Wandern • Stadttouren • Fotografie • Sport • Radfahren • Laufen"
+      }
+    },
+    "enhancedValueProp": {
+      "professional": {
+        "title": "Professionelles Dashboard",
+        "description": "Echtzeit-Umsatztracking, Buchungsmanagement und automatische Bestätigungen - genau wie die 128k+ FCFP, die Anbieter bereits verdienen",
+        "benefit": "Vollständige Business-Kontrolle in deinen Händen"
+      },
+      "experience": {
+        "title": "Schönes Kundenerlebnis",
+        "description": "Deine Aktivitäten erreichen Kunden durch intelligentes Stimmungs- und Wetter-Matching auf allen Gerätetypen",
+        "benefit": "Intelligente Entdeckung bringt mehr Buchungen"
+      },
+      "inclusive": {
+        "title": "Alle Aktivitäten willkommen",
+        "description": "Von Ozean-Abenteuern bis Kultur-Workshops - jedes Erlebnis findet sein perfektes Publikum über unsere Plattform",
+        "benefit": "Egal was du anbietest, wir verbinden dich mit den richtigen Kunden"
+      }
+    },
+    "enhancedBenefits": {
+      "multiLanguage": {
+        "title": "Mehrsprachige Oberfläche",
+        "description": "Französisch, Englisch, Tahitisch, Spanisch, Italienisch, Deutsch Support für globale Reichweite"
+      },
+      "compliance": {
+        "title": "Regulatorische Compliance",
+        "description": "Eingebaute 2025 Walbeobachtungs-Regelungen und Sicherheitsstandard-Management"
+      }
+    },
+    "cta": {
+      "title": "Bereit, dein Business zu vergrößern?",
+      "description": "Schließ dich hunderten polynesischen Anbietern an, die bereits VAI nutzen, um ihre Umsätze zu steigern",
+      "getAccess": "Kostenlosen Zugang Jetzt Holen",
+      "learnMore": "Mehr über VAI Erfahren"
+    },
+    "footer": {
+      "madeIn": "Gemacht mit",
+      "polynesia": "in Französisch-Polynesien"
     }
+  }
 }

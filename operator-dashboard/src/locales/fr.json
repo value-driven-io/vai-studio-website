@@ -27,53 +27,106 @@
   },
   
   "learnMore": {
-    "subtitle": "Transforme ton entreprise touristique",
+    "subtitle": "Transforme ton Activité Touristique",
     "hero": {
-      "title": "Transforme tes annulations de dernière minute en revenus",
-      "subtitle": "La plateforme essentielle pour tous les opérateurs de Polynésie française",
-      "commission": "Seulement 11% de commission"
+      "title": "Offres Dernière Minute • Plateforme de Réservation Gratuite",
+      "subtitle": "LA Plateforme dont Chaque Opérateur Polynésien a Besoin",
+      "commission": "Seulement 11% de Commission"
     },
     "valueProp": {
       "revenue": {
-        "title": "Récupération de revenus",
-        "description": "Arrête de perdre de l'argent à cause des annulations de dernière minute. VAI te connecte instantanément aux touristes prêts à combler les places libérées.",
-        "benefit": "Récupère automatiquement les revenus perdus"
+        "title": "Récupération de Revenus",
+        "description": "Arrête de perdre de l'argent avec les annulations de dernière minute. VAI te connecte instantanément avec des touristes prêts à combler les créneaux annulés.",
+        "benefit": "Récupère tes revenus perdus automatiquement"
       },
       "instant": {
-        "title": "Découverte instantanée",
-        "description": "Les touristes cherchent des expériences authentiques en Polynésie française MAINTENANT. Sois trouvé instantanément quand ils sont prêts à réserver.",
+        "title": "Découverte Instantanée",
+        "description": "Les touristes cherchent des expériences authentiques en Polynésie française MAINTENANT. Fais-toi découvrir instantanément quand ils sont prêts à réserver.",
         "benefit": "Aucun système de réservation nécessaire"
       },
       "mood": {
-        "title": "Correspondance basée sur l'humeur",
-        "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et nous leur montrons TON activité !",
+        "title": "Correspondance par Humeur",
+        "description": "Révolutionnaire : Les touristes nous disent leur humeur (Aventure, Détente, Culture, Océan) et on leur montre TON activité !",
         "benefit": "Correspondance parfaite à chaque fois"
       }
     },
     "benefits": {
-      "title": "Pourquoi choisir VAI Opérateur ?",
+      "title": "Pourquoi Choisir VAI Operator ?",
       "commission": {
-        "title": "Commission faible leader du marché",
+        "title": "Commission Ultra-Faible",
         "description": "Garde 89% de tes revenus avec notre structure de commission transparente de 11%"
       },
       "noSetup": {
-        "title": "Aucune configuration complexe requise",
-        "description": "Garde tes méthodes de paiement existantes. Publie la disponibilité quand tu l'as"
+        "title": "Aucune Installation Complexe",
+        "description": "Garde tes méthodes de paiement actuelles. Publie tes disponibilités quand tu en as"
       },
       "liveChat": {
-        "title": "Intégration chat en direct",
+        "title": "Chat en Direct Intégré",
         "description": "Communication directe avec les touristes via notre système de chat intégré"
       },
       "realTime": {
-        "title": "Notifications en temps réel",
-        "description": "Alertes instantanées pour les nouvelles réservations, confirmations et messages clients"
+        "title": "Notifications en Temps Réel",
+        "description": "Alertes instantanées pour nouvelles réservations, confirmations et messages clients"
+      }
+    },
+    "dualPreview": {
+      "title": "Deux Plateformes Puissantes. Une Expérience Fluide.",
+      "touristSide": "Tes clients découvrent",
+      "operatorSide": "Tu gères professionnellement",
+      "description": "Belle découverte par humeur rencontre gestion professionnelle d'opérateur"
+    },
+    "activityTypes": {
+      "title": "Toutes les Activités Bienvenues",
+      "subtitle": "Des aventures océaniques aux ateliers culturels - chaque expérience trouve son public",
+      "ocean": {
+        "title": "Océan & Aventure",
+        "activities": "Plongée • Snorkeling • Observation Baleines • Voile • Jet Ski • Surf"
+      },
+      "mindful": {
+        "title": "Bien-être & Zen",
+        "activities": "Yoga • Respiration • Méditation • Spa • Massage • Guérison Sonore"
+      },
+      "culture": {
+        "title": "Culture & Apprentissage",
+        "activities": "Cours de Cuisine • Artisanat Traditionnel • Musique • Danse • Langue • Histoire"
+      },
+      "active": {
+        "title": "Actif & Exploration",
+        "activities": "Randonnée • Visites Urbaines • Photo • Sports • Vélo • Course"
+      }
+    },
+    "enhancedValueProp": {
+      "professional": {
+        "title": "Tableau de Bord Professionnel",
+        "description": "Suivi des revenus en temps réel, gestion des réservations et confirmations automatiques - comme les 128k+ FCFP que gagnent déjà les opérateurs",
+        "benefit": "Contrôle total de ton business"
+      },
+      "experience": {
+        "title": "Belle Expérience Client",
+        "description": "Tes activités atteignent les clients via une correspondance intelligente d'humeur et météo sur tous types d'appareils",
+        "benefit": "La découverte intelligente génère plus de réservations"
+      },
+      "inclusive": {
+        "title": "Toutes les Activités Bienvenues",
+        "description": "Des aventures océaniques aux ateliers culturels - chaque expérience trouve son public parfait via notre plateforme",
+        "benefit": "Peu importe ce que tu proposes, on te connecte aux bons clients"
+      }
+    },
+    "enhancedBenefits": {
+      "multiLanguage": {
+        "title": "Interface Multilingue",
+        "description": "Support Français, Anglais, Tahitien, Espagnol, Italien, Allemand pour une portée mondiale"
+      },
+      "compliance": {
+        "title": "Conformité Réglementaire",
+        "description": "Gestion intégrée des règlements 2025 pour l'observation des baleines et normes de sécurité"
       }
     },
     "cta": {
-      "title": "Prêt à développer ton entreprise ?",
-      "description": "Rejoins des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour augmenter leurs revenus",
-      "getAccess": "Accès gratuit maintenant",
-      "learnMore": "En savoir plus sur VAI"
+      "title": "Prêt à Faire Grandir ton Business ?",
+      "description": "Rejoins des centaines d'opérateurs polynésiens qui utilisent déjà VAI pour booster leurs revenus",
+      "getAccess": "Accès Gratuit Maintenant",
+      "learnMore": "En Savoir Plus sur VAI"
     },
     "footer": {
       "madeIn": "Fait avec",

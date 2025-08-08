@@ -12,7 +12,14 @@ import {
   TrendingUp,
   Users,
   Star,
-  ExternalLink
+  ExternalLink,
+  Globe,
+  Shield,
+  Fish,
+  Waves,
+  Heart,
+  Footprints,
+  Shell
 } from 'lucide-react'
 import VAILogo from '../VAILogo'
 import LanguageDropdown from '../LanguageDropdown'
@@ -154,17 +161,17 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
           <p className="text-xl text-slate-300 text-center mb-6">
             {t('learnMore.hero.subtitle')}
           </p>
-          <div className="text-center">
+          {/*<div className="text-center">
             <span className="inline-flex items-center gap-2 bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-lg font-semibold">
              
               {t('learnMore.hero.commission')}
             </span>
-          </div>
+          </div>*/}
 
            <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleGetAccess}
-              className="flex items-center justify-center gap-2 hover:bg-green-600 text-white font-semibold py-3 px-6 border border-green-500 rounded-lg transition-all transform hover:scale-105 mt-4"
+              className="flex items-center justify-center gap-2 bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105 mt-4"
             >
               <ArrowRight className="w-5 h-5" />
               {t('learnMore.cta.getAccess')}
@@ -172,56 +179,178 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
           </div>
         </div>
 
+        {/* Simplified Dual Platform Preview */}
+          <div className="bg-slate-800/30 rounded-xl p-6 md:p-8 mb-8 border border-slate-700">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">
+              {t('learnMore.dualPreview.title')}
+            </h3>
+            <p className="text-slate-300 text-center mb-8">
+              {t('learnMore.dualPreview.description')}
+            </p>
+            
+            {/* Single Centered Dual Device Image */}
+            <div className="text-center">
+              <div className="relative inline-block max-w-4xl mx-auto">
+                <img 
+                  src="/images/VAI Operator Tablet and Phone Screen_learnmore.png" 
+                  alt="VAI Platform - VAI Tickets and VAI Operator"
+                  className="w-full h-auto rounded-xl shadow-2xl"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                />
+              </div>
+              
+              {/* Bottom Highlight */}
+              <div className="mt-6">
+                <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-blue-500/30">
+                  <span className="text-slate-300">
+                    <span className="text-white-400 font-medium">◀︎ VAI Tickets</span>
+                    <span className="text-slate-400 mx-2">•</span>
+                    <span className="text-white-800 font-medium">VAI Operator ▶︎</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         
 
-        {/* Three Value Propositions */}
+        {/* Value Propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           
-          {/* Revenue Recovery */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-orange-500/50 transition-all">
-            <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-              <DollarSign className="w-6 h-6 text-orange-400" />
+          {/* Professional Dashboard */}
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-green-500/50 transition-all">
+            <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+              <TrendingUp className="w-6 h-6 text-green-400" />
             </div>
             <h3 className="text-xl font-bold text-white mb-3">
-              {t('learnMore.valueProp.revenue.title')}
+              {t('learnMore.enhancedValueProp.professional.title')}
             </h3>
             <p className="text-slate-300 mb-4">
-              {t('learnMore.valueProp.revenue.description')}
+              {t('learnMore.enhancedValueProp.professional.description')}
             </p>
-            <div className="text-orange-400 text-sm font-medium">
-              {t('learnMore.valueProp.revenue.benefit')}
+            <div className="text-green-400 text-sm font-medium">
+              {t('learnMore.enhancedValueProp.professional.benefit')}
             </div>
           </div>
 
-          {/* Instant Discovery */}
+          {/* Beautiful Customer Experience */}
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-blue-500/50 transition-all">
             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-              <Zap className="w-6 h-6 text-blue-400" />
+              <Star className="w-6 h-6 text-blue-400" />
             </div>
             <h3 className="text-xl font-bold text-white mb-3">
-              {t('learnMore.valueProp.instant.title')}
+              {t('learnMore.enhancedValueProp.experience.title')}
             </h3>
             <p className="text-slate-300 mb-4">
-              {t('learnMore.valueProp.instant.description')}
+              {t('learnMore.enhancedValueProp.experience.description')}
             </p>
             <div className="text-blue-400 text-sm font-medium">
-              {t('learnMore.valueProp.instant.benefit')}
+              {t('learnMore.enhancedValueProp.experience.benefit')}
             </div>
           </div>
 
-          {/* Mood-Based Matching */}
+          {/* All Activity Types Welcome */}
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 hover:border-purple-500/50 transition-all">
             <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-              <Target className="w-6 h-6 text-purple-400" />
+              <Users className="w-6 h-6 text-purple-400" />
             </div>
             <h3 className="text-xl font-bold text-white mb-3">
-              {t('learnMore.valueProp.mood.title')}
+              {t('learnMore.enhancedValueProp.inclusive.title')}
             </h3>
             <p className="text-slate-300 mb-4">
-              {t('learnMore.valueProp.mood.description')}
+              {t('learnMore.enhancedValueProp.inclusive.description')}
             </p>
             <div className="text-purple-400 text-sm font-medium">
-              {t('learnMore.valueProp.mood.benefit')}
+              {t('learnMore.enhancedValueProp.inclusive.benefit')}
+            </div>
+          </div>
+        </div>
+
+        {/* Activity Showcase - Elegant Grid Design */}
+        <div className="bg-slate-800/30 rounded-xl p-6 md:p-8 mb-8 border border-slate-700">
+          <h3 className="text-2xl font-bold text-white mb-4 text-center">
+            {t('learnMore.activityTypes.title')}
+          </h3>
+          <p className="text-slate-300 text-center mb-8">
+            {t('learnMore.activityTypes.subtitle')}
+          </p>
+          
+          {/* Elegant Activity Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* Ocean & Adventure */}
+            <div className="backdrop-blur-sm rounded-xl p-6 border border-slate-600 hover:border-blue-500/50 transition-all group">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500/30 transition-colors">
+                  <Waves className="w-6 h-6 text-blue-400" />
+                </div>
+                <h4 className="text-white font-semibold mb-3 border-b border-slate-400 pb-2">
+                  {t('learnMore.activityTypes.ocean.title')}
+                </h4>
+                <div className="text-slate-300 text-sm leading-relaxed">
+                  <div className="mb-1">Diving • Snorkeling</div>
+                  <div className="mb-1">Whale Watching • Sailing</div>
+                  <div>Jet Ski • Surfing</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mindful & Wellness */}
+            <div className="backdrop-blur-sm rounded-xl p-6 border border-slate-600 hover:border-purple-500/50 transition-all group">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-500/30 transition-colors">
+                  <Heart className="w-6 h-6 text-purple-400" />
+                </div>
+                <h4 className="text-white font-semibold mb-3 border-b border-slate-400 pb-2">
+                  {t('learnMore.activityTypes.mindful.title')}
+                </h4>
+                <div className="text-slate-300 text-sm leading-relaxed">
+                  <div className="mb-1">Yoga • Breathwork</div>
+                  <div className="mb-1">Meditation • Spa</div>
+                  <div>Massage • Sound Healing</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Culture & Learning */}
+            <div className="backdrop-blur-sm rounded-xl p-6 border border-slate-600 hover:border-orange-500/50 transition-all group">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/30 transition-colors">
+                  <Shell className="w-6 h-6 text-orange-400" />
+                </div>
+                <h4 className="text-white font-semibold mb-3 border-b border-slate-400 pb-2">
+                  {t('learnMore.activityTypes.culture.title')}
+                </h4>
+                <div className="text-slate-300 text-sm leading-relaxed">
+                  <div className="mb-1">Cooking Classes • Crafts</div>
+                  <div className="mb-1">Music • Dance</div>
+                  <div>Language • History</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Active & Exploration */}
+            <div className="backdrop-blur-sm rounded-xl p-6 border border-slate-600 hover:border-green-500/50 transition-all group">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500/30 transition-colors">
+                  <Footprints className="w-6 h-6 text-green-400" />
+                </div>
+                <h4 className="text-white font-semibold mb-3 border-b border-slate-400 pb-2">
+                  {t('learnMore.activityTypes.active.title')}
+                </h4>
+                <div className="text-slate-300 text-sm leading-relaxed">
+                  <div className="mb-1">Hiking • City Tours</div>
+                  <div className="mb-1">Photography • Sports</div>
+                  <div>Cycling • Running</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Bottom Highlight */}
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-6 py-3 rounded-full border border-blue-500/30">
+              <span className="text-blue-400 font-medium">✨ Every activity type has its perfect audience</span>
             </div>
           </div>
         </div>
@@ -270,6 +399,26 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
               <div>
                 <h4 className="text-white font-semibold mb-1">{t('learnMore.benefits.realTime.title')}</h4>
                 <p className="text-slate-300 text-sm">{t('learnMore.benefits.realTime.description')}</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <Globe className="w-4 h-4 text-blue-400" />
+              </div>
+              <div>
+                <h4 className="text-white font-semibold mb-1">{t('learnMore.enhancedBenefits.multiLanguage.title')}</h4>
+                <p className="text-slate-300 text-sm">{t('learnMore.enhancedBenefits.multiLanguage.description')}</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <Shield className="w-4 h-4 text-green-400" />
+              </div>
+              <div>
+                <h4 className="text-white font-semibold mb-1">{t('learnMore.enhancedBenefits.compliance.title')}</h4>
+                <p className="text-slate-300 text-sm">{t('learnMore.enhancedBenefits.compliance.description')}</p>
               </div>
             </div>
           </div>

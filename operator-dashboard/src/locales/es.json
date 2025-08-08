@@ -797,27 +797,27 @@
     }
   },
     "learnMore": {
-      "subtitle": "Transforma Tu Negocio Turístico",
+      "subtitle": "Transforma tu Negocio Turístico",
       "hero": {
-        "title": "Convierte las Cancelaciones de Último Minuto en Ingresos",
-        "subtitle": "La Plataforma Esencial que Todo Operador de Polinesia Francesa Necesita",
+        "title": "Ofertas de Última Hora • Plataforma de Reservas Gratis",
+        "subtitle": "LA Plataforma que Todo Operador Polinesio Necesita",
         "commission": "Solo 11% de Comisión"
       },
       "valueProp": {
         "revenue": {
           "title": "Recuperación de Ingresos",
-          "description": "Deja de perder dinero por cancelaciones de último minuto. VAI te conecta instantáneamente con turistas listos para llenar los espacios cancelados.",
-          "benefit": "Recupera automáticamente los ingresos perdidos"
+          "description": "Deja de perder dinero por cancelaciones de última hora. VAI te conecta al instante con turistas listos para llenar plazas canceladas.",
+          "benefit": "Recupera ingresos perdidos automáticamente"
         },
         "instant": {
           "title": "Descubrimiento Instantáneo",
-          "description": "Los turistas buscan experiencias auténticas en Polinesia Francesa AHORA MISMO. Sé encontrado instantáneamente cuando estén listos para reservar.",
-          "benefit": "No se necesita sistema de reservas"
+          "description": "Los turistas buscan experiencias auténticas en Polinesia Francesa AHORA MISMO. Hazte encontrar al instante cuando estén listos para reservar.",
+          "benefit": "No necesitas sistema de reservas"
         },
         "mood": {
-          "title": "Coincidencia Basada en Estado de Ánimo",
+          "title": "Emparejamiento por Estado de Ánimo",
           "description": "¡Revolucionario: Los turistas nos dicen su estado de ánimo (Aventura, Relajación, Cultura, Océano) y les mostramos TU actividad!",
-          "benefit": "Coincidencia perfecta cada vez"
+          "benefit": "Emparejamiento perfecto cada vez"
         }
       },
       "benefits": {
@@ -827,7 +827,7 @@
           "description": "Mantén el 89% de tus ingresos con nuestra estructura de comisión transparente del 11%"
         },
         "noSetup": {
-          "title": "No Se Requiere Configuración Compleja",
+          "title": "Sin Configuración Compleja",
           "description": "Mantén tus métodos de pago existentes. Publica disponibilidad cuando la tengas"
         },
         "liveChat": {
@@ -839,11 +839,64 @@
           "description": "Alertas instantáneas para nuevas reservas, confirmaciones y mensajes de clientes"
         }
       },
+      "dualPreview": {
+        "title": "Dos Plataformas Poderosas. Una Experiencia Perfecta.",
+        "touristSide": "Tus clientes descubren",
+        "operatorSide": "Tú gestionas profesionalmente",
+        "description": "Hermoso descubrimiento por estado de ánimo se encuentra con gestión profesional de operadores"
+      },
+      "activityTypes": {
+        "title": "Todas las Actividades Bienvenidas",
+        "subtitle": "Desde aventuras oceánicas hasta talleres culturales - cada experiencia encuentra su audiencia",
+        "ocean": {
+          "title": "Océano y Aventura",
+          "activities": "Buceo • Snorkel • Avistamiento de Ballenas • Vela • Jet Ski • Surf"
+        },
+        "mindful": {
+          "title": "Mindfulness y Bienestar",
+          "activities": "Yoga • Respiración • Meditación • Spa • Masaje • Sanación con Sonido"
+        },
+        "culture": {
+          "title": "Cultura y Aprendizaje",
+          "activities": "Clases de Cocina • Artesanías Tradicionales • Música • Danza • Idioma • Historia"
+        },
+        "active": {
+          "title": "Activo y Exploración",
+          "activities": "Senderismo • Tours Urbanos • Fotografía • Deportes • Ciclismo • Running"
+        }
+      },
+      "enhancedValueProp": {
+        "professional": {
+          "title": "Panel Profesional",
+          "description": "Seguimiento de ingresos en tiempo real, gestión de reservas y confirmaciones automáticas - como los 128k+ FCFP que ya están ganando los operadores",
+          "benefit": "Control total del negocio en tus manos"
+        },
+        "experience": {
+          "title": "Hermosa Experiencia del Cliente",
+          "description": "Tus actividades llegan a clientes a través de emparejamiento inteligente por estado de ánimo y clima en todos los tipos de dispositivos",
+          "benefit": "El descubrimiento inteligente genera más reservas"
+        },
+        "inclusive": {
+          "title": "Todas las Actividades Bienvenidas",
+          "description": "Desde aventuras oceánicas hasta talleres culturales - cada experiencia encuentra su audiencia perfecta a través de nuestra plataforma",
+          "benefit": "No importa lo que ofrezcas, te conectamos con los clientes correctos"
+        }
+      },
+      "enhancedBenefits": {
+        "multiLanguage": {
+          "title": "Interfaz Multiidioma",
+          "description": "Soporte en Francés, Inglés, Tahitiano, Español, Italiano, Alemán para alcance global"
+        },
+        "compliance": {
+          "title": "Cumplimiento Regulatorio",
+          "description": "Gestión integrada de regulaciones 2025 para avistamiento de ballenas y estándares de seguridad"
+        }
+      },
       "cta": {
-        "title": "¿Listo para Hacer Crecer Tu Negocio?",
-        "description": "Únete a cientos de operadores polinesios que ya usan VAI para aumentar sus ingresos",
-        "getAccess": "Obtener Acceso Gratuito Ahora",
-        "learnMore": "Aprender Más Sobre VAI"
+        "title": "¿Listo para Hacer Crecer tu Negocio?",
+        "description": "Únete a cientos de operadores polinesios que ya usan VAI para impulsar sus ingresos",
+        "getAccess": "Obtén Acceso Gratis Ahora",
+        "learnMore": "Conoce Más sobre VAI"
       },
       "footer": {
         "madeIn": "Hecho con",

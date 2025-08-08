@@ -52,3 +52,25 @@
     max-height: calc(100vh - 200px) !important;
   }
 }
+
+/* LEARNMORE SCREEN MOBILE OPTIMIZATION */
+/* Mobile-first responsive images */
+.screenshot-mobile {
+  @apply max-w-xs mx-auto md:max-w-sm;
+}
+
+.screenshot-desktop {
+  @apply max-w-full md:max-w-2xl;
+}
+
+/* Enhanced mobile responsiveness for expandable sections */
+@media (max-width: 768px) {
+  .activity-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dual-preview {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}

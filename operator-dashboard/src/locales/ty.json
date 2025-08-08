@@ -626,57 +626,110 @@
   },
 
   "learnMore": {
-      "subtitle": "Hāpao i Tō Feia Tāmau Rā",
-      "hero": {
-        "title": "Hōro'a i Nā Fa'aea Hope i Te Moni",
-        "subtitle": "Te Pū Rahi Roa no Nā Ta'ata Feia Tāmau o Pōrīnetia Farāni",
-        "commission": "11% Anae Commission"
+    "subtitle": "Haamaitai i to Fare Taurearea",
+    "hero": {
+      "title": "Tauturu Hopea Roa • Plateforme Tāpū Noa",
+      "subtitle": "TE Plateforme Mau roa no te Taata Haamaitai Pōrīnetia Atoa",
+      "commission": "11% Commission Anae"
+    },
+    "valueProp": {
+      "revenue": {
+        "title": "Récupération des Revenus", 
+        "description": "Eita te pohe ai to moni na roto i te annulation roa. VAI na roto e taui atu ai oe i te taurearea e hinaaro e faaea i te mau taime pohe ia.",
+        "benefit": "Récupère automatiquement tes revenus perdus"
       },
-      "valueProp": {
-        "revenue": {
-          "title": "Fa'ahou i Te Moni",
-          "description": "Aita e fa'aea i te moni na roto i te fa'aea hope. VAI e fa'atau roa ia oe i te ta'ata tāmau e rave nei e fa'ahou.",
-          "benefit": "Fa'ahou māori i te moni tahuri"
-        },
-        "instant": {
-          "title": "Ite Tere",
-          "description": "Te ta'ata tāmau ra e 'imi nei i te mau taime maitai i Pōrīnetia Farāni. E ite roa hia oe i te taime e rave ai.",
-          "benefit": "Aita te pū fa'atau i hinaaro ia"
-        },
-        "mood": {
-          "title": "Fa'atau ma te Ā",
-          "description": "Hou roa: Te ta'ata tāmau e ha'apa'o mai i to rātou ā (Tere, Hāmani, Apu, Moana) e fāna'o matou iā rātou i TŌ taime!",
-          "benefit": "Fa'atau maita'i i taime atoa"
-        }
+      "instant": {
+        "title": "Découverte Instantanée",
+        "description": "Te taurearea nei e imi nei i te mau tamaraa mau i Pōrīnetia farāni NEI RA. E ite rahi mai ratou ia oe ina hinaaro e tāpū.",
+        "benefit": "Aita te système de réservation e hinaaro ai"
       },
-      "benefits": {
-        "title": "Eaha ai a VAI Operator?",
-        "commission": {
-          "title": "Commission Iti Roa",
-          "description": "Fa'aāru i te 89% o tō moni ma te commission 11% māori"
-        },
-        "noSetup": {
-          "title": "Aita te Hāpao Faito",
-          "description": "Fa'aāru i tō mau taime fa'atau. Ha'apa'o i te taime e rave ai"
-        },
-        "liveChat": {
-          "title": "Pārau Tē Roa",
-          "description": "Pārau tōtahi i te ta'ata tāmau ma tā matou pū pārau"
-        },
-        "realTime": {
-          "title": "Ha'apa'o Tere",
-          "description": "Ha'apa'o tere no te mau fa'atau hou, fa'amaoro e te mau pārau"
-        }
-      },
-      "cta": {
-        "title": "Ua Rave e Hāpao i Tō Feia?",
-        "description": "Amo ia te mau ta'ata feia tāmau Pōrīnetia e 'ore nei a VAI no te fa'arahira'a i to rātou moni",
-        "getAccess": "Fa'anahia te Āmui Ē",
-        "learnMore": "A'o Noa i VAI"
-      },
-      "footer": {
-        "madeIn": "Hāpao hia ma te",
-        "polynesia": "i Pōrīnetia Farāni"
+      "mood": {
+        "title": "Tauturu ma te Uiui",
+        "description": "Hou roa: Te taurearea e haapii mai nei i ta ratou uiui (Tamaraa, Haamaitai, Culture, Moana) a ua faaite atu matou i TO tamaraa!",
+        "benefit": "Tauturu maita'i i te taime atoa"
       }
+    },
+    "benefits": {
+      "title": "Eaha ai te VAI Operator?",
+      "commission": {
+        "title": "Commission Iti Roa",
+        "description": "Poloke i te 89% o to moni ma to matou 11% commission structure"
+      },
+      "noSetup": {
+        "title": "Aita te Setup Faafaito",
+        "description": "Poloke i ta oe mau taime tupe. Tuku i ta oe disponibilité ina nehenehe"
+      },
+      "liveChat": {
+        "title": "Chat Direct Intégré", 
+        "description": "Communication directe avec les touristes via notre système de chat"
+      },
+      "realTime": {
+        "title": "Notifications en Temps Réel",
+        "description": "Alertes vave no te mau réservation, confirmation e te mau message client"
+      }
+    },
+    "dualPreview": {
+      "title": "Piti Plateforme Mana. Hookahi Expérience Maita'i.",
+      "touristSide": "To mau taata taurearea e ite",
+      "operatorSide": "Oe e haamaitai haamaitai",
+      "description": "Découverte nehenehe ma te uiui e tuu e tauturu professional operator"
+    },
+    "activityTypes": {
+      "title": "Te Mau Tamaraa Atoa Maeva Mai",
+      "subtitle": "Mai te mau tamaraa moana e tae atu i te mau workshop culture - te tamaraa atoa e ite i tana mau taata",
+      "ocean": {
+        "title": "Moana & Tamaraa",
+        "activities": "Plongée • Snorkeling • Ite Tohora • Voile • Jet Ski • Surf"
+      },
+      "mindful": {
+        "title": "Haamaitai & Wellness",
+        "activities": "Yoga • Respiration • Méditation • Spa • Massage • Guérison Sonore" 
+      },
+      "culture": {
+        "title": "Culture & A'o",
+        "activities": "Cours Ma'a • Artisanat Traditionnel • Himene • Ori • Reo • Histoire"
+      },
+      "active": {
+        "title": "Tamaraa & Exploration", 
+        "activities": "Tere Maupo • Tours Urbains • Photo • Sport • Vélo • Tamau"
+      }
+    },
+    "enhancedValueProp": {
+      "professional": {
+        "title": "Tableau de Bord Professionnel",
+        "description": "Suivi revenus temps réel, gestion réservations e confirmations automatiques - e pehe ra i te 128k+ FCFP te mau operator e rave nei",
+        "benefit": "Contrôle atoa i to business"
+      },
+      "experience": {
+        "title": "Expérience Client Nehenehe",
+        "description": "To mau tamaraa e tae atu i te taata ma te correspondance intelligent uiui e temps rahi i te mau appareil atoa",
+        "benefit": "Te découverte intelligent e rave i te mau réservation rahi"
+      },
+      "inclusive": {
+        "title": "Te Mau Tamaraa Atoa Maeva Mai",
+        "description": "Mai te mau tamaraa moana e tae atu i te mau workshop culture - te tamaraa atoa e ite i tana audience maita'i ma to matou plateforme",
+        "benefit": "Aita e aha ta oe e rave, e tauturu atu matou ia oe i te mau client maita'i"
+      }
+    },
+    "enhancedBenefits": {
+      "multiLanguage": {
+        "title": "Interface Multilingue",
+        "description": "Support Français, English, Tahiti, Español, Italiano, Deutsch no te portée mondiale"
+      },
+      "compliance": {
+        "title": "Conformité Réglementaire", 
+        "description": "Gestion intégrée règlements 2025 observation tohora e normes sécurité"
+      }
+    },
+    "cta": {
+      "title": "E Hinaaro e Haamaitai i to Business?",
+      "description": "E uru mai i te mau hanere operator Pōrīnetia e faaite nei ia VAI e haamaitai i ta ratou moni",
+      "getAccess": "E Rave i te Accès Gratuit Teie nei",
+      "learnMore": "E Ite Atu i VAI"
+    },
+    "footer": {
+      "madeIn": "Haapiria ma te",
+      "polynesia": "i Pōrīnetia farāni"
     }
+  }
 }

@@ -981,8 +981,8 @@
   "learnMore": {
       "subtitle": "Transform Your Tourism Business",
       "hero": {
-        "title": "Turn Last-Minute Cancellations Into Revenue",
-        "subtitle": "The Essential Platform Every French Polynesian Operator Needs",
+        "title": "Last-Minute Offers ・ Free Booking Platform",
+        "subtitle": "The One Platform Every French Polynesian Operator Needs",
         "commission": "Only 11% Commission"
       },
       "valueProp": {
@@ -1021,6 +1021,65 @@
           "description": "Instant alerts for new bookings, confirmations, and customer messages"
         }
       },
+
+      "dualPreview": {
+      "title": "Two Powerful Platforms. One Seamless Experience.",
+      "touristSide": "Your customers discover",
+      "operatorSide": "You manage professionally",
+      "description": "Beautiful mood-based discovery meets professional operator management"
+    },
+    "activityTypes": {
+      "title": "All Activities Welcome",
+      "subtitle": "From ocean adventures to cultural workshops - every experience finds its audience",
+      "ocean": {
+        "title": "Ocean & Adventure",
+        "activities": "Diving • Snorkeling • Whale Watching • Sailing • Jet Ski • Surfing"
+      },
+      "mindful": {
+        "title": "Mindful & Wellness", 
+        "activities": "Yoga • Breathwork • Meditation • Spa • Massage • Sound Healing"
+      },
+      "culture": {
+        "title": "Culture & Learning",
+        "activities": "Cooking Classes • Traditional Crafts • Music • Dance • Language • History"
+      },
+      "active": {
+        "title": "Active & Exploration",
+        "activities": "Hiking • City Tours • Photography • Sports • Cycling • Running"
+      }
+    },
+    "operatorPreview": {
+      "title": "See Your Professional Dashboard",
+      "subtitle": "Track revenue, manage bookings, communicate with customers",
+      "features": "Real-time analytics • Automated confirmations • Direct customer chat • Multi-language support"
+    },
+    "enhancedValueProp": {
+      "professional": {
+        "title": "Professional Dashboard",
+        "description": "Real-time revenue tracking, booking management, and automated confirmations - just like the 128k+ FCFP operators are already earning",
+        "benefit": "Full business control at your fingertips"
+      },
+      "experience": {
+        "title": "Beautiful Customer Experience", 
+        "description": "Your activities reach customers through intelligent mood and weather matching across all device types",
+        "benefit": "Smart discovery drives more bookings"
+      },
+      "inclusive": {
+        "title": "All Activities Welcome",
+        "description": "From ocean adventures to cultural workshops - every experience finds its perfect audience through our platform",
+        "benefit": "No matter what you offer, we connect you with the right customers"
+      }
+    },
+    "enhancedBenefits": {
+      "multiLanguage": {
+        "title": "Multi-Language Interface",
+        "description": "French, English, Tahitian, Spanish, Italian, German support for global reach"
+      },
+      "compliance": {
+        "title": "Regulatory Compliance",
+        "description": "Built-in 2025 whale watching regulations and safety standard management"
+      }
+    },
       "cta": {
         "title": "Ready to Grow Your Business?",
         "description": "Join hundreds of French Polynesian operators already using VAI to boost their revenue",
