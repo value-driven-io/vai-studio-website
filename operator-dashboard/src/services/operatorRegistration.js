@@ -22,13 +22,13 @@ class OperatorRegistrationService {
       }
 
       const {
-        company_name, contact_person, email, whatsapp_number, island,
-        business_description, tour_types, languages, target_bookings_monthly,
-        customer_type_preference, terms_accepted, marketing_emails
-      } = formData
+      company_name, contact_person, email, whatsapp_number, island, preferred_language,
+      business_description, tour_types, languages, target_bookings_monthly,
+      customer_type_preference, terms_accepted, marketing_emails
+    } = formData
 
       const normalizedEmail = email.toLowerCase().trim()
-      const languageCode = this.convertLanguageToCode(Array.isArray(languages) ? languages[0] : languages)
+      const languageCode = preferred_language || this.convertLanguageToCode(Array.isArray(languages) ? languages[0] : languages)
       
       console.log('📝 Registration data processed:', {
         email: normalizedEmail,

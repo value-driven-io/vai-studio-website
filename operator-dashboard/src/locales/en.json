@@ -667,7 +667,9 @@
       "whatsapp": "WhatsApp Number",
       "whatsappPlaceholder": "+689 12 34 56 78",
       "island": "Primary Island",
-      "islandPlaceholder": "Select your main island"
+      "islandPlaceholder": "Select your main island",
+      "preferredLanguage": "Preferred Language",
+      "languagePlaceholder": "Select your preferred language"
     },
     "businessDetails": {
       "title": "Business Details",

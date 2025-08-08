@@ -656,7 +656,9 @@
       "whatsapp": "Número de WhatsApp",
       "whatsappPlaceholder": "+689 12 34 56 78",
       "island": "Isla principal",
-      "islandPlaceholder": "Selecciona tu isla principal"
+      "islandPlaceholder": "Selecciona tu isla principal",
+      "preferredLanguage": "Idioma Preferido",
+      "languagePlaceholder": "Selecciona tu idioma preferido"
     },
     "businessDetails": {
       "title": "Detalles del negocio",

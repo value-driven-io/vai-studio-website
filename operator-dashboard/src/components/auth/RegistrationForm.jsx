@@ -51,7 +51,7 @@ const InputField = ({
       )}
       {type === 'tel' && !hasError && (
         <p className="text-slate-500 text-xs mt-1">
-          Format: +689 12 34 56 78 (French Polynesia) or +33 6 12 34 56 78 (International)
+          Format international (+689 12 34 56 78)
         </p>
       )}
     </div>
@@ -151,6 +151,7 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
     email: '',
     whatsapp_number: '',
     island: '',
+    preferred_language: 'fr',
     
     // Business Details
     business_description: '',
@@ -212,6 +213,16 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
   const customerTypes = [
     'families', 'couples', 'solo', 'groups', 'luxury', 'budget', 'mixed'
   ]
+
+  // LANGUAGE OPTIONS ARRAY
+const languageOptions = [
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'ty', name: 'Reo Tahiti', flag: '🏝️' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' }
+]
 
   // 🆕 ENHANCED VALIDATION HELPERS
   const isValidEmail = (email) => {
@@ -552,7 +563,25 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
           touchedFields={touchedFields}
         />
 
-        <div className="md:col-span-2">
+        {/* LANGUAGE FIELD */}
+        <SelectField
+          label={t('registration.companyInfo.preferredLanguage')}
+          name="preferred_language"
+          required={false}
+          value={formData.preferred_language}
+          onChange={handleInputChange}
+          onBlur={handleFieldBlur}
+          placeholder={t('registration.companyInfo.languagePlaceholder')}
+          fieldErrors={fieldErrors}
+          touchedFields={touchedFields}
+        >
+          {languageOptions.map(lang => (
+            <option key={lang.code} value={lang.code}>
+              {lang.flag} {lang.name}
+            </option>
+          ))}
+        </SelectField>
+
           <SelectField
             label={t('registration.companyInfo.island')}
             name="island"
@@ -570,7 +599,6 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
               </option>
             ))}
           </SelectField>
-        </div>
       </div>
     </div>
   )
