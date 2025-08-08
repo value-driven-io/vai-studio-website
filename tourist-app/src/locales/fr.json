@@ -391,6 +391,7 @@
   },
   
   "login": {
-    "moreInfo": "Plus d'infos sur "
+    "moreInfo": "Plus d'infos sur ",
+    "foroperator": "Envie de devenir un VAI Operator ? → Clique ici"
     }
 }

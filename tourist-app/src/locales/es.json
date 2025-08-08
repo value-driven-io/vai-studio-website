@@ -15,6 +15,7 @@
     "footer": "VAI Tickets - Tu llave al paraíso"
   },
   "login": {
-    "moreInfo": "Más información sobre"
+    "moreInfo": "Más información sobre",
+    "foroperator": "¿Quieres ser un VAI Operator? → Haz clic aquí"
   }
 }

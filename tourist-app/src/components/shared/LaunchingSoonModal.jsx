@@ -168,6 +168,8 @@ const LaunchingSoonModal = () => {
             {t('login.moreInfo')}{' '}
             <a 
               href="https://vai.studio/app/welcome" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-yellow-400 hover:text-yellow-300 transition-colors"
             >
               VAI Tickets
@@ -175,8 +177,20 @@ const LaunchingSoonModal = () => {
           </p>
         </div>
       </div>
+      {/*  OPERATOR LINK OUTSIDE MODAL CONTAINER */}
+    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+      <a 
+        href="https://vai-operator-dashboard.onrender.com/?welcome=utm_source=vai-tickets-launchscreen" 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-slate-400 hover:text-slate-300 transition-colors text-xs flex items-center gap-2"
+      >
+        {t('login.foroperator')}
+      </a>
+    </div>
     </div>
   );
 };
+
 
 export default LaunchingSoonModal;

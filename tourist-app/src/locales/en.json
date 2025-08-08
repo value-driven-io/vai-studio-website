@@ -391,6 +391,7 @@
   },
 
   "login": {
-    "moreInfo": "More info about "
+    "moreInfo": "More info about ",
+    "foroperator": "Want to become a VAI Operator? → Click here!"
     }
 }
