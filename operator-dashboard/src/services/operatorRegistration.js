@@ -431,6 +431,7 @@ class OperatorRegistrationService {
         business_description: data.business_description,
         tour_types: data.tour_types,
         languages: data.languages,
+        preferred_language: data.preferred_language,
         target_bookings_monthly: data.target_bookings_monthly,
         customer_type_preference: data.customer_type_preference,
         registration_date: new Date().toISOString(),
