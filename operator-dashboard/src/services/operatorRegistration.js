@@ -267,10 +267,11 @@ class OperatorRegistrationService {
       // STEP 4: Send notification webhook (non-blocking)
       this.sendRegistrationNotification({
         ...formData,
+        languages: [languageCode], // 🆕 Use the actual selected language
         tourist_user_id: touristUser.id,
         operator_id: operatorUser.id,
         existing_tourist: existingTourist,
-        registration_source: 'operator_dashboard_app'
+        registration_source: 'vai_operator_app'
       }).catch(error => {
         console.warn('⚠️ Webhook notification failed:', error)
         // Don't fail registration if webhook fails
