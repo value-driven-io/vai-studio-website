@@ -154,8 +154,8 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
     preferred_language: 'fr',
     
     // Business Details
-    business_description: '',
-    tour_types: [],
+    business_description: 'Tour operator in French Polynesia (description placeholder)',
+    tour_types: ['other'],
     languages: ['French'],
     target_bookings_monthly: '',
     customer_type_preference: '',
@@ -370,20 +370,22 @@ const languageOptions = [
         })
         break
       
-      case 2:
+      // Uncomment this block to implement step 2 validation
+
+      // case 2:
         // Required fields for step 2
-        const error1 = validateField('business_description', formData.business_description)
-        const error2 = validateField('tour_types', formData.tour_types)
+        //const error1 = validateField('business_description', formData.business_description)
+        //const error2 = validateField('tour_types', formData.tour_types)
         
-        if (error1) {
-          errors.business_description = error1
-          isValid = false
-        }
-        if (error2) {
-          errors.tour_types = error2
-          isValid = false
-        }
-        break
+        //if (error1) {
+          //errors.business_description = error1
+          //isValid = false
+       // }
+       // if (error2) {
+       //   errors.tour_types = error2
+       //   isValid = false
+       // }
+       // break
       
       case 3:
         const error3 = validateField('terms_accepted', formData.terms_accepted)
@@ -413,7 +415,7 @@ const languageOptions = [
 
   const handleNext = () => {
     if (validateStep(step)) {
-      setStep(prev => prev + 1)
+      setStep(prev => prev === 1 ? 3 : prev + 1) // Skip to step 3 if on step 1 - original: setStep(prev => prev + 1)
     }
   }
 
@@ -468,7 +470,7 @@ const languageOptions = [
       
       if (result.success) {
         console.log('✅ Registration successful:', result)
-        clearSavedData() // Clear form data on success
+        clearSavedData() 
         onSuccess(result)
       } else {
         console.error('❌ Registration failed:', result.error)
@@ -479,9 +481,9 @@ const languageOptions = [
     }
   }
 
+// Don't show step 3 in the visual indicator
 
-
-  const renderStepIndicator = () => (
+ {/* const renderStepIndicator = () => (
     <div className="flex items-center justify-center mb-8">
       {[1, 2, 3].map((stepNum) => (
         <React.Fragment key={stepNum}>
@@ -494,9 +496,36 @@ const languageOptions = [
           }`}>
             {stepNum < step ? <Check size={16} /> : stepNum}
           </div>
-          {stepNum < 3 && (
+          {stepNum < 2 && ( // XXX complete: {stepNum < 3 && (
             <div className={`w-8 h-0.5 transition-colors ${
               stepNum < step ? 'bg-green-500' : 'bg-slate-700'
+            }`} />
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  )
+
+  */}
+
+  const renderStepIndicator = () => (
+    <div className="flex items-center justify-center mb-8">
+      {[1, 2].map((visualStep) => (  // Only show 2 visual steps
+        <React.Fragment key={visualStep}>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
+            // Map visual steps to actual code steps: visual 1 = step 1, visual 2 = step 3
+            (visualStep === 1 && step === 1) || (visualStep === 2 && step === 3)
+              ? 'bg-blue-500 text-white'  // Current step
+              : (visualStep === 1 && step > 1) || (visualStep === 2 && step > 3)
+                ? 'bg-green-500 text-white'  // Completed step
+                : 'bg-slate-700 text-slate-400'  // Future step
+          }`}>
+            {/* Show checkmark for completed steps */}
+            {((visualStep === 1 && step > 1) || (visualStep === 2 && step > 3)) ? <Check size={16} /> : visualStep}
+          </div>
+          {visualStep < 2 && (  // Only show connector line between step 1 and 2
+            <div className={`w-8 h-0.5 transition-colors ${
+              step >= 3 ? 'bg-green-500' : 'bg-slate-700'  // Green if we've reached step 3
             }`} />
           )}
         </React.Fragment>
@@ -785,13 +814,13 @@ const languageOptions = [
       {/* Form Content */}
       <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
         {step === 1 && renderStep1()}
-        {step === 2 && renderStep2()}
+        {/* {step === 2 && renderStep2()} */}  {/* Step 2 hidden */}
         {step === 3 && renderStep3()}
 
         {/* Navigation Buttons */}
         <div className="flex justify-between mt-8">
           <button
-            onClick={() => setStep(prev => prev - 1)}
+            onClick={() => setStep(prev => prev === 3 ? 1 : prev - 1)}  // CHANGED: Go from step 3 back to step 1 - original: onClick={() => setStep(prev => prev - 1)}
             disabled={step === 1 || loading}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               step === 1 || loading
