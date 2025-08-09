@@ -1030,22 +1030,31 @@
     },
     "activityTypes": {
       "title": "All Activities Welcome",
+      "wrapper": "Every activity type has its perfect audience",
       "subtitle": "From ocean adventures to cultural workshops - every experience finds its audience",
       "ocean": {
         "title": "Ocean & Adventure",
-        "activities": "Diving • Snorkeling • Whale Watching • Sailing • Jet Ski • Surfing"
+        "activities1": "Diving • Snorkeling",
+        "activities2": "• Whale Watching • Sailing",
+        "activities3": "• Jet Ski • Surfing"
       },
       "mindful": {
         "title": "Mindful & Wellness", 
-        "activities": "Yoga • Breathwork • Meditation • Spa • Massage • Sound Healing"
+        "activities1": "Yoga • Breathwork",
+        "activities2": "• Meditation • Spa",
+        "activities3": "• Massage • Sound Healing"
       },
       "culture": {
         "title": "Culture & Learning",
-        "activities": "Cooking Classes • Traditional Crafts • Music • Dance • Language • History"
+        "activities1": "Cooking Classes • Artisinal Crafts",
+        "activities2": "• Music • Dance",
+        "activities3": "• Language • History"
       },
       "active": {
         "title": "Active & Exploration",
-        "activities": "Hiking • City Tours • Photography • Sports • Cycling • Running"
+        "activities1": "Hiking • City Tours",
+        "activities2": "• Photography • Sports",
+        "activities3": "• Cycling • Running"
       }
     },
     "operatorPreview": {

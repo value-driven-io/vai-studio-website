@@ -288,9 +288,9 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
                   {t('learnMore.activityTypes.ocean.title')}
                 </h4>
                 <div className="text-slate-300 text-sm leading-relaxed">
-                  <div className="mb-1">Diving • Snorkeling</div>
-                  <div className="mb-1">Whale Watching • Sailing</div>
-                  <div>Jet Ski • Surfing</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.ocean.activities1')}</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.ocean.activities2')}</div>
+                  <div>{t('learnMore.activityTypes.ocean.activities3')}</div>
                 </div>
               </div>
             </div>
@@ -305,9 +305,9 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
                   {t('learnMore.activityTypes.mindful.title')}
                 </h4>
                 <div className="text-slate-300 text-sm leading-relaxed">
-                  <div className="mb-1">Yoga • Breathwork</div>
-                  <div className="mb-1">Meditation • Spa</div>
-                  <div>Massage • Sound Healing</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.mindful.activities1')}</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.mindful.activities2')}</div>
+                  <div>{t('learnMore.activityTypes.mindful.activities3')}</div>
                 </div>
               </div>
             </div>
@@ -322,9 +322,9 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
                   {t('learnMore.activityTypes.culture.title')}
                 </h4>
                 <div className="text-slate-300 text-sm leading-relaxed">
-                  <div className="mb-1">Cooking Classes • Crafts</div>
-                  <div className="mb-1">Music • Dance</div>
-                  <div>Language • History</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.culture.activities1')}</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.culture.activities2')}</div>
+                  <div>{t('learnMore.activityTypes.culture.activities3')}</div>
                 </div>
               </div>
             </div>
@@ -339,9 +339,9 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
                   {t('learnMore.activityTypes.active.title')}
                 </h4>
                 <div className="text-slate-300 text-sm leading-relaxed">
-                  <div className="mb-1">Hiking • City Tours</div>
-                  <div className="mb-1">Photography • Sports</div>
-                  <div>Cycling • Running</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.active.activities1')}</div>
+                  <div className="mb-1">{t('learnMore.activityTypes.active.activities2')}</div>
+                  <div>{t('learnMore.activityTypes.active.activities3')}</div>
                 </div>
               </div>
             </div>
@@ -350,7 +350,7 @@ const LearnMoreScreen = ({ onBack, onGetAccess, campaignSource }) => {
           {/* Bottom Highlight */}
           <div className="mt-8 text-center">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 px-6 py-3 rounded-full border border-blue-500/30">
-              <span className="text-blue-400 font-medium">✨ Every activity type has its perfect audience</span>
+              <span className="text-blue-400 font-medium">✨ {t('learnMore.activityTypes.wrapper')}</span>
             </div>
           </div>
         </div>

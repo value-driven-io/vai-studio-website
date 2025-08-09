@@ -676,22 +676,31 @@
     },
     "activityTypes": {
       "title": "Te Mau Tamaraa Atoa Maeva Mai",
+      "wrapper": "Nō ia 'ohipa, tō na iho nuna'a",
       "subtitle": "Mai te mau tamaraa moana e tae atu i te mau workshop culture - te tamaraa atoa e ite i tana mau taata",
       "ocean": {
         "title": "Moana & Tamaraa",
-        "activities": "Plongée • Snorkeling • Ite Tohora • Voile • Jet Ski • Surf"
+        "activities1": "Plongée • Snorkeling",
+        "activities2": "• Ite Tohora • Voile",
+        "activities3": "Jet Ski • Pêche"
       },
       "mindful": {
         "title": "Haamaitai & Wellness",
-        "activities": "Yoga • Respiration • Méditation • Spa • Massage • Guérison Sonore" 
+        "activities1": "Yoga • Respiration",
+        "activities2": "• Méditation • Spa",
+        "activities3": "• Massage • Guérison Sonore" 
       },
       "culture": {
         "title": "Culture & A'o",
-        "activities": "Cours Ma'a • Artisanat Traditionnel • Himene • Ori • Reo • Histoire"
+        "activities1": "Cours Ma'a • Artisanat Traditionnel",
+        "activities2": "• Himene • Ori",
+        "activities3": "• Reo • Histoire" 
       },
       "active": {
         "title": "Tamaraa & Exploration", 
-        "activities": "Tere Maupo • Tours Urbains • Photo • Sport • Vélo • Tamau"
+        "activities1": "Tere Maupo • Tours Urbains",
+        "activities2": "• Photo • Sport",
+        "activities3": "• Vélo • Tamau" 
       }
     },
     "enhancedValueProp": {

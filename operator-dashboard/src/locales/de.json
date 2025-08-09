@@ -848,22 +848,31 @@
     },
     "activityTypes": {
       "title": "Alle Aktivitäten willkommen",
+      "wrapper": "Jede Aktivität findet ihr Publikum",
       "subtitle": "Von Ozean-Abenteuern bis Kultur-Workshops - jedes Erlebnis findet sein Publikum",
       "ocean": {
         "title": "Ozean & Abenteuer",
-        "activities": "Tauchen • Schnorcheln • Walbeobachtung • Segeln • Jet Ski • Surfen"
+        "activities1": "Tauchen • Schnorcheln",
+        "activities2": "• Walbeobachtung • Segeln",
+        "activities3": "• Jet Ski • Surfen"
       },
       "mindful": {
         "title": "Achtsamkeit & Wellness",
-        "activities": "Yoga • Atemarbeit • Meditation • Spa • Massage • Klang-Heilung"
+        "activities1": "Yoga • Breathwork",
+        "activities2": "• Meditation • Spa",
+        "activities3": "• Massage • Sound-Healing"
       },
       "culture": {
         "title": "Kultur & Lernen",
-        "activities": "Kochkurse • Traditionelles Handwerk • Musik • Tanz • Sprache • Geschichte"
+        "activities1": "Kochkurse • Handwerk",
+        "activities2": "• Musik • Tanz",
+        "activities3": "• Sprache • Geschichte"
       },
       "active": {
         "title": "Aktiv & Erkundung",
-        "activities": "Wandern • Stadttouren • Fotografie • Sport • Radfahren • Laufen"
+        "activities1": "Wandern • Stadttouren",
+        "activities2": "• Fotografie • Sport",
+        "activities3": "• Radfahren • Laufen"
       }
     },
     "enhancedValueProp": {

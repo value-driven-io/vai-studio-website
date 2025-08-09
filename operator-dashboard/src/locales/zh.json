@@ -677,6 +677,7 @@
       },
       "activityTypes": {
         "title": "欢迎所有活动",
+        "wrapper": "每种活动，都有最契合的受众",
         "subtitle": "从海洋冒险到文化工作坊 - 每种体验都能找到其受众",
         "ocean": {
           "title": "海洋与冒险",

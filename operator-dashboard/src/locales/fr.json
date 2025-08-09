@@ -77,22 +77,31 @@
     },
     "activityTypes": {
       "title": "Toutes les Activités Bienvenues",
+      "wrapper": "À chaque activité, son public idéal",
       "subtitle": "Des aventures océaniques aux ateliers culturels - chaque expérience trouve son public",
       "ocean": {
         "title": "Océan & Aventure",
-        "activities": "Plongée • Snorkeling • Observation Baleines • Voile • Jet Ski • Surf"
+        "activities1": "Plongée • Snorkeling • Clases de Cocina",
+        "activities2": " • Observation Baleines • Voile",
+        "activities3": " • Jet Ski • Surf"
       },
       "mindful": {
         "title": "Bien-être & Zen",
-        "activities": "Yoga • Respiration • Méditation • Spa • Massage • Guérison Sonore"
+        "activities1": "Yoga • Respiration",
+        "activities2": " • Méditation • Spa",
+        "activities3": " • Massage • Guérison Sonore"
       },
       "culture": {
         "title": "Culture & Apprentissage",
-        "activities": "Cours de Cuisine • Artisanat Traditionnel • Musique • Danse • Langue • Histoire"
+        "activities1": "Cours de Cuisine • Artisanat Traditionnel ",
+        "activities2": "• Musique • Danse",
+        "activities3": "• Histoire • Langue Tahitienne"
       },
       "active": {
         "title": "Actif & Exploration",
-        "activities": "Randonnée • Visites Urbaines • Photo • Sports • Vélo • Course"
+        "activities1": "Randonnée • Visites Urbaines",
+        "activities2": " • Photographie • Sports",
+        "activities3": " • Vélo • Course"
       }
     },
     "enhancedValueProp": {
