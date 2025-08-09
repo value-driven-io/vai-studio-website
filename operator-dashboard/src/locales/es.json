@@ -674,6 +674,7 @@
     },
     "terms": {
       "title": "Términos y Preferencias",
+      "policy": "Haz clic aquí para leer nuestra Política de Privacidad",
       "subtitle": "¡Casi listo! Solo unos últimos detalles",
       "acceptTerms": "Acepto los Términos de Servicio y la Política de Privacidad. Entiendo que mi cuenta requiere aprobación manual antes de su activación.",
       "marketingEmails": "Me gustaría recibir correos de marketing sobre actualizaciones de VAI, nuevas funciones y consejos para socios.",

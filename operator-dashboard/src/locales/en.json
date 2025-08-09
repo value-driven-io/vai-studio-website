@@ -259,7 +259,8 @@
     "moreInfo": "More info about ",
     "learnMoreLink": "Learn more about VAI Operator",
     "welcomeBack": "Maeva ! 🌸",
-    "email": "Email"
+    "email": "Email",
+    "vaitickets": "(About VAI Tickets)"
   },
 
   "bookings": {
@@ -686,6 +687,7 @@
     "terms": {
       "title": "Terms & Preferences",
       "subtitle": "Almost done! Just a few final details",
+      "policy": "Click here to read our Privacy Policy",
       "acceptTerms": "I accept the Terms of Service and Privacy Policy. I understand that my account requires manual approval before activation.",
       "marketingEmails": "I'd like to receive marketing emails about VAI updates, new features, and operator tips.",
       "foundingMember": "Founding Member Benefits",

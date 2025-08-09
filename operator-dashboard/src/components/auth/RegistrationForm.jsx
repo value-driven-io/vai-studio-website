@@ -740,8 +740,19 @@ const languageOptions = [
               className="mt-1 w-4 h-4 text-blue-500 border-slate-600 rounded focus:ring-blue-500 bg-slate-700"
             />
             <label htmlFor="terms" className="text-slate-300 text-sm">
-              {t('registration.terms.acceptTerms')} <span className="text-red-400">*</span>
-            </label>
+            {t('registration.terms.acceptTerms')} <span className="text-red-400">*</span>
+            <br />
+            <span className="text-slate-400 text-xs">
+              <a 
+                href="https://vai.studio/privacy/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                {t('registration.terms.policy')} {' '}
+              </a>
+            </span>
+          </label>
           </div>
           {touchedFields.terms_accepted && fieldErrors.terms_accepted && (
             <p className="text-red-400 text-sm mt-1 ml-7">{fieldErrors.terms_accepted}</p>

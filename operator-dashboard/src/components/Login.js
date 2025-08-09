@@ -362,6 +362,20 @@ const Login = ({ onLogin, loading }) => {
             </div>
           </div>
         </div>
+        
+        {/*  VAI TICKETS LINK OUTSIDE MODAL CONTAINER */}
+   {/*
+    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+      <a 
+        href="https://app.vai.studio/" 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-slate-400 hover:text-slate-300 transition-colors text-xs flex items-center gap-2"
+      >
+        {t('login.vaitickets')}
+      </a>
+    </div> 
+    */}
       </div>
     </div>
   )
