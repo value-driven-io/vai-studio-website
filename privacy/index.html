@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - VAI Tickets</title>
+    <title>Privacy Policy - VAI Tickets & VAI Operator</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -92,15 +92,72 @@
             border-top: 1px solid #e2e8f0;
             color: #64748b;
         }
+
+        .contact-float {
+            position: fixed;
+            bottom: 30px;
+            right: 100px; /* Position to the left of WhatsApp button */
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            text-decoration: none;
+        }
+
+        .contact-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.6);
+        }
+
+        .contact-float svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        @media (max-width: 768px) {
+
+        .contact-float {
+        width: 50px;
+        height: 50px;
+        bottom: 80px;
+        right: 20px;
+        display: none;
+        }
+        
+        .contact-float svg {
+            width: 25px;
+            height: 25px;
+        }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Contact Floating Button -->
+    <a href="/index.html" class="contact-float" title="Home" aria-label="Go back to Homepage" onclick="gtag('event', 'click', {'event_category': 'Home', 'event_label': 'Floating Home Button Policy'});">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3l10 9h-3v9h-6v-6H9v6H3v-9H0l12-9z"/></svg>
+    </a>
+
     <div class="container">
+
+        <a href="./french/index.html" title="Version française" aria-label="Version française" onclick="gtag('event', 'click', {'event_category': 'French_Policy', 'event_label': 'Link Version française'});" style="text-align: right; text-decoration: none; text-transform: uppercase; color: #3b4bf6; display: block; margin-bottom: 20px;">
+        🇫🇷 Version française
+        </a>
+
         <h1>Privacy Policy</h1>
         
         <div class="last-updated">
-            <strong>Last Updated:</strong> July 2025<br>
-            <strong>Effective Date:</strong> July 2025
+            <strong>Last Updated:</strong> August 2025<br>
+            <strong>Effective Date:</strong> August 2025
         </div>
 
         <div class="highlight">
@@ -112,7 +169,7 @@
         
         <div class="contact-info">
             <h3>Data Controller Information</h3>
-            <p><strong>Company:</strong> VAI - Unlock Paradise<br>
+            <p><strong>Company:</strong> VAI - Your Key to Paradise in French Polynesia<br>
             <strong>Location:</strong> French Polynesia<br>
             <strong>Email:</strong> hello@vai.studio<br>
             <strong>Website:</strong> vai.studio<br>
@@ -325,10 +382,9 @@
 
         <h3>9.4 Exercising Your Rights</h3>
         <p>To exercise your rights, contact us via:</p>
-        <ul>
-            <li><strong>WhatsApp:</strong> +689 87 26 90 65</li>
-            <li><strong>Email:</strong> Through our platform contact forms</li>
-        </ul>
+        
+            <strong>➔ Email:</strong> hello@vai.studio</li>
+        
         <p>We will respond to your request within 30 days.</p>
 
         <h2>10. Cookies and Tracking</h2>
@@ -372,8 +428,8 @@
         </ul>
 
         <div class="footer">
-            <p><strong>VAI Tickets</strong> - Unlock French Polynesia<br>
-            This Privacy Policy is effective as of July 2025</p>
+            <p><strong>VAI Tickets</strong> - Your Key to Paradise in French Polynesia<br>
+            This Privacy Policy is effective as of August 2025</p>
         </div>
     </div>
 </body>
