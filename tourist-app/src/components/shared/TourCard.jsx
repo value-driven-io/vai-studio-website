@@ -156,11 +156,6 @@ const TourCard = ({
                   <div className="text-xs text-slate-400">{t('tourCard.capacity.max')} {tour.max_capacity}</div>
                 </div>
               </div>
-              {savings && (
-                  <div className="bg-green-500 text-white text-sm px-3 py-1.5 rounded-full font-semibold text-center sm:hidden">
-                    {t('tourCard.pricing.save')} {savings}%
-                  </div>
-                )}
             </div>
 
             {/* Pricing Card */}
