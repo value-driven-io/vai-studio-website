@@ -157,7 +157,7 @@ const TourCard = ({
                 </div>
               </div>
               {savings && (
-                  <div className="bg-green-500 text-white text-sm px-3 py-1.5 rounded-full font-semibold text-center">
+                  <div className="bg-green-500 text-white text-sm px-3 py-1.5 rounded-full font-semibold text-center sm:hidden">
                     {t('tourCard.pricing.save')} {savings}%
                   </div>
                 )}
@@ -186,7 +186,11 @@ const TourCard = ({
                   <div className="text-xs text-slate-400 mt-1">{t('tourCard.pricing.perAdult')}</div>
                 </div>
                 
-                
+                {savings && (
+                  <div className="hidden sm:flex bg-green-500 text-white text-sm px-3 py-1.5 rounded-full font-semibold text-center">
+                    {t('tourCard.pricing.save')} {savings}%
+                  </div>
+                )}
               </div>
               
               {/* Quick Inclusions - ALL CONDITIONAL LOGIC PRESERVED */}
