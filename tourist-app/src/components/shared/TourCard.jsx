@@ -6,8 +6,9 @@ import {
 } from 'lucide-react'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import TourDetailModalNew from './TourDetailModal'
-// 🌍 ONLY NEW ADDITION: Import useTranslation
 import { useTranslation } from 'react-i18next'
+import { TourCardPrice } from './PriceDisplay'
+import { useCurrencyContext } from '../../hooks/useCurrency'
 
 //  TourCard with progressive disclosure
 const TourCard = ({ 
@@ -25,8 +26,10 @@ const TourCard = ({
   hideBookButton = false, //  Hide book button for journey bookings
   className = ""
 }) => {
-  // 🌍 ONLY NEW ADDITION: Add translation hook
+  // 🌍 Add translation hook
   const { t } = useTranslation()
+
+  const { selectedCurrency } = useCurrencyContext()
   
   // ALL ORIGINAL STATE PRESERVED:
   const [showFullScreen, setShowFullScreen] = useState(false)
@@ -153,30 +156,37 @@ const TourCard = ({
                   <div className="text-xs text-slate-400">{t('tourCard.capacity.max')} {tour.max_capacity}</div>
                 </div>
               </div>
+              {savings && (
+                  <div className="bg-green-500 text-white text-sm px-3 py-1.5 rounded-full font-semibold text-center">
+                    {t('tourCard.pricing.save')} {savings}%
+                  </div>
+                )}
             </div>
 
-            {/* 🎨 ENHANCED: Pricing Card - ALL LOGIC PRESERVED */}
+            {/* Pricing Card */}
             <div className="bg-gradient-to-r from-slate-700/30 to-slate-600/20 border border-slate-600/50 rounded-lg p-4 mb-4">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    {tour.original_price_adult > tour.discount_price_adult && (
-                      <span className="text-slate-400 line-through text-sm">
+                    {/* Original price display */}
+                    {/*{tour.original_price_adult > tour.discount_price_adult && (
+                      <span className="text-red-400 line-through text-sm">
                         {formatPrice?.(tour.original_price_adult) || `${tour.original_price_adult} XPF`}
                       </span>
                     )}
-                    <div className="text-xl font-bold text-white">
-                      {formatPrice?.(tour.discount_price_adult) || `${tour.discount_price_adult} XPF`}
-                    </div>
+                    {/* Multi-currency price display */}
+                    <TourCardPrice
+                      originalPrice={tour.original_price_adult}
+                      discountPrice={tour.discount_price_adult}
+                      selectedCurrency={selectedCurrency}
+                      showCurrencySelector={false}
+                    />
                   </div>
+                  
                   <div className="text-xs text-slate-400 mt-1">{t('tourCard.pricing.perAdult')}</div>
                 </div>
                 
-                {savings && (
-                  <div className="bg-green-500 text-white text-sm px-3 py-1.5 rounded-full font-semibold">
-                    {t('tourCard.pricing.save')} {savings}%
-                  </div>
-                )}
+                
               </div>
               
               {/* Quick Inclusions - ALL CONDITIONAL LOGIC PRESERVED */}

@@ -213,9 +213,11 @@ export const useTours = () => {
   }, [filters, selectedMood, moodTours.length, setTours, setLoading, enrichTours])
 
   // EXISTING: Helper functions (keep your existing ones)
-  const formatPrice = (price) => {
-    if (!price) return '0 XPF'
-    return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
+  const formatPrice = (price, currency = 'XPF') => {
+    if (!price) return currency === 'XPF' ? '0 XPF' : '0'
+    return currency === 'XPF' 
+      ? new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
+      : new Intl.NumberFormat('en-US').format(price)
   }
 
   const formatDate = formatDateUtil  // Use the timezone-aware version
