@@ -7,7 +7,6 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
 import { useAuth } from './contexts/AuthContext'
 import './i18n/config'
-// 🌍 NEW: Import useTranslation
 import { useTranslation } from 'react-i18next'
 
 // Import our main components 
@@ -18,13 +17,14 @@ import JourneyTab from './components/journey/JourneyTab'
 import ProfileTab from './components/profile/ProfileTab'
 import AuthModal from './components/auth/AuthModal'
 import LaunchingSoonModal from './components/shared/LaunchingSoonModal';
-// Import Chat and Messages components
 import MessagesTab from './components/messages/MessagesTab'
+import { CurrencyProvider } from './hooks/useCurrency'
+import { useCurrencyContext } from './hooks/useCurrency'
+import CurrencySelector from './components/shared/CurrencySelector'
 
 import VAILogo from './components/shared/VAILogo'
 import LanguageDropdown from './components/shared/LanguageDropdown'
 
-// Import our store
 import { useAppStore } from './stores/bookingStore'
 
 // 2. CHECK THE ENVIRONMENT VARIABLE
@@ -37,6 +37,8 @@ const AppHeader = () => {
   const { user, signOut } = useAuth()
   const [showAuthModal, setShowAuthModal] = useState(false)
   const { t } = useTranslation()
+  // Currency context for global control
+  const { selectedCurrency, changeCurrency } = useCurrencyContext()
 
   return (
     <>
@@ -64,6 +66,13 @@ const AppHeader = () => {
                 </p>
               </div>
             </div>
+            {/* Global Currency Selector */}
+              <CurrencySelector 
+                selectedCurrency={selectedCurrency}
+                onCurrencyChange={changeCurrency}
+                size="small"
+                className="sm:hidden"
+              />
 
             {/* Right side - Actions */}
             <div className="flex items-center gap-3">
@@ -76,6 +85,14 @@ const AppHeader = () => {
                   </span>
                 </div>
               )}
+
+              {/* Global Currency Selector */}
+              <CurrencySelector 
+                selectedCurrency={selectedCurrency}
+                onCurrencyChange={changeCurrency}
+                size="small"
+                className="hidden sm:flex"
+              />
               
               {/* Language Selector */}
               <LanguageDropdown />
@@ -187,12 +204,14 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
+      <CurrencyProvider>
       <div className="bg-vai-deep-ocean min-h-screen text-white">
         {/* 3. CONDITIONAL RENDERING LOGIC */}
         {!isAppLaunched ? (
           <LaunchingSoonModal />
         ) : (
           <AppContent />
+          
         )}
         
         {/* Toast Notifications - Move here so they work in both modes */}
@@ -212,6 +231,7 @@ function App() {
           }}
         />
       </div>
+      </CurrencyProvider>
     </AuthProvider>
   );
 }

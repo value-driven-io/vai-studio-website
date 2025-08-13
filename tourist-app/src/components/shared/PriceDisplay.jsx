@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Info } from 'lucide-react'
+import { useTranslation } from 'react-i18next';
 import CurrencySelector from './CurrencySelector'
 import { 
   formatPrice, 
@@ -25,6 +26,9 @@ export const SinglePriceDisplay = ({
   size = 'default' // 'small', 'default', 'large'
 }) => {
   const conversionNote = getConversionNote(xpfAmount, selectedCurrency)
+
+// Initialize translation hook
+  const { t } = useTranslation()
   
   // Size variants
   const sizeClasses = {
@@ -182,21 +186,25 @@ export const TourCardPrice = ({
         
         {/* Original Price */}
         {hasDiscount && (
-          <span className="text-slate-400 line-through text-sm">
+          <span className="text-orange-400 line-through text-sm">
             {formatPrice(originalPrice, selectedCurrency)}
           </span>
         )}
         
         {/* Savings Badge */}
-        {savings > 0 && (
+        {/*
+         {savings > 0 && (
           <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
             Save {savings}%
           </span>
         )}
+          */}
       </div>
       
-      {/* Per Adult Label */}
+      {/* Per Adult Label >> already shown in TourCardPrice component */}
+      {/* 
       <div className="text-xs text-slate-400 mt-1">per adult</div>
+      */}
       
       {/* Conversion Note */}
       {conversionNote && (

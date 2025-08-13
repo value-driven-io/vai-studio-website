@@ -7,11 +7,13 @@ import { authService } from '../../services/authService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import { formatPrice, formatDate, formatTime } from '../../lib/utils'
 import toast from 'react-hot-toast'
-// 🌍 ONLY NEW ADDITION: Import useTranslation
+import { BookingPriceBreakdown } from '../shared/PriceDisplay'
+import { useCurrencyContext } from '../../hooks/useCurrency'
+
 import { useTranslation } from 'react-i18next'
 
 const BookingModal = ({ tour, isOpen, onClose }) => {
-  // 🌍 ONLY NEW ADDITION: Add translation hook
+  // translation hook
   const { t } = useTranslation()
   
   const { addBooking, updateUserProfile, setActiveTab, setJourneyStage } = useAppStore()
@@ -37,6 +39,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
   // Form validation
   const [errors, setErrors] = useState({})
+
+  const { selectedCurrency, changeCurrency } = useCurrencyContext()
 
   if (!isOpen || !tour) return null
 
@@ -630,22 +634,17 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           <div className="bg-slate-900 rounded-xl p-4 mb-6">
             <h4 className="font-semibold text-white mb-3">{t('bookingModal.pricingSummary')}</h4>
             <div className="space-y-2 text-sm">
-              {formData.num_adults > 0 && (
-                <div className="flex justify-between text-slate-300">
-                  <span>{formData.num_adults} Adult{formData.num_adults > 1 ? 's' : ''} × {formatPrice(tour.discount_price_adult)}</span>
-                  <span>{formatPrice(pricing.adultTotal)}</span>
-                </div>
-              )}
-              {formData.num_children > 0 && (
-                <div className="flex justify-between text-slate-300">
-                  <span>{formData.num_children} Child{formData.num_children > 1 ? 'ren' : ''} × {formatPrice(tour.discount_price_child || 0)}</span>
-                  <span>{formatPrice(pricing.childTotal)}</span>
-                </div>
-              )}
-              <div className="border-t border-slate-700 pt-2 flex justify-between font-semibold text-white">
-                <span>{t('bookingModal.estimatedTotal')}</span>
-                <span>{formatPrice(pricing.total)}</span>
-              </div>
+              {/* Multi-currency booking breakdown */}
+              <BookingPriceBreakdown
+                adultPrice={tour.discount_price_adult}
+                childPrice={tour.discount_price_child || 0}
+                numAdults={formData.num_adults}
+                numChildren={formData.num_children}
+                selectedCurrency={selectedCurrency}
+                onCurrencyChange={changeCurrency}
+                showCurrencySelector={false}
+                className="space-y-2"
+              />
               <p className="text-xs text-slate-400 mt-2">
                 {t('bookingModal.paymentNote')}
               </p>

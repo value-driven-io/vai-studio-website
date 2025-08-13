@@ -5,8 +5,9 @@ import {
   Shield, Coffee, Car, Globe, AlertTriangle, X, Cloud
 } from 'lucide-react'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
-// 🌍 ONLY NEW ADDITION: Import useTranslation
 import { useTranslation } from 'react-i18next'
+import { SinglePriceDisplay } from './PriceDisplay'
+import { useCurrencyContext } from '../../hooks/useCurrency'
 
 const TourDetailModal = ({ 
   tour, 
@@ -21,15 +22,17 @@ const TourDetailModal = ({
   calculateSavings,
   hideBookButton = false
 }) => {
-  // 🌍 ONLY NEW ADDITION: Add translation hook
+  // 🌍 translation hook
   const { t } = useTranslation()
+
+  const { selectedCurrency, changeCurrency } = useCurrencyContext()
   
   if (!isOpen) return null
 
   const tourEmoji = TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'
   const savings = calculateSavings?.(tour.original_price_adult, tour.discount_price_adult)
 
-  // 🎯 HELPER: Format languages with flags 
+  // Format languages with flags 
   const formatLanguages = (languages) => {
     if (!languages || !Array.isArray(languages)) return t('tourDetail.languages.tbd')
     const languageMap = {
@@ -312,35 +315,28 @@ const TourDetailModal = ({
               <div className="bg-gradient-to-r from-slate-700/30 to-slate-600/20 border border-slate-600/50 rounded-xl p-4 space-y-4">
                 
                 {/* Main Pricing */}
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="text-2xl font-bold text-white">
-                      {formatPrice?.(tour.discount_price_adult) || `${tour.discount_price_adult} XPF`}
-                    </div>
-                    {savings && (
-                      <div className="bg-green-500 text-white text-sm px-3 py-1 rounded-full font-semibold">
-                        {t('tourDetail.pricing.save')} {savings}%
-                      </div>
-                    )}
+                {/* Multi-currency price display with selector */}
+                <SinglePriceDisplay
+                  xpfAmount={tour.discount_price_adult}
+                  selectedCurrency={selectedCurrency}
+                  onCurrencyChange={changeCurrency}
+                  showCurrencySelector={false}
+                  size="large"
+                  className="mb-4"
+                />
+                
+                {savings && (
+                  <div className="bg-green-500 text-white text-sm px-3 py-1 rounded-full font-semibold mb-2">
+                    {t('tourDetail.pricing.save')} {savings}%
                   </div>
-                  
-                  <div className="text-sm text-slate-400 mb-3">{t('tourDetail.pricing.perAdult')}</div>
-                  
-                  {/* Child Pricing Display */}
-                  {tour.discount_price_child && tour.discount_price_child !== tour.discount_price_adult && (
-                    <div className="text-sm text-slate-300">
-                      {t('tourDetail.pricing.children')} {formatPrice?.(tour.discount_price_child) || `${tour.discount_price_child} XPF`}
-                    </div>
-                  )}
-
-                  {tour.original_price_adult > tour.discount_price_adult && (
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="text-slate-400 line-through text-sm">
-                        {formatPrice?.(tour.original_price_adult) || `${tour.original_price_adult} XPF`}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                )}
+                
+                {/* Child Pricing Display */}
+                {tour.discount_price_child && tour.discount_price_child !== tour.discount_price_adult && (
+                  <div className="text-sm text-slate-300 mb-3">
+                    {t('tourDetail.pricing.children')} {formatPrice?.(tour.discount_price_child) || `${tour.discount_price_child} XPF`}
+                  </div>
+                )}
 
                 {/* Book Now Button  */}
                 {!hideBookButton && (

@@ -446,10 +446,12 @@ export const useUserJourney = () => {
   }, [])
 
   // Format price
-  const formatPrice = useCallback((price) => {
-    if (!price) return '0 XPF'
-    return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
-  }, [])
+  const formatPrice = (price, currency = 'XPF') => {
+    if (!price) return currency === 'XPF' ? '0 XPF' : '0'
+    return currency === 'XPF' 
+      ? new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
+      : new Intl.NumberFormat('en-US').format(price)
+  }
 
   // Format date
   const formatDate = formatDateUtil  // Uses timezone-aware formatDateFP

@@ -5,10 +5,19 @@ import { formatDateFP, getRelativeDateTextFP, isTodayInFP, isTomorrowInFP } from
  * Utility functions for the VAI Tickets app
  */
 
-// Price formatting for French Polynesia (XPF)
-export const formatPrice = (price) => {
-  if (!price || price === 0) return '0 XPF'
-  return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
+// Multi-currency price formatting (maintains XPF backend)
+import { formatPrice as formatCurrencyPrice } from '../utils/currency'
+
+export const formatPrice = (price, currency = 'XPF') => {
+  if (!price || price === 0) return currency === 'XPF' ? '0 XPF' : '0'
+  
+  // Legacy XPF support (for backend compatibility)
+  if (currency === 'XPF') {
+    return new Intl.NumberFormat('fr-FR').format(price) + ' XPF'
+  }
+  
+  // Multi-currency support
+  return formatCurrencyPrice(price, currency)
 }
 
 // Date formatting for tour dates (timezone-aware)
