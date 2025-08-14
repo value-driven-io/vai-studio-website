@@ -4,22 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags -->
-    <title>Manea Lagoon Adventures - Portail Client VAI Studio</title>
-    <meta name="description" content="Portail client personnalisé pour Manea Lagoon Adventures - VAI Studio Digital Solutions">
-    <meta name="robots" content="noindex, nofollow">
+    <!-- SEO Meta Tags for Client Portal -->
+    <title>Manea Lagoon Adventures - VAI Studio Digital Launch | Client Portal</title>
+    <meta name="description" content="Track your digital transformation project with VAI Studio. Real-time progress updates for your tourism business website and booking system development.">
+    <meta name="keywords" content="VAI Studio client portal, digital project tracking, tourism website development, French Polynesia">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Manea Lagoon Adventures - VAI Studio Digital Launch">
+    <meta property="og:description" content="Professional client portal for tracking your digital transformation project with VAI Studio.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vai.studio/clients/manea-lagoon-adventures/">
+    <meta property="og:image" content="https://vai.studio/via-studio-images/social/vai-studio-client-portal-preview.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://vai.studio/clients/manea-lagoon-adventures/">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../styles-global.css">
+    <link rel="stylesheet" href="assets/client-portal.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
     
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../../styles-global.css">
-    <link rel="stylesheet" href="assets/client-portal.css">
-    
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://wa.me">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <!-- Google Tag Manager -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KEP31J2R5R"></script>
@@ -28,38 +43,15 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-KEP31J2R5R');
+      
+      // Track client portal access
+      gtag('config', 'G-KEP31J2R5R', {
+        custom_map: {'custom_parameter_1': 'client_portal_access'}
+      });
     </script>
 </head>
 
-<body data-current-lang="fr" class="client-portal">
-    
-    <!-- Password Protection Modal -->
-    <div id="passwordModal" class="password-modal">
-        <div class="password-content">
-            <div class="password-header">
-                <img src="../../via-studio-images/logo/VAI Studio - Logo Multicolor 2025.png" alt="VAI Studio" class="logo">
-                <h2>
-                    <span data-lang="fr">Accès Client Sécurisé</span>
-                    <span data-lang="en">Secure Client Access</span>
-                </h2>
-                <p>
-                    <span data-lang="fr">Entrez votre code d'accès client pour voir votre portail personnalisé</span>
-                    <span data-lang="en">Enter your client access code to view your personalized portal</span>
-                </p>
-            </div>
-            <div class="password-form">
-                <input type="password" id="passwordInput" placeholder="Code d'accès client">
-                <button onclick="checkPassword()">
-                    <span data-lang="fr">Accéder</span>
-                    <span data-lang="en">Access</span>
-                </button>
-                <p class="password-error" id="passwordError">
-                    <span data-lang="fr">Code incorrect. Contactez VAI Studio si vous avez perdu votre code.</span>
-                    <span data-lang="en">Incorrect code. Contact VAI Studio if you lost your access code.</span>
-                </p>
-            </div>
-        </div>
-    </div>
+<body data-current-lang="fr" data-client="manea-lagoon-adventures">
 
     <!-- Language Switcher -->
     <div class="language-switcher">
@@ -67,406 +59,237 @@
         <button class="lang-btn active" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français" aria-label="Passer au français">🇫🇷</button>
     </div>
 
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/68987269065" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <!-- WhatsApp Floating Button - Direct Contact with Kevin -->
+    <a href="https://wa.me/message/KV63JSQ3YRHFC1" class="whatsapp-float" target="_blank" aria-label="Chat with VAI Studio on WhatsApp" onclick="gtag('event', 'click', {'event_category': 'Client Portal', 'event_label': 'WhatsApp Contact'});">
         <svg viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.525 3.687"/>
         </svg>
     </a>
 
     <!-- Main Content -->
-    <div id="mainContent" class="main-content" style="display: none;">
-        
-        <!-- Header -->
-        <header class="portal-header">
-            <div class="container">
-                <div class="header-content">
-                    <div class="logo-section">
-                        <img src="../../via-studio-images/logo/VAI Studio - Logo Multicolor 2025.png" alt="VAI Studio" class="vai-logo">
-                        <div class="client-info">
-                            <h1 id="welcomeTitle">
-                                <span data-lang="fr">Ia ora na Teva ! 🌺</span>
-                                <span data-lang="en">Ia ora na Teva! 🌺</span>
-                            </h1>
-                            <p id="companyName">Manea Lagoon Adventures</p>
+    <div class="main-content">
+        <!-- Navigation -->
+        <nav class="navbar" id="navbar" role="navigation" aria-label="Client portal navigation">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="../../">
+                        <img src="../../via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="VAI Studio Logo - Client Portal" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="logo-text" style="display: none;">VAI Studio</div>
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../../" data-fr="Accueil" data-en="Home">Accueil</a></li>
+                    <li><a href="https://operator.vai.studio/" target="_blank" data-fr="VAI Operator" data-en="VAI Operator">VAI Operator</a></li>
+                    <li><a href="../../contact/" data-fr="Contact" data-en="Contact">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <div class="mobile-menu-content">
+                    <a href="../../" data-fr="Accueil" data-en="Home">Accueil</a>
+                    <a href="https://operator.vai.studio/" target="_blank" data-fr="VAI Operator" data-en="VAI Operator">VAI Operator</a>
+                    <a href="../../contact/" data-fr="Contact" data-en="Contact">Contact</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Password Protection Screen -->
+        <div id="passwordScreen" class="password-screen">
+            <div class="password-container">
+                <div class="password-card">
+                    <div class="password-header">
+                        <h1 data-fr="Accès Client Sécurisé" data-en="Secure Client Access">Accès Client Sécurisé</h1>
+                        <p data-fr="Entrez votre code d'accès pour consulter votre proposition" data-en="Enter your access code to view your proposal">Entrez votre code d'accès pour consulter votre proposition</p>
+                    </div>
+                    <div class="password-form">
+                        <div class="password-input-container">
+                            <input type="password" id="clientPassword" placeholder="Code d'accès client" data-fr-placeholder="Code d'accès client" data-en-placeholder="Client access code">
+                            <button type="button" class="password-toggle" onclick="togglePasswordVisibility()" aria-label="Show password" title="Afficher le mot de passe">
+                                <span class="toggle-eye">👁</span>
+                            </button>
+                        </div>
+                        <button onclick="checkClientAccess()" data-fr="Accéder" data-en="Access">Accéder</button>
+                        <div id="passwordError" class="password-error" style="display: none;">
+                            <span data-fr="Code d'accès incorrect" data-en="Incorrect access code">Code d'accès incorrect</span>
                         </div>
                     </div>
-                    <div class="project-status">
-                        <div class="status-badge proposal">
-                            <span data-lang="fr">Proposition</span>
-                            <span data-lang="en">Proposal</span>
-                        </div>
+                    <div class="password-help">
+                        <p data-fr="Votre code d'accès vous a été fourni par VAI Studio" data-en="Your access code was provided by VAI Studio">Votre code d'accès vous a été fourni par VAI Studio</p>
+                        <a href="https://wa.me/message/KV63JSQ3YRHFC1" target="_blank" data-fr="Besoin d'aide ? Contactez-nous" data-en="Need help? Contact us">Besoin d'aide ? Contactez-nous</a>
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
 
-        <!-- Progress Bar -->
-        <section class="progress-section">
-            <div class="container">
-                <div class="progress-header">
-                    <h2>
-                        <span data-lang="fr">Progression du Projet</span>
-                        <span data-lang="en">Project Progress</span>
-                    </h2>
-                </div>
-                <div class="progress-timeline">
-                    <div class="milestone" data-status="pending">
-                        <div class="milestone-icon">1</div>
-                        <div class="milestone-content">
-                            <h3>
-                                <span data-lang="fr">Proposition</span>
-                                <span data-lang="en">Proposal</span>
-                            </h3>
-                            <p>
-                                <span data-lang="fr">En attente de confirmation</span>
-                                <span data-lang="en">Awaiting confirmation</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="milestone" data-status="upcoming">
-                        <div class="milestone-icon">2</div>
-                        <div class="milestone-content">
-                            <h3>
-                                <span data-lang="fr">Développement</span>
-                                <span data-lang="en">Development</span>
-                            </h3>
-                            <p>
-                                <span data-lang="fr">3 semaines de création</span>
-                                <span data-lang="en">3 weeks of creation</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="milestone" data-status="upcoming">
-                        <div class="milestone-icon">3</div>
-                        <div class="milestone-content">
-                            <h3>
-                                <span data-lang="fr">Lancement</span>
-                                <span data-lang="en">Launch</span>
-                            </h3>
-                            <p>
-                                <span data-lang="fr">Ton site en ligne !</span>
-                                <span data-lang="en">Your site goes live!</span>
-                            </p>
+        <!-- Main Dashboard Content (Hidden until authenticated) -->
+        <div id="dashboardContent" class="dashboard-content" style="display: none;">
+            
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-welcome">
+                        <h1 data-fr="Bienvenue Teva" data-en="Welcome Teva">Ia ora na Teva</h1>
+                        <h2 data-fr="Manea Lagoon Adventures - Transformation Digitale" data-en="Manea Lagoon Adventures - Digital Launch">Manea Lagoon Adventures - Transformation Digitale</h2>
+                        <p class="hero-subtitle" data-fr="Suivez l'avancement de votre projet en temps réel" data-en="Track your project progress in real-time">Suivez l'avancement de votre projet en temps réel</p>
+                    
+                    <div class="hero-status">
+                        <div class="status-badge status-proposal" data-fr="Proposition" data-en="Proposal">Proposition</div>
+                        <div class="project-meta">
+                            <span class="project-timeline" data-fr="3 semaines" data-en="3 weeks">3 semaines</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Investment Overview -->
-        <section class="investment-overview">
-            <div class="container">
-                <div class="overview-grid">
-                    <div class="overview-card primary">
-                        <div class="card-icon">💰</div>
-                        <div class="card-content">
-                            <h3>
-                                <span data-lang="fr">Investissement Total</span>
-                                <span data-lang="en">Total Investment</span>
-                            </h3>
-                            <div class="amount" id="totalInvestment">250 000 XPF</div>
-                            <p>
-                                <span data-lang="fr">Configuration intelligente complète</span>
-                                <span data-lang="en">Complete smart setup</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="overview-card">
-                        <div class="card-icon">📅</div>
-                        <div class="card-content">
-                            <h3>
-                                <span data-lang="fr">Coûts Mensuels</span>
-                                <span data-lang="en">Monthly Costs</span>
-                            </h3>
-                            <div class="amount" id="monthlyCosts">5 400 XPF</div>
-                            <p>
-                                <span data-lang="fr">Hébergement + système de réservation</span>
-                                <span data-lang="en">Hosting + booking system</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="overview-card success">
-                        <div class="card-icon">💸</div>
-                        <div class="card-content">
-                            <h3>
-                                <span data-lang="fr">Économies Annuelles</span>
-                                <span data-lang="en">Annual Savings</span>
-                            </h3>
-                            <div class="amount">417 200 XPF</div>
-                            <p>
-                                <span data-lang="fr">vs approche traditionnelle</span>
-                                <span data-lang="en">vs traditional approach</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="overview-card">
-                        <div class="card-icon">⏱️</div>
-                        <div class="card-content">
-                            <h3>
-                                <span data-lang="fr">Délai</span>
-                                <span data-lang="en">Timeline</span>
-                            </h3>
-                            <div class="amount">3 semaines</div>
-                            <p>
-                                <span data-lang="fr">De la conception au lancement</span>
-                                <span data-lang="en">From design to launch</span>
-                            </p>
-                        </div>
-                    </div>
+                    
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Proposal Sections -->
-        <main class="proposal-content">
-            <div class="container">
+            <!-- Quick Actions Bar -->
+            <section class="quick-actions">
+                <div class="action-grid">
+                    <button class="action-btn" onclick="openWhatsApp()" data-fr="💬 Contacter Kevin" data-en="💬 Contact Kevin">
+                        💬 <span data-fr="Contacter Kevin" data-en="Contact Kevin">Contacter Kevin</span>
+                    </button>
+                    <button class="action-btn" onclick="downloadProposal()" data-fr="📄 Télécharger PDF" data-en="📄 Download PDF">
+                        📄 <span data-fr="Télécharger PDF" data-en="Download PDF">Télécharger PDF</span>
+                    </button>
+                    <button class="action-btn" onclick="shareProposal()" data-fr="📤 Partager" data-en="📤 Share">
+                        📤 <span data-fr="Partager" data-en="Share">Partager</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Tab Navigation -->
+            <section class="tab-navigation">
+                <div class="tab-container">
+                    <button class="tab-btn active" data-tab="overview" data-fr="Vue d'ensemble" data-en="Overview">Vue d'ensemble</button>
+                    <button class="tab-btn" data-tab="investment" data-fr="Investissement" data-en="Investment">Investissement</button>
+                    <button class="tab-btn" data-tab="timeline" data-fr="Planning" data-en="Timeline">Planning</button>
+                    <button class="tab-btn" data-tab="addons" data-fr="Options" data-en="Add-ons">Options</button>
+                    <button class="tab-btn" data-tab="nextsteps" data-fr="Prochaines Étapes" data-en="Next Steps">Prochaines Étapes</button>
+                </div>
+            </section>
+
+            <!-- Tab Content Sections -->
+            <main class="tab-content">
                 
-                <!-- What's Included Section -->
-                <section class="proposal-section" id="whatsIncluded">
-                    <div class="section-header" onclick="toggleSection('whatsIncluded')">
-                        <h2>
-                            <span data-lang="fr">🎁 Ce qui est TOUJOURS inclus</span>
-                            <span data-lang="en">🎁 What's ALWAYS Included</span>
-                        </h2>
-                        <div class="toggle-icon">▼</div>
-                    </div>
-                    <div class="section-content">
-                        <div class="benefits-grid">
-                            <div class="benefit-card">
-                                <div class="benefit-icon">🆓</div>
-                                <h3>
-                                    <span data-lang="fr">Compte VAI Operator GRATUIT</span>
-                                    <span data-lang="en">FREE VAI Operator Account</span>
-                                </h3>
-                                <ul>
-                                    <li data-lang="fr">Aucun frais d'installation</li>
-                                    <li data-lang="en">No setup fees</li>
-                                    
-                                    <li data-lang="fr">Aucun abonnement mensuel</li>
-                                    <li data-lang="en">No monthly subscription</li>
-                                    
-                                    <li data-lang="fr">Seulement 11% de commission</li>
-                                    <li data-lang="en">Only 11% commission</li>
-                                </ul>
-                            </div>
-                            <div class="benefit-card">
-                                <div class="benefit-icon">📱</div>
-                                <h3>
-                                    <span data-lang="fr">Canal Marketing Gratuit</span>
-                                    <span data-lang="en">Free Marketing Channel</span>
-                                </h3>
-                                <ul>
-                                    <li data-lang="fr">App VAI Tickets pour touristes</li>
-                                    <li data-lang="en">VAI Tickets tourist app</li>
-                                    
-                                    <li data-lang="fr">Intégration WhatsApp</li>
-                                    <li data-lang="en">WhatsApp integration</li>
-                                    
-                                    <li data-lang="fr">Focus Polynésie française</li>
-                                    <li data-lang="en">French Polynesia focus</li>
-                                </ul>
-                            </div>
-                            <div class="benefit-card">
-                                <div class="benefit-icon">🤝</div>
-                                <h3>
-                                    <span data-lang="fr">Relations Client Directes</span>
-                                    <span data-lang="en">Direct Customer Relationships</span>
-                                </h3>
-                                <ul>
-                                    <li data-lang="fr">Tu gardes les données client</li>
-                                    <li data-lang="en">You keep customer data</li>
-                                    
-                                    <li data-lang="fr">Communication directe</li>
-                                    <li data-lang="en">Direct communication</li>
-                                    
-                                    <li data-lang="fr">Expériences authentiques</li>
-                                    <li data-lang="en">Authentic experiences</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Cost Breakdown Section -->
-                <section class="proposal-section" id="costBreakdown">
-                    <div class="section-header" onclick="toggleSection('costBreakdown')">
-                        <h2>
-                            <span data-lang="fr">💰 Répartition Détaillée des Coûts</span>
-                            <span data-lang="en">💰 Detailed Cost Breakdown</span>
-                        </h2>
-                        <div class="toggle-icon">▼</div>
-                    </div>
-                    <div class="section-content">
-                        <div class="cost-breakdown-container">
-                            <div class="cost-category">
-                                <h3>
-                                    <span data-lang="fr">Configuration Unique (250 000 XPF)</span>
-                                    <span data-lang="en">One-Time Setup (250,000 XPF)</span>
-                                </h3>
-                                <div class="cost-items" id="oneTimeCosts">
-                                    <!-- Populated by JavaScript -->
+                <!-- Overview Tab -->
+                <section id="overview-tab" class="tab-pane active">
+                    <div class="content-grid">
+                        <div class="summary-card">
+                            <h3 data-fr="Package Smart Setup" data-en="Smart Setup Package">Package Smart Setup</h3>
+                            <p data-fr="Tout ce dont vous avez besoin pour commencer à prendre des réservations rentables" data-en="Everything you need to start taking profitable bookings">Tout ce dont vous avez besoin pour commencer à prendre des réservations rentables</p>
+                            <div class="package-highlights">
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">🌐</span>
+                                    <span data-fr="Site web professionnel" data-en="Professional website">Site web professionnel</span>
                                 </div>
-                            </div>
-                            <div class="cost-category">
-                                <h3>
-                                    <span data-lang="fr">Coûts Mensuels (5 400 XPF)</span>
-                                    <span data-lang="en">Monthly Costs (5,400 XPF)</span>
-                                </h3>
-                                <div class="cost-items" id="monthlyCostsList">
-                                    <!-- Populated by JavaScript -->
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">📋</span>
+                                    <span data-fr="Système de réservation" data-en="Booking system">Système de réservation</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">💳</span>
+                                    <span data-fr="Paiement sécurisé" data-en="Secure payment">Paiement sécurisé</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">📍</span>
+                                    <span data-fr="Google Business" data-en="Google Business">Google Business</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
 
-                <!-- Add-ons Section -->
-                <section class="proposal-section" id="addons">
-                    <div class="section-header" onclick="toggleSection('addons')">
-                        <h2>
-                            <span data-lang="fr">🎨 Options Supplémentaires Disponibles</span>
-                            <span data-lang="en">🎨 Available Add-Ons</span>
-                        </h2>
-                        <div class="toggle-icon">▼</div>
-                    </div>
-                    <div class="section-content">
-                        <div class="addons-grid" id="addonsGrid">
-                            <!-- Populated by JavaScript -->
+                        <div class="savings-card">
+                            <h3 data-fr="Vos Économies" data-en="Your Savings">Vos Économies</h3>
+                            <div class="savings-comparison">
+                                <div class="savings-item">
+                                    <span class="savings-label" data-fr="Approche traditionnelle" data-en="Traditional approach">Approche traditionnelle</span>
+                                    <span class="savings-value old">732,000 XPF</span>
+                                </div>
+                                <div class="savings-item">
+                                    <span class="savings-label" data-fr="Smart Setup VAI" data-en="VAI Smart Setup">Smart Setup VAI</span>
+                                    <span class="savings-value new">314,800 XPF</span>
+                                </div>
+                                <div class="savings-item total">
+                                    <span class="savings-label" data-fr="Économies totales" data-en="Total savings">Économies totales</span>
+                                    <span class="savings-value savings">417,200 XPF</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </section>
 
-                <!-- Timeline Section -->
-                <section class="proposal-section" id="timeline">
-                    <div class="section-header" onclick="toggleSection('timeline')">
-                        <h2>
-                            <span data-lang="fr">📅 Planning d'Implémentation</span>
-                            <span data-lang="en">📅 Implementation Timeline</span>
-                        </h2>
-                        <div class="toggle-icon">▼</div>
-                    </div>
-                    <div class="section-content">
-                        <div class="timeline-container" id="timelineContainer">
-                            <!-- Populated by JavaScript -->
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Next Steps Section -->
-                <section class="proposal-section" id="nextSteps">
-                    <div class="section-header" onclick="toggleSection('nextSteps')">
-                        <h2>
-                            <span data-lang="fr">🚀 Prochaines Étapes</span>
-                            <span data-lang="en">🚀 Next Steps</span>
-                        </h2>
-                        <div class="toggle-icon">▼</div>
-                    </div>
-                    <div class="section-content">
-                        <div class="next-steps-container">
-                            <div class="step-item">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h3>
-                                        <span data-lang="fr">Choisir le nom de domaine</span>
-                                        <span data-lang="en">Choose domain name</span>
-                                    </h3>
-                                    <div class="domain-suggestions" id="domainSuggestions">
-                                        <!-- Populated by JavaScript -->
+                        <div class="progress-card">
+                            <h3 data-fr="Progression du Projet" data-en="Project Progress">Progression du Projet</h3>
+                            <div class="progress-timeline">
+                                <div class="progress-step pending">
+                                    <div class="step-icon">📝</div>
+                                    <div class="step-content">
+                                        <h4 data-fr="Proposition Envoyée" data-en="Proposal Sent">Proposition Envoyée</h4>
+                                        <p data-fr="En attente de votre décision" data-en="Awaiting your decision">En attente de votre décision</p>
+                                    </div>
+                                </div>
+                                <div class="progress-step upcoming">
+                                    <div class="step-icon">🏗️</div>
+                                    <div class="step-content">
+                                        <h4 data-fr="Développement" data-en="Development">Développement</h4>
+                                        <p data-fr="3 semaines de développement" data-en="3 weeks development">3 semaines de développement</p>
+                                    </div>
+                                </div>
+                                <div class="progress-step upcoming">
+                                    <div class="step-icon">🚀</div>
+                                    <div class="step-content">
+                                        <h4 data-fr="Lancement" data-en="Launch">Lancement</h4>
+                                        <p data-fr="Formation et mise en ligne" data-en="Training and go-live">Formation et mise en ligne</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="step-item">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h3>
-                                        <span data-lang="fr">Rassembler le contenu</span>
-                                        <span data-lang="en">Gather content</span>
-                                    </h3>
-                                    <ul>
-                                        <li data-lang="fr">Logo (si disponible)</li>
-                                        <li data-lang="en">Logo (if available)</li>
-                                        
-                                        <li data-lang="fr">10-15 photos de haute qualité</li>
-                                        <li data-lang="en">10-15 high-quality photos</li>
-                                        
-                                        <li data-lang="fr">Informations bancaires</li>
-                                        <li data-lang="en">Banking information</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="step-item">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h3>
-                                        <span data-lang="fr">Confirmer et commencer</span>
-                                        <span data-lang="en">Confirm and start</span>
-                                    </h3>
-                                    <p>
-                                        <span data-lang="fr">Contact VAI Studio pour finaliser les détails et planifier le démarrage</span>
-                                        <span data-lang="en">Contact VAI Studio to finalize details and schedule start</span>
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>
 
-            </div>
-        </main>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>
-                        <span data-lang="fr">Prêt à lancer ton entreprise digitale ? 🚀</span>
-                        <span data-lang="en">Ready to launch your digital business? 🚀</span>
-                    </h2>
-                    <p>
-                        <span data-lang="fr">Contacte VAI Studio pour discuter de ta proposition et planifier le début du projet</span>
-                        <span data-lang="en">Contact VAI Studio to discuss your proposal and plan the project start</span>
-                    </p>
-                    <div class="cta-buttons">
-                        <a href="https://wa.me/68987269065?text=Ia%20ora%20na%20VAI%20Studio%21%20Je%20veux%20discuter%20de%20ma%20proposition%20VAI%20Studio%20pour%20Manea%20Lagoon%20Adventures" class="btn primary" target="_blank">
-                            <span data-lang="fr">💬 WhatsApp VAI Studio</span>
-                            <span data-lang="en">💬 WhatsApp VAI Studio</span>
-                        </a>
-                        <a href="mailto:hello@vai.studio?subject=Manea Lagoon Adventures - Discussion Proposition" class="btn secondary">
-                            <span data-lang="fr">📧 Email</span>
-                            <span data-lang="en">📧 Email</span>
-                        </a>
+                <!-- Investment Tab -->
+                <section id="investment-tab" class="tab-pane">
+                    <div class="investment-content">
+                        <h2 data-fr="Détail de l'Investissement" data-en="Investment Breakdown">Détail de l'Investissement</h2>
+                        <!-- Investment content will be populated by JavaScript -->
                     </div>
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- Footer -->
-        <footer class="portal-footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-left">
-                        <img src="../../via-studio-images/logo/VAI Studio - Logo Multicolor 2025.png" alt="VAI Studio" class="footer-logo">
-                        <p>
-                            <span data-lang="fr">Solutions numériques professionnelles pour la Polynésie française</span>
-                            <span data-lang="en">Professional digital solutions for French Polynesia</span>
-                        </p>
+                <!-- Timeline Tab -->
+                <section id="timeline-tab" class="tab-pane">
+                    <div class="timeline-content">
+                        <h2 data-fr="Planning de Développement" data-en="Development Timeline">Planning de Développement</h2>
+                        <!-- Timeline content will be populated by JavaScript -->
                     </div>
-                    <div class="footer-right">
-                        <p>
-                            <span data-lang="fr">Basé à Moorea, servant toute la Polynésie</span>
-                            <span data-lang="en">Based in Moorea, serving all of Polynesia</span>
-                        </p>
-                        <p>hello@vai.studio | +689 87 26 90 65</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+                </section>
 
+                <!-- Add-ons Tab -->
+                <section id="addons-tab" class="tab-pane">
+                    <div class="addons-content">
+                        <h2 data-fr="Options Disponibles" data-en="Available Add-ons">Options Disponibles</h2>
+                        <!-- Add-ons content will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Next Steps Tab -->
+                <section id="nextsteps-tab" class="tab-pane">
+                    <div class="nextsteps-content">
+                        <h2 data-fr="Prochaines Étapes" data-en="Next Steps">Prochaines Étapes</h2>
+                        <!-- Next steps content will be populated by JavaScript -->
+                    </div>
+                </section>
+
+            </main>
+
+        </div>
     </div>
 
     <!-- Scripts -->
     <script src="../../global.js"></script>
+    <script src="assets/supabase-client.js"></script>
     <script src="assets/client-portal.js"></script>
+
 </body>
 </html>
