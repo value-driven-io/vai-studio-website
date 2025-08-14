@@ -251,7 +251,24 @@
     "newOperator": "Noch kein Account?",
     "createAccount": "Kostenlos registrieren",
     "moreInfo": "Weitere Infos über ",
-    "learnMoreLink": "Mehr über VAI Operator erfahren"
+    "learnMoreLink": "Mehr über VAI Operator erfahren",
+
+    "errors": {
+      "invalidCredentials": "Falsche E-Mail oder Passwort. Bitte überprüfe Deine Anmeldedaten und versuche es erneut.",
+      "emailNotConfirmed": "Bitte bestätige Deine E-Mail-Adresse vor der Anmeldung. Prüfe Deinen Posteingang.",
+      "tooManyAttempts": "Zu viele Anmeldeversuche. Bitte warte einige Minuten bevor Du es erneut versuchst.",
+      "accountLocked": "Dein Konto wurde aus Sicherheitsgründen temporär gesperrt. Bitte kontaktiere den Support.",
+      "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein.",
+      "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "networkError": "Netzwerkverbindungsproblem. Bitte überprüfe Deine Internetverbindung und versuche es erneut.",
+      "serverError": "Temporäres technisches Problem. Bitte versuche es in wenigen Augenblicken erneut.",
+      "sessionExpired": "Deine Sitzung ist abgelaufen. Bitte melde Dich erneut an.",
+      "accountSuspended": "Dein Operator-Konto wurde gesperrt. Bitte kontaktiere den Support für Hilfe.",
+      "accountNotFound": "Kein Operator-Konto mit dieser E-Mail gefunden. Überprüfe Deine Adresse oder kontaktiere den Support.",
+      "accountPending": "Deine Operator-Bewerbung wird geprüft. Wir kontaktieren Dich innerhalb von 24 Stunden.",
+      "maintenanceMode": "Systemwartung läuft. Der Service wird in Kürze wiederhergestellt.",
+      "unknownError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder kontaktiere den Support."
+    }
   },
 
   "bookings": {

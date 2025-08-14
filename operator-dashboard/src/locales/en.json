@@ -260,7 +260,24 @@
     "learnMoreLink": "Learn more about VAI Operator",
     "welcomeBack": "Maeva ! 🌸",
     "email": "Email",
-    "vaitickets": "(About VAI Tickets)"
+    "vaitickets": "(About VAI Tickets)",
+
+    "errors": {
+      "invalidCredentials": "Incorrect email or password. Please check your credentials and try again.",
+      "emailNotConfirmed": "Please confirm your email before signing in. Check your inbox for a confirmation link.",
+      "tooManyAttempts": "Too many login attempts. Please wait a few minutes before trying again.",
+      "accountLocked": "Your account has been temporarily locked for security reasons. Please contact support.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordTooShort": "Password must be at least 6 characters long.",
+      "networkError": "Network connection problem. Please check your internet connection and try again.",
+      "serverError": "Temporary technical issue. Please try again in a few moments.",
+      "sessionExpired": "Your session has expired. Please sign in again.",
+      "accountSuspended": "Your operator account has been suspended. Please contact support for assistance.",
+      "accountNotFound": "No operator account found with this email. Please check your address or contact support.",
+      "accountPending": "Your operator application is under review. We'll contact you within 24 hours.",
+      "maintenanceMode": "System maintenance in progress. Service will be restored shortly.",
+      "unknownError": "An unexpected error occurred. Please try again or contact support."
+    }
   },
 
   "bookings": {

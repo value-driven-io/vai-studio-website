@@ -370,7 +370,24 @@
     "newOperator": "Nouvel opérateur ?",
     "createAccount": "Inscription gratuite",
     "moreInfo": "Plus d'informations sur ",
-    "learnMoreLink": "En savoir plus sur VAI Opérateur"
+    "learnMoreLink": "En savoir plus sur VAI Opérateur",
+
+    "errors": {
+      "invalidCredentials": "Email ou mot de passe incorrect. Vérifie tes identifiants et réessaie.",
+      "emailNotConfirmed": "Veuillez confirmer votre email avant de vous connecter. Vérifiez votre boîte de réception.",
+      "tooManyAttempts": "Trop de tentatives de connexion. Veuillez attendre quelques minutes avant de réessayer.",
+      "accountLocked": "Votre compte a été temporairement verrouillé pour des raisons de sécurité. Contactez le support.",
+      "invalidEmail": "Veuillez entrer une adresse email valide.",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères.",
+      "networkError": "Problème de connexion réseau. Vérifiez votre connexion internet et réessayez.",
+      "serverError": "Problème technique temporaire. Veuillez réessayer dans quelques instants.",
+      "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
+      "accountSuspended": "Votre compte opérateur a été suspendu. Veuillez contacter le support.",
+      "accountNotFound": "Aucun compte opérateur trouvé avec cet email. Vérifiez votre adresse ou contactez le support.",
+      "accountPending": "Votre demande d'opérateur est en cours d'examen. Nous vous contacterons sous 24h.",
+      "maintenanceMode": "Maintenance en cours. Le service sera rétabli sous peu.",
+      "unknownError": "Une erreur inattendue s'est produite. Veuillez réessayer ou contacter le support."
+    }
   },
 
   "bookings": {

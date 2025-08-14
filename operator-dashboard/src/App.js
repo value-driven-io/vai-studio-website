@@ -1274,14 +1274,54 @@ function App() {
 // EARLY RETURNS - ONLY AFTER ALL HOOKS
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
+      <>
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+          <div className="text-white">Loading...</div>
+        </div>
+        
+        {/* Toast available during loading */}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 5000,
+            style: {
+              background: '#1e293b',
+              color: '#f1f5f9',
+              border: '1px solid #334155',
+              zIndex: 100000
+            }
+          }}
+          containerStyle={{
+            zIndex: 100000
+          }}
+        />
+      </>
     )
   }
 
   if (!isAuthenticated) {
-    return <Login onLogin={login} loading={authLoading} />
+    return (
+      <>
+        <Login onLogin={login} loading={authLoading} />
+        
+        {/* Toast available during login */}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 5000,
+            style: {
+              background: '#1e293b',
+              color: '#f1f5f9',
+              border: '1px solid #334155',
+              zIndex: 100000
+            }
+          }}
+          containerStyle={{
+            zIndex: 100000
+          }}
+        />
+      </>
+    )
   }
 
   // 🔒 Pending operators see approval screen instead of dashboard
