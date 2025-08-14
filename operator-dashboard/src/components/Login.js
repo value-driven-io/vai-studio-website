@@ -8,6 +8,7 @@ import PendingApprovalScreen from './auth/PendingApprovalScreen'
 import LearnMoreScreen from './auth/LearnMoreScreen'
 import { useRegistration } from '../hooks/useRegistration'
 import VAILogo from './VAILogo'
+import toast, { Toaster } from 'react-hot-toast'
 
 const Login = ({ onLogin, loading }) => {
   const { t } = useTranslation()
@@ -66,16 +67,29 @@ const Login = ({ onLogin, loading }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError('')
     
-    // Validation
+    // Validation with immediate toast feedback
     if (!email) {
-      setError(t('login.emailRequired'))
+      toast.error(t('login.emailRequired'), {
+        duration: 4000,
+        style: {
+          background: '#1e293b',
+          color: '#f1f5f9',
+          border: '1px solid #dc2626'
+        }
+      })
       return
     }
     
     if (!password) {
-      setError(t('login.passwordRequired'))
+      toast.error(t('login.passwordRequired'), {
+        duration: 4000,
+        style: {
+          background: '#1e293b',
+          color: '#f1f5f9',
+          border: '1px solid #dc2626'
+        }
+      })
       return
     }
 
@@ -87,12 +101,21 @@ const Login = ({ onLogin, loading }) => {
     if (!result.success) {
       console.log('❌ Login failed:', result.error)
       
+      // SIMPLE: Just show toast - no state management issues
+      toast.error(result.error, {
+        duration: 6000,
+        style: {
+          background: '#1e293b',
+          color: '#f1f5f9',
+          border: '1px solid #dc2626'
+        }
+      })
+      
       // Check if this is a pending approval case
       if (result.error?.includes('No active operator account found') || 
           result.error?.includes('operator account')) {
         
         console.log('🔍 Checking if this is a pending operator...')
-        // Check approval status
         const statusResult = await checkApprovalStatus(email)
         
         if (statusResult.found) {
@@ -104,8 +127,16 @@ const Login = ({ onLogin, loading }) => {
           console.log('❌ No operator found for this email')
         }
       }
-      
-      setError(result.error)
+    } else {
+      // Optional: Success toast
+      toast.success('Welcome back! 🎉', {
+        duration: 2000,
+        style: {
+          background: '#1e293b',
+          color: '#f1f5f9',
+          border: '1px solid #059669'
+        }
+      })
     }
   }
 

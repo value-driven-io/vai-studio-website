@@ -2,12 +2,139 @@
 // CHROME-COMPATIBLE VERSION - Fixes session timeout issues
 
 import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
+import { useTranslation } from 'react-i18next' 
+import { supabase } from '../lib/supabase' 
 
 export const useAuth = () => {
+  const { t } = useTranslation() 
   const [operator, setOperator] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // Intelligent error parsing with i18n support (ENHANCED WITH DEBUG LOGS)
+  const parseAuthError = (error) => {
+    console.log('🔍 parseAuthError called with:', error) // DEBUG
+
+    if (!error || !error.message) {
+      const result = t('login.errors.unknownError')
+      console.log('🔍 unknownError translation result:', result) // DEBUG
+      return result
+    }
+
+    const errorMessage = error.message.toLowerCase()
+    console.log('🔍 Processing error message:', errorMessage) // DEBUG
+    
+    // Map Supabase error patterns to localized messages
+    if (errorMessage.includes('invalid login credentials') || 
+        errorMessage.includes('invalid email or password')) {
+      const result = t('login.errors.invalidCredentials')
+      console.log('🔍 invalidCredentials translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('email not confirmed') || 
+        errorMessage.includes('email address not confirmed')) {
+      const result = t('login.errors.emailNotConfirmed')
+      console.log('🔍 emailNotConfirmed translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('too many requests') || 
+        errorMessage.includes('rate limit') ||
+        errorMessage.includes('email rate limit exceeded')) {
+      const result = t('login.errors.tooManyAttempts')
+      console.log('🔍 tooManyAttempts translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('account locked') || 
+        errorMessage.includes('user locked')) {
+      const result = t('login.errors.accountLocked')
+      console.log('🔍 accountLocked translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('invalid email') || 
+        errorMessage.includes('email format')) {
+      const result = t('login.errors.invalidEmail')
+      console.log('🔍 invalidEmail translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('password') && 
+        (errorMessage.includes('short') || errorMessage.includes('minimum'))) {
+      const result = t('login.errors.passwordTooShort')
+      console.log('🔍 passwordTooShort translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('network') || 
+        errorMessage.includes('failed to fetch') ||
+        errorMessage.includes('connection')) {
+      const result = t('login.errors.networkError')
+      console.log('🔍 networkError translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('server error') || 
+        errorMessage.includes('internal server') ||
+        errorMessage.includes('503') || errorMessage.includes('502')) {
+      const result = t('login.errors.serverError')
+      console.log('🔍 serverError translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('session') && 
+        (errorMessage.includes('expired') || errorMessage.includes('invalid'))) {
+      const result = t('login.errors.sessionExpired')
+      console.log('🔍 sessionExpired translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('maintenance') || 
+        errorMessage.includes('unavailable')) {
+      const result = t('login.errors.maintenanceMode')
+      console.log('🔍 maintenanceMode translation result:', result) // DEBUG
+      return result
+    }
+    
+    // Handle operator-specific errors
+    if (errorMessage.includes('no operator account found') || 
+        errorMessage.includes('operator account')) {
+      const result = t('login.errors.accountNotFound')
+      console.log('🔍 accountNotFound translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('suspended') || 
+        errorMessage.includes('inactive')) {
+      const result = t('login.errors.accountSuspended')
+      console.log('🔍 accountSuspended translation result:', result) // DEBUG
+      return result
+    }
+    
+    if (errorMessage.includes('pending approval') || 
+        errorMessage.includes('pending')) {
+      const result = t('login.errors.accountPending')
+      console.log('🔍 accountPending translation result:', result) // DEBUG
+      return result
+    }
+    
+    // Special handling for your existing timeout messages
+    if (errorMessage.includes('login timeout') || 
+        errorMessage.includes('login is taking too long')) {
+      const result = t('login.errors.networkError')
+      console.log('🔍 timeout->networkError translation result:', result) // DEBUG
+      return result
+    }
+    
+    // Default fallback with original message for debugging
+    console.warn('🔍 Unmapped auth error:', error.message)
+    const result = t('login.errors.unknownError')
+    console.log('🔍 fallback unknownError translation result:', result) // DEBUG
+    return result
+  }
+
+  // ALL your existing useEffect logic unchanged
   useEffect(() => {
     let isMounted = true // Prevent state updates after unmount
     let timeoutId = null
@@ -16,14 +143,6 @@ export const useAuth = () => {
       try {
         console.log('🔍 Checking session...')
         
-        // FIXED: Increased timeout for Chrome compatibility (3s → 8s)
-        //const { data: { session }, error: sessionError } = await Promise.race([
-          //supabase.auth.getSession(),
-          //new Promise((_, reject) => 
-            //setTimeout(() => reject(new Error('Session timeout')), 8000) // ← Timeout
-          //)
-        //]);
-
         // CHROME FIX: getSession() hangs indefinitely on browser refresh in Chrome
         // Use timeout but handle gracefully since onAuthStateChange works 
         console.log('⏱️ Starting getSession...')
@@ -41,8 +160,6 @@ export const useAuth = () => {
 
         console.log(`⏱️ getSession completed in ${Date.now() - start}ms`)
 
-
-        
         if (sessionError) {
           console.warn('⚠️ Session error:', sessionError.message)
           throw sessionError
@@ -87,14 +204,6 @@ export const useAuth = () => {
         }
       }
     }
-
-    // FIXED: Increased fallback timeout for Chrome (5s → 12s)
-    //timeoutId = setTimeout(() => {
-    //  if (isMounted) {
-    //    console.log('⏰ Session check timeout - forcing loading to false')
-    //    setLoading(false)
-    //  }
-    // }, 12000) // 12 second fallback for Chrome
 
     // Start session check
     checkSession().then(() => {
@@ -166,7 +275,7 @@ export const useAuth = () => {
     }
   }, [])
 
-  // Secure login with email + password
+  // ✅ ENHANCED: Your existing login function with ONLY error message enhancement
   const login = async (email, password) => {
     try {
       setLoading(true)
@@ -181,16 +290,18 @@ export const useAuth = () => {
       
       if (authError) {
         console.error('❌ Auth error:', authError)
+        const parsedError = parseAuthError(authError)
+        console.log('🔍 Parsed error for return:', parsedError) // DEBUG
         return { 
           success: false, 
-          error: authError.message || 'Login failed. Please check your credentials.' 
+          error: parsedError
         }
       }
       
       if (!authData.user) {
         return { 
           success: false, 
-          error: 'Login failed. No user data received.' 
+          error: t('login.errors.unknownError') // Localized message
         }
       }
       
@@ -204,27 +315,29 @@ export const useAuth = () => {
         .single()
 
       if (operatorError || !operatorData) {
-        console.error('❌ Operator lookup error:', operatorError)
-        await supabase.auth.signOut()
-        return { 
-          success: false, 
-          error: 'No operator account found. Please contact support.' 
-        }
+      console.error('❌ Operator lookup error:', operatorError)
+      await supabase.auth.signOut()
+      const accountNotFoundError = t('login.errors.accountNotFound')
+      console.log('🔍 Account not found error for return:', accountNotFoundError) // DEBUG
+      return { 
+        success: false, 
+        error: accountNotFoundError
       }
+    }
 
       // Handle different operator statuses
       if (operatorData.status === 'suspended' || operatorData.status === 'inactive') {
         await supabase.auth.signOut()
         return {
           success: false,
-          error: 'Your operator account has been suspended. Please contact support.'
+          error: t('login.errors.accountSuspended') // Localized message
         }
       }
       
       console.log('✅ Login successful:', operatorData.company_name)
       setOperator(operatorData)
       
-      // Update last login in background (don't wait)
+      // Your existing last_auth_login update functionality
       supabase
         .from('operators')
         .update({ last_auth_login: new Date().toISOString() })
@@ -238,16 +351,14 @@ export const useAuth = () => {
       console.error('❌ Login error:', error.message)
       return { 
         success: false, 
-        error: error.message === 'Login timeout' 
-          ? 'Login is taking too long. Please check your connection and try again.'
-          : 'Login failed. Please try again.' 
+        error: parseAuthError(error) // Use intelligent error parsing
       }
     } finally {
       setLoading(false)
     }
   }
 
-  // Secure logout
+  // Your existing logout function unchanged
   const logout = async () => {
     try {
       await supabase.auth.signOut()
