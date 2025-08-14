@@ -347,7 +347,7 @@ async function checkClientAccess() {
     portalState.setLoading('authentication', true);
     const submitButton = document.querySelector('.password-form button');
     const originalText = submitButton.textContent;
-    submitButton.textContent = 'Vérification...';
+    //submitButton.textContent = 'Vérification...';
     submitButton.disabled = true;
 
     try {
@@ -824,12 +824,12 @@ function generateDetailedServicesSections() {
             summary: t('website_summary'),
             details: currentLang === 'fr' ? `
                 <p><strong>Ce que c'est :</strong> Votre vitrine d'entreprise en ligne (comme une vitrine numérique)</p>
-                <p><strong>Exemple :</strong> manea-lagoon-adventures.com <em>(vérifié - ce domaine est disponible !)</em></p>
+                <p><strong>Exemple :</strong> lagoon-adventures.com <em>(vérifié - ce domaine est disponible !)</em></p>
                 <p><strong>Inclus :</strong> Page d'accueil, à propos de vos excursions, galerie photo, informations de contact</p>
                 <p><strong>Mobile-friendly :</strong> Fonctionne parfaitement sur téléphones (où 80% des touristes naviguent)</p>
             ` : `
                 <p><strong>What it is:</strong> Your online business presence (like a digital storefront)</p>
-                <p><strong>Example:</strong> manea-lagoon-adventures.com <em>(checked - this domain is available!)</em></p>
+                <p><strong>Example:</strong> lagoon-adventures.com <em>(checked - this domain is available!)</em></p>
                 <p><strong>Includes:</strong> Home page, about your tours, photo gallery, contact information</p>
                 <p><strong>Mobile-friendly:</strong> Works perfectly on phones (where 80% of tourists browse)</p>
             `
