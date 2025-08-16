@@ -740,5 +740,65 @@
       "madeIn": "Haapiria ma te",
       "polynesia": "i Pōrīnetia farāni"
     }
+  },
+
+  "passwordSecurity": {
+    "modal": {
+      "forcedTitle": "Te faaohipahia o te haumaruraa",
+      "forcedSubtitle": "Faaara i to upoo mari no te faaohipa i te hoho'a nei.",
+      "voluntaryTitle": "Faahou i te upoo",
+      "voluntarySubtitle": "Faahou i to upoo no te haumaruraa.",
+      "resetTitle": "Faaara i te upoo api",
+      "resetSubtitle": "Faaara i te upoo api mari no to account.",
+      "defaultTitle": "Faahou i te upoo",
+      "defaultSubtitle": "Faahou i to upoo"
+    },
+    "fields": {
+      "currentPassword": "Te upoo o teie nei",
+      "currentPasswordPlaceholder": "Faaara i to upoo o teie nei",
+      "newPassword": "Te upoo api", 
+      "newPasswordPlaceholder": "Faaara i to upoo api",
+      "confirmPassword": "Faamaita i te upoo api",
+      "confirmPasswordPlaceholder": "Faamaita i to upoo api"
+    },
+    "requirements": {
+      "title": "Te mau hinaaro o te upoo:",
+      "minLength": "8 mata'i-oti ia",
+      "hasUpper": "Mata'i rahi (A-Z)",
+      "hasLower": "Mata'i iti (a-z)", 
+      "hasNumber": "Nauma (0-9)",
+      "hasSymbol": "Mata'i motuhia (!@#$...)",
+      "differentFromCurrent": "Eaha ia i te upoo o teie nei",
+      "passwordsMatch": "Ua tai te mau upoo",
+      "passwordsDontMatch": "Aita te mau upoo e tai"
+    },
+    "buttons": {
+      "cancel": "Faahemo",
+      "updating": "Te faahou nei...",
+      "completeSetup": "Faaoti i te faaohipa",
+      "updatePassword": "Faahou i te upoo"
+    },
+    "errors": {
+      "currentPasswordRequired": "E hinaaro ia te upoo o teie nei",
+      "passwordRequirements": "Aita te upoo e faamaita i te mau hinaaro haumaruraa",
+      "passwordsNoMatch": "Aita te mau upoo e tai",
+      "samePassword": "Ia eaha te upoo api i to upoo o teie nei",
+      "currentPasswordIncorrect": "Aita te upoo o teie nei e maitai",
+      "minLength": "Aita te upoo e faamaita i te roa peu",
+      "weakPassword": "Ia i roto i te upoo te mau mata'i rahi, iti, nauma e te mau mata'i motuhia",
+      "tooManyAttempts": "Roa roa te mau faahou upoo. Faaari 5 menete.",
+      "sessionExpired": "Ua faaoti to taime. Rave hou mai.",
+      "authError": "Faarue haumaruraa. Rave hou mai.",
+      "networkError": "Faarue piha'ira'a. Ati i to piha'ira'a.",
+      "serverError": "Faarue tupuna. Faaari e rave hou.",
+      "generalError": "Faarue faahou upoo. Rave hou pe fea'i te support.",
+      "syncFailed": "Ua faahou te upoo e aita ia te sync. Faahou i te page."
+    },
+    "success": {
+      "passwordUpdated": "🔐 Ua faahou maitai te upoo! Ua haumaruraa to account."
+    },
+    "notices": {
+      "securityNotice": "🔒 Ua faufaa e faamarururaa hia to upoo. Aita te oire VAI e ite i to upoo."
+    }
   }
 }

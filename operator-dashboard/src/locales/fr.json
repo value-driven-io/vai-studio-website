@@ -948,5 +948,65 @@
       "email": "hello@vai.studio",
       "whatsapp": "Support WhatsApp"
     }
+  },
+
+  "passwordSecurity": {
+    "modal": {
+      "forcedTitle": "Configuration de sécurité requise",
+      "forcedSubtitle": "Crée ton mot de passe sécurisé pour continuer à utiliser la plateforme.",
+      "voluntaryTitle": "Changer le mot de passe",
+      "voluntarySubtitle": "Mets à jour ton mot de passe pour renforcer la sécurité.",
+      "resetTitle": "Définir un nouveau mot de passe",
+      "resetSubtitle": "Crée un nouveau mot de passe sécurisé pour ton compte.",
+      "defaultTitle": "Changer le mot de passe",
+      "defaultSubtitle": "Mets à jour ton mot de passe"
+    },
+    "fields": {
+      "currentPassword": "Mot de passe actuel",
+      "currentPasswordPlaceholder": "Saisis ton mot de passe actuel",
+      "newPassword": "Nouveau mot de passe", 
+      "newPasswordPlaceholder": "Saisis ton nouveau mot de passe",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "confirmPasswordPlaceholder": "Confirme ton nouveau mot de passe"
+    },
+    "requirements": {
+      "title": "Exigences du mot de passe :",
+      "minLength": "Au moins 8 caractères",
+      "hasUpper": "Lettre majuscule (A-Z)",
+      "hasLower": "Lettre minuscule (a-z)", 
+      "hasNumber": "Chiffre (0-9)",
+      "hasSymbol": "Caractère spécial (!@#$...)",
+      "differentFromCurrent": "Différent du mot de passe actuel",
+      "passwordsMatch": "Les mots de passe correspondent",
+      "passwordsDontMatch": "Les mots de passe ne correspondent pas"
+    },
+    "buttons": {
+      "cancel": "Annuler",
+      "updating": "Mise à jour...",
+      "completeSetup": "Terminer la configuration",
+      "updatePassword": "Mettre à jour le mot de passe"
+    },
+    "errors": {
+      "currentPasswordRequired": "Le mot de passe actuel est requis",
+      "passwordRequirements": "Le mot de passe ne respecte pas les exigences de sécurité",
+      "passwordsNoMatch": "Les mots de passe ne correspondent pas",
+      "samePassword": "Le nouveau mot de passe doit être différent de ton mot de passe actuel",
+      "currentPasswordIncorrect": "Le mot de passe actuel est incorrect",
+      "minLength": "Le mot de passe ne respecte pas la longueur minimale requise",
+      "weakPassword": "Le mot de passe doit inclure majuscules, minuscules, chiffres et symboles",
+      "tooManyAttempts": "Trop de tentatives de changement de mot de passe. Attends 5 minutes et réessaie.",
+      "sessionExpired": "Ta session a expiré. Reconnecte-toi.",
+      "authError": "Erreur d'authentification. Reconnecte-toi.",
+      "networkError": "Erreur réseau. Vérifie ta connexion et réessaie.",
+      "serverError": "Erreur serveur. Réessaie dans quelques minutes.",
+      "generalError": "Échec de la mise à jour du mot de passe. Réessaie ou contacte le support.",
+      "syncFailed": "Mot de passe mis à jour mais échec de synchronisation. Actualise la page."
+    },
+    "success": {
+      "passwordUpdated": "🔐 Mot de passe mis à jour avec succès ! Ton compte est maintenant sécurisé."
+    },
+    "notices": {
+      "securityNotice": "🔒 Ton mot de passe est chiffré et stocké en sécurité. L'équipe VAI ne peut pas voir ton mot de passe."
+    }
   }
 }

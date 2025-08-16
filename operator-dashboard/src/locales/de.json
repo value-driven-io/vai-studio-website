@@ -930,5 +930,65 @@
       "madeIn": "Gemacht mit",
       "polynesia": "in Französisch-Polynesien"
     }
+  },
+
+  "passwordSecurity": {
+    "modal": {
+      "forcedTitle": "Sicherheitseinrichtung erforderlich",
+      "forcedSubtitle": "Erstelle dein sicheres Passwort, um die Plattform weiter zu nutzen.",
+      "voluntaryTitle": "Passwort ändern",
+      "voluntarySubtitle": "Aktualisiere dein Passwort für erhöhte Sicherheit.",
+      "resetTitle": "Neues Passwort festlegen",
+      "resetSubtitle": "Erstelle ein neues sicheres Passwort für dein Konto.",
+      "defaultTitle": "Passwort ändern",
+      "defaultSubtitle": "Aktualisiere dein Passwort"
+    },
+    "fields": {
+      "currentPassword": "Aktuelles Passwort",
+      "currentPasswordPlaceholder": "Gib dein aktuelles Passwort ein",
+      "newPassword": "Neues Passwort", 
+      "newPasswordPlaceholder": "Gib dein neues Passwort ein",
+      "confirmPassword": "Neues Passwort bestätigen",
+      "confirmPasswordPlaceholder": "Bestätige dein neues Passwort"
+    },
+    "requirements": {
+      "title": "Passwort-Anforderungen:",
+      "minLength": "Mindestens 8 Zeichen",
+      "hasUpper": "Großbuchstabe (A-Z)",
+      "hasLower": "Kleinbuchstabe (a-z)", 
+      "hasNumber": "Zahl (0-9)",
+      "hasSymbol": "Sonderzeichen (!@#$...)",
+      "differentFromCurrent": "Unterschiedlich vom aktuellen Passwort",
+      "passwordsMatch": "Passwörter stimmen überein",
+      "passwordsDontMatch": "Passwörter stimmen nicht überein"
+    },
+    "buttons": {
+      "cancel": "Abbrechen",
+      "updating": "Wird aktualisiert...",
+      "completeSetup": "Einrichtung abschließen",
+      "updatePassword": "Passwort aktualisieren"
+    },
+    "errors": {
+      "currentPasswordRequired": "Aktuelles Passwort ist erforderlich",
+      "passwordRequirements": "Passwort erfüllt nicht die Sicherheitsanforderungen",
+      "passwordsNoMatch": "Passwörter stimmen nicht überein",
+      "samePassword": "Das neue Passwort muss sich von deinem aktuellen Passwort unterscheiden",
+      "currentPasswordIncorrect": "Aktuelles Passwort ist falsch",
+      "minLength": "Passwort erfüllt nicht die Mindestlänge",
+      "weakPassword": "Passwort muss Groß-, Kleinbuchstaben, Zahlen und Symbole enthalten",
+      "tooManyAttempts": "Zu viele Passwort-Änderungsversuche. Warte 5 Minuten und versuche es erneut.",
+      "sessionExpired": "Deine Sitzung ist abgelaufen. Melde dich erneut an.",
+      "authError": "Authentifizierungsfehler. Melde dich erneut an.",
+      "networkError": "Netzwerkfehler. Überprüfe deine Verbindung und versuche es erneut.",
+      "serverError": "Serverfehler. Versuche es in wenigen Minuten erneut.",
+      "generalError": "Passwort-Update fehlgeschlagen. Versuche es erneut oder kontaktiere den Support.",
+      "syncFailed": "Passwort aktualisiert, aber Synchronisation fehlgeschlagen. Lade die Seite neu."
+    },
+    "success": {
+      "passwordUpdated": "🔐 Passwort erfolgreich aktualisiert! Dein Konto ist jetzt sicher."
+    },
+    "notices": {
+      "securityNotice": "🔒 Dein Passwort wird verschlüsselt und sicher gespeichert. Das VAI-Team kann dein Passwort nicht einsehen."
+    }
   }
 }

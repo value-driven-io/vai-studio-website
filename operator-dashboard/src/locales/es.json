@@ -930,5 +930,65 @@
         "madeIn": "Hecho con",
         "polynesia": "en Polinesia Francesa"
       }
+    },
+
+    "passwordSecurity": {
+      "modal": {
+        "forcedTitle": "Configuración de seguridad requerida",
+        "forcedSubtitle": "Crea tu contraseña segura para continuar usando la plataforma.",
+        "voluntaryTitle": "Cambiar contraseña",
+        "voluntarySubtitle": "Actualiza tu contraseña para mayor seguridad.",
+        "resetTitle": "Establecer nueva contraseña",
+        "resetSubtitle": "Crea una nueva contraseña segura para tu cuenta.",
+        "defaultTitle": "Cambiar contraseña",
+        "defaultSubtitle": "Actualiza tu contraseña"
+      },
+      "fields": {
+        "currentPassword": "Contraseña actual",
+        "currentPasswordPlaceholder": "Ingresa tu contraseña actual",
+        "newPassword": "Nueva contraseña", 
+        "newPasswordPlaceholder": "Ingresa tu nueva contraseña",
+        "confirmPassword": "Confirmar nueva contraseña",
+        "confirmPasswordPlaceholder": "Confirma tu nueva contraseña"
+      },
+      "requirements": {
+        "title": "Requisitos de contraseña:",
+        "minLength": "Al menos 8 caracteres",
+        "hasUpper": "Letra mayúscula (A-Z)",
+        "hasLower": "Letra minúscula (a-z)", 
+        "hasNumber": "Número (0-9)",
+        "hasSymbol": "Carácter especial (!@#$...)",
+        "differentFromCurrent": "Diferente de la contraseña actual",
+        "passwordsMatch": "Las contraseñas coinciden",
+        "passwordsDontMatch": "Las contraseñas no coinciden"
+      },
+      "buttons": {
+        "cancel": "Cancelar",
+        "updating": "Actualizando...",
+        "completeSetup": "Completar configuración",
+        "updatePassword": "Actualizar contraseña"
+      },
+      "errors": {
+        "currentPasswordRequired": "Se requiere la contraseña actual",
+        "passwordRequirements": "La contraseña no cumple los requisitos de seguridad",
+        "passwordsNoMatch": "Las contraseñas no coinciden",
+        "samePassword": "La nueva contraseña debe ser diferente de tu contraseña actual",
+        "currentPasswordIncorrect": "La contraseña actual es incorrecta",
+        "minLength": "La contraseña no cumple la longitud mínima requerida",
+        "weakPassword": "La contraseña debe incluir mayúsculas, minúsculas, números y símbolos",
+        "tooManyAttempts": "Demasiados intentos de cambio de contraseña. Espera 5 minutos y vuelve a intentar.",
+        "sessionExpired": "Tu sesión ha expirado. Inicia sesión nuevamente.",
+        "authError": "Error de autenticación. Inicia sesión nuevamente.",
+        "networkError": "Error de red. Verifica tu conexión y vuelve a intentar.",
+        "serverError": "Error del servidor. Vuelve a intentar en unos minutos.",
+        "generalError": "Error al actualizar la contraseña. Vuelve a intentar o contacta soporte.",
+        "syncFailed": "Contraseña actualizada pero falló la sincronización. Actualiza la página."
+      },
+      "success": {
+        "passwordUpdated": "🔐 ¡Contraseña actualizada exitosamente! Tu cuenta ahora está segura."
+      },
+      "notices": {
+        "securityNotice": "🔒 Tu contraseña está encriptada y almacenada de forma segura. El equipo VAI no puede ver tu contraseña."
+      }
     }
 }
