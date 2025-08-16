@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { X, Mail, Lock, User, MessageCircle } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import toast from 'react-hot-toast'
+import { supabase } from '../../services/supabase'
 
 const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
   const { signIn, signUp, loading } = useAuth()
@@ -13,6 +14,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
     firstName: '',
     whatsapp: ''
   })
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
 
   if (!isOpen) return null
 
@@ -193,6 +195,35 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
               />
             </div>
           </div>
+
+          {mode === 'login' && (
+            <div className="text-right mt-2">
+              <button
+                type="button"
+                onClick={async () => {
+                  if (!formData.email) {
+                    toast.error('Please enter your email address first')
+                    return
+                  }
+                  
+                  try {
+                    const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
+                      redirectTo: `${window.location.origin}/auth/callback`
+                    })
+                    
+                    if (error) throw error
+                    
+                    toast.success('Password reset email sent! Check your inbox.')
+                  } catch (error) {
+                    toast.error('Failed to send reset email: ' + error.message)
+                  }
+                }}
+                className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
 
           {/* WhatsApp (Register only) */}
           {mode === 'register' && (

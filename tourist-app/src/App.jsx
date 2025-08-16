@@ -3,7 +3,9 @@
 // ==============================================
 
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
 import { useAuth } from './contexts/AuthContext'
 import './i18n/config'
@@ -21,6 +23,7 @@ import MessagesTab from './components/messages/MessagesTab'
 import { CurrencyProvider } from './hooks/useCurrency'
 import { useCurrencyContext } from './hooks/useCurrency'
 import CurrencySelector from './components/shared/CurrencySelector'
+import AuthCallback from './components/auth/AuthCallback'
 
 import VAILogo from './components/shared/VAILogo'
 import LanguageDropdown from './components/shared/LanguageDropdown'
@@ -200,41 +203,56 @@ function AppContent() {
   )
 }
 
-// Wrapper with AuthProvider (FIXED)
+// Router Component (Minimal routing integration)
+function AppRouter() {
+  return (
+    <Router>
+      <Routes>
+        {/* Auth Callback Route */}
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        
+        {/* Main App Route - All existing functionality */}
+        <Route path="/*" element={
+          <CurrencyProvider>
+            <div className="bg-vai-deep-ocean min-h-screen text-white">
+              {/* Conditional rendering logic - UNCHANGED */}
+              {!isAppLaunched ? (
+                <LaunchingSoonModal />
+              ) : (
+                <AppContent />
+              )}
+            </div>
+          </CurrencyProvider>
+        } />
+      </Routes>
+    </Router>
+  )
+}
+
+// Main App Component (UPDATED - Wrapped with Router)
 function App() {
   return (
     <AuthProvider>
-      <CurrencyProvider>
-      <div className="bg-vai-deep-ocean min-h-screen text-white">
-        {/* 3. CONDITIONAL RENDERING LOGIC */}
-        {!isAppLaunched ? (
-          <LaunchingSoonModal />
-        ) : (
-          <AppContent />
-          
-        )}
-        
-        {/* Toast Notifications - Move here so they work in both modes */}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#1e293b',
-              color: '#f1f5f9',
-              border: '1px solid #334155',
-              zIndex: 100000
-            }
-          }}
-          containerStyle={{
+      <AppRouter />
+      
+      {/* Global Toast Notifications */}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#1e293b',
+            color: '#f1f5f9',
+            border: '1px solid #334155',
             zIndex: 100000
-          }}
-        />
-      </div>
-      </CurrencyProvider>
+          }
+        }}
+        containerStyle={{
+          zIndex: 100000
+        }}
+      />
     </AuthProvider>
-  );
+  )
 }
-  
 
 export default App

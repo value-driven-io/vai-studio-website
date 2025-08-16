@@ -68,10 +68,6 @@
     margin-bottom: 25px;
 }
 
-.password-form input {
-    /* Removed duplicate styles - now handled in password-input-container section */
-}
-
 .password-form input:focus {
     outline: none;
     border-color: var(--accent-blue);
