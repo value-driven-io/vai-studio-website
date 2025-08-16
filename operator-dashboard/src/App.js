@@ -21,7 +21,7 @@ import { supabase } from './lib/supabase'
 import { polynesianNow, toPolynesianISO } from './utils/timezone'
 import toast, { Toaster } from 'react-hot-toast'
 import chatService from './services/chatService'
-
+import { useTranslation } from 'react-i18next'
 import ChangePasswordModal from './components/auth/ChangePasswordModal'
 import { getPasswordChangeRequirement, detectPasswordEdgeCases, needsPasswordChange } from './utils/passwordSecurity'
 
@@ -85,6 +85,7 @@ function AppContent() { // function App() { << before changes for the authcallba
   
   // ALL HOOKS MUST BE AT THE TOP
   const { operator, loading: authLoading, login, logout, isAuthenticated } = useAuth()
+  const { t } = useTranslation()
   
   // State management
   const [tours, setTours] = useState([])
