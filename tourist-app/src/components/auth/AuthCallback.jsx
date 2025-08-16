@@ -65,13 +65,13 @@ const AuthCallback = () => {
           setMessage(`Welcome back, ${operator.company_name}! Redirecting to your operator dashboard...`)
           
           setTimeout(() => {
-            window.location.href = `https://vai-operator-dashboard.onrender.com/?message=welcome`
+            window.location.href = `https://vai-operator-dashboard.onrender.com/auth/callback?message=operator`
           }, 2000)
           return
         }
 
         // If no operator found, check for tourist user
-        console.log('🔍 Checking if user is a tourist...')
+        console.log('🔍 Checking if user is a VAI Tickets User...')
         const { data: tourist, error: touristError } = await supabase
           .from('tourist_users')
           .select('id, first_name')
@@ -80,13 +80,13 @@ const AuthCallback = () => {
 
         // Handle tourist result
         if (tourist && !touristError) {
-          console.log('✅ Tourist found:', tourist.first_name || 'Tourist')
+          console.log('✅ VAI Tickets User found:', tourist.first_name || 'Tourist')
           setStatus('success')
-          setMessage(`Welcome${tourist.first_name ? `, ${tourist.first_name}` : ''}! Redirecting to your VAI app...`)
+          setMessage(`Welcome${tourist.first_name ? `, ${tourist.first_name}` : ''}! Redirecting to VAI Tickets...`)
         } else {
-          console.log('ℹ️ No specific tourist record found, redirecting to tourist app anyway')
+          console.log('ℹ️ No specific VAI Tickets User record found, redirecting to VAI Tickets anyway')
           setStatus('success')
-          setMessage('Welcome! Redirecting to your VAI app...')
+          setMessage('Welcome! Redirecting to VAI Tickets...')
         }
 
         setTimeout(() => {
@@ -153,13 +153,13 @@ const AuthCallback = () => {
                 href="https://app.vai.studio/"
                 className="block w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
               >
-                Go to VAI Tourist App
+                Go to VAI Tickets
               </a>
               <a 
                 href="https://vai-operator-dashboard.onrender.com/"
                 className="block w-full bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors"
               >
-                Go to Operator Dashboard
+                Go to VAI Operator
               </a>
             </div>
           )}

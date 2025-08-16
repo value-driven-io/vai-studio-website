@@ -4,6 +4,7 @@ import './i18n/config'
 import { 
   CheckCircle, XCircle, AlertCircle, Clock3, Award
 } from 'lucide-react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import Login from './components/Login'
 import PendingApprovalScreen from './components/auth/PendingApprovalScreen'
@@ -15,6 +16,7 @@ import CreateTab from './components/CreateTab'
 import BookingsTab from './components/BookingsTab'
 import SchedulesTab from './components/SchedulesTab'
 import ProfileTab from './components/ProfileTab'
+import AuthCallback from './components/auth/AuthCallback'
 import { supabase } from './lib/supabase'
 import { polynesianNow, toPolynesianISO } from './utils/timezone'
 import toast, { Toaster } from 'react-hot-toast'
@@ -76,7 +78,8 @@ const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
     }
   }
 
-function App() {
+function AppContent() { // function App() { << before changes for the authcallback (old function)
+  
   // ALL HOOKS MUST BE AT THE TOP
   const { operator, loading: authLoading, login, logout, isAuthenticated } = useAuth()
   
@@ -358,7 +361,7 @@ function App() {
     
     setFilteredBookings(filtered)
   }, [allBookings, bookingFilter, timeFilter, searchTerm])
-
+  
   // Handle auth success messages from email links
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -1540,6 +1543,26 @@ function App() {
 
     </div>
   )
+}
+
+// Router Component (Minimal routing integration)
+function AppRouter() {
+  return (
+    <Router>
+      <Routes>
+        {/* Auth Callback Route */}
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        
+        {/* Main App Route - All existing functionality */}
+        <Route path="/*" element={<AppContent />} />
+      </Routes>
+    </Router>
+  )
+}
+
+// Main App Component (Wrapped with Router)
+function App() {
+  return <AppRouter />
 }
 
 export default App

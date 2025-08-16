@@ -72,8 +72,24 @@ const AuthCallback = () => {
           }
         }
 
-        // If no operator found, check if they're a tourist and redirect appropriately
-        console.log('🔍 No operator found, checking if user is a tourist...')
+        // If no operator found, check URL params for special cases
+        const urlParams = new URLSearchParams(window.location.search)
+        const message = urlParams.get('message')
+        
+        if (message === 'operator') {
+          // This came from tourist app detecting an operator - redirect back to tourist
+          console.log('🔄 Redirecting back to VAI Tickets for role verification')
+          setStatus('success')
+          setMessage('Verifying your account... Redirecting to VAI Tickets.')
+          
+          setTimeout(() => {
+            window.location.href = `https://app.vai.studio/auth/callback?verified=true`
+          }, 1000)
+          return
+        }
+
+        // Check if they're a VAI Tickets User and redirect appropriately
+        console.log('🔍 No operator found, checking if user is a VAI Tickets User...')
         const { data: tourist, error: touristError } = await supabase
           .from('tourist_users')
           .select('id, first_name')
@@ -81,9 +97,9 @@ const AuthCallback = () => {
           .single()
 
         if (tourist && !touristError) {
-          console.log('ℹ️ User is a tourist, redirecting to tourist app')
+          console.log('ℹ️ User is a VAI Tickets User, redirecting to VAI Tickets')
           setStatus('success')
-          setMessage(`Welcome${tourist.first_name ? `, ${tourist.first_name}` : ''}! Redirecting to the tourist app...`)
+          setMessage(`Welcome${tourist.first_name ? `, ${tourist.first_name}` : ''}! Redirecting to the VAI Tickets...`)
           
           setTimeout(() => {
             window.location.href = `https://app.vai.studio/?message=welcome`
@@ -160,13 +176,13 @@ const AuthCallback = () => {
                 href="https://vai-operator-dashboard.onrender.com/"
                 className="block w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
               >
-                Go to Operator Dashboard
+                Go to VAI Operator
               </a>
               <a 
                 href="https://app.vai.studio/"
                 className="block w-full bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors"
               >
-                Go to Tourist App
+                Go to VAI Tickets
               </a>
             </div>
           )}
