@@ -5,12 +5,13 @@ import {
   Award, CheckCircle, Info, Plus, Shield, Star, HelpCircle, 
   TrendingUp, Target, Edit3, Save, X, Globe, Loader, MessageCircle,
   Zap, CreditCard, RefreshCw, Search, Users, DollarSign, 
-  Lightbulb, Clock
+  Lightbulb, Clock, Key, AlertTriangle, Building
 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
+import ChangePasswordModal from './auth/ChangePasswordModal'
 
-// Move ExpandableSection OUTSIDE of ProfileTab component
+//  ExpandableSection OUTSIDE of ProfileTab component
 const ExpandableSection = ({ 
   title, 
   icon: Icon, 
@@ -66,7 +67,7 @@ const ExpandableSection = ({
   </div>
 )
 
-// Move Tooltip OUTSIDE of ProfileTab component as well
+//  Tooltip OUTSIDE of ProfileTab component as well
 const Tooltip = ({ children, content, position = 'top' }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [actualPosition, setActualPosition] = useState(position)
@@ -124,11 +125,14 @@ const ProfileTab = ({ setActiveTab }) => {
   const [expandedSections, setExpandedSections] = useState({
     business: false,
     credentials: false,
+    security: false,
     billing: false,
     businessHealth: true,
     marketingInsights: true,
     growthOpportunities: true
   })
+  // Password modal state
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [showQuickActions, setShowQuickActions] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editData, setEditData] = useState({})
@@ -321,6 +325,12 @@ const ProfileTab = ({ setActiveTab }) => {
     setSaveMessage('')
   }, [operator])
 
+
+  // Handle password change success
+  const handlePasswordChangeSuccess = () => {
+    setShowPasswordModal(false)
+  }
+
   // Optimized save without causing re-renders
   const handleSave = async () => {
     try {
@@ -376,7 +386,7 @@ const ProfileTab = ({ setActiveTab }) => {
       //  await new Promise(resolve => setTimeout(resolve, 100))
       //}
 
-      // ✅ REPLACE WITH - let auth system handle state updates naturally:
+      // let auth system handle state updates naturally:
       // The auth system will pick up the database changes automatically
       // No manual localStorage manipulation needed
 
@@ -873,11 +883,99 @@ const ProfileTab = ({ setActiveTab }) => {
             </div>
           </ExpandableSection>
 
+          {/* 1.2 Security & Authentication */}
+          <ExpandableSection
+            title="Security & Authentication"
+            icon={Shield}
+            iconColor="text-green-400"
+            isExpanded={expandedSections.security}
+            onToggle={() => toggleSection('security')}
+            badge={operator.auth_setup_completed ? null : "Setup Required"}
+            urgent={!operator.auth_setup_completed}
+          >
+            <div className="space-y-4 p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                {/* Password Status */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Password Status
+                  </label>
+                  <div className="flex items-center gap-2 p-3 bg-slate-700/50 rounded-lg">
+                    {operator.auth_setup_completed ? (
+                      <>
+                        <CheckCircle className="w-4 h-4 text-green-400" />
+                        <span className="text-green-400 text-sm">Password secure 🔒</span>
+                      </>
+                    ) : (
+                      <>
+                        <AlertTriangle className="w-4 h-4 text-yellow-400" />
+                        <span className="text-yellow-400 text-sm">Password not secure</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Account Security */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Account Security
+                  </label>
+                  <div className="p-3 bg-slate-700/50 rounded-lg">
+                    <div className="text-slate-300 text-sm">
+                      {operator.auth_setup_completed ? (
+                        'Password last updated: Recently'
+                      ) : (
+                        'Password setup required'
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Password Actions */}
+              <div className="pt-4 border-t border-slate-600">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => setShowPasswordModal(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                  >
+                    <Key className="w-4 h-4" />
+                    {operator.auth_setup_completed ? 'Change Password' : 'Setup New Password'}
+                  </button>
+                  
+                  {operator.auth_setup_completed && (
+                    <div className="flex items-center gap-2 text-slate-400 text-sm">
+                      <Info className="w-4 h-4" />
+                      <span>Regular password updates enhance security</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Security Tips */}
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <Shield className="w-5 h-5 text-blue-400 mt-0.5" />
+                  <div>
+                    <h4 className="text-blue-400 font-medium mb-1">Security Best Practices</h4>
+                    <ul className="text-slate-300 text-sm space-y-1">
+                      <li>• Use a unique password for your VAI account</li>
+                      <li>• Include uppercase, lowercase, numbers, and symbols</li>
+                      <li>• Avoid using personal information in passwords</li>
+                      <li>• Update your password regularly</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ExpandableSection>
+
           {/* 2. Business Credentials */}
           <ExpandableSection
             title={t('profile.sections.businessCredentials')}
-            icon={Shield}
-            iconColor="text-green-400"
+            icon={Building}
+            iconColor="text-orange-400"
             isExpanded={expandedSections.credentials}
             onToggle={() => toggleSection('credentials')}
           >
@@ -1104,6 +1202,17 @@ const ProfileTab = ({ setActiveTab }) => {
           </div>
         </div>
       </div>
+
+      {/* Password Change Modal */}
+      {showPasswordModal && (
+        <ChangePasswordModal
+          context="voluntary"
+          operator={operator}
+          onSuccess={handlePasswordChangeSuccess}
+          onCancel={() => setShowPasswordModal(false)}
+          canDismiss={true}
+        />
+      )}
     </div>
   )
 }

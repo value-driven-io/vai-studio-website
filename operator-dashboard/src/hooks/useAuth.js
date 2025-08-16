@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next' 
 import { supabase } from '../lib/supabase' 
+import { needsPasswordChange } from '../utils/passwordSecurity'
 
 export const useAuth = () => {
   const { t } = useTranslation() 
@@ -371,11 +372,35 @@ export const useAuth = () => {
     }
   }
 
+  // Function to refresh operator data after password change
+  const refreshOperatorData = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (session?.user) {
+        const { data: operatorData, error } = await supabase
+          .from('operators')
+          .select('*')
+          .eq('auth_user_id', session.user.id)
+          .single()
+        
+        if (operatorData && !error) {
+          setOperator(operatorData)
+          console.log('✅ Operator data refreshed after password change')
+        }
+      }
+    } catch (error) {
+      console.error('❌ Failed to refresh operator data:', error)
+    }
+  }
+
   return {
     operator,
     loading,
     login,
     logout,
-    isAuthenticated: !!operator
+    refreshOperatorData, // for Password Change
+    isAuthenticated: !!operator,
+    needsPasswordChange: needsPasswordChange(operator) // Password change check
   }
 }

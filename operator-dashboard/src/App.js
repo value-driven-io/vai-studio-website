@@ -22,6 +22,9 @@ import { polynesianNow, toPolynesianISO } from './utils/timezone'
 import toast, { Toaster } from 'react-hot-toast'
 import chatService from './services/chatService'
 
+import ChangePasswordModal from './components/auth/ChangePasswordModal'
+import { getPasswordChangeRequirement, detectPasswordEdgeCases, needsPasswordChange } from './utils/passwordSecurity'
+
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
@@ -118,6 +121,10 @@ function AppContent() { // function App() { << before changes for the authcallba
   const [sortBy, setSortBy] = useState('created_at')
   const [lastFetchTime, setLastFetchTime] = useState(new Date())
 
+  // Password change state
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [passwordChangeComplete, setPasswordChangeComplete] = useState(false)
+
   // Form data state
   const [formData, setFormData] = useState({
     // Basic Info
@@ -149,7 +156,7 @@ function AppContent() { // function App() { << before changes for the authcallba
     drinks_included: false,
     languages: ['French'],
     
-    // Requirements & Restrictions - FIX THE FITNESS LEVEL
+    // Requirements & Restrictions
     min_age: null,
     max_age: null,
     fitness_level: 'easy',
@@ -401,7 +408,7 @@ function AppContent() { // function App() { << before changes for the authcallba
       }
     }, [isAuthenticated, operator])
 
-    // 🔧 ENHANCED: More aggressive fallback timeout
+    // More aggressive fallback timeout
     useEffect(() => {
       const timeout = setTimeout(() => {
         console.log('⏰ Fallback timeout - forcing App loading to false regardless of auth state')
@@ -411,7 +418,7 @@ function AppContent() { // function App() { << before changes for the authcallba
       return () => clearTimeout(timeout)
     }, []) // No dependencies - always runs
 
-    // 🔧 NEW: Additional safety net for auth state changes
+    // dditional safety net for auth state changes
     useEffect(() => {
       if (isAuthenticated) {
         // Small delay to allow operator lookup, then force clear
@@ -428,6 +435,34 @@ function AppContent() { // function App() { << before changes for the authcallba
   useEffect(() => {
     localStorage.setItem('operator-activeTab', activeTab)
   }, [activeTab])
+
+  // Show password change modal if needed
+  useEffect(() => {
+    if (operator && needsPasswordChange(operator) && !passwordChangeComplete) {
+      setShowPasswordModal(true)
+    }
+  }, [operator, passwordChangeComplete])
+
+  // Check for edge cases and show password modal if needed
+  useEffect(() => {
+    if (operator && !passwordChangeComplete) {
+      const requirement = getPasswordChangeRequirement(operator)
+      
+      // Log edge cases for debugging
+      const edgeCases = detectPasswordEdgeCases(operator)
+      if (edgeCases.length > 0) {
+        console.warn('🚨 Password edge cases detected:', edgeCases, operator)
+      }
+      
+      // Only show modal if requirement says to show it
+      if (requirement.required && requirement.showPasswordModal) {
+        console.log('🔐 Password change required:', requirement.reason)
+        setShowPasswordModal(true)
+      } else if (requirement.required && !requirement.showPasswordModal) {
+        console.log('⏸️ Password change required but delayed:', requirement.message)
+      }
+    }
+  }, [operator, passwordChangeComplete])
 
   // API Functions
   const fetchTours = async () => {
@@ -1060,6 +1095,32 @@ function AppContent() { // function App() { << before changes for the authcallba
     handleInputChange('pickup_locations', newLocations)
   }
 
+  // Handle password change modal
+  const handlePasswordChangeSuccess = async () => {
+    setShowPasswordModal(false)
+    setPasswordChangeComplete(true)
+    
+    try {
+      // Refresh operator data to get updated auth_setup_completed status
+      const { data: updatedOperator, error } = await supabase
+        .from('operators')
+        .select('*')
+        .eq('id', operator.id)
+        .single()
+      
+      if (updatedOperator && !error) {
+        // Update the operator context if possible, or reload
+        window.location.reload()
+      } else {
+        console.warn('⚠️ Could not refresh operator data, forcing reload')
+        window.location.reload()
+      }
+    } catch (error) {
+      console.error('❌ Error refreshing operator data:', error)
+      window.location.reload() // Fallback
+    }
+  }
+
   const validateForm = (specificField = null) => {
     const errors = {}
     
@@ -1326,6 +1387,64 @@ function AppContent() { // function App() { << before changes for the authcallba
       </>
     )
   }
+
+  // If password change is required, show modal
+    if (showPasswordModal) {
+      const requirement = getPasswordChangeRequirement(operator)
+      
+      return (
+        <div className="min-h-screen bg-slate-900">
+          <ChangePasswordModal
+            context={requirement.context}
+            operator={operator}
+            onSuccess={handlePasswordChangeSuccess}
+            canDismiss={!requirement.required || requirement.context === 'voluntary'}
+          />
+          
+          {/* Debug info for development */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="fixed bottom-4 left-4 bg-black/80 text-white p-2 rounded text-xs">
+              <div>Status: {operator.status}</div>
+              <div>Auth Setup: {operator.auth_setup_completed ? 'Yes' : 'No'}</div>
+              <div>Temp Password: {operator.temp_password ? 'Yes' : 'No'}</div>
+              <div>Context: {requirement.context}</div>
+              <div>Reason: {requirement.reason}</div>
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    // If operator account is suspended or inactive, show alert
+    if (operator.status === 'suspended' || operator.status === 'inactive') {
+      return (
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+          <div className="bg-slate-800 rounded-xl border border-slate-700 p-8 max-w-md text-center">
+            <AlertCircle className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-white mb-2">Account Temporarily Unavailable</h2>
+            <p className="text-slate-400 mb-6">
+              Your operator account is currently {operator.status}. Please contact VAI support for assistance.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => logout()}
+                className="flex-1 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
+              >
+                Sign Out
+              </button>
+              <a
+                href="https://vai.studio/support"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-center"
+              >
+                Contact Support
+              </a>
+            </div>
+          </div>
+        </div>
+      )
+    }
 
   // 🔒 Pending operators see approval screen instead of dashboard
   if (operator.status === 'pending') {
