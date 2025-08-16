@@ -1011,5 +1011,11 @@
           "Actualiza tu contraseña regularmente"
         ]
       }
+    },
+    "suspendedAccount": {
+      "title": "Cuenta temporalmente no disponible",
+      "message": "Tu cuenta de operador está actualmente {{status}}. Por favor contacta el soporte VAI para asistencia.",
+      "signOut": "Cerrar sesión",
+      "contactSupport": "Contactar soporte"
     }
 }

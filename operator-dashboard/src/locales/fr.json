@@ -1029,5 +1029,12 @@
         "Mets à jour ton mot de passe régulièrement"
       ]
     }
+  },
+
+    "suspendedAccount": {
+    "title": "Compte temporairement indisponible",
+    "message": "Ton compte opérateur est actuellement {{status}}. Contacte le support VAI pour obtenir de l'aide.",
+    "signOut": "Se déconnecter",
+    "contactSupport": "Contacter le support"
   }
 }

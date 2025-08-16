@@ -1011,5 +1011,12 @@
         "Aktualisiere dein Passwort regelmäßig"
       ]
     }
+  },
+
+    "suspendedAccount": {
+    "title": "Konto vorübergehend nicht verfügbar",
+    "message": "Dein Operator-Konto ist derzeit {{status}}. Bitte kontaktiere den VAI-Support für Hilfe.",
+    "signOut": "Abmelden",
+    "contactSupport": "Support kontaktieren"
   }
 }

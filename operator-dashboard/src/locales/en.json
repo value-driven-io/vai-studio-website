@@ -1198,5 +1198,12 @@
         "Update your password regularly"
       ]
     }
+  },
+  
+  "suspendedAccount": {
+    "title": "Account Temporarily Unavailable",
+    "message": "Your operator account is currently {{status}}. Please contact VAI support for assistance.",
+    "signOut": "Sign Out",
+    "contactSupport": "Contact Support"
   }
 }

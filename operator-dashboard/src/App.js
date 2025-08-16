@@ -1453,16 +1453,16 @@ function AppContent() { // function App() { << before changes for the authcallba
         <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
           <div className="bg-slate-800 rounded-xl border border-slate-700 p-8 max-w-md text-center">
             <AlertCircle className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-white mb-2">Account Temporarily Unavailable</h2>
+            <h2 className="text-xl font-semibold text-white mb-2">{t('suspendedAccount.title')}</h2>
             <p className="text-slate-400 mb-6">
-              Your operator account is currently {operator.status}. Please contact VAI support for assistance.
+              {t('suspendedAccount.message', { status: operator.status })}
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => logout()}
                 className="flex-1 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
               >
-                Sign Out
+                 {t('suspendedAccount.signOut')}
               </button>
               <a
                 href="https://wa.me/message/KV63JSQ3YRHFC1?text=Operator%20Support%20-%20Account%20Deactivated"
@@ -1470,7 +1470,7 @@ function AppContent() { // function App() { << before changes for the authcallba
                 rel="noopener noreferrer"
                 className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-center"
               >
-                Contact Support
+                {t('suspendedAccount.contactSupport')}
               </a>
             </div>
           </div>
