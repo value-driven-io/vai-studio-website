@@ -326,15 +326,17 @@ export const useAuth = () => {
       }
     }
 
-      // Handle different operator statuses
-      if (operatorData.status === 'suspended' || operatorData.status === 'inactive') {
-        await supabase.auth.signOut()
-        return {
-          success: false,
-          error: t('login.errors.accountSuspended') // Localized message
-        }
-      }
+      // Handle suspended or inactive statuses (old logic with toast notifcation and sign out)
+      //if (operatorData.status === 'suspended' || operatorData.status === 'inactive') {
+       // await supabase.auth.signOut()
+       // return {
+      //    success: false,
+      //    error: t('login.errors.accountSuspended') // Localized message
+      //  }
+      //}
       
+      // Handle different operator statuses
+
       console.log('✅ Login successful:', operatorData.company_name)
       setOperator(operatorData)
       
