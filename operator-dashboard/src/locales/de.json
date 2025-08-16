@@ -989,6 +989,27 @@
     },
     "notices": {
       "securityNotice": "🔒 Dein Passwort wird verschlüsselt und sicher gespeichert. Das VAI-Team kann dein Passwort nicht einsehen."
+    },
+
+    "profile": {
+      "sectionTitle": "Sicherheit & Authentifizierung",
+      "setupRequiredBadge": "Einrichtung erforderlich",
+      "passwordStatus": "Passwort-Status",
+      "passwordSecure": "Passwort sicher 🔒",
+      "passwordNotSecure": "Passwort nicht sicher",
+      "accountSecurity": "Konto-Sicherheit",
+      "passwordLastUpdated": "Passwort zuletzt aktualisiert: Kürzlich",
+      "passwordSetupRequired": "Passwort-Einrichtung erforderlich",
+      "changePassword": "Passwort ändern",
+      "setupNewPassword": "Neues Passwort einrichten",
+      "regularUpdatesInfo": "Regelmäßige Passwort-Updates erhöhen die Sicherheit",
+      "securityBestPractices": "Sicherheits-Best-Practices",
+      "securityTips": [
+        "Verwende ein einzigartiges Passwort für dein VAI-Konto",
+        "Nutze Groß-, Kleinbuchstaben, Zahlen und Symbole",
+        "Vermeide persönliche Informationen in deinen Passwörtern",
+        "Aktualisiere dein Passwort regelmäßig"
+      ]
     }
   }
 }

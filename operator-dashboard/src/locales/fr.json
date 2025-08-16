@@ -1007,6 +1007,27 @@
     },
     "notices": {
       "securityNotice": "🔒 Ton mot de passe est chiffré et stocké en sécurité. L'équipe VAI ne peut pas voir ton mot de passe."
+    },
+    
+    "profile": {
+      "sectionTitle": "Sécurité et authentification",
+      "setupRequiredBadge": "Configuration requise",
+      "passwordStatus": "Statut du mot de passe",
+      "passwordSecure": "Mot de passe sécurisé 🔒",
+      "passwordNotSecure": "Mot de passe non sécurisé",
+      "accountSecurity": "Sécurité du compte",
+      "passwordLastUpdated": "Mot de passe mis à jour : Récemment",
+      "passwordSetupRequired": "Configuration du mot de passe requise",
+      "changePassword": "Changer le mot de passe",
+      "setupNewPassword": "Configurer un nouveau mot de passe",
+      "regularUpdatesInfo": "Les mises à jour régulières renforcent la sécurité",
+      "securityBestPractices": "Meilleures pratiques de sécurité",
+      "securityTips": [
+        "Utilise un mot de passe unique pour ton compte VAI",
+        "Inclus majuscules, minuscules, chiffres et symboles",
+        "Évite d'utiliser des informations personnelles dans tes mots de passe",
+        "Mets à jour ton mot de passe régulièrement"
+      ]
     }
   }
 }

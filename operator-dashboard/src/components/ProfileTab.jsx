@@ -885,12 +885,12 @@ const ProfileTab = ({ setActiveTab }) => {
 
           {/* 1.2 Security & Authentication */}
           <ExpandableSection
-            title="Security & Authentication"
+            title={t('passwordSecurity.profile.sectionTitle')}
             icon={Shield}
             iconColor="text-green-400"
             isExpanded={expandedSections.security}
             onToggle={() => toggleSection('security')}
-            badge={operator.auth_setup_completed ? null : "Setup Required"}
+            badge={operator.auth_setup_completed ? null : t('passwordSecurity.profile.setupRequiredBadge')}
             urgent={!operator.auth_setup_completed}
           >
             <div className="space-y-4 p-6">
@@ -899,18 +899,18 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Password Status */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Password Status
+                    {t('passwordSecurity.profile.passwordStatus')}
                   </label>
                   <div className="flex items-center gap-2 p-3 bg-slate-700/50 rounded-lg">
                     {operator.auth_setup_completed ? (
                       <>
                         <CheckCircle className="w-4 h-4 text-green-400" />
-                        <span className="text-green-400 text-sm">Password secure 🔒</span>
+                        <span className="text-green-400 text-sm">{t('passwordSecurity.profile.passwordSecure')}</span>
                       </>
                     ) : (
                       <>
                         <AlertTriangle className="w-4 h-4 text-yellow-400" />
-                        <span className="text-yellow-400 text-sm">Password not secure</span>
+                        <span className="text-yellow-400 text-sm">{t('passwordSecurity.profile.passwordNotSecure')}</span>
                       </>
                     )}
                   </div>
@@ -919,14 +919,14 @@ const ProfileTab = ({ setActiveTab }) => {
                 {/* Account Security */}
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Account Security
+                    {t('passwordSecurity.profile.accountSecurity')}
                   </label>
                   <div className="p-3 bg-slate-700/50 rounded-lg">
                     <div className="text-slate-300 text-sm">
                       {operator.auth_setup_completed ? (
-                        'Password last updated: Recently'
+                        t('passwordSecurity.profile.passwordLastUpdated')
                       ) : (
-                        'Password setup required'
+                        t('passwordSecurity.profile.passwordSetupRequired')
                       )}
                     </div>
                   </div>
@@ -941,13 +941,13 @@ const ProfileTab = ({ setActiveTab }) => {
                     className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
                   >
                     <Key className="w-4 h-4" />
-                    {operator.auth_setup_completed ? 'Change Password' : 'Setup New Password'}
+                    {operator.auth_setup_completed ? t('passwordSecurity.profile.changePassword') : t('passwordSecurity.profile.setupNewPassword')}
                   </button>
                   
                   {operator.auth_setup_completed && (
                     <div className="flex items-center gap-2 text-slate-400 text-sm">
                       <Info className="w-4 h-4" />
-                      <span>Regular password updates enhance security</span>
+                      <span>{t('passwordSecurity.profile.regularUpdatesInfo')}</span>
                     </div>
                   )}
                 </div>
@@ -958,12 +958,11 @@ const ProfileTab = ({ setActiveTab }) => {
                 <div className="flex items-start gap-3">
                   <Shield className="w-5 h-5 text-blue-400 mt-0.5" />
                   <div>
-                    <h4 className="text-blue-400 font-medium mb-1">Security Best Practices</h4>
+                    <h4 className="text-blue-400 font-medium mb-1">{t('passwordSecurity.profile.securityBestPractices')}</h4>
                     <ul className="text-slate-300 text-sm space-y-1">
-                      <li>• Use a unique password for your VAI account</li>
-                      <li>• Include uppercase, lowercase, numbers, and symbols</li>
-                      <li>• Avoid using personal information in passwords</li>
-                      <li>• Update your password regularly</li>
+                      {t('passwordSecurity.profile.securityTips', { returnObjects: true }).map((tip, index) => (
+                        <li key={index}>• {tip}</li>
+                      ))}
                     </ul>
                   </div>
                 </div>

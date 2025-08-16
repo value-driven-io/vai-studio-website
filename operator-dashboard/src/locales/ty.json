@@ -799,6 +799,27 @@
     },
     "notices": {
       "securityNotice": "🔒 Ua faufaa e faamarururaa hia to upoo. Aita te oire VAI e ite i to upoo."
+    },
+
+    "profile": {
+      "sectionTitle": "Haumaruraa e te faamanahia",
+      "setupRequiredBadge": "Te faaohipa e hinaaro",
+      "passwordStatus": "Te taui o te upoo",
+      "passwordSecure": "Te upoo ua haumaruraa 🔒",
+      "passwordNotSecure": "Aita te upoo e haumaruraa",
+      "accountSecurity": "Te haumaruraa o te account",
+      "passwordLastUpdated": "Te upoo ua faahou: I teie nei",
+      "passwordSetupRequired": "E hinaaro te faaohipa upoo",
+      "changePassword": "Faahou i te upoo",
+      "setupNewPassword": "Faaohipa i te upoo api",
+      "regularUpdatesInfo": "Te faahou i te upoo e faarava i te haumaruraa",
+      "securityBestPractices": "Te mau huru maitai haumaruraa",
+      "securityTips": [
+        "Faaara i te upoo motuhia no to account VAI",
+        "Faaara i te mau mata'i rahi, iti, nauma e te mau mata'i motuhia",
+        "Eiaha e faaara i te mau parau a te taata i roto i to mau upoo",
+        "Faahou i to upoo i roto i te taime maitai"
+      ]
     }
   }
 }

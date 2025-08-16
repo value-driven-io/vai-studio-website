@@ -989,6 +989,27 @@
       },
       "notices": {
         "securityNotice": "🔒 Tu contraseña está encriptada y almacenada de forma segura. El equipo VAI no puede ver tu contraseña."
+      },
+
+      "profile": {
+        "sectionTitle": "Seguridad y autenticación",
+        "setupRequiredBadge": "Configuración requerida",
+        "passwordStatus": "Estado de contraseña",
+        "passwordSecure": "Contraseña segura 🔒",
+        "passwordNotSecure": "Contraseña no segura",
+        "accountSecurity": "Seguridad de cuenta",
+        "passwordLastUpdated": "Contraseña actualizada: Recientemente",
+        "passwordSetupRequired": "Configuración de contraseña requerida",
+        "changePassword": "Cambiar contraseña",
+        "setupNewPassword": "Configurar nueva contraseña",
+        "regularUpdatesInfo": "Las actualizaciones regulares mejoran la seguridad",
+        "securityBestPractices": "Mejores prácticas de seguridad",
+        "securityTips": [
+          "Usa una contraseña única para tu cuenta VAI",
+          "Incluye mayúsculas, minúsculas, números y símbolos",
+          "Evita usar información personal en tus contraseñas",
+          "Actualiza tu contraseña regularmente"
+        ]
       }
     }
 }

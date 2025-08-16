@@ -1177,6 +1177,26 @@
     },
     "notices": {
       "securityNotice": "🔒 Your password is encrypted and stored securely. VAI team members cannot see your password."
+    },
+    "profile": {
+      "sectionTitle": "Security & Authentication",
+      "setupRequiredBadge": "Setup Required",
+      "passwordStatus": "Password Status",
+      "passwordSecure": "Password secure 🔒",
+      "passwordNotSecure": "Password not secure",
+      "accountSecurity": "Account Security",
+      "passwordLastUpdated": "Password last updated: Recently",
+      "passwordSetupRequired": "Password setup required",
+      "changePassword": "Change Password",
+      "setupNewPassword": "Setup New Password",
+      "regularUpdatesInfo": "Regular password updates enhance security",
+      "securityBestPractices": "Security Best Practices",
+      "securityTips": [
+        "Use a unique password for your VAI account",
+        "Include uppercase, lowercase, numbers, and symbols",
+        "Avoid using personal information in passwords",
+        "Update your password regularly"
+      ]
     }
   }
 }
