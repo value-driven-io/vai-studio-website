@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Eye, EyeOff, Lock, Shield, CheckCircle, AlertCircle, Loader } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 
 const ChangePasswordModal = ({ 
   context = 'forced', // 'forced', 'voluntary', 'reset'
@@ -11,6 +12,8 @@ const ChangePasswordModal = ({
   onCancel,
   canDismiss = false 
 }) => {
+
+const { t } = useTranslation()
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -54,20 +57,20 @@ const ChangePasswordModal = ({
     
     // For voluntary changes, require current password
     if (context === 'voluntary' && !currentPassword.trim()) {
-      newErrors.currentPassword = 'Current password is required'
+    newErrors.currentPassword = t('passwordSecurity.errors.currentPasswordRequired')
     }
-    
+
     if (!passwordValidation.valid) {
-      newErrors.newPassword = 'Password does not meet security requirements'
+    newErrors.newPassword = t('passwordSecurity.errors.passwordRequirements')
     }
-    
+
     if (!passwordsMatch) {
-      newErrors.confirmPassword = 'Passwords do not match'
+    newErrors.confirmPassword = t('passwordSecurity.errors.passwordsNoMatch')
     }
-    
+
     // Check for same password reuse
     if (isUsingCurrentPassword()) {
-      newErrors.newPassword = 'New password must be different from your current password'
+    newErrors.newPassword = t('passwordSecurity.errors.samePassword')
     }
     
     setErrors(newErrors)
@@ -82,7 +85,7 @@ const ChangePasswordModal = ({
     if (errorMessage.includes('new password should be different')) {
       return { 
         type: 'newPassword', 
-        message: 'New password must be different from your current password' 
+        message: t('passwordSecurity.errors.samePassword') 
       }
     }
     
@@ -92,7 +95,7 @@ const ChangePasswordModal = ({
         errorMessage.includes('invalid email or password')) {
       return { 
         type: 'currentPassword', 
-        message: 'Current password is incorrect' 
+        message: t('passwordSecurity.errors.currentPasswordIncorrect') 
       }
     }
     
@@ -100,7 +103,7 @@ const ChangePasswordModal = ({
     if (errorMessage.includes('password should be at least')) {
       return { 
         type: 'newPassword', 
-        message: 'Password does not meet minimum length requirements' 
+        message: t('passwordSecurity.errors.minLength') 
       }
     }
     
@@ -108,7 +111,7 @@ const ChangePasswordModal = ({
         errorMessage.includes('weak password')) {
       return { 
         type: 'newPassword', 
-        message: 'Password must include uppercase, lowercase, numbers, and symbols' 
+        message: t('passwordSecurity.errors.weakPassword') 
       }
     }
     
@@ -117,7 +120,7 @@ const ChangePasswordModal = ({
         errorMessage.includes('rate limit exceeded')) {
       return { 
         type: 'general', 
-        message: 'Too many password change attempts. Please wait 5 minutes and try again.' 
+        message: t('passwordSecurity.errors.tooManyAttempts') 
       }
     }
     
@@ -125,7 +128,7 @@ const ChangePasswordModal = ({
     if (errorMessage.includes('session') && errorMessage.includes('expired')) {
       return { 
         type: 'general', 
-        message: 'Your session has expired. Please sign in again.' 
+        message: t('passwordSecurity.errors.sessionExpired') 
       }
     }
     
@@ -133,7 +136,7 @@ const ChangePasswordModal = ({
         errorMessage.includes('unauthorized')) {
       return { 
         type: 'general', 
-        message: 'Authentication error. Please sign in again.' 
+        message: t('passwordSecurity.errors.authError') 
       }
     }
     
@@ -143,7 +146,7 @@ const ChangePasswordModal = ({
         errorMessage.includes('connection')) {
       return { 
         type: 'general', 
-        message: 'Network error. Please check your connection and try again.' 
+        message: t('passwordSecurity.errors.networkError') 
       }
     }
     
@@ -154,14 +157,14 @@ const ChangePasswordModal = ({
         errorMessage.includes('503')) {
       return { 
         type: 'general', 
-        message: 'Server error. Please try again in a few minutes.' 
+        message: t('passwordSecurity.errors.serverError') 
       }
     }
     
     // Fallback
     return { 
       type: 'general', 
-      message: 'Failed to update password. Please try again or contact support.' 
+      message: t('passwordSecurity.errors.generalError') 
     }
   }
 
@@ -243,7 +246,7 @@ const ChangePasswordModal = ({
       if (operatorError) {
         console.error('❌ Operator record update failed:', operatorError)
         // Password was changed successfully, but database update failed
-        toast.error('Password updated but account status sync failed. Please refresh the page.', {
+        toast.error(t('passwordSecurity.errors.syncFailed'), {
           duration: 6000,
           style: {
             background: '#1e293b',
@@ -256,7 +259,7 @@ const ChangePasswordModal = ({
       }
 
       // Success handling
-      toast.success('🔐 Password updated successfully! Your account is now secure.', {
+      toast.success(t('passwordSecurity.success.passwordUpdated'), {
         duration: 4000,
         style: {
           background: '#1e293b',
@@ -299,36 +302,36 @@ const ChangePasswordModal = ({
   // Context-specific messaging
   const getContextContent = () => {
     switch (context) {
-      case 'forced':
+        case 'forced':
         return {
-          title: 'Security Setup Required',
-          subtitle: 'Please create your secure password to continue using the platform.',
-          icon: <Shield className="w-8 h-8 text-yellow-400" />,
-          showCurrentPassword: false
+            title: t('passwordSecurity.modal.forcedTitle'),
+            subtitle: t('passwordSecurity.modal.forcedSubtitle'),
+            icon: <Shield className="w-8 h-8 text-yellow-400" />,
+            showCurrentPassword: false
         }
-      case 'voluntary':
+        case 'voluntary':
         return {
-          title: 'Change Password', 
-          subtitle: 'Update your account password for enhanced security.',
-          icon: <Lock className="w-8 h-8 text-blue-400" />,
-          showCurrentPassword: true
+            title: t('passwordSecurity.modal.voluntaryTitle'), 
+            subtitle: t('passwordSecurity.modal.voluntarySubtitle'),
+            icon: <Lock className="w-8 h-8 text-blue-400" />,
+            showCurrentPassword: true
         }
-      case 'reset':
+        case 'reset':
         return {
-          title: 'Set New Password',
-          subtitle: 'Create a new secure password for your account.',
-          icon: <Lock className="w-8 h-8 text-green-400" />,
-          showCurrentPassword: false
+            title: t('passwordSecurity.modal.resetTitle'),
+            subtitle: t('passwordSecurity.modal.resetSubtitle'),
+            icon: <Lock className="w-8 h-8 text-green-400" />,
+            showCurrentPassword: false
         }
-      default:
+        default:
         return {
-          title: 'Change Password',
-          subtitle: 'Update your password',
-          icon: <Lock className="w-8 h-8 text-blue-400" />,
-          showCurrentPassword: true
+            title: t('passwordSecurity.modal.defaultTitle'),
+            subtitle: t('passwordSecurity.modal.defaultSubtitle'),
+            icon: <Lock className="w-8 h-8 text-blue-400" />,
+            showCurrentPassword: true
         }
     }
-  }
+    }
 
   const contextContent = getContextContent()
 
@@ -362,7 +365,7 @@ const ChangePasswordModal = ({
           {contextContent.showCurrentPassword && (
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Current Password
+                {t('passwordSecurity.fields.currentPassword')}
               </label>
               <div className="relative">
                 <input
@@ -372,7 +375,7 @@ const ChangePasswordModal = ({
                   className={`w-full px-3 py-2 bg-slate-700 border ${
                     errors.currentPassword ? 'border-red-500' : 'border-slate-600'
                   } rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500`}
-                  placeholder="Enter your current password"
+                  placeholder={t('passwordSecurity.fields.currentPasswordPlaceholder')}
                 />
                 <button
                   type="button"
@@ -391,7 +394,7 @@ const ChangePasswordModal = ({
           {/* New Password */}
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              New Password
+              {t('passwordSecurity.fields.newPassword')}
             </label>
             <div className="relative">
               <input
@@ -401,7 +404,7 @@ const ChangePasswordModal = ({
                 className={`w-full px-3 py-2 bg-slate-700 border ${
                   errors.newPassword ? 'border-red-500' : 'border-slate-600'
                 } rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500`}
-                placeholder="Enter your new secure password"
+                placeholder={t('passwordSecurity.fields.newPasswordPlaceholder')}
               />
               <button
                 type="button"
@@ -415,14 +418,14 @@ const ChangePasswordModal = ({
             {/* Password Requirements */}
             {newPassword.length > 0 && (
               <div className="mt-2 space-y-1">
-                <div className="text-xs text-slate-400 mb-1">Password requirements:</div>
+                <div className="text-xs text-slate-400 mb-1">{t('passwordSecurity.requirements.title')}</div>
                 {Object.entries({
-                  'At least 8 characters': passwordValidation.requirements.minLength,
-                  'Uppercase letter (A-Z)': passwordValidation.requirements.hasUpper,
-                  'Lowercase letter (a-z)': passwordValidation.requirements.hasLower,
-                  'Number (0-9)': passwordValidation.requirements.hasNumber,
-                  'Special character (!@#$...)': passwordValidation.requirements.hasSymbol
-                }).map(([requirement, met]) => (
+                    [t('passwordSecurity.requirements.minLength')]: passwordValidation.requirements.minLength,
+                    [t('passwordSecurity.requirements.hasUpper')]: passwordValidation.requirements.hasUpper,
+                    [t('passwordSecurity.requirements.hasLower')]: passwordValidation.requirements.hasLower,
+                    [t('passwordSecurity.requirements.hasNumber')]: passwordValidation.requirements.hasNumber,
+                    [t('passwordSecurity.requirements.hasSymbol')]: passwordValidation.requirements.hasSymbol
+                    }).map(([requirement, met]) => (
                   <div key={requirement} className="flex items-center gap-2 text-xs">
                     {met ? (
                       <CheckCircle className="w-3 h-3 text-green-400" />
@@ -444,7 +447,7 @@ const ChangePasswordModal = ({
                       <AlertCircle className="w-3 h-3 text-red-400" />
                     )}
                     <span className={!isUsingCurrentPassword() ? 'text-green-400' : 'text-red-400'}>
-                      Different from current password
+                     {t('passwordSecurity.requirements.differentFromCurrent')}
                     </span>
                   </div>
                 )}
@@ -455,7 +458,7 @@ const ChangePasswordModal = ({
           {/* Confirm Password */}
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              Confirm New Password
+              {t('passwordSecurity.fields.confirmPassword')}
             </label>
             <div className="relative">
               <input
@@ -465,7 +468,7 @@ const ChangePasswordModal = ({
                 className={`w-full px-3 py-2 bg-slate-700 border ${
                   errors.confirmPassword ? 'border-red-500' : 'border-slate-600'
                 } rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500`}
-                placeholder="Confirm your new password"
+                placeholder={t('passwordSecurity.fields.confirmPasswordPlaceholder')}
               />
               <button
                 type="button"
@@ -478,15 +481,15 @@ const ChangePasswordModal = ({
             {confirmPassword.length > 0 && (
               <div className="mt-1 flex items-center gap-2 text-xs">
                 {passwordsMatch ? (
-                  <>
+                <>
                     <CheckCircle className="w-3 h-3 text-green-400" />
-                    <span className="text-green-400">Passwords match</span>
-                  </>
+                    <span className="text-green-400">{t('passwordSecurity.requirements.passwordsMatch')}</span>
+                </>
                 ) : (
-                  <>
+                <>
                     <AlertCircle className="w-3 h-3 text-red-400" />
-                    <span className="text-red-400">Passwords do not match</span>
-                  </>
+                    <span className="text-red-400">{t('passwordSecurity.requirements.passwordsDontMatch')}</span>
+                </>
                 )}
               </div>
             )}
@@ -500,7 +503,7 @@ const ChangePasswordModal = ({
                 onClick={onCancel}
                 className="flex-1 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
               >
-                Cancel
+                {t('passwordSecurity.buttons.cancel')}
               </button>
             )}
             <button
@@ -511,12 +514,12 @@ const ChangePasswordModal = ({
               {loading ? (
                 <>
                   <Loader className="w-4 h-4 animate-spin" />
-                  Updating...
+                  {t('passwordSecurity.buttons.updating')}
                 </>
               ) : (
                 <>
                   <Shield className="w-4 h-4" />
-                  {context === 'forced' ? 'Complete Setup' : 'Update Password'}
+                  {context === 'forced' ? t('passwordSecurity.buttons.completeSetup') : t('passwordSecurity.buttons.updatePassword')}
                 </>
               )}
             </button>
@@ -527,7 +530,7 @@ const ChangePasswordModal = ({
         <div className="px-6 pb-6">
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
             <p className="text-blue-400 text-xs">
-              🔒 Your password is encrypted and stored securely. VAI team members cannot see your password.
+              {t('passwordSecurity.notices.securityNotice')}
             </p>
           </div>
         </div>
