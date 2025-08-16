@@ -124,6 +124,7 @@ function AppContent() { // function App() { << before changes for the authcallba
   // Password change state
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [passwordChangeComplete, setPasswordChangeComplete] = useState(false)
+  const [passwordResetMode, setPasswordResetMode] = useState(false)
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -373,10 +374,20 @@ function AppContent() { // function App() { << before changes for the authcallba
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const message = urlParams.get('message')
+    const reset = urlParams.get('reset')
+    
+    // 🔑 DETECT PASSWORD RESET MODE
+    if (reset === 'true') {
+      console.log('🔑 Password reset mode activated')
+      setPasswordResetMode(true)
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname)
+      return
+    }
     
     if (message === 'welcome') {
       console.log('🎉 Welcome! Your email has been confirmed.')
-      // Optional: You can add a visual notification here later
+      // Optional: add a visual notification here 
       // Clean URL
       window.history.replaceState({}, '', window.location.pathname)
     }
@@ -441,7 +452,12 @@ function AppContent() { // function App() { << before changes for the authcallba
     if (operator && needsPasswordChange(operator) && !passwordChangeComplete) {
       setShowPasswordModal(true)
     }
-  }, [operator, passwordChangeComplete])
+    
+    // 🔑 SHOW RESET MODAL IF IN RESET MODE
+    if (passwordResetMode && operator && !passwordChangeComplete) {
+      setShowPasswordModal(true)
+    }
+  }, [operator, passwordChangeComplete, passwordResetMode])
 
   // Check for edge cases and show password modal if needed
   useEffect(() => {
@@ -1099,6 +1115,19 @@ function AppContent() { // function App() { << before changes for the authcallba
   const handlePasswordChangeSuccess = async () => {
     setShowPasswordModal(false)
     setPasswordChangeComplete(true)
+
+    // 🔑 CLEAR RESET MODE AND SHOW SUCCESS MESSAGE
+    if (passwordResetMode) {
+      setPasswordResetMode(false)
+      toast.success('🔑 Password reset completed! Welcome back to VAI.', {
+        duration: 4000,
+        style: {
+          background: '#1e293b',
+          color: '#f1f5f9',
+          border: '1px solid #059669'
+        }
+      })
+    }
     
     try {
       // Refresh operator data to get updated auth_setup_completed status
@@ -1391,6 +1420,9 @@ function AppContent() { // function App() { << before changes for the authcallba
   // If password change is required, show modal
     if (showPasswordModal) {
       const requirement = getPasswordChangeRequirement(operator)
+
+      // 🔑 OVERRIDE CONTEXT FOR PASSWORD RESET MODE
+      const modalContext = passwordResetMode ? 'reset' : requirement.context
       
       return (
         <div className="min-h-screen bg-slate-900">
@@ -1433,7 +1465,7 @@ function AppContent() { // function App() { << before changes for the authcallba
                 Sign Out
               </button>
               <a
-                href="https://vai.studio/support"
+                href="https://wa.me/message/KV63JSQ3YRHFC1?text=Operator%20Support%20-%20Account%20Deactivated"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-center"

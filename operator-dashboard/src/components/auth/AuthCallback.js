@@ -8,6 +8,24 @@ const AuthCallback = () => {
 
   useEffect(() => {
     const handleAuthCallback = async () => {
+
+        // 🔐 DETECT PASSWORD RESET LINKS
+        const hashParams = new URLSearchParams(window.location.hash.substring(1))
+        const urlParams = new URLSearchParams(window.location.search)
+        const type = hashParams.get('type') || urlParams.get('type')
+        
+        // If this is a password reset link, redirect to dashboard with reset context
+        if (type === 'recovery') {
+            console.log('🔑 Password reset link detected, redirecting to dashboard...')
+            setStatus('success')
+            setMessage('Password reset link verified. Redirecting to setup new password...')
+            
+            setTimeout(() => {
+            window.location.href = 'https://vai-operator-dashboard.onrender.com/?reset=true'
+            }, 2000)
+            return
+        }
+
       try {
         console.log('🔄 Starting operator auth callback processing...')
         
