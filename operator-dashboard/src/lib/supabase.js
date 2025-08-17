@@ -51,6 +51,24 @@ export const operatorService = {
 
   // Create new tour
     async createTour(tourData) {
+
+    // 🆕 SERVER-SIDE VALIDATION: Get operator role for validation
+  const { data: operatorData, error: operatorError } = await supabase
+    .from('operators')
+    .select('operator_role')
+    .eq('id', tourData.operator_id)
+    .single()
+  
+  if (operatorError || !operatorData) {
+    throw new Error('Operator not found')
+  }
+  
+  // 🆕 ROLE-BASED DATE VALIDATION
+  const { isDateAllowed } = await import('../config/adminSettings')
+  if (!isDateAllowed(tourData.tour_date, operatorData.operator_role)) {
+    throw new Error('Tour date not allowed for your account level. Please contact support.')
+  }
+
     const { discount_percentage, ...cleanTourData } = tourData;
     
     const { data, error } = await supabase

@@ -24,6 +24,7 @@ import chatService from './services/chatService'
 import { useTranslation } from 'react-i18next'
 import ChangePasswordModal from './components/auth/ChangePasswordModal'
 import { getPasswordChangeRequirement, detectPasswordEdgeCases, needsPasswordChange } from './utils/passwordSecurity'
+import { getMinimumTourDate, isDateAllowed } from './config/adminSettings'
 
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
@@ -1188,7 +1189,15 @@ function AppContent() { // function App() { << before changes for the authcallba
             errors.tour_date = 'Tour date is required - when will this tour happen?'
           } else {
             const today = new Date().toISOString().split('T')[0]
-            if (formData.tour_date < today) {
+            
+            // 🆕 ROLE-BASED DATE RESTRICTION
+            const operatorRole = operator?.operator_role || 'onboarding'
+            const minimumAllowedDate = getMinimumTourDate(operatorRole)
+            
+            if (minimumAllowedDate && formData.tour_date < minimumAllowedDate) {
+              const minDate = new Date(minimumAllowedDate).toLocaleDateString()
+              errors.tour_date = `Tours can only be scheduled from ${minDate} onwards. Contact support if you need earlier dates.`
+            } else if (formData.tour_date < today) {
               errors.tour_date = 'Tour date cannot be in the past - please select today or a future date'
             }
 
