@@ -143,7 +143,6 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         adult_price: tour.discount_price_adult,
         child_price: tour.discount_price_child || 0,
         subtotal: subtotal,
-        totalXPF:subtotal, // For currency conversion
         special_requirements: formData.special_requirements?.trim() || '',
         dietary_restrictions: formData.dietary_restrictions?.trim() || '',
         accessibility_needs: formData.accessibility_needs?.trim() || ''
