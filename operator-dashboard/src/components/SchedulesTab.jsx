@@ -83,7 +83,7 @@ const SchedulesTab = ({ operator }) => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-white mb-2">Schedule Management</h1>
-          <p className="text-slate-400">Manage your recurring tour schedules</p>
+          <p className="text-slate-400">Manage your recurring activity schedules</p>
         </div>
         <button
           onClick={loadSchedules}
@@ -112,7 +112,7 @@ const SchedulesTab = ({ operator }) => {
             <table className="w-full">
               <thead className="bg-slate-700/50">
                 <tr>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">Tour</th>
+                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">Activity</th>
                   <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">Recurrence</th>
                   <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">Days</th>
                   <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">Time</th>
@@ -126,7 +126,7 @@ const SchedulesTab = ({ operator }) => {
                     <td className="px-6 py-4">
                       <div>
                         <div className="font-medium text-white">
-                          {schedule.tours?.tour_name || 'Unknown Tour'}
+                          {schedule.tours?.tour_name || 'Unknown Activity'}
                         </div>
                         <div className="text-sm text-slate-400">
                           {schedule.tours?.tour_type} • {schedule.tours?.max_capacity} max capacity

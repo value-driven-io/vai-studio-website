@@ -143,7 +143,7 @@ const BookingsHeader = ({
     if (!allBookings || allBookings.length === 0) return []
     
     const tourCounts = allBookings.reduce((acc, booking) => {
-      const tourName = booking.tours?.tour_name || 'Unknown Tour'
+      const tourName = booking.tours?.tour_name || 'Unknown Activity/Tour'
       acc[tourName] = (acc[tourName] || 0) + 1
       return acc
     }, {})

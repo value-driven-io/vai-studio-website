@@ -536,7 +536,7 @@ function AppContent() { // function App() { << before changes for the authcallba
             
             // 🎉 SMART TOAST: Only for new bookings (revenue opportunities)
             newBookings.forEach(booking => {
-              toast.success(`🎉 New booking: ${booking.tours?.tour_name || 'Tour'}`, {
+              toast.success(`🎉 New booking: ${booking.tours?.tour_name || 'Activity'}`, {
                 duration: 6000,
                 style: {
                   background: '#059669',
@@ -769,7 +769,7 @@ function AppContent() { // function App() { << before changes for the authcallba
                 body: JSON.stringify({ available_spots: newAvailableSpots })
               })
               
-              console.log(`✅ Restored ${totalParticipants} spots to tour`)
+              console.log(`✅ Restored ${totalParticipants} spots to activity`)
             }
           }
         } catch (spotsError) {
@@ -1015,10 +1015,10 @@ function AppContent() { // function App() { << before changes for the authcallba
 
       if (editingTour) {
         await operatorService.updateTour(editingTour.id, tourData)
-        alert('✅ Tour updated successfully! Your changes are now live on the platform.')
+        alert('✅ Activity updated successfully! Your changes are now live on the platform.')
       } else {
         await operatorService.createTour(tourData)
-        alert('🎉 Tour created successfully! It will appear on VAI Tickets within 2 minutes.')
+        alert('🎉 Activity created successfully! It will appear on VAI Tickets within 2 minutes.')
       }
         
       resetForm()
@@ -1027,8 +1027,8 @@ function AppContent() { // function App() { << before changes for the authcallba
       loadDashboardStats()  
     } 
     catch (error) {
-      console.error('Error saving tour:', error)
-      alert('Error saving tour. Please try again.')
+      console.error('Error saving activity:', error)
+      alert('Error saving activity. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -1074,16 +1074,16 @@ function AppContent() { // function App() { << before changes for the authcallba
   }
 
   const handleDelete = async (tourId) => {
-    if (window.confirm('Are you sure you want to delete this tour? This action cannot be undone.')) {
+    if (window.confirm('Are you sure you want to delete this activity? This action cannot be undone.')) {
       try {
         setLoading(true)
         await operatorService.deleteTour(tourId)
         await fetchTours() // Refresh the list
         await loadDashboardStats() 
-        alert('Tour deleted successfully!')
+        alert('Activity deleted successfully!')
       } catch (error) {
-        console.error('Error deleting tour:', error)
-        alert('Error deleting tour. Please try again.')
+        console.error('Error deleting activity:', error)
+        alert('Error deleting activity. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -1166,17 +1166,17 @@ function AppContent() { // function App() { << before changes for the authcallba
       switch (field) {
         case 'tour_name':
           if (!formData.tour_name.trim()) {
-            errors.tour_name = 'Tour name is required - make it descriptive for customers'
+            errors.tour_name = 'Activity name is required - make it descriptive for customers'
           } else if (formData.tour_name.length < 5) {
-            errors.tour_name = 'Tour name too short - minimum 5 characters for better marketing'
+            errors.tour_name = 'Activity name too short - minimum 5 characters for better marketing'
           } else if (formData.tour_name.length > 100) {
-            errors.tour_name = 'Tour name too long - maximum 100 characters'
+            errors.tour_name = 'Activity name too long - maximum 100 characters'
           }
           break
           
         case 'description':
           if (!formData.description.trim()) {
-            errors.description = 'Description is required - help customers understand your tour'
+            errors.description = 'Description is required - help customers understand your activity'
           } else if (formData.description.length < 20) {
             errors.description = 'Description too short - add more details to attract bookings (minimum 20 characters)'
           } else if (formData.description.length > 500) {
@@ -1186,7 +1186,7 @@ function AppContent() { // function App() { << before changes for the authcallba
           
         case 'tour_date':
           if (!formData.tour_date) {
-            errors.tour_date = 'Tour date is required - when will this tour happen?'
+            errors.tour_date = 'Activity date is required - when will this activity happen?'
           } else {
             const today = new Date().toISOString().split('T')[0]
             
@@ -1196,9 +1196,9 @@ function AppContent() { // function App() { << before changes for the authcallba
             
             if (minimumAllowedDate && formData.tour_date < minimumAllowedDate) {
               const minDate = new Date(minimumAllowedDate).toLocaleDateString()
-              errors.tour_date = `Tours can only be scheduled from ${minDate} onwards. Contact support if you need earlier dates.`
+              errors.tour_date = `Activities can only be scheduled from ${minDate} onwards. Contact support if you need earlier dates.`
             } else if (formData.tour_date < today) {
-              errors.tour_date = 'Tour date cannot be in the past - please select today or a future date'
+              errors.tour_date = 'Activity date cannot be in the past - please select today or a future date'
             }
 
             if (formData.tour_date === today) {
@@ -1207,15 +1207,15 @@ function AppContent() { // function App() { << before changes for the authcallba
               const hoursUntilTour = (tourTime - now) / (1000 * 60 * 60)
               
               if (hoursUntilTour <= formData.auto_close_hours) {
-                errors.tour_date = `Cannot create - tour starts in ${hoursUntilTour.toFixed(1)}h but auto-closes ${formData.auto_close_hours}h before. Reduce auto-close hours or schedule for tomorrow.`
+                errors.tour_date = `Cannot create - activity starts in ${hoursUntilTour.toFixed(1)}h but auto-closes ${formData.auto_close_hours}h before. Reduce auto-close hours or schedule for tomorrow.`
               }
             }
             
             const selectedDate = new Date(formData.tour_date)
             const maxDate = new Date()
-            maxDate.setDate(maxDate.getDate() + 14) // 14 days from now
+            maxDate.setDate(maxDate.getDate() + 90) // 90 days from now
             if (selectedDate > maxDate) {
-              errors.tour_date = 'Tours can only be scheduled up to 14 days in advance'
+              errors.tour_date = 'Activities can be scheduled up to 90 days in advance'
             }
           }
           break
@@ -1242,7 +1242,7 @@ function AppContent() { // function App() { << before changes for the authcallba
           if (formData.original_price_adult < 1000) {
             errors.original_price_adult = 'Minimum price is 1,000 XPF - French Polynesia tourism standards'
           } else if (formData.original_price_adult > 200000) {
-            errors.original_price_adult = 'Maximum price is 200,000 XPF - contact support for higher premium tours'
+            errors.original_price_adult = 'Maximum price is 200,000 XPF - contact support for higher premium activities'
           } else if (formData.original_price_adult % 100 !== 0) {
             errors.original_price_adult = 'Price must end in 00 (e.g., 5600, 7200) for professional appearance'
           }
@@ -1261,7 +1261,7 @@ function AppContent() { // function App() { << before changes for the authcallba
           if (formData.duration_hours < 0.5) {
             errors.duration_hours = 'Minimum duration is 30 minutes'
           } else if (formData.duration_hours > 24) {
-            errors.duration_hours = 'Maximum duration is 24 hours - split longer experiences into multiple tours'
+            errors.duration_hours = 'Maximum duration is 24 hours - split longer experiences into multiple activities'
           }
           break
 
@@ -1642,7 +1642,7 @@ function AppContent() { // function App() { << before changes for the authcallba
                   onChange={(e) => setDeclineReason(e.target.value)}
                   className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:border-red-500 focus:ring-1 focus:ring-red-500"
                   rows="3"
-                  placeholder="e.g., Tour is fully booked, weather conditions, equipment issues..."
+                  placeholder="e.g., Activity is fully booked, weather conditions, equipment issues..."
                   required
                 />
                 <p className="text-xs text-slate-500 mt-1">

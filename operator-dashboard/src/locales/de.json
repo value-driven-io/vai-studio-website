@@ -32,14 +32,14 @@
     "title": "Dashboard-Übersicht",
     "subtitle": "Überwache deine Touren und Leistung",
     "refreshData": "Daten aktualisieren",
-    "createNewTour": "Tour erstellen",
+    "createNewTour": "Activity erstellen",
     "quickActions": "Schnellaktionen",
     "activeTours": "Aktive Touren",
     "allBookings": "Alle Buchungen",
     "viewBookings": "Buchungen anzeigen",
     "needsAttention": "Benötigt Aufmerksamkeit",
     "allCaughtUp": "Alles erledigt",
-    "createTour": "Tour erstellen",
+    "createTour": "Activity erstellen",
     "revenue": "Umsatz",
     "totalBookings": "Buchungen gesamt",
     "pendingActions": "Ausstehende Aktionen",
@@ -47,7 +47,7 @@
   },
   "quickActions": {
     "title": "Schnellaktionen",
-    "createTour": "Tour erstellen",
+    "createTour": "Activity erstellen",
     "createTourDesc": "Neue Tourerfahrung hinzufügen",
     "manageBookings": "Buchungen verwalten",
     "pendingRequests": "ausstehende Anfragen",
@@ -62,7 +62,7 @@
     "completedTours": "Abgeschlossene Touren",
     "moreCompletedTours": "weitere abgeschlossene Touren",
     "noToursYet": "Noch keine Touren erstellt",
-    "createFirstTour": "Erste Tour erstellen"
+    "createFirstTour": "Erste Activity erstellen"
   },
   "activity": {
     "recentActivity": "Neueste Aktivitäten",
@@ -83,16 +83,16 @@
   "createTab": {
     "title": "Touren erstellen & verwalten",
     "subtitle": "Neue Touren erstellen oder bestehende verwalten",
-    "startCreating": "Tour-Erstellung beginnen",
-    "editTour": "Tour bearbeiten",
-    "createNewTour": "Neue Tour erstellen",
+    "startCreating": "Activity-Erstellung beginnen",
+    "editTour": "Activity bearbeiten",
+    "createNewTour": "Neue Activity erstellen",
     "updateExisting": "Bestehende Tourdetails aktualisieren",
     "setupNew": "Neue Tourerfahrung für Reisende einrichten",
     "showPreview": "Vorschau anzeigen",
     "hidePreview": "Vorschau ausblenden",
     "cancel": "Abbrechen",
-    "updateTour": "Tour aktualisieren",
-    "createTour": "Tour erstellen",
+    "updateTour": "Activity aktualisieren",
+    "createTour": "Activity erstellen",
     "saving": "Wird gespeichert...",
     "reset": "Zurücksetzen",
     "duplicate": "Duplizieren"
@@ -104,9 +104,9 @@
     "scheduleDuration": "Zeitplan & Dauer",
     "pricingCapacity": "Preise & Kapazität",
     "optionalSettings": "Optionale Einstellungen",
-    "tourName": "Tour-Name",
+    "tourName": "Activity-Name",
     "tourNamePlaceholder": "z.B. Walbeobachtungsabenteuer am Morgen",
-    "tourType": "Tour-Typ",
+    "tourType": "Activity-Typ",
     "description": "Beschreibung",
     "descriptionPlaceholder": "Beschreibe deine Tourerfahrung im Detail. Was macht sie besonders? Was werden die Teilnehmer sehen und tun?",
     "quickDateSelection": "Schnelle Datumsauswahl",
@@ -133,7 +133,7 @@
   },
   "optionalSections": {
     "title": "Optionale Einstellungen",
-    "subtitle": "Füge diese Bereiche hinzu, um detailliertere Informationen über Deine Tour zu geben",
+    "subtitle": "Füge diese Bereiche hinzu, um detailliertere Informationen über Deine Activity zu geben",
     "location": "Standort & Abholung",
     "locationDesc": "Abholorte und Treffpunktdetails",
     "inclusions": "Was ist enthalten",
@@ -178,7 +178,7 @@
     "maxGroupSize": "Maximale Gruppengröße",
     "weatherDependent": "Wetterabhängige Aktivität",
     "backupPlan": "Ausweichplan",
-    "backupPlanPlaceholder": "Was passiert, wenn das Wetter die Tour verhindert?",
+    "backupPlanPlaceholder": "Was passiert, wenn das Wetter die Activity verhindert?",
     "backupPlanDesc": "Alternative Aktivitäten oder Rückerstattungsrichtlinie bei schlechtem Wetter beschreiben",
     "autoCloseHours": "Auto-Schließ-Stunden",
     "hoursBefore": "Stunden vorher",
@@ -191,7 +191,7 @@
     "whaleWatchingDesc": "3-Stunden zertifizierte Erfahrung",
     "lagoonTour": "Lagunen-Tour",
     "lagoonTourDesc": "4-Stunden Inselerkundung",
-    "sunsetTour": "Sonnenuntergangs-Tour",
+    "sunsetTour": "Sonnenuntergangstour",
     "sunsetTourDesc": "2,5-Stunden romantische Kreuzfahrt"
   },
   "tourManagement": {
@@ -203,18 +203,18 @@
     "past": "Vergangen",
     "searchTours": "Touren suchen...",
     "noToursFound": "Keine Touren gefunden",
-    "createFirstTour": "Deine erste Tour erstellen",
+    "createFirstTour": "Deine erste Activity erstellen",
     "cancelled": "Storniert",
     "completed": "Abgeschlossen",
     "cannotEdit": "Kann nicht bearbeitet werden",
     "cannotDelete": "Kann nicht gelöscht werden",
-    "tourCancelled": "Tour storniert",
-    "tourCompleted": "Tour abgeschlossen",
-    "within24h": "Innerhalb von 24h der Tour",
+    "tourCancelled": "Activity storniert",
+    "tourCompleted": "Activity abgeschlossen",
+    "within24h": "Innerhalb von 24h der Activity",
     "hasBookings": "Hat Buchungen",
-    "editTour": "Tour bearbeiten",
-    "deleteTour": "Tour löschen",
-    "duplicateTour": "Diese Tour duplizieren"
+    "editTour": "Activity bearbeiten",
+    "deleteTour": "Activity löschen",
+    "duplicateTour": "Diese Activity duplizieren"
   },
   "preview": {
     "title": "Touristen-Ansicht Vorschau",
@@ -295,19 +295,19 @@
     "list": {
       "title": "Buchungsliste",
       "noBookings": "Noch keine Buchungen",
-      "createFirstTour": "Erstellen Sie Ihre erste Tour, um Buchungen zu erhalten",
-      "createTour": "Tour Erstellen",
+      "createFirstTour": "Erstelle Deine erste Activity, um Buchungen zu erhalten",
+      "createTour": "Activity Erstellen",
       "sortedBy": "Sortiert nach",
       "priority": "Priorität",
       "netEarnings": "Netto-Einkommen",
       "net": "Netto",
-      "tour": "Tour",
+      "tour": "Activity",
       "date": "Datum",
       "reference": "Referenz",
       "headers": {
         "status": "Status",
         "customer": "Kunde",
-        "tour": "Tour",
+        "tour": "Activity",
         "date": "Datum",
         "netRevenue": "Netto-Umsatz", 
         "actions": "Aktionen"
@@ -373,7 +373,7 @@
       "accessibility": "Barrierefreiheit:",
       "booked": "Gebucht:",
       "declineReason": "Ablehnungsgrund:",
-      "unknownTour": "Unbekannte Tour",
+      "unknownTour": "Unbekannte Activity",
       "timeTbd": "Zeit noch festzulegen",
       "locationTbd": "Ort noch festzulegen",
       "notProvided": "Nicht angegeben"
@@ -386,8 +386,8 @@
         "customer": "Kunde", 
         "actions": "Finanzen"
       },
-      "tourInformation": "Tour-Informationen",
-      "tourDate": "Tour-Datum",
+      "tourInformation": "Activity-Informationen",
+      "tourDate": "Activity-Datum",
       "timeSlot": "Zeitfenster",
       "meetingPoint": "Treffpunkt",
       "participants": "Teilnehmer",
@@ -408,19 +408,19 @@
       "sendEmail": "E-Mail Senden",
       "callCustomer": "Kunde Anrufen",
       "customerDetailsLocked": "Kundendaten Gesperrt",
-      "confirmToUnlock": "Bestätigen Sie diese Buchung, um Kundenkontaktdaten freizuschalten",
+      "confirmToUnlock": "Bestätige Deine diese Buchung, um Kundenkontaktdaten freizuschalten",
       "availableActions": "Verfügbare Aktionen",
-      "tourCompleted": "Tour Abgeschlossen!",
-      "tourCompletedDesc": "Diese Tour wurde erfolgreich abgeschlossen.",
+      "tourCompleted": "Activity abgeschlossen!",
+      "tourCompletedDesc": "Diese Activity wurde erfolgreich abgeschlossen.",
       "bookingDeclined": "Buchung Abgelehnt",
       "bookingDeclinedDesc": "Diese Buchung wurde abgelehnt und kann nicht geändert werden.",
       "declineReason": "Ablehnungsgrund",
-      "declineReasonPlaceholder": "Bitte geben Sie einen Grund für die Ablehnung an...",
+      "declineReasonPlaceholder": "Bitte gib einen Grund für die Ablehnung an...",
       "timeline": {
         "bookingCreated": "Buchung Erstellt",
         "bookingConfirmed": "Buchung Bestätigt",
         "bookingDeclined": "Buchung Abgelehnt", 
-        "bookingCompleted": "Tour Abgeschlossen"
+        "bookingCompleted": "Activity Abgeschlossen"
       }
     },
 
@@ -431,7 +431,7 @@
         "financial": "Finanzen"
       },
       "sections": {
-        "tourInfo": "Tour-Informationen",
+        "tourInfo": "Activity-Informationen",
         "status": "Buchungsstatus", 
         "specialRequests": "Sonderwünsche",
         "customerInfo": "Kunden-Informationen",
@@ -440,7 +440,7 @@
         "paymentInfo": "Zahlungsinformationen"
       },
       "fields": {
-        "tourDate": "Tour-Datum",
+        "tourDate": "Activity-Datum",
         "timeSlot": "Zeitfenster",
         "duration": "Dauer",
         "meetingPoint": "Treffpunkt",
@@ -490,7 +490,7 @@
       "confirmDecline": "Ablehnung Bestätigen",
       "chat": "Chat öffnen",
       "email": "E-Mail senden",
-      "complete": "Tour abschließen",
+      "complete": "Activity abschließen",
       "viewDetails": "Details",
       "confirm": "BESTÄTIGEN"
     },
@@ -505,8 +505,8 @@
         "reasonProvided": "Grund angegeben:"
       },
       "completed": {
-        "title": "Tour abgeschlossen", 
-        "message": "Großartige Arbeit! Diese Tour wurde erfolgreich abgeschlossen.",
+        "title": "Activity abgeschlossen", 
+        "message": "Großartige Arbeit! Diese Activity wurde erfolgreich abgeschlossen.",
         "whatsappFollowUp": "Hallo {{customerName}}! Vielen Dank für die Teilnahme an unserer {{tourName}}! Wir hoffen, Du hattest eine fantastische Erfahrung. Bitte gib uns Dein Feedback!"
       }
     }
@@ -590,7 +590,7 @@
       "commissionRate": "Provisionssatz",
       "commissionOwed": "Geschuldete Provision",
       "yourRevenue": "Dein Umsatz",
-      "recentTourPerformance": "Aktuelle Tour-Leistung",
+      "recentTourPerformance": "Aktuelle Activity-Leistung",
       "vaiBookings": "VAI Buchungen",
       "avgPerBooking": "Durchschnitt pro Buchung",
       "commissionPaid": "Gezahlte Provision",
@@ -619,7 +619,7 @@
       "whatsappDescription": "Sofortige Hilfe erhalten",
       "emailSupport": "E-Mail Support",
       "emailDescription": "hello@vai.studio",
-      "createNewTour": "Neue Tour erstellen",
+      "createNewTour": "Neue Activity erstellen",
       "createTourDescription": "Last-Minute-Verfügbarkeit hinzufügen"
     },
     "islands": {
@@ -663,9 +663,9 @@
     },
     "companyInfo": {
       "title": "Angaben zum Unternehmen",
-      "subtitle": "Erzähl uns von deinem Tour-Unternehmen",
+      "subtitle": "Erzähl uns von deinem Unternehmen",
       "companyName": "Name des Unternehmens",
-      "companyNamePlaceholder": "Der Name deines Tour-Unternehmens",
+      "companyNamePlaceholder": "Der Name deines Unternehmens",
       "contactPerson": "Ansprechpartner",
       "contactPersonPlaceholder": "Dein vollständiger Name",
       "email": "E-Mail-Adresse",
@@ -679,10 +679,10 @@
     },
     "businessDetails": {
       "title": "Geschäftsdetails",
-      "subtitle": "Hilf uns, deine Tour-Angebote zu verstehen",
+      "subtitle": "Hilf uns, deine Angebote zu verstehen",
       "description": "Geschäftsbeschreibung",
-      "descriptionPlaceholder": "Beschreibe dein Tour-Unternehmen, die einzigartigen Erlebnisse, die du anbietest...",
-      "tourTypes": "Angebotene Tour-Arten",
+      "descriptionPlaceholder": "Beschreibe dein Unternehmen, die einzigartigen Erlebnisse, die du anbietest...",
+      "tourTypes": "Angebotene Activity-Arten",
       "tourTypesSubtitle": "Wähle alle zutreffenden aus",
       "targetBookings": "Monatliches Buchungsziel",
       "targetBookingsPlaceholder": "Wähle ein Buchungsziel",
@@ -755,7 +755,7 @@
       "whatsappRequired": "WhatsApp-Nummer ist erforderlich",
       "islandRequired": "Du musst eine Insel auswählen",
       "descriptionRequired": "Geschäftsbeschreibung ist erforderlich",
-      "tourTypesRequired": "Es muss mindestens eine Tour-Art ausgewählt werden",
+      "tourTypesRequired": "Es muss mindestens eine Activity-Art ausgewählt werden",
       "targetBookingsRequired": "Buchungsziel ist erforderlich",
       "customerTypeRequired": "Kundentyp ist erforderlich",
       "termsRequired": "Du musst den Nutzungsbedingungen zustimmen",

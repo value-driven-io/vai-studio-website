@@ -81,7 +81,7 @@
       "subtitle": "Des aventures océaniques aux ateliers culturels - chaque expérience trouve son public",
       "ocean": {
         "title": "Océan & Aventure",
-        "activities1": "Plongée • Snorkeling • Clases de Cocina",
+        "activities1": "Plongée • Snorkeling • Cours de Cuisine",
         "activities2": " • Observation Baleines • Voile",
         "activities3": " • Jet Ski • Surf"
       },
@@ -149,16 +149,16 @@
   },
   "dashboard": {
     "title": "Vue d'ensemble",
-    "subtitle": "Surveille tes excursions et performances",
+    "subtitle": "Surveille tes activités et performances",
     "refreshData": "Actualiser les données",
-    "createNewTour": "Créer une Excursion",
+    "createNewTour": "Créer une Activité",
     "quickActions": "Actions Rapides",
     "activeTours": "Excursions Actives",
     "allBookings": "Toutes les Réservations",
     "viewBookings": "Voir les Réservations",
     "needsAttention": "Nécessite attention",
     "allCaughtUp": "Tout est à jour",
-    "createTour": "Créer une Excursion",
+    "createTour": "Créer une Activité",
     "revenue": "Tes Revenus",
     "totalBookings": "Réservations Totales",
     "pendingActions": "Actions en Attente",
@@ -166,7 +166,7 @@
   },
   "quickActions": {
     "title": "Actions Rapides",
-    "createTour": "Créer une Excursion",
+    "createTour": "Créer une Activité",
     "createTourDesc": "Ajoute une nouvelle expérience",
     "manageBookings": "Gérer les Réservations",
     "pendingRequests": "demandes en attente",
@@ -175,13 +175,13 @@
   },
   "tours": {
     "allTours": "Toutes les Excursions",
-    "totalToursCreated": "excursions créées au total",
-    "loadingTours": "Chargement des excursions...",
+    "totalToursCreated": "activités créées au total",
+    "loadingTours": "Chargement des activités...",
     "upcomingTours": "Excursions à Venir",
     "completedTours": "Excursions Terminées",
-    "moreCompletedTours": "excursions terminées en plus",
-    "noToursYet": "Aucune excursion créée",
-    "createFirstTour": "Crée ta première excursion"
+    "moreCompletedTours": "activités terminées en plus",
+    "noToursYet": "Aucune Activité créée",
+    "createFirstTour": "Crée ta première Activité"
   },
   "activity": {
     "recentActivity": "Activité Récente",
@@ -195,23 +195,23 @@
     "performanceInsights": "Conseils Performance",
     "quickTips": "Conseils rapides pour améliorer tes réservations",
     "quickTip": "Conseil Rapide",
-    "timingTip": "Les excursions postées 4-6h avant le départ ont 40% plus de réservations",
+    "timingTip": "Les activités postées 4-6h avant le départ ont 40% plus de réservations",
     "trending": "Tendance",
     "sunsetTrend": "Les tours coucher de soleil sont très demandés cette semaine"
   },
   "createTab": {
     "title": "Créer et Gérer les Excursions",
-    "subtitle": "Crée de nouvelles excursions ou gère celles existantes",
+    "subtitle": "Crée de nouvelles activités ou gère celles existantes",
     "startCreating": "Commencer à Créer",
-    "editTour": "Modifier l'Excursion",
-    "createNewTour": "Créer Nouvelle Excursion",
-    "updateExisting": "Mettre à jour les détails de ton excursion existante",
-    "setupNew": "Configure une nouvelle expérience d'excursion pour les voyageurs",
+    "editTour": "Modifier l'Activité",
+    "createNewTour": "Créer Nouvelle Activité",
+    "updateExisting": "Mettre à jour les détails de ton activité existante",
+    "setupNew": "Configure une nouvelle expérience d'activité pour les voyageurs",
     "showPreview": "Voir l'Aperçu",
     "hidePreview": "Masquer l'Aperçu",
     "cancel": "Annuler",
-    "updateTour": "Mettre à Jour l'Excursion",
-    "createTour": "Créer l'Excursion",
+    "updateTour": "Mettre à Jour l'Activité",
+    "createTour": "Créer l'Activité",
     "saving": "Enregistrement...",
     "reset": "Réinitialiser",
     "duplicate": "Dupliquer"
@@ -223,11 +223,11 @@
     "scheduleDuration": "Horaire et Durée",
     "pricingCapacity": "Prix et Capacité",
     "optionalSettings": "Paramètres Optionnels",
-    "tourName": "Nom de l'Excursion",
+    "tourName": "Nom de l'Activité",
     "tourNamePlaceholder": "ex. Aventure Observation des Baleines du Matin",
-    "tourType": "Type d'Excursion",
+    "tourType": "Type d'Activité",
     "description": "Description",
-    "descriptionPlaceholder": "Décris ton expérience d'excursion en détail. Qu'est-ce qui la rend spéciale ? Que verront et feront les participants ?",
+    "descriptionPlaceholder": "Décris ton expérience d'activité en détail. Qu'est-ce qui la rend spéciale ? Que verront et feront les participants ?",
     "quickDateSelection": "Sélection Rapide de Date",
     "customDate": "Date Personnalisée",
     "timeSlot": "Créneau Horaire",
@@ -240,7 +240,7 @@
     "yourRevenue": "Tes revenus",
     "meetingPoint": "Point de Rendez-vous",
     "meetingPointPlaceholder": "ex. Terminal Ferry Vaiare - Entrée Principale",
-    "tourTypeHelper": "Sélectionne la catégorie qui décrit le mieux ton expérience d'excursion"
+    "tourTypeHelper": "Sélectionne la catégorie qui décrit le mieux ton expérience d'activité"
   },
   "tooltips": {
     "tourName": "Rends-le accrocheur ! C'est sous les projecteurs !",
@@ -250,7 +250,7 @@
   },
   "optionalSections": {
     "title": "Paramètres Optionnels",
-    "subtitle": "Ajoute ces sections pour fournir des informations plus détaillées sur ton excursion",
+    "subtitle": "Ajoute ces sections pour fournir des informations plus détaillées sur ton activité",
     "location": "Lieu et Prise en Charge",
     "locationDesc": "Lieux de prise en charge et détails de rendez-vous",
     "inclusions": "Ce qui est Inclus",
@@ -295,7 +295,7 @@
     "maxGroupSize": "Taille Maximum du Groupe",
     "weatherDependent": "Activité dépendante de la météo",
     "backupPlan": "Plan de Secours",
-    "backupPlanPlaceholder": "Que se passe-t-il si la météo empêche l'excursion ?",
+    "backupPlanPlaceholder": "Que se passe-t-il si la météo empêche l'activité ?",
     "backupPlanDesc": "Décris les activités alternatives ou la politique de remboursement en cas de mauvais temps",
     "autoCloseHours": "Fermeture Auto (Heures)",
     "hoursBefore": "heures avant",
@@ -313,25 +313,25 @@
   },
   "tourManagement": {
     "title": "Tes Excursions",
-    "subtitle": "Gère et modifie tes excursions existantes",
+    "subtitle": "Gère et modifie tes activités existantes",
     "totalTours": "Excursions Totales",
     "all": "Tous",
     "upcoming": "À Venir",
     "past": "Passées",
-    "searchTours": "Rechercher des excursions...",
-    "noToursFound": "Aucune excursion trouvée",
-    "createFirstTour": "Crée ta première excursion",
+    "searchTours": "Rechercher des activités...",
+    "noToursFound": "Aucune activité trouvée",
+    "createFirstTour": "Crée ta première activité",
     "cancelled": "Annulée",
     "completed": "Terminée",
     "cannotEdit": "Impossible de modifier",
     "cannotDelete": "Impossible de supprimer",
-    "tourCancelled": "Excursion annulée",
-    "tourCompleted": "Excursion terminée",
-    "within24h": "Dans les 24h de l'excursion",
+    "tourCancelled": "Activité annulée",
+    "tourCompleted": "Activité terminée",
+    "within24h": "Dans les 24h de l'activité",
     "hasBookings": "A des réservations",
-    "editTour": "Modifier l'excursion",
-    "deleteTour": "Supprimer l'excursion",
-    "duplicateTour": "Dupliquer cette excursion"
+    "editTour": "Modifier l'activité",
+    "deleteTour": "Supprimer l'activité",
+    "duplicateTour": "Dupliquer cette activité"
   },
 
   "preview": {
@@ -414,19 +414,19 @@
     "list": {
       "title": "Liste des Réservations",
       "noBookings": "Aucune réservation",
-      "createFirstTour": "Crée ta première excursion pour recevoir des réservations",
-      "createTour": "Créer une Excursion",
+      "createFirstTour": "Crée ta première activité pour recevoir des réservations",
+      "createTour": "Créer une Activité",
       "sortedBy": "Trié par",
       "priority": "Priorité",
       "netEarnings": "Revenus Nets",
       "net": "Net",
-      "tour": "Excursion",
+      "tour": "Activité",
       "date": "Date",
       "reference": "Référence",
       "headers": {
         "status": "Statut",
         "customer": "Client",
-        "tour": "Excursion", 
+        "tour": "Activité", 
         "date": "Date",
         "netRevenue": "Revenus Nets",
         "actions": "Actions"
@@ -447,8 +447,8 @@
         "customer": "Client", 
         "actions": "Finances"
       },
-      "tourInformation": "Informations Excursion",
-      "tourDate": "Date Excursion",
+      "tourInformation": "Informations Activité",
+      "tourDate": "Date Activité",
       "timeSlot": "Créneau Horaire",
       "meetingPoint": "Point de Rendez-vous",
       "participants": "Participants",
@@ -471,8 +471,8 @@
       "customerDetailsLocked": "Détails Client Verrouillés",
       "confirmToUnlock": "Confirme cette réservation pour déverrouiller les coordonnées",
       "availableActions": "Actions Disponibles",
-      "tourCompleted": "Excursion Terminée !",
-      "tourCompletedDesc": "Cette excursion a été terminée avec succès.",
+      "tourCompleted": "Activité Terminée !",
+      "tourCompletedDesc": "Cette Activité a été terminée avec succès.",
       "bookingDeclined": "Réservation Refusée",
       "bookingDeclinedDesc": "Cette réservation a été refusée et ne peut être modifiée.",
       "declineReason": "Raison du Refus",
@@ -481,7 +481,7 @@
         "bookingCreated": "Réservation Créée",
         "bookingConfirmed": "Réservation Confirmée",
         "bookingDeclined": "Réservation Refusée", 
-        "bookingCompleted": "Excursion Terminée"
+        "bookingCompleted": "Activité Terminée"
       }
     },
 
@@ -492,7 +492,7 @@
         "financial": "Finances"
       },
       "sections": {
-        "tourInfo": "Informations Excursion",
+        "tourInfo": "Informations Activité",
         "status": "Statut Réservation", 
         "specialRequests": "Demandes Spéciales",
         "customerInfo": "Informations Client",
@@ -501,7 +501,7 @@
         "paymentInfo": "Informations Paiement"
       },
       "fields": {
-        "tourDate": "Date Excursion",
+        "tourDate": "Date Activité",
         "timeSlot": "Créneau Horaire",
         "duration": "Durée",
         "meetingPoint": "Point de Rendez-vous",
@@ -591,7 +591,7 @@
       "accessibility": "Accessibilité:",
       "booked": "Réservé:",
       "declineReason": "Raison du refus:",
-      "unknownTour": "Excursion inconnue",
+      "unknownTour": "Activité inconnue",
       "timeTbd": "Heure à définir",
       "locationTbd": "Lieu à définir"
     },
@@ -607,7 +607,7 @@
       "confirming": "Confirmation...",
       "completing": "Finalisation...",
       "confirmDecline": "Confirmer Refus",
-      "complete": "Visite complète",
+      "complete": "Activité terminée",
       "viewDetails": "Détails",
       "chat": "Live Chat",
       "email": "Envoyer Email",
@@ -624,8 +624,8 @@
         "reasonProvided": "Raison fournie:"
       },
       "completed": {
-        "title": "Excursion Terminée", 
-        "message": "Excellent travail! Cette excursion s'est déroulée avec succès.",
+        "title": "Activité Terminée", 
+        "message": "Excellent travail! Cette Activité s'est déroulée avec succès.",
         "followUpMessage": "Salut {{customerName}}! Merci d'avoir participé à notre {{tourName}}! Nous espérons que tu as vécu une expérience formidable. Partage ton avis!",
         "whatsappFollowUp": "Salut {{customerName}}! Merci d'avoir participé à notre {{tourName}}! Nous espérons que tu as vécu une expérience formidable. Partage ton avis!"
       }
@@ -643,7 +643,7 @@
     },
     "achievements": {
       "whaleTourCertified": "Certifié Excursions Baleines",
-      "premiumOperator": "Operator Premium",
+      "premiumOperator": "Opérateur Premium",
       "experiencedHost": "Hôte Expérimenté",
       "earnedBadge": "Tu as gagné le badge {{badgeName}}"
     },
@@ -739,7 +739,7 @@
       "whatsappDescription": "Obtiens de l'aide instantanée",
       "emailSupport": "Support Email",
       "emailDescription": "hello@vai.studio",
-      "createNewTour": "Créer Nouvelle Excursion",
+      "createNewTour": "Créer Nouvelle Activité",
       "createTourDescription": "Ajouter disponibilité dernière minute"
     },
     "islands": {
@@ -760,10 +760,10 @@
       "emailInvalid": "Veuillez saisir une adresse email valide",
       "phoneInvalid": "Veuillez saisir un numéro de téléphone valide",
       "descriptionRequired": "La description de l'entreprise est requise",
-      "tourTypesRequired": "Veuillez sélectionner au moins un type d'excursion",
+      "tourTypesRequired": "Veuillez sélectionner au moins au moins un type d'activité",
       "targetBookingsRequired": "Veuillez sélectionner votre objectif de réservations",
       "customerTypeRequired": "Veuillez sélectionner votre préférence de clientèle",
-      "termsRequired": "Vous devez accepter les conditions générales",
+      "termsRequired": "Tu dois accepter les conditions générales",
       "companyNameTooShort": "Le nom de l'entreprise doit contenir au moins 2 caractères"
     },
     "messages": {
@@ -797,9 +797,9 @@
     },
     "companyInfo": {
       "title": "Infos sur ta société",
-      "subtitle": "Parle-nous de ton activité d'excursions",
+      "subtitle": "Parle-nous de tes activités",
       "companyName": "Nom de la société",
-      "companyNamePlaceholder": "Le nom de ta société d'excursions",
+      "companyNamePlaceholder": "Le nom de ta société",
       "contactPerson": "Personne de contact",
       "contactPersonPlaceholder": "Ton nom complet",
       "email": "Adresse e-mail",
@@ -813,10 +813,10 @@
     },
     "businessDetails": {
       "title": "Détails de ton activité",
-      "subtitle": "Aide-nous à comprendre les excursions que tu proposes",
+      "subtitle": "Aide-nous à comprendre les activités que tu proposes",
       "description": "Description de l'activité",
       "descriptionPlaceholder": "Décris ton activité, les expériences uniques que tu proposes...",
-      "tourTypes": "Types d'excursions proposées",
+      "tourTypes": "Types d'activités proposées",
       "tourTypesSubtitle": "Sélectionne tout ce qui s'applique",
       "targetBookings": "Objectif de réservations mensuelles",
       "targetBookingsPlaceholder": "Choisis un objectif de réservations",
@@ -889,7 +889,7 @@
       "whatsappRequired": "Le numéro WhatsApp est requis",
       "islandRequired": "Tu dois choisir une île",
       "descriptionRequired": "La description de l'activité est requise",
-      "tourTypesRequired": "Au moins un type d'excursion doit être sélectionné",
+      "tourTypesRequired": "Au moins un type d'Activité doit être sélectionné",
       "targetBookingsRequired": "L'objectif de réservations est requis",
       "customerTypeRequired": "La préférence de clientèle est requise",
       "termsRequired": "Tu dois accepter les conditions d'utilisation",
