@@ -393,5 +393,36 @@
   "login": {
     "moreInfo": "More info about ",
     "foroperator": "Want to become a VAI Operator? → Click here!"
-    }
+    },
+
+   "payment": {
+    "securePayment": "Secure Payment",
+    "cardInformation": "Card Information",
+    "securedByStripe": "Secured by Stripe • Your card details are never stored",
+    "completePayment": "Complete Payment",
+    "processing": "Processing...",
+    "authorizingPayment": "Authorizing payment...",
+    "paymentAuthorized": "Payment Secured! 💳",
+    "paymentSecured": "Your payment is secured. The operator will confirm your booking within 24 hours.",
+    "noChargeUntilConfirmed": "💡 Your card won't be charged until the operator confirms your booking.",
+    "automaticRefund": "If declined, you'll receive an automatic full refund within 24 hours.",
+    "chargingIn": "You'll be charged {{amount}} USD",
+    "displayedAs": "Displayed as {{amount}} {{currency}}",
+    "paymentError": "Payment failed",
+    "paymentErrorDesc": "Please check your card details and try again.",
+    "networkError": "Connection error. Please try again.",
+    "insufficientFunds": "Insufficient funds. Please use a different card.",
+    "cardDeclined": "Card declined. Please try again or use a different card.",
+    "expiredCard": "Card expired. Please use a valid card.",
+    "incorrectCvc": "Incorrect security code. Please check your CVC.",
+    "paymentSuccess": "Payment secured! Your booking is being processed."
+  },
+
+  "paymentFlow": {
+    "step1": "Enter Details",
+    "step2": "Secure Payment", 
+    "step3": "Confirmation",
+    "backToDetails": "Back to Details",
+    "proceedToPayment": "Proceed to Payment"
+  }
 }

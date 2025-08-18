@@ -393,5 +393,36 @@
   "login": {
     "moreInfo": "Plus d'infos sur ",
     "foroperator": "Envie de devenir un VAI Operator ? → Clique ici"
-    }
+    },
+
+    "payment": {
+    "securePayment": "Paiement Sécurisé",
+    "cardInformation": "Informations de Carte",
+    "securedByStripe": "Sécurisé par Stripe • Tes données de carte ne sont jamais stockées",
+    "completePayment": "Finaliser le Paiement",
+    "processing": "Traitement en cours...",
+    "authorizingPayment": "Autorisation du paiement...",
+    "paymentAuthorized": "Paiement Sécurisé ! 💳",
+    "paymentSecured": "Ton paiement est sécurisé. L'opérateur confirmera ta réservation dans les 24 heures.",
+    "noChargeUntilConfirmed": "💡 Ta carte ne sera débitée qu'après confirmation de l'opérateur.",
+    "automaticRefund": "En cas de refus, tu recevras un remboursement automatique complet sous 24h.",
+    "chargingIn": "Tu seras débité de {{amount}} USD",
+    "displayedAs": "Affiché comme {{amount}} {{currency}}",
+    "paymentError": "Échec du paiement",
+    "paymentErrorDesc": "Vérifie tes informations de carte et réessaie.",
+    "networkError": "Erreur de connexion. Réessaie.",
+    "insufficientFunds": "Fonds insuffisants. Utilise une autre carte.",
+    "cardDeclined": "Carte refusée. Réessaie ou utilise une autre carte.",
+    "expiredCard": "Carte expirée. Utilise une carte valide.",
+    "incorrectCvc": "Code de sécurité incorrect. Vérifie ton CVC.",
+    "paymentSuccess": "Paiement sécurisé ! Ta réservation est en cours de traitement."
+  },
+
+  "paymentFlow": {
+    "step1": "Détails",
+    "step2": "Paiement Sécurisé",
+    "step3": "Confirmation", 
+    "backToDetails": "Retour aux Détails",
+    "proceedToPayment": "Procéder au Paiement"
+  }
 }

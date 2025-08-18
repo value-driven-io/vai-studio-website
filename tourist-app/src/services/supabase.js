@@ -153,7 +153,7 @@ export const bookingService = {
         booking_reference: bookingReference,
         booking_status: 'pending',
         payment_status: 'pending',
-        confirmation_deadline: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
+        confirmation_deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
         webhook_sent: false,
         whatsapp_sent: false,
         email_sent: false,
