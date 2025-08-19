@@ -408,7 +408,7 @@
     "automaticRefund": "En cas de refus, tu recevras un remboursement automatique complet sous 24h.",
     "chargingIn": "Tu seras débité de {{amount}} USD",
     "displayedAs": "Affiché comme {{amount}} {{currency}}",
-    "paymentError": "Échec du paiement",
+    "paymentError": "Échec du paiement. Veuillez réessayer ou contacter le support.",
     "paymentErrorDesc": "Vérifie tes informations de carte et réessaie.",
     "networkError": "Erreur de connexion. Réessaie.",
     "insufficientFunds": "Fonds insuffisants. Utilise une autre carte.",

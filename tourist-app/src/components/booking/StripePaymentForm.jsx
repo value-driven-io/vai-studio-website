@@ -4,7 +4,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { CreditCard, Lock, AlertCircle, CheckCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useCurrencyContext } from '../../hooks/useCurrency'
-import { convertFromXPF, formatCurrency } from '../../utils/currency'
+import { convertFromXPF, formatPrice } from '../../utils/currency'
 
 const StripePaymentForm = ({ 
   bookingData, 
@@ -34,9 +34,12 @@ const StripePaymentForm = ({
 
     try {
       // Create payment intent with authorization only
-      const response = await fetch('/api/create-payment-intent', {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+        },
         body: JSON.stringify({
           amount: usdAmount,
           currency: 'usd',
@@ -138,12 +141,15 @@ const StripePaymentForm = ({
         
         <div className="space-y-1 text-sm">
           <div className="flex justify-between text-slate-300">
-            <span>{t('payment.displayedAs')}</span>
-            <span>{formatCurrency(totalXPF, selectedCurrency)}</span>
+            <span>{t('payment.displayedAs', { 
+              amount: formatPrice(totalXPF, selectedCurrency), 
+              currency: selectedCurrency 
+            })}</span>
           </div>
           <div className="flex justify-between text-white font-medium">
-            <span>{t('payment.chargingIn')}</span>
-            <span>${(usdAmount / 100).toFixed(2)} USD</span>
+            <span>{t('payment.chargingIn', { 
+              amount: `$${(usdAmount / 100).toFixed(2)}` 
+            })}</span>
           </div>
         </div>
       </div>

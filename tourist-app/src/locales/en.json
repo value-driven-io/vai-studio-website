@@ -408,7 +408,7 @@
     "automaticRefund": "If declined, you'll receive an automatic full refund within 24 hours.",
     "chargingIn": "You'll be charged {{amount}} USD",
     "displayedAs": "Displayed as {{amount}} {{currency}}",
-    "paymentError": "Payment failed",
+    "paymentError": "Payment failed. Please try again or contact support.",
     "paymentErrorDesc": "Please check your card details and try again.",
     "networkError": "Connection error. Please try again.",
     "insufficientFunds": "Insufficient funds. Please use a different card.",
