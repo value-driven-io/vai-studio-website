@@ -165,14 +165,25 @@
     "creatingBooking": "Creating Booking...",
     "trackBooking": "Track Your Booking",
     "close": "Close",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "viewPaymentDetails": "View Payment Details",
+    "checkRefundStatus": "Check Refund Status",
+    "contactSupport": "Contact Support"
   },
   
   "success": {
     "bookingRequested": "Booking Requested! 🎉",
     "adventureRequest": "Your adventure request is on its way to the operator!",
     "bookingProgress": "BOOKING PROGRESS",
-    "requested": "Requested",
+    "paymentSecured": "Payment Secured",
+    "paymentSecuredDesc": "Your payment is authorized and protected",
+    "operatorReview": "Operator Review", 
+    "operatorReviewDesc": "Operator will confirm within 24 hours. Keep an eye on your mails/check this app!",
+    "paymentCaptured": "Payment Captured",
+    "paymentCapturedDesc": "Final payment processed upon confirmation", 
+    "readyAdventure": "Ready for your Adventure",
+    "readyAdventureDesc": "Your experience is confirmed and ready. Time to enjoy! 🌴",
+    "requested": "Paid & Requested",
     "confirmed": "Confirmed!",
     "complete": "Complete",
     "accountCreated": "Account Created!",
@@ -185,12 +196,47 @@
     "participants": "Participants:",
     "total": "Total:",
     "whatsNext": "What's Next?",
-    "operatorReview": "Operator Review",
-    "operatorReviewDesc": "Operators will answer as soon as possible. Keep an eye on your mails/check this app!",
     "confirmationChat": "Confirmation & Chat",
     "confirmationChatDesc": "Messages tab will unlock after confirmation",
-    "readyAdventure": "Ready for your Adventure",
-    "readyAdventureDesc": "Once you have all info, it's time to enjoy! 🌴"
+    "paymentProtection": "Payment Protection",
+    "paymentProtectionDesc": "Your payment is secured. No charge until operator confirms.",
+    "operatorDecision": "Operator Decision",
+    "operatorDecisionDesc": "Operators responds asap",
+    "confirmationNotification": "Confirmation & Notification", 
+    "confirmationNotificationDesc": "You'll receive instant confirmation when accepted"
+  },
+
+  "status": {
+    "pending": "Pending",
+    "pendingPayment": "Pending (Payment Secured)",
+    "pendingPaymentDesc": "Payment authorized, awaiting operator confirmation",
+    "confirmed": "Confirmed",
+    "confirmedPaid": "Confirmed & Paid", 
+    "confirmedPaidDesc": "Booking confirmed, payment captured successfully",
+    "completed": "Completed",
+    "declined": "Declined",
+    "declinedRefunded": "Declined (Refunded)",
+    "declinedRefundedDesc": "Booking declined, full refund processed",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded",
+    "paymentAuthorized": "Payment Authorized",
+    "paymentCaptured": "Payment Captured", 
+    "paymentRefunded": "Payment Refunded",
+    "awaitingCapture": "Awaiting Payment Capture"
+  },
+
+  "bookingDetails": {
+    "paymentStatus": "Payment Status",
+    "paymentMethod": "Payment Method", 
+    "authorizedAmount": "Authorized Amount",
+    "capturedAmount": "Captured Amount",
+    "refundedAmount": "Refunded Amount",
+    "paymentProtected": "Your payment is protected",
+    "stripeSecured": "Secured by Stripe",
+    "noChargeYet": "No charge until confirmed",
+    "chargeOnConfirmation": "Will charge on confirmation",
+    "refundProcessing": "Refund processing...",
+    "refundComplete": "Refund completed"
   },
 
   "explore": {
@@ -415,7 +461,12 @@
     "cardDeclined": "Card declined. Please try again or use a different card.",
     "expiredCard": "Card expired. Please use a valid card.",
     "incorrectCvc": "Incorrect security code. Please check your CVC.",
-    "paymentSuccess": "Payment secured! Your booking is being processed."
+    "paymentSuccess": "Payment secured! Your booking is being processed.",
+    "paymentAuthorizedSuccess": "Payment Authorized Successfully! 🎉",
+    "awaitingConfirmation": "Awaiting operator confirmation to capture payment",
+    "chargeWillCaptureOn": "Your card will be charged when the operator confirms",
+    "noRefundNeeded": "No refund needed - payment only authorized",
+    "captureIn24h": "Payment will be captured within 24 hours of confirmation"
   },
 
   "paymentFlow": {
