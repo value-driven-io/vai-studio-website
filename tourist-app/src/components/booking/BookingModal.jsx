@@ -1,6 +1,6 @@
 // src/components/booking/BookingModal.jsx
 import React, { useState } from 'react'
-import { X, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle, Calendar, MessageCircle } from 'lucide-react'
+import { X, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle, Calendar, MessageCircle, CreditCard } from 'lucide-react'
 import { bookingService } from '../../services/supabase'
 import { useAppStore } from '../../stores/bookingStore'
 import { authService } from '../../services/authService'
@@ -9,8 +9,13 @@ import { formatPrice, formatDate, formatTime } from '../../lib/utils'
 import toast from 'react-hot-toast'
 import { BookingPriceBreakdown } from '../shared/PriceDisplay'
 import { useCurrencyContext } from '../../hooks/useCurrency'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import StripePaymentForm from './StripePaymentForm'
 
 import { useTranslation } from 'react-i18next'
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 const BookingModal = ({ tour, isOpen, onClose }) => {
   // translation hook
@@ -22,6 +27,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   const [loading, setLoading] = useState(false)
   const [bookingResult, setBookingResult] = useState(null)
   const [accountResult, setAccountResult] = useState(null)
+  // State to handle payment step
+  const [bookingData, setBookingData] = useState(null)
+  const [showPaymentStep, setShowPaymentStep] = useState(false)
+  const [paymentProcessing, setPaymentProcessing] = useState(false)
+  const [paymentResult, setPaymentResult] = useState(null)
 
   // Form state
   const [formData, setFormData] = useState({
@@ -124,37 +134,34 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         // NEW: Store account result for success screen
         setAccountResult(accountResult)
 
-        // ✅ STEP 2: Create booking with account linkage (existing logic)
+        // ✅ STEP 2: Prepare booking data and proceed to payment
         const totalParticipants = formData.num_adults + formData.num_children
         const subtotal = (formData.num_adults * tour.discount_price_adult) + 
                         (formData.num_children * (tour.discount_price_child || 0))
 
-      const bookingData = {
-        tour_id: tour.id,
-        operator_id: tour.operator_id,
-        tourist_user_id: accountResult.tourist_user_id,
-        customer_name: fullName, // Use combined name for backward compatibility
-        customer_whatsapp: formData.customer_whatsapp,
-        customer_email: formData.customer_email?.trim() || '',
-        customer_phone: formData.customer_phone?.trim() || '', // Use empty string instead of null
-        num_adults: formData.num_adults,
-        num_children: formData.num_children,
-        // Don't include total_participants - it's auto-generated in DB
-        adult_price: tour.discount_price_adult,
-        child_price: tour.discount_price_child || 0,
-        subtotal: subtotal,
-        special_requirements: formData.special_requirements?.trim() || '',
-        dietary_restrictions: formData.dietary_restrictions?.trim() || '',
-        accessibility_needs: formData.accessibility_needs?.trim() || ''
-      }
+        // Store booking data for payment step (don't create booking yet)
+        const preparedBookingData = {
+          tour_id: tour.id,
+          operator_id: tour.operator_id,
+          tourist_user_id: accountResult.tourist_user_id,
+          customer_name: fullName,
+          customer_whatsapp: formData.customer_whatsapp,
+          customer_email: formData.customer_email?.trim() || '',
+          customer_phone: formData.customer_phone?.trim() || '',
+          num_adults: formData.num_adults,
+          num_children: formData.num_children,
+          adult_price: tour.discount_price_adult,
+          child_price: tour.discount_price_child || 0,
+          subtotal: subtotal,
+          totalXPF: subtotal,
+          special_requirements: formData.special_requirements?.trim() || '',
+          dietary_restrictions: formData.dietary_restrictions?.trim() || '',
+          accessibility_needs: formData.accessibility_needs?.trim() || ''
+        }
 
-      const result = await bookingService.createBooking(bookingData)
-      
-      setBookingResult(result)
-      addBooking(result)
-      setStep(3)
-      
-      toast.success(t('booking.bookingSuccess'))
+        // Store for payment step
+        setBookingData(preparedBookingData)
+        setShowPaymentStep(true)
       
     } catch (error) {
       console.error('Booking error:', error)
@@ -162,6 +169,46 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     } finally {
       setLoading(false)
     }
+  }
+
+  //  Payment Functions
+  const handlePaymentSuccess = async (paymentData) => {
+    setLoading(true)
+    
+    try {
+      // Use the stored booking data and add payment info
+      const finalBookingData = {
+        ...bookingData,
+        payment_intent_id: paymentData.payment_intent_id,
+        payment_status: 'authorized'
+      }
+
+      // Create booking (your existing logic)
+      const result = await bookingService.createBooking(finalBookingData)
+      
+      // Update with payment intent ID
+      await supabase
+        .from('bookings')
+        .update({ payment_intent_id: paymentData.payment_intent_id })
+        .eq('id', result.id)
+
+      // Your existing success logic
+      setBookingResult(result)
+      addBooking(result)
+      setStep(3)
+      
+      toast.success(t('booking.bookingSuccess'))
+    } catch (error) {
+      console.error('Booking creation error:', error)
+      toast.error(t('booking.bookingError'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handlePaymentError = (errorMessage) => {
+    toast.error(errorMessage)
+    setShowPaymentStep(false) // Go back to form
   }
 
   const calculatePricing = () => {
@@ -423,6 +470,39 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
         {/* Booking Form */}
         <div className="p-6">
+
+          {showPaymentStep ? (
+            // Payment Step
+            <Elements stripe={stripePromise}>
+              <div className="space-y-6">
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <button 
+                    onClick={() => setShowPaymentStep(false)}
+                    className="text-blue-400 hover:text-blue-300"
+                  >
+                    {t('paymentFlow.backToDetails')}
+                  </button>
+                  <span>→</span>
+                  <span className="text-white">{t('paymentFlow.step2')}</span>
+                </div>
+
+                <StripePaymentForm
+                  bookingData={{
+                    ...formData,
+                    adult_price: tour.discount_price_adult,
+                    child_price: tour.discount_price_child,
+                    tour_name: tour.tour_name,
+                    booking_reference: `VAI-${Date.now()}`
+                  }}
+                  onPaymentSuccess={handlePaymentSuccess}
+                  onPaymentError={handlePaymentError}
+                  isProcessing={paymentProcessing}
+                  setIsProcessing={setPaymentProcessing}
+                />
+              </div>
+            </Elements>
+          ) : (
+            <>
           {/* Quick Booking Section */}
           <div className="mb-6">
             <h4 className="text-lg font-semibold text-white mb-4">
@@ -660,11 +740,12 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             {loading ? (
               <>
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                {t('buttons.creatingBooking')}
+                {t('common.loading')}
               </>
             ) : (
               <>
-                {t('buttons.reserveSpot')}
+                <CreditCard className="w-4 h-4" />
+                {t('paymentFlow.proceedToPayment')}
               </>
             )}
           </button>
@@ -672,10 +753,12 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           <p className="text-xs text-slate-400 text-center mt-3">
             {t('bookingModal.termsNote')}
           </p>
-        </div>
-      </div>
-    </div>
-  )
-}
+        </>
+      )}
+        </div>  
+      </div>     
+    </div>       
+  )             
+}               
 
 export default BookingModal
