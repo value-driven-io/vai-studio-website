@@ -162,18 +162,27 @@
   
   "buttons": {
     "reserveSpot": "🎫 Réserver ma place",
-    "creatingBooking": "Création de la réservation...",
+    "creatingBooking": "Création Réservation...",
     "trackBooking": "Suivre ta réservation", 
     "close": "Fermer",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "viewPaymentDetails": "Voir Détails Paiement",
+    "checkRefundStatus": "Vérifier Statut Remboursement",
+    "contactSupport": "Contacter Support"
   },
   
   "success": {
     "bookingRequested": "Réservation demandée ! 🎉",
     "adventureRequest": "Ta demande d'aventure est en route vers l'opérateur !",
     "bookingProgress": "PROGRESSION DE LA RÉSERVATION",
-    "requested": "Demandée",
-    "confirmed": "Confirmée !",
+    "paymentSecured": "Paiement Sécurisé",
+    "paymentSecuredDesc": "Ton paiement est autorisé et protégé",
+    "operatorReview": "Examen Opérateur", 
+    "operatorReviewDesc": "L'opérateur confirmera dans les 24 heures. Garde un œil sur tes emails/vérifie cette app !",
+    "paymentCaptured": "Paiement Capturé",
+    "paymentCapturedDesc": "Paiement final traité après confirmation", 
+    "requested": "Payé & Demandé",
+    "confirmed": "Confirmé !",
     "complete": "Complète",
     "accountCreated": "Compte créé !",
     "accountLinked": "Compte lié !",
@@ -185,12 +194,16 @@
     "participants": "Participants :",
     "total": "Total :",
     "whatsNext": "Et maintenant ?",
-    "operatorReview": "Examen par l'opérateur",
-    "operatorReviewDesc": "Les opérateurs répondront dès que possible. Garde un œil sur tes emails/vérifie cette app !",
     "confirmationChat": "Confirmation & Chat",
     "confirmationChatDesc": "L'onglet Messages se débloquera après confirmation",
     "readyAdventure": "Prêt pour ton aventure",
-    "readyAdventureDesc": "Une fois que tu as toutes les infos, c'est le moment de profiter ! 🌴"
+    "readyAdventureDesc": "Ton expérience est confirmée et prête ! C'est le moment de profiter ! 🌴",
+    "paymentProtection": "Protection Paiement",
+    "paymentProtectionDesc": "Ton paiement est sécurisé. Aucun débit jusqu'à confirmation.",
+    "operatorDecision": "Décision Opérateur",
+    "operatorDecisionDesc": "Les opérateurs répondent généralement sous 12-24 heures",
+    "confirmationNotification": "Confirmation & Notification", 
+    "confirmationNotificationDesc": "Tu recevras une confirmation instantanée si accepté"
   },
 
   "explore": {
@@ -415,7 +428,31 @@
     "cardDeclined": "Carte refusée. Réessaie ou utilise une autre carte.",
     "expiredCard": "Carte expirée. Utilise une carte valide.",
     "incorrectCvc": "Code de sécurité incorrect. Vérifie ton CVC.",
-    "paymentSuccess": "Paiement sécurisé ! Ta réservation est en cours de traitement."
+    "paymentSuccess": "Paiement sécurisé ! Ta réservation est en cours de traitement.",
+    "paymentAuthorizedSuccess": "Paiement Autorisé avec Succès ! 🎉",
+    "awaitingConfirmation": "En attente de confirmation de l'opérateur pour capturer le paiement",
+    "chargeWillCaptureOn": "Ta carte sera débitée quand l'opérateur confirmera",
+    "noRefundNeeded": "Aucun remboursement nécessaire - paiement seulement autorisé",
+    "captureIn24h": "Le paiement sera capturé dans les 24h après confirmation"
+  },
+
+  "status": {
+    "pending": "En Attente",
+    "pendingPayment": "En Attente (Paiement Sécurisé)",
+    "pendingPaymentDesc": "Paiement autorisé, en attente de confirmation opérateur",
+    "confirmed": "Confirmé",
+    "confirmedPaid": "Confirmé & Payé", 
+    "confirmedPaidDesc": "Réservation confirmée, paiement capturé avec succès",
+    "completed": "Terminé",
+    "declined": "Refusé",
+    "declinedRefunded": "Refusé (Remboursé)",
+    "declinedRefundedDesc": "Réservation refusée, remboursement complet traité",
+    "cancelled": "Annulé",
+    "refunded": "Remboursé",
+    "paymentAuthorized": "Paiement Autorisé",
+    "paymentCaptured": "Paiement Capturé", 
+    "paymentRefunded": "Paiement Remboursé",
+    "awaitingCapture": "En Attente de Capture Paiement"
   },
 
   "paymentFlow": {
@@ -424,5 +461,20 @@
     "step3": "Confirmation", 
     "backToDetails": "Retour aux Détails",
     "proceedToPayment": "Procéder au Paiement"
+  },
+
+  "bookingDetails": {
+    "paymentStatus": "Statut Paiement",
+    "paymentMethod": "Méthode Paiement", 
+    "authorizedAmount": "Montant Autorisé",
+    "capturedAmount": "Montant Capturé",
+    "refundedAmount": "Montant Remboursé",
+    "paymentProtected": "Ton paiement est protégé",
+    "stripeSecured": "Sécurisé par Stripe",
+    "noChargeYet": "Aucun débit jusqu'à confirmation",
+    "chargeOnConfirmation": "Débitera à la confirmation",
+    "refundProcessing": "Remboursement en cours...",
+    "refundComplete": "Remboursement terminé"
   }
+
 }
