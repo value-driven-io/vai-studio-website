@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# Portal build artifacts
+portal-built/
+
 # production
 /build
 
