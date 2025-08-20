@@ -29,6 +29,46 @@
   "overview": {
     "title": "Client Dashboard",
     "welcome": "Welcome {{clientName}}",
+    "subtitle": "Here's an overview of your digital transformation project",
+    "date": {
+      "not_defined": "Not defined",
+      "locale": "en-US"
+    },
+    "status": {
+      "completed": "Completed",
+      "active": "Active", 
+      "proposal": "Proposal",
+      "paused": "Paused",
+      "cancelled": "Cancelled"
+    },
+    "configuration": {
+      "title": "Configuration Status",
+      "profile_complete": "Profile Complete",
+      "package_configured": "Package Configured",
+      "submitted": "Configuration Submitted",
+      "profile_filled": "Business information filled",
+      "complete_profile": "Complete your profile",
+      "services_selected": "Services selected",
+      "choose_package": "Choose your package",
+      "under_review": "Under review",
+      "ready_submit": "Ready to submit",
+      "submitted_title": "Configuration Submitted",
+      "submitted_description": "Your configuration was submitted on {{date}}. VAI Studio will review your selections and contact you soon."
+    },
+    "summary": {
+      "business_type": "Business type",
+      "location": "Location",
+      "investment": "Investment",
+      "monthly_costs": "Monthly costs",
+      "tourism": "Tourism"
+    },
+    "timeline": {
+      "title": "Project Timeline",
+      "proposed_start": "Proposed start date",
+      "estimated_completion": "Estimated completion",
+      "actual_start": "Actual start date",
+      "actual_completion": "Actual completion date"
+    },
     "project": {
       "title": "Your Project",
       "status": "Status",
@@ -36,17 +76,16 @@
       "investment": "Investment",
       "monthly": "Monthly costs"
     },
-    "summary": {
-      "title": "Project Summary",
-      "business_type": "Business type",
-      "island": "Island",
-      "package": "Selected package",
-      "start_date": "Start date",
-      "completion": "Expected completion"
-    },
     "next_steps": {
       "title": "Next Steps",
       "no_steps": "No action required at this time"
+    },
+    "stats": {
+      "title": "Quick Stats",
+      "portal_views": "Portal visits",
+      "days_since_visit": "Days since last visit",
+      "project_active": "Active project", 
+      "satisfaction": "Client satisfaction"
     }
   },
 
@@ -335,10 +374,11 @@
   
   "actions": {
     "title": "Quick Actions",
+    "subtitle": "Quick actions to manage your project and contact VAI Studio", 
     "contact": {
       "title": "Contact VAI Studio",
-      "whatsapp": "WhatsApp",
       "email": "Email",
+      "whatsapp": "WhatsApp",
       "website": "Website"
     },
     "downloads": {
@@ -349,14 +389,41 @@
     "share": {
       "title": "Share",
       "portal": "Share this portal",
-      "copied": "Link copied!",
-      "failed": "Failed to share"
+      "description": "Follow my digital transformation project with VAI Studio",
+      "failed": "Unable to share link"
+    },
+    "project_info": {
+      "title": "Your Project Information",
+      "company": "Company",
+      "contact": "Primary contact",
+      "email": "Email",
+      "location": "Location",
+      "whatsapp": "WhatsApp",
+      "status": "Project status"
+    },
+    "project_status": {
+      "completed": "Completed",
+      "active": "Active",
+      "proposal": "Proposal", 
+      "paused": "Paused",
+      "cancelled": "Cancelled"
+    },
+    "support": {
+      "title": "VAI Studio Support",
+      "description": "Need help? Our team is available to assist you",
+      "hours_label": "Business hours",
+      "hours_value": "Mon-Fri: 8am-5pm (GMT-10)",
+      "response_label": "Response time", 
+      "response_value": "Less than 24h",
+      "footer": "VAI Studio • Moorea, French Polynesia • International Quality. Island Style."
     },
     "logout": {
       "title": "Logout",
+      "description": "Logout from client portal",
       "button": "Logout",
       "confirm": "Are you sure you want to logout?"
-    }
+    },
+    "version": "VAI Client Portal v1.0.0 • {{year}} VAI Studio"
   },
   
   "progress": {

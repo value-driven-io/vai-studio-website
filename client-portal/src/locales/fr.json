@@ -56,6 +56,45 @@
     "title": "Tableau de Bord Client",
     "welcome": "Bienvenue {{clientName}}",
     "subtitle": "Voici un aperçu de votre projet de transformation digitale",
+    "date": {
+      "not_defined": "Non défini",
+      "locale": "fr-FR"
+    },
+    "status": {
+      "completed": "Terminé",
+      "active": "En cours",
+      "proposal": "Proposition",
+      "paused": "En pause",
+      "cancelled": "Annulé"
+    },
+    "configuration": {
+      "title": "État de Configuration",
+      "profile_complete": "Profil Complété",
+      "package_configured": "Package Configuré",
+      "submitted": "Configuration Soumise",
+      "profile_filled": "Informations entreprise remplies",
+      "complete_profile": "Complétez votre profil",
+      "services_selected": "Services sélectionnés",
+      "choose_package": "Choisissez votre package",
+      "under_review": "En cours d'examen",
+      "ready_submit": "Prêt à soumettre",
+      "submitted_title": "Configuration Soumise",
+      "submitted_description": "Votre configuration a été soumise le {{date}}. VAI Studio examinera vos sélections et vous contactera bientôt."
+    },
+    "summary": {
+      "business_type": "Type d'activité",
+      "location": "Localisation",
+      "investment": "Investissement",
+      "monthly_costs": "Coûts mensuels",
+      "tourism": "Tourisme"
+    },
+    "timeline": {
+      "title": "Chronologie du projet",
+      "proposed_start": "Date de début prévue",
+      "estimated_completion": "Achèvement prévu",
+      "actual_start": "Date de début réelle",
+      "actual_completion": "Date d'achèvement réelle"
+    },
     "project": {
       "title": "Votre Projet",
       "status": "Statut",
@@ -63,34 +102,16 @@
       "investment": "Investissement",
       "monthly": "Coûts mensuels"
     },
-    "status": {
-      "draft": "Brouillon",
-      "submitted": "Soumis",
-      "under_review": "En cours d'examen",
-      "approved": "Approuvé",
-      "active": "Actif",
-      "completed": "Terminé"
-    },
-    "configuration": {
-      "title": "État de Configuration",
-      "profile_complete": "Profil complété",
-      "package_configured": "Package configuré",
-      "configuration_submitted": "Configuration soumise",
-      "complete_profile": "Complétez votre profil",
-      "choose_package": "Choisissez votre package",
-      "submit_config": "Soumettez la configuration"
-    },
-    "summary": {
-      "title": "Résumé du Projet",
-      "business_type": "Type d'activité",
-      "island": "Île",
-      "package": "Package choisi",
-      "start_date": "Date de début",
-      "completion": "Achèvement prévu"
-    },
     "next_steps": {
       "title": "Prochaines Étapes",
       "no_steps": "Aucune action requise actuellement"
+    },
+    "stats": {
+      "title": "Statistiques rapides",
+      "portal_views": "Visites du portail",
+      "days_since_visit": "Jours depuis dernière visite", 
+      "project_active": "Projet actif",
+      "satisfaction": "Satisfaction client"
     }
   },
 
@@ -388,30 +409,56 @@
 
   "actions": {
     "title": "Actions Rapides",
-    "subtitle": "Gérez votre projet et accédez aux ressources",
+    "subtitle": "Actions rapides pour gérer votre projet et contacter VAI Studio",
     "contact": {
       "title": "Contacter VAI Studio",
-      "email": "Envoyer un email",
-      "whatsapp": "Message WhatsApp",
-      "call": "Programmer un appel"
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "website": "Site Web"
     },
-    "resources": {
-      "title": "Ressources",
-      "download_proposal": "Télécharger la proposition",
-      "view_timeline": "Voir la chronologie",
-      "access_files": "Accéder aux fichiers"
+    "downloads": {
+      "title": "Téléchargements",
+      "proposal": "Télécharger la proposition",
+      "soon": "Bientôt disponible"
     },
-    "account": {
-      "title": "Compte",
-      "change_password": "Changer le mot de passe",
-      "notification_settings": "Paramètres de notification",
-      "logout": "Se déconnecter"
+    "share": {
+      "title": "Partager",
+      "portal": "Partager ce portail",
+      "description": "Suivez mon projet de transformation digitale avec VAI Studio",
+      "failed": "Impossible de partager le lien"
+    },
+    "project_info": {
+      "title": "Informations de votre projet",
+      "company": "Entreprise",
+      "contact": "Contact principal",
+      "email": "Email",
+      "location": "Localisation",
+      "whatsapp": "WhatsApp",
+      "status": "Statut du projet"
+    },
+    "project_status": {
+      "completed": "Terminé",
+      "active": "En cours",
+      "proposal": "Proposition",
+      "paused": "En pause",
+      "cancelled": "Annulé"
+    },
+    "support": {
+      "title": "Support VAI Studio",
+      "description": "Besoin d'aide ? Notre équipe est disponible pour vous accompagner",
+      "hours_label": "Heures d'ouverture",
+      "hours_value": "Lun-Ven: 8h-17h (GMT-10)",
+      "response_label": "Temps de réponse",
+      "response_value": "Moins de 24h",
+      "footer": "VAI Studio • Moorea, French Polynesia • International Quality. Island Style."
     },
     "logout": {
       "title": "Déconnexion",
+      "description": "Se déconnecter du portail client",
       "button": "Se déconnecter",
       "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
-    }
+    },
+    "version": "VAI Client Portal v1.0.0 • {{year}} VAI Studio"
   },
 
   "footer": {

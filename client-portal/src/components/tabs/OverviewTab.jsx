@@ -36,8 +36,8 @@ const OverviewTab = () => {
   }
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'Non défini'
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    if (!dateString) return t('overview.date.not_defined')
+    return new Date(dateString).toLocaleDateString(t('overview.date.locale'), {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -60,15 +60,15 @@ const OverviewTab = () => {
   const getStatusLabel = (status) => {
     switch (status) {
       case 'completed':
-        return 'Terminé'
+        return t('overview.status.completed')
       case 'active':
-        return 'En cours'
+        return t('overview.status.active')
       case 'proposal':
-        return 'Proposition'
+        return t('overview.status.proposal')
       case 'paused':
-        return 'En pause'
+        return t('overview.status.paused')
       case 'cancelled':
-        return 'Annulé'
+        return t('overview.status.cancelled')
       default:
         return status
     }
@@ -84,7 +84,7 @@ const OverviewTab = () => {
               {t('overview.welcome', { clientName: clientData.company_name })}
             </h1>
             <p className="text-vai-muted">
-              {t('overview.title')}
+              {t('overview.subtitle')}
             </p>
           </div>
           
@@ -103,7 +103,7 @@ const OverviewTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-vai-coral" />
-          Configuration Status
+          {t('overview.configuration.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -115,9 +115,12 @@ const OverviewTab = () => {
                 proposalData?.client_intake ? 'text-vai-bamboo' : 'text-vai-muted'
               }`} />
             </div>
-            <h3 className="font-semibold text-vai-pearl mb-1">Profile Complete</h3>
+            <h3 className="font-semibold text-vai-pearl mb-1">{t('overview.configuration.profile_complete')}</h3>
             <p className="text-sm text-vai-muted">
-              {proposalData?.client_intake ? 'Business information filled' : 'Complete your profile'}
+              {proposalData?.client_intake ? 
+                t('overview.configuration.profile_filled') : 
+                t('overview.configuration.complete_profile')
+              }
             </p>
           </div>
           
@@ -129,9 +132,12 @@ const OverviewTab = () => {
                 proposalData?.package_configuration ? 'text-vai-bamboo' : 'text-vai-muted'
               }`} />
             </div>
-            <h3 className="font-semibold text-vai-pearl mb-1">Package Configured</h3>
+            <h3 className="font-semibold text-vai-pearl mb-1">{t('overview.configuration.package_configured')}</h3>
             <p className="text-sm text-vai-muted">
-              {proposalData?.package_configuration ? 'Services selected' : 'Choose your package'}
+              {proposalData?.package_configuration ? 
+                t('overview.configuration.services_selected') : 
+                t('overview.configuration.choose_package')
+              }
             </p>
           </div>
           
@@ -143,9 +149,12 @@ const OverviewTab = () => {
                 proposalData?.submission_status?.status === 'submitted' ? 'text-vai-bamboo' : 'text-vai-muted'
               }`} />
             </div>
-            <h3 className="font-semibold text-vai-pearl mb-1">Configuration Submitted</h3>
+            <h3 className="font-semibold text-vai-pearl mb-1">{t('overview.configuration.submitted')}</h3>
             <p className="text-sm text-vai-muted">
-              {proposalData?.submission_status?.status === 'submitted' ? 'Under review' : 'Ready to submit'}
+              {proposalData?.submission_status?.status === 'submitted' ? 
+                t('overview.configuration.under_review') : 
+                t('overview.configuration.ready_submit')
+              }
             </p>
           </div>
         </div>
@@ -154,11 +163,12 @@ const OverviewTab = () => {
           <div className="mt-6 p-4 bg-vai-coral/10 rounded-lg border border-vai-coral/20">
             <div className="flex items-center gap-2 text-vai-coral">
               <AlertCircle className="w-5 h-5" />
-              <span className="font-medium">Configuration Submitted</span>
+              <span className="font-medium">{t('overview.configuration.submitted_title')}</span>
             </div>
             <p className="text-sm text-vai-muted mt-1">
-              Your configuration was submitted on {formatDate(proposalData.submission_status.submitted_at)}. 
-              VAI Studio will review your selections and contact you soon.
+              {t('overview.configuration.submitted_description', { 
+                date: formatDate(proposalData.submission_status.submitted_at) 
+              })}
             </p>
           </div>
         )}
@@ -170,10 +180,10 @@ const OverviewTab = () => {
         <div className="vai-card-compact">
           <div className="flex items-center gap-3 mb-3">
             <Building className="w-5 h-5 text-vai-teal" />
-            <span className="text-sm font-medium text-vai-muted">Type d'activité</span>
+            <span className="text-sm font-medium text-vai-muted">{t('overview.summary.business_type')}</span>
           </div>
           <p className="text-lg font-semibold text-vai-pearl">
-            {proposalData?.client_info?.business_type || 'Tourism'}
+            {proposalData?.client_info?.business_type || t('overview.summary.tourism')}
           </p>
         </div>
 
@@ -181,7 +191,7 @@ const OverviewTab = () => {
         <div className="vai-card-compact">
           <div className="flex items-center gap-3 mb-3">
             <MapPin className="w-5 h-5 text-vai-hibiscus" />
-            <span className="text-sm font-medium text-vai-muted">Localisation</span>
+            <span className="text-sm font-medium text-vai-muted">{t('overview.summary.location')}</span>
           </div>
           <p className="text-lg font-semibold text-vai-pearl">
             {clientData.island || 'French Polynesia'}
@@ -192,7 +202,7 @@ const OverviewTab = () => {
         <div className="vai-card-compact">
           <div className="flex items-center gap-3 mb-3">
             <DollarSign className="w-5 h-5 text-vai-sunset" />
-            <span className="text-sm font-medium text-vai-muted">Investissement</span>
+            <span className="text-sm font-medium text-vai-muted">{t('overview.summary.investment')}</span>
           </div>
           <p className="text-lg font-semibold text-vai-pearl">
             {formatCurrency(clientData.total_investment_xpf)}
@@ -203,7 +213,7 @@ const OverviewTab = () => {
         <div className="vai-card-compact">
           <div className="flex items-center gap-3 mb-3">
             <TrendingUp className="w-5 h-5 text-vai-bamboo" />
-            <span className="text-sm font-medium text-vai-muted">Coûts mensuels</span>
+            <span className="text-sm font-medium text-vai-muted">{t('overview.summary.monthly_costs')}</span>
           </div>
           <p className="text-lg font-semibold text-vai-pearl">
             {formatCurrency(clientData.monthly_costs_xpf)}
@@ -215,19 +225,19 @@ const OverviewTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Calendar className="w-5 h-5 text-vai-coral" />
-          {t('overview.project.timeline')}
+          {t('overview.timeline.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-medium text-vai-muted mb-2">Date de début prévue</h3>
+            <h3 className="text-sm font-medium text-vai-muted mb-2">{t('overview.timeline.proposed_start')}</h3>
             <p className="text-vai-pearl">
               {formatDate(clientData.proposed_start_date)}
             </p>
           </div>
           
           <div>
-            <h3 className="text-sm font-medium text-vai-muted mb-2">Achèvement prévu</h3>
+            <h3 className="text-sm font-medium text-vai-muted mb-2">{t('overview.timeline.estimated_completion')}</h3>
             <p className="text-vai-pearl">
               {formatDate(clientData.estimated_completion_date)}
             </p>
@@ -235,7 +245,7 @@ const OverviewTab = () => {
           
           {clientData.actual_start_date && (
             <div>
-              <h3 className="text-sm font-medium text-vai-muted mb-2">Date de début réelle</h3>
+              <h3 className="text-sm font-medium text-vai-muted mb-2">{t('overview.timeline.actual_start')}</h3>
               <p className="text-vai-pearl flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-vai-bamboo" />
                 {formatDate(clientData.actual_start_date)}
@@ -245,7 +255,7 @@ const OverviewTab = () => {
           
           {clientData.actual_completion_date && (
             <div>
-              <h3 className="text-sm font-medium text-vai-muted mb-2">Date d'achèvement réelle</h3>
+              <h3 className="text-sm font-medium text-vai-muted mb-2">{t('overview.timeline.actual_completion')}</h3>
               <p className="text-vai-pearl flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-vai-bamboo" />
                 {formatDate(clientData.actual_completion_date)}
@@ -274,14 +284,14 @@ const OverviewTab = () => {
 
       {/* Quick Stats */}
       <div className="vai-card">
-        <h2 className="text-xl font-semibold text-vai-pearl mb-4">Statistiques rapides</h2>
+        <h2 className="text-xl font-semibold text-vai-pearl mb-4">{t('overview.stats.title')}</h2>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
             <p className="text-2xl font-bold text-vai-coral">
               {clientData.portal_views || 0}
             </p>
-            <p className="text-sm text-vai-muted">Visites du portail</p>
+            <p className="text-sm text-vai-muted">{t('overview.stats.portal_views')}</p>
           </div>
           
           <div className="text-center">
@@ -290,19 +300,19 @@ const OverviewTab = () => {
                 Math.floor((Date.now() - new Date(clientData.last_accessed_at)) / (1000 * 60 * 60 * 24)) : 0
               }
             </p>
-            <p className="text-sm text-vai-muted">Jours depuis dernière visite</p>
+            <p className="text-sm text-vai-muted">{t('overview.stats.days_since_visit')}</p>
           </div>
           
           <div className="text-center">
             <p className="text-2xl font-bold text-vai-sunset">
               {clientData.project_status === 'active' ? '✓' : '⏳'}
             </p>
-            <p className="text-sm text-vai-muted">Projet actif</p>
+            <p className="text-sm text-vai-muted">{t('overview.stats.project_active')}</p>
           </div>
           
           <div className="text-center">
             <p className="text-2xl font-bold text-vai-bamboo">100%</p>
-            <p className="text-sm text-vai-muted">Satisfaction client</p>
+            <p className="text-sm text-vai-muted">{t('overview.stats.satisfaction')}</p>
           </div>
         </div>
       </div>

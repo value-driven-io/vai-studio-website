@@ -36,12 +36,12 @@ const DesktopSidebar = () => {
       icon: Package,
       color: 'text-vai-sunset'
     },
-    {
-      id: 'scope',
-      label: t('tabs.scope'),
-      icon: FileText,
-      color: 'text-vai-hibiscus'
-    },
+    //{
+     // id: 'scope',
+    //  label: t('tabs.scope'),
+    //  icon: FileText,
+    //  color: 'text-vai-hibiscus'
+    //},
     {
       id: 'finances',
       label: t('tabs.finances'),

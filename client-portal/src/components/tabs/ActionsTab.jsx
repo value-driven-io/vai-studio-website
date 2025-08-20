@@ -35,7 +35,7 @@ const ActionsTab = () => {
         // Use native share API if available
         await navigator.share({
           title: `${clientData?.company_name} - VAI Studio Portal`,
-          text: 'Suivez mon projet de transformation digitale avec VAI Studio',
+          text: t('actions.share.description'),
           url: currentUrl
         })
       } else {
@@ -52,7 +52,7 @@ const ActionsTab = () => {
         setCopiedLink(true)
         setTimeout(() => setCopiedLink(false), 2000)
       } catch (clipboardError) {
-        alert('Impossible de partager le lien')
+        alert(t('actions.share.failed'))
       }
     }
   }
@@ -120,6 +120,23 @@ const ActionsTab = () => {
     }
   ]
 
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case 'completed':
+        return t('actions.project_status.completed')
+      case 'active':
+        return t('actions.project_status.active')
+      case 'proposal':
+        return t('actions.project_status.proposal')
+      case 'paused':
+        return t('actions.project_status.paused')
+      case 'cancelled':
+        return t('actions.project_status.cancelled')
+      default:
+        return status
+    }
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -132,7 +149,7 @@ const ActionsTab = () => {
         </div>
         
         <p className="text-vai-muted">
-          Actions rapides pour gérer votre projet et contacter VAI Studio
+          {t('actions.subtitle')}
         </p>
       </div>
 
@@ -197,39 +214,39 @@ const ActionsTab = () => {
       {/* Client Information Card */}
       <div className="vai-card bg-gradient-to-br from-vai-lagoon to-vai-ocean-light">
         <h2 className="text-xl font-semibold text-vai-pearl mb-4">
-          Informations de votre projet
+          {t('actions.project_info.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-medium text-vai-muted mb-2">Entreprise</h3>
+            <h3 className="text-sm font-medium text-vai-muted mb-2">{t('actions.project_info.company')}</h3>
             <p className="text-vai-pearl font-semibold">{clientData?.company_name}</p>
           </div>
           
           <div>
-            <h3 className="text-sm font-medium text-vai-muted mb-2">Contact principal</h3>
+            <h3 className="text-sm font-medium text-vai-muted mb-2">{t('actions.project_info.contact')}</h3>
             <p className="text-vai-pearl">{clientData?.client_name}</p>
           </div>
           
           <div>
-            <h3 className="text-sm font-medium text-vai-muted mb-2">Email</h3>
+            <h3 className="text-sm font-medium text-vai-muted mb-2">{t('actions.project_info.email')}</h3>
             <p className="text-vai-pearl">{clientData?.email}</p>
           </div>
           
           <div>
-            <h3 className="text-sm font-medium text-vai-muted mb-2">Localisation</h3>
+            <h3 className="text-sm font-medium text-vai-muted mb-2">{t('actions.project_info.location')}</h3>
             <p className="text-vai-pearl">{clientData?.island || 'French Polynesia'}</p>
           </div>
           
           {clientData?.whatsapp && (
             <div>
-              <h3 className="text-sm font-medium text-vai-muted mb-2">WhatsApp</h3>
+              <h3 className="text-sm font-medium text-vai-muted mb-2">{t('actions.project_info.whatsapp')}</h3>
               <p className="text-vai-pearl">{clientData.whatsapp}</p>
             </div>
           )}
           
           <div>
-            <h3 className="text-sm font-medium text-vai-muted mb-2">Statut du projet</h3>
+            <h3 className="text-sm font-medium text-vai-muted mb-2">{t('actions.project_info.status')}</h3>
             <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
               clientData?.project_status === 'completed' ? 'vai-status-completed' :
               clientData?.project_status === 'active' ? 'vai-status-current' :
@@ -240,10 +257,7 @@ const ActionsTab = () => {
                 clientData?.project_status === 'active' ? 'bg-vai-coral' :
                 'bg-vai-muted'
               }`} />
-              {clientData?.project_status === 'completed' ? 'Terminé' :
-               clientData?.project_status === 'active' ? 'En cours' :
-               clientData?.project_status === 'proposal' ? 'Proposition' :
-               clientData?.project_status || 'Non défini'}
+              {getStatusLabel(clientData?.project_status)}
             </div>
           </div>
         </div>
@@ -254,26 +268,26 @@ const ActionsTab = () => {
         <div className="text-center">
           <MessageCircle className="w-8 h-8 text-vai-hibiscus mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-vai-pearl mb-2">
-            Support VAI Studio
+            {t('actions.support.title')}
           </h3>
           <p className="text-vai-muted mb-4">
-            Besoin d'aide ? Notre équipe est disponible pour vous accompagner
+            {t('actions.support.description')}
           </p>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div className="text-center">
-              <p className="text-sm font-medium text-vai-muted">Heures d'ouverture</p>
-              <p className="text-vai-pearl">Lun-Ven: 8h-17h (GMT-10)</p>
+              <p className="text-sm font-medium text-vai-muted">{t('actions.support.hours_label')}</p>
+              <p className="text-vai-pearl">{t('actions.support.hours_value')}</p>
             </div>
             
             <div className="text-center">
-              <p className="text-sm font-medium text-vai-muted">Temps de réponse</p>
-              <p className="text-vai-pearl">Moins de 24h</p>
+              <p className="text-sm font-medium text-vai-muted">{t('actions.support.response_label')}</p>
+              <p className="text-vai-pearl">{t('actions.support.response_value')}</p>
             </div>
           </div>
           
           <div className="text-xs text-vai-muted">
-            VAI Studio • Moorea, French Polynesia • International Quality. Island Style.
+            {t('actions.support.footer')}
           </div>
         </div>
       </div>
@@ -286,7 +300,7 @@ const ActionsTab = () => {
               {t('actions.logout.title')}
             </h3>
             <p className="text-sm text-vai-muted">
-              Se déconnecter du portail client
+              {t('actions.logout.description')}
             </p>
           </div>
           
@@ -302,7 +316,7 @@ const ActionsTab = () => {
 
       {/* Version Info */}
       <div className="text-center text-xs text-vai-muted/60">
-        VAI Client Portal v1.0.0 • {new Date().getFullYear()} VAI Studio
+        {t('actions.version', { year: new Date().getFullYear() })}
       </div>
     </div>
   )
