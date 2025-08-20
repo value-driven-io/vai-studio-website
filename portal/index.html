@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    
+    <!-- Viewport for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    
+    <!-- Primary Meta Tags -->
+    <title>VAI Studio Client Portal</title>
+    <meta name="title" content="VAI Studio Client Portal" />
+    <meta name="description" content="Track your digital transformation project with VAI Studio. Real-time progress updates for your tourism business website and booking system development." />
+    <meta name="keywords" content="VAI Studio, client portal, digital transformation, French Polynesia, tourism, website development, booking system" />
+    <meta name="author" content="VAI Studio" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vai.studio/portal/" />
+    <meta property="og:title" content="VAI Studio Client Portal" />
+    <meta property="og:description" content="Track your digital transformation project with VAI Studio in real-time." />
+    <meta property="og:image" content="https://vai.studio/images/vai-studio-client-portal-preview.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://vai.studio/portal/" />
+    <meta property="twitter:title" content="VAI Studio Client Portal" />
+    <meta property="twitter:description" content="Track your digital transformation project with VAI Studio in real-time." />
+    <meta property="twitter:image" content="https://vai.studio/images/vai-studio-client-portal-preview.jpg" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://vai.studio/portal/" />
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3b82f6" />
+    
+    <!-- PWA Configuration -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="background-color" content="#0f172a" />
+    <meta name="display" content="standalone" />
+    <meta name="orientation" content="portrait-primary" />
+    
+    <!-- Apple PWA Configuration -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="VAI Portal" />
+    
+    <!-- Microsoft PWA Configuration -->
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://rizqwxcmpzhdmqjjqgyw.supabase.co" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <style>
+      body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        color: #f8fafc;
+        font-family: 'Inter', system-ui, sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading screen styles */
+      .initial-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(59, 130, 246, 0.2);
+        border-top: 3px solid #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Hide loading screen once React loads */
+      #root:not(:empty) + .initial-loading {
+        display: none;
+      }
+    </style>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "VAI Studio Client Portal",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "XPF"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "VAI Studio",
+        "url": "https://vai.studio",
+        "location": {
+          "@type": "Place",
+          "addressLocality": "Moorea",
+          "addressCountry": "French Polynesia"
+        }
+      }
+    }
+    </script>
+  </head>
+  
+  <body>
+    <!-- Main app container -->
+    <div id="root"></div>
+    
+    <!-- Fallback loading screen (shown until React loads) -->
+    <div class="initial-loading">
+      <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- Module script -->
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Service Worker registration (handled by Vite PWA plugin) -->
+    <script>
+      // Basic error handling
+      window.addEventListener('error', function(e) {
+        console.error('Script error:', e.error);
+      });
+      
+      // Basic performance monitoring
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+          console.log('Page load time:', loadTime + 'ms');
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,238 @@
+/* VAI Client Portal - Main Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-vai-gradient text-vai-pearl antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Focus styles for accessibility */
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline-none ring-2 ring-vai-coral ring-offset-2 ring-offset-vai-deep-ocean;
+  }
+}
+
+@layer components {
+  /* VAI Component Classes */
+  .vai-card {
+    @apply bg-vai-card rounded-vai-lg border border-slate-700/50 p-6 
+           shadow-vai-card backdrop-blur-vai transition-all duration-300
+           hover:border-slate-600/50 hover:shadow-vai-float;
+  }
+  
+  .vai-card-compact {
+    @apply bg-vai-lagoon/80 rounded-vai border border-slate-700/30 p-4
+           backdrop-blur-sm transition-all duration-200;
+  }
+  
+  .vai-button-primary {
+    @apply bg-vai-coral hover:bg-vai-coral-light 
+           text-white font-semibold py-3 px-6 rounded-xl
+           transition-all duration-300 hover:scale-105 hover:shadow-vai-glow
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+  
+  .vai-button-secondary {
+    @apply bg-vai-ocean-light hover:bg-slate-600 
+           text-vai-pearl border border-slate-600 hover:border-slate-500
+           font-medium py-3 px-6 rounded-xl
+           transition-all duration-300 hover:scale-105;
+  }
+  
+  .vai-button-ghost {
+    @apply text-vai-coral hover:text-vai-coral-light hover:bg-vai-coral/10
+           font-medium py-2 px-4 rounded-lg
+           transition-all duration-200;
+  }
+  
+  .vai-input {
+    @apply w-full bg-vai-lagoon/50 border border-slate-600 
+           text-vai-pearl placeholder-vai-muted rounded-lg px-4 py-3
+           focus:border-vai-coral focus:ring-1 focus:ring-vai-coral
+           transition-colors duration-200;
+  }
+  
+  .vai-tab-button {
+    @apply flex items-center gap-2 px-4 py-3 rounded-lg font-medium
+           transition-all duration-200 hover:bg-vai-lagoon/50;
+  }
+  
+  .vai-tab-active {
+    @apply bg-vai-coral text-white shadow-vai-glow;
+  }
+  
+  .vai-tab-inactive {
+    @apply text-vai-muted hover:text-vai-pearl;
+  }
+  
+  /* Progress indicators */
+  .vai-progress-bar {
+    @apply w-full bg-vai-lagoon rounded-full h-2 overflow-hidden;
+  }
+  
+  .vai-progress-fill {
+    @apply h-full bg-gradient-to-r from-vai-coral to-vai-sunset 
+           rounded-full transition-all duration-700 ease-out;
+  }
+  
+  /* Status badges */
+  .vai-status-completed {
+    @apply bg-vai-bamboo/20 text-vai-bamboo border border-vai-bamboo/30
+           px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  .vai-status-current {
+    @apply bg-vai-coral/20 text-vai-coral border border-vai-coral/30
+           px-3 py-1 rounded-full text-sm font-medium animate-vai-pulse;
+  }
+  
+  .vai-status-upcoming {
+    @apply bg-vai-muted/20 text-vai-muted border border-vai-muted/30
+           px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  /* Glassmorphism effects */
+  .vai-glassmorphism {
+    @apply bg-vai-lagoon/30 backdrop-blur-vai border border-white/10;
+  }
+  
+  .vai-glassmorphism-strong {
+    @apply bg-vai-lagoon/60 backdrop-blur-xl border border-white/20;
+  }
+}
+
+@layer utilities {
+  /* Text gradients */
+  .text-gradient-coral {
+    @apply bg-gradient-to-r from-vai-coral to-vai-sunset bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-teal {
+    @apply bg-gradient-to-r from-vai-teal to-vai-bamboo bg-clip-text text-transparent;
+  }
+  
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  /* Loading shimmer */
+  .shimmer {
+    background: linear-gradient(90deg, #1e293b 0px, #334155 100px, #1e293b 200px);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  
+  /* Mobile-specific utilities */
+  .mobile-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .mobile-sticky-header {
+    @apply sticky top-0 z-40 bg-vai-deep-ocean/95 backdrop-blur-xl border-b border-slate-700/50;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-vai-deep-ocean;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-vai-ocean-light rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-500;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #0f172a;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .vai-card {
+    @apply p-4;
+  }
+  
+  .vai-button-primary,
+  .vai-button-secondary {
+    @apply py-4 text-base;
+  }
+  
+  /* Touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .vai-card {
+    @apply border-2;
+  }
+  
+  .vai-button-primary {
+    @apply ring-2 ring-white;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .vai-button-primary,
+  .vai-button-secondary,
+  .vai-tab-button {
+    @apply shadow-none border border-gray-400;
+  }
+  
+  .vai-card {
+    @apply shadow-none border-2 border-gray-400;
+  }
+}
