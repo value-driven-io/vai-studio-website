@@ -418,7 +418,10 @@
     "downloads": {
       "title": "Downloads",
       "proposal": "Download proposal",
-      "soon": "Coming soon"
+      "preview": "Preview proposal",
+      "generating": "Generating...",
+      "no_data": "No client data available to generate proposal.",
+      "error": "Error generating PDF: {{error}}"
     },
     "share": {
       "title": "Share",
@@ -456,6 +459,15 @@
       "description": "Logout from client portal",
       "button": "Logout",
       "confirm": "Are you sure you want to logout?"
+    },
+    "pdf": {
+      "title": "PDF Proposal Generation",
+      "description": "Download or preview your complete proposal in professional PDF format",
+      "includes": "Includes",
+      "format": "Format",
+      "feature_1": "Complete package configuration",
+      "feature_2": "Detailed financial summary",
+      "feature_3": "Timeline and terms"
     },
     "version": "VAI Client Portal v1.0.0 • {{year}} VAI Studio"
   },

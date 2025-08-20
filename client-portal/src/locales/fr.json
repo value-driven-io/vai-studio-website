@@ -453,7 +453,10 @@
     "downloads": {
       "title": "Téléchargements",
       "proposal": "Télécharger la proposition",
-      "soon": "Bientôt disponible"
+      "preview": "Aperçu de la proposition",
+      "generating": "Génération en cours...",
+      "no_data": "Aucune donnée client disponible pour générer la proposition.",
+      "error": "Erreur lors de la génération du PDF: {{error}}"
     },
     "share": {
       "title": "Partager",
@@ -491,6 +494,15 @@
       "description": "Se déconnecter du portail client",
       "button": "Se déconnecter",
       "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
+    },
+    "pdf": {
+      "title": "Génération de Proposition PDF",
+      "description": "Téléchargez ou prévisualisez votre proposition complète au format PDF professionnel",
+      "includes": "Inclut",
+      "format": "Format",
+      "feature_1": "Configuration complète du package",
+      "feature_2": "Résumé financier détaillé",
+      "feature_3": "Chronologie et conditions"
     },
     "version": "VAI Client Portal v1.0.0 • {{year}} VAI Studio"
   },

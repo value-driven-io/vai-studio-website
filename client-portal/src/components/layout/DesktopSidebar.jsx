@@ -54,12 +54,12 @@ const DesktopSidebar = () => {
       icon: HelpCircle,
       color: 'text-vai-hibiscus'
     },
-    {
-      id: 'actions',
-      label: t('tabs.actions'),
-      icon: Zap,
-      color: 'text-vai-bamboo'
-    }
+    // {
+    //  id: 'actions',
+     // label: t('tabs.actions'),
+     // icon: Zap,
+     // color: 'text-vai-bamboo'
+    //}
   ]
 
   const handleLogout = () => {

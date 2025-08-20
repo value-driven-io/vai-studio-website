@@ -13,13 +13,47 @@ import {
   Globe,
   FileText,
   Copy,
-  Check
+  Check,
+  Eye,
+  Loader
 } from 'lucide-react'
+import { generateProposalPDF, previewProposalPDF } from '../../utils/pdfGenerator'
 
 const ActionsTab = () => {
   const { t } = useTranslation()
-  const { clientData, logout } = useClientStore()
+  const { clientData, proposalData, logout } = useClientStore()
   const [copiedLink, setCopiedLink] = useState(false)
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+
+  // Get calculated pricing from proposal data or create default
+  const getCalculatedPricing = () => {
+    if (proposalData?.calculated_pricing) {
+      return proposalData.calculated_pricing
+    }
+    
+    // Generate basic pricing if not available
+    const baseCost = 250000
+    const addonCost = (proposalData?.package_configuration?.add_ons || [])
+      .reduce((sum, addon) => sum + addon.cost, 0)
+    const packageDealCost = (proposalData?.package_configuration?.package_deals || [])
+      .reduce((sum, deal) => sum + deal.cost, 0)
+    const packageSavings = (proposalData?.package_configuration?.package_deals || [])
+      .reduce((sum, deal) => sum + deal.savings, 0)
+    const totalVaiCost = baseCost + addonCost + packageDealCost
+    const externalCosts = 35000 // Default PayZen
+    const totalInvestment = totalVaiCost + externalCosts
+    
+    return {
+      base_cost: baseCost,
+      addon_cost: addonCost,
+      package_deal_cost: packageDealCost,
+      package_savings: packageSavings,
+      total_vai_cost: totalVaiCost,
+      external_costs: externalCosts,
+      total_investment: totalInvestment,
+      monthly_operating: 5400
+    }
+  }
 
   const handleLogout = () => {
     if (window.confirm(t('actions.logout.confirm'))) {
@@ -57,9 +91,61 @@ const ActionsTab = () => {
     }
   }
 
-  const handleDownloadProposal = () => {
-    // Placeholder for future PDF generation
-    alert(t('actions.downloads.soon'))
+  const handleDownloadProposal = async () => {
+    if (!clientData) {
+      alert(t('actions.downloads.no_data'))
+      return
+    }
+
+    setIsGeneratingPDF(true)
+    
+    try {
+      console.log('🔄 Generating PDF proposal...')
+      
+      const calculatedPricing = getCalculatedPricing()
+      const result = await generateProposalPDF(clientData, proposalData, calculatedPricing)
+      
+      if (result.success) {
+        console.log('✅ PDF generated successfully:', result.filename)
+        // PDF is automatically downloaded by the function
+      } else {
+        console.error('❌ PDF generation failed:', result.error)
+        alert(t('actions.downloads.error', { error: result.error }))
+      }
+    } catch (error) {
+      console.error('❌ PDF generation error:', error)
+      alert(t('actions.downloads.error', { error: error.message }))
+    } finally {
+      setIsGeneratingPDF(false)
+    }
+  }
+
+  const handlePreviewProposal = async () => {
+    if (!clientData) {
+      alert(t('actions.downloads.no_data'))
+      return
+    }
+
+    setIsGeneratingPDF(true)
+    
+    try {
+      console.log('🔄 Generating PDF preview...')
+      
+      const calculatedPricing = getCalculatedPricing()
+      const result = await previewProposalPDF(clientData, proposalData, calculatedPricing)
+      
+      if (result.success) {
+        console.log('✅ PDF preview opened successfully')
+      } else {
+        console.error('❌ PDF preview failed:', result.error)
+        alert(t('actions.downloads.error', { error: result.error }))
+      }
+    } catch (error) {
+      console.error('❌ PDF preview error:', error)
+      alert(t('actions.downloads.error', { error: error.message }))
+    } finally {
+      setIsGeneratingPDF(false)
+    }
   }
 
   const actionGroups = [
@@ -98,10 +184,19 @@ const ActionsTab = () => {
       actions: [
         {
           label: t('actions.downloads.proposal'),
-          icon: FileText,
+          icon: isGeneratingPDF ? Loader : FileText,
           onClick: handleDownloadProposal,
           color: 'bg-vai-lagoon hover:bg-vai-ocean-light',
-          disabled: true
+          disabled: isGeneratingPDF,
+          loading: isGeneratingPDF
+        },
+        {
+          label: t('actions.downloads.preview'),
+          icon: isGeneratingPDF ? Loader : Eye,
+          onClick: handlePreviewProposal,
+          color: 'bg-vai-hibiscus hover:bg-vai-hibiscus/80',
+          disabled: isGeneratingPDF,
+          loading: isGeneratingPDF
         }
       ]
     },
@@ -182,7 +277,7 @@ const ActionsTab = () => {
                         ${action.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                       `}
                     >
-                      <ActionIcon className="w-5 h-5" />
+                      <ActionIcon className={`w-5 h-5 ${action.loading ? 'animate-spin' : ''}`} />
                       <span>{action.label}</span>
                       {action.external && <ExternalLink className="w-4 h-4 ml-auto" />}
                     </a>
@@ -200,8 +295,8 @@ const ActionsTab = () => {
                         ${action.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                       `}
                     >
-                      <ActionIcon className="w-5 h-5" />
-                      <span>{action.label}</span>
+                      <ActionIcon className={`w-5 h-5 ${action.loading ? 'animate-spin' : ''}`} />
+                      <span>{action.loading ? t('actions.downloads.generating') : action.label}</span>
                     </button>
                   )
                 }
@@ -210,6 +305,46 @@ const ActionsTab = () => {
           </div>
         )
       })}
+
+      {/* PDF Generation Info */}
+      <div className="vai-card bg-gradient-to-br from-vai-teal/10 to-vai-coral/10 border-vai-teal/20">
+        <div className="text-center">
+          <FileText className="w-8 h-8 text-vai-teal mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-vai-pearl mb-2">
+            {t('actions.pdf.title')}
+          </h3>
+          <p className="text-vai-muted mb-4">
+            {t('actions.pdf.description')}
+          </p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div className="text-center">
+              <p className="text-sm font-medium text-vai-muted">{t('actions.pdf.includes')}</p>
+              <div className="text-xs text-vai-muted mt-1">
+                <div>• {t('actions.pdf.feature_1')}</div>
+                <div>• {t('actions.pdf.feature_2')}</div>
+                <div>• {t('actions.pdf.feature_3')}</div>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <p className="text-sm font-medium text-vai-muted">{t('actions.pdf.format')}</p>
+              <div className="text-xs text-vai-muted mt-1">
+                <div>• PDF professionnel A4</div>
+                <div>• Branding VAI Studio</div>
+                <div>• Prêt à imprimer</div>
+              </div>
+            </div>
+          </div>
+          
+          {isGeneratingPDF && (
+            <div className="text-sm text-vai-coral">
+              <Loader className="w-4 h-4 animate-spin inline mr-2" />
+              {t('actions.downloads.generating')}
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Client Information Card */}
       <div className="vai-card bg-gradient-to-br from-vai-lagoon to-vai-ocean-light">

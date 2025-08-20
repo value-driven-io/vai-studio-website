@@ -13,10 +13,35 @@ import {
   Info
 } from 'lucide-react'
 
+// GET PRICING CONFIGURATION FROM DATABASE WITH FALLBACKS
+const getPricingConfigForFinances = (proposalData) => {
+  const config = proposalData?.pricing_config || {}
+  
+  return {
+    monthly_operating: config.monthly_operating || {
+      hosting: 1400,
+      booking_system: 4000,
+      total: 5400
+    },
+    external_costs: config.external_costs || {
+      payzen_setup: { average_cost: 35000 },
+      hosting_annual: { cost: 16800 },
+      booking_system_annual: { cost: 48000 }
+    },
+    base_package: config.base_package || {
+      cost: 250000
+    }
+  }
+}
+
 const FinancesTab = () => {
   const { t } = useTranslation()
   const { clientData, proposalData } = useClientStore()
   const [selectedPaymentOption, setSelectedPaymentOption] = useState('split')
+  
+  // GET PRICING CONFIGURATION FROM DATABASE
+  const pricingConfig = getPricingConfigForFinances(proposalData)
+  
   const [roiData, setRoiData] = useState({
     averageTourPrice: proposalData?.client_intake?.business_details?.average_tour_price || 15000,
     targetMonthlyBookings: proposalData?.client_intake?.business_details?.target_monthly_bookings || 20,
@@ -32,14 +57,20 @@ const FinancesTab = () => {
     }).format(amount) + ' F'
   }
 
-  // Get financial data from client data and proposal with safety checks
+  // GET FINANCIAL DATA FROM DATABASE WITH PRIORITY ORDER
   const totalInvestment = clientData?.total_investment_xpf || 
                          proposalData?.calculated_pricing?.total_investment || 
-                         250000
-  const monthlyOperating = clientData?.monthly_costs_xpf || 5400
+                         pricingConfig.base_package.cost // USE DATABASE CONFIG FALLBACK
+  
+  // USE DATABASE VALUE FOR MONTHLY OPERATING COSTS
+  const monthlyOperating = clientData?.monthly_costs_xpf || 
+                          proposalData?.calculated_pricing?.monthly_operating ||
+                          pricingConfig.monthly_operating.total
+
+  // GET EXTERNAL COSTS FROM DATABASE CONFIGURATION  
   const externalCosts = proposalData?.calculated_pricing?.external_costs || 
                        proposalData?.pricing?.external_costs || 
-                       { payzen: 35000 }
+                       pricingConfig.external_costs.payzen_setup.average_cost
   
   // Calculate payment options with safety checks
   const paymentOptions = useMemo(() => ({
@@ -56,24 +87,24 @@ const FinancesTab = () => {
     }
   }), [totalInvestment, t])
 
-  // Monthly cost breakdown with translations
+  // MONTHLY COST BREAKDOWN USING DATABASE VALUES
   const monthlyBreakdown = useMemo(() => [
     {
       name: t('finances.monthly.hosting'),
-      cost: 1400,
+      cost: pricingConfig.monthly_operating.hosting, // FROM DATABASE
       description: 'Hébergement web professionnel & nom de domaine'
     },
     {
       name: t('finances.monthly.booking_system'),
-      cost: 4000,
+      cost: pricingConfig.monthly_operating.booking_system, // FROM DATABASE
       description: 'JotForm Professional pour réservations en ligne'
     }
-  ], [t])
+  ], [t, pricingConfig])
 
-  // ROI calculations with safety checks
+  // ROI calculations using database monthly operating costs
   const roi = useMemo(() => {
     const monthlyRevenue = roiData.averageTourPrice * roiData.targetMonthlyBookings
-    const monthlyProfit = monthlyRevenue - monthlyOperating
+    const monthlyProfit = monthlyRevenue - monthlyOperating // USE DATABASE VALUE
     const breakEvenMonths = monthlyProfit > 0 ? Math.ceil(totalInvestment / monthlyProfit) : 0
     const directBookingsNeeded = roiData.averageTourPrice > 0 ? 
       Math.ceil(monthlyOperating / roiData.averageTourPrice) : 0
@@ -84,18 +115,19 @@ const FinancesTab = () => {
       breakEvenMonths,
       directBookingsNeeded
     }
-  }, [roiData, monthlyOperating, totalInvestment])
+  }, [roiData, monthlyOperating, totalInvestment]) // USE DATABASE monthlyOperating
 
-  // Get breakdown data with safety checks
+  // GET INVESTMENT BREAKDOWN WITH DATABASE FALLBACKS
   const getInvestmentBreakdown = () => {
     const pricingData = proposalData?.calculated_pricing || {}
     return {
-      baseCost: pricingData.base_cost || 250000,
+      // USE DATABASE VALUES WITH PRICING CONFIG FALLBACKS
+      baseCost: pricingData.base_cost || pricingConfig.base_package.cost,
       addonCost: pricingData.addon_cost || 0,
       packageDealCost: pricingData.package_deal_cost || 0,
       packageSavings: pricingData.package_savings || 0,
-      totalVaiCost: pricingData.total_vai_cost || 250000,
-      externalCosts: pricingData.external_costs || 35000
+      totalVaiCost: pricingData.total_vai_cost || pricingConfig.base_package.cost,
+      externalCosts: pricingData.external_costs || pricingConfig.external_costs.payzen_setup.average_cost
     }
   }
 

@@ -1,6 +1,122 @@
 import { create } from 'zustand'
 import { supabase } from '../utils/supabase'
 
+// PRICING CONFIGURATION BASED ON WORKSHEET
+const getDefaultPricingConfig = () => ({
+  pricing_config: {
+    base_package: {
+      cost: 250000,
+      name: "Smart Setup Package",
+      description: "Website Development + Booking System + Payment Gateway + Google Business + Platform Listing + Training"
+    },
+    add_on_services: {
+      dual_payment: {
+        cost: 15000,
+        name: "Dual Payment Gateway", 
+        description: "Accept both PayZen and PayPal payments"
+      },
+      additional_platform: {
+        cost: 5000,
+        name: "Additional Platform",
+        description: "Per additional platform listing",
+        per_unit: true
+      },
+      enhanced_design: {
+        cost: 35000,
+        name: "Enhanced Design Package",
+        description: "Premium visual design and custom branding"
+      },
+      advanced_seo: {
+        cost: 25000,
+        name: "Advanced SEO Package", 
+        description: "Professional SEO optimization and content strategy"
+      },
+      social_media: {
+        cost: 15000,
+        name: "Social Media Setup",
+        description: "Professional social media profiles and content"
+      },
+      email_marketing: {
+        cost: 20000,
+        name: "Email Marketing System",
+        description: "Automated email campaigns and newsletters"
+      },
+      analytics_dashboard: {
+        cost: 25000,
+        name: "Advanced Analytics Dashboard",
+        description: "Detailed analytics and reporting tools"
+      },
+      premium_training: {
+        cost: 20000,
+        name: "Premium Training Program",
+        description: "Extended training and support"
+      },
+      additional_language: {
+        cost: 25000,
+        name: "Additional Language",
+        description: "Per additional language support",
+        per_unit: true
+      }
+    },
+    package_deals: {
+      growth_package: {
+        services: ['advanced_seo', 'social_media', 'email_marketing'],
+        regular_price: 60000,
+        package_price: 55000,
+        savings: 5000,
+        name: "Growth Package",
+        description: "SEO + Social Media + Email Marketing"
+      },
+      premium_package: {
+        services: ['enhanced_design', 'analytics_dashboard', 'premium_training'],
+        regular_price: 80000,
+        package_price: 75000,
+        savings: 5000,
+        name: "Premium Package",
+        description: "Enhanced Design + Analytics + Premium Training"
+      },
+      international_package: {
+        services: ['additional_language', 'additional_platform', 'analytics_dashboard'],
+        regular_price: 55000,
+        package_price: 50000,
+        savings: 5000,
+        name: "International Package",
+        description: "English + Additional Platform + Analytics"
+      }
+    },
+    external_costs: {
+      payzen_setup: {
+        cost_range: [20000, 49900],
+        average_cost: 35000,
+        description: "PayZen payment gateway setup"
+      },
+      paypal_setup: {
+        cost: 0,
+        description: "PayPal payment gateway setup"
+      },
+      domain_annual: {
+        cost: 1500,
+        description: "Domain renewal per year"
+      },
+      hosting_annual: {
+        cost: 16800,
+        description: "Professional hosting per year (1,400/month)"
+      },
+      booking_system_annual: {
+        cost: 48000,
+        description: "JotForm Professional booking system per year (4,000/month)"
+      }
+    },
+    monthly_operating: {
+      hosting: 1400,
+      booking_system: 4000,
+      total: 5400
+    },
+    last_updated: new Date().toISOString(),
+    version: "1.0"
+  }
+})
+
 const useClientStore = create((set, get) => ({
   // Authentication state
   isAuthenticated: false,
@@ -429,6 +545,106 @@ const useClientStore = create((set, get) => ({
       console.error('Failed to submit configuration:', error)
       throw error
     }
+  },
+
+  // NEW PRICING CONFIGURATION FUNCTIONS
+
+  // Initialize pricing configuration for a client (called when needed)
+  initializePricingConfig: async () => {
+    const { clientData } = get()
+    if (!clientData) throw new Error('No client data available')
+    
+    try {
+      const proposalData = clientData.proposal_data || {}
+      
+      // Only initialize if pricing_config doesn't exist
+      if (!proposalData.pricing_config) {
+        const defaultPricingConfig = getDefaultPricingConfig()
+        
+        const updatedProposalData = {
+          ...proposalData,
+          ...defaultPricingConfig
+        }
+        
+        const { error } = await supabase
+          .from('vai_studio_clients')
+          .update({
+            proposal_data: updatedProposalData,
+            monthly_costs_xpf: defaultPricingConfig.pricing_config.monthly_operating.total,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', clientData.id)
+        
+        if (error) throw error
+        
+        // Update local state
+        set({
+          clientData: { 
+            ...clientData, 
+            proposal_data: updatedProposalData,
+            monthly_costs_xpf: defaultPricingConfig.pricing_config.monthly_operating.total
+          },
+          proposalData: updatedProposalData
+        })
+        
+        console.log('✅ Pricing configuration initialized')
+        return { success: true }
+      }
+      
+      return { success: true, message: 'Pricing config already exists' }
+    } catch (error) {
+      console.error('Failed to initialize pricing config:', error)
+      throw error
+    }
+  },
+
+  // Update pricing configuration (for admin use)
+  updatePricingConfig: async (newPricingConfig) => {
+    const { clientData } = get()
+    if (!clientData) throw new Error('No client data available')
+    
+    try {
+      const proposalData = clientData.proposal_data || {}
+      const updatedProposalData = {
+        ...proposalData,
+        pricing_config: {
+          ...newPricingConfig,
+          last_updated: new Date().toISOString(),
+          version: (proposalData.pricing_config?.version || "1.0")
+        }
+      }
+      
+      const { error } = await supabase
+        .from('vai_studio_clients')
+        .update({
+          proposal_data: updatedProposalData,
+          monthly_costs_xpf: newPricingConfig.monthly_operating?.total || 5400,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', clientData.id)
+      
+      if (error) throw error
+      
+      // Update local state
+      set({
+        clientData: { 
+          ...clientData, 
+          proposal_data: updatedProposalData
+        },
+        proposalData: updatedProposalData
+      })
+      
+      return { success: true }
+    } catch (error) {
+      console.error('Failed to update pricing config:', error)
+      throw error
+    }
+  },
+
+  // Get current pricing configuration
+  getPricingConfig: () => {
+    const { proposalData } = get()
+    return proposalData?.pricing_config || getDefaultPricingConfig().pricing_config
   }
 }))
 

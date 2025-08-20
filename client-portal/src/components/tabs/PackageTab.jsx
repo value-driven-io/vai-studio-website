@@ -19,6 +19,56 @@ import {
 } from 'lucide-react'
 import SelectedItemsSummary from '../ui/SelectedItemsSummary'
 
+const getPricingConfig = (proposalData) => {
+  // Get pricing config from database, with fallbacks to worksheet values
+  const config = proposalData?.pricing_config || {}
+  
+  return {
+    base_package: config.base_package || {
+      cost: 250000,
+      name: "Smart Setup Package",
+      description: "Complete Digital Foundation"
+    },
+    add_on_services: config.add_on_services || {
+      dual_payment: { cost: 15000, name: "Dual Payment Gateway", description: "Accept both PayZen and PayPal payments" },
+      enhanced_design: { cost: 35000, name: "Enhanced Design Package", description: "Premium visual design and custom branding" },
+      advanced_seo: { cost: 25000, name: "Advanced SEO Package", description: "Professional SEO optimization and content strategy" },
+      social_media: { cost: 15000, name: "Social Media Setup", description: "Professional social media profiles and content" },
+      email_marketing: { cost: 20000, name: "Email Marketing System", description: "Automated email campaigns and newsletters" },
+      analytics_dashboard: { cost: 25000, name: "Advanced Analytics Dashboard", description: "Detailed analytics and reporting tools" }
+    },
+    package_deals: config.package_deals || {
+      growth_package: {
+        services: ['advanced_seo', 'social_media', 'email_marketing'],
+        regular_price: 60000,
+        package_price: 55000,
+        savings: 5000,
+        name: "Growth Package",
+        description: "SEO + Social Media + Email Marketing"
+      },
+      premium_package: {
+        services: ['enhanced_design', 'analytics_dashboard', 'advanced_seo'],
+        regular_price: 85000,
+        package_price: 80000,
+        savings: 5000,
+        name: "Premium Package", 
+        description: "Enhanced Design + Analytics + Advanced SEO"
+      }
+    },
+    external_costs: config.external_costs || {
+      payzen_setup: { average_cost: 35000 },
+      paypal_setup: { cost: 0 },
+      hosting_annual: { cost: 16800 },
+      booking_system_annual: { cost: 48000 }
+    },
+    monthly_operating: config.monthly_operating || {
+      hosting: 1400,
+      booking_system: 4000,
+      total: 5400
+    }
+  }
+}
+
 const PackageTab = () => {
   const { t } = useTranslation()
   const { clientData, proposalData } = useClientStore()
@@ -545,6 +595,7 @@ const PackageTab = () => {
           </div>
         </div>
         
+        
         {calculatedPricing && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-4 bg-vai-coral/10 rounded-lg border border-vai-coral/20 text-center">
@@ -570,36 +621,49 @@ const PackageTab = () => {
         )}
       </div>
       */}
+      
+
+      {/* Selected items summary */}
+      <SelectedItemsSummary 
+        packageConfig={packageConfig} 
+        calculatedPricing={calculatedPricing} 
+      />
 
       {/* Pricing Summary - Always Visible */}
       {calculatedPricing && (
-        <div className="vai-card bg-gradient-to-br from-vai-coral/10 to-vai-teal/10 border-vai-coral/20">
+        <div className="vai-card bg-gradient-to-br from-vai-hibiscus/10 to-vai-teal/10 border-vai-coral/20">
           <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
             <Calculator className="w-5 h-5 text-vai-coral" />
             {t('package.pricing.title')}
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> */}
+          <div className="grid grid-cols-1"> 
             <div className="p-4 bg-vai-coral/10 rounded-lg border border-vai-coral/20 text-center">
               <div className="text-2xl font-bold text-vai-coral">{formatCurrency(calculatedPricing.total_vai_cost)}</div>
               <div className="text-sm text-vai-muted">{t('package.pricing.vai_total')}</div>
             </div>
             
+            {/*
             <div className="p-4 bg-vai-sunset/10 rounded-lg border border-vai-sunset/20 text-center">
               <div className="text-2xl font-bold text-vai-sunset">{formatCurrency(calculatedPricing.external_costs)}</div>
               <div className="text-sm text-vai-muted">{t('package.pricing.external_costs')}</div>
             </div>
-            
+
             <div className="p-4 bg-vai-teal/10 rounded-lg border border-vai-teal/20 text-center">
               <div className="text-2xl font-bold text-vai-teal">{formatCurrency(calculatedPricing.total_investment)}</div>
               <div className="text-sm text-vai-muted">{t('package.pricing.total_investment')}</div>
             </div>
             
+            
             <div className="p-4 bg-vai-hibiscus/10 rounded-lg border border-vai-hibiscus/20 text-center">
               <div className="text-2xl font-bold text-vai-hibiscus">{calculatedPricing.roi_months}</div>
               <div className="text-sm text-vai-muted">{t('package.pricing.roi_months')}</div>
             </div>
+            */}
+
           </div>
+          
 
           {/* Detailed Breakdown */}
           <div className="mt-6 p-4 bg-vai-lagoon/30 rounded-lg">
@@ -640,20 +704,16 @@ const PackageTab = () => {
         </div>
       )}
 
-      {/* Selected items summary */}
-      <SelectedItemsSummary 
-        packageConfig={packageConfig} 
-        calculatedPricing={calculatedPricing} 
-      />
-
       {/* Action Buttons */}
       {canEdit && (
         <div className="vai-card">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center">
+            {/*
             <div className="flex items-center gap-2 text-vai-muted">
               <Info className="w-4 h-4" />
               <span className="text-sm">{t('package.actions.instruction')}</span>
             </div>
+            */}
             
             <div className="flex items-center gap-3">
               <button

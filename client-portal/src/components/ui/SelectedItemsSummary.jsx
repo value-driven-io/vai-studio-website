@@ -111,6 +111,7 @@ const SelectedItemsSummary = ({ packageConfig, calculatedPricing }) => {
         )}
 
         {/* Financial Summary */}
+        {/*
         {calculatedPricing && (
           <div className="p-4 bg-gradient-to-r from-vai-hibiscus/10 to-vai-coral/10 rounded-lg border border-vai-hibiscus/20">
             <h4 className="font-semibold text-vai-pearl mb-4 flex items-center gap-2">
@@ -173,6 +174,8 @@ const SelectedItemsSummary = ({ packageConfig, calculatedPricing }) => {
             </div>
           </div>
         )}
+
+        */}
 
         {/* Selection Benefits */}
         <div className="p-4 bg-vai-bamboo/10 rounded-lg border border-vai-bamboo/20">
