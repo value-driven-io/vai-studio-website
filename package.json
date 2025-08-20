@@ -4,7 +4,7 @@
   "description": "VAI Studio Main Website with Client Portal",
   "scripts": {
     "build": "npm run build:portal && npm run copy:portal",
-    "build:portal": "cd client-portal && npm install && npm run build",
+    "build:portal": "cd client-portal && npm install --include=dev && npm run build",
     "copy:portal": "rm -rf portal && mkdir -p portal && cp -r client-portal/dist/* portal/",
     "dev:portal": "cd client-portal && npm run dev",
     "clean": "rm -rf portal client-portal/dist"
