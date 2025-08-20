@@ -277,7 +277,21 @@
       "analytics_dashboard": {
         "name": "Tableau de Bord Analytics Avancé",
         "description": "Outils d'analyse et de rapport détaillés"
-      }
+      },
+
+      "additional_platform": {
+          "name": "Intégration Plateforme Supplémentaire",
+          "description": "Par intégration de plateforme OTA supplémentaire (Booking.com, Expedia, etc.)"
+        },
+        "additional_language": {
+          "name": "Support Langue Supplémentaire",
+          "description": "Par implémentation de langue supplémentaire (Allemand, Espagnol, Italien, etc.)"
+        },
+        "per_unit": "par unité",
+        "add": "Ajouter",
+        "remove": "Retirer",
+        "total": "Total",
+        "quantity": "Quantité"
     },
     "deals": {
       "title": "Packages Groupés Économiques",
@@ -424,7 +438,33 @@
       "direct_bookings": "Réservations directes nécessaires",
       "calculate": "Recalculer",
       "months": "mois"
-    }
+    },
+
+    "external": {
+        "title": "Estimateur Coûts Externes",
+        "average": "moy",
+        "free": "gratuit", 
+        "recommended": "recommandé",
+        "payment_gateway": {
+          "title": "Configuration Passerelle de Paiement",
+          "client_pays": "Paie directement",
+          "timing_note": "La configuration rapide est importante pour la durée du projet :"
+        },
+        "dual_gateway": "Passerelle Double",
+        "hosting": {
+          "title": "Domaine & Hébergement (Annuel)",
+          "domain": "Renouvellement Domaine",
+          "hosting": "Hébergement"
+        },
+        "booking": {
+          "title": "Système de Réservation (Annuel)",
+          "system": "Système de Formulaire de Réservation"
+        },
+        "summary": {
+          "title": "Note Importante",
+          "description": "Ces coûts externes sont payés directement par le client aux fournisseurs de services. VAI Studio fournit une assistance à la configuration et un support continu. Le timing de configuration de la passerelle de paiement peut affecter les dates de lancement du projet."
+        }
+      }
   },
 
   "faq": {

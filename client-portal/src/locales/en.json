@@ -251,7 +251,20 @@
       "analytics_dashboard": {
         "name": "Advanced Analytics Dashboard",
         "description": "Detailed analytics and reporting tools"
-      }
+      },
+      "additional_platform": {
+          "name": "Additional Platform Integration",
+          "description": "Per additional OTA platform integration (Booking.com, Expedia, etc.)"
+      },
+      "additional_language": {
+          "name": "Additional Language Support", 
+          "description": "Per additional language implementation (German, Spanish, Italian, etc.)"
+       },
+    "per_unit": "per unit",
+        "add": "Add",
+        "remove": "Remove", 
+        "total": "Total",
+        "quantity": "Quantity"
     },
     "deals": {
       "title": "Package Deals",
@@ -390,7 +403,32 @@
       "target_bookings": "Target bookings/month",
       "calculate": "Calculate",
       "months": "months"
-    }
+    },
+    "external": {
+        "title": "External Cost Estimator",
+        "average": "avg",
+        "free": "free",
+        "recommended": "recommended",
+        "payment_gateway": {
+          "title": "Payment Gateway Setup",
+          "client_pays": "Client pays directly",
+          "timing_note": "This setup should be clarified asap:"
+        },
+        "dual_gateway": "Dual Gateway",
+        "hosting": {
+          "title": "Domain & Hosting (Annual)",
+          "domain": "Domain Renewal",
+          "hosting": "Hosting"
+        },
+        "booking": {
+          "title": "Booking System (Annual)",
+          "system": "Booking Form System"
+        },
+        "summary": {
+          "title": "Important Note",
+          "description": "These external costs are paid directly by the client to service providers. VAI Studio provides setup assistance and ongoing support. Payment gateway setup timing can affect project launch dates."
+        }
+      }
   },
   
   "faq": {

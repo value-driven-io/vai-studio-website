@@ -10,7 +10,8 @@ import {
   Calendar,
   Star,
   ArrowRight,
-  Info
+  Info, 
+  Globe
 } from 'lucide-react'
 
 // GET PRICING CONFIGURATION FROM DATABASE WITH FALLBACKS
@@ -269,6 +270,7 @@ const FinancesTab = () => {
       </div>
 
       {/* Monthly Operating Costs */}
+      {/*
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Calendar className="w-5 h-5 text-vai-bamboo" />
@@ -292,6 +294,129 @@ const FinancesTab = () => {
           </div>
         </div>
       </div>
+      */}
+
+      {/* External Cost Estimator - Info Box */}
+        <div className="vai-card">
+          <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
+            <Info className="w-5 h-5 text-vai-sunset" />
+            {t('finances.external.title')}
+          </h2>
+          
+          <div className="space-y-6">
+            {/* Payment Gateway Setup */}
+            <div>
+              <h3 className="text-lg font-semibold text-vai-pearl mb-4 flex items-center gap-2">
+                <CreditCard className="w-5 h-5 text-vai-coral" />
+                {t('finances.external.payment_gateway.title')}
+                <span className="text-xs bg-vai-coral/20 text-vai-coral px-2 py-1 rounded-full ml-2">
+                  {t('finances.external.payment_gateway.client_pays')}
+                </span>
+              </h3>
+              
+              <div className="bg-vai-lagoon/30 rounded-lg p-4">
+                {/*
+                <div className="text-sm text-vai-sunset mb-3 font-medium">
+                  {t('finances.external.payment_gateway.timing_note')}
+                </div>
+                */}
+                
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between py-2 border-b border-slate-700/30">
+                    <div className="flex items-center gap-3">
+                      <div className="w-4 h-4 border border-slate-500 rounded"></div>
+                      <span className="text-vai-pearl font-medium">PayZen Setup:</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-vai-pearl">20,000-49,900 F</div>
+                      <div className="text-sm text-vai-muted">{t('finances.external.average')}: 35,000 F</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between py-2 border-b border-slate-700/30">
+                    <div className="flex items-center gap-3">
+                      <div className="w-4 h-4 border border-slate-500 rounded"></div>
+                      <span className="text-vai-pearl font-medium">PayPal Setup:</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-vai-bamboo">0 F</div>
+                      <div className="text-sm text-vai-muted">{t('finances.external.free')}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between py-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-4 h-4 border border-slate-500 rounded"></div>
+                      <span className="text-vai-pearl font-medium">{t('finances.external.dual_gateway')}:</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-vai-pearl">PayZen + 0 F</div>
+                      <div className="text-sm text-vai-muted">{t('finances.external.recommended')}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Domain & Hosting */}
+            <div>
+              <h3 className="text-lg font-semibold text-vai-pearl mb-4 flex items-center gap-2">
+                <Globe className="w-5 h-5 text-vai-teal" />
+                {t('finances.external.hosting.title')}
+              </h3>
+              
+              <div className="bg-vai-teal/10 rounded-lg p-4 border border-vai-teal/20">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-vai-pearl font-medium">{t('finances.external.hosting.domain')}:</span>
+                    <div className="text-right">
+                      <div className="text-vai-teal">1,500 F/an</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-vai-pearl font-medium">{t('finances.external.hosting.hosting')}:</span>
+                    <div className="text-right">
+                      <div className="text-vai-teal">16,800 F/an</div>
+                      <div className="text-sm text-vai-muted">(1,400 F/mois)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Booking System */}
+            <div>
+              <h3 className="text-lg font-semibold text-vai-pearl mb-4 flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-vai-hibiscus" />
+                {t('finances.external.booking.title')}
+              </h3>
+              
+              <div className="bg-vai-hibiscus/10 rounded-lg p-4 border border-vai-hibiscus/20">
+                <div className="flex items-center justify-between">
+                  <span className="text-vai-pearl font-medium">{t('finances.external.booking.system')}:</span>
+                  <div className="text-right">
+                    <div className="text-vai-hibiscus">48,000 F/an</div>
+                    <div className="text-sm text-vai-muted">(4,000 F/mois)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Summary Note */}
+            <div className="bg-gradient-to-r from-vai-sunset/10 to-vai-coral/10 rounded-lg p-4 border border-vai-sunset/20">
+              <div className="flex items-start gap-3">
+                <Info className="w-5 h-5 text-vai-sunset flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="font-semibold text-vai-pearl mb-2">{t('finances.external.summary.title')}</h4>
+                  <p className="text-sm text-vai-muted leading-relaxed">
+                    {t('finances.external.summary.description')}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
       {/* ROI Calculator */}
       <div className="vai-card">
