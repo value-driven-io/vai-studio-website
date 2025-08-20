@@ -67,48 +67,48 @@ const PackageTab = () => {
   const availableAddOns = [
     {
       id: 'dual_payment',
-      name: 'Dual Payment Gateway',
-      description: 'Accept both PayZen and PayPal payments',
+      name: t('package.addons.dual_payment.name'),
+      description: t('package.addons.dual_payment.description'),
       cost: 15000,
       icon: CreditCard,
       category: 'payment'
     },
     {
       id: 'enhanced_design',
-      name: 'Enhanced Design Package',
-      description: 'Premium visual design and custom branding',
+      name: t('package.addons.enhanced_design.name'),
+      description: t('package.addons.enhanced_design.description'),
       cost: 35000,
       icon: Package,
       category: 'design'
     },
     {
       id: 'advanced_seo',
-      name: 'Advanced SEO Package', 
-      description: 'Professional SEO optimization and content strategy',
+      name: t('package.addons.advanced_seo.name'), 
+      description: t('package.addons.advanced_seo.description'),
       cost: 25000,
       icon: Calculator,
       category: 'marketing'
     },
     {
       id: 'social_media',
-      name: 'Social Media Setup',
-      description: 'Professional social media profiles and content',
+      name: t('package.addons.social_media.name'),
+      description: t('package.addons.social_media.description'),
       cost: 15000,
       icon: Star,
       category: 'marketing'
     },
     {
       id: 'email_marketing',
-      name: 'Email Marketing System',
-      description: 'Automated email campaigns and newsletters',
+      name: t('package.addons.email_marketing.name'),
+      description: t('package.addons.email_marketing.description'),
       cost: 20000,
       icon: Calendar,
       category: 'marketing'
     },
     {
       id: 'analytics_dashboard',
-      name: 'Advanced Analytics Dashboard',
-      description: 'Detailed analytics and reporting tools',
+      name: t('package.addons.analytics_dashboard.name'),
+      description: t('package.addons.analytics_dashboard.description'),
       cost: 25000,
       icon: Calculator,
       category: 'analytics'
@@ -119,8 +119,8 @@ const PackageTab = () => {
   const packageDeals = [
     {
       id: 'growth_package',
-      name: 'Growth Package',
-      description: 'SEO + Social Media + Email Marketing',
+      name: t('package.deals.growth.name'),
+      description: t('package.deals.growth.description'),
       services: ['advanced_seo', 'social_media', 'email_marketing'],
       regular_price: 60000,
       package_price: 55000,
@@ -128,8 +128,8 @@ const PackageTab = () => {
     },
     {
       id: 'premium_package', 
-      name: 'Premium Package',
-      description: 'Enhanced Design + Analytics + Advanced SEO',
+      name: t('package.deals.premium.name'),
+      description: t('package.deals.premium.description'),
       services: ['enhanced_design', 'analytics_dashboard', 'advanced_seo'],
       regular_price: 85000,
       package_price: 80000,
@@ -248,7 +248,7 @@ const PackageTab = () => {
   const handleSave = async () => {
     if (!savePackageConfig) {
       console.error('❌ savePackageConfig function not available')
-      alert('Error: Save function not available. Please refresh the page.')
+      alert(t('package.errors.save_function_unavailable'))
       return
     }
     
@@ -258,10 +258,10 @@ const PackageTab = () => {
       await savePackageConfig(packageConfig, calculatedPricing)
       setHasChanges(false)
       console.log('✅ Package configuration saved')
-      alert('Package configuration saved successfully!')
+      alert(t('package.messages.save_success'))
     } catch (error) {
       console.error('❌ Failed to save package configuration:', error)
-      alert('Failed to save package configuration. Please try again.')
+      alert(t('package.errors.save_failed'))
     } finally {
       setIsSaving(false)
     }
@@ -270,7 +270,7 @@ const PackageTab = () => {
   const handleSubmit = async () => {
     if (!submitConfiguration) {
       console.error('❌ submitConfiguration function not available')
-      alert('Error: Submit function not available. Please refresh the page.')
+      alert(t('package.errors.submit_function_unavailable'))
       return
     }
     
@@ -284,10 +284,10 @@ const PackageTab = () => {
       await submitConfiguration()
       console.log('✅ Configuration submitted successfully')
       
-      alert('Configuration submitted successfully! VAI Studio will review your selections and contact you soon.')
+      alert(t('package.messages.submit_success'))
     } catch (error) {
       console.error('❌ Failed to submit configuration:', error)
-      alert('Failed to submit configuration. Please try again.')
+      alert(t('package.errors.submit_failed'))
     }
   }
 
@@ -308,15 +308,15 @@ const PackageTab = () => {
           <div className="flex items-center gap-3">
             <Package className="w-6 h-6 text-vai-sunset" />
             <div>
-              <h1 className="text-2xl font-bold text-vai-pearl">Package Configuration</h1>
-              <p className="text-vai-muted">Customize your digital transformation package</p>
+              <h1 className="text-2xl font-bold text-vai-pearl">{t('package.title')}</h1>
+              <p className="text-vai-muted">{t('package.subtitle')}</p>
             </div>
           </div>
           
           {!canEdit && (
             <div className="flex items-center gap-2 text-vai-muted">
               <Lock className="w-4 h-4" />
-              <span className="text-sm">Configuration locked</span>
+              <span className="text-sm">{t('package.status.locked')}</span>
             </div>
           )}
         </div>
@@ -325,7 +325,7 @@ const PackageTab = () => {
           <div className="mt-4 p-3 bg-vai-sunset/10 rounded-lg border border-vai-sunset/20">
             <div className="flex items-center gap-2 text-vai-sunset">
               <AlertCircle className="w-4 h-4" />
-              <span className="text-sm">Your package configuration is locked because it has been submitted. Contact VAI Studio if you need to make changes.</span>
+              <span className="text-sm">{t('package.messages.locked_explanation')}</span>
             </div>
           </div>
         )}
@@ -335,45 +335,45 @@ const PackageTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <CheckCircle className="w-5 h-5 text-vai-bamboo" />
-          Smart Setup Package (Base)
+          {t('package.base.title')}
         </h2>
         
         <div className="p-4 bg-vai-bamboo/10 rounded-lg border border-vai-bamboo/20">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-vai-pearl">Complete Digital Foundation</h3>
-              <p className="text-vai-muted">Everything you need for professional online presence</p>
+              <h3 className="text-lg font-semibold text-vai-pearl">{t('package.base.name')}</h3>
+              <p className="text-vai-muted">{t('package.base.description')}</p>
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold text-vai-bamboo">{formatCurrency(250000)}</div>
-              <div className="text-sm text-vai-muted">Always included</div>
+              <div className="text-sm text-vai-muted">{t('package.base.always_included')}</div>
             </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-2 text-vai-muted">
               <CheckCircle className="w-4 h-4 text-vai-bamboo" />
-              Professional bilingual website
+              {t('package.base.features.website')}
             </div>
             <div className="flex items-center gap-2 text-vai-muted">
               <CheckCircle className="w-4 h-4 text-vai-bamboo" />
-              Integrated booking system
+              {t('package.base.features.booking')}
             </div>
             <div className="flex items-center gap-2 text-vai-muted">
               <CheckCircle className="w-4 h-4 text-vai-bamboo" />
-              Payment gateway setup
+              {t('package.base.features.payment')}
             </div>
             <div className="flex items-center gap-2 text-vai-muted">
               <CheckCircle className="w-4 h-4 text-vai-bamboo" />
-              Google Business optimization
+              {t('package.base.features.google')}
             </div>
             <div className="flex items-center gap-2 text-vai-muted">
               <CheckCircle className="w-4 h-4 text-vai-bamboo" />
-              3 platform listings
+              {t('package.base.features.platforms')}
             </div>
             <div className="flex items-center gap-2 text-vai-muted">
               <CheckCircle className="w-4 h-4 text-vai-bamboo" />
-              Training & documentation
+              {t('package.base.features.training')}
             </div>
           </div>
         </div>
@@ -435,7 +435,7 @@ const PackageTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Plus className="w-5 h-5 text-vai-coral" />
-          Additional Services
+          {t('package.addons.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -468,7 +468,7 @@ const PackageTab = () => {
                       <div className="text-right">
                         <div className="font-semibold text-vai-pearl">{formatCurrency(addon.cost)}</div>
                         {isInPackageDeal && (
-                          <div className="text-xs text-vai-hibiscus">In package deal</div>
+                          <div className="text-xs text-vai-hibiscus">{t('package.addons.in_package_deal')}</div>
                         )}
                       </div>
                     </div>
@@ -547,7 +547,7 @@ const PackageTab = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-vai-muted">
               <Info className="w-4 h-4" />
-              <span className="text-sm">Save your configuration or submit for review when ready</span>
+              <span className="text-sm">{t('package.actions.instruction')}</span>
             </div>
             
             <div className="flex items-center gap-3">
@@ -561,7 +561,7 @@ const PackageTab = () => {
                 ) : (
                   <Save className="w-4 h-4" />
                 )}
-                {isSaving ? 'Saving...' : 'Save Configuration'}
+                {isSaving ? t('package.actions.saving') : t('package.actions.save')}
               </button>
               
               <button
@@ -570,7 +570,7 @@ const PackageTab = () => {
                 disabled={!calculatedPricing}
               >
                 <Send className="w-4 h-4" />
-                Submit for Review
+                {t('package.actions.submit')}
               </button>
             </div>
           </div>

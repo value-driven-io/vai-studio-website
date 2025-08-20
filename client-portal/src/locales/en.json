@@ -50,17 +50,207 @@
     }
   },
 
+  "profile": {
+    "title": "Business Profile",
+    "subtitle": "Manage your business information and digital presence",
+    "sections": {
+      "basic_info": "Basic Information",
+      "business_details": "Business Details",
+      "digital_presence": "Current Digital Presence",
+      "content_materials": "Content & Materials"
+    },
+    "fields": {
+      "company_name": "Company Name",
+      "contact_person": "Contact Person",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "phone": "Phone",
+      "primary_island": "Primary Island",
+      "business_type": "Business Type",
+      "years_operation": "Years in Operation",
+      "target_bookings": "Target Monthly Bookings",
+      "average_price": "Average Tour Price (XPF)",
+      "peak_season": "Peak Season Months",
+      "website_status": "Website Status",
+      "google_business": "Google Business Status",
+      "booking_volume": "Current Booking Volume/Month",
+      "lost_bookings": "Lost Bookings Estimate (%)",
+      "professional_photos": "Professional Photos",
+      "logo_status": "Logo Status",
+      "business_description": "Business Description",
+      "tour_descriptions": "Tour Descriptions"
+    },
+    "placeholders": {
+      "company_name": "Your business name",
+      "contact_person": "Primary contact name",
+      "email": "contact@yourbusiness.com",
+      "phone": "+689 XX XX XX XX",
+      "select_island": "Select island",
+      "select_business_type": "Select business type",
+      "select_experience": "Select experience level",
+      "peak_season": "May - October, December",
+      "select_photos": "Select photo availability",
+      "select_logo": "Select logo status",
+      "select_description": "Select description status",
+      "select_tour_descriptions": "Select description status"
+    },
+    "business_types": {
+      "whale_watching": "Whale Watching",
+      "lagoon_excursions": "Lagoon Excursions",
+      "diving": "Diving",
+      "cultural_tours": "Cultural Tours",
+      "island_hopping": "Island Hopping",
+      "adventure_tours": "Adventure Tours",
+      "other": "Other"
+    },
+    "islands": {
+      "other": "Other"
+    },
+    "years_options": {
+      "startup": "Startup",
+      "1_2_years": "1-2 years",
+      "3_5_years": "3-5 years",
+      "5_plus_years": "5+ years"
+    },
+    "website_options": {
+      "none": "No website",
+      "basic": "Basic website",
+      "professional": "Professional website"
+    },
+    "google_options": {
+      "none": "No Google Business profile",
+      "basic": "Basic profile",
+      "optimized": "Optimized profile"
+    },
+    "photo_options": {
+      "20_plus": "20+ professional photos",
+      "10_20": "10-20 photos",
+      "5_10": "5-10 photos",
+      "none": "No professional photos"
+    },
+    "logo_options": {
+      "professional": "Professional logo",
+      "basic": "Basic logo",
+      "none": "No logo - need creation"
+    },
+    "description_options": {
+      "ready": "Ready to use",
+      "draft": "Draft available",
+      "need_help": "Need help writing"
+    },
+    "tour_options": {
+      "detailed": "Detailed descriptions",
+      "basic": "Basic descriptions",
+      "need_creation": "Need creation"
+    },
+    "completion": {
+      "title": "Profile Completion",
+      "overall": "Overall Complete",
+      "completed": "Fields Completed",
+      "remaining": "Fields Remaining"
+    },
+    "actions": {
+      "edit": "Edit Profile",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "locked": "Profile locked - configuration submitted"
+    },
+    "messages": {
+      "locked_explanation": "Your profile is locked because your configuration has been submitted. Contact VAI Studio if you need to make changes.",
+      "save_success": "Profile saved successfully!",
+      "save_failed": "Failed to save profile. Please try again."
+    },
+    "errors": {
+      "save_function_unavailable": "Error: Save function not available. Please refresh the page.",
+      "save_failed": "Failed to save profile. Please try again."
+    }
+  },
+
   "package": {
     "title": "Package Configuration",
     "subtitle": "Customize your digital transformation package",
-    "base_package": "Smart Setup Package (Base)",
-    "package_deals": "Package Deals (Save Money!)",
-    "additional_services": "Additional Services",
-    "calculator": "Investment Calculator",
-    "calculate": "Calculate Pricing",
-    "save_config": "Save Configuration",
-    "submit_review": "Submit for Review",
-    "locked": "Configuration locked"
+    "base": {
+      "title": "Smart Setup Package (Base)",
+      "name": "Complete Digital Foundation",
+      "description": "Everything you need for professional online presence",
+      "always_included": "Always included",
+      "features": {
+        "website": "Professional bilingual website",
+        "booking": "Integrated booking system",
+        "payment": "Payment gateway setup",
+        "google": "Google Business optimization",
+        "platforms": "3 platform listings",
+        "training": "Training & documentation"
+      }
+    },
+    "addons": {
+      "title": "Additional Services",
+      "in_package_deal": "In package deal",
+      "dual_payment": {
+        "name": "Dual Payment Gateway",
+        "description": "Accept both PayZen and PayPal payments"
+      },
+      "enhanced_design": {
+        "name": "Enhanced Design Package",
+        "description": "Premium visual design and custom branding"
+      },
+      "advanced_seo": {
+        "name": "Advanced SEO Package",
+        "description": "Professional SEO optimization and content strategy"
+      },
+      "social_media": {
+        "name": "Social Media Setup",
+        "description": "Professional social media profiles and content"
+      },
+      "email_marketing": {
+        "name": "Email Marketing System",
+        "description": "Automated email campaigns and newsletters"
+      },
+      "analytics_dashboard": {
+        "name": "Advanced Analytics Dashboard",
+        "description": "Detailed analytics and reporting tools"
+      }
+    },
+    "deals": {
+      "growth": {
+        "name": "Growth Package",
+        "description": "SEO + Social Media + Email Marketing"
+      },
+      "premium": {
+        "name": "Premium Package",
+        "description": "Enhanced Design + Analytics + Advanced SEO"
+      }
+    },
+    "selected_items": {
+      "title": "Selected Items",
+      "base_package": "Base package",
+      "addons": "Additional services",
+      "package_deals": "Package deals",
+      "none_selected": "No items selected"
+    },
+    "actions": {
+      "instruction": "Save your configuration or submit for review when ready",
+      "save": "Save Configuration",
+      "saving": "Saving...",
+      "submit": "Submit for Review"
+    },
+    "status": {
+      "locked": "Configuration locked"
+    },
+    "messages": {
+      "locked_explanation": "Your package configuration is locked because it has been submitted. Contact VAI Studio if you need to make changes.",
+      "save_success": "Package configuration saved successfully!",
+      "submit_success": "Configuration submitted successfully! VAI Studio will review your selections and contact you soon."
+    },
+    "errors": {
+      "save_function_unavailable": "Error: Save function not available. Please refresh the page.",
+      "submit_function_unavailable": "Error: Submit function not available. Please refresh the page.",
+      "save_failed": "Failed to save package configuration. Please try again.",
+      "submit_failed": "Failed to submit configuration. Please try again."
+    }
   },
   
   "scope": {
@@ -106,7 +296,9 @@
       "option_2": "Split payment",
       "deposit": "Deposit (50%)",
       "final": "Final payment (50%)",
-      "recommended": "Recommended"
+      "recommended": "Recommended",
+      "full_payment": "Full payment",
+      "split_payment": "Split payment"
     },
     "monthly": {
       "title": "Monthly Costs",
@@ -118,7 +310,13 @@
       "title": "Return on Investment",
       "breakeven": "Break-even point",
       "bookings_needed": "Bookings needed",
-      "monthly_revenue": "Estimated monthly revenue"
+      "monthly_revenue": "Estimated monthly revenue",
+      "monthly_profit": "Monthly profit",
+      "direct_bookings": "Direct bookings needed",
+      "average_price": "Average tour price",
+      "target_bookings": "Target bookings/month",
+      "calculate": "Calculate",
+      "months": "months"
     }
   },
   
@@ -202,19 +400,6 @@
     "included": "Included",
     "optional": "Optional",
     "coming_soon": "Coming soon"
-  },
-
-  "profile": {
-    "title": "Business Profile", 
-    "edit": "Edit Profile",
-    "save": "Save",
-    "cancel": "Cancel",
-    "locked": "Profile locked - configuration submitted",
-    "completion": "Profile Completion",
-    "basic_info": "Basic Information",
-    "business_details": "Business Details",
-    "digital_presence": "Current Digital Presence",
-    "content_materials": "Content & Materials"
   },
   
   "meta": {

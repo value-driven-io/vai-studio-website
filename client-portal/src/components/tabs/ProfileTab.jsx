@@ -99,7 +99,7 @@ const ProfileTab = () => {
   const handleSave = async () => {
     if (!saveProfile) {
       console.error('❌ saveProfile function not available')
-      alert('Error: Save function not available. Please refresh the page.')
+      alert(t('profile.errors.save_function_unavailable'))
       return
     }
     
@@ -112,10 +112,10 @@ const ProfileTab = () => {
       
       // Show success message
       console.log('✅ Profile saved successfully')
-      alert('Profile saved successfully!')
+      alert(t('profile.messages.save_success'))
     } catch (error) {
       console.error('❌ Failed to save profile:', error)
-      alert('Failed to save profile. Please try again.')
+      alert(t('profile.errors.save_failed'))
     } finally {
       setIsSaving(false)
     }
@@ -130,13 +130,13 @@ const ProfileTab = () => {
   }
 
   const businessTypes = [
-    'Whale Watching',
-    'Lagoon Excursions', 
-    'Diving',
-    'Cultural Tours',
-    'Island Hopping',
-    'Adventure Tours',
-    'Other'
+    t('profile.business_types.whale_watching'),
+    t('profile.business_types.lagoon_excursions'), 
+    t('profile.business_types.diving'),
+    t('profile.business_types.cultural_tours'),
+    t('profile.business_types.island_hopping'),
+    t('profile.business_types.adventure_tours'),
+    t('profile.business_types.other')
   ]
 
   const islands = [
@@ -147,27 +147,27 @@ const ProfileTab = () => {
     'Raiatea',
     'Taha\'a',
     'Rangiroa',
-    'Other'
+    t('profile.islands.other')
   ]
 
   const yearsOptions = [
-    'Startup',
-    '1-2 years',
-    '3-5 years', 
-    '5+ years'
+    t('profile.years_options.startup'),
+    t('profile.years_options.1_2_years'),
+    t('profile.years_options.3_5_years'), 
+    t('profile.years_options.5_plus_years')
   ]
 
   const websiteOptions = [
-    { value: 'none', label: 'No website' },
-    { value: 'basic', label: 'Basic website' },
-    { value: 'professional', label: 'Professional website' }
+    { value: 'none', label: t('profile.website_options.none') },
+    { value: 'basic', label: t('profile.website_options.basic') },
+    { value: 'professional', label: t('profile.website_options.professional') }
   ]
 
   const photoOptions = [
-    { value: '20+ available', label: '20+ professional photos' },
-    { value: '10-20 available', label: '10-20 photos' },
-    { value: '5-10 available', label: '5-10 photos' },
-    { value: 'none', label: 'No professional photos' }
+    { value: '20+ available', label: t('profile.photo_options.20_plus') },
+    { value: '10-20 available', label: t('profile.photo_options.10_20') },
+    { value: '5-10 available', label: t('profile.photo_options.5_10') },
+    { value: 'none', label: t('profile.photo_options.none') }
   ]
 
   return (
@@ -178,8 +178,8 @@ const ProfileTab = () => {
           <div className="flex items-center gap-3">
             <User className="w-6 h-6 text-vai-coral" />
             <div>
-              <h1 className="text-2xl font-bold text-vai-pearl">Business Profile</h1>
-              <p className="text-vai-muted">Manage your business information and digital presence</p>
+              <h1 className="text-2xl font-bold text-vai-pearl">{t('profile.title')}</h1>
+              <p className="text-vai-muted">{t('profile.subtitle')}</p>
             </div>
           </div>
           
@@ -193,7 +193,7 @@ const ProfileTab = () => {
                     className="vai-button-secondary flex items-center gap-2"
                   >
                     <Edit className="w-4 h-4" />
-                    Edit Profile
+                    {t('profile.actions.edit')}
                   </button>
                 ) : (
                   <div className="flex items-center gap-2">
@@ -202,7 +202,7 @@ const ProfileTab = () => {
                       className="vai-button-ghost"
                       disabled={isSaving}
                     >
-                      Cancel
+                      {t('common.cancel')}
                     </button>
                     <button
                       onClick={handleSave}
@@ -214,7 +214,7 @@ const ProfileTab = () => {
                       ) : (
                         <Save className="w-4 h-4" />
                       )}
-                      {isSaving ? 'Saving...' : 'Save Changes'}
+                      {isSaving ? t('profile.actions.saving') : t('profile.actions.save')}
                     </button>
                   </div>
                 )}
@@ -222,7 +222,7 @@ const ProfileTab = () => {
             ) : (
               <div className="flex items-center gap-2 text-vai-muted">
                 <Lock className="w-4 h-4" />
-                <span className="text-sm">Profile locked - configuration submitted</span>
+                <span className="text-sm">{t('profile.status.locked')}</span>
               </div>
             )}
           </div>
@@ -232,7 +232,7 @@ const ProfileTab = () => {
           <div className="mt-4 p-3 bg-vai-sunset/10 rounded-lg border border-vai-sunset/20">
             <div className="flex items-center gap-2 text-vai-sunset">
               <AlertCircle className="w-4 h-4" />
-              <span className="text-sm">Your profile is locked because your configuration has been submitted. Contact VAI Studio if you need to make changes.</span>
+              <span className="text-sm">{t('profile.messages.locked_explanation')}</span>
             </div>
           </div>
         )}
@@ -242,79 +242,79 @@ const ProfileTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Building className="w-5 h-5 text-vai-coral" />
-          Basic Information
+          {t('profile.sections.basic_info')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Company Name *</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.company_name')} *</label>
             <input
               type="text"
               value={formData.company_name || ''}
               onChange={(e) => handleFieldChange('company_name', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
-              placeholder="Your business name"
+              placeholder={t('profile.placeholders.company_name')}
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Contact Person *</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.contact_person')} *</label>
             <input
               type="text"
               value={formData.client_name || ''}
               onChange={(e) => handleFieldChange('client_name', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
-              placeholder="Primary contact name"
+              placeholder={t('profile.placeholders.contact_person')}
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Email *</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.email')} *</label>
             <input
               type="email"
               value={formData.email || ''}
               onChange={(e) => handleFieldChange('email', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
-              placeholder="contact@yourbusiness.com"
+              placeholder={t('profile.placeholders.email')}
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">WhatsApp</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.whatsapp')}</label>
             <input
               type="tel"
               value={formData.whatsapp || ''}
               onChange={(e) => handleFieldChange('whatsapp', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
-              placeholder="+689 XX XX XX XX"
+              placeholder={t('profile.placeholders.phone')}
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Phone</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.phone')}</label>
             <input
               type="tel"
               value={formData.phone || ''}
               onChange={(e) => handleFieldChange('phone', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
-              placeholder="+689 XX XX XX XX"
+              placeholder={t('profile.placeholders.phone')}
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Primary Island *</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.primary_island')} *</label>
             <select
               value={formData.island || ''}
               onChange={(e) => handleFieldChange('island', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="">Select island</option>
+              <option value="">{t('profile.placeholders.select_island')}</option>
               {islands.map(island => (
                 <option key={island} value={island}>{island}</option>
               ))}
@@ -327,19 +327,19 @@ const ProfileTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <MapPin className="w-5 h-5 text-vai-teal" />
-          Business Details
+          {t('profile.sections.business_details')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Business Type *</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.business_type')} *</label>
             <select
               value={formData.business_type || ''}
               onChange={(e) => handleFieldChange('business_type', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="">Select business type</option>
+              <option value="">{t('profile.placeholders.select_business_type')}</option>
               {businessTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
               ))}
@@ -347,14 +347,14 @@ const ProfileTab = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Years in Operation</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.years_operation')}</label>
             <select
               value={formData.years_in_operation || ''}
               onChange={(e) => handleFieldChange('years_in_operation', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="">Select experience level</option>
+              <option value="">{t('profile.placeholders.select_experience')}</option>
               {yearsOptions.map(years => (
                 <option key={years} value={years}>{years}</option>
               ))}
@@ -362,7 +362,7 @@ const ProfileTab = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Target Monthly Bookings</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.target_bookings')}</label>
             <input
               type="number"
               value={formData.target_monthly_bookings || ''}
@@ -374,7 +374,7 @@ const ProfileTab = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Average Tour Price (XPF)</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.average_price')}</label>
             <input
               type="number"
               value={formData.average_tour_price || ''}
@@ -386,14 +386,14 @@ const ProfileTab = () => {
           </div>
           
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-vai-muted mb-2">Peak Season Months</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.peak_season')}</label>
             <input
               type="text"
               value={formData.peak_season_months || ''}
               onChange={(e) => handleFieldChange('peak_season_months', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
-              placeholder="May - October, December"
+              placeholder={t('profile.placeholders.peak_season')}
             />
           </div>
         </div>
@@ -403,12 +403,12 @@ const ProfileTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Globe className="w-5 h-5 text-vai-sunset" />
-          Current Digital Presence
+          {t('profile.sections.digital_presence')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Website Status</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.website_status')}</label>
             <select
               value={formData.website_status || 'none'}
               onChange={(e) => handleFieldChange('website_status', e.target.value)}
@@ -422,21 +422,21 @@ const ProfileTab = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Google Business Status</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.google_business')}</label>
             <select
               value={formData.google_business || 'none'}
               onChange={(e) => handleFieldChange('google_business', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="none">No Google Business profile</option>
-              <option value="basic">Basic profile</option>
-              <option value="optimized">Optimized profile</option>
+              <option value="none">{t('profile.google_options.none')}</option>
+              <option value="basic">{t('profile.google_options.basic')}</option>
+              <option value="optimized">{t('profile.google_options.optimized')}</option>
             </select>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Current Booking Volume/Month</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.booking_volume')}</label>
             <input
               type="number"
               value={formData.current_booking_volume || ''}
@@ -448,7 +448,7 @@ const ProfileTab = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Lost Bookings Estimate (%)</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.lost_bookings')}</label>
             <input
               type="number"
               value={formData.lost_booking_estimate || ''}
@@ -465,19 +465,19 @@ const ProfileTab = () => {
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Calendar className="w-5 h-5 text-vai-hibiscus" />
-          Content & Materials
+          {t('profile.sections.content_materials')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Professional Photos</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.professional_photos')}</label>
             <select
               value={formData.professional_photos || ''}
               onChange={(e) => handleFieldChange('professional_photos', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="">Select photo availability</option>
+              <option value="">{t('profile.placeholders.select_photos')}</option>
               {photoOptions.map(option => (
                 <option key={option.value} value={option.value}>{option.label}</option>
               ))}
@@ -485,47 +485,47 @@ const ProfileTab = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Logo Status</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.logo_status')}</label>
             <select
               value={formData.logo_status || ''}
               onChange={(e) => handleFieldChange('logo_status', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="">Select logo status</option>
-              <option value="professional">Professional logo</option>
-              <option value="basic">Basic logo</option>
-              <option value="none">No logo - need creation</option>
+              <option value="">{t('profile.placeholders.select_logo')}</option>
+              <option value="professional">{t('profile.logo_options.professional')}</option>
+              <option value="basic">{t('profile.logo_options.basic')}</option>
+              <option value="none">{t('profile.logo_options.none')}</option>
             </select>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Business Description</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.business_description')}</label>
             <select
               value={formData.business_description || ''}
               onChange={(e) => handleFieldChange('business_description', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="">Select description status</option>
-              <option value="ready">Ready to use</option>
-              <option value="draft available">Draft available</option>
-              <option value="need help writing">Need help writing</option>
+              <option value="">{t('profile.placeholders.select_description')}</option>
+              <option value="ready">{t('profile.description_options.ready')}</option>
+              <option value="draft available">{t('profile.description_options.draft')}</option>
+              <option value="need help writing">{t('profile.description_options.need_help')}</option>
             </select>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-vai-muted mb-2">Tour Descriptions</label>
+            <label className="block text-sm font-medium text-vai-muted mb-2">{t('profile.fields.tour_descriptions')}</label>
             <select
               value={formData.tour_descriptions || ''}
               onChange={(e) => handleFieldChange('tour_descriptions', e.target.value)}
               disabled={!isEditing}
               className="vai-input"
             >
-              <option value="">Select description status</option>
-              <option value="detailed">Detailed descriptions</option>
-              <option value="basic">Basic descriptions</option>
-              <option value="need creation">Need creation</option>
+              <option value="">{t('profile.placeholders.select_tour_descriptions')}</option>
+              <option value="detailed">{t('profile.tour_options.detailed')}</option>
+              <option value="basic">{t('profile.tour_options.basic')}</option>
+              <option value="need creation">{t('profile.tour_options.need_creation')}</option>
             </select>
           </div>
         </div>
@@ -535,23 +535,23 @@ const ProfileTab = () => {
       <div className="vai-card bg-gradient-to-br from-vai-coral/10 to-vai-teal/10 border-vai-coral/20">
         <h2 className="text-xl font-semibold text-vai-pearl mb-4 flex items-center gap-2">
           <CheckCircle className="w-5 h-5 text-vai-coral" />
-          Profile Completion
+          {t('profile.completion.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center">
             <div className="text-2xl font-bold text-vai-coral mb-1">85%</div>
-            <div className="text-sm text-vai-muted">Overall Complete</div>
+            <div className="text-sm text-vai-muted">{t('profile.completion.overall')}</div>
           </div>
           
           <div className="text-center">
             <div className="text-2xl font-bold text-vai-teal mb-1">12</div>
-            <div className="text-sm text-vai-muted">Fields Completed</div>
+            <div className="text-sm text-vai-muted">{t('profile.completion.completed')}</div>
           </div>
           
           <div className="text-center">
             <div className="text-2xl font-bold text-vai-sunset mb-1">3</div>
-            <div className="text-sm text-vai-muted">Fields Remaining</div>
+            <div className="text-sm text-vai-muted">{t('profile.completion.remaining')}</div>
           </div>
         </div>
         

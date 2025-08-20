@@ -38,7 +38,8 @@
     "yes": "Oui",
     "no": "Non",
     "optional": "Optionnel",
-    "required": "Obligatoire"
+    "required": "Obligatoire",
+    "included": "Inclus"
   },
   
   "tabs": {
@@ -95,83 +96,177 @@
 
   "profile": {
     "title": "Profil d'Entreprise",
-    "subtitle": "Informations sur votre entreprise et vos besoins",
-    "business_info": {
-      "title": "Informations Générales",
+    "subtitle": "Gérez les informations de votre entreprise et votre présence digitale",
+    "sections": {
+      "basic_info": "Informations de Base",
+      "business_details": "Détails de l'Entreprise",
+      "digital_presence": "Présence Digitale Actuelle",
+      "content_materials": "Contenu et Matériaux"
+    },
+    "fields": {
       "company_name": "Nom de l'entreprise",
       "contact_person": "Personne de contact",
       "email": "Email",
-      "phone": "Téléphone",
       "whatsapp": "WhatsApp",
-      "island": "Île principale",
+      "phone": "Téléphone",
+      "primary_island": "Île principale",
       "business_type": "Type d'activité",
-      "description": "Description de l'activité"
+      "years_operation": "Années d'activité",
+      "target_bookings": "Réservations cibles mensuelles",
+      "average_price": "Prix moyen par tour (XPF)",
+      "peak_season": "Mois de haute saison",
+      "website_status": "Statut du site web",
+      "google_business": "Statut Google Business",
+      "booking_volume": "Volume de réservations actuel/mois",
+      "lost_bookings": "Estimation de réservations perdues (%)",
+      "professional_photos": "Photos professionnelles",
+      "logo_status": "Statut du logo",
+      "business_description": "Description de l'entreprise",
+      "tour_descriptions": "Descriptions des tours"
     },
-    "digital_presence": {
-      "title": "Présence Digitale Actuelle",
-      "website": "Site web existant",
-      "facebook": "Page Facebook",
-      "instagram": "Compte Instagram",
-      "google_business": "Google Business Profile",
-      "other_platforms": "Autres plateformes"
+    "placeholders": {
+      "company_name": "Nom de votre entreprise",
+      "contact_person": "Nom du contact principal",
+      "email": "contact@votreentreprise.com",
+      "phone": "+689 XX XX XX XX",
+      "select_island": "Sélectionnez l'île",
+      "select_business_type": "Sélectionnez le type d'activité",
+      "select_experience": "Sélectionnez le niveau d'expérience",
+      "peak_season": "Mai - Octobre, Décembre",
+      "select_photos": "Sélectionnez la disponibilité des photos",
+      "select_logo": "Sélectionnez le statut du logo",
+      "select_description": "Sélectionnez le statut de la description",
+      "select_tour_descriptions": "Sélectionnez le statut des descriptions"
     },
-    "project_details": {
-      "title": "Détails du Projet",
-      "goals": "Objectifs principaux",
-      "target_audience": "Public cible",
-      "special_requirements": "Exigences spéciales",
-      "launch_timeline": "Délai souhaité"
+    "business_types": {
+      "whale_watching": "Observation des baleines",
+      "lagoon_excursions": "Excursions lagonaires",
+      "diving": "Plongée",
+      "cultural_tours": "Tours culturels",
+      "island_hopping": "Tours des îles",
+      "adventure_tours": "Tours d'aventure",
+      "other": "Autre"
     },
-    "tour_business": {
-      "title": "Détails Tours & Activités",
-      "average_price": "Prix moyen par tour",
-      "capacity": "Capacité maximum",
-      "duration": "Durée moyenne",
-      "languages": "Langues proposées",
-      "booking_volume": "Volume de réservations actuel"
+    "islands": {
+      "other": "Autre"
     },
-    "edit_mode": {
-      "locked": "Profil verrouillé - configuration soumise",
-      "edit_button": "Modifier le profil",
-      "save_button": "Enregistrer les modifications",
+    "years_options": {
+      "startup": "Startup",
+      "1_2_years": "1-2 ans",
+      "3_5_years": "3-5 ans",
+      "5_plus_years": "5+ ans"
+    },
+    "website_options": {
+      "none": "Aucun site web",
+      "basic": "Site web basique",
+      "professional": "Site web professionnel"
+    },
+    "google_options": {
+      "none": "Aucun profil Google Business",
+      "basic": "Profil basique",
+      "optimized": "Profil optimisé"
+    },
+    "photo_options": {
+      "20_plus": "20+ photos professionnelles",
+      "10_20": "10-20 photos",
+      "5_10": "5-10 photos",
+      "none": "Aucune photo professionnelle"
+    },
+    "logo_options": {
+      "professional": "Logo professionnel",
+      "basic": "Logo basique",
+      "none": "Aucun logo - besoin de création"
+    },
+    "description_options": {
+      "ready": "Prêt à utiliser",
+      "draft": "Brouillon disponible",
+      "need_help": "Besoin d'aide pour rédiger"
+    },
+    "tour_options": {
+      "detailed": "Descriptions détaillées",
+      "basic": "Descriptions basiques",
+      "need_creation": "Besoin de création"
+    },
+    "completion": {
+      "title": "Achèvement du Profil",
+      "overall": "Complété globalement",
+      "completed": "Champs complétés",
+      "remaining": "Champs restants"
+    },
+    "actions": {
+      "edit": "Modifier le profil",
+      "save": "Enregistrer les modifications",
       "saving": "Enregistrement...",
-      "cancel_button": "Annuler"
+      "cancel": "Annuler"
+    },
+    "status": {
+      "locked": "Profil verrouillé - configuration soumise"
+    },
+    "messages": {
+      "locked_explanation": "Votre profil est verrouillé car votre configuration a été soumise. Contactez VAI Studio si vous devez apporter des modifications.",
+      "save_success": "Profil enregistré avec succès !",
+      "save_failed": "Échec de l'enregistrement du profil. Veuillez réessayer."
+    },
+    "errors": {
+      "save_function_unavailable": "Erreur : Fonction d'enregistrement non disponible. Veuillez actualiser la page.",
+      "save_failed": "Échec de l'enregistrement du profil. Veuillez réessayer."
     }
   },
 
   "package": {
-    "title": "Configuration Package",
-    "subtitle": "Personnalisez votre solution digitale",
-    "base_package": {
-      "title": "Package Smart Setup",
-      "subtitle": "Fondation complète pour votre présence digitale",
-      "description": "Site web professionnel, système de réservation, et optimisation locale",
-      "cost": "Coût de base",
-      "includes": "Inclus"
+    "title": "Configuration du Package",
+    "subtitle": "Personnalisez votre package de transformation digitale",
+    "base": {
+      "title": "Package Smart Setup (Base)",
+      "name": "Fondation Digitale Complète",
+      "description": "Tout ce dont vous avez besoin pour une présence en ligne professionnelle",
+      "always_included": "Toujours inclus",
+      "features": {
+        "website": "Site web bilingue professionnel",
+        "booking": "Système de réservation intégré",
+        "payment": "Configuration de la passerelle de paiement",
+        "google": "Optimisation Google Business",
+        "platforms": "Inscription sur 3 plateformes",
+        "training": "Formation et documentation"
+      }
     },
     "addons": {
       "title": "Services Additionnels",
-      "subtitle": "Améliorez votre package avec ces options",
-      "categories": {
-        "payment": "Paiement",
-        "design": "Design",
-        "marketing": "Marketing",
-        "analytics": "Analytics"
+      "in_package_deal": "Dans le package groupé",
+      "dual_payment": {
+        "name": "Passerelle de Paiement Double",
+        "description": "Accepter les paiements PayZen et PayPal"
+      },
+      "enhanced_design": {
+        "name": "Package Design Amélioré",
+        "description": "Design visuel premium et branding personnalisé"
+      },
+      "advanced_seo": {
+        "name": "Package SEO Avancé",
+        "description": "Optimisation SEO professionnelle et stratégie de contenu"
+      },
+      "social_media": {
+        "name": "Configuration Médias Sociaux",
+        "description": "Profils de médias sociaux professionnels et contenu"
+      },
+      "email_marketing": {
+        "name": "Système de Marketing Email",
+        "description": "Campagnes email automatisées et newsletters"
+      },
+      "analytics_dashboard": {
+        "name": "Tableau de Bord Analytics Avancé",
+        "description": "Outils d'analyse et de rapport détaillés"
       }
     },
-    "package_deals": {
-      "title": "Packages Groupés",
-      "subtitle": "Économisez avec nos combinaisons populaires",
-      "savings": "Économies"
-    },
-    "pricing_calculator": {
-      "title": "Calculateur de Prix",
-      "calculate": "Calculer le Prix",
-      "calculating": "Calcul en cours...",
-      "vai_total": "Total VAI Studio",
-      "external_costs": "Coûts Externes",
-      "total_investment": "Investissement Total",
-      "roi_months": "Mois jusqu'au ROI"
+    "deals": {
+      "growth": {
+        "name": "Package Croissance",
+        "description": "SEO + Médias Sociaux + Marketing Email"
+      },
+      "premium": {
+        "name": "Package Premium",
+        "description": "Design Amélioré + Analytics + SEO Avancé"
+      }
     },
     "selected_items": {
       "title": "Éléments Sélectionnés",
@@ -181,10 +276,24 @@
       "none_selected": "Aucun élément sélectionné"
     },
     "actions": {
+      "instruction": "Enregistrez votre configuration ou soumettez-la pour révision quand elle est prête",
       "save": "Enregistrer la Configuration",
-      "submit": "Soumettre pour Révision",
       "saving": "Enregistrement...",
-      "submitting": "Soumission..."
+      "submit": "Soumettre pour Révision"
+    },
+    "status": {
+      "locked": "Configuration verrouillée"
+    },
+    "messages": {
+      "locked_explanation": "Votre configuration de package est verrouillée car elle a été soumise. Contactez VAI Studio si vous devez apporter des modifications.",
+      "save_success": "Configuration de package enregistrée avec succès !",
+      "submit_success": "Configuration soumise avec succès ! VAI Studio examinera vos sélections et vous contactera bientôt."
+    },
+    "errors": {
+      "save_function_unavailable": "Erreur : Fonction d'enregistrement non disponible. Veuillez actualiser la page.",
+      "submit_function_unavailable": "Erreur : Fonction de soumission non disponible. Veuillez actualiser la page.",
+      "save_failed": "Échec de l'enregistrement de la configuration de package. Veuillez réessayer.",
+      "submit_failed": "Échec de la soumission de la configuration. Veuillez réessayer."
     }
   },
   
@@ -297,6 +406,11 @@
       "change_password": "Changer le mot de passe",
       "notification_settings": "Paramètres de notification",
       "logout": "Se déconnecter"
+    },
+    "logout": {
+      "title": "Déconnexion",
+      "button": "Se déconnecter",
+      "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
     }
   },
 
