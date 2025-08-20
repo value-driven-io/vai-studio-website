@@ -226,8 +226,8 @@
       }
     },
     "addons": {
-      "title": "Additional Services",
-      "in_package_deal": "In package deal",
+      "title": "Individual Add-on Services",
+      "in_package_deal": "Included in package deal",
       "dual_payment": {
         "name": "Dual Payment Gateway",
         "description": "Accept both PayZen and PayPal payments"
@@ -254,6 +254,9 @@
       }
     },
     "deals": {
+      "title": "Package Deals",
+      "save_money": "Save Money!",
+      "save": "Save",
       "growth": {
         "name": "Growth Package",
         "description": "SEO + Social Media + Email Marketing"
@@ -263,12 +266,43 @@
         "description": "Enhanced Design + Analytics + Advanced SEO"
       }
     },
-    "selected_items": {
-      "title": "Selected Items",
+    "pricing": {
+      "title": "Financial Summary",
+      "vai_total": "VAI Studio Total",
+      "external_costs": "External Costs",
+      "total_investment": "Total Investment",
+      "roi_months": "Months to ROI",
+      "breakdown": "Cost Breakdown",
       "base_package": "Base package",
-      "addons": "Additional services",
+      "individual_addons": "Individual add-on services",
       "package_deals": "Package deals",
-      "none_selected": "No items selected"
+      "total_savings": "Total savings",
+      "subtotal": "VAI Studio Subtotal"
+    },
+    "selected_items": {
+      "title": "Your Selection",
+      "base_package": "Base package",
+      "base_description": "Professional website + Booking system + Google Business optimization",
+      "package_deals": "Money-saving package deals",
+      "individual_addons": "Individual add-on services",
+      "none_selected": "No additional services selected",
+      "selection_hint": "Select add-on services or package deals to save money",
+      "savings_label": "Savings",
+      "includes": "Includes",
+      "not_specified": "Not specified",
+      "package_deals_cost": "Package deals",
+      "individual_addons_cost": "Individual services",
+      "total_savings": "Total savings",
+      "subtotal_vai": "VAI Studio Subtotal",
+      "external_costs": "External costs (PayZen/PayPal)",
+      "total_investment": "Total Investment",
+      "financial_summary": "Financial Summary",
+      "roi_estimate": "Estimated return on investment: {{months}} months",
+      "benefits_title": "Benefits of your selection",
+      "benefit_1": "Integrated and compatible solutions",
+      "benefit_2": "Unified technical support",
+      "benefit_3": "Savings on package deals",
+      "benefit_4": "Complete training included"
     },
     "actions": {
       "instruction": "Save your configuration or submit for review when ready",

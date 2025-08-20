@@ -149,14 +149,23 @@ const PackageTab = () => {
         // Remove addon
         newAddOns = addOns.filter(addon => addon.id !== addonId)
       } else {
-        // Add addon
-        const addonInfo = availableAddOns.find(addon => addon.id === addonId)
-        newAddOns = [...addOns, {
-          id: addonId,
-          name: addonInfo.name,
-          cost: addonInfo.cost,
-          selected: true
-        }]
+        // Add addon - but check if it's not already in a package deal
+        const isInPackageDeal = (prev.package_deals || []).some(deal => 
+          deal.services.includes(addonId)
+        )
+        
+        if (!isInPackageDeal) {
+          const addonInfo = availableAddOns.find(addon => addon.id === addonId)
+          newAddOns = [...addOns, {
+            id: addonId,
+            name: addonInfo.name,
+            cost: addonInfo.cost,
+            selected: true
+          }]
+        } else {
+          // Don't add individual addon if it's part of a selected package deal
+          newAddOns = addOns
+        }
       }
       
       const newConfig = { ...prev, add_ons: newAddOns }
@@ -169,23 +178,19 @@ const PackageTab = () => {
     if (!canEdit) return
     
     setPackageConfig(prev => {
-      const packageDeals = prev.package_deals || []
-      const existingIndex = packageDeals.findIndex(deal => deal.id === dealId)
+      const currentPackageDeals = prev.package_deals || []
+      const existingIndex = currentPackageDeals.findIndex(deal => deal.id === dealId)
       
       if (existingIndex >= 0) {
-        // Remove package deal and individual add-ons
-        const deal = packageDeals[existingIndex]
-        const newPackageDeals = packageDeals.filter(d => d.id !== dealId)
-        const newAddOns = (prev.add_ons || []).filter(addon => 
-          !deal.services.includes(addon.id)
-        )
+        // Remove package deal - allow individual services to be selected again
+        const newPackageDeals = currentPackageDeals.filter(d => d.id !== dealId)
         
         setHasChanges(true)
-        return { ...prev, package_deals: newPackageDeals, add_ons: newAddOns }
+        return { ...prev, package_deals: newPackageDeals }
       } else {
-        // Add package deal and remove individual add-ons if they exist
+        // Add package deal - remove individual add-ons that are included in this package
         const dealInfo = packageDeals.find(deal => deal.id === dealId)
-        const newPackageDeals = [...packageDeals, {
+        const newPackageDeals = [...currentPackageDeals, {
           id: dealId,
           name: dealInfo.name,
           cost: dealInfo.package_price,
@@ -204,22 +209,47 @@ const PackageTab = () => {
     })
   }
 
+  // FIXED CALCULATION LOGIC
   const calculatePricing = () => {
     setIsCalculating(true)
     
     // Simulate calculation delay
     setTimeout(() => {
       const baseCost = packageConfig.base_package?.cost || 250000
+      
+      // Calculate add-on costs (only for standalone add-ons, not in package deals)
       const addonCost = (packageConfig.add_ons || []).reduce((sum, addon) => sum + addon.cost, 0)
+      
+      // Calculate package deal costs
       const packageDealCost = (packageConfig.package_deals || []).reduce((sum, deal) => sum + deal.cost, 0)
+      
+      // Calculate total savings from package deals
       const packageSavings = (packageConfig.package_deals || []).reduce((sum, deal) => sum + deal.savings, 0)
       
-      const totalVaiCost = baseCost + addonCost + packageDealCost
-      const externalCosts = packageConfig.external_costs?.payzen || 35000
+      // CORRECTED: No double counting, and savings are properly applied
+      const totalVaiCost = baseCost + addonCost + packageDealCost // Package deals already have discounted prices
+      
+      // DYNAMIC external costs based on payment gateway selection
+      let externalCosts = 0
+      if (packageConfig.payment_gateway?.payzen) {
+        externalCosts += 35000 // PayZen setup
+      }
+      if (packageConfig.payment_gateway?.paypal) {
+        externalCosts += 25000 // PayPal setup (example)
+      }
+      if (packageConfig.payment_gateway?.dual_gateway) {
+        externalCosts = 50000 // Both gateways with slight discount
+      }
+      
+      // Fallback if no gateway selected
+      if (externalCosts === 0) {
+        externalCosts = 35000 // Default PayZen
+      }
+      
       const totalInvestment = totalVaiCost + externalCosts
       const monthlyOperating = 5400
       
-      // Simple ROI calculation
+      // ROI calculation
       const averageTourPrice = proposalData?.client_intake?.business_details?.average_tour_price || 15000
       const targetBookings = proposalData?.client_intake?.business_details?.target_monthly_bookings || 20
       const monthlyRevenue = averageTourPrice * targetBookings
@@ -244,6 +274,13 @@ const PackageTab = () => {
       setIsCalculating(false)
     }, 800)
   }
+
+  // Auto-calculate when package configuration changes
+  useEffect(() => {
+    if (packageConfig.base_package) {
+      calculatePricing()
+    }
+  }, [packageConfig])
 
   const handleSave = async () => {
     if (!savePackageConfig) {
@@ -298,6 +335,10 @@ const PackageTab = () => {
 
   const isPackageDealSelected = (dealId) => {
     return (packageConfig.package_deals || []).some(deal => deal.id === dealId)
+  }
+
+  const isAddonInPackageDeal = (addonId) => {
+    return (packageConfig.package_deals || []).some(deal => deal.services.includes(addonId))
   }
 
   return (
@@ -379,12 +420,11 @@ const PackageTab = () => {
         </div>
       </div>
 
-      {/* Package Deals */}
-      {/* 
+      {/* Package Deals - Show First */}
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Star className="w-5 h-5 text-vai-hibiscus" />
-          Package Deals (Save Money!)
+          {t('package.deals.title')} ({t('package.deals.save_money')})
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -401,7 +441,7 @@ const PackageTab = () => {
             >
               <div className="absolute top-2 right-2">
                 <div className="bg-vai-sunset text-white text-xs px-2 py-1 rounded-full">
-                  Save {formatCurrency(deal.savings)}
+                  {t('package.deals.save')} {formatCurrency(deal.savings)}
                 </div>
               </div>
               
@@ -429,9 +469,7 @@ const PackageTab = () => {
         </div>
       </div>
 
-      */}
-
-      {/* Individual Add-Ons */}
+      {/* Individual Add-On Services */}
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Plus className="w-5 h-5 text-vai-coral" />
@@ -442,9 +480,7 @@ const PackageTab = () => {
           {availableAddOns.map(addon => {
             const Icon = addon.icon
             const isSelected = isAddonSelected(addon.id)
-            const isInPackageDeal = (packageConfig.package_deals || []).some(deal => 
-              deal.services.includes(addon.id)
-            )
+            const isInPackageDeal = isAddonInPackageDeal(addon.id)
             
             return (
               <div key={addon.id} className={`
@@ -535,7 +571,76 @@ const PackageTab = () => {
       </div>
       */}
 
-      {/* Selected items  */}
+      {/* Pricing Summary - Always Visible */}
+      {calculatedPricing && (
+        <div className="vai-card bg-gradient-to-br from-vai-coral/10 to-vai-teal/10 border-vai-coral/20">
+          <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
+            <Calculator className="w-5 h-5 text-vai-coral" />
+            {t('package.pricing.title')}
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 bg-vai-coral/10 rounded-lg border border-vai-coral/20 text-center">
+              <div className="text-2xl font-bold text-vai-coral">{formatCurrency(calculatedPricing.total_vai_cost)}</div>
+              <div className="text-sm text-vai-muted">{t('package.pricing.vai_total')}</div>
+            </div>
+            
+            <div className="p-4 bg-vai-sunset/10 rounded-lg border border-vai-sunset/20 text-center">
+              <div className="text-2xl font-bold text-vai-sunset">{formatCurrency(calculatedPricing.external_costs)}</div>
+              <div className="text-sm text-vai-muted">{t('package.pricing.external_costs')}</div>
+            </div>
+            
+            <div className="p-4 bg-vai-teal/10 rounded-lg border border-vai-teal/20 text-center">
+              <div className="text-2xl font-bold text-vai-teal">{formatCurrency(calculatedPricing.total_investment)}</div>
+              <div className="text-sm text-vai-muted">{t('package.pricing.total_investment')}</div>
+            </div>
+            
+            <div className="p-4 bg-vai-hibiscus/10 rounded-lg border border-vai-hibiscus/20 text-center">
+              <div className="text-2xl font-bold text-vai-hibiscus">{calculatedPricing.roi_months}</div>
+              <div className="text-sm text-vai-muted">{t('package.pricing.roi_months')}</div>
+            </div>
+          </div>
+
+          {/* Detailed Breakdown */}
+          <div className="mt-6 p-4 bg-vai-lagoon/30 rounded-lg">
+            <h3 className="font-semibold text-vai-pearl mb-3">{t('package.pricing.breakdown')}</h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-vai-muted">{t('package.pricing.base_package')}</span>
+                <span className="text-vai-pearl">{formatCurrency(calculatedPricing.base_cost)}</span>
+              </div>
+              
+              {calculatedPricing.addon_cost > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-vai-muted">{t('package.pricing.individual_addons')}</span>
+                  <span className="text-vai-pearl">{formatCurrency(calculatedPricing.addon_cost)}</span>
+                </div>
+              )}
+              
+              {calculatedPricing.package_deal_cost > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-vai-muted">{t('package.pricing.package_deals')}</span>
+                  <span className="text-vai-pearl">{formatCurrency(calculatedPricing.package_deal_cost)}</span>
+                </div>
+              )}
+              
+              {calculatedPricing.package_savings > 0 && (
+                <div className="flex justify-between text-vai-bamboo">
+                  <span>{t('package.pricing.total_savings')}</span>
+                  <span>-{formatCurrency(calculatedPricing.package_savings)}</span>
+                </div>
+              )}
+              
+              <div className="border-t border-vai-muted/20 pt-2 flex justify-between font-semibold">
+                <span className="text-vai-pearl">{t('package.pricing.subtotal')}</span>
+                <span className="text-vai-coral">{formatCurrency(calculatedPricing.total_vai_cost)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Selected items summary */}
       <SelectedItemsSummary 
         packageConfig={packageConfig} 
         calculatedPricing={calculatedPricing} 

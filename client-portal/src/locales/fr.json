@@ -252,8 +252,8 @@
       }
     },
     "addons": {
-      "title": "Services Additionnels",
-      "in_package_deal": "Dans le package groupé",
+      "title": "Services Complémentaires Individuels",
+      "in_package_deal": "Inclus dans le package groupé",
       "dual_payment": {
         "name": "Passerelle de Paiement Double",
         "description": "Accepter les paiements PayZen et PayPal"
@@ -280,6 +280,9 @@
       }
     },
     "deals": {
+      "title": "Packages Groupés Économiques",
+      "save_money": "Économisez de l'argent !",
+      "save": "Économisez",
       "growth": {
         "name": "Package Croissance",
         "description": "SEO + Médias Sociaux + Marketing Email"
@@ -289,12 +292,43 @@
         "description": "Design Amélioré + Analytics + SEO Avancé"
       }
     },
-    "selected_items": {
-      "title": "Éléments Sélectionnés",
+    "pricing": {
+      "title": "Résumé Financier",
+      "vai_total": "Total VAI Studio",
+      "external_costs": "Coûts Externes",
+      "total_investment": "Investissement Total",
+      "roi_months": "Mois jusqu'au ROI",
+      "breakdown": "Détail des Coûts",
       "base_package": "Package de base",
-      "addons": "Services additionnels",
+      "individual_addons": "Services complémentaires individuels",
       "package_deals": "Packages groupés",
-      "none_selected": "Aucun élément sélectionné"
+      "total_savings": "Économies totales",
+      "subtotal": "Sous-total VAI Studio"
+    },
+    "selected_items": {
+      "title": "Votre Sélection",
+      "base_package": "Package de base",
+      "base_description": "Site web professionnel + Système de réservation + Optimisation Google Business",
+      "package_deals": "Packages groupés économiques",
+      "individual_addons": "Services complémentaires individuels",
+      "none_selected": "Aucun service complémentaire sélectionné",
+      "selection_hint": "Sélectionnez des services complémentaires ou des packages groupés pour économiser",
+      "savings_label": "Économies",
+      "includes": "Inclut",
+      "not_specified": "Non spécifié",
+      "package_deals_cost": "Packages groupés",
+      "individual_addons_cost": "Services individuels",
+      "total_savings": "Économies totales",
+      "subtotal_vai": "Sous-total VAI Studio",
+      "external_costs": "Coûts externes (PayZen/PayPal)",
+      "total_investment": "Investissement Total",
+      "financial_summary": "Résumé Financier",
+      "roi_estimate": "Retour sur investissement estimé: {{months}} mois",
+      "benefits_title": "Avantages de votre sélection",
+      "benefit_1": "Solutions intégrées et compatibles",
+      "benefit_2": "Support technique unifié",
+      "benefit_3": "Économies sur les packages groupés",
+      "benefit_4": "Formation complète incluse"
     },
     "actions": {
       "instruction": "Enregistrez votre configuration ou soumettez-la pour révision quand elle est prête",
