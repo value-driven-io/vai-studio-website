@@ -1,13 +1,13 @@
 {
   "name": "vai-studio-website",
   "version": "1.0.0",
-  "description": "VAI Studio Main Website - Digital Transformation Solutions for French Polynesia",
+  "description": "VAI Studio Main Website with Client Portal",
   "scripts": {
     "build": "npm run build:portal && npm run copy:portal",
-    "build:portal": "cd portal-src && npm install && npm run build",
-    "copy:portal": "rm -rf portal && mkdir -p portal && cp -r portal-src/dist/* portal/",
-    "dev:portal": "cd portal-src && npm run dev",
-    "clean": "rm -rf portal portal-src/dist"
+    "build:portal": "cd client-portal && npm install && npm run build",
+    "copy:portal": "rm -rf portal && mkdir -p portal && cp -r client-portal/dist/* portal/",
+    "dev:portal": "cd client-portal && npm run dev",
+    "clean": "rm -rf portal client-portal/dist"
   },
   "keywords": ["vai-studio", "website", "portal"],
   "author": "VAI Studio"
