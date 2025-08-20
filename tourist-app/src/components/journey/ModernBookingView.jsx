@@ -3,7 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { 
   Search, Filter, SlidersHorizontal, X, ChevronDown, 
   RefreshCw, Calendar, MapPin, Tag, ArrowUpDown,
-  Timer, CheckCircle, Award, XCircle
+  Timer, CheckCircle, Award, XCircle, CreditCard, RotateCcw
 } from 'lucide-react'
 import StatusCard from './StatusCard'
 import BookingDetailModal from './BookingDetailModal'
@@ -91,12 +91,33 @@ const ModernBookingView = ({
     if (filters.status !== 'all') {
       filtered = filtered.filter(booking => {
         const status = booking.booking_status?.toLowerCase()
+        const paymentStatus = booking.payment_status?.toLowerCase()
+        
         switch (filters.status) {
-          case 'pending': return status === 'pending' || status === 'awaiting_confirmation'
-          case 'confirmed': return status === 'confirmed'
-          case 'completed': return status === 'completed'
-          case 'cancelled': return status === 'cancelled' || status === 'declined'
-          default: return true
+          case 'pending': 
+            return (status === 'pending' || status === 'awaiting_confirmation') && 
+                  paymentStatus !== 'authorized'
+                  
+          // 🆕 NEW: Filter for paid but pending bookings
+          case 'pending_paid': 
+            return status === 'pending' && paymentStatus === 'authorized'
+            
+          case 'confirmed': 
+            return status === 'confirmed'
+            
+          case 'completed': 
+            return status === 'completed'
+            
+          case 'cancelled': 
+            return status === 'cancelled' || status === 'declined'
+            
+          // 🆕 NEW: Filter for refunded bookings
+          case 'refunded': 
+            return (status === 'declined' || status === 'cancelled') && 
+                  paymentStatus === 'refunded'
+                  
+          default: 
+            return true
         }
       })
     }
@@ -168,10 +189,26 @@ const ModernBookingView = ({
   // Status counts for filter badges
   const statusCounts = useMemo(() => {
     return {
-      pending: allBookings.filter(b => ['pending', 'awaiting_confirmation'].includes(b.booking_status?.toLowerCase())).length,
+      pending: allBookings.filter(b => 
+        ['pending', 'awaiting_confirmation'].includes(b.booking_status?.toLowerCase()) && 
+        b.payment_status !== 'authorized'
+      ).length,
+      
+      // 🆕 NEW: Count bookings that are paid but pending confirmation
+      pendingPaid: allBookings.filter(b => 
+        b.booking_status?.toLowerCase() === 'pending' && 
+        b.payment_status === 'authorized'
+      ).length,
+      
       confirmed: allBookings.filter(b => b.booking_status?.toLowerCase() === 'confirmed').length,
       completed: allBookings.filter(b => b.booking_status?.toLowerCase() === 'completed').length,
-      cancelled: allBookings.filter(b => ['cancelled', 'declined'].includes(b.booking_status?.toLowerCase())).length
+      cancelled: allBookings.filter(b => ['cancelled', 'declined'].includes(b.booking_status?.toLowerCase())).length,
+      
+      // 🆕 NEW: Count refunded bookings
+      refunded: allBookings.filter(b => 
+        ['declined', 'cancelled'].includes(b.booking_status?.toLowerCase()) && 
+        b.payment_status === 'refunded'
+      ).length
     }
   }, [allBookings])
 
@@ -257,68 +294,102 @@ const ModernBookingView = ({
         {showFilters && (
           <div className="space-y-4 pt-4 border-t border-slate-700">
             
-            {/* Quick Status Filters */}
-            <div>
-              <label className="text-sm font-medium text-slate-300 mb-2 block">Status</label>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => updateFilter('status', 'all')}
-                  className={`px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                    filters.status === 'all' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                  }`}
-                >
-                  All ({allBookings.length})
-                </button>
-                <button
-                  onClick={() => updateFilter('status', 'pending')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                    filters.status === 'pending' 
-                      ? 'bg-yellow-600 text-white' 
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                  }`}
-                >
-                  <Timer className="w-3 h-3" />
-                  Pending ({statusCounts.pending})
-                </button>
-                <button
-                  onClick={() => updateFilter('status', 'confirmed')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                    filters.status === 'confirmed' 
-                      ? 'bg-green-600 text-white' 
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                  }`}
-                >
-                  <CheckCircle className="w-3 h-3" />
-                  Confirmed ({statusCounts.confirmed})
-                </button>
-                <button
-                  onClick={() => updateFilter('status', 'completed')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                    filters.status === 'completed' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                  }`}
-                >
-                  <Award className="w-3 h-3" />
-                  Completed ({statusCounts.completed})
-                </button>
-                {statusCounts.cancelled > 0 && (
+            {/* Quick Status Filters - NEW FLOW */}
+              <div>
+                <label className="text-sm font-medium text-slate-300 mb-2 block">Status</label>
+                <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={() => updateFilter('status', 'cancelled')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                      filters.status === 'cancelled' 
-                        ? 'bg-red-600 text-white' 
+                    onClick={() => updateFilter('status', 'all')}
+                    className={`px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
+                      filters.status === 'all' 
+                        ? 'bg-blue-600 text-white' 
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                     }`}
                   >
-                    <XCircle className="w-3 h-3" />
-                    Cancelled ({statusCounts.cancelled})
+                    All ({allBookings.length})
                   </button>
-                )}
+                  
+                  <button
+                    onClick={() => updateFilter('status', 'pending')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
+                      filters.status === 'pending' 
+                        ? 'bg-yellow-600 text-white' 
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    <Timer className="w-3 h-3" />
+                    Pending ({statusCounts.pending})
+                  </button>
+                  
+                  {/* 🆕 NEW: Paid & Pending Filter for NEW FLOW */}
+                  {statusCounts.pendingPaid > 0 && (
+                    <button
+                      onClick={() => updateFilter('status', 'pending_paid')}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
+                        filters.status === 'pending_paid' 
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      <CreditCard className="w-3 h-3" />
+                      Paid & Pending ({statusCounts.pendingPaid})
+                    </button>
+                  )}
+                  
+                  <button
+                    onClick={() => updateFilter('status', 'confirmed')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
+                      filters.status === 'confirmed' 
+                        ? 'bg-green-600 text-white' 
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    <CheckCircle className="w-3 h-3" />
+                    Confirmed ({statusCounts.confirmed})
+                  </button>
+                  
+                  <button
+                    onClick={() => updateFilter('status', 'completed')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
+                      filters.status === 'completed' 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    <Award className="w-3 h-3" />
+                    Completed ({statusCounts.completed})
+                  </button>
+                  
+                  {statusCounts.cancelled > 0 && (
+                    <button
+                      onClick={() => updateFilter('status', 'cancelled')}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
+                        filters.status === 'cancelled' 
+                          ? 'bg-red-600 text-white' 
+                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      <XCircle className="w-3 h-3" />
+                      Cancelled ({statusCounts.cancelled})
+                    </button>
+                  )}
+                  
+                  {/* 🆕 NEW: Refunded Filter for NEW FLOW */}
+                  {statusCounts.refunded > 0 && (
+                    <button
+                      onClick={() => updateFilter('status', 'refunded')}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
+                        filters.status === 'refunded' 
+                          ? 'bg-orange-600 text-white' 
+                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                      Refunded ({statusCounts.refunded})
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
 
             {/* Advanced Filters Row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

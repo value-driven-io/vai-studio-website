@@ -1,6 +1,6 @@
 // src/components/booking/BookingModal.jsx
 import React, { useState } from 'react'
-import { X, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle, Calendar, MessageCircle, CreditCard } from 'lucide-react'
+import { X, Clock, MapPin, Users, Star, Phone, ChevronDown, ChevronUp, CheckCircle, Calendar, MessageCircle, CreditCard, Timer, DollarSign, Shield, Info, Award, Accessibility, Euro } from 'lucide-react'
 import { bookingService } from '../../services/supabase'
 import { supabase } from '../../services/supabase'
 import { useAppStore } from '../../stores/bookingStore'
@@ -13,6 +13,7 @@ import { useCurrencyContext } from '../../hooks/useCurrency'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import StripePaymentForm from './StripePaymentForm'
+import { CompactPriceDisplay } from '../shared/PriceDisplay'
 
 import { useTranslation } from 'react-i18next'
 
@@ -186,10 +187,13 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       // Create booking (your existing logic)
       const result = await bookingService.createBooking(finalBookingData)
       
-      // Update with payment intent ID
+      // Update with payment intent ID AND payment status
       await supabase
         .from('bookings')
-        .update({ payment_intent_id: paymentData.payment_intent_id })
+        .update({ 
+          payment_intent_id: paymentData.payment_intent_id,
+          payment_status: 'authorized'
+        })
         .eq('id', result.id)
 
       // Your existing success logic
@@ -221,8 +225,18 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
   const pricing = calculatePricing()
 
-    // SUCCESS SCREEN 
+    // SUCCESS SCREEN - PAYMENT FLOW VERSION
     if (step === 3 && bookingResult) {
+      // 🆕 Determine if this is a payment booking or old flow booking
+      const hasPaymentData = !!bookingResult.payment_intent_id // NEW FLOW if Stripe payment exists
+
+      // Debug Success Screen
+      console.log('=== SUCCESS SCREEN DEBUG ===')
+      console.log('bookingResult:', bookingResult)
+      console.log('payment_intent_id:', bookingResult.payment_intent_id)
+      console.log('payment_status:', bookingResult.payment_status)
+      console.log('hasPaymentData:', hasPaymentData)
+      
       return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700 max-h-[90vh] overflow-y-auto">
@@ -234,15 +248,18 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
                 
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  {t('success.bookingRequested')}
+                  {hasPaymentData ? t('payment.paymentAuthorizedSuccess') : t('payment.bookingRequested')}
                 </h2>
                 
                 <p className="text-slate-300">
-                  {t('success.adventureRequest')}
+                  {hasPaymentData 
+                    ? t('payment.awaitingConfirmation')
+                    : t('payment.adventureRequest')
+                  }
                 </p>
               </div>
 
-              {/* 🆕 STATUS PROGRESSION BAR  */}
+              {/* 🆕 ENHANCED STATUS PROGRESSION BAR - NEW FLOW */}
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-medium text-slate-400">{t('success.bookingProgress')}</span>
@@ -251,133 +268,198 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 <div className="flex items-center justify-between relative">
                   {/* Progress Line */}
                   <div className="absolute top-4 left-4 right-4 h-0.5 bg-slate-600"></div>
-                  <div className="absolute top-4 left-4 h-0.5 bg-blue-500 transition-all duration-500" style={{width: '0%'}}></div>
+                  <div className="absolute top-4 left-4 h-0.5 bg-blue-500 transition-all duration-500" 
+                      style={{width: hasPaymentData ? '25%' : '0%'}}></div>
                   
-                  {/* Status Steps */}
+                  {/* Status Steps - 4 STEP PROGRESSION FOR NEW FLOW */}
                   <div className="flex items-center justify-between w-full relative z-10">
-                    {/* Step 1: Requested (Current) */}
+                    {/* Step 1: Payment Secured / Requested (Current) */}
                     <div className="flex flex-col items-center">
                       <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center mb-2">
-                        <CheckCircle className="w-4 h-4 text-white" />
+                        {hasPaymentData ? (
+                          <CreditCard className="w-4 h-4 text-white" />
+                        ) : (
+                          <CheckCircle className="w-4 h-4 text-white" />
+                        )}
                       </div>
-                      <span className="text-xs font-medium text-blue-400">{t('success.requested')}</span>
+                      <div className="text-center">
+                        <div className="text-blue-400 text-xs font-medium">
+                          {hasPaymentData ? t('success.paymentSecured') : t('success.requested')}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Step 2: Operator Review */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-white flex items-center justify-center mb-2">
+                        <Timer className="w-4 h-4 text-slate-400" />
+                      </div>
+                      <div className="text-center">
+                        <div className="text-slate-400 text-xs font-medium">{t('success.operatorReview')}</div>
+                      </div>
+                    </div>
+
+                    {/* Step 3: Payment Captured / Confirmed */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-white flex items-center justify-center mb-2">
+                        {hasPaymentData ? (
+                          <DollarSign className="w-4 h-4 text-slate-400" />
+                        ) : (
+                          <CheckCircle className="w-4 h-4 text-slate-400" />
+                        )}
+                      </div>
+                      <div className="text-center">
+                        <div className="text-slate-400 text-xs font-medium">
+                          {hasPaymentData ? t('success.paymentCaptured') : t('success.confirmed')}
+                        </div>
+                      </div>
                     </div>
                     
-                    {/* Step 2: Confirmed */}
+                    {/* Step 4: Ready for Adventure */}
                     <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-slate-500 flex items-center justify-center mb-2">
-                        <div className="w-3 h-3 rounded-full bg-slate-400"></div>
+                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-white flex items-center justify-center mb-2">
+                        <Award className="w-4 h-4 text-slate-400" />
                       </div>
-                      <span className="text-xs font-medium text-slate-400">{t('success.confirmed')}</span>
-                    </div>
-                    
-                    {/* Step 3: Complete */}
-                    <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-slate-500 flex items-center justify-center mb-2">
-                        <div className="w-3 h-3 rounded-full bg-slate-400"></div>
+                      <div className="text-center">
+                        <div className="text-slate-400 text-xs font-medium">{t('success.readyAdventure')}</div>
                       </div>
-                      <span className="text-xs font-medium text-slate-400">{t('success.complete')}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Account Creation Success Info  */}
-              {accountResult && !accountResult.existing_user && (
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
-                    {t('success.accountCreated')}
-                  </h4>
-                  <div className="text-sm text-blue-300 space-y-1">
-                    <div>Email: <span className="text-white font-mono">{formData.customer_email}</span></div>
-                    <div>Password: <span className="text-white font-mono">{accountResult.temp_password}</span></div>
-                    <div className="text-blue-200 text-xs mt-2">
-                      💡 Check your email to activate your account. Use the password above to sign in.
+              {/* 🆕 PAYMENT PROTECTION NOTICE - NEW FLOW ONLY */}
+              {hasPaymentData && (
+                <div className="mb-6 bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                    <div className="space-y-2 text-sm">
+                      <p className="text-blue-300 font-medium">{t('payment.noChargeUntilConfirmed')}</p>
+                      <p className="text-blue-200">{t('payment.automaticRefund')}</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Existing User Info */}
-              {accountResult && accountResult.existing_user && (
-                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
-                    {t('success.accountLinked')}
-                  </h4>
-                  <div className="text-sm text-green-300">
-                    {t('success.accountCreatedDesc')}
-                  </div>
-                </div>
-              )}
-              
-              {/* Booking Details  */}
-              <div className="bg-slate-700 rounded-xl p-4 mb-6">
-                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  {t('success.bookingDetails')}
-                </h3>
-                <div className="space-y-2 text-sm text-slate-300">
+              {/* Booking Details */}
+              <div className="bg-slate-700/30 rounded-lg p-4 mb-6">
+                <h3 className="text-lg font-medium text-white mb-3">{t('success.bookingDetails')}</h3>
+                
+                <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span>{t('success.reference')}</span>
+                    <span className="text-slate-400">{t('success.reference')}</span>
                     <span className="text-white font-mono">{bookingResult.booking_reference}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{t('success.tour')}</span>
+                    <span className="text-slate-400">{t('success.activity')}</span>
                     <span className="text-white">{tour.tour_name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{t('success.date')}</span>
-                    <span className="text-white">{formatDate(tour.tour_date)} {formatTime(tour.time_slot)}</span>
+                    <span className="text-slate-400">{t('success.date')}</span>
+                    <span className="text-white">{formatDate(tour.tour_date)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{t('success.participants')}</span>
+                    <span className="text-slate-400">{t('success.participants')}</span>
                     <span className="text-white">{formData.num_adults + formData.num_children}</span>
                   </div>
-                  <div className="flex justify-between font-semibold">
-                    <span>{t('success.total')}</span>
-                    <span className="text-white">{formatPrice(bookingResult.total_amount || (bookingResult.subtotal + bookingResult.commission_amount))}</span>
+                  <div className="flex justify-between border-t border-slate-600 pt-2">
+                    <span className="text-slate-400">{t('success.total')}</span>
+                    <div className="text-right">
+                      <span className="text-white font-semibold">{formatPrice(bookingResult.total_amount || bookingResult.subtotal)}</span>
+                      {hasPaymentData && (
+                        <div className="text-xs text-slate-400 mt-1">
+                          <CompactPriceDisplay 
+                            xpfAmount={bookingResult.total_amount || bookingResult.subtotal}
+                            selectedCurrency="USD"
+                            showCurrency={false}
+                          /> {t('bookingDetails.chargedUSD')}
+                        </div>
+                      )}
+                    </div>
                   </div>
+                  
+                  {/* 🆕 Payment Status - NEW FLOW ONLY */}
+                  {hasPaymentData && (
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">{t('bookingDetails.paymentStatus')}</span>
+                      <span className="text-green-400">{t('status.paymentAuthorized')}</span>
+                    </div>
+                  )}
                 </div>
               </div>
-              
-              {/* WHAT'S NEXT SECTION  */}
-              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
-                <h4 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  {t('success.whatsNext')}
-                </h4>
-                <div className="text-sm text-slate-300 space-y-3">
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs font-bold">1</span>
-                    </div>
-                    <div>
-                      <div className="text-white font-medium">{t('success.operatorReview')}</div>
-                      <div className="text-slate-400 text-xs">{t('success.operatorReviewDesc')}</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-slate-400 text-xs font-bold">2</span>
-                    </div>
-                    <div>
-                      <div className="text-slate-400 font-medium">{t('success.confirmationChat')}</div>
-                      <div className="text-slate-500 text-xs">{t('success.confirmationChatDesc')}</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-slate-400 text-xs font-bold">3</span>
-                    </div>
-                    <div>
-                      <div className="text-slate-400 font-medium">{t('success.readyAdventure')}</div>
-                      <div className="text-slate-500 text-xs">{t('success.readyAdventureDesc')}</div>
-                    </div>
-                  </div>
+
+              {/* 🆕 WHAT'S NEXT SECTION - UPDATED FOR NEW FLOW */}
+              <div className="mb-6">
+                <h3 className="text-lg font-medium text-white mb-4">{t('success.whatsNext')}</h3>
+                
+                <div className="space-y-4">
+                  {hasPaymentData ? (
+                    // NEW FLOW What's Next
+                    <>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">1</span>
+                        </div>
+                        <div>
+                          <div className="text-blue-400 font-medium">{t('success.paymentProtection')}</div>
+                          <div className="text-slate-500 text-xs">{t('success.paymentProtectionDesc')}</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">2</span>
+                        </div>
+                        <div>
+                          <div className="text-yellow-400 font-medium">{t('success.operatorDecision')}</div>
+                          <div className="text-slate-500 text-xs">{t('success.operatorDecisionDesc')}</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-slate-400 text-xs font-bold">3</span>
+                        </div>
+                        <div>
+                          <div className="text-slate-400 font-medium">{t('success.confirmationNotification')}</div>
+                          <div className="text-slate-500 text-xs">{t('success.confirmationNotificationDesc')}</div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    // OLD FLOW What's Next (fallback)
+                    <>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">1</span>
+                        </div>
+                        <div>
+                          <div className="text-yellow-400 font-medium">{t('success.operatorReview')}</div>
+                          <div className="text-slate-500 text-xs">{t('success.operatorReviewDesc')}</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-slate-400 text-xs font-bold">2</span>
+                        </div>
+                        <div>
+                          <div className="text-slate-400 font-medium">{t('success.confirmationChat')}</div>
+                          <div className="text-slate-500 text-xs">{t('success.confirmationChatDesc')}</div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-slate-400 text-xs font-bold">3</span>
+                        </div>
+                        <div>
+                          <div className="text-slate-400 font-medium">{t('success.readyAdventure')}</div>
+                          <div className="text-slate-500 text-xs">{t('success.readyAdventureDesc')}</div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -404,13 +486,26 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   >
                     {t('buttons.close')}
                   </button>
+                  
+                  {/* Payment Details Button - NEW FLOW ONLY */}
+                  {hasPaymentData && (
+                    <button
+                      onClick={() => {
+                        // Could open payment details modal or navigate to payment view
+                        toast.success('Payment details: ' + bookingResult.payment_intent_id)
+                      }}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+                    >
+                      {t('buttons.viewPaymentDetails')}
+                    </button>
+                  )}
+                  
                   <a
-                    href={`https://wa.me/68987269065?text=Hi! I just booked ${tour.tour_name} (${bookingResult.booking_reference}). When will you confirm?`}
+                    href={`https://wa.me/68987269065?text=Hi! I just booked ${tour.tour_name} (${bookingResult.booking_reference}).${hasPaymentData ? ' Payment is secured.' : ''}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-center text-sm flex items-center justify-center gap-1"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-sm text-center"
                   >
-                    <MessageCircle className="w-3 h-3" />
                     {t('buttons.whatsapp')}
                   </a>
                 </div>
