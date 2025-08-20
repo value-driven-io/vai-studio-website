@@ -17,6 +17,7 @@ import {
   AlertCircle,
   Info
 } from 'lucide-react'
+import SelectedItemsSummary from '../ui/SelectedItemsSummary'
 
 const PackageTab = () => {
   const { t } = useTranslation()
@@ -379,6 +380,7 @@ const PackageTab = () => {
       </div>
 
       {/* Package Deals */}
+      {/* 
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Star className="w-5 h-5 text-vai-hibiscus" />
@@ -426,6 +428,8 @@ const PackageTab = () => {
           ))}
         </div>
       </div>
+
+      */}
 
       {/* Individual Add-Ons */}
       <div className="vai-card">
@@ -479,6 +483,7 @@ const PackageTab = () => {
       </div>
 
       {/* Pricing Calculator */}
+      {/*
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
           <Calculator className="w-5 h-5 text-vai-teal" />
@@ -528,6 +533,13 @@ const PackageTab = () => {
           </div>
         )}
       </div>
+      */}
+
+      {/* Selected items  */}
+      <SelectedItemsSummary 
+        packageConfig={packageConfig} 
+        calculatedPricing={calculatedPricing} 
+      />
 
       {/* Action Buttons */}
       {canEdit && (
