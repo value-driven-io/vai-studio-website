@@ -1,19 +1,44 @@
 {
+  "meta": {
+    "title": "Portail Client - {{clientName}} | VAI Studio",
+    "description": "Suivez votre projet de transformation digitale avec VAI Studio"
+  },
+  
   "auth": {
     "title": "Portail Client VAI Studio",
     "subtitle": "Suivez votre transformation digitale en temps réel",
     "placeholder": "Code d'accès client",
     "button": "Accéder au portail",
+    "loading": "Connexion en cours...",
     "error": {
       "invalid": "Code d'accès invalide",
       "connection": "Erreur de connexion. Veuillez réessayer.",
-      "general": "Une erreur est survenue"
+      "general": "Une erreur est survenue",
+      "network": "Problème de réseau. Vérifiez votre connexion."
     },
     "help": {
       "title": "Besoin d'aide ?",
       "contact": "Contactez Kevin via WhatsApp",
       "phone": "+689 87 26 90 65"
     }
+  },
+  
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "continue": "Continuer",
+    "back": "Retour",
+    "next": "Suivant",
+    "close": "Fermer",
+    "yes": "Oui",
+    "no": "Non",
+    "optional": "Optionnel",
+    "required": "Obligatoire"
   },
   
   "tabs": {
@@ -29,12 +54,30 @@
   "overview": {
     "title": "Tableau de Bord Client",
     "welcome": "Bienvenue {{clientName}}",
+    "subtitle": "Voici un aperçu de votre projet de transformation digitale",
     "project": {
       "title": "Votre Projet",
       "status": "Statut",
       "timeline": "Chronologie",
       "investment": "Investissement",
       "monthly": "Coûts mensuels"
+    },
+    "status": {
+      "draft": "Brouillon",
+      "submitted": "Soumis",
+      "under_review": "En cours d'examen",
+      "approved": "Approuvé",
+      "active": "Actif",
+      "completed": "Terminé"
+    },
+    "configuration": {
+      "title": "État de Configuration",
+      "profile_complete": "Profil complété",
+      "package_configured": "Package configuré",
+      "configuration_submitted": "Configuration soumise",
+      "complete_profile": "Complétez votre profil",
+      "choose_package": "Choisissez votre package",
+      "submit_config": "Soumettez la configuration"
     },
     "summary": {
       "title": "Résumé du Projet",
@@ -49,9 +92,105 @@
       "no_steps": "Aucune action requise actuellement"
     }
   },
+
+  "profile": {
+    "title": "Profil d'Entreprise",
+    "subtitle": "Informations sur votre entreprise et vos besoins",
+    "business_info": {
+      "title": "Informations Générales",
+      "company_name": "Nom de l'entreprise",
+      "contact_person": "Personne de contact",
+      "email": "Email",
+      "phone": "Téléphone",
+      "whatsapp": "WhatsApp",
+      "island": "Île principale",
+      "business_type": "Type d'activité",
+      "description": "Description de l'activité"
+    },
+    "digital_presence": {
+      "title": "Présence Digitale Actuelle",
+      "website": "Site web existant",
+      "facebook": "Page Facebook",
+      "instagram": "Compte Instagram",
+      "google_business": "Google Business Profile",
+      "other_platforms": "Autres plateformes"
+    },
+    "project_details": {
+      "title": "Détails du Projet",
+      "goals": "Objectifs principaux",
+      "target_audience": "Public cible",
+      "special_requirements": "Exigences spéciales",
+      "launch_timeline": "Délai souhaité"
+    },
+    "tour_business": {
+      "title": "Détails Tours & Activités",
+      "average_price": "Prix moyen par tour",
+      "capacity": "Capacité maximum",
+      "duration": "Durée moyenne",
+      "languages": "Langues proposées",
+      "booking_volume": "Volume de réservations actuel"
+    },
+    "edit_mode": {
+      "locked": "Profil verrouillé - configuration soumise",
+      "edit_button": "Modifier le profil",
+      "save_button": "Enregistrer les modifications",
+      "saving": "Enregistrement...",
+      "cancel_button": "Annuler"
+    }
+  },
+
+  "package": {
+    "title": "Configuration Package",
+    "subtitle": "Personnalisez votre solution digitale",
+    "base_package": {
+      "title": "Package Smart Setup",
+      "subtitle": "Fondation complète pour votre présence digitale",
+      "description": "Site web professionnel, système de réservation, et optimisation locale",
+      "cost": "Coût de base",
+      "includes": "Inclus"
+    },
+    "addons": {
+      "title": "Services Additionnels",
+      "subtitle": "Améliorez votre package avec ces options",
+      "categories": {
+        "payment": "Paiement",
+        "design": "Design",
+        "marketing": "Marketing",
+        "analytics": "Analytics"
+      }
+    },
+    "package_deals": {
+      "title": "Packages Groupés",
+      "subtitle": "Économisez avec nos combinaisons populaires",
+      "savings": "Économies"
+    },
+    "pricing_calculator": {
+      "title": "Calculateur de Prix",
+      "calculate": "Calculer le Prix",
+      "calculating": "Calcul en cours...",
+      "vai_total": "Total VAI Studio",
+      "external_costs": "Coûts Externes",
+      "total_investment": "Investissement Total",
+      "roi_months": "Mois jusqu'au ROI"
+    },
+    "selected_items": {
+      "title": "Éléments Sélectionnés",
+      "base_package": "Package de base",
+      "addons": "Services additionnels",
+      "package_deals": "Packages groupés",
+      "none_selected": "Aucun élément sélectionné"
+    },
+    "actions": {
+      "save": "Enregistrer la Configuration",
+      "submit": "Soumettre pour Révision",
+      "saving": "Enregistrement...",
+      "submitting": "Soumission..."
+    }
+  },
   
   "scope": {
     "title": "Portée du Projet",
+    "subtitle": "Détails complets de votre solution",
     "package": {
       "title": "Package Smart Setup",
       "subtitle": "Tout ce dont vous avez besoin pour commencer",
@@ -74,125 +213,96 @@
       "title": "Services Additionnels",
       "selected": "Sélectionnés",
       "none": "Aucun service additionnel sélectionné"
+    },
+    "timeline": {
+      "title": "Chronologie du Projet",
+      "phase_1": "Phase 1: Configuration",
+      "phase_2": "Phase 2: Développement", 
+      "phase_3": "Phase 3: Tests & Lancement",
+      "phase_4": "Phase 4: Optimisation"
     }
   },
   
   "finances": {
     "title": "Aperçu Financier",
+    "subtitle": "Investissement et retour sur investissement",
     "investment": {
       "title": "Investissement Total",
       "base": "Package de base",
       "addons": "Services additionnels",
-      "total": "Total VAI Studio",
       "external": "Coûts externes",
-      "grand_total": "Investissement total"
+      "total": "Total"
     },
     "payment": {
       "title": "Options de Paiement",
-      "option_1": "Paiement complet",
-      "option_2": "Paiement en 2 fois",
+      "option_1": "Paiement Intégral",
+      "option_2": "Paiement Échelonné",
+      "recommended": "Recommandé",
       "deposit": "Acompte (50%)",
-      "final": "Solde final (50%)",
-      "recommended": "Recommandé"
+      "final": "Solde (50%)",
+      "full_payment": "Paiement intégral",
+      "split_payment": "Paiement en 2 fois"
     },
     "monthly": {
       "title": "Coûts Mensuels",
       "hosting": "Hébergement & Domaine",
-      "booking_system": "Système de réservation",
-      "total": "Total mensuel"
+      "booking_system": "Système de Réservation",
+      "total": "Total Mensuel"
     },
     "roi": {
-      "title": "Retour sur Investissement",
+      "title": "Calculateur ROI",
+      "subtitle": "Analysez votre retour sur investissement",
+      "average_price": "Prix moyen par tour",
+      "target_bookings": "Réservations cibles/mois",
+      "monthly_revenue": "Revenus mensuels",
+      "monthly_profit": "Profit mensuel",
       "breakeven": "Seuil de rentabilité",
-      "bookings_needed": "Réservations nécessaires",
-      "monthly_revenue": "Revenus mensuels estimés"
+      "direct_bookings": "Réservations directes nécessaires",
+      "calculate": "Recalculer",
+      "months": "mois"
     }
   },
-  
+
   "faq": {
     "title": "Questions Fréquentes",
-    "search": "Rechercher dans les FAQ...",
+    "subtitle": "Trouvez des réponses à vos questions",
+    "search": "Rechercher dans la FAQ...",
     "categories": {
-      "technical": "Technique",
-      "pricing": "Tarifs",
-      "process": "Processus",
+      "general": "Général",
+      "technical": "Technique", 
+      "billing": "Facturation",
       "support": "Support"
     },
     "no_results": "Aucun résultat trouvé",
-    "contact": "Question non trouvée ? Contactez-nous !"
+    "contact_support": "Contactez le support pour plus d'aide"
   },
-  
+
   "actions": {
     "title": "Actions Rapides",
+    "subtitle": "Gérez votre projet et accédez aux ressources",
     "contact": {
       "title": "Contacter VAI Studio",
-      "whatsapp": "WhatsApp",
-      "email": "Email",
-      "website": "Site web"
+      "email": "Envoyer un email",
+      "whatsapp": "Message WhatsApp",
+      "call": "Programmer un appel"
     },
-    "downloads": {
-      "title": "Téléchargements",
-      "proposal": "Télécharger la proposition",
-      "soon": "Bientôt disponible"
+    "resources": {
+      "title": "Ressources",
+      "download_proposal": "Télécharger la proposition",
+      "view_timeline": "Voir la chronologie",
+      "access_files": "Accéder aux fichiers"
     },
-    "share": {
-      "title": "Partager",
-      "portal": "Partager ce portail",
-      "copied": "Lien copié !",
-      "failed": "Échec du partage"
-    },
-    "logout": {
-      "title": "Déconnexion",
-      "button": "Se déconnecter",
-      "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
+    "account": {
+      "title": "Compte",
+      "change_password": "Changer le mot de passe",
+      "notification_settings": "Paramètres de notification",
+      "logout": "Se déconnecter"
     }
   },
-  
-  "progress": {
-    "title": "Progression du Projet",
-    "milestones": {
-      "proposal_sent": "Proposition envoyée",
-      "client_acceptance": "Acceptation client",
-      "development_start": "Début développement",
-      "design_review": "Révision design",
-      "content_integration": "Intégration contenu",
-      "testing": "Tests",
-      "launch": "Lancement",
-      "training": "Formation",
-      "completed": "Terminé"
-    },
-    "status": {
-      "completed": "Terminé",
-      "current": "En cours",
-      "upcoming": "À venir",
-      "pending": "En attente"
-    },
-    "timeline": {
-      "week": "Semaine {{number}}",
-      "estimated": "Estimation",
-      "actual": "Réel"
-    }
-  },
-  
-  "common": {
-    "loading": "Chargement...",
-    "error": "Erreur",
-    "retry": "Réessayer",
-    "close": "Fermer",
-    "save": "Enregistrer",
-    "cancel": "Annuler",
-    "yes": "Oui",
-    "no": "Non",
-    "currency": "F",
-    "per_month": "par mois",
-    "total": "Total",
-    "included": "Inclus",
-    "optional": "Optionnel",
-    "coming_soon": "Bientôt disponible"
-  },
-  
-  "meta": {
-    "title": "{{clientName}} - Portail Client VAI Studio",
-    "description": "Suivez la progression de votre transformation digitale avec VAI Studio"
+
+  "footer": {
+    "copyright": "© {{year}} VAI Studio. Tous droits réservés.",
+    "tagline": "\"Qualité internationale. Style insulaire.\"",
+    "support": "Support: {{email}} | {{phone}}"
   }
 }
