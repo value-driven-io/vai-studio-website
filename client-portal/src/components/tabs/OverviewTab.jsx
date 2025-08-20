@@ -266,6 +266,7 @@ const OverviewTab = () => {
       </div>
 
       {/* Next Steps - Placeholder */}
+      {/*
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-4 flex items-center gap-2">
           <Clock className="w-5 h-5 text-vai-sunset" />
@@ -282,7 +283,10 @@ const OverviewTab = () => {
         </div>
       </div>
 
+
       {/* Quick Stats */}
+
+      {/*
       <div className="vai-card">
         <h2 className="text-xl font-semibold text-vai-pearl mb-4">{t('overview.stats.title')}</h2>
         
@@ -316,6 +320,8 @@ const OverviewTab = () => {
           </div>
         </div>
       </div>
+
+      */}
     </div>
   )
 }
