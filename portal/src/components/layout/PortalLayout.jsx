@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientStore } from '../../store/clientStore'
 
@@ -6,9 +6,12 @@ import { useClientStore } from '../../store/clientStore'
 import MobileHeader from './MobileHeader'
 import TabNavigation from './TabNavigation'
 import DesktopSidebar from './DesktopSidebar'
+import DebugInfo from '../ui/DebugInfo'
 
 // Tab content components
 import OverviewTab from '../tabs/OverviewTab'
+import ProfileTab from '../tabs/ProfileTab'
+import PackageTab from '../tabs/PackageTab'
 import ScopeTab from '../tabs/ScopeTab'
 import FinancesTab from '../tabs/FinancesTab'
 import FAQTab from '../tabs/FAQTab'
@@ -16,7 +19,8 @@ import ActionsTab from '../tabs/ActionsTab'
 
 const PortalLayout = () => {
   const { t } = useTranslation()
-  const { activeTab, clientData, isMobile } = useClientStore()
+  const { activeTab, clientData, updateMobileState } = useClientStore()
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   useEffect(() => {
     // Update page title with client name
@@ -25,10 +29,30 @@ const PortalLayout = () => {
     }
   }, [clientData, t])
 
+  useEffect(() => {
+    // Handle window resize for responsive layout
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768
+      setIsMobile(mobile)
+      updateMobileState() // Update store state
+    }
+
+    window.addEventListener('resize', handleResize)
+    
+    // Set initial state
+    handleResize()
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [updateMobileState])
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
         return <OverviewTab />
+      case 'profile':
+        return <ProfileTab />
+      case 'package':
+        return <PackageTab />
       case 'scope':
         return <ScopeTab />
       case 'finances':
@@ -78,6 +102,9 @@ const PortalLayout = () => {
           </main>
         </div>
       )}
+      
+      {/* Debug Info (development only) */}
+      <DebugInfo />
     </div>
   )
 }

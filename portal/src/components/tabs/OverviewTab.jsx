@@ -99,6 +99,71 @@ const OverviewTab = () => {
         </div>
       </div>
 
+      {/* Configuration Status */}
+      <div className="vai-card">
+        <h2 className="text-xl font-semibold text-vai-pearl mb-6 flex items-center gap-2">
+          <TrendingUp className="w-5 h-5 text-vai-coral" />
+          Configuration Status
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className={`w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center ${
+              proposalData?.client_intake ? 'bg-vai-bamboo/20' : 'bg-vai-muted/20'
+            }`}>
+              <CheckCircle className={`w-8 h-8 ${
+                proposalData?.client_intake ? 'text-vai-bamboo' : 'text-vai-muted'
+              }`} />
+            </div>
+            <h3 className="font-semibold text-vai-pearl mb-1">Profile Complete</h3>
+            <p className="text-sm text-vai-muted">
+              {proposalData?.client_intake ? 'Business information filled' : 'Complete your profile'}
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className={`w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center ${
+              proposalData?.package_configuration ? 'bg-vai-bamboo/20' : 'bg-vai-muted/20'
+            }`}>
+              <CheckCircle className={`w-8 h-8 ${
+                proposalData?.package_configuration ? 'text-vai-bamboo' : 'text-vai-muted'
+              }`} />
+            </div>
+            <h3 className="font-semibold text-vai-pearl mb-1">Package Configured</h3>
+            <p className="text-sm text-vai-muted">
+              {proposalData?.package_configuration ? 'Services selected' : 'Choose your package'}
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className={`w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center ${
+              proposalData?.submission_status?.status === 'submitted' ? 'bg-vai-bamboo/20' : 'bg-vai-muted/20'
+            }`}>
+              <CheckCircle className={`w-8 h-8 ${
+                proposalData?.submission_status?.status === 'submitted' ? 'text-vai-bamboo' : 'text-vai-muted'
+              }`} />
+            </div>
+            <h3 className="font-semibold text-vai-pearl mb-1">Configuration Submitted</h3>
+            <p className="text-sm text-vai-muted">
+              {proposalData?.submission_status?.status === 'submitted' ? 'Under review' : 'Ready to submit'}
+            </p>
+          </div>
+        </div>
+        
+        {proposalData?.submission_status?.status === 'submitted' && (
+          <div className="mt-6 p-4 bg-vai-coral/10 rounded-lg border border-vai-coral/20">
+            <div className="flex items-center gap-2 text-vai-coral">
+              <AlertCircle className="w-5 h-5" />
+              <span className="font-medium">Configuration Submitted</span>
+            </div>
+            <p className="text-sm text-vai-muted mt-1">
+              Your configuration was submitted on {formatDate(proposalData.submission_status.submitted_at)}. 
+              VAI Studio will review your selections and contact you soon.
+            </p>
+          </div>
+        )}
+      </div>
+
       {/* Project Summary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Business Info */}

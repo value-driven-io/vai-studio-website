@@ -18,6 +18,8 @@
   
   "tabs": {
     "overview": "Aperçu",
+    "profile": "Profil",
+    "package": "Package", 
     "scope": "Portée",
     "finances": "Finances", 
     "faq": "FAQ",

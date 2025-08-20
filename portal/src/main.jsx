@@ -5,6 +5,11 @@ import App from './App.jsx'
 // Import i18n configuration
 import './utils/i18n.js'
 
+// Import store test utility (development only)
+if (import.meta.env.DEV) {
+  import('./utils/storeTest.js')
+}
+
 // Service Worker registration for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

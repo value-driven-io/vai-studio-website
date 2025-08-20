@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next'
 import { useClientStore } from '../../store/clientStore'
 import { 
   Home, 
+  User,
+  Package,
   FileText, 
   DollarSign, 
   HelpCircle, 
@@ -20,29 +22,41 @@ const TabNavigation = () => {
       color: 'text-vai-coral'
     },
     {
+      id: 'profile',
+      label: t('tabs.profile'),
+      icon: User,
+      color: 'text-vai-teal'
+    },
+    {
+      id: 'package',
+      label: t('tabs.package'),
+      icon: Package,
+      color: 'text-vai-sunset'
+    },
+    {
       id: 'scope',
       label: t('tabs.scope'),
       icon: FileText,
-      color: 'text-vai-teal'
+      color: 'text-vai-hibiscus'
     },
     {
       id: 'finances',
       label: t('tabs.finances'),
       icon: DollarSign,
       color: 'text-vai-sunset'
-    },
-    {
-      id: 'faq',
-      label: t('tabs.faq'),
-      icon: HelpCircle,
-      color: 'text-vai-hibiscus'
-    },
-    {
-      id: 'actions',
-      label: t('tabs.actions'),
-      icon: Zap,
-      color: 'text-vai-bamboo'
     }
+  // {
+   //   id: 'faq',
+   //   label: t('tabs.faq'),
+    //  icon: HelpCircle,
+   //   color: 'text-vai-hibiscus'
+   // },
+   // {
+   //   id: 'actions',
+   //   label: t('tabs.actions'),
+   //   icon: Zap,
+   //   color: 'text-vai-bamboo'
+  //   }
   ]
 
   const handleTabClick = (tabId) => {

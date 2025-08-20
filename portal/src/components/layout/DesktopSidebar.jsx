@@ -2,11 +2,12 @@ import { useTranslation } from 'react-i18next'
 import { useClientStore } from '../../store/clientStore'
 import { 
   Home, 
+  User,
+  Package,
   FileText, 
   DollarSign, 
   HelpCircle, 
   Zap,
-  User,
   LogOut,
   ExternalLink
 } from 'lucide-react'
@@ -24,10 +25,22 @@ const DesktopSidebar = () => {
       color: 'text-vai-coral'
     },
     {
+      id: 'profile',
+      label: t('tabs.profile'),
+      icon: User,
+      color: 'text-vai-teal'
+    },
+    {
+      id: 'package',
+      label: t('tabs.package'),
+      icon: Package,
+      color: 'text-vai-sunset'
+    },
+    {
       id: 'scope',
       label: t('tabs.scope'),
       icon: FileText,
-      color: 'text-vai-teal'
+      color: 'text-vai-hibiscus'
     },
     {
       id: 'finances',

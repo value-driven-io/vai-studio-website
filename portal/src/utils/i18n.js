@@ -30,11 +30,11 @@ i18n
       excludeCacheFor: ['cimode'] // don't cache in CI mode
     },
     
-    // Fallback language
-    fallbackLng: 'fr',
+    // Fallback language (English priority)
+    fallbackLng: 'en',
     
-    // Supported languages
-    supportedLngs: ['fr', 'en'],
+    // Supported languages (English first)
+    supportedLngs: ['en', 'fr'],
     
     // Non-explicit supported languages
     nonExplicitSupportedLngs: true,

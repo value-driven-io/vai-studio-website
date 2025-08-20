@@ -18,6 +18,8 @@
   
   "tabs": {
     "overview": "Overview",
+    "profile": "Profile", 
+    "package": "Package",
     "scope": "Scope",
     "finances": "Finances",
     "faq": "FAQ", 
@@ -46,6 +48,19 @@
       "title": "Next Steps",
       "no_steps": "No action required at this time"
     }
+  },
+
+  "package": {
+    "title": "Package Configuration",
+    "subtitle": "Customize your digital transformation package",
+    "base_package": "Smart Setup Package (Base)",
+    "package_deals": "Package Deals (Save Money!)",
+    "additional_services": "Additional Services",
+    "calculator": "Investment Calculator",
+    "calculate": "Calculate Pricing",
+    "save_config": "Save Configuration",
+    "submit_review": "Submit for Review",
+    "locked": "Configuration locked"
   },
   
   "scope": {
@@ -187,6 +202,19 @@
     "included": "Included",
     "optional": "Optional",
     "coming_soon": "Coming soon"
+  },
+
+  "profile": {
+    "title": "Business Profile", 
+    "edit": "Edit Profile",
+    "save": "Save",
+    "cancel": "Cancel",
+    "locked": "Profile locked - configuration submitted",
+    "completion": "Profile Completion",
+    "basic_info": "Basic Information",
+    "business_details": "Business Details",
+    "digital_presence": "Current Digital Presence",
+    "content_materials": "Content & Materials"
   },
   
   "meta": {
