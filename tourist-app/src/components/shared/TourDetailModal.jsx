@@ -61,12 +61,12 @@ const TourDetailModal = ({
   // 🎯 HELPER: Format fitness level 
   const getFitnessDisplay = (level) => {
     const fitnessMap = {
-      'easy': { label: t('tourDetail.fitness.easy'), color: 'bg-green-500/20 text-green-400', icon: '😊' },
-      'moderate': { label: t('tourDetail.fitness.moderate'), color: 'bg-yellow-500/20 text-yellow-400', icon: '🚶' },
-      'challenging': { label: t('tourDetail.fitness.challenging'), color: 'bg-orange-500/20 text-orange-400', icon: '🏃' },
+      'easy': { label: t('tourDetail.fitness.easy'), color: 'text-green-400', icon: '😊' },
+      'moderate': { label: t('tourDetail.fitness.moderate'), color: 'text-yellow-400', icon: '🚶' },
+      'challenging': { label: t('tourDetail.fitness.challenging'), color: 'text-orange-400', icon: '🏃' },
       'expert': { label: t('tourDetail.fitness.expert'), color: 'bg-red-500/20 text-red-400', icon: '🏔️' }
     }
-    return fitnessMap[level] || { label: t('tourDetail.fitness.tbd'), color: 'bg-slate-500/20 text-slate-400', icon: '❓' }
+    return fitnessMap[level] || { label: t('tourDetail.fitness.tbd'), color: 'text-slate-400', icon: '❓' }
   }
 
   const fitness = getFitnessDisplay(tour.fitness_level)
