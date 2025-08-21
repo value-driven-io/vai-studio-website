@@ -1,12 +1,12 @@
 // src/components/tours/TourPage.jsx
-// Component to handle tour deep links
+// New component to handle tour deep links without breaking existing functionality
 
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../../services/supabase'
 import TourDetailModal from '../shared/TourDetailModal'
-import LoadingSpinner from '../shared/LoadingSpinner'
-import { formatPrice, formatDate, formatTime, calculateSavings } from '../../lib/formatters'
+import { RefreshCw } from 'lucide-react'
+import { formatPrice, formatDate, formatTime } from '../../lib/utils'
 import { useCurrencyContext } from '../../hooks/useCurrency'
 import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
@@ -20,6 +20,12 @@ const TourPage = () => {
   const [tour, setTour] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  // Local helper function for calculating savings
+  const calculateSavings = (original, discount) => {
+    if (!original || !discount || original <= discount) return 0
+    return Math.round(((original - discount) / original) * 100)
+  }
 
   // Fetch tour data based on URL parameter
   useEffect(() => {
@@ -100,7 +106,10 @@ const TourPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <LoadingSpinner />
+        <div className="flex items-center gap-3 text-slate-400">
+          <RefreshCw className="w-8 h-8 animate-spin" />
+          <span className="text-lg">Loading tour details...</span>
+        </div>
       </div>
     )
   }
