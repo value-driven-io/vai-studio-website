@@ -16,7 +16,8 @@ import {
   Plus,           
   AlertCircle,   
   Star,          
-  Edit2           
+  Edit2,
+  Share2, Copy             
 } from 'lucide-react'
 
 const DashboardTab = ({ 
@@ -43,6 +44,37 @@ const DashboardTab = ({
         currency: 'XPF',
         minimumFractionDigits: 0
         }).format(amount)
+    }
+
+    // Sharing Link 
+    const handleTourShare = async (tour) => {
+      const shareUrl = `https://app.vai.studio/tour/${tour.id}`
+      const shareData = {
+        title: `${tour.tour_name} - ${operator?.company_name}`,
+        text: `Book this amazing experience: ${tour.tour_name}`,
+        url: shareUrl
+      }
+
+      try {
+        if (navigator.share) {
+          // Use native sharing if available (mobile)
+          await navigator.share(shareData)
+        } else {
+          // Fallback: copy to clipboard
+          await navigator.clipboard.writeText(shareUrl)
+          toast.success('Activity link copied! Share it with your customers.')
+        }
+      } catch (error) {
+        console.error('Error sharing:', error)
+        // Final fallback
+        const textArea = document.createElement('textarea')
+        textArea.value = shareUrl
+        document.body.appendChild(textArea)
+        textArea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textArea)
+        toast.success('Activity link copied to clipboard!')
+      }
     }
 
   return (
@@ -276,6 +308,17 @@ const DashboardTab = ({
                                       >
                                         <Edit2 className="w-3 h-3" />
                                       </button>
+
+                                      {/* NEW: Share Tour Button */}
+                                      <button
+                                        onClick={() => handleTourShare(tour)}
+                                        className="flex items-center gap-1 px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                        title={`Share ${tour.tour_name}`}
+                                      >
+                                        <Share2 className="w-3 h-3" />
+                                        Share Tour
+                                      </button>
+  
                                     </div>
                                   </div>
                                 )

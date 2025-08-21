@@ -15,12 +15,6 @@ const getDefaultPricingConfig = () => ({
         name: "Dual Payment Gateway", 
         description: "Accept both PayZen and PayPal payments"
       },
-      additional_platform: {
-        cost: 5000,
-        name: "Additional Platform",
-        description: "Per additional platform listing",
-        per_unit: true
-      },
       enhanced_design: {
         cost: 35000,
         name: "Enhanced Design Package",
@@ -51,11 +45,22 @@ const getDefaultPricingConfig = () => ({
         name: "Premium Training Program",
         description: "Extended training and support"
       },
+      // NEW COUNTER-BASED ADD-ONS
+      additional_platform: {
+        cost: 5000,
+        name: "Additional Platform Integration",
+        description: "Per additional OTA platform integration",
+        per_unit: true,
+        min_quantity: 1,
+        max_quantity: 10
+      },
       additional_language: {
         cost: 25000,
-        name: "Additional Language",
-        description: "Per additional language support",
-        per_unit: true
+        name: "Additional Language Support",
+        description: "Per additional language implementation",
+        per_unit: true,
+        min_quantity: 1,
+        max_quantity: 5
       }
     },
     package_deals: {
@@ -104,7 +109,7 @@ const getDefaultPricingConfig = () => ({
       },
       booking_system_annual: {
         cost: 48000,
-        description: "JotForm Professional booking system per year (4,000/month)"
+        description: "Professional booking system per year (4,000/month)"
       }
     },
     monthly_operating: {
@@ -113,7 +118,7 @@ const getDefaultPricingConfig = () => ({
       total: 5400
     },
     last_updated: new Date().toISOString(),
-    version: "1.0"
+    version: "1.1"
   }
 })
 

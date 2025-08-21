@@ -29,6 +29,7 @@ import VAILogo from './components/shared/VAILogo'
 import LanguageDropdown from './components/shared/LanguageDropdown'
 
 import { useAppStore } from './stores/bookingStore'
+import TourPage from './components/tours/TourPage'
 
 // 2. CHECK THE ENVIRONMENT VARIABLE
 // This variable will control whether the app is "live" or shows the "coming soon" screen.
@@ -210,6 +211,9 @@ function AppRouter() {
       <Routes>
         {/* Auth Callback Route */}
         <Route path="/auth/callback" element={<AuthCallback />} />
+
+        {/* Tour/Activity Deep Link */}
+        <Route path="/tour/:tourId" element={<TourPage />} />
         
         {/* Main App Route - All existing functionality */}
         <Route path="/*" element={

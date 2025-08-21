@@ -2,7 +2,7 @@
 import React from 'react'
 import { 
   Heart, Clock, Users, MapPin, Star, ArrowRight, Calendar,
-  Shield, Coffee, Car, Globe, AlertTriangle, X, Cloud
+  Shield, Coffee, Car, Globe, AlertTriangle, X, Cloud, Share2
 } from 'lucide-react'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import { useTranslation } from 'react-i18next'
@@ -79,6 +79,37 @@ const TourDetailModal = ({
     }
   }
 
+  // Tour/Acitivty Link Sharing
+  const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/tour/${tour.id}`
+    const shareData = {
+      title: tour.tour_name,
+      text: `Check out this amazing activity: ${tour.tour_name}`,
+      url: shareUrl
+    }
+
+    try {
+      if (navigator.share) {
+        // Use native sharing if available
+        await navigator.share(shareData)
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(shareUrl)
+        toast.success('Activity link copied to clipboard!')
+      }
+    } catch (error) {
+      console.error('Error sharing:', error)
+      // Final fallback: manual copy
+      const textArea = document.createElement('textarea')
+      textArea.value = shareUrl
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      toast.success('Activity link copied to clipboard!')
+    }
+  }
+
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start justify-center p-2 sm:p-4 overflow-y-auto">
       <div className="bg-slate-800 rounded-2xl max-w-4xl w-full border border-slate-700 my-4 mb-20 sm:my-8 sm:mb-8">
@@ -121,6 +152,17 @@ const TourDetailModal = ({
             
             {/* Action Buttons  */}
             <div className="flex items-center gap-2 flex-shrink-0">
+
+              {/* Share Button */}
+              <button
+                onClick={handleShare}
+                className="p-2 rounded-full bg-slate-700 text-slate-400 hover:bg-slate-600 hover:text-blue-400 transition-colors"
+                title="Share this tour"
+              >
+                <Share2 className="w-5 h-5" />
+              </button>
+
+              {/* Favorite Button */}
               <button
                 onClick={() => onFavoriteToggle?.(tour.id)}
                 className={`p-2 rounded-full transition-all ${
