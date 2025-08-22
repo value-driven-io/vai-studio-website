@@ -266,21 +266,41 @@ const OverviewTab = () => {
       </div>
 
       {/* Next Steps - Placeholder */}
-      {/*
       <div className="vai-card">
+        {/*
         <h2 className="text-xl font-semibold text-vai-pearl mb-4 flex items-center gap-2">
           <Clock className="w-5 h-5 text-vai-sunset" />
           {t('overview.next_steps.title')}
         </h2>
+        */}
+        <h2 className="text-xl font-semibold text-vai-pearl mb-4 flex items-center gap-2">
+          <Clock className="w-5 h-5 text-vai-sunset" />
+          Proposition (PDF Download)
+        </h2>
         
         <div className="text-center py-8">
-          <div className="w-12 h-12 bg-vai-muted/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+
+          {/*<div className="w-12 h-12 bg-vai-muted/20 rounded-lg flex items-center justify-center mx-auto mb-3">
             <CheckCircle className="w-6 h-6 text-vai-muted" />
           </div>
           <p className="text-vai-muted">
             {t('overview.next_steps.no_steps')}
-          </p>
+          </p>*/}
+
+          <button>
+                      <a 
+                        href="https://drive.google.com/drive/folders/1bVmei42Ec9W2oA_tpUWGCDG8mR1lbD_v?dmr=1&ec=wgc-drive-globalnav-goto" 
+                            className={`
+                              flex items-center gap-3 p-4 rounded-lg text-white font-medium
+                              transition-all duration-200 hover:scale-105 hover:shadow-lg bg-pink-500 py-50
+                              `}
+                              >
+                        Download PDF
+                      </a>
+                    </button>
         </div>
+       
+       
       </div>
 
 
