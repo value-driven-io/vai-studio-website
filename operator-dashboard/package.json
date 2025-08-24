@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "ajv": "^8.17.1",
     "i18next": "^25.3.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "lucide-react": "^0.523.0",
