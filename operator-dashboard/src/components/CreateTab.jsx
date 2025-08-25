@@ -825,6 +825,19 @@ const CreateTab = ({
                     </div>
                   </div>
 
+                  {/* Whale Watching Regulation Reminder */}
+                  {formData.tour_type === 'Whale Watching' && (
+                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                      <div className="flex items-center gap-2 text-blue-400 text-sm">
+                        <span>🐋</span>
+                        <span className="font-medium">{t('whaleWatching.regulationReminder')}</span>
+                      </div>
+                      <p className="text-slate-300 text-sm mt-1 ml-6">
+                        {t('whaleWatching.capacityCompliance')}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Simplified Pricing */}
                   <div className="bg-slate-700/30 rounded-lg p-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

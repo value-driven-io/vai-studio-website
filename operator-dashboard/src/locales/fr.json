@@ -302,6 +302,10 @@
     "specialNotes": "Notes Spéciales",
     "specialNotesPlaceholder": "Informations supplémentaires pour les clients..."
   },
+  "whaleWatching": {
+    "regulationReminder": "Rappel Réglementation Observation des Baleines",
+    "capacityCompliance": "Veuillez vous assurer que les limites de capacité sont conformes aux réglementations polynésiennes 2025 d'observation des baleines."
+  },
   "templates": {
     "title": "Modèles de Démarrage Rapide",
     "whaleWatching": "Observation des Baleines",

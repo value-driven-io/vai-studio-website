@@ -191,6 +191,10 @@
     "specialNotes": "Special Notes",
     "specialNotesPlaceholder": "Additional information for customers..."
   },
+  "whaleWatching": {
+    "regulationReminder": "Whale Watching Regulation Reminder",
+    "capacityCompliance": "Please ensure capacity limits comply with 2025 French Polynesian whale observation regulations."
+  },
   "templates": {
     "title": "Quick Start Templates",
     "whaleWatching": "Whale Watching",
@@ -348,7 +352,7 @@
       "bookingDeclinedDesc": "This booking was declined and cannot be modified.",
       "declineReason": "Decline Reason",
       "declineReasonPlaceholder": "Please provide a reason for declining this booking...",
-      "timeline": {
+      "bookingTimeline": {
         "bookingCreated": "Booking Created",
         "bookingConfirmed": "Booking Confirmed",
         "bookingDeclined": "Booking Declined", 
