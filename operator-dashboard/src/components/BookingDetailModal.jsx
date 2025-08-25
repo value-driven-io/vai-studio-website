@@ -29,6 +29,50 @@ const BookingDetailModal = ({
   const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState('overview') // 'overview', 'customer', 'financial'
 
+  // Detailed confirmation handlers
+  const handleConfirmBooking = () => {
+    const hasPayment = booking.payment_intent_id && booking.payment_status === 'authorized'
+    const confirmMessage = hasPayment 
+      ? t('bookings.confirmations.confirmWithPayment', { 
+          amount: new Intl.NumberFormat('fr-FR').format(booking.total_amount),
+          customerName: booking.customer_name 
+        })
+      : t('bookings.confirmations.confirmWithoutPayment', { 
+          customerName: booking.customer_name 
+        })
+    
+    if (window.confirm(confirmMessage)) {
+      handleBookingAction(booking.id, 'confirmed')
+    }
+  }
+
+  const handleCompleteBooking = () => {
+    const confirmMessage = t('bookings.confirmations.complete', { 
+      customerName: booking.customer_name,
+      tourName: booking.tours?.tour_name 
+    })
+    
+    if (window.confirm(confirmMessage)) {
+      handleBookingAction(booking.id, 'completed')
+    }
+  }
+
+  const handleDeclineWithConfirmation = () => {
+    const hasPayment = booking.payment_intent_id && ['authorized', 'paid'].includes(booking.payment_status)
+    const confirmMessage = hasPayment 
+      ? t('bookings.confirmations.declineWithPayment', { 
+          amount: new Intl.NumberFormat('fr-FR').format(booking.total_amount),
+          customerName: booking.customer_name 
+        })
+      : t('bookings.confirmations.declineWithoutPayment', { 
+          customerName: booking.customer_name 
+        })
+    
+    if (window.confirm(confirmMessage)) {
+      handleDeclineBooking(booking.id)
+    }
+  }
+
   // Don't render if modal is closed or no booking
   if (!isOpen || !booking) return null
 
@@ -514,7 +558,7 @@ const BookingDetailModal = ({
                 {booking.booking_status === 'pending' && (
                   <>
                     <button
-                      onClick={() => handleBookingAction(booking.id, 'confirmed')}
+                      onClick={handleConfirmBooking}
                       disabled={processingBooking === booking.id}
                       className="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50"
                     >
@@ -523,7 +567,7 @@ const BookingDetailModal = ({
                     </button>
                     
                     <button
-                      onClick={() => handleDeclineBooking(booking.id)}
+                      onClick={handleDeclineWithConfirmation}
                       disabled={processingBooking === booking.id}
                       className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
                     >
@@ -535,7 +579,7 @@ const BookingDetailModal = ({
                 
                 {booking.booking_status === 'confirmed' && (
                   <button
-                    onClick={() => handleBookingAction(booking.id, 'completed')}
+                    onClick={handleCompleteBooking}
                     disabled={processingBooking === booking.id}
                     className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
                   >

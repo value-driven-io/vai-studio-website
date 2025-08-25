@@ -88,7 +88,16 @@ const PaymentStatusIndicator = ({ booking, compact = false }) => {
             <div className="flex items-center justify-between">
               <span className="text-slate-400">{t('payment.details.captured')}:</span>
               <span className="text-slate-300">
-                {new Date(paymentInfo.capturedAt).toLocaleDateString('fr-FR')}
+                {paymentInfo.capturedAt && !isNaN(new Date(paymentInfo.capturedAt)) 
+                  ? new Date(paymentInfo.capturedAt).toLocaleDateString('fr-FR', {
+                      year: 'numeric',
+                      month: 'short', 
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })
+                  : t('payment.details.processing')
+                }
               </span>
             </div>
           )}

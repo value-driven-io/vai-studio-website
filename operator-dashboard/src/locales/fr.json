@@ -391,6 +391,13 @@
   },
 
   "bookings": {
+    "confirmations": {
+      "confirmWithPayment": "⚠️ CONFIRMER LA RÉSERVATION\n\nClient : {{customerName}}\nMontant : {{amount}} XPF\n\n✅ Cette action va :\n• Capturer le paiement autorisé ({{amount}} XPF)\n• Confirmer la réservation pour le client\n• Verrouiller votre taux de commission\n• Envoyer une notification de confirmation au client\n\n❌ Cette action NE PEUT PAS être annulée !\n\nProcéder à la confirmation de la réservation ?",
+      "confirmWithoutPayment": "⚠️ CONFIRMER LA RÉSERVATION\n\nClient : {{customerName}}\n\n✅ Cette action va :\n• Confirmer la réservation pour le client\n• Verrouiller votre taux de commission\n• Envoyer une notification de confirmation au client\n\n❌ Cette action NE PEUT PAS être annulée !\n\nProcéder à la confirmation de la réservation ?",
+      "declineWithPayment": "⚠️ REFUSER LA RÉSERVATION\n\nClient : {{customerName}}\nMontant du remboursement : {{amount}} XPF\n\n✅ Cette action va :\n• Rembourser automatiquement {{amount}} XPF au client\n• Refuser définitivement la réservation\n• Libérer la capacité du tour\n• Notifier le client de l'annulation\n\n❌ Cette action NE PEUT PAS être annulée !\n\nProcéder au refus et remboursement ?",
+      "declineWithoutPayment": "⚠️ REFUSER LA RÉSERVATION\n\nClient : {{customerName}}\n\n✅ Cette action va :\n• Refuser définitivement la réservation\n• Libérer la capacité du tour\n• Notifier le client de l'annulation\n\n❌ Cette action NE PEUT PAS être annulée !\n\nProcéder au refus de la réservation ?",
+      "complete": "✅ MARQUER COMME TERMINÉ\n\nClient : {{customerName}}\nTour : {{tourName}}\n\n✅ Cette action confirme :\n• Le service du tour a été livré avec succès\n• Le client a participé au tour\n• Statut final pour les rapports et archives\n\n❌ Cette action NE PEUT PAS être annulée !\n\nMarquer cette réservation comme terminée ?"
+    },
     "header": {
       "revenueDashboard": "Tableau des Revenus",
       "smartFilters": "Filtres Intelligents", 
@@ -1066,6 +1073,7 @@
     "details": {
       "amount": "Montant",
       "captured": "Capturé",
+      "processing": "En cours...",
       "method": "Méthode de paiement",
       "stripeSecured": "Paiement sécurisé Stripe",
       "processingFee": "Frais de traitement Stripe",

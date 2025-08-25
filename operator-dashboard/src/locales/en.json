@@ -281,6 +281,13 @@
   },
 
   "bookings": {
+    "confirmations": {
+      "confirmWithPayment": "⚠️ CONFIRM BOOKING\n\nCustomer: {{customerName}}\nAmount: {{amount}} XPF\n\n✅ This action will:\n• Capture the authorized payment ({{amount}} XPF)\n• Confirm the booking for the customer\n• Lock in your commission rate\n• Send confirmation notification to customer\n\n❌ This action CANNOT be undone!\n\nProceed with booking confirmation?",
+      "confirmWithoutPayment": "⚠️ CONFIRM BOOKING\n\nCustomer: {{customerName}}\n\n✅ This action will:\n• Confirm the booking for the customer\n• Lock in your commission rate\n• Send confirmation notification to customer\n\n❌ This action CANNOT be undone!\n\nProceed with booking confirmation?",
+      "declineWithPayment": "⚠️ DECLINE BOOKING\n\nCustomer: {{customerName}}\nRefund Amount: {{amount}} XPF\n\n✅ This action will:\n• Automatically refund {{amount}} XPF to customer\n• Decline the booking permanently\n• Free up tour capacity\n• Notify customer of cancellation\n\n❌ This action CANNOT be undone!\n\nProceed with booking decline and refund?",
+      "declineWithoutPayment": "⚠️ DECLINE BOOKING\n\nCustomer: {{customerName}}\n\n✅ This action will:\n• Decline the booking permanently\n• Free up tour capacity\n• Notify customer of cancellation\n\n❌ This action CANNOT be undone!\n\nProceed with booking decline?",
+      "complete": "✅ MARK AS COMPLETED\n\nCustomer: {{customerName}}\nTour: {{tourName}}\n\n✅ This action confirms:\n• Tour service was successfully delivered\n• Customer participated in the tour\n• Final status for reporting and records\n\n❌ This action CANNOT be undone!\n\nMark this booking as completed?"
+    },
 
     "header": {
       "revenueDashboard": "Revenue Dashboard",
@@ -1235,6 +1242,7 @@
     "details": {
       "amount": "Amount",
       "captured": "Captured",
+      "processing": "Processing...",
       "method": "Payment Method",
       "stripeSecured": "Stripe Secure Payment",
       "processingFee": "Stripe Processing Fee",
