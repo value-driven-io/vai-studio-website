@@ -6,6 +6,7 @@ import {
   AlertCircle, CheckCircle, XCircle, Timer,
   TrendingUp, ArrowUpDown, Filter
 } from 'lucide-react'
+import PaymentStatusIndicator from './PaymentStatusIndicator'
 
 const BookingsList = ({
   filteredBookings,
@@ -147,6 +148,9 @@ const BookingsList = ({
                 {t('bookings.list.headers.netRevenue')}
               </th>
               <th className="px-4 py-3 text-xs font-medium text-slate-400 uppercase tracking-wider text-center">
+                Payment
+              </th>
+              <th className="px-4 py-3 text-xs font-medium text-slate-400 uppercase tracking-wider text-center">
                 {t('bookings.list.headers.actions')}
               </th>
             </tr>
@@ -244,6 +248,11 @@ const BookingsList = ({
                     <div className="text-xs text-slate-400">
                       {t('bookings.list.netEarnings')}
                     </div>
+                  </td>
+
+                  {/* 💰 Payment Status Column */}
+                  <td className="px-4 py-4 text-center">
+                    <PaymentStatusIndicator booking={booking} compact={true} />
                   </td>
 
                   {/* Actions Column */}

@@ -21,6 +21,7 @@ import { supabase } from './lib/supabase'
 import { polynesianNow, toPolynesianISO } from './utils/timezone'
 import toast, { Toaster } from 'react-hot-toast'
 import chatService from './services/chatService'
+import paymentService from './services/paymentService'
 import { useTranslation } from 'react-i18next'
 import ChangePasswordModal from './components/auth/ChangePasswordModal'
 import { getPasswordChangeRequirement, detectPasswordEdgeCases, needsPasswordChange } from './utils/passwordSecurity'
@@ -519,6 +520,7 @@ function AppContent() { // function App() { << before changes for the authcallba
             id, booking_reference, booking_status, created_at, 
             customer_name, customer_email, customer_whatsapp,
             num_adults, num_children, subtotal, total_amount, commission_amount,
+            payment_status, payment_intent_id, stripe_fee, payment_captured_at,
             tours:tour_id(tour_name, tour_date, time_slot, meeting_point, tour_type)
           `)
           .eq('operator_id', operator.id)
@@ -585,7 +587,7 @@ function AppContent() { // function App() { << before changes for the authcallba
       if (!bookingsData || bookingsData.length === 0) {
         const { data, error: bookingsError } = await supabase
           .from('bookings')
-          .select('booking_status, subtotal, commission_amount') //  needed for stats
+          .select('booking_status, subtotal, commission_amount, payment_status, payment_captured_at, stripe_fee') //  needed for stats
           .eq('operator_id', operator.id)
 
         if (bookingsError) {
@@ -604,16 +606,34 @@ function AppContent() { // function App() { << before changes for the authcallba
       const declinedBookings = bookingsData?.filter(b => b.booking_status === 'declined').length || 0
       const cancelledBookings = bookingsData?.filter(b => b.booking_status === 'cancelled').length || 0
       
-      //  revenue calculation EXACTLY the same
+      // 💰 UPDATED: Revenue calculation based on CAPTURED payments only
       const operatorRevenue = bookingsData
-        ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
+        ?.filter(b => {
+          // Only count revenue from bookings with captured payments
+          const hasValidBookingStatus = ['confirmed', 'completed'].includes(b.booking_status)
+          const hasPaymentCaptured = ['paid', 'captured'].includes(b.payment_status) || b.payment_captured_at
+          return hasValidBookingStatus && hasPaymentCaptured
+        })
         ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
 
       const totalCommission = bookingsData
-        ?.filter(b => ['confirmed', 'completed'].includes(b.booking_status))
+        ?.filter(b => {
+          const hasValidBookingStatus = ['confirmed', 'completed'].includes(b.booking_status)
+          const hasPaymentCaptured = ['paid', 'captured'].includes(b.payment_status) || b.payment_captured_at
+          return hasValidBookingStatus && hasPaymentCaptured
+        })
         ?.reduce((sum, b) => sum + (b.commission_amount || 0), 0) || 0
 
-      //  stats object structure EXACTLY the same
+      // 💰 NEW: Calculate authorized (pending capture) revenue separately
+      const authorizedRevenue = bookingsData
+        ?.filter(b => {
+          const isPending = b.booking_status === 'pending' || (b.booking_status === 'confirmed' && !b.payment_captured_at)
+          const hasAuthorization = b.payment_status === 'authorized' && b.payment_intent_id
+          return isPending && hasAuthorization
+        })
+        ?.reduce((sum, b) => sum + (b.subtotal || 0), 0) || 0
+
+      // 💰 ENHANCED: Stats object with payment-aware metrics
       setStats({
         totalBookings,
         pendingBookings,
@@ -622,9 +642,10 @@ function AppContent() { // function App() { << before changes for the authcallba
         cancelledBookings,
         completedBookings,
         activeTours: tours.filter(t => t.status === 'active' && new Date(t.tour_date) >= new Date()).length,
-        totalRevenue: operatorRevenue, //  field for compatibility
-        operator_revenue: operatorRevenue,  // operator revenue
-        total_commission: totalCommission,  // Commission amount
+        totalRevenue: operatorRevenue, // CAPTURED revenue only
+        operator_revenue: operatorRevenue,  // operator revenue (captured)
+        total_commission: totalCommission,  // Commission amount (captured)
+        authorized_revenue: authorizedRevenue, // 💰 NEW: Revenue pending capture
         avg_response_time_hours: 2
       })
 
@@ -642,6 +663,7 @@ function AppContent() { // function App() { << before changes for the authcallba
         totalRevenue: 0,
         operator_revenue: 0,
         total_commission: 0,
+        authorized_revenue: 0, // 💰 NEW: Include in error fallback
         avg_response_time_hours: 0
       })
     }
@@ -689,6 +711,12 @@ function AppContent() { // function App() { << before changes for the authcallba
   const handleBookingAction = async (bookingId, action, reason = null) => {
     setProcessingBooking(bookingId)
     try {
+      // 💰 ENHANCED: Get booking details first for payment processing
+      const booking = allBookings.find(b => b.id === bookingId)
+      if (!booking) {
+        throw new Error('Booking not found')
+      }
+
       const updateData = {
         booking_status: action,
         operator_response: action.toUpperCase(),
@@ -699,18 +727,88 @@ function AppContent() { // function App() { << before changes for the authcallba
       if (action === 'confirmed') {
         updateData.confirmed_at = toPolynesianISO(new Date())
         
+        // 💰 CRITICAL: Capture payment BEFORE confirming booking
+        if (booking.payment_intent_id && booking.payment_status === 'authorized') {
+          console.log('💰 Capturing payment before confirming booking')
+          
+          try {
+            const paymentResult = await paymentService.capturePayment(
+              booking.payment_intent_id, 
+              bookingId
+            )
+            
+            console.log('✅ Payment captured successfully:', paymentResult)
+            toast.success(`💰 ${t('payment.messages.captureSuccess')}`, { 
+              duration: 5000,
+              style: {
+                background: '#059669',
+                color: 'white'
+              }
+            })
+            
+            // Update booking with captured payment info
+            updateData.payment_status = 'paid'
+            updateData.payment_captured_at = toPolynesianISO(new Date())
+            updateData.stripe_fee = paymentResult.stripe_fee
+            
+          } catch (paymentError) {
+            console.error('❌ Payment capture failed:', paymentError)
+            toast.error(`❌ ${t('payment.messages.captureRequired')}`, {
+              duration: 10000,
+              style: {
+                background: '#dc2626',
+                color: 'white'
+              }
+            })
+            
+            // 🚨 CRITICAL: DO NOT confirm booking if payment capture fails
+            throw new Error(`Payment capture required for booking confirmation: ${paymentError.message}`)
+          }
+        }
+        
         // Lock commission rate when confirming
         await lockBookingCommission(bookingId)
         
       } else if (action === 'completed') {
-      // Only set booking_status, no completed_at field exists
-        
+        // Only set booking_status, no completed_at field exists
         // Lock commission rate when marking complete not necessary
-        // await lockBookingCommission(bookingId)
         
       } else if (action === 'declined') {
         updateData.cancelled_at = toPolynesianISO(new Date())
         updateData.decline_reason = reason
+        
+        // 💰 NEW: Refund payment if authorized or captured
+        if (booking.payment_intent_id && ['authorized', 'captured', 'paid'].includes(booking.payment_status)) {
+          console.log('💸 Refunding payment for declined booking')
+          
+          try {
+            const refundResult = await paymentService.refundPayment(
+              booking.payment_intent_id,
+              bookingId,
+              null, // Refund full amount
+              'requested_by_customer'
+            )
+            
+            console.log('✅ Payment refunded successfully:', refundResult)
+            toast.success(`💸 ${t('payment.messages.refundSuccess')}`, {
+              duration: 5000,
+              style: {
+                background: '#059669',
+                color: 'white'
+              }
+            })
+          } catch (refundError) {
+            console.error('❌ Payment refund failed:', refundError)
+            toast.error(t('payment.messages.refundError', { error: refundError.message }), {
+              duration: 10000,
+              style: {
+                background: '#dc2626',
+                color: 'white'
+              }
+            })
+            // Continue with booking decline - operator must handle refund manually
+          }
+        }
       
       } else if (action === 'cancelled') {
         updateData.cancelled_at = new Date().toISOString()

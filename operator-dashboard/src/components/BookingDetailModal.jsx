@@ -7,6 +7,8 @@ import {
   MessageCircle, Users, CreditCard, Lock, Unlock,
   Info, DollarSign, TrendingUp, Star, Flag
 } from 'lucide-react'
+import PaymentStatusIndicator from './PaymentStatusIndicator'
+import PaymentActionButtons from './PaymentActionButtons'
 
 const BookingDetailModal = ({
   isOpen,
@@ -425,37 +427,75 @@ const BookingDetailModal = ({
                   </div>
                 </div>
 
-                {/* Payment Information */}
+                {/* 💰 ENHANCED Payment Information */}
                 <div className="bg-slate-700/30 rounded-lg p-4">
-                  <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-                    <CreditCard className="w-5 h-5 text-blue-400" />
-                    {t('bookings.modal.sections.paymentInfo')}
-                  </h3>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-medium text-white flex items-center gap-2">
+                      <CreditCard className="w-5 h-5 text-blue-400" />
+                      {t('bookings.modal.sections.paymentInfo')}
+                    </h3>
+                    {/* Payment Action Buttons */}
+                    <PaymentActionButtons 
+                      booking={booking}
+                      size="sm"
+                      onPaymentUpdate={(updatedBooking) => {
+                        // Refresh booking data - you may need to implement this callback
+                        console.log('Payment updated:', updatedBooking)
+                      }}
+                    />
+                  </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <span className="text-slate-400 text-sm">{t('bookings.modal.fields.paymentStatus')}</span>
-                      <p className="text-white">{booking.payment_status || t('bookings.modal.pending')}</p>
-                    </div>
+                  <div className="space-y-4">
+                    {/* Payment Status Indicator */}
+                    <PaymentStatusIndicator booking={booking} />
                     
-                    <div>
-                      <span className="text-slate-400 text-sm">{t('bookings.modal.fields.paymentMethod')}</span>
-                      <p className="text-white">{booking.payment_method || t('bookings.modal.notSpecified')}</p>
-                    </div>
-                    
-                    <div>
-                      <span className="text-slate-400 text-sm">{t('bookings.modal.fields.commissionRate')}</span>
-                      <p className="text-white">{commissionRate.toFixed(1)}%</p>
-                    </div>
-                    
-                    <div>
-                      <span className="text-slate-400 text-sm">{t('bookings.modal.fields.commissionLocked')}</span>
-                      <p className="text-white">
-                        {booking.commission_locked_at ? 
-                          formatDate(booking.commission_locked_at) : 
-                          t('bookings.modal.notLocked')
-                        }
-                      </p>
+                    {/* Payment Details Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-600">
+                      {booking.payment_intent_id && (
+                        <div>
+                          <span className="text-slate-400 text-sm">{t('payment.details.method')}</span>
+                          <p className="text-white flex items-center gap-2">
+                            <CreditCard className="w-4 h-4" />
+                            {t('payment.details.stripeSecured')}
+                          </p>
+                        </div>
+                      )}
+                      
+                      <div>
+                        <span className="text-slate-400 text-sm">{t('bookings.modal.fields.commissionRate')}</span>
+                        <p className="text-white">{commissionRate.toFixed(1)}%</p>
+                      </div>
+                      
+                      {booking.stripe_fee && booking.stripe_fee > 0 && (
+                        <div>
+                          <span className="text-slate-400 text-sm">{t('payment.details.processingFee')}</span>
+                          <p className="text-red-300">{formatPrice(booking.stripe_fee)}</p>
+                        </div>
+                      )}
+                      
+                      <div>
+                        <span className="text-slate-400 text-sm">{t('bookings.modal.fields.commissionLocked')}</span>
+                        <p className="text-white flex items-center gap-2">
+                          {booking.commission_locked_at ? (
+                            <>
+                              <Lock className="w-4 h-4 text-green-400" />
+                              {formatDate(booking.commission_locked_at)}
+                            </>
+                          ) : (
+                            <>
+                              <Unlock className="w-4 h-4 text-yellow-400" />
+                              {t('bookings.modal.notLocked')}
+                            </>
+                          )}
+                        </p>
+                      </div>
+                      
+                      {booking.payment_captured_at && (
+                        <div className="md:col-span-2">
+                          <span className="text-slate-400 text-sm">{t('payment.details.capturedAt')}</span>
+                          <p className="text-green-400">{formatDate(booking.payment_captured_at)}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

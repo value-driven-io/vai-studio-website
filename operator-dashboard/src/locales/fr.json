@@ -1031,7 +1031,56 @@
     }
   },
 
-    "suspendedAccount": {
+  "payment": {
+    "status": {
+      "noPayment": "Aucun paiement requis",
+      "authorized": "Paiement autorisé",
+      "captured": "Paiement capturé",
+      "paid": "Paiement capturé",
+      "refunded": "Paiement remboursé", 
+      "failed": "Paiement échoué",
+      "pending": "Paiement en attente"
+    },
+    "actions": {
+      "capture": "Capturer",
+      "refund": "Rembourser",
+      "viewStripe": "Voir dans Stripe",
+      "capturePayment": "Capturer le paiement",
+      "refundPayment": "Rembourser le paiement",
+      "stripeLink": "Stripe"
+    },
+    "messages": {
+      "captureSuccess": "Paiement capturé avec succès !",
+      "refundSuccess": "Paiement remboursé au client",
+      "captureError": "Échec de la capture du paiement : {{error}}",
+      "refundError": "Échec du remboursement : {{error}}. Traite manuellement dans Stripe.",
+      "captureRequired": "Échec de la capture du paiement ! La réservation ne peut pas être confirmée sans une capture de paiement réussie.",
+      "networkError": "Erreur réseau survenue",
+      "confirmRefund": "Es-tu sûr de vouloir rembourser {{amount}} XPF au client ?\n\nCette action ne peut pas être annulée."
+    },
+    "tooltips": {
+      "capture": "Capturer le paiement autorisé",
+      "refund": "Rembourser le paiement au client",
+      "stripe": "Voir dans le tableau de bord Stripe"
+    },
+    "details": {
+      "amount": "Montant",
+      "captured": "Capturé",
+      "method": "Méthode de paiement",
+      "stripeSecured": "Paiement sécurisé Stripe",
+      "processingFee": "Frais de traitement Stripe",
+      "capturedAt": "Paiement capturé",
+      "authorizedAmount": "Montant autorisé",
+      "capturedAmount": "Montant capturé"
+    },
+    "tooltips": {
+      "capture": "Capturer le paiement autorisé",
+      "refund": "Rembourser le paiement au client",
+      "stripe": "Voir le paiement dans le tableau de bord Stripe"
+    }
+  },
+
+  "suspendedAccount": {
     "title": "Compte temporairement indisponible",
     "message": "Ton compte opérateur est actuellement {{status}}. Contacte le support VAI pour obtenir de l'aide.",
     "signOut": "Se déconnecter",

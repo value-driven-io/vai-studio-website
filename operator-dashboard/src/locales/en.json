@@ -1199,6 +1199,55 @@
       ]
     }
   },
+
+  "payment": {
+    "status": {
+      "noPayment": "No payment required",
+      "authorized": "Payment authorized", 
+      "captured": "Payment captured",
+      "paid": "Payment captured",
+      "refunded": "Payment refunded",
+      "failed": "Payment failed",
+      "pending": "Payment pending"
+    },
+    "actions": {
+      "capture": "Capture",
+      "refund": "Refund", 
+      "viewStripe": "View in Stripe",
+      "capturePayment": "Capture Payment",
+      "refundPayment": "Refund Payment",
+      "stripeLink": "Stripe"
+    },
+    "messages": {
+      "captureSuccess": "Payment captured successfully!",
+      "refundSuccess": "Payment refunded to customer",
+      "captureError": "Payment capture failed: {{error}}",
+      "refundError": "Payment refund failed: {{error}}. Please handle manually in Stripe.",
+      "captureRequired": "Payment capture failed! Booking cannot be confirmed without successful payment capture.",
+      "networkError": "Network error occurred",
+      "confirmRefund": "Are you sure you want to refund {{amount}} XPF to the customer?\n\nThis action cannot be undone."
+    },
+    "tooltips": {
+      "capture": "Capture authorized payment",
+      "refund": "Refund payment to customer",
+      "stripe": "View in Stripe dashboard"
+    },
+    "details": {
+      "amount": "Amount",
+      "captured": "Captured",
+      "method": "Payment Method",
+      "stripeSecured": "Stripe Secure Payment",
+      "processingFee": "Stripe Processing Fee",
+      "capturedAt": "Payment Captured",
+      "authorizedAmount": "Authorized Amount",
+      "capturedAmount": "Captured Amount"
+    },
+    "tooltips": {
+      "capture": "Capture authorized payment",
+      "refund": "Refund payment to customer", 
+      "stripe": "View payment in Stripe Dashboard"
+    }
+  },
   
   "suspendedAccount": {
     "title": "Account Temporarily Unavailable",

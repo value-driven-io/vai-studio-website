@@ -199,7 +199,7 @@ const BookingsTab = ({
                 setShowDetailModal(false)
                 setSelectedDetailBooking(null)
               }}
-              booking={selectedDetailBooking}
+              booking={selectedDetailBooking ? allBookings.find(b => b.id === selectedDetailBooking.id) || selectedDetailBooking : null}
               operator={operator}
               formatDate={formatDate}
               formatPrice={formatPrice}
