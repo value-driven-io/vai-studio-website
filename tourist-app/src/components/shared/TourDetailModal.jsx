@@ -8,6 +8,7 @@ import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import { useTranslation } from 'react-i18next'
 import { SinglePriceDisplay } from './PriceDisplay'
 import { useCurrencyContext } from '../../hooks/useCurrency'
+import toast from 'react-hot-toast'
 
 const TourDetailModal = ({ 
   tour, 
@@ -89,24 +90,43 @@ const TourDetailModal = ({
     }
 
     try {
-      if (navigator.share) {
-        // Use native sharing if available
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        // Use native sharing if available and supported
         await navigator.share(shareData)
       } else {
-        // Fallback: copy to clipboard
-        await navigator.clipboard.writeText(shareUrl)
-        toast.success('Activity link copied to clipboard!')
+        // Fallback: copy to clipboard with better error handling
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(shareUrl)
+          toast.success('Activity link copied to clipboard!')
+        } else {
+          // Fallback for older browsers or non-HTTPS
+          const textArea = document.createElement('textarea')
+          textArea.value = shareUrl
+          textArea.style.position = 'fixed'
+          textArea.style.left = '-999999px'
+          textArea.style.top = '-999999px'
+          document.body.appendChild(textArea)
+          textArea.focus()
+          textArea.select()
+          document.execCommand('copy')
+          document.body.removeChild(textArea)
+          toast.success(t('tourCard.share.copylink'))
+        }
       }
     } catch (error) {
       console.error('Error sharing:', error)
-      // Final fallback: manual copy
+      // Final fallback: manual copy with better positioning
       const textArea = document.createElement('textarea')
       textArea.value = shareUrl
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-999999px'
+      textArea.style.top = '-999999px'
       document.body.appendChild(textArea)
+      textArea.focus()
       textArea.select()
       document.execCommand('copy')
       document.body.removeChild(textArea)
-      toast.success('Activity link copied to clipboard!')
+      toast.success(t('tourCard.share.copylink'))
     }
   }
 

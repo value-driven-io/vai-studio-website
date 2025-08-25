@@ -329,7 +329,13 @@
       "addToFavorites": "Add to favorites",
       "removeFromFavorites": "Remove from favorites",
       "viewDetails": "View details"
+    },
+
+    "share": {
+      "copylink": "Link copied to clipboard!"
     }
+
+
   },
 
   "tourDetail": {
@@ -468,6 +474,10 @@
     "chargeWillCaptureOn": "Your card will be charged when the operator confirms",
     "noRefundNeeded": "No refund needed - payment only authorized",
     "captureIn24h": "Payment will be captured within 24 hours of confirmation"
+  },
+
+  "errors": {
+    "activityNotAvailable": "Activity Not Available"
   },
 
   "paymentFlow": {

@@ -295,6 +295,10 @@
       "addToFavorites": "Ajouter aux favoris",
       "removeFromFavorites": "Retirer des favoris", 
       "viewDetails": "Voir les détails"
+    },
+
+    "share": {
+      "copylink": "Lien copié dans le presse-papier !"
     }
   },
 
@@ -461,6 +465,10 @@
     "step3": "Confirmation", 
     "backToDetails": "Retour aux Détails",
     "proceedToPayment": "Procéder au Paiement"
+  },
+
+  "errors": {
+    "activityNotAvailable": "Activité Non Disponible"
   },
 
   "bookingDetails": {

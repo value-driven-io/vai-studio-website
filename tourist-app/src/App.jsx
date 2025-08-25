@@ -20,6 +20,7 @@ import ProfileTab from './components/profile/ProfileTab'
 import AuthModal from './components/auth/AuthModal'
 import LaunchingSoonModal from './components/shared/LaunchingSoonModal';
 import MessagesTab from './components/messages/MessagesTab'
+import BookingModal from './components/booking/BookingModal'
 import { CurrencyProvider } from './hooks/useCurrency'
 import { useCurrencyContext } from './hooks/useCurrency'
 import CurrencySelector from './components/shared/CurrencySelector'
@@ -30,6 +31,7 @@ import LanguageDropdown from './components/shared/LanguageDropdown'
 
 import { useAppStore } from './stores/bookingStore'
 import TourPage from './components/tours/TourPage'
+import { supabase } from './services/supabase'
 
 // 2. CHECK THE ENVIRONMENT VARIABLE
 // This variable will control whether the app is "live" or shows the "coming soon" screen.
@@ -133,14 +135,17 @@ const AppHeader = () => {
   )
 }
 
-  // Main App Component (UNCHANGED - Preserving ALL existing functionality)
+  // Main App Component (ENHANCED - Added bookTour URL parameter handling)
 function AppContent() {
   const { activeTab } = useAppStore()
+  const [selectedTourForBooking, setSelectedTourForBooking] = useState(null)
+  const [showBookingModal, setShowBookingModal] = useState(false)
 
-  // Handle auth success messages from email links
+  // Handle auth success messages and bookTour parameter from deep links
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const message = urlParams.get('message')
+    const bookTourId = urlParams.get('bookTour')
     
     if (message === 'welcome') {
       toast.success('🎉 Welcome! Your email has been confirmed.')
@@ -155,7 +160,57 @@ function AppContent() {
       toast.success('🔑 Password reset successful! You can now sign in.')
       window.history.replaceState({}, '', window.location.pathname)
     }
+
+    // Handle bookTour parameter from deep links
+    if (bookTourId) {
+      const fetchTourForBooking = async () => {
+        try {
+          const { data: tourData, error } = await supabase
+            .from('tours')
+            .select(`
+              *,
+              operators (
+                id,
+                company_name,
+                island,
+                whatsapp_number,
+                phone,
+                contact_person
+              )
+            `)
+            .eq('id', bookTourId)
+            .eq('status', 'active')
+            .single()
+
+          if (error) {
+            console.error('Error fetching tour for booking:', error)
+            toast.error('Tour not found or unavailable for booking')
+            return
+          }
+
+          if (tourData) {
+            setSelectedTourForBooking(tourData)
+            setShowBookingModal(true)
+            // Clean URL to remove bookTour parameter
+            const newUrl = new URL(window.location)
+            newUrl.searchParams.delete('bookTour')
+            window.history.replaceState({}, '', newUrl.pathname + newUrl.search)
+          }
+        } catch (err) {
+          console.error('Unexpected error fetching tour:', err)
+          toast.error('Failed to load tour for booking')
+        }
+      }
+
+      fetchTourForBooking()
+    }
   }, [])
+
+  // Handle booking modal close
+  const handleCloseBookingModal = () => {
+    setShowBookingModal(false)
+    setSelectedTourForBooking(null)
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
@@ -183,6 +238,15 @@ function AppContent() {
 
       {/* Bottom Navigation */}
       <Navigation />
+
+      {/* Deep-link Booking Modal */}
+      {showBookingModal && selectedTourForBooking && (
+        <BookingModal 
+          tour={selectedTourForBooking}
+          isOpen={showBookingModal}
+          onClose={handleCloseBookingModal}
+        />
+      )}
 
       {/* Toast Notifications */}
       <Toaster
@@ -213,7 +277,13 @@ function AppRouter() {
         <Route path="/auth/callback" element={<AuthCallback />} />
 
         {/* Tour/Activity Deep Link */}
-        <Route path="/tour/:tourId" element={<TourPage />} />
+        <Route path="/tour/:tourId" element={
+          <CurrencyProvider>
+            <div className="bg-vai-deep-ocean min-h-screen text-white">
+              <TourPage />
+            </div>
+          </CurrencyProvider>
+        } />
         
         {/* Main App Route - All existing functionality */}
         <Route path="/*" element={
