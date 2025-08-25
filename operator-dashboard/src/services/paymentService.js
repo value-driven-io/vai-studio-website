@@ -8,6 +8,80 @@ const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
 
 export const paymentService = {
+
+  /**
+   * Mark tour as completed and start 48-hour payout countdown
+   * @param {string} bookingId - Booking ID
+   * @param {string} operatorId - Operator ID for security
+   * @returns {Promise<object>} Completion result
+   */
+  async markTourCompleted(bookingId, operatorId) {
+    try {
+      console.log(`✅ Marking tour completed: ${bookingId}`)
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/mark-tour-completed`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseAnonKey}`
+        },
+        body: JSON.stringify({
+          booking_id: bookingId,
+          operator_id: operatorId
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || 'Failed to mark tour completed')
+      }
+
+      const result = await response.json()
+      console.log(`🎯 Tour completion result:`, result)
+      
+      return result
+
+    } catch (error) {
+      console.error('❌ Tour completion error:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Process payouts for completed tours (48+ hours ago)
+   * @param {string} bookingId - Optional specific booking ID
+   * @returns {Promise<object>} Payout processing result
+   */
+  async processPayouts(bookingId = null) {
+    try {
+      console.log(`💰 Processing payouts${bookingId ? ` for booking: ${bookingId}` : ''}`)
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/process-tour-payouts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseAnonKey}`
+        },
+        body: JSON.stringify({
+          booking_id: bookingId
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || 'Failed to process payouts')
+      }
+
+      const result = await response.json()
+      console.log(`📊 Payout processing result:`, result)
+      
+      return result
+
+    } catch (error) {
+      console.error('❌ Payout processing error:', error)
+      throw error
+    }
+  },
   
   /**
    * Capture an authorized payment when operator confirms booking

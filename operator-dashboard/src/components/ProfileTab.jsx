@@ -10,6 +10,7 @@ import {
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import ChangePasswordModal from './auth/ChangePasswordModal'
+import StripeConnectCard from './StripeConnectCard'
 
 //  ExpandableSection OUTSIDE of ProfileTab component
 const ExpandableSection = ({ 
@@ -1018,6 +1019,15 @@ const ProfileTab = ({ setActiveTab }) => {
               </div>
             </div>
           </ExpandableSection>
+
+          {/* 2.5. Stripe Connect Payment Setup */}
+          <StripeConnectCard 
+            operator={operator} 
+            onStatusUpdate={() => {
+              // Refresh operator data after Connect status changes
+              loadDashboardData()
+            }}
+          />
 
           {/* 3. Enhanced Billing & Commission */}
           <ExpandableSection

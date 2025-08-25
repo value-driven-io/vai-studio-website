@@ -152,12 +152,16 @@ export const bookingService = {
         applied_commission_rate: commissionRate, // Store the rate used
         booking_reference: bookingReference,
         booking_status: 'pending',
-        payment_status: 'pending',
+        payment_status: bookingData.payment_status || 'pending',
         confirmation_deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
         webhook_sent: false,
         whatsapp_sent: false,
         email_sent: false,
-        commission_locked_at: null // Not locked until confirmed
+        commission_locked_at: null, // Not locked until confirmed
+        // Stripe Connect payment fields
+        payment_intent_id: bookingData.payment_intent_id || null,
+        operator_amount_cents: bookingData.operator_amount_cents || null,
+        platform_fee_cents: bookingData.platform_fee_cents || null
       }
 
       // Insert booking

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import PaymentStatusIndicator from './PaymentStatusIndicator'
 import PaymentActionButtons from './PaymentActionButtons'
+import TourCompletionCard from './TourCompletionCard'
 
 const BookingDetailModal = ({
   isOpen,
@@ -19,6 +20,7 @@ const BookingDetailModal = ({
   handleBookingAction,
   handleDeclineBooking,
   formatDate,
+  onPaymentUpdate, // Add missing prop
   formatPrice,
   getTimeUntilDeadline,
   getStatusColor,
@@ -543,6 +545,20 @@ const BookingDetailModal = ({
                     </div>
                   </div>
                 </div>
+
+                {/* Tour Completion & Payout Management */}
+                {booking.booking_status === 'confirmed' && (
+                  <TourCompletionCard 
+                    booking={booking}
+                    operator={operator}
+                    onUpdate={() => {
+                      // Refresh booking data when tour completion or payout status changes
+                      if (onPaymentUpdate) {
+                        onPaymentUpdate()
+                      }
+                    }}
+                  />
+                )}
               </div>
             )}
           </div>

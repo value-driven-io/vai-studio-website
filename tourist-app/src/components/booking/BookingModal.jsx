@@ -177,11 +177,14 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     setLoading(true)
     
     try {
-      // Use the stored booking data and add payment info
+      // Use the stored booking data and add Connect payment info
       const finalBookingData = {
         ...bookingData,
         payment_intent_id: paymentData.payment_intent_id,
-        payment_status: 'authorized'
+        payment_status: 'authorized',
+        operator_amount_cents: paymentData.operator_amount_cents,
+        platform_fee_cents: paymentData.platform_fee_cents,
+        commission_rate: paymentData.commission_rate
       }
 
       // Create booking (your existing logic)

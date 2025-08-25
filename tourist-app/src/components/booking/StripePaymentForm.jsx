@@ -33,8 +33,8 @@ const StripePaymentForm = ({
     setPaymentError(null)
 
     try {
-      // Create payment intent with authorization only
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
+      // Create Stripe Connect payment intent with marketplace model
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-connect-payment-intent`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -44,13 +44,15 @@ const StripePaymentForm = ({
           amount: usdAmount,
           currency: 'usd',
           booking_reference: bookingData.booking_reference,
-          capture_method: 'manual', // ✅ Authorization only
+          operator_id: bookingData.operator_id, // ✅ Required for Connect payments
           metadata: {
             booking_id: bookingData.booking_reference,
             tour_name: bookingData.tour_name,
             customer_email: bookingData.customer_email,
             total_xpf: totalXPF,
-            display_currency: selectedCurrency
+            display_currency: selectedCurrency,
+            num_adults: bookingData.num_adults,
+            num_children: bookingData.num_children || 0
           }
         })
       })
@@ -59,7 +61,13 @@ const StripePaymentForm = ({
         throw new Error('Failed to create payment intent')
       }
 
-      const { client_secret, payment_intent_id } = await response.json()
+      const { 
+        client_secret, 
+        payment_intent_id, 
+        operator_amount, 
+        platform_fee,
+        commission_rate 
+      } = await response.json()
 
       // Confirm payment (authorize only, don't capture)
       const { error, paymentIntent } = await stripe.confirmCardPayment(client_secret, {
@@ -94,12 +102,15 @@ const StripePaymentForm = ({
         setPaymentError(errorMessage)
         onPaymentError(errorMessage)
       } else if (paymentIntent.status === 'requires_capture') {
-        // ✅ Payment authorized successfully!
+        // ✅ Payment authorized successfully with Connect marketplace model!
         onPaymentSuccess({
           payment_intent_id: paymentIntent.id,
           payment_status: 'authorized',
           amount_authorized: paymentIntent.amount,
-          currency: paymentIntent.currency
+          currency: paymentIntent.currency,
+          operator_amount_cents: operator_amount,
+          platform_fee_cents: platform_fee,
+          commission_rate: commission_rate
         })
       }
     } catch (error) {
