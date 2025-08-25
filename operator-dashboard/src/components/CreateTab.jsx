@@ -374,18 +374,73 @@ const CreateTab = ({
   validateForm,
   tours,
   handleEdit,
-  getTodayInPolynesia
+  getTodayInPolynesia,
+  setActiveTab
 }) => {
 
-  const { t } = useTranslation() 
+  const { t } = useTranslation()
 
-  // NEW: State for optional sections
+  // Check if operator can create tours (requires Stripe Connect setup)
+  const canCreateTours = () => {
+    if (!operator) return false
+    
+    // Check if Stripe Connect account exists and is ready for payouts
+    return operator.stripe_connect_account_id && 
+           operator.stripe_payouts_enabled && 
+           operator.stripe_charges_enabled
+  }
+
+  const getStripeConnectStatus = () => {
+    if (!operator) return { status: 'loading', message: t('stripe.other.loadingstatus') }
+    
+    if (!operator.stripe_connect_account_id) {
+      return { 
+        status: 'no_account', 
+        message: t('stripe.modal.noAccountMessage'),
+        action: t('stripe.modal.noAccountAction')
+      }
+    }
+    
+    if (!operator.stripe_charges_enabled || !operator.stripe_payouts_enabled) {
+      return { 
+        status: 'setup_incomplete', 
+        message: t('stripe.modal.incompleteMessage'),
+        action: t('stripe.modal.incompleteAction')
+      }
+    }
+    
+    return { status: 'ready', message: 'Payment account ready' }
+  } 
+
+  // State for optional sections
   const [showOptionalSections, setShowOptionalSections] = useState({
     location: false,
     inclusions: false,
     requirements: false,
     compliance: false
   })
+
+  // State for payment setup modal
+  const [showPaymentSetupModal, setShowPaymentSetupModal] = useState(false)
+
+  // Handle create tour attempt
+  const handleCreateAttempt = () => {
+    if (canCreateTours()) {
+      setShowForm(true)
+    } else {
+      setShowPaymentSetupModal(true)
+    }
+  }
+
+  // Handle template selection attempt
+  const handleTemplateAttempt = (templateData) => {
+    if (canCreateTours()) {
+      setFormData({ ...formData, ...templateData })
+      setShowForm(true)
+    } else {
+      setShowPaymentSetupModal(true)
+    }
+  }
 
   const handleFieldChange = (field, value) => {
     let processedValue = value
@@ -432,6 +487,8 @@ const CreateTab = ({
     return matchesFilter && matchesSearch
   })
 
+  const connectStatus = getStripeConnectStatus()
+
   return (
     <div className="space-y-6">
       {/* Preview Modal */}
@@ -445,6 +502,66 @@ const CreateTab = ({
       t={t}
     />
 
+      {/* Payment Setup Modal */}
+      {showPaymentSetupModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700">
+            <div className="flex items-center justify-between p-4 border-b border-slate-700">
+              <h3 className="text-lg font-semibold text-white">{t('stripe.modal.title')}</h3>
+              <button
+                onClick={() => setShowPaymentSetupModal(false)}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="bg-yellow-500/20 rounded-full p-2 flex-shrink-0">
+                  <AlertCircle className="w-5 h-5 text-yellow-400" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-slate-200 mb-3">
+                    {connectStatus.message}
+                  </p>
+                  <p className="text-slate-300 text-sm mb-4">
+                    {connectStatus.action}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-slate-700/50 rounded-lg p-4 mb-4">
+                <h4 className="text-slate-200 font-medium mb-2">{t('stripe.modal.whyTitle')}</h4>
+                <ul className="text-slate-300 text-sm space-y-1">
+                  <li>• {t('stripe.modal.whyPoint1')}</li>
+                  <li>• {t('stripe.modal.whyPoint2')}</li>
+                  <li>• {t('stripe.modal.whyPoint3')}</li>
+                </ul>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => setShowPaymentSetupModal(false)}
+                  className="flex-1 px-4 py-2 text-slate-300 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
+                >
+                  {t('stripe.modal.cancelButton')}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowPaymentSetupModal(false)
+                    setActiveTab('profile')
+                  }}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                >
+                  {t('stripe.modal.setupButton')} →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Create Tab Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -454,7 +571,7 @@ const CreateTab = ({
         <div className="flex gap-3">
           {!showForm && (
             <button
-              onClick={() => setShowForm(true)}
+              onClick={handleCreateAttempt}
               className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
             >
               <Plus className="w-5 h-5" />
@@ -1226,16 +1343,12 @@ const CreateTab = ({
               <h3 className="text-lg font-semibold text-white mb-4">{t('templates.title')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button
-                  onClick={() => {
-                    setFormData({
-                      ...formData,
-                      tour_type: 'Whale Watching',
-                      tour_name: 'Whale Watching Experience',
-                      duration_hours: 3,
-                      whale_regulation_compliant: true
-                    })
-                    setShowForm(true)
-                  }}
+                  onClick={() => handleTemplateAttempt({
+                    tour_type: 'Whale Watching',
+                    tour_name: 'Whale Watching Experience',
+                    duration_hours: 3,
+                    whale_regulation_compliant: true
+                  })}
                   className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
                 >
                   <div className="text-2xl mb-2">🐋</div>
@@ -1244,15 +1357,11 @@ const CreateTab = ({
                 </button>
                 
                 <button
-                  onClick={() => {
-                    setFormData({
-                      ...formData,
-                      tour_type: 'Lagoon Tour',
-                      tour_name: 'Lagoon Discovery',
-                      duration_hours: 4
-                    })
-                    setShowForm(true)
-                  }}
+                  onClick={() => handleTemplateAttempt({
+                    tour_type: 'Lagoon Tour',
+                    tour_name: 'Lagoon Discovery',
+                    duration_hours: 4
+                  })}
                   className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
                 >
                   <div className="text-2xl mb-2">🏝️</div>
@@ -1261,15 +1370,11 @@ const CreateTab = ({
                 </button>
                 
                 <button
-                  onClick={() => {
-                    setFormData({
-                      ...formData,
-                      tour_type: 'Cultural',
-                      tour_name: 'Sunset Cruise',
-                      duration_hours: 2.5
-                    })
-                    setShowForm(true)
-                  }}
+                  onClick={() => handleTemplateAttempt({
+                    tour_type: 'Cultural',
+                    tour_name: 'Sunset Cruise',
+                    duration_hours: 2.5
+                  })}
                   className="p-4 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
                 >
                   <div className="text-2xl mb-2">🌅</div>

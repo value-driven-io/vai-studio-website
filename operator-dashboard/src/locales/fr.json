@@ -1093,5 +1093,50 @@
     "message": "Ton compte opérateur est actuellement {{status}}. Contacte le support VAI pour obtenir de l'aide.",
     "signOut": "Se déconnecter",
     "contactSupport": "Contacter le support"
+  },
+
+  "stripe": {
+    "toast": {
+      "failedstatus": "Impossible de charger le statut du compte de paiement",
+      "failedsetup": "Impossible de configurer le compte de paiement : ",
+      "failedmanagement": "Impossible d'ouvrir la gestion du compte : ",
+      "refresh": "Statut du compte actualisé",
+      "accountsuccess": "Gestion du compte Stripe ouverte",
+      "opensuccess": "Tableau de bord Stripe ouvert"
+    },
+
+    "other": {
+      "loadingstatus": "Chargement du statut du compte de paiement...",
+      "boxtitle": "Compte de paiement",
+      "boxsubtitle": "Compte Stripe Connect pour recevoir les paiements",
+      "accountid": "ID du compte : ",
+      "yourshare": "Votre part : ",
+      "payments": "Accepter les paiements",
+      "payouts": "Recevoir les paiements",
+      "action": "Action requise",
+      "needattention": " éléments nécessitent votre attention",
+      "setuploading": "Configuration...",
+      "connectbutton": "Connecter le compte Stripe",
+      "completesetup": "Terminer la configuration",
+      "editbutton": "Modifier le compte",
+      "viewbutton": "Voir le tableau de bord",
+      "refreshbutton": "Actualiser",
+      "readypayout": "Prêt pour les paiements",
+      "infopayout": "Vous recevrez votre paiement 48 heures après la fin de l'activité."
+    },
+
+    "modal": {
+      "title": "Configuration de paiement requise",
+      "noAccountMessage": "Un compte de paiement est requis avant de créer des visites",
+      "noAccountAction": "Connectez votre compte de paiement pour recevoir les paiements des réservations",
+      "incompleteMessage": "Configuration de paiement incomplète",
+      "incompleteAction": "Terminez votre configuration de paiement. Les clients veulent réserver votre activité formidable !",
+      "whyTitle": "Pourquoi est-ce nécessaire ?",
+      "whyPoint1": "Les clients paient pour participer à votre activité",
+      "whyPoint2": "Une fois que vous confirmez leur demande, le paiement est capturé",
+      "whyPoint3": "48 heures après la fin de l'activité, votre paiement est débloqué et transféré 💰",
+      "cancelButton": "Annuler",
+      "setupButton": "Configurer le compte de paiement"
+    }
   }
 }

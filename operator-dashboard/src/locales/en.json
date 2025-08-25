@@ -1249,18 +1249,60 @@
       "capturedAt": "Payment Captured",
       "authorizedAmount": "Authorized Amount",
       "capturedAmount": "Captured Amount"
-    },
-    "tooltips": {
-      "capture": "Capture authorized payment",
-      "refund": "Refund payment to customer", 
-      "stripe": "View payment in Stripe Dashboard"
     }
   },
   
   "suspendedAccount": {
     "title": "Account Temporarily Unavailable",
-    "message": "Your operator account is currently {{status}}. Please contact VAI support for assistance.",
+    "message": "Your operator account is currently {{status}}. Please contact VAI Support for assistance.",
     "signOut": "Sign Out",
     "contactSupport": "Contact Support"
+  },
+
+  "stripe": {
+    "toast": {
+      "failedstatus": "Failed to load payment account status",
+      "failedsetup": "Failed to set up payment account: ",
+      "failedmanagement": "Failed to open account management: ",
+      "refresh": "Account status refreshed",
+      "accountsuccess": "Opened Stripe account management",
+      "opensuccess": "Opened Stripe dashboard"
+    },
+
+    "other": {
+      "loadingstatus": "Loading payment account status...",
+      "boxtitle": "Payment Account",
+      "boxsubtitle": "Stripe Connect account for receiving payouts",
+      "accountid": "Account ID: ",
+      "yourshare": "Your share: ",
+      "payments": "Accept Payments",
+      "payouts": "Receive Payouts",
+      "action": "Action Required",
+      "needattention": " items need attention",
+      "setuploading": "Setting up...",
+      "connectbutton": "Connect Stripe Account",
+      "completesetup": "Complete Setup",
+      "editbutton": "Edit Account",
+      "viewbutton": "View Dashboard",
+      "refreshbutton": "Refresh",
+      "readypayout": "Ready for Payouts",
+      "infopayout": "You'll receive your payout 48 hours after activity completion."
+    },
+
+    "modal": {
+      "title": "Payment Setup Required",
+      "noAccountMessage": "Payment account required before creating tours",
+      "noAccountAction": "Connect your payment account to receive payouts from bookings",
+      "incompleteMessage": "Payment setup incomplete",
+      "incompleteAction": "Complete your payment setup. Customers want to book your amazing activity!",
+      "whyTitle": "Why is this required?",
+      "whyPoint1": "Customers pay for participating in your activity",
+      "whyPoint2": "Once you confirmed their request, payment is captured",
+      "whyPoint3": "48 hours after activity is completed your payout is unlocked and transferred 💰",
+      "cancelButton": "Cancel",
+      "setupButton": "Set Up Payment Account"
+    }
   }
+
+  
 }

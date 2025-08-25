@@ -1699,6 +1699,7 @@ function AppContent() { // function App() { << before changes for the authcallba
             tours={tours}
             handleEdit={handleEdit}
             getTodayInPolynesia={getTodayInPolynesia}
+            setActiveTab={setActiveTab}
           />
         )}
           
