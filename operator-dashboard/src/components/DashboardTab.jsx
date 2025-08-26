@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
+import ContextualTooltip from './shared/ContextualTooltip'
 import { 
   RefreshCw, 
   Award, 
@@ -97,20 +98,24 @@ const DashboardTab = ({
                 >
                   <RefreshCw className="w-4 h-4" />
                 </button>
-                <button
-                  onClick={() => setActiveTab('create')}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
-                >
-                  <Plus className="w-4 h-4" />
-                  {t('dashboard.createTour')}
-                </button>
+                <ContextualTooltip tooltipKey="dashboard.createButton" type="onboarding" placement="bottom">
+                  <button
+                    onClick={() => setActiveTab('create')}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
+                    data-tour="create-button"
+                  >
+                    <Plus className="w-4 h-4" />
+                    {t('dashboard.createTour')}
+                  </button>
+                </ContextualTooltip>
               </div>
             </div>
 
             {/* Revenue & Stats Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-tour="dashboard-stats">
               {/* Total Revenue Card */}
-              <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/20 rounded-xl p-6 hover:scale-105 transition-transform cursor-pointer">
+              <ContextualTooltip tooltipKey="dashboard.revenue" type="info" placement="bottom">
+                <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/20 rounded-xl p-6 hover:scale-105 transition-transform cursor-pointer">
                 <div className="flex items-center justify-between mb-4">
                   <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
                     <DollarSign className="w-6 h-6 text-green-400" />
@@ -124,7 +129,8 @@ const DashboardTab = ({
                   <span className="text-green-400">🔥 {t('common.total')}</span>
                   <span className="text-slate-400">{t('common.thisMonth')}</span>
                 </div>
-              </div>
+                </div>
+              </ContextualTooltip>
 
               {/* Total Bookings Card */}
               <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-xl p-6 hover:scale-105 transition-transform cursor-pointer">

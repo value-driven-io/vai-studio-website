@@ -1152,5 +1152,114 @@
       "cancelButton": "Annuler",
       "setupButton": "Configurer le compte de paiement"
     }
+  },
+
+  "onboarding": {
+    "tooltips": {
+      "dashboard": {
+        "revenue": "Ceci montre tes revenus capturés des réservations confirmées. Les paiements en attente apparaissent séparément.",
+        "bookings": "Clique ici pour gérer toutes tes réservations. Les réservations en attente ont besoin de ton attention !",
+        "createButton": "Commence ici pour créer ta première activité. Les activités apparaissent sur VAI Tickets en 2 minutes.",
+        "quickActions": "Tâches courantes que tu utiliseras quotidiennement - créer des activités, gérer les réservations, obtenir du support."
+      },
+      "create": {
+        "tourName": "Rends-le accrocheur et descriptif ! C'est ce que les touristes voient en premier. Inclus le type d'expérience.",
+        "description": "Peins un tableau ! Décris ce qui rend ton activité spéciale. Qu'est-ce que les touristes vont vivre ?",
+        "pricing": "Fixe des prix compétitifs. Seuls les montants se terminant par 00 sont autorisés (ex : 5600, 7200, 8500).",
+        "meetingPoint": "Sois précis ! Inclus des points de repère que les touristes peuvent facilement trouver. Exemple : 'Terminal Ferry Vaiare - Entrée Principale'",
+        "duration": "Inclus le temps de trajet vers/depuis le lieu d'activité. Demi-journée : 3-4h, Journée complète : 6-8h.",
+        "capacity": "Considère ton équipement, la sécurité et les réglementations locales. Observation baleines max : 8 personnes par groupe."
+      },
+      "bookings": {
+        "filters": "Utilise ces filtres intelligents pour trouver rapidement les réservations qui nécessitent ton attention.",
+        "revenue": "Ceci montre tes revenus réels des paiements capturés. Les paiements autorisés apparaissent séparément.",
+        "deadline": "Les indicateurs rouges montrent les réservations critiques - réponds rapidement pour sécuriser le revenu !",
+        "customerDetails": "Les coordonnées client se débloquent après confirmation de la réservation pour protection de la vie privée.",
+        "chat": "Communication directe avec les touristes via un chat style WhatsApp. Très efficace !"
+      },
+      "profile": {
+        "completeness": "Une complétude de profil plus élevée signifie une meilleure visibilité dans les résultats de recherche.",
+        "stripeConnect": "Requis pour recevoir les paiements. La configuration prend 2-3 minutes et est entièrement sécurisée.",
+        "businessInfo": "Les touristes voient ces informations lors de la réservation. Garde-les précises et professionnelles."
+      },
+      "general": {
+        "firstTime": "👋 Bienvenue sur VAI Operator ! Ce système d'info-bulles t'aide à démarrer. Tu peux les ignorer à tout moment.",
+        "navigation": "Utilise la navigation en bas pour changer de section. Les badges rouges montrent les éléments nécessitant attention.",
+        "notifications": "Les notifications système apparaissent ici - mises à jour de réservations, confirmations de paiement et annonces importantes. Clique pour voir et gérer."
+      }
+    },
+    "controls": {
+      "dismiss": "Compris !",
+      "dismissAll": "Masquer tous les conseils",
+      "next": "Conseil suivant",
+      "previous": "Précédent",
+      "skip": "Passer le tour",
+      "showTips": "Afficher les conseils",
+      "resetTour": "Réinitialiser le tour"
+    },
+    "onboardingTour": {
+      "welcome": {
+        "title": "Bienvenue sur VAI Operator ! 🌺",
+        "message": "Faisons un rapide tour pour t'aider à démarrer avec la création d'activités et la gestion des réservations."
+      },
+      "dashboard": {
+        "title": "Ton Dashboard Business",
+        "message": "Surveille tes revenus, réservations et performance d'activités. Tout ce dont tu as besoin en un coup d'œil."
+      },
+      "createActivity": {
+        "title": "Crée ta Première Activité",
+        "message": "C'est ici que tu créeras des expériences pour les touristes. Chaque activité apparaît sur VAI Tickets en quelques minutes."
+      },
+      "manageBookings": {
+        "title": "Gérer les Réservations", 
+        "message": "Toutes tes demandes clients apparaissent ici. Réponds rapidement pour confirmer les réservations et sécuriser les revenus !"
+      },
+      "complete": {
+        "title": "Tu es prêt ! 🎉",
+        "message": "Tu connais maintenant les bases. Crée ta première activité pour commencer à recevoir des réservations de touristes !"
+      }
+    }
+  },
+
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Tout marquer comme lu",
+    "noNotifications": "Aucune notification",
+    "noNotificationsMessage": "Tout est à jour ! Les nouvelles notifications apparaîtront ici.",
+    "types": {
+      "booking": "Nouvelle réservation",
+      "payment": "Mise à jour paiement",
+      "system": "Mise à jour système",
+      "tour": "Mise à jour activité",
+      "message": "Nouveau message"
+    },
+    "messages": {
+      "welcome": {
+        "title": "Bienvenue sur VAI Operator",
+        "content": "Votre centre de notifications fonctionne ! C'est ici qu'apparaîtront les mises à jour importantes."
+      },
+      "onboardingRestart": {
+        "title": "Tutoriel Plateforme",
+        "completed": "Tu veux revoir les fonctionnalités de la plateforme ? Redémarre le tour guidé à tout moment.",
+        "notCompleted": "Termine le tour guidé pour apprendre toutes les fonctionnalités de la plateforme. Clique pour redémarrer si tu l'as ignoré."
+      },
+      "newBooking": {
+        "title": "Nouvelle Demande de Réservation",
+        "content": "Nouvelle réservation pour {{activityName}}"
+      }
+    },
+    "actions": {
+      "viewBooking": "Voir la réservation",
+      "viewTour": "Voir l'activité",
+      "dismiss": "Ignorer",
+      "markRead": "Marquer comme lu"
+    },
+    "timeAgo": {
+      "now": "À l'instant",
+      "minutes": "Il y a {{count}}m",
+      "hours": "Il y a {{count}}h", 
+      "days": "Il y a {{count}}j",
+      "weeks": "Il y a {{count}}s"
+    }
   }
 }

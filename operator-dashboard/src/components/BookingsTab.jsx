@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
   Calendar, Clock, MapPin, 
@@ -12,7 +12,7 @@ import BookingsHeader from './BookingsHeader'
 import GroupedBookingsList from './GroupedBookingsList'
 import BookingDetailModal from './BookingDetailModal'
 
-const BookingsTab = ({
+const BookingsTab = forwardRef(({
   allBookings, 
   operator, 
   stats,
@@ -36,13 +36,22 @@ const BookingsTab = ({
   getStatusIcon,
   shouldShowCustomerDetails,
   setActiveTab   
-}) => {
+}, ref) => {
   const { t } = useTranslation()
 
   const [selectedChatBooking, setSelectedChatBooking] = useState(null)
   const [showChatModal, setShowChatModal] = useState(false)
   const [selectedDetailBooking, setSelectedDetailBooking] = useState(null)
   const [showDetailModal, setShowDetailModal] = useState(false)
+
+  // Expose methods to parent component via ref
+  useImperativeHandle(ref, () => ({
+    openBookingDetail: (booking) => {
+      console.log(`📋 BookingsTab: Opening booking detail for booking ${booking.id}`)
+      setSelectedDetailBooking(booking)
+      setShowDetailModal(true)
+    }
+  }), [])
 
   // Handle booking row click
   const handleBookingClick = (booking) => {
@@ -218,6 +227,6 @@ const BookingsTab = ({
           </div>
 
   )
-}
+})
 
 export default BookingsTab

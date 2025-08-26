@@ -219,7 +219,7 @@ const LanguageDropdown = () => {
   const DropdownMenu = () => (
     <div 
       ref={dropdownRef}
-      className="fixed bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden"
+      className="fixed bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden z-[9999]"
       onScroll={(e) => e.stopPropagation()} // Prevent scroll events from bubbling up
       style={{
         top: `${dropdownPosition.top}px`,

@@ -26,6 +26,8 @@ import { useTranslation } from 'react-i18next'
 import ChangePasswordModal from './components/auth/ChangePasswordModal'
 import { getPasswordChangeRequirement, detectPasswordEdgeCases, needsPasswordChange } from './utils/passwordSecurity'
 import { getMinimumTourDate, isDateAllowed } from './config/adminSettings'
+import OnboardingTour from './components/shared/OnboardingTour'
+import notificationService from './services/notificationService'
 
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
@@ -123,6 +125,9 @@ function AppContent() { // function App() { << before changes for the authcallba
   const [expandedBookings, setExpandedBookings] = useState({})
   const [sortBy, setSortBy] = useState('created_at')
   const [lastFetchTime, setLastFetchTime] = useState(new Date())
+
+  // Booking navigation ref for notification center
+  const bookingsTabRef = React.useRef(null)
 
   // Password change state
   const [showPasswordModal, setShowPasswordModal] = useState(false)
@@ -536,20 +541,32 @@ function AppContent() { // function App() { << before changes for the authcallba
               new Date(booking.created_at) > lastFetchTime
             )
             
-            // 🎉 SMART TOAST: Only for new bookings (revenue opportunities)
+            // 🎉 SMART NOTIFICATIONS: Create notification center entries for new bookings
             newBookings.forEach(booking => {
-              toast.success(`🎉 New booking: ${booking.tours?.tour_name || 'Activity'}`, {
-                duration: 6000,
-                style: {
-                  background: '#059669',
-                  color: 'white',
-                  fontWeight: '500'
-                },
-                onClick: () => {
-                  setActiveTab('bookings')
-                  setBookingFilter('pending')
-                }
+              // Create translated notification
+              const title = t('notifications.messages.newBooking.title')
+              const message = t('notifications.messages.newBooking.content', { 
+                activityName: booking.tours?.tour_name || t('common.activity', 'your activity') 
               })
+              
+              // Add notification to service with translations
+              const notification = notificationService.addBookingNotification(operator?.id, booking, title, message)
+              
+              // Also keep a subtle toast for immediate feedback
+              if (notification) {
+                toast.success(`🎉 New booking: ${booking.tours?.tour_name || 'Activity'}`, {
+                  duration: 4000,
+                  style: {
+                    background: '#059669',
+                    color: 'white',
+                    fontWeight: '500'
+                  },
+                  onClick: () => {
+                    setActiveTab('bookings')
+                    setBookingFilter('pending')
+                  }
+                })
+              }
             })
             
             if (newBookings.length > 0) {
@@ -573,6 +590,41 @@ function AppContent() { // function App() { << before changes for the authcallba
         console.log(`🏁 Total fetchAllBookings completed in ${Date.now() - startTime}ms`)
       }
     }
+
+  // Function to handle navigation to specific booking detail modal from notifications
+  const handleNavigateToBooking = (bookingId) => {
+    console.log(`🔗 Navigating to booking detail for booking ID: ${bookingId}`)
+    
+    // Find the booking in allBookings first
+    const booking = allBookings.find(b => b.id === bookingId)
+    if (!booking) {
+      console.warn(`Booking not found for ID: ${bookingId}`)
+      setActiveTab('bookings')
+      setBookingFilter('all')
+      return
+    }
+
+    // Switch to bookings tab
+    setActiveTab('bookings')
+    
+    // Function to attempt opening the booking detail with retries
+    const attemptOpenBookingDetail = (retries = 0) => {
+      const maxRetries = 10 // Try for up to 1 second (10 * 100ms)
+      
+      if (bookingsTabRef.current?.openBookingDetail) {
+        console.log(`📋 Opening booking detail for ${bookingId} after ${retries} retries`)
+        bookingsTabRef.current.openBookingDetail(booking)
+      } else if (retries < maxRetries) {
+        // BookingsTab not ready yet, try again
+        setTimeout(() => attemptOpenBookingDetail(retries + 1), 100)
+      } else {
+        console.warn(`Failed to open booking detail after ${maxRetries} retries`)
+      }
+    }
+    
+    // Start attempting to open the booking detail
+    setTimeout(() => attemptOpenBookingDetail(), 50)
+  }
 
 
   // Dashboard Stats
@@ -1610,6 +1662,7 @@ function AppContent() { // function App() { << before changes for the authcallba
           operator={operator}
           logout={logout}
           setActiveTab={setActiveTab}
+          onNavigateToBooking={handleNavigateToBooking}
         />
 
 
@@ -1618,6 +1671,7 @@ function AppContent() { // function App() { << before changes for the authcallba
 
     {activeTab === 'bookings' && (
       <BookingsTab 
+        ref={bookingsTabRef}
         stats={stats}
         bookingFilter={bookingFilter}
         setBookingFilter={setBookingFilter}
@@ -1775,6 +1829,15 @@ function AppContent() { // function App() { << before changes for the authcallba
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} stats={stats} />
         
       </div>
+
+      {/* Onboarding Tour for new operators */}
+      <OnboardingTour 
+        operator={operator}
+        onComplete={() => {
+          // Optional: trigger any completion actions
+          console.log('Onboarding tour completed!')
+        }}
+      />
 
       {/* Toast Notification System */}
       <Toaster 

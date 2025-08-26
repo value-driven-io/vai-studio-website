@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LogOut, User, Settings, MessageCircle, Bell } from 'lucide-react'
 import LanguageDropdown from './LanguageDropdown'
 import chatService from '../services/chatService'
 import VAILogo from './VAILogo'
+import NotificationCenter from './shared/NotificationCenter'
 
-const Header = ({ operator, logout, setActiveTab }) => {
+const Header = ({ operator, logout, setActiveTab, onNavigateToBooking }) => {
   const { t } = useTranslation()
   
   // Notification state
   const [unreadChatCount, setUnreadChatCount] = useState(0)
+  const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState(false)
+  const [unreadNotificationCount, setUnreadNotificationCount] = useState(0)
+  const notificationButtonRef = useRef(null)
 
   // Load unread chat count
   useEffect(() => {
@@ -79,14 +83,42 @@ const Header = ({ operator, logout, setActiveTab }) => {
               )}
             </button>
 
-          {/* Future Notification Center */}
-          <button
-            className="relative p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-700/50"
-            title="Notifications (Coming Soon)"
-            disabled
-          >
-            <Bell className="w-5 h-5 opacity-50" />
-          </button>
+          {/* Notification Center */}
+          <div className="relative">
+            <button
+              ref={notificationButtonRef}
+              onClick={() => setIsNotificationCenterOpen(!isNotificationCenterOpen)}
+              className="relative p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-700/50"
+              title={unreadNotificationCount > 0 ? `${unreadNotificationCount} unread notifications` : 'Notifications'}
+            >
+              <Bell className="w-5 h-5" />
+              {unreadNotificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                  {unreadNotificationCount > 99 ? '99+' : unreadNotificationCount}
+                </span>
+              )}
+            </button>
+            
+            <NotificationCenter 
+              operator={operator}
+              isOpen={isNotificationCenterOpen}
+              onClose={() => setIsNotificationCenterOpen(false)}
+              triggerButtonRef={notificationButtonRef}
+              onUnreadCountChange={setUnreadNotificationCount}
+              onNavigateToBooking={(bookingId) => {
+                console.log(`🔗 Header: Navigating to booking ${bookingId}`)
+                if (onNavigateToBooking) {
+                  onNavigateToBooking(bookingId)
+                } else {
+                  // Fallback: just navigate to bookings tab
+                  setActiveTab && setActiveTab('bookings')
+                }
+              }}
+              onNavigateToTab={(tab) => {
+                setActiveTab && setActiveTab(tab)
+              }}
+            />
+          </div>
 
           {/* User info */}
           <div className="flex items-center gap-2 px-3 py-2 bg-slate-700/50 rounded-lg">

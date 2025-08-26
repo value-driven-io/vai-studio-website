@@ -1316,6 +1316,115 @@
       "cancelButton": "Cancel",
       "setupButton": "Set Up Payment Account"
     }
+  },
+
+  "onboarding": {
+    "tooltips": {
+      "dashboard": {
+        "revenue": "This shows your captured revenue from confirmed bookings. Pending payments appear separately.",
+        "bookings": "Click here to manage all your bookings. Pending bookings need your attention!",
+        "createButton": "Start here to create your first activity. Activities appear on VAI Tickets within 2 minutes.",
+        "quickActions": "Common tasks you'll use daily - create activities, manage bookings, get support."
+      },
+      "create": {
+        "tourName": "Make it catchy and descriptive! This is what tourists see first. Include the experience type.",
+        "description": "Paint a picture! Describe what makes your activity special. What will tourists experience?",
+        "pricing": "Set competitive prices. Only amounts ending in 00 are allowed (e.g., 5600, 7200, 8500).",
+        "meetingPoint": "Be specific! Include landmarks tourists can easily find. Example: 'Vaiare Ferry Terminal - Main Entrance'",
+        "duration": "Include travel time to/from the activity location. Half-day: 3-4h, Full-day: 6-8h.",
+        "capacity": "Consider your equipment, safety, and local regulations. Whale watching max: 8 people per group."
+      },
+      "bookings": {
+        "filters": "Use these smart filters to quickly find the bookings that need your attention.",
+        "revenue": "This shows your actual earnings from captured payments. Authorized payments show separately.",
+        "deadline": "Red indicators show critical bookings - respond quickly to secure the revenue!",
+        "customerDetails": "Customer contact info unlocks after you confirm the booking for privacy protection.",
+        "chat": "Direct communication with tourists through WhatsApp-style chat. Very effective!"
+      },
+      "profile": {
+        "completeness": "Higher profile completion means better visibility in search results.",
+        "stripeConnect": "Required for receiving payments. Setup takes 2-3 minutes and is fully secure.",
+        "businessInfo": "Tourists see this information when booking. Keep it accurate and professional."
+      },
+      "general": {
+        "firstTime": "👋 Welcome to VAI Operator! This tooltip system helps you get started. You can dismiss these anytime.",
+        "navigation": "Use the bottom navigation to switch between sections. Red badges show items needing attention.",
+        "notifications": "System notifications appear here - booking updates, payment confirmations, and important announcements. Click to view and manage."
+      }
+    },
+    "controls": {
+      "dismiss": "Got it!",
+      "dismissAll": "Hide all tips",
+      "next": "Next tip",
+      "previous": "Previous",
+      "skip": "Skip tour",
+      "showTips": "Show tips",
+      "resetTour": "Reset tour"
+    },
+    "onboardingTour": {
+      "welcome": {
+        "title": "Welcome to VAI Operator! 🌺",
+        "message": "Let's take a quick tour to help you get started with creating activities and managing bookings."
+      },
+      "dashboard": {
+        "title": "Your Business Dashboard",
+        "message": "Monitor your revenue, bookings, and activity performance. Everything you need at a glance."
+      },
+      "createActivity": {
+        "title": "Create Your First Activity",
+        "message": "This is where you'll create experiences for tourists. Each activity appears on VAI Tickets within minutes."
+      },
+      "manageBookings": {
+        "title": "Manage Bookings", 
+        "message": "All your customer requests appear here. Respond quickly to confirm bookings and secure revenue!"
+      },
+      "complete": {
+        "title": "You're all set! 🎉",
+        "message": "You now know the basics. Create your first activity to start receiving bookings from tourists!"
+      }
+    }
+  },
+
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "noNotifications": "No notifications yet",
+    "noNotificationsMessage": "You're all caught up! New notifications will appear here.",
+    "types": {
+      "booking": "New booking",
+      "payment": "Payment update",
+      "system": "System update",
+      "tour": "Tour update",
+      "message": "New message"
+    },
+    "messages": {
+      "welcome": {
+        "title": "Welcome to VAI Operator",
+        "content": "Your notification center is working! This is where important updates will appear."
+      },
+      "onboardingRestart": {
+        "title": "Platform Tutorial",
+        "completed": "Want to review the platform features? Restart the guided tour anytime.",
+        "notCompleted": "Complete the guided tour to learn all platform features. Click to restart if you skipped it."
+      },
+      "newBooking": {
+        "title": "New Booking Request",
+        "content": "New booking for {{activityName}}"
+      }
+    },
+    "actions": {
+      "viewBooking": "View booking",
+      "viewTour": "View activity",
+      "dismiss": "Dismiss",
+      "markRead": "Mark as read"
+    },
+    "timeAgo": {
+      "now": "Just now",
+      "minutes": "{{count}}m ago",
+      "hours": "{{count}}h ago", 
+      "days": "{{count}}d ago",
+      "weeks": "{{count}}w ago"
+    }
   }
 
   

@@ -57,6 +57,7 @@ const Navigation = ({ activeTab, setActiveTab, stats }) => {
                   ? 'text-blue-400' 
                   : 'text-slate-400 hover:text-slate-200'
               }`}
+              data-tour={item.id === 'bookings' ? 'bookings-tab' : undefined}
             >
               <div className="relative">
                 <Icon size={20} />

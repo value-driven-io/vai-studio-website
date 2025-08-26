@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import ContextualTooltip from './shared/ContextualTooltip'
 import { 
   Plus, Calendar, Clock, Users, MapPin,
   DollarSign, CheckCircle, AlertCircle,
@@ -632,11 +633,11 @@ const CreateTab = ({
                     <div>
                       <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                         {t('form.tourName')} *
-                        <Tooltip content={t('tooltips.tourName')}>
-                            <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
+                        <ContextualTooltip tooltipKey="create.tourName" type="onboarding" placement="top">
+                            <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help hover:bg-slate-600 transition-colors">
                             💡
                             </span>
-                        </Tooltip>
+                        </ContextualTooltip>
                         </label>
                       <input
                         type="text"
@@ -676,7 +677,14 @@ const CreateTab = ({
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.description')} *</label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                      {t('form.description')} *
+                      <ContextualTooltip tooltipKey="create.description" type="onboarding" placement="top">
+                        <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help hover:bg-slate-600 transition-colors">
+                          💡
+                        </span>
+                      </ContextualTooltip>
+                    </label>
                     <textarea
                       value={formData.description}
                       onChange={(e) => handleFieldChange('description', e.target.value)}
@@ -844,11 +852,11 @@ const CreateTab = ({
                       <div>
                         <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                             {t('form.regularPrice')} *
-                            <Tooltip content={t('tooltips.pricing')}>
-                                <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
+                            <ContextualTooltip tooltipKey="create.pricing" type="onboarding" placement="top">
+                                <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help hover:bg-slate-600 transition-colors">
                                 💰
                                 </span>
-                            </Tooltip>
+                            </ContextualTooltip>
                             </label>
                         <input
                           type="number"
@@ -888,11 +896,11 @@ const CreateTab = ({
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
                     {t('form.meetingPoint')} *
-                    <Tooltip content={t('tooltips.meetingPoint')}>
-                        <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
+                    <ContextualTooltip tooltipKey="create.meetingPoint" type="onboarding" placement="top">
+                        <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help hover:bg-slate-600 transition-colors">
                         📍
                         </span>
-                    </Tooltip>
+                    </ContextualTooltip>
                     </label>
                     <input
                       type="text"
