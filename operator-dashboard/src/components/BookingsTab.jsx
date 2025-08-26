@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import OperatorChatModal from './OperatorChatModal' 
 import BookingsHeader from './BookingsHeader'
-import BookingsList from './BookingsList'
+import GroupedBookingsList from './GroupedBookingsList'
 import BookingDetailModal from './BookingDetailModal'
 
 const BookingsTab = ({
@@ -23,6 +23,7 @@ const BookingsTab = ({
   searchTerm,
   setSearchTerm,
   filteredBookings,
+  tours,
   bookingsLoading,
   fetchAllBookings,
   processingBooking,
@@ -75,11 +76,12 @@ const BookingsTab = ({
                   bookingsLoading={bookingsLoading}
                 />
 
-                {/* Optional Compact List View */}
+                {/* Grouped Bookings by Activity */}
                 <div className="mb-6">
-                  <BookingsList
+                  <GroupedBookingsList
                     filteredBookings={filteredBookings}
                     allBookings={allBookings}
+                    tours={tours}
                     bookingsLoading={bookingsLoading}
                     operator={operator}
                     formatDate={formatDate}

@@ -433,6 +433,16 @@
         "actions": "Actions"
       }
     },
+    "grouped": {
+      "title": "Bookings by Activity",
+      "activities": "activities",
+      "clickToExpand": "Click to expand bookings",
+      "noBookings": "No bookings",
+      "availableSpots": "{{spots}} spots available",
+      "noBookingsForTour": "No bookings for this activity yet",
+      "spotsAvailable": "{{available}}/{{total}} spots available",
+      "readyForBookings": "Ready to receive bookings"
+    },
     "priority": {
       "critical": "Critical",
       "high": "High",

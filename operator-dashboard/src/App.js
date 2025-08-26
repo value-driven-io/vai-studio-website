@@ -1627,6 +1627,7 @@ function AppContent() { // function App() { << before changes for the authcallba
         setSearchTerm={setSearchTerm}
         filteredBookings={filteredBookings}
         allBookings={allBookings}
+        tours={tours}
         bookingsLoading={bookingsLoading}
         fetchAllBookings={fetchAllBookings}
         processingBooking={processingBooking}

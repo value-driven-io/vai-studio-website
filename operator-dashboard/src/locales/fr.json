@@ -443,6 +443,16 @@
         "actions": "Actions"
       }
     },
+    "grouped": {
+      "title": "Réservations par Activité",
+      "activities": "activités",
+      "clickToExpand": "Cliquez pour développer les réservations",
+      "noBookings": "Aucune réservation",
+      "availableSpots": "{{spots}} places disponibles",
+      "noBookingsForTour": "Aucune réservation pour cette activité",
+      "spotsAvailable": "{{available}}/{{total}} places disponibles",
+      "readyForBookings": "Prêt à recevoir des réservations"
+    },
     "priority": {
       "critical": "Critique",
       "high": "Élevée",
