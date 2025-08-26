@@ -47,11 +47,17 @@ serve(async (req: Request) => {
 
     console.log(`🔗 Creating account link for: ${operator.stripe_connect_account_id}, type: ${link_type}`)
 
+    // Get operator dashboard URL with fallback
+    // For staging/development, use localhost. For production, set OPERATOR_DASHBOARD_URL environment variable
+    const dashboardUrl = Deno.env.get('OPERATOR_DASHBOARD_URL') || 'http://localhost:3000'
+    
+    console.log(`🔗 Using dashboard URL: ${dashboardUrl}`)
+
     // Create account link based on type
     const accountLink = await stripe.accountLinks.create({
       account: operator.stripe_connect_account_id,
-      refresh_url: `${Deno.env.get('OPERATOR_DASHBOARD_URL')}/profile?stripe_refresh=true`,
-      return_url: `${Deno.env.get('OPERATOR_DASHBOARD_URL')}/profile?stripe_success=true`,
+      refresh_url: `${dashboardUrl}/profile?stripe_refresh=true`,
+      return_url: `${dashboardUrl}/profile?stripe_success=true`,
       type: link_type, // 'account_onboarding' or 'account_update'
     })
 

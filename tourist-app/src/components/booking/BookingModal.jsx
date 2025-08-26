@@ -141,6 +141,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         const subtotal = (formData.num_adults * tour.discount_price_adult) + 
                         (formData.num_children * (tour.discount_price_child || 0))
 
+        // Debug: Log tour data to verify operator_id
+        console.log('🔍 Tour data:', tour)
+        console.log('🔍 tour.operator_id specifically:', tour?.operator_id)
+
         // Store booking data for payment step (don't create booking yet)
         const preparedBookingData = {
           tour_id: tour.id,

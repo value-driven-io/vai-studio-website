@@ -45,11 +45,14 @@ serve(async (req: Request) => {
     if (operator.stripe_connect_account_id) {
       console.log(`⚠️ Operator already has Connect account: ${operator.stripe_connect_account_id}`)
       
+      // Get operator dashboard URL with fallback
+      const dashboardUrl = Deno.env.get('OPERATOR_DASHBOARD_URL') || 'http://localhost:3000'
+      
       // Return existing account link
       const accountLink = await stripe.accountLinks.create({
         account: operator.stripe_connect_account_id,
-        refresh_url: refresh_url || `${Deno.env.get('OPERATOR_DASHBOARD_URL')}/profile?stripe_refresh=true`,
-        return_url: return_url || `${Deno.env.get('OPERATOR_DASHBOARD_URL')}/profile?stripe_success=true`,
+        refresh_url: refresh_url || `${dashboardUrl}/profile?stripe_refresh=true`,
+        return_url: return_url || `${dashboardUrl}/profile?stripe_success=true`,
         type: 'account_onboarding',
       })
 
@@ -124,11 +127,14 @@ serve(async (req: Request) => {
       throw updateError
     }
 
+    // Get operator dashboard URL with fallback
+    const dashboardUrl = Deno.env.get('OPERATOR_DASHBOARD_URL') || 'http://localhost:3000'
+
     // Create account onboarding link
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
-      refresh_url: refresh_url || `${Deno.env.get('OPERATOR_DASHBOARD_URL')}/profile?stripe_refresh=true`,
-      return_url: return_url || `${Deno.env.get('OPERATOR_DASHBOARD_URL')}/profile?stripe_success=true`,
+      refresh_url: refresh_url || `${dashboardUrl}/profile?stripe_refresh=true`,
+      return_url: return_url || `${dashboardUrl}/profile?stripe_success=true`,
       type: 'account_onboarding',
     })
 

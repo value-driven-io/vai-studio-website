@@ -33,6 +33,16 @@ const StripePaymentForm = ({
     setPaymentError(null)
 
     try {
+      // Debug: Log booking data to see what we have
+      console.log('🔍 BookingData received:', bookingData)
+      console.log('🔍 operator_id specifically:', bookingData?.operator_id)
+      console.log('🔍 All fields check:', {
+        amount: usdAmount,
+        currency: 'usd', 
+        booking_reference: bookingData?.booking_reference,
+        operator_id: bookingData?.operator_id
+      })
+
       // Create Stripe Connect payment intent with marketplace model
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-connect-payment-intent`, {
         method: 'POST',

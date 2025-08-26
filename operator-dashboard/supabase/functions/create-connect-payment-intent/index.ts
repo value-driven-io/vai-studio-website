@@ -25,15 +25,26 @@ serve(async (req: Request) => {
   }
 
   try {
+    const requestBody = await req.json()
+    console.log('📦 Request body received:', JSON.stringify(requestBody, null, 2))
+    
     const { 
       amount, 
       currency, 
       booking_reference, 
       operator_id,
       metadata = {} 
-    } = await req.json()
+    } = requestBody
+
+    console.log('💳 Parsed parameters:', { amount, currency, booking_reference, operator_id })
 
     if (!amount || !currency || !booking_reference || !operator_id) {
+      console.log('❌ Missing parameters check:', { 
+        amount: !!amount, 
+        currency: !!currency, 
+        booking_reference: !!booking_reference, 
+        operator_id: !!operator_id 
+      })
       throw new Error('Missing required fields: amount, currency, booking_reference, operator_id')
     }
 
