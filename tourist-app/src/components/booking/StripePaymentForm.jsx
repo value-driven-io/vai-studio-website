@@ -54,7 +54,7 @@ const StripePaymentForm = ({
           amount: usdAmount,
           currency: 'usd',
           booking_reference: bookingData.booking_reference,
-          operator_id: bookingData.operator_id, // ✅ Required for Connect payments
+          operator_id: bookingData.operator_id || null, // ✅ Required for Connect payments
           metadata: {
             booking_id: bookingData.booking_reference,
             tour_name: bookingData.tour_name,

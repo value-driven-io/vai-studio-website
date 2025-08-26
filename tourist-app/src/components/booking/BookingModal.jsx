@@ -145,10 +145,38 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         console.log('🔍 Tour data:', tour)
         console.log('🔍 tour.operator_id specifically:', tour?.operator_id)
 
+        // Get operator_id - if missing from tour object, fetch from database
+        let operatorId = tour.operator_id
+        
+        if (!operatorId) {
+          console.log('⚠️ operator_id missing from tour, fetching from database...')
+          
+          // Fetch operator_id from tours table directly
+          const { data: tourData, error: tourError } = await supabase
+            .from('tours')
+            .select('operator_id')
+            .eq('id', tour.id)
+            .single()
+            
+          if (tourError) {
+            console.error('❌ Failed to fetch operator_id:', tourError)
+            toast.error('Failed to get tour operator information')
+            return
+          }
+          
+          operatorId = tourData.operator_id
+          console.log('✅ Fetched operator_id:', operatorId)
+        }
+
+        if (!operatorId) {
+          toast.error('Tour operator information is missing. Please contact support.')
+          return
+        }
+
         // Store booking data for payment step (don't create booking yet)
         const preparedBookingData = {
           tour_id: tour.id,
-          operator_id: tour.operator_id,
+          operator_id: operatorId,
           tourist_user_id: accountResult.tourist_user_id,
           customer_name: fullName,
           customer_whatsapp: formData.customer_whatsapp,
