@@ -20,6 +20,8 @@ const corsHeaders = {
 }
 
 serve(async (req: Request) => {
+  console.log('🚀 Edge Function called v2:', req.method, req.url)
+  
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -56,6 +58,8 @@ serve(async (req: Request) => {
       .select('stripe_connect_account_id, commission_rate, stripe_charges_enabled')
       .eq('id', operator_id)
       .single()
+    
+    console.log('🔍 Operator data from DB:', JSON.stringify(operator, null, 2))
 
     if (operatorError || !operator) {
       throw new Error('Operator not found')
@@ -70,38 +74,64 @@ serve(async (req: Request) => {
     }
 
     // Calculate commission split (default 11% to platform, 89% to operator)
-    const commissionRate = operator.commission_rate || 0.11
+    // Handle different commission rate storage formats from DB (string/number, percentage/basis points)
+    let commissionRatePercent = parseFloat(operator.commission_rate) || 11.0
+    
+    // If commission rate is > 100, it's likely stored as basis points (e.g., 1100 = 11%)
+    if (commissionRatePercent > 100) {
+      commissionRatePercent = commissionRatePercent / 100 // Convert basis points to percentage
+    }
+    
+    const commissionRate = commissionRatePercent / 100 // Convert percentage to decimal
     const platformFee = Math.round(amount * commissionRate)
     const operatorAmount = amount - platformFee
 
+    console.log('🔍 Commission calculation details:', {
+      commissionRateFromDB: operator.commission_rate,
+      commissionRatePercent: commissionRatePercent,
+      commissionRateDecimal: commissionRate,
+      totalAmountCents: amount,
+      platformFeeCents: platformFee,
+      operatorAmountCents: operatorAmount
+    })
+
     console.log(`💰 Payment split: Total: $${amount/100}, Platform: $${platformFee/100} (${Math.round(commissionRate*100)}%), Operator: $${operatorAmount/100}`)
 
-    // Create destination charge (marketplace model)
-    // Note: If operator is in French Polynesia (PF), they can receive XPF directly
+    // Safety check: Ensure operatorAmount is at least 1 cent
+    if (operatorAmount < 1) {
+      throw new Error(`Operator amount too small: ${operatorAmount} cents. Commission rate may be too high.`)
+    }
+
+    console.log('🔧 About to call Stripe with:', {
+      amount: amount,
+      currency: currency.toLowerCase(),
+      transfer_data_destination: operator.stripe_connect_account_id,
+      transfer_data_amount: operatorAmount,
+      application_fee_amount: platformFee
+    })
+
+    // Create regular payment intent (platform charges, then transfers to operator)
+    // This avoids destination charge restrictions for international accounts
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
-      currency: currency.toLowerCase(), // Supports XPF for French Polynesia accounts
+      currency: currency.toLowerCase(),
       capture_method: 'manual', // Authorization only
       automatic_payment_methods: {
         enabled: true,
       },
-      transfer_data: {
-        destination: operator.stripe_connect_account_id,
-        amount: operatorAmount, // Amount that goes to operator (89%)
-      },
-      application_fee_amount: platformFee, // Platform fee (11%)
+      // No transfer_data - we'll handle transfer separately after capture
       metadata: {
         booking_reference: booking_reference,
         operator_id: operator_id,
         platform: 'VAI Tourism Platform',
         operator_amount_cents: operatorAmount.toString(),
         platform_fee_cents: platformFee.toString(),
-        commission_rate: commissionRate.toString(),
+        commission_rate: commissionRatePercent.toString(),
         created_at: new Date().toISOString(),
         ...metadata
       },
       description: `VAI Tourism - ${metadata.tour_name || 'Tour Booking'} - ${booking_reference}`,
-      statement_descriptor: 'VAI Tourism',
+      statement_descriptor_suffix: 'VAI Tour',
       receipt_email: metadata.customer_email || null,
     })
 
@@ -116,7 +146,7 @@ serve(async (req: Request) => {
         status: paymentIntent.status,
         operator_amount: operatorAmount,
         platform_fee: platformFee,
-        commission_rate: commissionRate,
+        commission_rate: commissionRatePercent,
         destination_account: operator.stripe_connect_account_id
       }),
       {

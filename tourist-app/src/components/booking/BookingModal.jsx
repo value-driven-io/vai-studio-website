@@ -173,6 +173,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           return
         }
 
+        // Generate temporary booking reference for payment step
+        const now = Date.now()
+        const dateStr = new Date().toISOString().slice(2, 10).replace(/-/g, '')
+        const tempBookingReference = `VAI-${now}-${dateStr}`
+
         // Store booking data for payment step (don't create booking yet)
         const preparedBookingData = {
           tour_id: tour.id,
@@ -189,7 +194,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           subtotal: subtotal,
           special_requirements: formData.special_requirements?.trim() || '',
           dietary_restrictions: formData.dietary_restrictions?.trim() || '',
-          accessibility_needs: formData.accessibility_needs?.trim() || ''
+          accessibility_needs: formData.accessibility_needs?.trim() || '',
+          booking_reference: tempBookingReference,
+          customer_first_name: formData.customer_first_name.trim(),
+          customer_last_name: formData.customer_last_name.trim(),
+          tour_name: tour.tour_name
         }
 
         // Store for payment step
@@ -210,13 +219,21 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     
     try {
       // Use the stored booking data and add Connect payment info
+      // Remove fields that don't exist in bookings table schema
+      const { 
+        tour_name, 
+        customer_first_name, 
+        customer_last_name, 
+        ...bookingDataForDB 
+      } = bookingData
+      
       const finalBookingData = {
-        ...bookingData,
+        ...bookingDataForDB,
         payment_intent_id: paymentData.payment_intent_id,
         payment_status: 'authorized',
-        operator_amount_cents: paymentData.operator_amount_cents,
-        platform_fee_cents: paymentData.platform_fee_cents,
-        commission_rate: paymentData.commission_rate
+        operator_amount_cents: paymentData.operator_amount_cents || null,
+        platform_fee_cents: paymentData.platform_fee_cents || null
+        // Note: commission_rate is calculated in booking service from operator data
       }
 
       // Create booking (your existing logic)
@@ -617,13 +634,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
 
                 <StripePaymentForm
-                  bookingData={{
-                    ...formData,
-                    adult_price: tour.discount_price_adult,
-                    child_price: tour.discount_price_child,
-                    tour_name: tour.tour_name,
-                    booking_reference: `VAI-${Date.now()}`
-                  }}
+                  bookingData={bookingData}
                   onPaymentSuccess={handlePaymentSuccess}
                   onPaymentError={handlePaymentError}
                   isProcessing={paymentProcessing}

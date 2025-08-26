@@ -43,6 +43,15 @@ const StripePaymentForm = ({
         operator_id: bookingData?.operator_id
       })
 
+      // Additional safety check - if operator_id is missing, abort
+      if (!bookingData?.operator_id) {
+        console.error('❌ CRITICAL: operator_id is missing from bookingData!')
+        console.error('❌ BookingData keys:', Object.keys(bookingData || {}))
+        setPaymentError('Payment setup error: Operator information missing. Please try again.')
+        setIsProcessing(false)
+        return
+      }
+
       // Create Stripe Connect payment intent with marketplace model
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-connect-payment-intent`, {
         method: 'POST',
@@ -84,13 +93,23 @@ const StripePaymentForm = ({
         payment_method: {
           card: elements.getElement(CardElement),
           billing_details: {
-            name: `${bookingData.customer_first_name} ${bookingData.customer_last_name}`,
+            name: bookingData.customer_name || `${bookingData.customer_first_name || ''} ${bookingData.customer_last_name || ''}`.trim(),
             email: bookingData.customer_email,
           },
         }
       })
 
       if (error) {
+        // Debug: Log Stripe error details
+        console.error('🔴 Stripe payment confirmation error:', error)
+        console.error('🔴 Error details:', {
+          code: error.code,
+          message: error.message,
+          type: error.type,
+          param: error.param,
+          decline_code: error.decline_code
+        })
+        
         // Handle specific error types
         let errorMessage = error.message
         switch (error.code) {
