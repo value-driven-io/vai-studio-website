@@ -542,30 +542,36 @@ function AppContent() { // function App() { << before changes for the authcallba
             )
             
             // 🎉 SMART NOTIFICATIONS: Create notification center entries for new bookings
-            newBookings.forEach(booking => {
+            newBookings.forEach(async (booking) => {
               // Create translated notification
               const title = t('notifications.messages.newBooking.title')
               const message = t('notifications.messages.newBooking.content', { 
-                activityName: booking.tours?.tour_name || t('common.activity', 'your activity') 
+                activityName: booking.tours?.tour_name || 'your activity'
               })
               
-              // Add notification to service with translations
-              const notification = notificationService.addBookingNotification(operator?.id, booking, title, message)
+              console.log(`🌍 Translation debug - Title: "${title}", Message: "${message}"`)
               
-              // Also keep a subtle toast for immediate feedback
-              if (notification) {
-                toast.success(`🎉 New booking: ${booking.tours?.tour_name || 'Activity'}`, {
-                  duration: 4000,
-                  style: {
-                    background: '#059669',
-                    color: 'white',
-                    fontWeight: '500'
-                  },
-                  onClick: () => {
-                    setActiveTab('bookings')
-                    setBookingFilter('pending')
-                  }
-                })
+              // Add notification to service with translations (now async)
+              try {
+                const notification = await notificationService.addBookingNotification(operator?.id, booking, title, message)
+                
+                // Show toast for immediate feedback
+                if (notification) {
+                  toast.success(`🎉 New booking: ${booking.tours?.tour_name || 'Activity'}`, {
+                    duration: 4000,
+                    style: {
+                      background: '#059669',
+                      color: 'white',
+                      fontWeight: '500'
+                    },
+                    onClick: () => {
+                      setActiveTab('bookings')
+                      setBookingFilter('pending')
+                    }
+                  })
+                }
+              } catch (error) {
+                console.error('Error creating notification:', error)
               }
             })
             

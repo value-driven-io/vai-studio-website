@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
+import i18n from 'i18next'
 import { 
   Bell, 
   X, 
@@ -15,6 +16,7 @@ import {
   Sparkles
 } from 'lucide-react'
 import notificationService from '../../services/notificationService'
+import { polynesianNow, formatPolynesianDate } from '../../utils/timezone'
 
 const NotificationCenter = ({ 
   operator, 
@@ -42,38 +44,49 @@ const NotificationCenter = ({
     return readNotifications ? JSON.parse(readNotifications) : []
   }
 
+  // Helper function to generate UUID (compatible with all browsers)
+  const generateUUID = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0
+      const v = c === 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
+    })
+  }
+
   // Educational sample notifications (will be replaced by real data from backend)
   const sampleNotifications = [
     // Test notification to verify system is working
     {
-      id: 'welcome-test',
+      id: 'sample-welcome-test', // Static ID so localStorage read state persists
       type: 'system',
       title: t('notifications.messages.welcome.title'),
       message: t('notifications.messages.welcome.content'),
-      read: getReadNotifications().includes('welcome-test'),
-      createdAt: new Date(Date.now() - 10 * 60 * 1000), // 10 minutes ago
-      data: {}
+      read: getReadNotifications().includes('sample-welcome-test'),
+      created_at: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
+      data: {},
+      source: 'sample'
     }
   ]
   
   // Create onboarding restart notification (always show for testing, will be conditional in production)
   const onboardingNotification = {
-    id: 'onboarding-restart',
+    id: 'sample-onboarding-restart', // Static ID so localStorage read state persists
     type: 'system',
     title: t('notifications.messages.onboardingRestart.title'),
     message: hasCompletedTour 
       ? t('notifications.messages.onboardingRestart.completed')
       : t('notifications.messages.onboardingRestart.notCompleted'),
-    read: getReadNotifications().includes('onboarding-restart'),
-    createdAt: new Date(Date.now() - 5 * 60 * 1000), // 5 minutes ago
-    data: { action: 'restart-tour' }
+    read: getReadNotifications().includes('sample-onboarding-restart'),
+    created_at: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+    data: { action: 'restart-tour' },
+    source: 'sample'
   }
 
   useEffect(() => {
     if (operator) {
       loadNotifications()
     }
-  }, [operator, hasCompletedTour]) // Add hasCompletedTour dependency
+  }, [operator, hasCompletedTour, i18n.language]) // Reload when language changes
 
   // Listen for new notification events
   useEffect(() => {
@@ -90,6 +103,13 @@ const NotificationCenter = ({
       window.removeEventListener('newNotification', handleNewNotification)
     }
   }, [operator?.id])
+
+  // Update parent component when unread count changes (avoid render timing issues)
+  useEffect(() => {
+    if (onUnreadCountChange) {
+      onUnreadCountChange(unreadCount)
+    }
+  }, [unreadCount, onUnreadCountChange])
 
   // Update panel position when opened
   const updatePanelPosition = () => {
@@ -165,27 +185,25 @@ const NotificationCenter = ({
   const loadNotifications = async () => {
     setIsLoading(true)
     try {
-      // Get real notifications from service
-      const realNotifications = notificationService.getNotifications(operator?.id)
+      // Get current language from i18n
+      const currentLanguage = i18n.language || 'en'
       
-      // For now, use sample data with onboarding notification
-      setTimeout(() => {
-        const allNotifications = [...realNotifications, ...sampleNotifications]
-        
-        // Always add onboarding restart notification for testing
-        allNotifications.unshift(onboardingNotification) // Add to beginning
-        
-        setNotifications(allNotifications)
-        const unreadCount = allNotifications.filter(n => !n.read).length
-        setUnreadCount(unreadCount)
-        
-        // Notify parent component of initial unread count
-        if (onUnreadCountChange) {
-          onUnreadCountChange(unreadCount)
-        }
-        
-        setIsLoading(false)
-      }, 300) // Reduce delay since we're using real data
+      // Get real notifications from service (now async with localization)
+      const realNotifications = await notificationService.getNotifications(operator?.id, currentLanguage)
+      console.log('📬 Real notifications from DB:', realNotifications.length, realNotifications)
+      
+      // Combine real notifications with sample/onboarding notifications
+      const allNotifications = [...realNotifications, ...sampleNotifications]
+      console.log('📬 All notifications (real + sample):', allNotifications.length, allNotifications)
+      
+      // Always add onboarding restart notification for testing
+      allNotifications.unshift(onboardingNotification) // Add to beginning
+      
+      setNotifications(allNotifications)
+      const newUnreadCount = allNotifications.filter(n => !n.read).length
+      setUnreadCount(newUnreadCount)
+      
+      setIsLoading(false)
       
     } catch (error) {
       console.error('Error loading notifications:', error)
@@ -195,8 +213,8 @@ const NotificationCenter = ({
 
   const markAsRead = async (notificationId) => {
     try {
-      // Use real notification service
-      notificationService.markAsRead(operator?.id, notificationId)
+      // Use real notification service (now async)
+      await notificationService.markAsRead(operator?.id, notificationId)
       
       // Update local state
       setNotifications(prev => {
@@ -206,22 +224,8 @@ const NotificationCenter = ({
         const newUnreadCount = updated.filter(n => !n.read).length
         setUnreadCount(newUnreadCount)
         
-        // Notify parent component of count change
-        if (onUnreadCountChange) {
-          onUnreadCountChange(newUnreadCount)
-        }
-        
         return updated
       })
-      
-      // Also persist to localStorage for compatibility with existing system
-      if (operator) {
-        const readNotifications = getReadNotifications()
-        if (!readNotifications.includes(notificationId)) {
-          readNotifications.push(notificationId)
-          localStorage.setItem(`vai-read-notifications-${operator.id}`, JSON.stringify(readNotifications))
-        }
-      }
       
     } catch (error) {
       console.error('Error marking notification as read:', error)
@@ -230,26 +234,11 @@ const NotificationCenter = ({
 
   const markAllAsRead = async () => {
     try {
-      // Use real notification service
-      notificationService.markAllAsRead(operator?.id)
+      // Use real notification service (now async)
+      await notificationService.markAllAsRead(operator?.id)
       
-      setNotifications(prev => {
-        const updated = prev.map(n => ({ ...n, read: true }))
-        setUnreadCount(0)
-        
-        // Notify parent component
-        if (onUnreadCountChange) {
-          onUnreadCountChange(0)
-        }
-        
-        return updated
-      })
-      
-      // Persist all as read to localStorage for compatibility
-      if (operator) {
-        const allNotificationIds = notifications.map(n => n.id)
-        localStorage.setItem(`vai-read-notifications-${operator.id}`, JSON.stringify(allNotificationIds))
-      }
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+      setUnreadCount(0)
       
     } catch (error) {
       console.error('Error marking all notifications as read:', error)
@@ -342,8 +331,12 @@ const NotificationCenter = ({
   }
 
   const formatTimeAgo = (date) => {
-    const now = new Date()
-    const diffInMs = now - date
+    // Use your existing timezone utility - works for any country expansion
+    const now = new Date(polynesianNow()) // Current time in operator's timezone
+    const notificationDate = new Date(date) // UTC from database
+    
+    // Calculate difference in operator's local timezone  
+    const diffInMs = now - notificationDate
     const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
     const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
@@ -454,7 +447,7 @@ const NotificationCenter = ({
                       
                       <div className="flex items-center justify-between mt-2">
                         <span className="text-xs text-slate-500">
-                          {formatTimeAgo(notification.createdAt)}
+                          {formatTimeAgo(notification.created_at || notification.createdAt)}
                         </span>
                         
                         {['booking', 'payment', 'message'].includes(notification.type) && (
