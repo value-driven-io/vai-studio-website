@@ -129,7 +129,7 @@ const Login = ({ onLogin, loading }) => {
       }
     } else {
       // Optional: Success toast
-      toast.success('Welcome back! 🎉', {
+      toast.success('Ia ora na 🎉', {
         duration: 2000,
         style: {
           background: '#1e293b',
