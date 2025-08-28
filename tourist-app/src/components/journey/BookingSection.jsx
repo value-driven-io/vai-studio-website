@@ -5,6 +5,7 @@ import {
   Copy, ExternalLink, RotateCcw, AlertCircle, CheckCircle, XCircle,
   Timer, Award
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import toast from 'react-hot-toast'
 
@@ -26,6 +27,7 @@ const BookingSection = ({
   getBookingStatusColor,
   getBookingStatusIcon
 }) => {
+  const { t } = useTranslation()
   const displayBookings = filteredBookings || bookings
 
   if (displayBookings.length === 0) {
@@ -34,9 +36,9 @@ const BookingSection = ({
         <EmptyIcon className="w-12 h-12 text-slate-400 mx-auto mb-4" />
         <h3 className="text-xl font-semibold text-slate-400 mb-2">{emptyMessage}</h3>
         <p className="text-slate-500">
-          {title === "Active Bookings" && "Your pending booking requests will appear here"}
-          {title === "Upcoming Adventures" && "Confirmed tours you've booked will show here"}
-          {title === "Past Experiences" && "Your completed adventures will be listed here"}
+          {title === t('journey.sections.activeBookings') && t('journey.emptyStates.activePending')}
+          {title === t('journey.sections.upcomingAdventures') && t('journey.emptyStates.upcomingConfirmed')}
+          {title === t('journey.sections.pastExperiences') && t('journey.emptyStates.pastCompleted')}
         </p>
       </div>
     )
@@ -92,12 +94,12 @@ const BookingCard = ({
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xl">{tourEmoji}</span>
             <h3 className="text-lg font-semibold text-white">
-              {booking.tours?.tour_name || 'Tour Experience'}
+              {booking.tours?.tour_name || t('journey.tourInfo.tourExperience')}
             </h3>
           </div>
           
           <div className="text-slate-400 text-sm">
-            with {booking.operators?.company_name || 'Tour Operator'}
+            {t('journey.tourInfo.withOperator', { operator: booking.operators?.company_name || t('journey.tourInfo.tourOperator') })}
           </div>
           
           <div className="flex items-center gap-2 mt-2">

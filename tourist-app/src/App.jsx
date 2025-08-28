@@ -141,6 +141,8 @@ function AppContent() {
   const [selectedTourForBooking, setSelectedTourForBooking] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
 
+  const { t } = useTranslation()
+
   // Handle auth success messages and bookTour parameter from deep links
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -148,7 +150,7 @@ function AppContent() {
     const bookTourId = urlParams.get('bookTour')
     
     if (message === 'welcome') {
-      toast.success('🎉 Welcome! Your email has been confirmed.')
+      toast.success(t('app.notifications.emailConfirmed'))
       // Clean URL
       window.history.replaceState({}, '', window.location.pathname)
     }
@@ -157,7 +159,7 @@ function AppContent() {
       window.history.replaceState({}, '', window.location.pathname)
     }
     if (message === 'reset') {
-      toast.success('🔑 Password reset successful! You can now sign in.')
+      toast.success(t('app.notifications.passwordResetSuccess'))
       window.history.replaceState({}, '', window.location.pathname)
     }
 
@@ -184,7 +186,7 @@ function AppContent() {
 
           if (error) {
             console.error('Error fetching tour for booking:', error)
-            toast.error('Tour not found or unavailable for booking')
+            toast.error(t('app.notifications.tourNotFound'))
             return
           }
 
@@ -198,7 +200,7 @@ function AppContent() {
           }
         } catch (err) {
           console.error('Unexpected error fetching tour:', err)
-          toast.error('Failed to load tour for booking')
+          toast.error(t('app.notifications.tourLoadFailed'))
         }
       }
 

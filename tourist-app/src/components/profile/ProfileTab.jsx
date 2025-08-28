@@ -1,8 +1,11 @@
 // src/components/profile/ProfileTab.jsx
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import VAILogo from '../shared/VAILogo'
 
 const ProfileTab = () => {
+  const { t } = useTranslation()
+  
   return (
     <div className="min-h-screen bg-slate-900">
       
@@ -20,14 +23,14 @@ const ProfileTab = () => {
         {/* Header */}
         <div className="pt-8 mb-6">
           <p className="text-slate-500 text-sm p-2">
-            Here you'll find everything else you need to know. In case you have some troubles contact us via WhatsApp.
+            {t('profile.support.description')}
           </p>
         </div>
 
         {/* Support Section */}
         <div className="bg-slate-800 rounded-xl p-6 mb-6">
           <h2 className="text-lg font-semibold text-white mb-4">
-            💬 Support
+            {t('profile.support.title')}
           </h2>
           <div className="space-y-3">
             <a 
@@ -36,13 +39,13 @@ const ProfileTab = () => {
               rel="noopener noreferrer"
               className="flex items-center justify-center w-full bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-3 transition-colors"
             >
-              📱 WhatsApp Support
+              {t('profile.support.whatsappButton')}
             </a>
             <a 
               href="mailto:contact@vai.studio"
               className="flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-3 transition-colors"
             >
-              ✉️ Email Support
+              {t('profile.support.emailButton')}
             </a>
           </div>
         </div>
@@ -50,22 +53,22 @@ const ProfileTab = () => {
         {/* How It Works */}
         <div className="bg-slate-800 rounded-xl p-6 mb-6">
           <h2 className="text-lg font-semibold text-white mb-4">
-            ❓ How to: VAI Tickets
+            {t('profile.howItWorks.title')}
           </h2>
           <div className="text-slate-300 text-sm space-y-2">
-            <p>1. Browse last-minute tour deals 🔎</p>
-            <p>2. Send booking request instantly with the app 🔥</p>
-            <p>3. Get booking confirmation 😎</p>
-            <p>4. Connect with the Operator 🗣️</p>
-            <p>5. Pay directly with the Operator 💸</p>
-            <p>6. Enjoy your Activity 🏝️</p>
-            <p>7. Repeat! 🤙</p>
+            <p>{t('profile.howItWorks.step1')}</p>
+            <p>{t('profile.howItWorks.step2')}</p>
+            <p>{t('profile.howItWorks.step3')}</p>
+            <p>{t('profile.howItWorks.step4')}</p>
+            <p>{t('profile.howItWorks.step5')}</p>
+            <p>{t('profile.howItWorks.step6')}</p>
+            <p>{t('profile.howItWorks.step7')}</p>
           </div>
         </div>
 
               {/* Footer */}
           <div>
-            <p className="text-center text-slate-500 text-sm mt-4">VAI.studio © 2025 All rights reserved<br></br>From French Polynesia with ❤️</p>
+            <p className="text-center text-slate-500 text-sm mt-4" dangerouslySetInnerHTML={{__html: t('profile.footer')}} />
        </div> 
       </div>
     </div>

@@ -170,7 +170,7 @@ const BookingDetailModal = ({
   // Copy booking reference
   const copyBookingReference = () => {
     navigator.clipboard.writeText(booking.booking_reference)
-    toast.success('Booking reference copied!')
+    toast.success(t('journey.messages.bookingRefCopied'))
   }
 
   return (

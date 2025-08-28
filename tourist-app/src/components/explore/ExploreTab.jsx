@@ -40,7 +40,7 @@ const DatePickerModal = ({ isOpen, onClose, onDateSelect, currentDateRange }) =>
       <div className="bg-slate-800 rounded-xl border border-slate-700 w-full max-w-sm mx-4">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-700">
-          <h3 className="text-lg font-semibold text-white">Select Dates</h3>
+          <h3 className="text-lg font-semibold text-white">{t('explore.datePicker.selectDates')}</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-white">
             <X className="w-5 h-5" />
           </button>
@@ -183,7 +183,7 @@ const getDateRangeLabel = () => {
     const end = new Date(filters.dateRange.end).toLocaleDateString()
     return start === end ? start : `${start} - ${end}`
   }
-  return 'Select Dates'
+  return t('explore.datePicker.selectDates')
 }
 
   const getActiveFiltersCount = () => {

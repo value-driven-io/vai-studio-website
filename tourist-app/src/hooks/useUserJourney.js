@@ -1,5 +1,6 @@
 // src/hooks/useUserJourney.js 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { journeyService } from '../services/supabase'
 import { useAppStore } from '../stores/bookingStore'
 import { useAuth } from '../contexts/AuthContext'  
@@ -7,7 +8,7 @@ import { formatDate as formatDateUtil } from '../lib/utils'
 import toast from 'react-hot-toast'
 
 export const useUserJourney = () => {
-
+  const { t } = useTranslation()
   const { user } = useAuth()  
 
   const { 
@@ -204,7 +205,7 @@ export const useUserJourney = () => {
       performanceTracker.current.end('fetchUserBookings (with error)')
       console.error('Error fetching user bookings:', error)
       setError(error.message)
-      toast.error('Failed to load your bookings')
+      toast.error(t('toastNotifications.bookingsLoadFailed'))
       return []
     } finally {
       if (!silent) setLoading(false)
@@ -258,7 +259,7 @@ export const useUserJourney = () => {
         await fetchUserBookings(email, whatsapp, true)
         
         // Show success message
-        toast.success('Booking added to your journey! 🌴')
+        toast.success(t('toastNotifications.bookingAdded'))
       }
     }
 
@@ -285,9 +286,9 @@ export const useUserJourney = () => {
       // Reset debounce to allow immediate refresh
       lastFetchRef.current = { email: '', whatsapp: '', timestamp: 0 }
       await fetchUserBookings(contactInfo.email, contactInfo.whatsapp)
-      toast.success('Bookings refreshed')
+      toast.success(t('journey.messages.bookingsRefreshed'))
     } else {
-      toast.error('No contact info found. Please use "Find My Bookings" first.')
+      toast.error(t('journey.messages.noContactInfo'))
     }
   }, [getUserContactInfo, fetchUserBookings])
 
@@ -337,9 +338,9 @@ export const useUserJourney = () => {
           // Show notifications for important changes
           statusUpdates.forEach(update => {
             if (update.booking_status === 'confirmed') {
-              toast.success(`Booking ${update.booking_reference} confirmed! 🎉`)
+              toast.success(t('toastNotifications.bookingConfirmed', { ref: update.booking_reference }))
             } else if (update.booking_status === 'cancelled') {
-              toast.error(`Booking ${update.booking_reference} was cancelled`)
+              toast.error(t('toastNotifications.bookingCancelled', { ref: update.booking_reference }))
             }
           })
         } else {

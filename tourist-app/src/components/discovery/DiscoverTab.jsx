@@ -79,9 +79,9 @@ const DiscoverTab = () => {
     setIsRefreshing(true)
     try {
       await refreshTours()
-      toast.success('Tours updated!')
+      toast.success(t('toastNotifications.tourUpdated'))
     } catch (error) {
-      toast.error('Failed to refresh tours')
+      toast.error(t('toastNotifications.refreshFailed'))
     } finally {
       setTimeout(() => setIsRefreshing(false), 1000)
     }

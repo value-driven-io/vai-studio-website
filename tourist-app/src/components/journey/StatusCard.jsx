@@ -5,6 +5,7 @@ import {
   CheckCircle, XCircle, AlertCircle, Timer, Award, Copy,
   ExternalLink, RotateCcw, ChevronRight, MoreHorizontal
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import toast from 'react-hot-toast'
 
@@ -20,6 +21,7 @@ const StatusCard = ({
   canContactOperator = () => true,
   canRebook = () => true
 }) => {
+  const { t } = useTranslation()
   const [showActions, setShowActions] = useState(false)
 
   // Status configuration
@@ -33,8 +35,8 @@ const StatusCard = ({
           bgColor: 'bg-yellow-500/10',
           borderColor: 'border-yellow-500/20',
           icon: Timer,
-          label: 'Pending',
-          description: 'Awaiting confirmation',
+          label: t('statusCard.status.pending'),
+          description: t('statusCard.status.pendingDesc'),
           progress: 33
         }
       case 'confirmed':
@@ -44,8 +46,8 @@ const StatusCard = ({
           bgColor: 'bg-green-500/10',
           borderColor: 'border-green-500/20',
           icon: CheckCircle,
-          label: 'Confirmed!',
-          description: 'Ready to go',
+          label: t('statusCard.status.confirmed'),
+          description: t('statusCard.status.confirmedDesc'),
           progress: 66
         }
       case 'completed':
@@ -55,8 +57,8 @@ const StatusCard = ({
           bgColor: 'bg-blue-500/10',
           borderColor: 'border-blue-500/20',
           icon: Award,
-          label: 'Complete',
-          description: 'Adventure finished',
+          label: t('statusCard.status.complete'),
+          description: t('statusCard.status.completeDesc'),
           progress: 100
         }
       case 'declined':
@@ -67,8 +69,8 @@ const StatusCard = ({
           bgColor: 'bg-red-500/10',
           borderColor: 'border-red-500/20',
           icon: XCircle,
-          label: status === 'declined' ? 'Declined' : 'Cancelled',
-          description: 'Not available',
+          label: status === 'declined' ? t('statusCard.status.declined') : t('statusCard.status.cancelled'),
+          description: status === 'declined' ? t('statusCard.status.declinedDesc') : t('statusCard.status.cancelledDesc'),
           progress: 0
         }
       default:
@@ -78,8 +80,8 @@ const StatusCard = ({
           bgColor: 'bg-slate-500/10',
           borderColor: 'border-slate-500/20',
           icon: AlertCircle,
-          label: 'Unknown',
-          description: 'Status unclear',
+          label: t('statusCard.status.unknown'),
+          description: t('statusCard.status.unknownDesc'),
           progress: 0
         }
     }
@@ -94,7 +96,7 @@ const StatusCard = ({
   // Copy booking reference
   const copyBookingReference = () => {
     navigator.clipboard.writeText(booking.booking_reference)
-    toast.success('Booking reference copied!')
+    toast.success(t('statusCard.messages.referencesCopied'))
   }
 
   return (
@@ -139,13 +141,13 @@ const StatusCard = ({
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-white font-semibold truncate">
-              {booking.tours?.tour_name || 'Tour Name Not Available'}
+              {booking.tours?.tour_name || t('statusCard.tourInfo.tourNotAvailable')}
             </h3>
             <div className="flex items-center gap-2 text-xs text-slate-400">
               <MapPin className="w-3 h-3" />
-              <span>{booking.operators?.island || 'Location TBD'}</span>
+              <span>{booking.operators?.island || t('statusCard.tourInfo.locationTBD')}</span>
               <span>•</span>
-              <span>{booking.operators?.company_name || 'Operator'}</span>
+              <span>{booking.operators?.company_name || t('statusCard.tourInfo.operator')}</span>
             </div>
           </div>
         </div>
@@ -157,7 +159,7 @@ const StatusCard = ({
             <div className="text-slate-300 font-medium">
               {booking.num_adults + (booking.num_children || 0)}
             </div>
-            <div className="text-slate-500">Participants</div>
+            <div className="text-slate-500">{t('statusCard.details.participants')}</div>
           </div>
           
           <div className="text-center">
@@ -165,7 +167,7 @@ const StatusCard = ({
             <div className="text-slate-300 font-medium">
               {formatPrice(booking.total_amount || booking.subtotal)}
             </div>
-            <div className="text-slate-500">Total</div>
+            <div className="text-slate-500">{t('statusCard.details.total')}</div>
           </div>
           
           <div className="text-center">
@@ -177,7 +179,7 @@ const StatusCard = ({
             >
               {booking.booking_reference?.slice(-6) || 'N/A'}
             </button>
-            <div className="text-slate-500">Reference</div>
+            <div className="text-slate-500">{t('statusCard.details.reference')}</div>
           </div>
         </div>
 
@@ -188,7 +190,7 @@ const StatusCard = ({
             onClick={() => onShowDetails?.(booking)}
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1.5"
           >
-            <span>More Details</span>
+            <span>{t('statusCard.actions.moreDetails')}</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
 
@@ -199,7 +201,7 @@ const StatusCard = ({
               <button
                 onClick={() => onContactOperator?.(booking)}
                 className="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-lg transition-colors flex items-center justify-center"
-                title="Contact Operator"
+                title={t('statusCard.actions.contactOperator')}
               >
                 {booking.operators?.whatsapp_number ? (
                   <MessageCircle className="w-4 h-4" />
@@ -214,7 +216,7 @@ const StatusCard = ({
               <button
                 onClick={() => onRebook?.(booking)}
                 className="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-lg transition-colors flex items-center justify-center"
-                title="Book Again"
+                title={t('statusCard.actions.bookAgain')}
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -224,7 +226,7 @@ const StatusCard = ({
             <button
               onClick={() => onGetSupport?.(booking)}
               className="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-lg transition-colors flex items-center justify-center"
-              title="Get Support"
+              title={t('statusCard.actions.getSupport')}
             >
               <ExternalLink className="w-4 h-4" />
             </button>
@@ -235,7 +237,7 @@ const StatusCard = ({
         {booking.booking_status === 'pending' && (
           <div className="mt-3 p-2 bg-yellow-500/5 border border-yellow-500/10 rounded-lg">
             <p className="text-xs text-yellow-300/80">
-              {statusConfig.description} - Keep an eye on your emails!
+              {t('statusCard.messages.pendingInfo', { statusDesc: statusConfig.description })}
             </p>
           </div>
         )}
@@ -243,7 +245,7 @@ const StatusCard = ({
         {booking.booking_status === 'confirmed' && booking.tours?.meeting_point && (
           <div className="mt-3 p-2 bg-green-500/5 border border-green-500/10 rounded-lg">
             <p className="text-xs text-green-300/80">
-              📍 Meeting point: {booking.tours.meeting_point}
+              {t('statusCard.messages.meetingPoint', { location: booking.tours.meeting_point })}
             </p>
           </div>
         )}

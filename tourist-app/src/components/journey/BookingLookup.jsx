@@ -1,8 +1,10 @@
 // src/components/journey/BookingLookup.jsx
 import React, { useState } from 'react'
 import { Search, Mail, MessageCircle, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const BookingLookup = ({ isOpen, onClose, onSearch }) => {
+  const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [errors, setErrors] = useState({})
@@ -13,15 +15,15 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
     const newErrors = {}
     
     if (!email.trim() && !whatsapp.trim()) {
-      newErrors.general = 'Please provide either email or WhatsApp number'
+      newErrors.general = t('bookingLookup.validation.provideContact')
     }
     
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Please enter a valid email address'
+      newErrors.email = t('bookingLookup.validation.validEmail')
     }
     
     if (whatsapp && !/^\+?[\d\s\-\(\)]{8,}$/.test(whatsapp)) {
-      newErrors.whatsapp = 'Please enter a valid phone number'
+      newErrors.whatsapp = t('bookingLookup.validation.validPhone')
     }
     
     setErrors(newErrors)
@@ -38,7 +40,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-white">Find Your Bookings</h2>
+            <h2 className="text-xl font-bold text-white">{t('bookingLookup.title')}</h2>
             <button
               onClick={onClose}
               className="p-2 text-slate-400 hover:text-white transition-colors"
@@ -50,7 +52,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
           {/* Info */}
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
             <p className="text-blue-400 text-sm">
-              Enter the email or WhatsApp number you used when booking to view your reservations.
+              {t('bookingLookup.info')}
             </p>
           </div>
 
@@ -59,7 +61,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Email Address
+                {t('bookingLookup.form.emailLabel')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -73,7 +75,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
                   className={`w-full pl-10 pr-4 py-3 bg-slate-700 border rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 ${
                     errors.email ? 'border-red-500' : 'border-slate-600'
                   }`}
-                  placeholder="your@email.com"
+                  placeholder={t('bookingLookup.placeholders.email')}
                 />
               </div>
               {errors.email && (
@@ -91,7 +93,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
             {/* WhatsApp */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                WhatsApp Number
+                {t('bookingLookup.form.whatsappLabel')}
               </label>
               <div className="relative">
                 <MessageCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -105,7 +107,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
                   className={`w-full pl-10 pr-4 py-3 bg-slate-700 border rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 ${
                     errors.whatsapp ? 'border-red-500' : 'border-slate-600'
                   }`}
-                  placeholder="+689 12 34 56 78"
+                  placeholder={t('bookingLookup.placeholders.whatsapp')}
                 />
               </div>
               {errors.whatsapp && (
@@ -124,7 +126,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Search className="w-4 h-4" />
-              Find My Bookings
+              {t('bookingLookup.form.searchButton')}
             </button>
           </div>
 

@@ -4,6 +4,7 @@ import {
   Heart, Calendar, Clock, MapPin, Users, Star, 
   RefreshCw, ExternalLink, Trash2
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { journeyService } from '../../services/supabase'
 import { useAppStore } from '../../stores/bookingStore'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
@@ -20,6 +21,7 @@ const FavoritesSection = ({
   calculateSavings,
   getUrgencyColor
 }) => {
+  const { t } = useTranslation()
   const [favoriteTours, setFavoriteTours] = useState([])
   const [loading, setLoading] = useState(false)
   const [selectedTour, setSelectedTour] = useState(null)
@@ -42,7 +44,7 @@ const FavoritesSection = ({
       setFavoriteTours(tours)
     } catch (error) {
       console.error('Error loading favorite tours:', error)
-      toast.error('Failed to load favorite tours')
+      toast.error(t('toastNotifications.favoritesLoadFailed'))
     } finally {
       setLoading(false)
     }
@@ -50,7 +52,7 @@ const FavoritesSection = ({
 
   const handleRemoveFavorite = (tourId) => {
     toggleFavorite(tourId)
-    toast.success('Removed from favorites')
+    toast.success(t('toastNotifications.favoriteRemoved'))
   }
 
   const handleBookTour = (tour) => {

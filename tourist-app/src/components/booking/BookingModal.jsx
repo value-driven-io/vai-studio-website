@@ -160,7 +160,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             
           if (tourError) {
             console.error('❌ Failed to fetch operator_id:', tourError)
-            toast.error('Failed to get tour operator information')
+            toast.error(t('toastNotifications.operatorInfoFailed'))
             return
           }
           
@@ -169,7 +169,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         }
 
         if (!operatorId) {
-          toast.error('Tour operator information is missing. Please contact support.')
+          toast.error(t('toastNotifications.operatorInfoMissing'))
           return
         }
 
@@ -544,7 +544,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     <button
                       onClick={() => {
                         // Could open payment details modal or navigate to payment view
-                        toast.success('Payment details: ' + bookingResult.payment_intent_id)
+                        toast.success(t('toastNotifications.paymentDetails', { paymentId: bookingResult.payment_intent_id }))
                       }}
                       className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-sm"
                     >
