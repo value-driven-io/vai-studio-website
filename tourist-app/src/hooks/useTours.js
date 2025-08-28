@@ -1,12 +1,14 @@
 // src/hooks/useTours.js
 
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { tourService } from '../services/tourService'
 import { useAppStore } from '../stores/bookingStore'
 import toast from 'react-hot-toast'
 import { formatDate as formatDateUtil } from '../lib/utils'
 
 export const useTours = () => {
+  const { t } = useTranslation()
   const { 
     tours, 
     setTours, 
@@ -51,10 +53,10 @@ export const useTours = () => {
   const getSpecialBadges = useCallback((tour) => {
     const badges = []
     if (tour.whale_regulation_compliant) {
-      badges.push({ type: 'eco', text: 'Eco-Certified', color: 'green' })
+      badges.push({ type: 'eco', text: t('useTours.badges.ecoCertified'), color: 'green' })
     }
     if (tour.discount_percentage >= 30) {
-      badges.push({ type: 'discount', text: 'Great Deal', color: 'blue' })
+      badges.push({ type: 'discount', text: t('useTours.badges.greatDeal'), color: 'blue' })
     }
     return badges
   }, [])
@@ -84,12 +86,12 @@ export const useTours = () => {
       console.error('Error fetching tours:', err)
       setError(err.message)
       if (showToast) {
-        toast.error('Failed to load tours. Please try again.')
+        toast.error(t('useTours.toasts.loadFailed'))
       }
     } finally {
       setLoading(false)
     }
-  }, [filters, setTours, setLoading, enrichTours])
+  }, [filters, setTours, setLoading, enrichTours, t])
 
   // EXISTING: Fetch general discover tours (keep your existing logic)
   const fetchDiscoverTours = useCallback(async () => {
@@ -100,7 +102,7 @@ export const useTours = () => {
     } catch (err) {
       console.error('Error fetching discover tours:', err)
     }
-  }, [enrichTours])
+  }, [enrichTours, t])
 
   // EXISTING: Fetch urgent tours (keep your existing logic)
   const fetchUrgentTours = useCallback(async () => {
@@ -111,7 +113,7 @@ export const useTours = () => {
     } catch (err) {
       console.error('Error fetching urgent tours:', err)
     }
-  }, [enrichTours])
+  }, [enrichTours, t])
 
   // EXISTING: Fetch tours by mood (keep your existing logic)
   const fetchMoodTours = useCallback(async (mood) => {
@@ -140,7 +142,7 @@ export const useTours = () => {
     } finally {
       setLoading(false)
     }
-  }, [setLoading, enrichTours])
+  }, [setLoading, enrichTours, t])
 
   // EXISTING: Auto-fetch effects (keep your existing logic)
   useEffect(() => {
@@ -202,15 +204,20 @@ export const useTours = () => {
       
       // EXISTING: Keep your existing toast logic
       const moodCount = selectedMood ? moodTours.length : 0
-      toast.success(`Refreshed! Found ${enrichedUrgentTours.length} urgent deals, ${enrichedDiscoverTours.length} total tours${selectedMood ? `, ${moodCount} ${selectedMood} tours` : ''}`)
+      const moodInfo = selectedMood ? `, ${moodCount} ${selectedMood} tours` : ''
+      toast.success(t('useTours.toasts.refreshSuccess', { 
+        urgentCount: enrichedUrgentTours.length, 
+        totalCount: enrichedDiscoverTours.length,
+        moodInfo 
+      }))
       
     } catch (err) {
       console.error('Error refreshing tours:', err)
-      toast.error('Failed to refresh tours')
+      toast.error(t('useTours.toasts.refreshFailed'))
     } finally {
       setLoading(false)
     }
-  }, [filters, selectedMood, moodTours.length, setTours, setLoading, enrichTours])
+  }, [filters, selectedMood, moodTours.length, setTours, setLoading, enrichTours, t])
 
   // EXISTING: Helper functions (keep your existing ones)
   const formatPrice = (price, currency = 'XPF') => {

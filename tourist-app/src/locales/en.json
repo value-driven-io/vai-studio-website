@@ -292,6 +292,10 @@
       "price": "Price", 
       "availability": "Spots",
       "urgency": "Urgent"
+    },
+    
+    "datePicker": {
+      "selectDates": "Select Dates"
     }
 },
 
@@ -459,6 +463,7 @@
     "paymentSecured": "Your payment is secured. The operator will confirm your booking within 24 hours.",
     "noChargeUntilConfirmed": "💡 Your card won't be charged until the operator confirms your booking.",
     "automaticRefund": "If declined, you'll receive an automatic full refund within 24 hours.",
+    "paymentSetupError": "Payment setup error: Operator information missing. Please try again.",
     "chargingIn": "You'll be charged {{amount}} USD",
     "displayedAs": "Displayed as {{amount}} {{currency}}",
     "paymentError": "Payment failed. Please try again or contact support.",
@@ -486,5 +491,410 @@
     "step3": "Confirmation",
     "backToDetails": "Back to Details",
     "proceedToPayment": "Proceed to Payment"
+  },
+
+  "statusCard": {
+    "status": {
+      "pending": "Pending",
+      "pendingDesc": "Awaiting confirmation",
+      "confirmed": "Confirmed!",
+      "confirmedDesc": "Ready to go",
+      "complete": "Complete",
+      "completeDesc": "Adventure finished",
+      "declined": "Declined",
+      "declinedDesc": "Not available",
+      "cancelled": "Cancelled",
+      "cancelledDesc": "Not available",
+      "unknown": "Unknown",
+      "unknownDesc": "Status unclear"
+    },
+    "details": {
+      "participants": "Participants",
+      "total": "Total",
+      "reference": "Reference"
+    },
+    "actions": {
+      "moreDetails": "More Details",
+      "contactOperator": "Contact Operator",
+      "bookAgain": "Book Again",
+      "getSupport": "Get Support"
+    },
+    "messages": {
+      "referencesCopied": "Booking reference copied!",
+      "pendingInfo": "{{statusDesc}} - Keep an eye on your emails!",
+      "meetingPoint": "📍 Meeting point: {{location}}"
+    },
+    "tourInfo": {
+      "tourNotAvailable": "Tour Name Not Available",
+      "locationTBD": "Location TBD",
+      "operator": "Operator"
+    }
+  },
+
+  "auth": {
+    "modal": {
+      "welcomeBack": "Welcome Back",
+      "createAccount": "Create Account",
+      "firstName": "First Name",
+      "emailAddress": "Email Address", 
+      "password": "Password",
+      "whatsappOptional": "WhatsApp Number (Optional)",
+      "forgotPassword": "Forgot password?",
+      "signIn": "Sign In",
+      "createAccountBtn": "Create Account",
+      "processing": "Processing...",
+      "switchToRegister": "Don't have an account? Sign up",
+      "switchToLogin": "Already have an account? Sign in"
+    },
+    "placeholders": {
+      "firstName": "Your first name",
+      "email": "your@email.com",
+      "password": "Password (min 6 characters)",
+      "whatsapp": "+689 12 34 56 78"
+    },
+    "benefits": {
+      "title": "Account Benefits:",
+      "trackBookings": "• Track all your bookings in one place",
+      "syncFavorites": "• Sync favorites across devices", 
+      "fasterRebooking": "• Faster rebooking with saved preferences"
+    },
+    "emailConfirmation": {
+      "title": "📧 Email Confirmation:",
+      "message": "After signing up, check your email (including spam folder) and click the confirmation link to activate your account."
+    },
+    "messages": {
+      "accountCreated": "🎉 Account created! Please check your email to verify your account.",
+      "welcomeBack": "Welcome back! 🌴",
+      "checkEmailFormat": "Please check your email format and try again.",
+      "passwordTooShort": "Password must be at least 6 characters long.",
+      "emailExists": "This email is already registered. Try signing in instead.",
+      "rateLimited": "Too many attempts. Please wait a moment and try again.",
+      "authFailed": "Authentication failed. Please try again.",
+      "enterEmailFirst": "Please enter your email address first",
+      "resetEmailSent": "Password reset email sent! Check your inbox.",
+      "resetEmailFailed": "Failed to send reset email: {{error}}"
+    }
+  },
+
+  "app": {
+    "notifications": {
+      "emailConfirmed": "🎉 Welcome! Your email has been confirmed.",
+      "passwordResetSuccess": "🔑 Password reset successful! You can now sign in.",
+      "tourNotFound": "Tour not found or unavailable for booking",
+      "tourLoadFailed": "Failed to load tour for booking"
+    }
+  },
+
+  "authCallback": {
+    "processing": {
+      "title": "🔄 Processing Authentication",
+      "message": "Processing your authentication..."
+    },
+    "success": {
+      "title": "✅ Success!",
+      "operatorWelcome": "Welcome back, {{companyName}}! Redirecting to your operator dashboard...",
+      "touristWelcome": "Welcome{{firstName}}! Redirecting to VAI Tickets...",
+      "genericWelcome": "Welcome! Redirecting to VAI Tickets..."
+    },
+    "error": {
+      "title": "❌ Authentication Error",
+      "noSession": "No valid authentication session found.",
+      "authFailed": "Authentication failed. Please try again or contact support.",
+      "goToVaiTickets": "Go to VAI Tickets",
+      "goToVaiOperator": "Go to VAI Operator"
+    }
+  },
+
+  "modernBookingView": {
+    "searchPlaceholder": "Search bookings, tours, operators...",
+    "filters": "Filters",
+    "refresh": "Refresh",
+    "status": "Status",
+    "all": "All",
+    "pending": "Pending",
+    "paidPending": "Paid & Pending",
+    "confirmed": "Confirmed",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded",
+    "dateRange": "Date Range",
+    "dateRangeOptions": {
+      "all": "All Time",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "past": "Past Tours"
+    },
+    "tourType": "Tour Type",
+    "allTypes": "All Types",
+    "island": "Island",
+    "allIslands": "All Islands",
+    "sortBy": "Sort by:",
+    "sortOptions": {
+      "statusPriority": "Status Priority",
+      "dateNewest": "Newest First",
+      "dateOldest": "Oldest First",
+      "tourDate": "Tour Date",
+      "alphabetical": "A-Z"
+    },
+    "clearAll": "Clear all",
+    "resultsShowing": "Showing {{count}} of {{total}} bookings",
+    "filtered": "(filtered)",
+    "sortedBy": "Sorted by {{sortBy}}",
+    "emptyState": {
+      "noMatches": "No bookings match your filters",
+      "noBookings": "No bookings found",
+      "adjustFilters": "Try adjusting your search or filter criteria",
+      "firstBooking": "Your bookings will appear here once you make your first booking",
+      "clearFilters": "Clear Filters"
+    }
+  },
+
+  "overviewSection": {
+    "stats": {
+      "activeBookings": "Active Bookings",
+      "upcomingTours": "Upcoming Tours",
+      "completed": "Completed",
+      "savedTours": "Saved Tours"
+    },
+    "welcome": {
+      "title": "🌴 Your French Polynesia Journey",
+      "withBookings": "Track your {{count}} booking{{plural}} and discover more amazing adventures",
+      "noBookings": "Ready to start your adventure? Discover amazing tours below!"
+    },
+    "nextAdventure": {
+      "title": "Next Adventure",
+      "with": "with {{operator}}",
+      "tbd": "TBD",
+      "participants": "participants",
+      "totalPaid": "Total Paid:"
+    },
+    "awaitingConfirmation": {
+      "title": "Awaiting Confirmation",
+      "pending": "Pending",
+      "responseTime": "Response within 60 min",
+      "viewAll": "View all {{count}} pending bookings →"
+    },
+    "emptyState": {
+      "title": "Start Your Journey",
+      "message": "You haven't made any bookings yet. Discover amazing tours and start your adventure with VAI Tickets!",
+      "exploreTours": "Explore Tours"
+    }
+  },
+
+  "useTours": {
+    "badges": {
+      "ecoCertified": "Eco-Certified",
+      "greatDeal": "Great Deal"
+    },
+    "toasts": {
+      "loadFailed": "Failed to load tours. Please try again.",
+      "refreshSuccess": "Refreshed! Found {{urgentCount}} urgent deals, {{totalCount}} total tours{{moodInfo}}",
+      "refreshFailed": "Failed to refresh activities"
+    }
+  },
+
+  "journeyTab": {
+    "header": {
+      "title": "My Journey",
+      "activitiesExplored": "activities explored",
+      "findBookings": "Find Bookings",
+      "newBadge": "NEW"
+    },
+    "achievements": {
+      "firstAdventure": "First Adventure",
+      "activityExplorer": "Activity Explorer", 
+      "islandHopper": "Island Hopper",
+      "wishlistMaster": "Wishlist Master",
+      "yourAchievements": "Your Achievements"
+    },
+    "countdown": {
+      "untilNextAdventure": "until next adventure"
+    },
+    "quickStats": {
+      "upcoming": "Upcoming",
+      "completed": "Completed", 
+      "favorites": "Favorites",
+      "achievements": "Achievements",
+      "clickToView": "Click to view →",
+      "hideFavorites": "Hide favorites ↑",
+      "showFavorites": "Show favorites ↓",
+      "viewAchievements": "View achievements →"
+    },
+    "favorites": {
+      "yourFavorites": "Your Favorites",
+      "manageAll": "Manage All",
+      "favoritedTour": "Favorited Tour",
+      "viewAllFavorites": "View all {{count}} favorites →"
+    },
+    "missingBookings": {
+      "title": "Missing Bookings?",
+      "description": "Find bookings by email or WhatsApp",
+      "find": "Find"
+    },
+    "welcome": {
+      "title": "Welcome to Your Journey",
+      "subtitle": "Your French Polynesia adventure starts here",
+      "exploreTours": "Explore Tours",
+      "findMyBookings": "Find My Bookings"
+    },
+    "refreshReminder": "Click refresh for latest status updates on bookings",
+    "bookTour": "Book Tour"
+  },
+
+  "journey": {
+    "stages": {
+      "overview": "Overview",
+      "allBookings": "All Bookings", 
+      "favorites": "Favorites",
+      "active": "Active",
+      "pending": "Pending", 
+      "readyToGo": "Ready to Go",
+      "memories": "Memories"
+    },
+    "descriptions": {
+      "overview": "Your journey at a glance",
+      "allBookings": "Booking management",
+      "favorites": "Your saved experiences",
+      "active": "All active bookings",
+      "pending": "Needs confirmation",
+      "readyToGo": "Confirmed adventures", 
+      "memories": "Completed experiences"
+    },
+    "messages": {
+      "openingChat": "Opening chat with {{operator}}",
+      "bookingRefCopied": "Booking reference copied!",
+      "bookingsFound": "Found {{count}} booking{{count, plural, one {} other {s}}}!",
+      "noBookingsFound": "No bookings found for this email/WhatsApp",
+      "bookingSearchFailed": "Failed to find bookings. Please try again.",
+      "bookingsRefreshed": "Bookings refreshed",
+      "noContactInfo": "No contact info found. Please use \"Find My Bookings\" first."
+    },
+    "sections": {
+      "activeBookings": "Active Bookings",
+      "upcomingAdventures": "Upcoming Adventures", 
+      "pastExperiences": "Past Experiences",
+      "actionNeeded": "Action Needed",
+      "readyToGo": "Ready to Go",
+      "yourMemories": "Your Memories"
+    },
+    "emptyStates": {
+      "activePending": "Your pending booking requests will appear here",
+      "upcomingConfirmed": "Confirmed tours you've booked will show here", 
+      "pastCompleted": "Your completed adventures will be listed here",
+      "noActionNeeded": "No action needed",
+      "noConfirmedYet": "No confirmed tours yet",
+      "noCompletedYet": "No completed adventures yet",
+      "allUpToDate": "All your bookings are up to date!",
+      "getStarted": "Book your first adventure to get started",
+      "completedWillAppear": "Your completed tours will appear here",
+      "noBooksInCategory": "No bookings in this category"
+    },
+    "tourInfo": {
+      "tourExperience": "Tour Experience",
+      "tourOperator": "Tour Operator", 
+      "withOperator": "with {{operator}}"
+    },
+    "interface": {
+      "searchPlaceholder": "Search bookings...",
+      "exploreTours": "Explore Tours",
+      "startingSoon": "Starting soon!",
+      "userLevel": {
+        "explorer": "Explorer",
+        "beginner": "Beginner", 
+        "adventurer": "Adventurer"
+      }
+    }
+  },
+
+  "messages": {
+    "interface": {
+      "title": "Messages",
+      "subtitle": "Chat with your tour operators",
+      "noConversations": "No conversations yet",
+      "startBooking": "Messages will appear here after you have confirmed bookings",
+      "typeMessage": "Type a message...",
+      "sendMessage": "Send message",
+      "tourChat": "Tour Chat",
+      "operator": "Operator",
+      "you": "You: ",
+      "operatorLabel": "Operator: ",
+      "today": "Today",
+      "yesterday": "Yesterday"
+    },
+    "auth": {
+      "signInTitle": "Sign in to view messages",
+      "signInDescription": "Connect with your tour operators"
+    },
+    "emptyChat": {
+      "noMessages": "No messages yet",
+      "startConversation": "Start the conversation with your operator!"
+    },
+    "howItWorks": {
+      "title": "💡 How it works:",
+      "step1": "Book a tour through the app",
+      "step2": "Wait for operator confirmation", 
+      "step3": "Start chatting once confirmed!"
+    },
+    "notifications": {
+      "loadConversationsFailed": "Failed to load conversations",
+      "loadMessagesFailed": "Failed to load messages", 
+      "sendMessageFailed": "Failed to send message",
+      "messageSent": "Message sent!"
+    }
+  },
+
+  "bookingLookup": {
+    "title": "Find Your Bookings",
+    "info": "Enter the email or WhatsApp number you used when booking to view your reservations.",
+    "form": {
+      "emailLabel": "Email Address",
+      "whatsappLabel": "WhatsApp Number",
+      "searchButton": "Find My Bookings"
+    },
+    "placeholders": {
+      "email": "your@email.com",
+      "whatsapp": "+689 12 34 56 78"
+    },
+    "validation": {
+      "provideContact": "Please provide either email or WhatsApp number",
+      "validEmail": "Please enter a valid email address",
+      "validPhone": "Please enter a valid phone number"
+    }
+  },
+
+  "profile": {
+    "support": {
+      "title": "💬 Support",
+      "whatsappButton": "📱 WhatsApp Support",
+      "emailButton": "✉️ Email Support",
+      "description": "Here you'll find everything else you need to know. In case you have some troubles contact us via WhatsApp."
+    },
+    "howItWorks": {
+      "title": "❓ How to: VAI Tickets",
+      "step1": "1. Browse last-minute tour deals 🔎",
+      "step2": "2. Send booking request instantly with the app 🔥", 
+      "step3": "3. Get booking confirmation 😎",
+      "step4": "4. Connect with the Operator 🗣️",
+      "step5": "5. Pay directly with the Operator 💸",
+      "step6": "6. Enjoy your Activity 🏝️",
+      "step7": "7. Repeat! 🤙"
+    },
+    "footer": "VAI.studio © 2025 All rights reserved<br></br>From French Polynesia with ❤️"
+  },
+
+  "toastNotifications": {
+    "tourUpdated": "Tours updated!",
+    "refreshFailed": "Failed to refresh tours",
+    "favoriteAdded": "❤️ Added to favorites", 
+    "favoriteRemoved": "💔 Removed from favorites",
+    "linkCopied": "Activity link copied to clipboard!",
+    "favoritesLoadFailed": "Failed to load favorite tours",
+    "operatorInfoFailed": "Failed to get tour operator information",
+    "operatorInfoMissing": "Tour operator information is missing. Please contact support.",
+    "paymentDetails": "Payment details: {{paymentId}}",
+    "bookingsLoadFailed": "Failed to load your bookings",
+    "bookingAdded": "Booking added to your journey! 🌴",
+    "bookingConfirmed": "Booking {{ref}} confirmed! 🎉",
+    "bookingCancelled": "Booking {{ref}} was cancelled"
   }
 }

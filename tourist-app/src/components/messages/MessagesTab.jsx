@@ -5,6 +5,7 @@ import {
   Clock, CheckCircle2, Circle, Loader2, RefreshCw, User, Users,
   ChevronRight, MessageSquare, AlertCircle
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../contexts/AuthContext'
 import chatService from '../../services/chatService'
 import { supabase } from '../../services/supabase'
@@ -12,6 +13,7 @@ import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import toast from 'react-hot-toast'
 
 const MessagesTab = () => {
+  const { t } = useTranslation()
   const { user } = useAuth()
   const [conversations, setConversations] = useState([])
   const [selectedConversation, setSelectedConversation] = useState(null)
@@ -62,7 +64,7 @@ const MessagesTab = () => {
       setUnreadCount(totalUnread)
     } catch (error) {
       console.error('Error loading conversations:', error)
-      toast.error('Failed to load conversations')
+      toast.error(t('messages.notifications.loadConversationsFailed'))
     } finally {
       setLoading(false)
     }
@@ -82,7 +84,7 @@ const MessagesTab = () => {
       loadConversations()
     } catch (error) {
       console.error('Error loading messages:', error)
-      toast.error('Failed to load messages')
+      toast.error(t('messages.notifications.loadMessagesFailed'))
     } finally {
       setLoadingMessages(false)
     }
@@ -136,10 +138,10 @@ const MessagesTab = () => {
         // Scroll to new message
         scrollToBottom()
         
-        toast.success('Message sent!')
+        toast.success(t('messages.notifications.messageSent'))
         } catch (error) {
         console.error('Error sending message:', error)
-        toast.error('Failed to send message')
+        toast.error(t('messages.notifications.sendMessageFailed'))
         
         // ✅ ROLLBACK: Remove optimistic message on error
         setMessages(prevMessages =>
@@ -277,8 +279,8 @@ const MessagesTab = () => {
     const diffMs = now - date
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
     
-    if (diffDays === 0) return 'Today'
-    if (diffDays === 1) return 'Yesterday'
+    if (diffDays === 0) return t('messages.interface.today')
+    if (diffDays === 1) return t('messages.interface.yesterday')
     if (diffDays < 7) return `${diffDays} days ago`
     return date.toLocaleDateString()
   }
@@ -309,8 +311,8 @@ const MessagesTab = () => {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
         <div className="text-center">
           <MessageCircle className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-white mb-2">Sign in to view messages</h2>
-          <p className="text-slate-400">Connect with your tour operators</p>
+          <h2 className="text-xl font-semibold text-white mb-2">{t('messages.auth.signInTitle')}</h2>
+          <p className="text-slate-400">{t('messages.auth.signInDescription')}</p>
         </div>
       </div>
     )
@@ -334,7 +336,7 @@ const MessagesTab = () => {
             
             <div className="flex-1 min-w-0">
               <h2 className="font-semibold text-white truncate text-lg">
-                {selectedConversation.tours?.tour_name || 'Tour Chat'}
+                {selectedConversation.tours?.tour_name || t('messages.interface.tourChat')}
               </h2>
               <div className="flex items-center gap-2 text-sm text-slate-400">
                 <span className="text-base">{tourEmoji}</span>
@@ -366,8 +368,8 @@ const MessagesTab = () => {
               <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MessageSquare className="w-8 h-8 text-slate-400" />
               </div>
-              <p className="text-slate-300 font-medium mb-1">No messages yet</p>
-              <p className="text-slate-500 text-sm">Start the conversation with your operator!</p>
+              <p className="text-slate-300 font-medium mb-1">{t('messages.emptyChat.noMessages')}</p>
+              <p className="text-slate-500 text-sm">{t('messages.emptyChat.startConversation')}</p>
             </div>
           ) : (
             messages.map((message, index) => {
@@ -406,7 +408,7 @@ const MessagesTab = () => {
                         {!isFromTourist && message.sender_info && (
                         <>
                           <span>•</span>
-                          <span>{message.sender_info.company_name || 'Operator'}</span>
+                          <span>{message.sender_info.company_name || t('messages.interface.operator')}</span>
                         </>
                       )}
                     </div>
@@ -426,7 +428,7 @@ const MessagesTab = () => {
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type a message..."
+              placeholder={t('messages.interface.typeMessage')}
               className="flex-1 bg-slate-700 text-white rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-slate-600 transition-all border border-slate-600"
               disabled={sending}
             />
@@ -454,8 +456,8 @@ const MessagesTab = () => {
       <div className="bg-slate-800 border-b border-slate-700 p-4 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-white">Messages</h1>
-            <p className="text-slate-400 text-sm">Chat with your tour operators</p>
+            <h1 className="text-xl font-semibold text-white">{t('messages.interface.title')}</h1>
+            <p className="text-slate-400 text-sm">{t('messages.interface.subtitle')}</p>
           </div>
           <button
             onClick={loadConversations}
@@ -479,26 +481,26 @@ const MessagesTab = () => {
             <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
               <MessageCircle className="w-10 h-10 text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-3">No conversations yet</h3>
+            <h3 className="text-xl font-semibold text-white mb-3">{t('messages.interface.noConversations')}</h3>
             <p className="text-slate-400 mb-8 max-w-sm mx-auto">
-              Messages will appear here after you have confirmed bookings
+              {t('messages.interface.startBooking')}
             </p>
             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 text-left max-w-md mx-auto border border-slate-700/50">
               <h4 className="font-medium text-white mb-3 flex items-center gap-2">
-                💡 <span>How it works:</span>
+                <span>{t('messages.howItWorks.title')}</span>
               </h4>
               <ul className="text-sm text-slate-400 space-y-2">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                  Book a tour through the app
+                  {t('messages.howItWorks.step1')}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                  Wait for operator confirmation
+                  {t('messages.howItWorks.step2')}
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                  Start chatting once confirmed!
+                  {t('messages.howItWorks.step3')}
                 </li>
               </ul>
             </div>
@@ -521,7 +523,7 @@ const MessagesTab = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="font-semibold text-white truncate text-lg">
-                          {conversation.tours?.tour_name || 'Tour Chat'}
+                          {conversation.tours?.tour_name || t('messages.interface.tourChat')}
                         </h3>
                         {conversation.unreadCount > 0 && (
                           <span className="bg-blue-600 text-white text-xs px-2.5 py-1 rounded-full font-medium shadow-lg">
@@ -552,7 +554,7 @@ const MessagesTab = () => {
                       {conversation.latestMessage && (
                         <div className="text-sm text-slate-400 bg-slate-800/50 rounded-lg p-3 border border-slate-700/30">
                           <span className="font-medium text-slate-300">
-                            {conversation.latestMessage.sender_type === 'tourist' ? 'You: ' : 'Operator: '}
+                            {conversation.latestMessage.sender_type === 'tourist' ? t('messages.interface.you') : t('messages.interface.operatorLabel')}
                           </span>
                           <span className="line-clamp-2">
                             {conversation.latestMessage.message_text}

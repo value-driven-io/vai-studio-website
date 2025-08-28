@@ -5,6 +5,7 @@ import {
   CheckCircle, XCircle, AlertCircle, Timer, Award, TrendingUp,
   Plus, Zap, Flame, Trophy, Rocket, Target, ChevronLeft, ChevronRight
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useUserJourney } from '../../hooks/useUserJourney'
 import { useAppStore } from '../../stores/bookingStore'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
@@ -18,6 +19,7 @@ import VAILogo from '../shared/VAILogo'
 import ModernBookingView from './ModernBookingView'
 
 const JourneyTab = () => {
+  const { t } = useTranslation()
   const { 
     userBookings, 
     loading, 
@@ -50,7 +52,7 @@ const JourneyTab = () => {
   const [userStats, setUserStats] = useState({
     activitiesExplored: 0,
     totalActivities: 8,
-    currentLevel: 'Explorer',
+    currentLevel: t('journey.interface.userLevel.explorer'),
     streak: 0,
     achievements: [],
     unreadMessages: 0
@@ -86,30 +88,30 @@ const JourneyTab = () => {
   const journeyStages = [
     {
       id: 'overview',
-      label: 'Overview',
+      label: t('journey.stages.overview'),
       emoji: '📊',
-      description: 'Your journey at a glance'
+      description: t('journey.descriptions.overview')
     },
     {
       id: 'modern',
-      label: 'All Bookings',
+      label: t('journey.stages.allBookings'),
       emoji: '🎯',
-      description: 'Booking management',
+      description: t('journey.descriptions.allBookings'),
       count: safeUserBookings.active.length + safeUserBookings.upcoming.length + safeUserBookings.past.length,
       new: true // Flag to show "NEW" badge
     },
     {
       id: 'active',
-      label: 'Active',
+      label: t('journey.stages.active'),
       emoji: '🎯',
-      description: 'All active bookings',
+      description: t('journey.descriptions.active'),
       count: safeUserBookings.active.length + safeUserBookings.upcoming.length
     },
     {
       id: 'urgent',
-      label: 'Pending',
+      label: t('journey.stages.pending'),
       emoji: '⚡',
-      description: 'Needs confirmation',
+      description: t('journey.descriptions.pending'),
       count: safeUserBookings.active.filter(booking => 
         booking?.booking_status === 'pending' || 
         booking?.booking_status === 'awaiting_confirmation'
@@ -118,16 +120,16 @@ const JourneyTab = () => {
     },
     {
       id: 'confirmed',
-      label: 'Ready to Go',
+      label: t('journey.stages.readyToGo'),
       emoji: '🚀',
-      description: 'Confirmed adventures',
+      description: t('journey.descriptions.readyToGo'),
       count: safeUserBookings.upcoming.length
     },
     {
       id: 'memories',
-      label: 'Memories',
+      label: t('journey.stages.memories'),
       emoji: '📸',
-      description: 'Completed experiences',
+      description: t('journey.descriptions.memories'),
       count: safeUserBookings.past.length
     }
     // Wishlist removed - functionality moved to Overview
@@ -149,10 +151,10 @@ const JourneyTab = () => {
     const pastLength = (safeUserBookings.past || []).length
     const favLength = (safeFavorites || []).length
     
-    if (pastLength >= 1) achievements.push('🏆 First Adventure')
-    if (uniqueActivityTypes >= 3) achievements.push('🤿 Activity Explorer')
-    if (pastLength >= 5) achievements.push('🌴 Island Hopper')
-    if (favLength >= 10) achievements.push('💕 Wishlist Master')
+    if (pastLength >= 1) achievements.push(`🏆 ${t('journeyTab.achievements.firstAdventure')}`)
+    if (uniqueActivityTypes >= 3) achievements.push(`🤿 ${t('journeyTab.achievements.activityExplorer')}`)
+    if (pastLength >= 5) achievements.push(`🌴 ${t('journeyTab.achievements.islandHopper')}`)
+    if (favLength >= 10) achievements.push(`💕 ${t('journeyTab.achievements.wishlistMaster')}`)
 
     const unreadMessages = (safeUserBookings.active || []).filter(booking => 
       booking?.operator_response && booking.operator_response !== ''
@@ -161,7 +163,7 @@ const JourneyTab = () => {
     setUserStats(prev => ({
       activitiesExplored: uniqueActivityTypes,
       totalActivities: 8,
-      currentLevel: uniqueActivityTypes >= 5 ? 'Adventurer' : uniqueActivityTypes >= 3 ? 'Explorer' : 'Beginner',
+      currentLevel: uniqueActivityTypes >= 5 ? t('journey.interface.userLevel.adventurer') : uniqueActivityTypes >= 3 ? t('journey.interface.userLevel.explorer') : t('journey.interface.userLevel.beginner'),
       streak: Math.min(pastLength, 30),
       achievements,
       unreadMessages
@@ -183,13 +185,13 @@ const JourneyTab = () => {
       const now = new Date()
       const diffMs = tourDate - now
       
-      if (diffMs <= 0) return 'Starting soon!'
+      if (diffMs <= 0) return t('journey.interface.startingSoon')
       
       const days = Math.floor(diffMs / (1000 * 60 * 60 * 24))
       const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
       
-      if (days > 0) return `${days}d ${hours}h until next adventure`
-      return `${hours}h until next adventure`
+      if (days > 0) return `${days}d ${hours}h ${t('journeyTab.countdown.untilNextAdventure')}`
+      return `${hours}h ${t('journeyTab.countdown.untilNextAdventure')}`
     } catch (error) {
       return null
     }
@@ -261,7 +263,7 @@ const JourneyTab = () => {
     if (booking.booking_status === 'confirmed') {
       // Confirmed bookings → Messages tab
       setActiveTab('messages')
-      toast.success(`Opening chat with ${booking.operators?.company_name || 'operator'}`)
+      toast.success(t('journey.messages.openingChat', { operator: booking.operators?.company_name || 'operator' }))
     } else {
       // Pending bookings → WhatsApp (existing behavior)
       if (booking.operators?.whatsapp_number) {
@@ -297,7 +299,7 @@ const JourneyTab = () => {
 
   const copyBookingReference = (reference) => {
     navigator.clipboard.writeText(reference)
-    toast.success('Booking reference copied!')
+    toast.success(t('journey.messages.bookingRefCopied'))
   }
 
   const handleGetSupport = (booking) => {
@@ -310,13 +312,13 @@ const JourneyTab = () => {
     try {
       const bookings = await fetchUserBookings(email, whatsapp)
       if (bookings && bookings.length > 0) {
-        toast.success(`Found ${bookings.length} booking${bookings.length !== 1 ? 's' : ''}!`)
+        toast.success(t('journey.messages.bookingsFound', { count: bookings.length }))
         setActiveStage('overview') // Switch to overview to show results
       } else {
-        toast.error('No bookings found for this email/WhatsApp')
+        toast.error(t('journey.messages.noBookingsFound'))
       }
     } catch (error) {
-      toast.error('Failed to find bookings. Please try again.')
+      toast.error(t('journey.messages.bookingSearchFailed'))
     }
   }
 
@@ -338,7 +340,7 @@ const JourneyTab = () => {
     <div className={`min-h-screen bg-gradient-to-br ${getBackgroundGradient()} transition-all duration-1000`}>
       
       {/* Header */}
-      <div className="bg-slate-800/90 backdrop-blur-md border-b border-slate-700 top-0 z-40">
+      <div className="backdrop-blur-md border-b border-slate-700 top-0 z-40">
         <div className="max-w-7xl mx-auto">
           
           {/* Progress Strip */}
@@ -348,9 +350,9 @@ const JourneyTab = () => {
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-4xl">🌏</span>
                   <div>
-                    <h1 className="text-xl sm:text-2xl font-bold text-white">My Journey</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white">{t('journeyTab.header.title')}</h1>
                     <p className="text-sm text-slate-400">
-                      Level: {userStats.currentLevel}<br></br>{userStats.activitiesExplored}/{userStats.totalActivities} activities explored
+                      Level: {userStats.currentLevel}<br></br>{userStats.activitiesExplored}/{userStats.totalActivities} {t('journeyTab.header.activitiesExplored')}
                     </p>
                   </div>
                 </div>
@@ -406,7 +408,7 @@ const JourneyTab = () => {
                   className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors text-sm"
                 >
                   <Search className="w-4 h-4" />
-                  <span className="hidden sm:inline">Find Bookings</span>
+                  <span className="hidden sm:inline">{t('journeyTab.header.findBookings')}</span>
                 </button>
 
                 {/* Refresh */}
@@ -464,7 +466,7 @@ const JourneyTab = () => {
                       {/* 🆕 ADD NEW BADGE for the modern stage: */}
                       {stage.new && (
                         <div className="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-slate-800">
-                          NEW
+                          {t('journeyTab.header.newBadge')}
                         </div>
                       )}
                       
@@ -549,7 +551,7 @@ const JourneyTab = () => {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search bookings..."
+                  placeholder={t('journey.interface.searchPlaceholder')}
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
@@ -565,7 +567,7 @@ const JourneyTab = () => {
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 mb-6">
             <div className="flex items-center gap-2 text-blue-400 text-sm">
               <RefreshCw className="w-4 h-4" />
-              <span>Click refresh for latest status updates on bookings</span>
+              <span>{t('journeyTab.refreshReminder')}</span>
             </div>
           </div>
         )}
@@ -606,9 +608,9 @@ const JourneyTab = () => {
               <div className="text-2xl font-bold text-blue-400 group-hover:text-blue-300 transition-colors">
                 {safeUserBookings.upcoming.length}
               </div>
-              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Upcoming</div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">{t('journeyTab.quickStats.upcoming')}</div>
               <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                Click to view →
+                {t('journeyTab.quickStats.clickToView')}
               </div>
             </button>
 
@@ -620,9 +622,9 @@ const JourneyTab = () => {
               <div className="text-2xl font-bold text-green-400 group-hover:text-green-300 transition-colors">
                 {safeUserBookings.past.length}
               </div>
-              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Completed</div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">{t('journeyTab.quickStats.completed')}</div>
               <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                Click to view →
+                {t('journeyTab.quickStats.clickToView')}
               </div>
             </button>
 
@@ -634,9 +636,9 @@ const JourneyTab = () => {
               <div className="text-2xl font-bold text-purple-400 group-hover:text-purple-300 transition-colors">
                 {safeFavorites.length}
               </div>
-              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Favorites</div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">{t('journeyTab.quickStats.favorites')}</div>
               <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                {showFavoritesInOverview ? 'Hide favorites ↑' : 'Show favorites ↓'}
+                {showFavoritesInOverview ? t('journeyTab.quickStats.hideFavorites') : t('journeyTab.quickStats.showFavorites')}
               </div>
               {/* Heart icon for favorites */}
               <div className="absolute top-2 right-2 opacity-20 group-hover:opacity-40 transition-opacity">
@@ -658,9 +660,9 @@ const JourneyTab = () => {
               <div className="text-2xl font-bold text-orange-400 group-hover:text-orange-300 transition-colors">
                 {userStats.achievements.length}
               </div>
-              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Achievements</div>
+              <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">{t('journeyTab.quickStats.achievements')}</div>
               <div className="text-xs text-slate-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                View achievements →
+                {t('journeyTab.quickStats.viewAchievements')}
               </div>
             </button>
           </div>
@@ -672,13 +674,13 @@ const JourneyTab = () => {
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <Heart className="w-5 h-5 text-purple-400 fill-current" />
-                        <h3 className="text-lg font-semibold text-white">Your Favorites</h3>
+                        <h3 className="text-lg font-semibold text-white">{t('journeyTab.favorites.yourFavorites')}</h3>
                       </div>
                       <button
                         onClick={() => setActiveTab && setActiveTab('explore')}
                         className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
                       >
-                        Manage All
+                        {t('journeyTab.favorites.manageAll')}
                       </button>
                     </div>
                     
@@ -687,7 +689,7 @@ const JourneyTab = () => {
                         <div key={tourId} className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-3">
                           <div className="flex items-center justify-between">
                             <div>
-                              <div className="text-white font-medium text-sm">Favorited Tour</div>
+                              <div className="text-white font-medium text-sm">{t('journeyTab.favorites.favoritedTour')}</div>
                               <div className="text-xs text-slate-400">ID: {tourId}</div>
                             </div>
                             <button
@@ -707,7 +709,7 @@ const JourneyTab = () => {
                           onClick={() => setActiveTab && setActiveTab('explore')}
                           className="text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors"
                         >
-                          View all {safeFavorites.length} favorites →
+                          {t('journeyTab.favorites.viewAllFavorites', { count: safeFavorites.length })}
                         </button>
                       </div>
                     )}
@@ -719,15 +721,15 @@ const JourneyTab = () => {
                 <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-purple-500/20">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-md font-medium text-white mb-1">Missing Bookings?</h4>
-                      <p className="text-sm text-slate-400">Find bookings by email or WhatsApp</p>
+                      <h4 className="text-md font-medium text-white mb-1">{t('journeyTab.missingBookings.title')}</h4>
+                      <p className="text-sm text-slate-400">{t('journeyTab.missingBookings.description')}</p>
                     </div>
                     <button
                       onClick={() => setShowLookupModal(true)}
                       className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
                     >
                       <Search className="w-4 h-4" />
-                      Find
+                      {t('journeyTab.missingBookings.find')}
                     </button>
                   </div>
                 </div>
@@ -735,7 +737,7 @@ const JourneyTab = () => {
                 {/* Achievements */}
                 {userStats.achievements.length > 0 && (
                   <div data-section="achievements" className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-white mb-4">🏆 Your Achievements</h3>
+                    <h3 className="text-lg font-semibold text-white mb-4">🏆 {t('journeyTab.achievements.yourAchievements')}</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {userStats.achievements.map((achievement, index) => (
                         <div key={index} className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-3">
@@ -750,21 +752,21 @@ const JourneyTab = () => {
                 {getTotalBookings() === 0 && (
                   <div className="text-center py-12">
                     <div className="text-6xl mb-4">🌴</div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Welcome to Your Journey</h3>
-                    <p className="text-slate-400 mb-6">Your French Polynesia adventure starts here</p>
+                    <h3 className="text-xl font-semibold text-white mb-2">{t('journeyTab.welcome.title')}</h3>
+                    <p className="text-slate-400 mb-6">{t('journeyTab.welcome.subtitle')}</p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
 
                       <button
                         onClick={() => setActiveTab && setActiveTab('explore')}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                       >
-                        Explore Tours
+                        {t('journeyTab.welcome.exploreTours')}
                       </button>
                       <button
                         onClick={() => setShowLookupModal(true)}
                         className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                       >
-                        Find My Bookings
+                        {t('journeyTab.welcome.findMyBookings')}
                       </button>
                     </div>
                   </div>
@@ -782,31 +784,31 @@ const JourneyTab = () => {
                       {activeStage === 'urgent' ? '⚡' : activeStage === 'confirmed' ? '🚀' : '🌺'}
                     </div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      {activeStage === 'urgent' && 'No action needed'}
-                      {activeStage === 'confirmed' && 'No confirmed tours yet'}
-                      {activeStage === 'memories' && 'No completed adventures yet'}
+                      {activeStage === 'urgent' && t('journey.emptyStates.noActionNeeded')}
+                      {activeStage === 'confirmed' && t('journey.emptyStates.noConfirmedYet')}
+                      {activeStage === 'memories' && t('journey.emptyStates.noCompletedYet')}
                     </h3>
                     <p className="text-slate-400 mb-6">
-                      {activeStage === 'urgent' && 'All your bookings are up to date!'}
-                      {activeStage === 'confirmed' && 'Book your first adventure to get started'}
-                      {activeStage === 'memories' && 'Your completed tours will appear here'}
+                      {activeStage === 'urgent' && t('journey.emptyStates.allUpToDate')}
+                      {activeStage === 'confirmed' && t('journey.emptyStates.getStarted')}
+                      {activeStage === 'memories' && t('journey.emptyStates.completedWillAppear')}
                     </p>
                     <button
                       onClick={() => setActiveTab && setActiveTab('explore')}
                       className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                     >
-                      Explore Tours
+                      {t('journey.interface.exploreTours')}
                     </button>
                   </div>
                 ) : (
                   <BookingSection
                     title={
-                      activeStage === 'urgent' ? 'Action Needed' :
-                      activeStage === 'confirmed' ? 'Ready to Go' : 'Your Memories'
+                      activeStage === 'urgent' ? t('journey.sections.actionNeeded') :
+                      activeStage === 'confirmed' ? t('journey.sections.readyToGo') : t('journey.sections.yourMemories')
                     }
                     bookings={getFilteredBookings()}
                     filteredBookings={filterBookings(getFilteredBookings())}
-                    emptyMessage="No bookings in this category"
+                    emptyMessage={t('journey.emptyStates.noBooksInCategory')}
                     emptyIcon={Timer}
                     handleContactOperator={handleContactOperator}
                     handleRebook={handleRebook}
@@ -853,7 +855,7 @@ const JourneyTab = () => {
         >
           <Plus className="w-6 h-6" />
           <span className="hidden group-hover:block text-sm font-medium pr-2 animate-in fade-in duration-200">
-            Book Tour
+            {t('journeyTab.bookTour')}
           </span>
         </button>
       </div>

@@ -1,10 +1,16 @@
 // src/components/auth/AuthCallback.jsx
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../services/supabase'
 
 const AuthCallback = () => {
+  const { t } = useTranslation()
   const [status, setStatus] = useState('processing')
-  const [message, setMessage] = useState('Processing your authentication...')
+  const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    setMessage(t('authCallback.processing.message'))
+  }, [t])
 
   useEffect(() => {
     const handleAuthCallback = async () => {
@@ -40,7 +46,7 @@ const AuthCallback = () => {
         if (!session?.user) {
           console.warn('⚠️ No valid session found after URL processing')
           setStatus('error')
-          setMessage('No valid authentication session found.')
+          setMessage(t('authCallback.error.noSession'))
           setTimeout(() => {
             window.location.href = 'https://app.vai.studio/?message=signin'
           }, 3000)
@@ -62,7 +68,7 @@ const AuthCallback = () => {
         if (operator && !operatorError) {
           console.log('✅ Operator found:', operator.company_name, 'Status:', operator.status)
           setStatus('success')
-          setMessage(`Welcome back, ${operator.company_name}! Redirecting to your operator dashboard...`)
+          setMessage(t('authCallback.success.operatorWelcome', { companyName: operator.company_name }))
           
           setTimeout(() => {
             window.location.href = `https://vai-operator-dashboard.onrender.com/auth/callback?message=operator`
@@ -82,11 +88,11 @@ const AuthCallback = () => {
         if (tourist && !touristError) {
           console.log('✅ VAI Tickets User found:', tourist.first_name || 'Tourist')
           setStatus('success')
-          setMessage(`Welcome${tourist.first_name ? `, ${tourist.first_name}` : ''}! Redirecting to VAI Tickets...`)
+          setMessage(t('authCallback.success.touristWelcome', { firstName: tourist.first_name ? `, ${tourist.first_name}` : '' }))
         } else {
           console.log('ℹ️ No specific VAI Tickets User record found, redirecting to VAI Tickets anyway')
           setStatus('success')
-          setMessage('Welcome! Redirecting to VAI Tickets...')
+          setMessage(t('authCallback.success.genericWelcome'))
         }
 
         setTimeout(() => {
@@ -96,7 +102,7 @@ const AuthCallback = () => {
       } catch (error) {
         console.error('❌ Auth callback error:', error)
         setStatus('error')
-        setMessage('Authentication failed. Please try again or contact support.')
+        setMessage(t('authCallback.error.authFailed'))
         
         setTimeout(() => {
           window.location.href = 'https://app.vai.studio/?message=signin'
@@ -130,9 +136,9 @@ const AuthCallback = () => {
 
           {/* Status Message */}
           <h2 className="text-xl font-semibold mb-3">
-            {status === 'processing' && '🔄 Processing Authentication'}
-            {status === 'success' && '✅ Success!'}
-            {status === 'error' && '❌ Authentication Error'}
+            {status === 'processing' && t('authCallback.processing.title')}
+            {status === 'success' && t('authCallback.success.title')}
+            {status === 'error' && t('authCallback.error.title')}
           </h2>
 
           <p className="text-slate-400 mb-6">
@@ -153,13 +159,13 @@ const AuthCallback = () => {
                 href="https://app.vai.studio/"
                 className="block w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
               >
-                Go to VAI Tickets
+                {t('authCallback.error.goToVaiTickets')}
               </a>
               <a 
                 href="https://vai-operator-dashboard.onrender.com/"
                 className="block w-full bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors"
               >
-                Go to VAI Operator
+                {t('authCallback.error.goToVaiOperator')}
               </a>
             </div>
           )}

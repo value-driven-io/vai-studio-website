@@ -47,7 +47,7 @@ const StripePaymentForm = ({
       if (!bookingData?.operator_id) {
         console.error('❌ CRITICAL: operator_id is missing from bookingData!')
         console.error('❌ BookingData keys:', Object.keys(bookingData || {}))
-        setPaymentError('Payment setup error: Operator information missing. Please try again.')
+        setPaymentError(t('payment.paymentSetupError'))
         setIsProcessing(false)
         return
       }

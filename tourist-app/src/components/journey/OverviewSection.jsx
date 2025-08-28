@@ -1,5 +1,6 @@
 // src/components/journey/OverviewSection.jsx
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { 
   Calendar, Clock, MapPin, Users, Star, Award, TrendingUp,
   AlertCircle, CheckCircle, Timer, Heart
@@ -16,12 +17,13 @@ const OverviewSection = ({
   setActiveSection,
   setActiveTab 
 }) => {
+  const { t } = useTranslation()
   const nextTour = getNextUpcomingTour()
   const totalBookings = getTotalBookings()
 
   const stats = [
     {
-      label: 'Active Bookings',
+      label: t('overviewSection.stats.activeBookings'),
       value: userBookings.active.length,
       icon: Timer,
       color: 'text-orange-400',
@@ -29,7 +31,7 @@ const OverviewSection = ({
       section: 'active'
     },
     {
-      label: 'Upcoming Tours',
+      label: t('overviewSection.stats.upcomingTours'),
       value: userBookings.upcoming.length,
       icon: Calendar,
       color: 'text-blue-400',
@@ -37,7 +39,7 @@ const OverviewSection = ({
       section: 'upcoming'
     },
     {
-      label: 'Completed',
+      label: t('overviewSection.stats.completed'),
       value: userBookings.past.length,
       icon: Award,
       color: 'text-green-400',
@@ -45,7 +47,7 @@ const OverviewSection = ({
       section: 'past'
     },
     {
-      label: 'Saved Tours',
+      label: t('overviewSection.stats.savedTours'),
       value: favorites.length,
       icon: Heart,
       color: 'text-pink-400',
@@ -59,12 +61,12 @@ const OverviewSection = ({
       {/* Welcome Message */}
       <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl p-6">
         <h2 className="text-xl font-bold text-white mb-2">
-          🌴 Your French Polynesia Journey
+          {t('overviewSection.welcome.title')}
         </h2>
         <p className="text-slate-300">
           {totalBookings > 0 
-            ? `Track your ${totalBookings} booking${totalBookings !== 1 ? 's' : ''} and discover more amazing adventures`
-            : 'Ready to start your adventure? Discover amazing tours below!'
+            ? t('overviewSection.welcome.withBookings', { count: totalBookings, plural: totalBookings !== 1 ? 's' : '' })
+            : t('overviewSection.welcome.noBookings')
           }
         </p>
       </div>
@@ -98,7 +100,7 @@ const OverviewSection = ({
         <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
             <Calendar className="w-5 h-5 text-blue-400" />
-            <h3 className="text-lg font-semibold text-white">Next Adventure</h3>
+            <h3 className="text-lg font-semibold text-white">{t('overviewSection.nextAdventure.title')}</h3>
           </div>
           
           <div className="space-y-3">
@@ -108,7 +110,7 @@ const OverviewSection = ({
                   {nextTour.tours?.tour_name || 'Tour'}
                 </h4>
                 <p className="text-slate-400 text-sm">
-                  with {nextTour.operators?.company_name || 'Operator'}
+                  {t('overviewSection.nextAdventure.with', { operator: nextTour.operators?.company_name || 'Operator' })}
                 </p>
               </div>
               <div className="text-right">
@@ -124,17 +126,17 @@ const OverviewSection = ({
             <div className="flex items-center gap-4 text-sm text-slate-400">
               <div className="flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
-                {nextTour.tours?.meeting_point || 'TBD'}
+                {nextTour.tours?.meeting_point || t('overviewSection.nextAdventure.tbd')}
               </div>
               <div className="flex items-center gap-1">
                 <Users className="w-4 h-4" />
-                {nextTour.num_adults + (nextTour.num_children || 0)} participants
+                {nextTour.num_adults + (nextTour.num_children || 0)} {t('overviewSection.nextAdventure.participants')}
               </div>
             </div>
             
             <div className="pt-3 border-t border-slate-700">
               <div className="flex items-center justify-between">
-                <span className="text-slate-400">Total Paid:</span>
+                <span className="text-slate-400">{t('overviewSection.nextAdventure.totalPaid')}</span>
                 <span className="text-white font-medium">
                   {formatPrice(nextTour.total_amount)}
                 </span>
@@ -149,7 +151,7 @@ const OverviewSection = ({
         <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
             <AlertCircle className="w-5 h-5 text-orange-400" />
-            <h3 className="text-lg font-semibold text-white">Awaiting Confirmation</h3>
+            <h3 className="text-lg font-semibold text-white">{t('overviewSection.awaitingConfirmation.title')}</h3>
           </div>
           
           <div className="space-y-3">
@@ -164,9 +166,9 @@ const OverviewSection = ({
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-orange-400 text-sm font-medium">Pending</div>
+                  <div className="text-orange-400 text-sm font-medium">{t('overviewSection.awaitingConfirmation.pending')}</div>
                   <div className="text-xs text-slate-400">
-                    Response within 60 min
+                    {t('overviewSection.awaitingConfirmation.responseTime')}
                   </div>
                 </div>
               </div>
@@ -177,7 +179,7 @@ const OverviewSection = ({
                 onClick={() => setActiveSection('active')}
                 className="w-full text-center text-blue-400 text-sm hover:text-blue-300 transition-colors"
               >
-                View all {userBookings.active.length} pending bookings →
+                {t('overviewSection.awaitingConfirmation.viewAll', { count: userBookings.active.length })}
               </button>
             )}
           </div>
@@ -191,15 +193,15 @@ const OverviewSection = ({
           <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
             <TrendingUp className="w-8 h-8 text-slate-400" />
           </div>
-          <h3 className="text-lg font-semibold text-slate-400 mb-2">Start Your Journey</h3>
+          <h3 className="text-lg font-semibold text-slate-400 mb-2">{t('overviewSection.emptyState.title')}</h3>
           <p className="text-slate-500 mb-6 max-w-md mx-auto">
-            You haven't made any bookings yet. Discover amazing tours and start your adventure with VAI Tickets!
+            {t('overviewSection.emptyState.message')}
           </p>
           <button
             onClick={() => setActiveTab('discover')}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
           >
-            Explore Tours
+            {t('overviewSection.emptyState.exploreTours')}
           </button>
         </div>
       )}
