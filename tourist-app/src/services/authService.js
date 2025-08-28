@@ -104,7 +104,7 @@ export const authService = {
       // This ensures we can create the auth user first, then link to tourist_users
       const tempPassword = `VAI_${email.trim()}`
 
-      // Try to create auth user first, then handle tourist_users with INSERT
+      // Try to create auth user first
       let authResult
       let authUserId = null
 
@@ -117,20 +117,36 @@ export const authService = {
         authUserId = authResult.user.id
         console.log('✅ Auth user created:', email.trim())
       } catch (authError) {
-        // If auth user already exists -  get their ID
-        // Correct error message check and handle gracefully
+        // If auth user already exists, try to get their ID from existing auth
         if (authError.message?.includes('User already registered') || 
             authError.message?.includes('already been registered')) {
-          console.log('ℹ️ Auth user already exists, proceeding with null auth_user_id')
-          // Continue with tourist_users creation but leave auth_user_id as null
-          authUserId = null
+          console.log('ℹ️ Auth user already exists, attempting to get existing user ID')
+          
+          // Try to sign in to get the existing user's ID
+          try {
+            const signInResult = await this.signIn(email.trim(), tempPassword)
+            authUserId = signInResult.user.id
+            console.log('✅ Retrieved existing auth user ID:', authUserId)
+          } catch (signInError) {
+            console.log('⚠️ Could not retrieve existing auth user ID, will create tourist record without linkage')
+            authUserId = null
+          }
         } else {
           console.error('❌ Auth creation failed with unexpected error:', authError)
           throw authError
         }
       }
 
-      // Create tourist_users record
+      // Only create tourist_users record if we have a valid auth_user_id
+      if (!authUserId) {
+        console.log('❌ No valid auth_user_id available, cannot create properly linked tourist record')
+        return {
+          success: false,
+          error: 'Failed to create or link authentication user'
+        }
+      }
+
+      // Create tourist_users record with confirmed auth_user_id
       const { data: touristData, error: touristError } = await supabase
         .from('tourist_users')
         .insert([{
@@ -139,7 +155,7 @@ export const authService = {
           last_name: lastName,
           whatsapp_number: whatsapp.trim(),
           phone: phone.trim(),
-          auth_user_id: authUserId, // Can be null if auth creation failed
+          auth_user_id: authUserId, // Always has valid ID now
           email_verified: false,
           status: 'active'
         }])

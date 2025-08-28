@@ -22,18 +22,37 @@ const Navigation = () => {
     const getTouristUserId = async () => {
       if (user) {
         try {
-          const { data: touristUser } = await supabase
+          const { data: touristUser, error } = await supabase
             .from('tourist_users')
             .select('id')
             .eq('auth_user_id', user.id)
             .single()
           
+          if (error) {
+            // Handle specific error cases
+            if (error.code === 'PGRST116') {
+              console.log('ℹ️ No tourist record found for auth user, this is expected for some users')
+            } else {
+              console.error('❌ Error querying tourist_users:', error)
+            }
+            setTouristUserId(null)
+            return
+          }
+          
           if (touristUser) {
             setTouristUserId(touristUser.id)
+            console.log('✅ Tourist user ID found:', touristUser.id)
+          } else {
+            console.log('ℹ️ No tourist record linked to this auth user')
+            setTouristUserId(null)
           }
         } catch (error) {
-          console.error('Error getting tourist user ID:', error)
+          console.error('❌ Exception getting tourist user ID:', error)
+          setTouristUserId(null)
         }
+      } else {
+        // Clear tourist user ID when no user is authenticated
+        setTouristUserId(null)
       }
     }
     getTouristUserId()
