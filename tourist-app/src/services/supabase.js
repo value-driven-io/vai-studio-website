@@ -145,19 +145,22 @@ export const bookingService = {
       const dateStr = new Date().toISOString().slice(2, 10).replace(/-/g, '')
       const bookingReference = `VAI-${now}-${dateStr}`
 
+      // Remove fields that don't belong in the bookings table
+      const { tour_name, customer_first_name, customer_last_name, ...cleanBookingData } = bookingData
+
       const bookingPayload = {
-        ...bookingData,
+        ...cleanBookingData,
         subtotal,
         commission_amount: commissionAmount,
-        applied_commission_rate: commissionRate, // Store the rate used
+        applied_commission_rate: commissionRate,
         booking_reference: bookingReference,
         booking_status: 'pending',
         payment_status: bookingData.payment_status || 'pending',
-        confirmation_deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
+        confirmation_deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
         webhook_sent: false,
         whatsapp_sent: false,
         email_sent: false,
-        commission_locked_at: null, // Not locked until confirmed
+        commission_locked_at: null,
         // Stripe Connect payment fields
         payment_intent_id: bookingData.payment_intent_id || null,
         operator_amount_cents: bookingData.operator_amount_cents || null,
@@ -168,7 +171,7 @@ export const bookingService = {
       const { data, error } = await supabase
         .from('bookings')
         .insert([bookingPayload])
-        .select()
+        .select('id, booking_reference, booking_status, created_at, payment_status')
         .single()
 
       if (error) throw error
