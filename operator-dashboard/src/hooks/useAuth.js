@@ -341,37 +341,66 @@ export const useAuth = () => {
           
           // Retry mechanism for operator lookup
           const retryOperatorLookup = async (retries = 3, delay = 1000) => {
+            // DIAGNOSTIC: Environment info
+            console.log(`🔍 [DIAGNOSTIC] Environment info:`, {
+              hostname: window.location.hostname,
+              userAgent: navigator.userAgent.split(' ')[0], // Just browser name
+              connection: navigator.connection?.effectiveType || 'unknown',
+              supabaseUrl: supabase.supabaseUrl?.slice(-10) || 'unknown' // Last 10 chars for identification
+            })
             for (let attempt = 1; attempt <= retries; attempt++) {
+              const attemptStart = performance.now()
               try {
                 console.log(`🔄 Operator lookup attempt ${attempt}/${retries}`)
                 
                 // Use faster timeout for first attempt, longer for retries
                 const timeout = attempt === 1 ? 4000 : 8000
                 
+                // DIAGNOSTIC: Measure network + query time separately
+                const queryStart = performance.now()
+                console.log(`⏱️ [DIAGNOSTIC] Starting Supabase query at ${queryStart.toFixed(2)}ms`)
+                
+                const queryPromise = supabase
+                  .from('operators')
+                  .select('*')
+                  .eq('auth_user_id', session.user.id)
+                  .single()
+                  .then(result => {
+                    const queryEnd = performance.now()
+                    const queryTime = queryEnd - queryStart
+                    console.log(`⏱️ [DIAGNOSTIC] Supabase query completed in ${queryTime.toFixed(2)}ms`)
+                    return result
+                  })
+                
                 const { data: operatorData, error } = await Promise.race([
-                  supabase
-                    .from('operators')
-                    .select('*')
-                    .eq('auth_user_id', session.user.id)
-                    .single(),
+                  queryPromise,
                   new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Operator lookup timeout')), timeout)
+                    setTimeout(() => {
+                      const timeoutAt = performance.now()
+                      console.log(`⏱️ [DIAGNOSTIC] Timeout triggered after ${(timeoutAt - queryStart).toFixed(2)}ms`)
+                      reject(new Error('Operator lookup timeout'))
+                    }, timeout)
                   )
                 ])
                 
+                const attemptEnd = performance.now()
+                const totalAttemptTime = attemptEnd - attemptStart
+                
                 if (operatorData && !error) {
-                  console.log('✅ Operator found on attempt', attempt, ':', operatorData.company_name)
+                  console.log(`✅ Operator found on attempt ${attempt} in ${totalAttemptTime.toFixed(2)}ms: ${operatorData.company_name}`)
                   return operatorData
                 } else if (error && !error.message.includes('timeout')) {
                   // Non-timeout errors should not be retried
-                  console.warn('⚠️ Non-timeout operator lookup error:', error.message)
+                  console.warn(`⚠️ Non-timeout operator lookup error after ${totalAttemptTime.toFixed(2)}ms:`, error.message)
                   throw error
                 }
                 
                 throw new Error(error?.message || 'Unknown operator lookup error')
                 
               } catch (error) {
-                console.warn(`⚠️ Operator lookup attempt ${attempt} failed:`, error.message)
+                const attemptEnd = performance.now()
+                const totalAttemptTime = attemptEnd - attemptStart
+                console.warn(`⚠️ Operator lookup attempt ${attempt} failed after ${totalAttemptTime.toFixed(2)}ms:`, error.message)
                 
                 if (attempt === retries) {
                   throw error // Final attempt failed
