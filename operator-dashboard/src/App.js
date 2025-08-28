@@ -1583,6 +1583,64 @@ function AppContent() { // function App() { << before changes for the authcallba
     )
   }
 
+  // Handle authenticated user but no operator data (operator lookup failed/loading)
+  if (isAuthenticated && !operator) {
+    return (
+      <>
+        <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center px-4">
+          <div className="max-w-md w-full text-center">
+            <div className="bg-slate-800 rounded-xl p-8 border border-slate-700">
+              {/* Loading Animation */}
+              <div className="mb-6">
+                <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+              </div>
+
+              <h2 className="text-xl font-semibold mb-3">
+                🔄 Loading Your Dashboard
+              </h2>
+
+              <p className="text-slate-400 mb-6">
+                Connecting to your operator account... This may take a moment in some browsers.
+              </p>
+
+              {/* Fallback Options */}
+              <div className="space-y-3">
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
+                >
+                  Refresh Page
+                </button>
+                <button 
+                  onClick={logout}
+                  className="w-full bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors"
+                >
+                  Sign Out & Try Again
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 5000,
+            style: {
+              background: '#1e293b',
+              color: '#f1f5f9',
+              border: '1px solid #334155',
+              zIndex: 100000
+            }
+          }}
+          containerStyle={{
+            zIndex: 100000
+          }}
+        />
+      </>
+    )
+  }
+
   // If password change is required, show modal
     if (showPasswordModal) {
       const requirement = getPasswordChangeRequirement(operator)

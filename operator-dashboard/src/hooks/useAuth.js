@@ -10,6 +10,20 @@ export const useAuth = () => {
   const { t } = useTranslation() 
   const [operator, setOperator] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [hasValidSession, setHasValidSession] = useState(() => {
+    // Initialize from localStorage if available
+    try {
+      const storedSession = localStorage.getItem('supabase.auth.token')
+      if (storedSession) {
+        const sessionData = JSON.parse(storedSession)
+        return !!(sessionData?.access_token && sessionData?.expires_at && 
+                 new Date().getTime() < sessionData.expires_at * 1000)
+      }
+    } catch (error) {
+      console.warn('⚠️ Failed to initialize session state from localStorage:', error.message)
+    }
+    return false
+  })
 
   // Intelligent error parsing with i18n support (ENHANCED WITH DEBUG LOGS)
   const parseAuthError = (error) => {
@@ -139,8 +153,16 @@ export const useAuth = () => {
   useEffect(() => {
     let isMounted = true // Prevent state updates after unmount
     let timeoutId = null
+    let hasInitialized = false // Prevent double initialization in StrictMode
 
     const checkSession = async () => {
+      console.log('🔍 DEBUG: checkSession called, hasInitialized:', hasInitialized, 'hasValidSession:', hasValidSession)
+      if (hasInitialized) {
+        console.log('🔧 Skipping duplicate checkSession in StrictMode')
+        return
+      }
+      hasInitialized = true
+      
       try {
         console.log('🔍 Checking session...')
         
@@ -168,28 +190,53 @@ export const useAuth = () => {
         
         if (session?.user && isMounted) {
           console.log('✅ Valid session found for:', session.user.email)
+          console.log('🔍 DEBUG: Setting hasValidSession = true (was:', hasValidSession + ')')
+          setHasValidSession(true)
           
-          // Get operator data - all fields to prevent additional fetches
-          const { data: operatorData, error } = await supabase
-          .from('operators')
-          .select('*')
-          .eq('auth_user_id', session.user.id)
-          // ✅ REMOVED: .eq('status', 'active') - now allows pending operators
-          .single()
-          
-          if (operatorData && !error && isMounted) {
-            setOperator(operatorData)
-            console.log('✅ Session restored:', operatorData.company_name)
-          } else if (error) {
-            console.warn('⚠️ Operator lookup failed:', error.message)
-            // Don't force sign out immediately - might be temporary DB issue
-            if (error.code === 'PGRST116') {
-              console.log('🔄 Operator not found, signing out...')
-              await supabase.auth.signOut()
+          // Get operator data with retry mechanism
+          try {
+            console.log('🔍 Initial operator lookup for session restore...')
+            
+            const { data: operatorData, error } = await Promise.race([
+              supabase
+                .from('operators')
+                .select('*')
+                .eq('auth_user_id', session.user.id)
+                .single(),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Initial operator lookup timeout')), 8000)
+              )
+            ])
+            
+            if (operatorData && !error && isMounted) {
+              setOperator(operatorData)
+              console.log('✅ Session restored:', operatorData.company_name)
+            } else if (error) {
+              console.warn('⚠️ Initial operator lookup failed:', error.message)
+              
+              // Don't force sign out immediately - might be temporary DB issue
+              if (error.code === 'PGRST116') {
+                console.log('🔄 Operator not found in database, signing out...')
+                await supabase.auth.signOut()
+              } else if (error.message.includes('timeout')) {
+                console.log('⏳ Initial operator lookup timed out, will rely on onAuthStateChange')
+                // Let onAuthStateChange handle the operator lookup with retries
+              }
             }
+          } catch (lookupError) {
+            console.warn('⚠️ Initial operator lookup error:', lookupError.message)
+            // Don't fail the session check - let onAuthStateChange handle it
           }
         } else {
           console.log('ℹ️ No valid session found')
+          console.log('🔍 DEBUG: Setting hasValidSession = false (was:', hasValidSession + ')')
+          console.log('🔍 DEBUG: session object:', session)
+          console.log('🔍 DEBUG: isMounted:', isMounted)
+          if (isMounted) {
+            setHasValidSession(false)
+          } else {
+            console.log('🔧 Skipping hasValidSession update - component unmounting')
+          }
         }
       } catch (error) {
         console.error('❌ Session check error:', error.message)
@@ -256,6 +303,16 @@ export const useAuth = () => {
         
         console.log('🔄 Auth state change:', event, session?.user?.email)
         
+        // StrictMode protection: Skip duplicate INITIAL_SESSION if we already initialized
+        if (event === 'INITIAL_SESSION' && hasInitialized && operator) {
+          console.log('🔧 Skipping duplicate INITIAL_SESSION in StrictMode')
+          return
+        }
+        
+        if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
+          hasInitialized = true
+        }
+        
         // CHROME FIX: If no event but we should have a session, check localStorage
         if (!session && !event && isMounted) {
           try {
@@ -277,48 +334,108 @@ export const useAuth = () => {
           }
         }
         
-        if (event === 'SIGNED_IN' && session?.user) {
-          console.log('🔍 Looking up operator for:', session.user.email)
+        if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
+          console.log('🔍 Looking up operator for:', session.user.email, '(event:', event + ')')
+          console.log('🔍 DEBUG: onAuthStateChange setting hasValidSession = true (was:', hasValidSession + ')')
+          setHasValidSession(true)
+          
+          // Retry mechanism for operator lookup
+          const retryOperatorLookup = async (retries = 3, delay = 1000) => {
+            for (let attempt = 1; attempt <= retries; attempt++) {
+              try {
+                console.log(`🔄 Operator lookup attempt ${attempt}/${retries}`)
+                
+                const { data: operatorData, error } = await Promise.race([
+                  supabase
+                    .from('operators')
+                    .select('*')
+                    .eq('auth_user_id', session.user.id)
+                    .single(),
+                  new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Operator lookup timeout')), 8000) // Increased timeout
+                  )
+                ])
+                
+                if (operatorData && !error) {
+                  console.log('✅ Operator found on attempt', attempt, ':', operatorData.company_name)
+                  return operatorData
+                } else if (error && !error.message.includes('timeout')) {
+                  // Non-timeout errors should not be retried
+                  console.warn('⚠️ Non-timeout operator lookup error:', error.message)
+                  throw error
+                }
+                
+                throw new Error(error?.message || 'Unknown operator lookup error')
+                
+              } catch (error) {
+                console.warn(`⚠️ Operator lookup attempt ${attempt} failed:`, error.message)
+                
+                if (attempt === retries) {
+                  throw error // Final attempt failed
+                }
+                
+                if (error.message.includes('timeout')) {
+                  console.log(`⏳ Waiting ${delay}ms before retry ${attempt + 1}...`)
+                  await new Promise(resolve => setTimeout(resolve, delay))
+                  delay *= 1.5 // Exponential backoff
+                } else {
+                  // Non-timeout errors shouldn't be retried
+                  throw error
+                }
+              }
+            }
+          }
           
           try {
-            // 🔧 CHROME FIX: Wrap hanging operator query with timeout
-            const { data: operatorData, error } = await Promise.race([
-              supabase
-                .from('operators')
-                .select('*')
-                .eq('auth_user_id', session.user.id)
-                // ✅ REMOVED: .eq('status', 'active') - now allows pending operators
-                .single(),
-              new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Operator lookup timeout')), 5000)
-              )
-            ])
+            const operatorData = await retryOperatorLookup()
             
-            if (operatorData && !error && isMounted) {
-              setOperator(operatorData) 
-              setLoading(false) // 🔧 ENSURE loading clears
-              console.log('✅ Operator signed in:', operatorData.company_name)
-            } else if (error) {
-              console.warn('⚠️ Operator lookup error:', error.message)
-              setLoading(false) // 🔧 ENSURE loading clears even on error
+            if (operatorData && isMounted) {
+              setOperator(operatorData)
+              setLoading(false)
+              console.log('✅ Operator authenticated:', operatorData.company_name)
             }
           } catch (error) {
-            console.error('❌ Operator query failed:', error.message)
-            // 🔧 CRITICAL: Clear loading even if operator lookup fails
+            console.error('❌ All operator lookup attempts failed:', error.message)
             setLoading(false)
             
+            // Don't force logout - user is authenticated, just missing operator data
             if (error.message.includes('timeout')) {
-              console.log('🔄 Chrome operator query hung - user stays authenticated but no operator data')
-              // User stays SIGNED_IN but without operator context
-              // They can still access basic functionality
+              console.log('🔄 Operator lookup completely failed - user authenticated without operator context')
+              
+              // Set a temporary "loading operator" state that the UI can handle
+              setOperator(null)
+              
+              // Try one final background attempt after a delay
+              setTimeout(async () => {
+                try {
+                  const { data: operatorData, error } = await supabase
+                    .from('operators')
+                    .select('*')
+                    .eq('auth_user_id', session.user.id)
+                    .single()
+                  
+                  if (operatorData && !error && isMounted) {
+                    console.log('✅ Background operator lookup succeeded:', operatorData.company_name)
+                    setOperator(operatorData)
+                  }
+                } catch (bgError) {
+                  console.warn('⚠️ Background operator lookup also failed:', bgError.message)
+                }
+              }, 10000) // Try again in 10 seconds
             }
           }
         }
- else if (event === 'SIGNED_OUT') {
+        else if (event === 'SIGNED_OUT' || (!session?.user && event)) {
           if (isMounted) {
             setOperator(null)
-            console.log('👋 Operator signed out')
+            setHasValidSession(false)
+            console.log('👋 Operator signed out or session lost (event:', event + ')')
           }
+        }
+        else if (session?.user && !event) {
+          // Handle cases where we have a session but no specific event
+          console.log('🔍 Session detected without event, setting hasValidSession=true')
+          setHasValidSession(true)
         }
       }
     )
@@ -422,11 +539,13 @@ export const useAuth = () => {
     try {
       await supabase.auth.signOut()
       setOperator(null)
+      setHasValidSession(false)
       console.log('👋 Operator logged out securely')
     } catch (error) {
       console.error('❌ Logout error:', error)
       // Force local logout even if remote logout fails
       setOperator(null)
+      setHasValidSession(false)
     }
   }
 
@@ -452,13 +571,15 @@ export const useAuth = () => {
     }
   }
 
+  console.log('🔍 DEBUG: useAuth returning - hasValidSession:', hasValidSession, 'operator:', !!operator, 'loading:', loading)
+  
   return {
     operator,
     loading,
     login,
     logout,
     refreshOperatorData, // for Password Change
-    isAuthenticated: !!operator,
+    isAuthenticated: hasValidSession, // Use session state instead of operator presence
     needsPasswordChange: needsPasswordChange(operator) // Password change check
   }
 }
