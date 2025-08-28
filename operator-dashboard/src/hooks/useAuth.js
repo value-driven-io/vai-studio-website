@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase' 
 import { needsPasswordChange } from '../utils/passwordSecurity'
 import operatorCache from '../services/operatorCache'
+import logger from '../utils/logger'
 
 export const useAuth = () => {
   const { t } = useTranslation() 
@@ -26,128 +27,98 @@ export const useAuth = () => {
     return false
   })
 
-  // Intelligent error parsing with i18n support (ENHANCED WITH DEBUG LOGS)
+  // Intelligent error parsing with i18n support
   const parseAuthError = (error) => {
-    console.log('🔍 parseAuthError called with:', error) // DEBUG
+    logger.debug('Parsing auth error', { error }, 'AUTH')
 
     if (!error || !error.message) {
       const result = t('login.errors.unknownError')
-      console.log('🔍 unknownError translation result:', result) // DEBUG
+      logger.debug('Using unknown error fallback', { result }, 'AUTH')
       return result
     }
 
     const errorMessage = error.message.toLowerCase()
-    console.log('🔍 Processing error message:', errorMessage) // DEBUG
+    logger.debug('Processing error message', { errorMessage }, 'AUTH')
     
     // Map Supabase error patterns to localized messages
     if (errorMessage.includes('invalid login credentials') || 
         errorMessage.includes('invalid email or password')) {
-      const result = t('login.errors.invalidCredentials')
-      console.log('🔍 invalidCredentials translation result:', result) // DEBUG
-      return result
+      return t('login.errors.invalidCredentials')
     }
     
     if (errorMessage.includes('email not confirmed') || 
         errorMessage.includes('email address not confirmed')) {
-      const result = t('login.errors.emailNotConfirmed')
-      console.log('🔍 emailNotConfirmed translation result:', result) // DEBUG
-      return result
+      return t('login.errors.emailNotConfirmed')
     }
     
     if (errorMessage.includes('too many requests') || 
         errorMessage.includes('rate limit') ||
         errorMessage.includes('email rate limit exceeded')) {
-      const result = t('login.errors.tooManyAttempts')
-      console.log('🔍 tooManyAttempts translation result:', result) // DEBUG
-      return result
+      return t('login.errors.tooManyAttempts')
     }
     
     if (errorMessage.includes('account locked') || 
         errorMessage.includes('user locked')) {
-      const result = t('login.errors.accountLocked')
-      console.log('🔍 accountLocked translation result:', result) // DEBUG
-      return result
+      return t('login.errors.accountLocked')
     }
     
     if (errorMessage.includes('invalid email') || 
         errorMessage.includes('email format')) {
-      const result = t('login.errors.invalidEmail')
-      console.log('🔍 invalidEmail translation result:', result) // DEBUG
-      return result
+      return t('login.errors.invalidEmail')
     }
     
     if (errorMessage.includes('password') && 
         (errorMessage.includes('short') || errorMessage.includes('minimum'))) {
-      const result = t('login.errors.passwordTooShort')
-      console.log('🔍 passwordTooShort translation result:', result) // DEBUG
-      return result
+      return t('login.errors.passwordTooShort')
     }
     
     if (errorMessage.includes('network') || 
         errorMessage.includes('failed to fetch') ||
         errorMessage.includes('connection')) {
-      const result = t('login.errors.networkError')
-      console.log('🔍 networkError translation result:', result) // DEBUG
-      return result
+      return t('login.errors.networkError')
     }
     
     if (errorMessage.includes('server error') || 
         errorMessage.includes('internal server') ||
         errorMessage.includes('503') || errorMessage.includes('502')) {
-      const result = t('login.errors.serverError')
-      console.log('🔍 serverError translation result:', result) // DEBUG
-      return result
+      return t('login.errors.serverError')
     }
     
     if (errorMessage.includes('session') && 
         (errorMessage.includes('expired') || errorMessage.includes('invalid'))) {
-      const result = t('login.errors.sessionExpired')
-      console.log('🔍 sessionExpired translation result:', result) // DEBUG
-      return result
+      return t('login.errors.sessionExpired')
     }
     
     if (errorMessage.includes('maintenance') || 
         errorMessage.includes('unavailable')) {
-      const result = t('login.errors.maintenanceMode')
-      console.log('🔍 maintenanceMode translation result:', result) // DEBUG
-      return result
+      return t('login.errors.maintenanceMode')
     }
     
     // Handle operator-specific errors
     if (errorMessage.includes('no operator account found') || 
         errorMessage.includes('operator account')) {
-      const result = t('login.errors.accountNotFound')
-      console.log('🔍 accountNotFound translation result:', result) // DEBUG
-      return result
+      return t('login.errors.accountNotFound')
     }
     
     if (errorMessage.includes('suspended') || 
         errorMessage.includes('inactive')) {
-      const result = t('login.errors.accountSuspended')
-      console.log('🔍 accountSuspended translation result:', result) // DEBUG
-      return result
+      return t('login.errors.accountSuspended')
     }
     
     if (errorMessage.includes('pending approval') || 
         errorMessage.includes('pending')) {
-      const result = t('login.errors.accountPending')
-      console.log('🔍 accountPending translation result:', result) // DEBUG
-      return result
+      return t('login.errors.accountPending')
     }
     
-    // Special handling for your existing timeout messages
+    // Special handling for timeout messages
     if (errorMessage.includes('login timeout') || 
         errorMessage.includes('login is taking too long')) {
-      const result = t('login.errors.networkError')
-      console.log('🔍 timeout->networkError translation result:', result) // DEBUG
-      return result
+      return t('login.errors.networkError')
     }
     
-    // Default fallback with original message for debugging
-    console.warn('🔍 Unmapped auth error:', error.message)
-    const result = t('login.errors.unknownError')
-    console.log('🔍 fallback unknownError translation result:', result) // DEBUG
-    return result
+    // Default fallback - log unmapped errors for debugging
+    logger.warn('Unmapped auth error', { originalMessage: error.message }, 'AUTH')
+    return t('login.errors.unknownError')
   }
 
   // ALL your existing useEffect logic unchanged
@@ -157,19 +128,17 @@ export const useAuth = () => {
     let hasInitialized = false // Prevent double initialization in StrictMode
 
     const checkSession = async () => {
-      // console.log('🔍 DEBUG: checkSession called, hasInitialized:', hasInitialized, 'hasValidSession:', hasValidSession)
       if (hasInitialized) {
-        console.log('🔧 Skipping duplicate checkSession in StrictMode')
+        logger.debug('Skipping duplicate checkSession in StrictMode', null, 'AUTH')
         return
       }
       hasInitialized = true
       
       try {
-        console.log('🔍 Checking session...')
+        logger.debug('Checking session...', null, 'AUTH')
         
         // CHROME FIX: getSession() hangs indefinitely on browser refresh in Chrome
-        // Use timeout but handle gracefully since onAuthStateChange works 
-        console.log('⏱️ Starting getSession...')
+        const endTimer = logger.time('getSession', 'PERFORMANCE')
         const start = Date.now()
 
         const sessionPromise = supabase.auth.getSession()
@@ -182,21 +151,21 @@ export const useAuth = () => {
           timeoutPromise
         ])
 
-        console.log(`⏱️ getSession completed in ${Date.now() - start}ms`)
+        endTimer()
+        logger.performance('getSession completed', { duration: Date.now() - start })
 
         if (sessionError) {
-          console.warn('⚠️ Session error:', sessionError.message)
+          logger.warn('Session error', { error: sessionError.message }, 'AUTH')
           throw sessionError
         }
         
         if (session?.user && isMounted) {
-          console.log('✅ Valid session found for:', session.user.email)
-          // console.log('🔍 DEBUG: Setting hasValidSession = true (was:', hasValidSession + ')')
+          logger.auth('Valid session found', { email: session.user.email })
           setHasValidSession(true)
           
           // Get operator data with retry mechanism
           try {
-            console.log('🔍 Initial operator lookup for session restore...')
+            logger.debug('Initial operator lookup for session restore...', null, 'AUTH')
             
             const { data: operatorData, error } = await Promise.race([
               supabase
@@ -211,40 +180,37 @@ export const useAuth = () => {
             
             if (operatorData && !error && isMounted) {
               setOperator(operatorData)
-              console.log('✅ Session restored:', operatorData.company_name)
+              logger.auth('Session restored', { companyName: operatorData.company_name })
             } else if (error) {
-              console.warn('⚠️ Initial operator lookup failed:', error.message)
+              logger.warn('Initial operator lookup failed', { error: error.message }, 'AUTH')
               
               // Don't force sign out immediately - might be temporary DB issue
               if (error.code === 'PGRST116') {
-                console.log('🔄 Operator not found in database, signing out...')
+                logger.debug('Operator not found in database, signing out...', null, 'AUTH')
                 await supabase.auth.signOut()
               } else if (error.message.includes('timeout')) {
-                console.log('⏳ Initial operator lookup timed out, will rely on onAuthStateChange')
+                logger.debug('Initial operator lookup timed out, will rely on onAuthStateChange', null, 'AUTH')
                 // Let onAuthStateChange handle the operator lookup with retries
               }
             }
           } catch (lookupError) {
-            console.warn('⚠️ Initial operator lookup error:', lookupError.message)
+            logger.warn('Initial operator lookup error', { error: lookupError.message }, 'AUTH')
             // Don't fail the session check - let onAuthStateChange handle it
           }
         } else {
-          console.log('ℹ️ No valid session found')
-          console.log('🔍 DEBUG: Setting hasValidSession = false (was:', hasValidSession + ')')
-          console.log('🔍 DEBUG: session object:', session)
-          console.log('🔍 DEBUG: isMounted:', isMounted)
+          logger.debug('No valid session found', { session: !!session, isMounted }, 'AUTH')
           if (isMounted) {
             setHasValidSession(false)
           } else {
-            console.log('🔧 Skipping hasValidSession update - component unmounting')
+            logger.debug('Skipping hasValidSession update - component unmounting', null, 'AUTH')
           }
         }
       } catch (error) {
-        console.error('❌ Session check error:', error.message)
+        logger.error('Session check error', { error: error.message }, 'AUTH')
         
         // CHROME FIX: If getSession hangs, check localStorage directly
         if (error.message.includes('getSession hung')) {
-          console.log('🔄 getSession hung in Chrome - checking localStorage directly...')
+          logger.debug('getSession hung in Chrome - checking localStorage directly...', null, 'AUTH')
           
           try {
             // Check if we have session data in localStorage
@@ -254,33 +220,29 @@ export const useAuth = () => {
               const accessToken = sessionData?.access_token
               const expiresAt = sessionData?.expires_at
               
-              console.log('🔍 Found localStorage session data:', !!accessToken)
+              logger.debug('Found localStorage session data', { hasToken: !!accessToken }, 'AUTH')
               
               // Check if token hasn't expired
               if (accessToken && expiresAt && new Date().getTime() < expiresAt * 1000) {
-                console.log('✅ localStorage session is valid, triggering recovery...')
+                logger.debug('localStorage session is valid, triggering recovery...', null, 'AUTH')
                 
                 // Manually trigger auth state change to recover session
-                // This will cause onAuthStateChange to fire with the correct session
                 supabase.auth.getSession().catch(() => {
-                  // Even if this fails, the localStorage check succeeded
-                  console.log('🔄 Manual getSession failed, but localStorage session is valid')
+                  logger.debug('Manual getSession failed, but localStorage session is valid', null, 'AUTH')
                 })
                 
-                // Don't clear loading yet - let onAuthStateChange handle it
                 return // Exit early, don't set loading to false
               } else {
-                console.log('⚠️ localStorage session expired or invalid')
+                logger.debug('localStorage session expired or invalid', null, 'AUTH')
               }
             } else {
-              console.log('ℹ️ No localStorage session found')
+              logger.debug('No localStorage session found', null, 'AUTH')
             }
           } catch (storageError) {
-            console.warn('⚠️ Failed to check localStorage session:', storageError.message)
+            logger.warn('Failed to check localStorage session', { error: storageError.message }, 'AUTH')
           }
           
-          // If localStorage check didn't find valid session, proceed normally
-          console.log('🔄 Relying on onAuthStateChange for auth recovery')
+          logger.debug('Relying on onAuthStateChange for auth recovery', null, 'AUTH')
         }
       } finally {
         if (isMounted) {
