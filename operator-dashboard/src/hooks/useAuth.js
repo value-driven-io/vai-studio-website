@@ -194,10 +194,45 @@ export const useAuth = () => {
       } catch (error) {
         console.error('❌ Session check error:', error.message)
         
-        // CHROME FIX: If getSession hangs, rely on onAuthStateChange
+        // CHROME FIX: If getSession hangs, check localStorage directly
         if (error.message.includes('getSession hung')) {
-          console.log('🔄 getSession hung in Chrome - onAuthStateChange will handle auth')
-          // Don't throw - let onAuthStateChange handle authentication
+          console.log('🔄 getSession hung in Chrome - checking localStorage directly...')
+          
+          try {
+            // Check if we have session data in localStorage
+            const storedSession = localStorage.getItem('supabase.auth.token')
+            if (storedSession) {
+              const sessionData = JSON.parse(storedSession)
+              const accessToken = sessionData?.access_token
+              const expiresAt = sessionData?.expires_at
+              
+              console.log('🔍 Found localStorage session data:', !!accessToken)
+              
+              // Check if token hasn't expired
+              if (accessToken && expiresAt && new Date().getTime() < expiresAt * 1000) {
+                console.log('✅ localStorage session is valid, triggering recovery...')
+                
+                // Manually trigger auth state change to recover session
+                // This will cause onAuthStateChange to fire with the correct session
+                supabase.auth.getSession().catch(() => {
+                  // Even if this fails, the localStorage check succeeded
+                  console.log('🔄 Manual getSession failed, but localStorage session is valid')
+                })
+                
+                // Don't clear loading yet - let onAuthStateChange handle it
+                return // Exit early, don't set loading to false
+              } else {
+                console.log('⚠️ localStorage session expired or invalid')
+              }
+            } else {
+              console.log('ℹ️ No localStorage session found')
+            }
+          } catch (storageError) {
+            console.warn('⚠️ Failed to check localStorage session:', storageError.message)
+          }
+          
+          // If localStorage check didn't find valid session, proceed normally
+          console.log('🔄 Relying on onAuthStateChange for auth recovery')
         }
       } finally {
         if (isMounted) {
@@ -220,6 +255,27 @@ export const useAuth = () => {
         if (!isMounted) return
         
         console.log('🔄 Auth state change:', event, session?.user?.email)
+        
+        // CHROME FIX: If no event but we should have a session, check localStorage
+        if (!session && !event && isMounted) {
+          try {
+            const storedSession = localStorage.getItem('supabase.auth.token')
+            if (storedSession) {
+              const sessionData = JSON.parse(storedSession)
+              if (sessionData?.access_token && sessionData?.expires_at && 
+                  new Date().getTime() < sessionData.expires_at * 1000) {
+                console.log('🔧 onAuthStateChange: Found valid localStorage session, attempting recovery...')
+                // Try to recover session silently
+                supabase.auth.getSession().catch(() => {
+                  console.log('🔧 Silent session recovery failed, but continuing...')
+                })
+                return // Let the recursive call handle this
+              }
+            }
+          } catch (error) {
+            console.warn('⚠️ Failed localStorage check in onAuthStateChange:', error.message)
+          }
+        }
         
         if (event === 'SIGNED_IN' && session?.user) {
           console.log('🔍 Looking up operator for:', session.user.email)
