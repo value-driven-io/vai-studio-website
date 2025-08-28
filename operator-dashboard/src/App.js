@@ -1589,35 +1589,84 @@ function AppContent() { // function App() { << before changes for the authcallba
       <>
         <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center px-4">
           <div className="max-w-md w-full text-center">
-            <div className="bg-slate-800 rounded-xl p-8 border border-slate-700">
-              {/* Loading Animation */}
-              <div className="mb-6">
-                <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+            <div className="bg-slate-800 rounded-xl p-8 border border-slate-700 relative overflow-hidden">
+              {/* Animated Background Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 animate-pulse"></div>
+              
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Enhanced Loading Animation */}
+                <div className="mb-6">
+                  <div className="relative">
+                    <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+                    <div className="absolute inset-0 w-12 h-12 border-4 border-blue-300/20 rounded-full mx-auto animate-ping"></div>
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-semibold mb-2">
+                  🔄 Loading Your Dashboard
+                </h2>
+
+                <p className="text-slate-300 mb-2 font-medium">
+                  Connecting to your operator account...
+                </p>
+                
+                <p className="text-slate-400 text-sm mb-6">
+                  This usually takes 5-10 seconds. Please wait while we retrieve your data securely.
+                </p>
+
+                {/* Progress Steps */}
+                <div className="mb-8 space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-green-400 flex items-center gap-2">
+                      ✓ Authentication verified
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-blue-400 flex items-center gap-2">
+                      <div className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                      Loading operator data...
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-slate-500">
+                    <span className="flex items-center gap-2">
+                      <div className="w-3 h-3 border-2 border-slate-500 rounded-full"></div>
+                      Preparing dashboard
+                    </span>
+                  </div>
+                </div>
+
+                {/* Enhanced Progress Bar */}
+                <div className="mb-6">
+                  <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full animate-pulse" 
+                         style={{width: '60%', animation: 'pulse 2s infinite'}}></div>
+                  </div>
+                  <div className="text-xs text-slate-400 mt-2">Step 2 of 3</div>
+                </div>
+
+                {/* Fallback Options - Show after delay */}
+                <div className="space-y-3 opacity-60">
+                  <p className="text-xs text-slate-400 mb-3">Having trouble? Try these options:</p>
+                  <button 
+                    onClick={() => window.location.reload()}
+                    className="w-full bg-blue-600/80 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+                  >
+                    🔄 Refresh Page
+                  </button>
+                  <button 
+                    onClick={logout}
+                    className="w-full bg-slate-600/80 hover:bg-slate-600 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+                  >
+                    🚪 Sign Out & Try Again
+                  </button>
+                </div>
               </div>
-
-              <h2 className="text-xl font-semibold mb-3">
-                🔄 Loading Your Dashboard
-              </h2>
-
-              <p className="text-slate-400 mb-6">
-                Connecting to your operator account... This may take a moment in some browsers.
-              </p>
-
-              {/* Fallback Options */}
-              <div className="space-y-3">
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
-                >
-                  Refresh Page
-                </button>
-                <button 
-                  onClick={logout}
-                  className="w-full bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors"
-                >
-                  Sign Out & Try Again
-                </button>
-              </div>
+            </div>
+            
+            {/* Helpful tip */}
+            <div className="mt-4 text-xs text-slate-500">
+              💡 This loading screen appears only on browser refresh and will disappear once your data loads
             </div>
           </div>
         </div>

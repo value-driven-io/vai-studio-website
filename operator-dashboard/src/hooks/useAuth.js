@@ -156,7 +156,7 @@ export const useAuth = () => {
     let hasInitialized = false // Prevent double initialization in StrictMode
 
     const checkSession = async () => {
-      console.log('🔍 DEBUG: checkSession called, hasInitialized:', hasInitialized, 'hasValidSession:', hasValidSession)
+      // console.log('🔍 DEBUG: checkSession called, hasInitialized:', hasInitialized, 'hasValidSession:', hasValidSession)
       if (hasInitialized) {
         console.log('🔧 Skipping duplicate checkSession in StrictMode')
         return
@@ -190,7 +190,7 @@ export const useAuth = () => {
         
         if (session?.user && isMounted) {
           console.log('✅ Valid session found for:', session.user.email)
-          console.log('🔍 DEBUG: Setting hasValidSession = true (was:', hasValidSession + ')')
+          // console.log('🔍 DEBUG: Setting hasValidSession = true (was:', hasValidSession + ')')
           setHasValidSession(true)
           
           // Get operator data with retry mechanism
@@ -345,6 +345,9 @@ export const useAuth = () => {
               try {
                 console.log(`🔄 Operator lookup attempt ${attempt}/${retries}`)
                 
+                // Use faster timeout for first attempt, longer for retries
+                const timeout = attempt === 1 ? 4000 : 8000
+                
                 const { data: operatorData, error } = await Promise.race([
                   supabase
                     .from('operators')
@@ -352,7 +355,7 @@ export const useAuth = () => {
                     .eq('auth_user_id', session.user.id)
                     .single(),
                   new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Operator lookup timeout')), 8000) // Increased timeout
+                    setTimeout(() => reject(new Error('Operator lookup timeout')), timeout)
                   )
                 ])
                 
@@ -571,7 +574,7 @@ export const useAuth = () => {
     }
   }
 
-  console.log('🔍 DEBUG: useAuth returning - hasValidSession:', hasValidSession, 'operator:', !!operator, 'loading:', loading)
+  // console.log('🔍 DEBUG: useAuth returning - hasValidSession:', hasValidSession, 'operator:', !!operator, 'loading:', loading)
   
   return {
     operator,
