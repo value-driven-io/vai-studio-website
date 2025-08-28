@@ -141,9 +141,6 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         const subtotal = (formData.num_adults * tour.discount_price_adult) + 
                         (formData.num_children * (tour.discount_price_child || 0))
 
-        // Debug: Log tour data to verify operator_id
-        console.log('🔍 Tour data:', tour)
-        console.log('🔍 tour.operator_id specifically:', tour?.operator_id)
 
         // Get operator_id - if missing from tour object, fetch from database
         let operatorId = tour.operator_id
@@ -282,12 +279,6 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       // 🆕 Determine if this is a payment booking or old flow booking
       const hasPaymentData = !!bookingResult.payment_intent_id // NEW FLOW if Stripe payment exists
 
-      // Debug Success Screen
-      console.log('=== SUCCESS SCREEN DEBUG ===')
-      console.log('bookingResult:', bookingResult)
-      console.log('payment_intent_id:', bookingResult.payment_intent_id)
-      console.log('payment_status:', bookingResult.payment_status)
-      console.log('hasPaymentData:', hasPaymentData)
       
       return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -300,13 +291,13 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </div>
                 
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  {hasPaymentData ? t('payment.paymentAuthorizedSuccess') : t('payment.bookingRequested')}
+                  {hasPaymentData ? t('payment.paymentAuthorizedSuccess') : t('success.bookingRequested')}
                 </h2>
                 
                 <p className="text-slate-300">
                   {hasPaymentData 
                     ? t('payment.awaitingConfirmation')
-                    : t('payment.adventureRequest')
+                    : t('success.adventureRequest')
                   }
                 </p>
               </div>
