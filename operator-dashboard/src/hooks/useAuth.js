@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next' 
 import { supabase } from '../lib/supabase' 
 import { needsPasswordChange } from '../utils/passwordSecurity'
+import operatorCache from '../services/operatorCache'
 
 export const useAuth = () => {
   const { t } = useTranslation() 
@@ -339,22 +340,71 @@ export const useAuth = () => {
           console.log('🔍 DEBUG: onAuthStateChange setting hasValidSession = true (was:', hasValidSession + ')')
           setHasValidSession(true)
           
-          // Retry mechanism for operator lookup
-          const retryOperatorLookup = async (retries = 3, delay = 1000) => {
-            // DIAGNOSTIC: Environment info
+          // Enhanced operator lookup with caching and background refresh
+          const lookupOperatorWithCache = async (authUserId) => {
             console.log(`🔍 [DIAGNOSTIC] Environment info:`, {
               hostname: window.location.hostname,
-              userAgent: navigator.userAgent.split(' ')[0], // Just browser name
+              userAgent: navigator.userAgent.split(' ')[0],
               connection: navigator.connection?.effectiveType || 'unknown',
-              supabaseUrl: supabase.supabaseUrl?.slice(-10) || 'unknown' // Last 10 chars for identification
+              supabaseUrl: supabase.supabaseUrl?.slice(-10) || 'unknown'
             })
+
+            // Step 1: Try to get cached data first
+            const cachedOperator = operatorCache.getCachedOperator(authUserId)
+            if (cachedOperator) {
+              console.log('🗄️ Using cached operator data for instant load')
+              setOperator(cachedOperator)
+              setLoading(false)
+              
+              // Background refresh to keep cache fresh
+              setTimeout(() => {
+                console.log('🔄 Background refresh of operator data...')
+                refreshOperatorInBackground(authUserId)
+              }, 100)
+              
+              return cachedOperator
+            }
+
+            // Step 2: No cache available, fetch with optimized retry
+            console.log('🔄 No cached data available, fetching from database...')
+            return await retryOperatorLookup(authUserId, 2, 1000) // Reduced retries since we have prewarming
+          }
+
+          // Background refresh function
+          const refreshOperatorInBackground = async (authUserId) => {
+            try {
+              const { data: operatorData, error } = await supabase
+                .from('operators')
+                .select('*')
+                .eq('auth_user_id', authUserId)
+                .single()
+
+              if (operatorData && !error) {
+                operatorCache.cacheOperator(authUserId, operatorData)
+                
+                // Update current state if data changed
+                setOperator(prev => {
+                  if (JSON.stringify(prev) !== JSON.stringify(operatorData)) {
+                    console.log('🔄 Background refresh found updated operator data')
+                    return operatorData
+                  }
+                  return prev
+                })
+              }
+            } catch (error) {
+              console.warn('⚠️ Background operator refresh failed:', error.message)
+            }
+          }
+
+          // Optimized retry mechanism (now with fewer retries due to prewarming)
+          const retryOperatorLookup = async (authUserId, retries = 2, delay = 1000) => {
             for (let attempt = 1; attempt <= retries; attempt++) {
               const attemptStart = performance.now()
               try {
                 console.log(`🔄 Operator lookup attempt ${attempt}/${retries}`)
                 
-                // Use faster timeout for first attempt, longer for retries
-                const timeout = attempt === 1 ? 4000 : 8000
+                // Shorter timeout since connection is prewarmed
+                const timeout = attempt === 1 ? 8000 : 12000
                 
                 // DIAGNOSTIC: Measure network + query time separately
                 const queryStart = performance.now()
@@ -363,7 +413,7 @@ export const useAuth = () => {
                 const queryPromise = supabase
                   .from('operators')
                   .select('*')
-                  .eq('auth_user_id', session.user.id)
+                  .eq('auth_user_id', authUserId)
                   .single()
                   .then(result => {
                     const queryEnd = performance.now()
@@ -388,6 +438,10 @@ export const useAuth = () => {
                 
                 if (operatorData && !error) {
                   console.log(`✅ Operator found on attempt ${attempt} in ${totalAttemptTime.toFixed(2)}ms: ${operatorData.company_name}`)
+                  
+                  // Cache the successful result
+                  operatorCache.cacheOperator(authUserId, operatorData)
+                  
                   return operatorData
                 } else if (error && !error.message.includes('timeout')) {
                   // Non-timeout errors should not be retried
@@ -419,7 +473,7 @@ export const useAuth = () => {
           }
           
           try {
-            const operatorData = await retryOperatorLookup()
+            const operatorData = await lookupOperatorWithCache(session.user.id)
             
             if (operatorData && isMounted) {
               setOperator(operatorData)
@@ -511,25 +565,51 @@ export const useAuth = () => {
         }
       }
       
-      // Get Operator data 
+      // Get Operator data with caching
       console.log('🔍 Looking up operator for user:', authData.user.email)
-      const { data: operatorData, error: operatorError } = await supabase
-        .from('operators')
-        .select('*')
-        .eq('auth_user_id', authData.user.id)
-        // ✅ REMOVED: .eq('status', 'active') - now allows pending operators
-        .single()
+      
+      // Check cache first for faster login
+      let operatorData = operatorCache.getCachedOperator(authData.user.id)
+      
+      if (!operatorData) {
+        // Fetch from database if not cached
+        const { data, error: operatorError } = await supabase
+          .from('operators')
+          .select('*')
+          .eq('auth_user_id', authData.user.id)
+          .single()
 
-      if (operatorError || !operatorData) {
-      console.error('❌ Operator lookup error:', operatorError)
-      await supabase.auth.signOut()
-      const accountNotFoundError = t('login.errors.accountNotFound')
-      console.log('🔍 Account not found error for return:', accountNotFoundError) // DEBUG
-      return { 
-        success: false, 
-        error: accountNotFoundError
+        if (operatorError || !data) {
+          console.error('❌ Operator lookup error:', operatorError)
+          await supabase.auth.signOut()
+          const accountNotFoundError = t('login.errors.accountNotFound')
+          console.log('🔍 Account not found error for return:', accountNotFoundError)
+          return { 
+            success: false, 
+            error: accountNotFoundError
+          }
+        }
+        
+        operatorData = data
+        // Cache for future use
+        operatorCache.cacheOperator(authData.user.id, operatorData)
+      } else {
+        console.log('🗄️ Using cached operator data for login:', operatorData.company_name)
+        
+        // Background refresh to ensure data is current
+        setTimeout(() => {
+          console.log('🔄 Background refresh after login...')
+          supabase
+            .from('operators')
+            .select('*')
+            .eq('auth_user_id', authData.user.id)
+            .single()
+            .then(({ data }) => {
+              if (data) operatorCache.cacheOperator(authData.user.id, data)
+            })
+            .catch(() => {}) // Silent background refresh
+        }, 1000)
       }
-    }
 
       // Handle suspended or inactive statuses (old logic with toast notifcation and sign out)
       //if (operatorData.status === 'suspended' || operatorData.status === 'inactive') {
@@ -566,18 +646,30 @@ export const useAuth = () => {
     }
   }
 
-  // Your existing logout function unchanged
+  // Enhanced logout function with cache clearing
   const logout = async () => {
     try {
+      // Get current user before signing out to clear their cache
+      const { data: { session } } = await supabase.auth.getSession()
+      const authUserId = session?.user?.id
+      
       await supabase.auth.signOut()
       setOperator(null)
       setHasValidSession(false)
-      console.log('👋 Operator logged out securely')
+      
+      // Clear cached operator data
+      if (authUserId) {
+        operatorCache.clearCache(authUserId)
+      }
+      
+      console.log('👋 Operator logged out securely with cache cleared')
     } catch (error) {
       console.error('❌ Logout error:', error)
       // Force local logout even if remote logout fails
       setOperator(null)
       setHasValidSession(false)
+      // Clear all caches as fallback
+      operatorCache.clearAllCaches()
     }
   }
 

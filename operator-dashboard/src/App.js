@@ -38,6 +38,26 @@ const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
     return Math.ceil(price / 100) * 100
   }
 
+  // 🔥 CONNECTION POOL PREWARMING
+  // Initialize Supabase connection pool early to prevent cold start delays
+  const prewarmConnectionPool = async () => {
+    try {
+      console.log('🔥 Prewarming Supabase connection pool...')
+      const start = performance.now()
+      
+      // Lightweight query to establish connection
+      await supabase
+        .from('operators')
+        .select('id')
+        .limit(1)
+      
+      const duration = performance.now() - start
+      console.log(`🔥 Connection pool prewarmed in ${duration.toFixed(2)}ms`)
+    } catch (error) {
+      console.warn('⚠️ Connection prewarming failed (non-critical):', error.message)
+    }
+  }
+
   // Function to lock commission rate when booking is confirmed
 
   const lockBookingCommission = async (bookingId) => {
@@ -90,6 +110,11 @@ function AppContent() { // function App() { << before changes for the authcallba
   // ALL HOOKS MUST BE AT THE TOP
   const { operator, loading: authLoading, login, logout, isAuthenticated } = useAuth()
   const { t } = useTranslation()
+  
+  // 🔥 CONNECTION POOL PREWARMING - Run immediately on app start
+  useEffect(() => {
+    prewarmConnectionPool()
+  }, [])
   
   // State management
   const [tours, setTours] = useState([])
