@@ -370,10 +370,16 @@ body {
 }
 
 .solution-hero-image {
-    width: 100%;
+    width: 80%;
     height: auto;
-    border-radius: 80px;
-    box-shadow: 0 20px 40px rgba(249, 115, 22, 0.2);
+    border-radius:35px
+}
+
+.solution-hero-image:hover {
+    box-shadow: 0 0 15px 5px rgba(1, 105, 215, 0.69);
+    border-radius: 57px;
+    padding: 5px;
+    transition: box-shadow 0.7s ease, transform 0.7s ease;
 }
 
 .solution-header h2 {
@@ -995,11 +1001,8 @@ body {
     }
 
     .solution-hero-image {
-        border-radius:20px;
-    }
-
-    .solution-hero-image {
         box-shadow: none;
+        margin-top: 80px
     }
     
     .problems, 

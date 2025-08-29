@@ -203,7 +203,7 @@ const RegistrationForm = ({ onBack, onSuccess }) => {
   const tourTypes = [
     'whaleWatching', 'snorkeling', 'diving', 'lagoonTours',
     'islandTours', 'hiking', 'cultural', 'fishing',
-    'sunset', 'mindfulness', 'other'
+    'sunset', 'mindfulness', 'culinary', 'other'
   ]
 
   const targetBookings = [
@@ -451,6 +451,7 @@ const languageOptions = [
         'cultural': 'Cultural Activities',
         'fishing': 'Fishing',
         'sunset': 'Sunset Tours',
+        'culinary': 'Culinary Experience',
         'mindfulness': 'Mindful Events',
         'other': 'Other'
       }

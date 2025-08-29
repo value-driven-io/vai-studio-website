@@ -1,12 +1,20 @@
 // src/components/Navigation.jsx
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { BarChart3, Plus, Calendar, User, TrendingUp,Rocket } from 'lucide-react'
+import { BarChart3, Plus, Calendar, User, TrendingUp, Rocket, Target } from 'lucide-react'
 
-const Navigation = ({ activeTab, setActiveTab, stats }) => {
+const Navigation = ({ activeTab, setActiveTab, stats, showSetupTab = false }) => {
   const { t } = useTranslation()
   
   const navItems = [
+    // Setup tab - conditionally included as first item
+    ...(showSetupTab ? [{
+      id: 'setup',
+      icon: Target,
+      label: 'Setup',
+      badge: null,
+      priority: true
+    }] : []),
     {
       id: 'dashboard',
       icon: BarChart3,
@@ -43,7 +51,7 @@ const Navigation = ({ activeTab, setActiveTab, stats }) => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-slate-800/90 backdrop-blur-sm border-t border-slate-700 z-50">
-      <div className="grid grid-cols-4 h-16 max-w-7xl mx-auto">
+      <div className={`grid ${showSetupTab ? 'grid-cols-5' : 'grid-cols-4'} h-16 max-w-7xl mx-auto`}>
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.id
@@ -54,10 +62,10 @@ const Navigation = ({ activeTab, setActiveTab, stats }) => {
               onClick={() => setActiveTab(item.id)}
               className={`flex flex-col items-center justify-center space-y-1 transition-colors relative ${
                 isActive 
-                  ? 'text-blue-400' 
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? item.priority ? 'text-green-400' : 'text-blue-400'
+                  : item.priority ? 'text-green-300 hover:text-green-200' : 'text-slate-400 hover:text-slate-200'
               }`}
-              data-tour={item.id === 'bookings' ? 'bookings-tab' : undefined}
+              data-tour={item.id === 'bookings' ? 'bookings-tab' : item.id === 'profile' ? 'profile-tab' : undefined}
             >
               <div className="relative">
                 <Icon size={20} />
@@ -69,7 +77,9 @@ const Navigation = ({ activeTab, setActiveTab, stats }) => {
               </div>
               <span className="text-xs font-medium">{item.label}</span>
               {isActive && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-400 rounded-full" />
+                <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 rounded-full ${
+                  item.priority ? 'bg-green-400' : 'bg-blue-400'
+                }`} />
               )}
             </button>
           )

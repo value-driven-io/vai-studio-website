@@ -54,7 +54,24 @@
     "tryDifferentMood": "Try a different mood or check back later",
     "didntFindQuestion": "Didn't find what you're looking for?",
     "tours": "tour",
-    "toursPlural": "tours"
+    "toursPlural": "tours",
+    "chooseIsland": "Choose your island",
+    "islandFirst": "Where's your activity?",
+    "personalize": "Personalize:",
+    "quick": "Quick experiences",
+    "budget": "Budget",
+    "luxury": "Luxury",
+    "family": "Family",
+    "romantic": "Romantic",
+    "noToursAvailable": "No tours available",
+    "seeAllOptions": "See all options",
+    "islandSelectionHelp": "Select an island to see available activities",
+    "moodSelectionHelp": "Select your mood to see personalized activities",
+    "perfectMatches": "Perfect matches for you",
+    "tryFewerFilters": "Try removing some filters or explore different options",
+    "clearFilters": "Clear filters",
+    "tryDifferentIsland": "Try different island",
+    "noToursForMood": "No tours available"
   },
 
   "moods": {
@@ -78,6 +95,22 @@
       "subtitle": "Dive into paradise", 
       "description": "Explore the incredible underwater world of our lagoons"
     }
+  },
+
+  "islands": {
+    "all": "All Islands",
+    "tahiti": "Tahiti",
+    "moorea": "Moorea",
+    "boraBora": "Bora Bora",
+    "huahine": "Huahine",
+    "raiatea": "Raiatea",
+    "tahaa": "Taha'a",
+    "maupiti": "Maupiti",
+    "tikehau": "Tikehau",
+    "rangiroa": "Rangiroa",
+    "fakarava": "Fakarava",
+    "nukuHiva": "Nuku Hiva",
+    "other": "Other"
   },
 
   "tours": {

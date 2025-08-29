@@ -757,7 +757,7 @@
       "sunset": "🌅 Sunset Tours",
       "photography": "📸 Photography Tours",
       "mindfulness": "🧘 Mindful Events",
-      "food": "🥭 Food Experience",
+      "culinary": "🥭 Culinary Experience",
       "other": "Other"
     },
     "targetBookings": {
@@ -1318,7 +1318,193 @@
     }
   },
 
+  "setupTab": {
+    "title": "Welcome to VAI Tickets Setup",
+    "subtitle": "Complete these steps to start earning from your tours in French Polynesia",
+    "progress": {
+      "title": "Setup Progress",
+      "completed": "{{completed}} of {{total}} steps completed",
+      "percentage": "{{percentage}}%"
+    },
+    "benefits": {
+      "revenue": "Keep 89% of revenue",
+      "reach": "Global reach", 
+      "free": "Free to start"
+    },
+    "nextSteps": {
+      "title": "Next Steps",
+      "description": "Complete these items to continue your setup"
+    },
+    "completion": {
+      "title": "Setup Complete!",
+      "message": "Congratulations! You've completed all setup steps and are ready to start earning from your tours.",
+      "button": "Start Using VAI Tickets"
+    },
+    "steps": {
+      "password": {
+        "title": "Secure Your Account",
+        "description": "Set up a strong password to protect your operator account",
+        "reason": "Account security is required for payment processing"
+      },
+      "tour": {
+        "title": "Platform Overview",
+        "description": "Take a quick tour to learn how VAI Tickets works",
+        "reason": "Understanding the platform helps you succeed faster"
+      },
+      "payment": {
+        "title": "Payment Setup", 
+        "description": "Connect your Stripe account to receive payments",
+        "reason": "Required to receive payments from bookings"
+      },
+      "firstActivity": {
+        "title": "Create Your First Activity",
+        "description": "List your first tour or activity on the platform",
+        "reason": "Start earning from bookings immediately"
+      }
+    },
+    "actions": {
+      "secureAccount": "Secure Account",
+      "takeTour": "Take Tour", 
+      "setupPayments": "Setup Payments",
+      "createActivity": "Create Activity"
+    }
+  },
+
   "onboarding": {
+    "welcome": {
+      "title": "Welcome to VAI Operator! 🌸",
+      "subtitle": "Let's get you set up to start receiving bookings",
+      "description": "We'll guide you through 4 essential steps to prepare your account for success."
+    },
+    "progress": {
+      "title": "Setup Progress",
+      "subtitle": "Complete these steps to unlock your earning potential",
+      "stepsCompleted": "{{completed}} of {{total}} steps completed",
+      "allDone": "All done! You're ready to receive bookings",
+      "continueSetup": "Continue Setup",
+      "finishLater": "Finish Later",
+      "step": "Step {{number}}",
+      "optional": "Optional",
+      "required": "Required",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "notStarted": "Not Started"
+    },
+    "steps": {
+      "password": {
+        "title": "Secure Your Account",
+        "description": "Create your personal password for account security",
+        "reason": "Protect your business data and customer information",
+        "action": "Set Password",
+        "completed": "Password secured ✓",
+        "importance": "Essential for account security"
+      },
+      "tour": {
+        "title": "Platform Overview", 
+        "description": "Quick tour of your dashboard features",
+        "reason": "Learn how to manage bookings and create activities efficiently",
+        "action": "Take Tour",
+        "completed": "Tour completed ✓",
+        "importance": "Learn the essentials in 2 minutes"
+      },
+      "payment": {
+        "title": "Payment Setup",
+        "description": "Connect your bank account for payouts",
+        "reason": "Receive payments from customers 48 hours after activity completion",
+        "action": "Setup Payments",
+        "completed": "Payments ready ✓",
+        "importance": "Required to receive money"
+      },
+      "firstActivity": {
+        "title": "Create First Activity",
+        "description": "Publish your first tour or experience",
+        "reason": "Start attracting customers and generating bookings",
+        "action": "Create Activity",
+        "completed": "First activity created ✓",
+        "importance": "Start earning immediately"
+      }
+    },
+    "todoList": {
+      "title": "Your Next Steps",
+      "subtitle": "Quick actions to improve your success",
+      "empty": "All caught up! 🎉",
+      "items": {
+        "setupPayments": {
+          "title": "Setup payment account",
+          "description": "Connect your bank to receive payouts",
+          "priority": "high"
+        },
+        "createFirstActivity": {
+          "title": "Create your first activity",
+          "description": "Publish an experience to start getting bookings",
+          "priority": "high"
+        },
+        "completeProfile": {
+          "title": "Complete your profile",
+          "description": "Add business details for customer trust",
+          "priority": "medium"
+        },
+        "takeTour": {
+          "title": "Take the platform tour",
+          "description": "Learn how to manage bookings effectively",
+          "priority": "medium"
+        },
+        "uploadPhotos": {
+          "title": "Add photos to activities",
+          "description": "Visual content increases bookings by 60%",
+          "priority": "low"
+        }
+      }
+    },
+    "onboardingTour": {
+      "welcome": {
+        "title": "Welcome to VAI Operator! 🌸",
+        "message": "You're now part of French Polynesia's premier booking platform. Let's explore the key features that will help you manage bookings and grow your business."
+      },
+      "dashboard": {
+        "title": "Your Performance Hub",
+        "message": "Monitor your revenue, track booking trends, and see which activities are performing best. This real-time data helps you make informed business decisions."
+      },
+      "createActivity": {
+        "title": "Create Activities That Sell",
+        "message": "This is where you'll publish your tours and experiences. Pro tip: Activities posted 4-6 hours before departure get 40% more last-minute bookings."
+      },
+      "manageBookings": {
+        "title": "Booking Management Center",
+        "message": "Accept or decline bookings, communicate with customers, and track payments. Quick responses lead to higher booking rates and better reviews."
+      },
+      "payments": {
+        "title": "Your Revenue Stream",
+        "message": "Set up your payment account to receive payouts 48 hours after each activity. You keep 89% - we only charge 11% commission."
+      },
+      "complete": {
+        "title": "You're Ready to Succeed! 🎉",
+        "message": "You now know the essentials. Start creating activities and watch your bookings grow. Need help? Our support team is always here for you."
+      }
+    },
+    "controls": {
+      "previous": "Previous",
+      "next": "Next",
+      "skip": "Skip Tour",
+      "dismiss": "Start Dashboard",
+      "getStarted": "Get Started",
+      "continueSetup": "Continue Setup"
+    },
+    "motivation": {
+      "earnPotential": "Operators earn an average of €2,400/month",
+      "quickSetup": "Setup takes less than 10 minutes",
+      "freeToStart": "Free to start, no monthly fees"
+    },
+    "completion": {
+      "title": "Setup Complete! 🎉",
+      "subtitle": "Your account is ready to receive bookings",
+      "message": "You've successfully completed the essential setup steps. Your operator account is now optimized for success on VAI Tickets.",
+      "nextSteps": "Next steps:",
+      "startCreating": "Create your first activity",
+      "promoteActivities": "Share your activities on social media", 
+      "trackPerformance": "Monitor your performance on the dashboard",
+      "getStarted": "Start Creating Activities"
+    },
     "tooltips": {
       "dashboard": {
         "revenue": "This shows your captured revenue from confirmed bookings. Pending payments appear separately.",
@@ -1350,37 +1536,6 @@
         "firstTime": "👋 Welcome to VAI Operator! This tooltip system helps you get started. You can dismiss these anytime.",
         "navigation": "Use the bottom navigation to switch between sections. Red badges show items needing attention.",
         "notifications": "System notifications appear here - booking updates, payment confirmations, and important announcements. Click to view and manage."
-      }
-    },
-    "controls": {
-      "dismiss": "Got it!",
-      "dismissAll": "Hide all tips",
-      "next": "Next tip",
-      "previous": "Previous",
-      "skip": "Skip tour",
-      "showTips": "Show tips",
-      "resetTour": "Reset tour"
-    },
-    "onboardingTour": {
-      "welcome": {
-        "title": "Welcome to VAI Operator! 🌺",
-        "message": "Let's take a quick tour to help you get started with creating activities and managing bookings."
-      },
-      "dashboard": {
-        "title": "Your Business Dashboard",
-        "message": "Monitor your revenue, bookings, and activity performance. Everything you need at a glance."
-      },
-      "createActivity": {
-        "title": "Create Your First Activity",
-        "message": "This is where you'll create experiences for tourists. Each activity appears on VAI Tickets within minutes."
-      },
-      "manageBookings": {
-        "title": "Manage Bookings", 
-        "message": "All your customer requests appear here. Respond quickly to confirm bookings and secure revenue!"
-      },
-      "complete": {
-        "title": "You're all set! 🎉",
-        "message": "You now know the basics. Create your first activity to start receiving bookings from tourists!"
       }
     }
   },

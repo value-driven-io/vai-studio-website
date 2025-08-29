@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronLeft, ChevronRight, X, Sparkles } from 'lucide-react'
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  X, 
+  Sparkles, 
+  TrendingUp, 
+  Users, 
+  CreditCard, 
+  BookOpen,
+  Target,
+  Clock,
+  DollarSign
+} from 'lucide-react'
+import onboardingStateManager from '../../services/onboardingStateManager'
 
 const OnboardingTour = ({ operator, onComplete }) => {
   const { t } = useTranslation()
@@ -12,36 +25,61 @@ const OnboardingTour = ({ operator, onComplete }) => {
       id: 'welcome',
       title: t('onboarding.onboardingTour.welcome.title'),
       message: t('onboarding.onboardingTour.welcome.message'),
-      target: null, // No specific target, just a welcome message
-      position: 'center'
+      target: null,
+      position: 'center',
+      icon: Sparkles,
+      businessValue: null,
+      proTip: null
     },
     {
       id: 'dashboard',
-      title: t('onboarding.onboardingTour.dashboard.title'),
-      message: t('onboarding.onboardingTour.dashboard.message'),
+      title: 'Your Dashboard Tab',
+      message: 'This is your main dashboard where you can see booking statistics, revenue, and overall performance metrics.',
       target: '[data-tour="dashboard-stats"]',
-      position: 'bottom'
+      position: 'bottom',
+      icon: TrendingUp,
+      businessValue: 'Data-driven decisions increase revenue by 30%',
+      proTip: 'Check your dashboard daily to spot booking trends'
     },
     {
       id: 'createActivity',
-      title: t('onboarding.onboardingTour.createActivity.title'),
-      message: t('onboarding.onboardingTour.createActivity.message'),
+      title: 'Your Create Tab',
+      message: 'This is where you create and manage your tours and activities. Good descriptions and photos lead to more bookings.',
       target: '[data-tour="create-button"]',
-      position: 'bottom'
+      position: 'bottom',
+      icon: BookOpen,
+      businessValue: 'Activities with good descriptions get 3x more bookings',
+      proTip: 'Include photos and detailed meeting points for best results'
     },
     {
       id: 'manageBookings',
-      title: t('onboarding.onboardingTour.manageBookings.title'),
-      message: t('onboarding.onboardingTour.manageBookings.message'),
+      title: 'Your Bookings Tab',
+      message: 'This is your booking management center where you handle customer requests, confirmations, and communication.',
       target: '[data-tour="bookings-tab"]',
-      position: 'top'
+      position: 'top',
+      icon: Users,
+      businessValue: 'Fast responses (under 30 min) increase conversion by 65%',
+      proTip: 'Quick responses lead to better reviews and more bookings'
+    },
+    {
+      id: 'revenueStream',
+      title: 'Your Profile Tab',
+      message: 'This is where you manage your business profile, payment settings, and account information.',
+      target: '[data-tour="profile-tab"]',
+      position: 'top',
+      icon: CreditCard,
+      businessValue: 'You keep 89% of every booking - industry leading',
+      proTip: 'Payouts arrive 48h after activity completion'
     },
     {
       id: 'complete',
       title: t('onboarding.onboardingTour.complete.title'),
       message: t('onboarding.onboardingTour.complete.message'),
       target: null,
-      position: 'center'
+      position: 'center',
+      icon: Target,
+      businessValue: 'Operators following this system earn €2,400/month average',
+      proTip: 'Start with one activity and scale based on demand'
     }
   ]
 
@@ -57,6 +95,76 @@ const OnboardingTour = ({ operator, onComplete }) => {
       setTimeout(() => setIsVisible(true), 1500)
     }
   }, [operator])
+
+  // Handle tab highlighting when step changes
+  useEffect(() => {
+    if (isVisible) {
+      highlightRelevantTab()
+    } else {
+      removeTabHighlights()
+    }
+
+    return () => {
+      removeTabHighlights()
+    }
+  }, [isVisible, currentStep])
+
+  const highlightRelevantTab = () => {
+    // Remove any existing highlights first
+    removeTabHighlights()
+    
+    const currentStepData = tourSteps[currentStep]
+    if (!currentStepData) return
+    
+    let tabSelector = null
+    
+    // Map tour steps to navigation tabs using exact data-tour attributes
+    switch (currentStepData.id) {
+      case 'dashboard':
+        tabSelector = '[data-tour="dashboard-stats"]'
+        break
+      case 'createActivity':
+        tabSelector = '[data-tour="create-button"]'
+        break
+      case 'manageBookings':
+        tabSelector = '[data-tour="bookings-tab"]'
+        break
+      case 'revenueStream':
+        tabSelector = '[data-tour="profile-tab"]'
+        break
+      default:
+        return // No tab highlighting for welcome or completion steps
+    }
+    
+    if (tabSelector) {
+      // Find the navigation element and add highlight
+      const targetElement = document.querySelector(tabSelector)
+      if (targetElement) {
+        // Find the parent navigation button
+        const navButton = targetElement.closest('button') || targetElement
+        if (navButton) {
+          navButton.classList.add('tour-highlighted')
+          navButton.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.8)'
+          navButton.style.backgroundColor = 'rgba(59, 130, 246, 0.2)'
+          navButton.style.borderRadius = '12px'
+          navButton.style.transition = 'all 0.3s ease'
+          navButton.style.zIndex = '9998' // Just below the tour modal
+        }
+      }
+    }
+  }
+
+  const removeTabHighlights = () => {
+    const highlightedElements = document.querySelectorAll('.tour-highlighted')
+    highlightedElements.forEach(element => {
+      element.classList.remove('tour-highlighted')
+      element.style.boxShadow = ''
+      element.style.backgroundColor = ''
+      element.style.borderRadius = ''
+      element.style.transition = ''
+      element.style.zIndex = ''
+    })
+  }
 
   const currentStepData = tourSteps[currentStep]
 
@@ -82,6 +190,8 @@ const OnboardingTour = ({ operator, onComplete }) => {
     setIsVisible(false)
     if (operator) {
       localStorage.setItem(`vai-tour-completed-${operator.id}`, 'true')
+      // Mark tour step as completed in onboarding state
+      onboardingStateManager.markStepCompleted('tour', false) // Don't sync to DB, localStorage only
     }
     onComplete?.()
   }
@@ -92,84 +202,16 @@ const OnboardingTour = ({ operator, onComplete }) => {
   }
 
   const getTooltipPosition = () => {
-    const target = getTargetElement()
-    const isMobile = window.innerWidth < 768
-    
-    // For mobile, always center the tooltip
-    if (isMobile) {
-      return { 
-        position: 'fixed', 
-        top: '50%', 
-        left: '50%', 
-        transform: 'translate(-50%, -50%)',
-        maxWidth: 'calc(100vw - 32px)',
-        margin: '16px'
-      }
+    // Always center the tooltip for better UX - addresses positioning issues
+    return { 
+      position: 'fixed', 
+      top: '50%', 
+      left: '50%', 
+      transform: 'translate(-50%, -50%)',
+      maxWidth: window.innerWidth < 768 ? 'calc(100vw - 32px)' : '28rem',
+      margin: window.innerWidth < 768 ? '16px' : '0',
+      zIndex: 9999
     }
-    
-    if (!target) return { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
-
-    const rect = target.getBoundingClientRect()
-    const gap = 16
-    const tooltipWidth = 384 // max-w-sm = 24rem = 384px
-    const tooltipHeight = 200 // estimated height
-    
-    let position = {}
-    
-    switch (currentStepData.position) {
-      case 'bottom':
-        position = {
-          position: 'fixed',
-          top: rect.bottom + gap,
-          left: rect.left + (rect.width / 2),
-          transform: 'translateX(-50%)'
-        }
-        
-        // Prevent going off right edge
-        if (rect.left + (rect.width / 2) + tooltipWidth / 2 > window.innerWidth - gap) {
-          position.left = window.innerWidth - tooltipWidth - gap
-          position.transform = 'translateX(0)'
-        }
-        // Prevent going off left edge
-        if (rect.left + (rect.width / 2) - tooltipWidth / 2 < gap) {
-          position.left = gap
-          position.transform = 'translateX(0)'
-        }
-        // If no room below, move above
-        if (rect.bottom + tooltipHeight + gap > window.innerHeight) {
-          position.top = rect.top - tooltipHeight - gap
-        }
-        break
-        
-      case 'top':
-        position = {
-          position: 'fixed',
-          bottom: window.innerHeight - rect.top + gap,
-          left: rect.left + (rect.width / 2),
-          transform: 'translateX(-50%)'
-        }
-        
-        // Prevent going off edges
-        if (rect.left + (rect.width / 2) + tooltipWidth / 2 > window.innerWidth - gap) {
-          position.left = window.innerWidth - tooltipWidth - gap
-          position.transform = 'translateX(0)'
-        }
-        if (rect.left + (rect.width / 2) - tooltipWidth / 2 < gap) {
-          position.left = gap
-          position.transform = 'translateX(0)'
-        }
-        break
-        
-      default: // center for mobile or fallback
-        position = {
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)'
-        }
-    }
-    
-    return position
   }
 
   if (!isVisible) return null
@@ -200,16 +242,39 @@ const OnboardingTour = ({ operator, onComplete }) => {
       
       {/* Tour tooltip */}
       <div
-        className="fixed z-50 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-2xl border border-blue-400/30 p-4 md:p-6 max-w-sm w-full mx-4 md:mx-0"
+        className="fixed z-50 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-2xl border border-blue-400/30 p-4 md:p-6 max-w-md w-full mx-4 md:mx-0"
         style={tooltipStyle}
       >
         <div className="flex items-start gap-3 mb-4">
           <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-            <Sparkles className="w-4 h-4 text-yellow-300" />
+            <currentStepData.icon className="w-4 h-4 text-yellow-300" />
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-bold text-white mb-2">{currentStepData.title}</h3>
-            <p className="text-blue-100 text-sm leading-relaxed">{currentStepData.message}</p>
+            <p className="text-blue-100 text-sm leading-relaxed mb-3">{currentStepData.message}</p>
+            
+            {/* Business Value */}
+            {currentStepData.businessValue && (
+              <div className="bg-white/10 rounded-lg p-3 mb-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <DollarSign className="w-3 h-3 text-green-300" />
+                  <span className="text-xs font-semibold text-green-300">Business Impact</span>
+                </div>
+                <p className="text-xs text-green-200">{currentStepData.businessValue}</p>
+              </div>
+            )}
+            
+            {/* Pro Tip */}
+            {currentStepData.proTip && (
+              <div className="bg-yellow-400/10 rounded-lg p-3 mb-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <Target className="w-3 h-3 text-yellow-300" />
+                  <span className="text-xs font-semibold text-yellow-300">Pro Tip</span>
+                </div>
+                <p className="text-xs text-yellow-200">{currentStepData.proTip}</p>
+              </div>
+            )}
+            
             {window.innerWidth < 768 && (
               <p className="text-blue-200/80 text-xs mt-2 italic">
                 💡 For the best experience, try this tour on a tablet or desktop
