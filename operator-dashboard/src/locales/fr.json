@@ -975,11 +975,11 @@
     "modal": {
       "forcedTitle": "Configuration de sécurité requise",
       "forcedSubtitle": "Crée ton mot de passe sécurisé pour continuer à utiliser la plateforme.",
-      "voluntaryTitle": "Changer le mot de passe",
+      "voluntaryTitle": "Changer",
       "voluntarySubtitle": "Mets à jour ton mot de passe pour renforcer la sécurité.",
       "resetTitle": "Définir un nouveau mot de passe",
       "resetSubtitle": "Crée un nouveau mot de passe sécurisé pour ton compte.",
-      "defaultTitle": "Changer le mot de passe",
+      "defaultTitle": "Changer",
       "defaultSubtitle": "Mets à jour ton mot de passe"
     },
     "fields": {
@@ -1039,7 +1039,7 @@
       "accountSecurity": "Sécurité du compte",
       "passwordLastUpdated": "Mot de passe mis à jour : Récemment",
       "passwordSetupRequired": "Configuration du mot de passe requise",
-      "changePassword": "Changer le mot de passe",
+      "changePassword": "Changer",
       "setupNewPassword": "Configurer un nouveau mot de passe",
       "regularUpdatesInfo": "Les mises à jour régulières renforcent la sécurité",
       "securityBestPractices": "Meilleures pratiques de sécurité",
@@ -1260,6 +1260,228 @@
       "hours": "Il y a {{count}}h", 
       "days": "Il y a {{count}}j",
       "weeks": "Il y a {{count}}s"
+    }
+  },
+
+  "setupTab": {
+    "title": "Bienvenue dans la Configuration VAI Tickets",
+    "subtitle": "Complétez ces étapes pour commencer à gagner avec vos tours en Polynésie française",
+    "progress": {
+      "title": "Progrès de Configuration",
+      "completed": "{{completed}} sur {{total}} étapes terminées",
+      "percentage": "{{percentage}}%"
+    },
+    "benefits": {
+      "revenue": "Gardez 89% des revenus",
+      "reach": "Portée mondiale", 
+      "free": "Gratuit pour commencer"
+    },
+    "nextSteps": {
+      "title": "Prochaines Étapes",
+      "description": "Complétez ces éléments pour continuer votre configuration"
+    },
+    "completion": {
+      "title": "Configuration Terminée !",
+      "message": "Félicitations ! Vous avez terminé toutes les étapes de configuration et êtes prêt à commencer à gagner avec vos tours.",
+      "button": "Commencer à Utiliser VAI Tickets"
+    },
+    "steps": {
+      "password": {
+        "title": "Sécurisez Votre Compte",
+        "description": "Définissez un mot de passe fort pour protéger votre compte opérateur",
+        "reason": "La sécurité du compte est requise pour le traitement des paiements"
+      },
+      "tour": {
+        "title": "Aperçu de la Plateforme",
+        "description": "Faites un tour rapide pour apprendre comment fonctionne VAI Tickets",
+        "reason": "Comprendre la plateforme vous aide à réussir plus rapidement"
+      },
+      "payment": {
+        "title": "Configuration des Paiements", 
+        "description": "Connectez votre compte Stripe pour recevoir les paiements",
+        "reason": "Requis pour recevoir les paiements des réservations"
+      },
+      "firstActivity": {
+        "title": "Créez Votre Première Activité",
+        "description": "Listez votre premier tour ou activité sur la plateforme",
+        "reason": "Commencez à gagner des réservations immédiatement"
+      }
+    },
+    "actions": {
+      "secureAccount": "Sécuriser le Compte",
+      "takeTour": "Prendre le Tour", 
+      "setupPayments": "Configurer les Paiements",
+      "createActivity": "Créer une Activité"
+    }
+  },
+
+  "onboarding": {
+    "welcome": {
+      "title": "Bienvenue sur VAI Operator ! 🌸",
+      "subtitle": "Préparons votre compte pour commencer à recevoir des réservations",
+      "description": "Nous vous guidons à travers 4 étapes essentielles pour préparer votre compte au succès."
+    },
+    "progress": {
+      "title": "Progression de Configuration",
+      "subtitle": "Complétez ces étapes pour débloquer votre potentiel de revenus",
+      "stepsCompleted": "{{completed}} sur {{total}} étapes terminées",
+      "allDone": "Tout est prêt ! Vous pouvez recevoir des réservations",
+      "continueSetup": "Continuer la Configuration",
+      "finishLater": "Finir Plus Tard",
+      "step": "Étape {{number}}",
+      "optional": "Optionnel",
+      "required": "Obligatoire",
+      "completed": "Terminé",
+      "inProgress": "En Cours",
+      "notStarted": "Non Commencé"
+    },
+    "steps": {
+      "password": {
+        "title": "Sécurisez Votre Compte",
+        "description": "Créez votre mot de passe personnel pour la sécurité du compte",
+        "reason": "Protégez vos données d'entreprise et les informations clients",
+        "action": "Définir Mot de Passe",
+        "completed": "Mot de passe sécurisé ✓",
+        "importance": "Essentiel pour la sécurité du compte"
+      },
+      "tour": {
+        "title": "Aperçu de la Plateforme", 
+        "description": "Tour rapide des fonctionnalités de votre tableau de bord",
+        "reason": "Apprenez à gérer efficacement les réservations et créer des activités",
+        "action": "Prendre le Tour",
+        "completed": "Tour terminé ✓",
+        "importance": "Apprenez l'essentiel en 2 minutes"
+      },
+      "payment": {
+        "title": "Configuration Paiement",
+        "description": "Connectez votre compte bancaire pour les versements",
+        "reason": "Recevez les paiements des clients 48h après la réalisation de l'activité",
+        "action": "Configurer Paiements",
+        "completed": "Paiements prêts ✓",
+        "importance": "Requis pour recevoir de l'argent"
+      },
+      "firstActivity": {
+        "title": "Créer Première Activité",
+        "description": "Publiez votre premier tour ou expérience",
+        "reason": "Commencez à attirer des clients et générer des réservations",
+        "action": "Créer Activité",
+        "completed": "Première activité créée ✓",
+        "importance": "Commencez à gagner immédiatement"
+      }
+    },
+    "todoList": {
+      "title": "Vos Prochaines Étapes",
+      "subtitle": "Actions rapides pour améliorer votre succès",
+      "empty": "Tout est à jour ! 🎉",
+      "items": {
+        "setupPayments": {
+          "title": "Configurer compte de paiement",
+          "description": "Connectez votre banque pour recevoir les versements",
+          "priority": "high"
+        },
+        "createFirstActivity": {
+          "title": "Créez votre première activité",
+          "description": "Publiez une expérience pour commencer à recevoir des réservations",
+          "priority": "high"
+        },
+        "completeProfile": {
+          "title": "Complétez votre profil",
+          "description": "Ajoutez les détails de l'entreprise pour la confiance client",
+          "priority": "medium"
+        },
+        "takeTour": {
+          "title": "Prenez le tour de la plateforme",
+          "description": "Apprenez à gérer efficacement les réservations",
+          "priority": "medium"
+        },
+        "uploadPhotos": {
+          "title": "Ajoutez des photos aux activités",
+          "description": "Le contenu visuel augmente les réservations de 60%",
+          "priority": "low"
+        }
+      }
+    },
+    "onboardingTour": {
+      "welcome": {
+        "title": "Bienvenue sur VAI Operator ! 🌸",
+        "message": "Vous faites maintenant partie de la plateforme de réservation première de Polynésie française. Explorons les fonctionnalités clés qui vous aideront à gérer les réservations et développer votre entreprise."
+      },
+      "dashboard": {
+        "title": "Votre Hub de Performance",
+        "message": "Surveillez vos revenus, suivez les tendances de réservation, et voyez quelles activités performent le mieux. Ces données en temps réel vous aident à prendre des décisions d'entreprise éclairées."
+      },
+      "createActivity": {
+        "title": "Créez des Activités qui se Vendent",
+        "message": "C'est ici que vous publierez vos tours et expériences. Astuce pro : Les activités publiées 4-6 heures avant le départ obtiennent 40% plus de réservations de dernière minute."
+      },
+      "manageBookings": {
+        "title": "Centre de Gestion des Réservations",
+        "message": "Acceptez ou refusez les réservations, communiquez avec les clients, et suivez les paiements. Les réponses rapides mènent à des taux de réservation plus élevés et de meilleures évaluations."
+      },
+      "payments": {
+        "title": "Votre Flux de Revenus",
+        "message": "Configurez votre compte de paiement pour recevoir les versements 48h après chaque activité. Vous gardez 89% - nous ne facturons que 11% de commission."
+      },
+      "complete": {
+        "title": "Vous Êtes Prêt à Réussir ! 🎉",
+        "message": "Vous connaissez maintenant l'essentiel. Commencez à créer des activités et regardez vos réservations croître. Besoin d'aide ? Notre équipe de support est toujours là pour vous."
+      }
+    },
+    "controls": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "skip": "Ignorer le Tour",
+      "dismiss": "Commencer le Tableau de Bord",
+      "getStarted": "Commencer",
+      "continueSetup": "Continuer la Configuration"
+    },
+    "motivation": {
+      "earnPotential": "Les opérateurs gagnent en moyenne 2 400€/mois",
+      "quickSetup": "La configuration prend moins de 10 minutes",
+      "freeToStart": "Gratuit pour commencer, pas d'abonnement mensuel"
+    },
+    "completion": {
+      "title": "Configuration Terminée ! 🎉",
+      "subtitle": "Votre compte est prêt à recevoir des réservations",
+      "message": "Vous avez terminé avec succès les étapes de configuration essentielles. Votre compte opérateur est maintenant optimisé pour le succès sur VAI Tickets.",
+      "nextSteps": "Prochaines étapes :",
+      "startCreating": "Créez votre première activité",
+      "promoteActivities": "Partagez vos activités sur les réseaux sociaux", 
+      "trackPerformance": "Surveillez vos performances sur le tableau de bord",
+      "getStarted": "Commencer à Créer des Activités"
+    },
+    "tooltips": {
+      "dashboard": {
+        "revenue": "Ceci montre vos revenus capturés des réservations confirmées. Les paiements en attente apparaissent séparément.",
+        "bookings": "Cliquez ici pour gérer toutes vos réservations. Les réservations en attente ont besoin de votre attention !",
+        "createButton": "Commencez ici pour créer votre première activité. Les activités apparaissent sur VAI Tickets dans les 2 minutes.",
+        "quickActions": "Tâches communes que vous utiliserez quotidiennement - créer des activités, gérer les réservations, obtenir du support."
+      },
+      "create": {
+        "tourName": "Rendez-le accrocheur et descriptif ! C'est ce que les touristes voient en premier. Incluez le type d'expérience.",
+        "description": "Peignez une image ! Décrivez ce qui rend votre activité spéciale. Qu'est-ce que les touristes vivront ?",
+        "pricing": "Fixez des prix compétitifs. Seuls les montants se terminant par 00 sont autorisés (ex : 5600, 7200, 8500).",
+        "meetingPoint": "Soyez spécifique ! Incluez des points de repère que les touristes peuvent facilement trouver. Exemple : 'Terminal Ferry Vaiare - Entrée Principale'",
+        "duration": "Incluez le temps de trajet vers/depuis le lieu d'activité. Demi-journée : 3-4h, Journée complète : 6-8h.",
+        "capacity": "Considérez votre équipement, la sécurité, et les réglementations locales. Observation baleines max : 8 personnes par groupe."
+      },
+      "bookings": {
+        "filters": "Utilisez ces filtres intelligents pour trouver rapidement les réservations qui ont besoin de votre attention.",
+        "revenue": "Ceci montre vos revenus réels des paiements capturés. Les paiements autorisés apparaissent séparément.",
+        "deadline": "Les indicateurs rouges montrent les réservations critiques - répondez rapidement pour sécuriser le revenu !",
+        "customerDetails": "Les informations de contact client se débloquent après confirmation de la réservation pour protection de la vie privée.",
+        "chat": "Communication directe avec les touristes via chat style WhatsApp. Très efficace !"
+      },
+      "profile": {
+        "completeness": "Une completion de profil plus élevée signifie une meilleure visibilité dans les résultats de recherche.",
+        "stripeConnect": "Requis pour recevoir les paiements. La configuration prend 2-3 minutes et est entièrement sécurisée.",
+        "businessInfo": "Les touristes voient ces informations lors de la réservation. Gardez-les précises et professionnelles."
+      },
+      "general": {
+        "firstTime": "👋 Bienvenue sur VAI Operator ! Ce système d'info-bulles vous aide à commencer. Vous pouvez les ignorer à tout moment.",
+        "navigation": "Utilisez la navigation du bas pour basculer entre les sections. Les badges rouges montrent les éléments nécessitant attention.",
+        "notifications": "Les notifications système apparaissent ici - mises à jour de réservations, confirmations de paiement, et annonces importantes. Cliquez pour voir et gérer."
+      }
     }
   }
 }

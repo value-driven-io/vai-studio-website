@@ -54,7 +54,24 @@
     "tryDifferentMood": "Essaie une autre humeur ou reviens plus tard",
     "didntFindQuestion": "Tu n'as pas trouvé ce que tu cherches ?",
     "tours": "tour",
-    "toursPlural": "tours"
+    "toursPlural": "tours",
+    "chooseIsland": "Choisis ton île",
+    "islandFirst": "Où veux-tu partir ?",
+    "personalize": "Personnalise :",
+    "quick": "Expériences courtes",
+    "budget": "Budget",
+    "luxury": "Luxe",
+    "family": "Famille",
+    "romantic": "Romantique",
+    "noToursAvailable": "Aucun tour disponible",
+    "seeAllOptions": "Voir toutes les options",
+    "islandSelectionHelp": "Sélectionne une île pour voir les activités disponibles",
+    "moodSelectionHelp": "Sélectionne ton humeur pour voir des activités personnalisées",
+    "perfectMatches": "Parfait pour toi",
+    "tryFewerFilters": "Essaie d'enlever quelques filtres ou explore d'autres options",
+    "clearFilters": "Supprimer les filtres",
+    "tryDifferentIsland": "Essaie une autre île",
+    "noToursForMood": "Aucun tour disponible"
   },
 
   "moods": {
@@ -78,6 +95,22 @@
       "subtitle": "Plonge au paradis", 
       "description": "Explore l'incroyable monde sous-marin de nos lagons"
     }
+  },
+
+  "islands": {
+    "all": "Toutes les îles",
+    "tahiti": "Tahiti",
+    "moorea": "Moorea",
+    "boraBora": "Bora Bora",
+    "huahine": "Huahine",
+    "raiatea": "Raiatea",
+    "tahaa": "Taha'a",
+    "maupiti": "Maupiti",
+    "tikehau": "Tikehau",
+    "rangiroa": "Rangiroa",
+    "fakarava": "Fakarava",
+    "nukuHiva": "Nuku Hiva",
+    "other": "Autre"
   },
 
   "tours": {

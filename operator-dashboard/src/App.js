@@ -27,7 +27,12 @@ import ChangePasswordModal from './components/auth/ChangePasswordModal'
 import { getPasswordChangeRequirement, detectPasswordEdgeCases, needsPasswordChange } from './utils/passwordSecurity'
 import { getMinimumTourDate, isDateAllowed } from './config/adminSettings'
 import OnboardingTour from './components/shared/OnboardingTour'
+import OnboardingProgress from './components/shared/OnboardingProgress'
+import OnboardingDebug from './components/debug/OnboardingDebug'
+import WelcomeMessage from './components/shared/WelcomeMessage'
+import SetupTab from './components/SetupTab'
 import notificationService from './services/notificationService'
+import onboardingStateManager from './services/onboardingStateManager'
 
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
@@ -119,6 +124,7 @@ function AppContent() { // function App() { << before changes for the authcallba
   // State management
   const [tours, setTours] = useState([])
   const [loading, setLoading] = useState(true)
+  const [localOperator, setLocalOperator] = useState(operator) // Local operator state for real-time updates
   const [showForm, setShowForm] = useState(false)
   const [editingTour, setEditingTour] = useState(null)
   const [stats, setStats] = useState({
@@ -137,10 +143,7 @@ function AppContent() { // function App() { << before changes for the authcallba
   const [allBookings, setAllBookings] = useState([])
   const [filteredBookings, setFilteredBookings] = useState([])
   const [bookingsLoading, setBookingsLoading] = useState(false)
-  const [activeTab, setActiveTab] = useState(() => {
-    // Try to get saved tab from localStorage, fallback to 'dashboard'
-    return localStorage.getItem('operator-activeTab') || 'dashboard'
-  })
+  const [activeTab, setActiveTab] = useState('dashboard') // Will be set properly in useEffect
   const [bookingFilter, setBookingFilter] = useState('all') // 'all', 'pending', 'confirmed', 'declined', 'completed'
   const [timeFilter, setTimeFilter] = useState('all') // 'all', 'today', 'tomorrow', 'week'
   const [searchTerm, setSearchTerm] = useState('')
@@ -158,6 +161,15 @@ function AppContent() { // function App() { << before changes for the authcallba
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [passwordChangeComplete, setPasswordChangeComplete] = useState(false)
   const [passwordResetMode, setPasswordResetMode] = useState(false)
+
+  // Onboarding state
+  const [onboardingState, setOnboardingState] = useState({})
+  const [showOnboardingTour, setShowOnboardingTour] = useState(false)
+  const [onboardingDismissed, setOnboardingDismissed] = useState(false)
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false)
+
+  // Determine if Setup tab should be shown - must be defined after localOperator state
+  const shouldShowSetupTab = localOperator && (!localOperator.onboarding_dismissed_at || localOperator.admin_force_onboarding)
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -347,12 +359,38 @@ function AppContent() { // function App() { << before changes for the authcallba
     }))
   }
 
+  // Sync localOperator with the main operator from useAuth
+  useEffect(() => {
+    if (operator) {
+      setLocalOperator(operator)
+    }
+  }, [operator])
+
+  // Set initial activeTab based on setup completion and localStorage
+  useEffect(() => {
+    if (localOperator) {
+      const shouldShowSetup = !localOperator.onboarding_dismissed_at || localOperator.admin_force_onboarding
+      
+      if (shouldShowSetup) {
+        // If setup should be shown, always start with setup tab
+        setActiveTab('setup')
+      } else {
+        // Otherwise, use localStorage or default to dashboard
+        const savedTab = localStorage.getItem('operator-activeTab')
+        setActiveTab(savedTab || 'dashboard')
+      }
+    }
+  }, [localOperator?.id, localOperator?.onboarding_dismissed_at, localOperator?.admin_force_onboarding])
+
   // useEffect hook
   useEffect(() => {
-    if (isAuthenticated && operator?.id) {
+    if (isAuthenticated && localOperator?.id) {
       fetchTours()
       fetchAllBookings()
       loadDashboardStats() 
+      
+      // Initialize onboarding state manager
+      onboardingStateManager.initialize(localOperator)
       
       // Set up polling for real-time updates
       const interval = setInterval(() => {
@@ -361,7 +399,128 @@ function AppContent() { // function App() { << before changes for the authcallba
 
       return () => clearInterval(interval)
     }
-  }, [isAuthenticated, operator?.id])
+  }, [isAuthenticated, localOperator?.id])
+
+  // Listen to onboarding state changes
+  useEffect(() => {
+    if (!operator?.id) return
+
+    const unsubscribe = onboardingStateManager.addListener((newState) => {
+      setOnboardingState(newState)
+    })
+
+    return unsubscribe
+  }, [operator?.id])
+
+  // Show welcome message for new operators (only if not using Setup tab)
+  useEffect(() => {
+    if (localOperator?.status === 'active' && !passwordChangeComplete && !shouldShowSetupTab) {
+      // Check if this is a new operator (just activated, hasn't completed onboarding)
+      const isNewOperator = (
+        !localOperator.auth_setup_completed || 
+        localOperator.tours_created === 0 ||
+        localOperator.tours_created === null
+      )
+      
+      // Show welcome message if operator is new and hasn't dismissed it
+      const hasSeenWelcome = localStorage.getItem(`vai-welcome-seen-${localOperator.id}`)
+      
+      if (isNewOperator && !hasSeenWelcome && !showPasswordModal) {
+        setTimeout(() => {
+          setShowWelcomeMessage(true)
+        }, 1000) // Brief delay to let the UI settle
+      }
+    }
+  }, [localOperator?.status, localOperator?.id, passwordChangeComplete, showPasswordModal, shouldShowSetupTab])
+
+  // Smart polling for payment status - more efficient and functional
+  useEffect(() => {
+    if (!localOperator?.id) return
+
+    let pollInterval
+    
+    // Only poll if payment is not yet complete AND user recently returned from Stripe
+    // Check if URL contains Stripe return parameters or user is on profile/setup tab
+    const urlParams = new URLSearchParams(window.location.search)
+    const isReturningFromStripe = urlParams.has('refresh') || window.location.hash.includes('stripe')
+    const isOnPaymentRelatedTab = ['profile', 'setup'].includes(activeTab)
+    
+    const needsPaymentPolling = !localOperator.stripe_onboarding_complete || 
+                              !localOperator.stripe_charges_enabled || 
+                              !localOperator.stripe_payouts_enabled
+
+    if (needsPaymentPolling && (isReturningFromStripe || isOnPaymentRelatedTab)) {
+      console.log('🔄 Starting smart payment status polling...')
+      
+      let pollCount = 0
+      const maxPolls = 12 // Maximum 2 minutes of polling (12 * 10 seconds)
+      
+      pollInterval = setInterval(async () => {
+        pollCount++
+        console.log(`🔄 Payment status poll #${pollCount}`)
+        
+        try {
+          const { data: updatedOperator, error } = await supabase
+            .from('operators')
+            .select('stripe_onboarding_complete, stripe_charges_enabled, stripe_payouts_enabled, updated_at')
+            .eq('id', localOperator.id)
+            .single()
+
+          if (!error && updatedOperator) {
+            // Check if payment status has changed
+            const paymentCompleted = updatedOperator.stripe_onboarding_complete && 
+                                   updatedOperator.stripe_charges_enabled && 
+                                   updatedOperator.stripe_payouts_enabled
+
+            const currentPaymentCompleted = localOperator.stripe_onboarding_complete && 
+                                          localOperator.stripe_charges_enabled && 
+                                          localOperator.stripe_payouts_enabled
+
+            if (paymentCompleted && !currentPaymentCompleted) {
+              console.log('✅ Payment setup completed! Updating state...')
+              
+              // Update local operator state immediately
+              setLocalOperator(prev => ({
+                ...prev,
+                ...updatedOperator
+              }))
+              
+              // Update onboarding state manager
+              onboardingStateManager.updateOperatorData({
+                ...localOperator,
+                ...updatedOperator
+              })
+              
+              // Show success notification
+              toast.success('✅ Payment setup completed! You can now create activities.', {
+                duration: 6000,
+                style: {
+                  background: '#059669',
+                  color: 'white'
+                }
+              })
+              
+              // Stop polling - we got what we needed
+              clearInterval(pollInterval)
+              return
+            }
+          }
+        } catch (error) {
+          console.error('Error polling payment status:', error)
+        }
+        
+        // Stop polling after max attempts to prevent infinite polling
+        if (pollCount >= maxPolls) {
+          console.log('🛑 Stopping payment status polling after maximum attempts')
+          clearInterval(pollInterval)
+        }
+      }, 10000) // Poll every 10 seconds (less aggressive than before)
+    }
+
+    return () => {
+      if (pollInterval) clearInterval(pollInterval)
+    }
+  }, [localOperator?.id, activeTab, localOperator?.stripe_onboarding_complete, localOperator?.stripe_charges_enabled, localOperator?.stripe_payouts_enabled])
 
   // Filter bookings when filters change
     useEffect(() => {
@@ -480,38 +639,35 @@ function AppContent() { // function App() { << before changes for the authcallba
     localStorage.setItem('operator-activeTab', activeTab)
   }, [activeTab])
 
-  // Show password change modal if needed
+  // Consolidated password change modal logic
   useEffect(() => {
-    if (operator && needsPasswordChange(operator) && !passwordChangeComplete) {
+    // Don't show modal if already completed or currently showing
+    if (!operator || passwordChangeComplete || showPasswordModal) return
+    
+    // Handle password reset mode (from email link)
+    if (passwordResetMode) {
+      console.log('🔑 Password reset mode - showing modal')
       setShowPasswordModal(true)
+      return
     }
     
-    // 🔑 SHOW RESET MODAL IF IN RESET MODE
-    if (passwordResetMode && operator && !passwordChangeComplete) {
+    // Check for password change requirements
+    const requirement = getPasswordChangeRequirement(operator)
+    
+    // Log edge cases for debugging
+    const edgeCases = detectPasswordEdgeCases(operator)
+    if (edgeCases.length > 0) {
+      console.warn('🚨 Password edge cases detected:', edgeCases, operator)
+    }
+    
+    // Show modal if required and conditions are met
+    if (requirement.required && requirement.showPasswordModal) {
+      console.log('🔐 Password change required:', requirement.reason)
       setShowPasswordModal(true)
+    } else if (requirement.required && !requirement.showPasswordModal) {
+      console.log('⏸️ Password change required but delayed:', requirement.message)
     }
-  }, [operator, passwordChangeComplete, passwordResetMode])
-
-  // Check for edge cases and show password modal if needed
-  useEffect(() => {
-    if (operator && !passwordChangeComplete) {
-      const requirement = getPasswordChangeRequirement(operator)
-      
-      // Log edge cases for debugging
-      const edgeCases = detectPasswordEdgeCases(operator)
-      if (edgeCases.length > 0) {
-        console.warn('🚨 Password edge cases detected:', edgeCases, operator)
-      }
-      
-      // Only show modal if requirement says to show it
-      if (requirement.required && requirement.showPasswordModal) {
-        console.log('🔐 Password change required:', requirement.reason)
-        setShowPasswordModal(true)
-      } else if (requirement.required && !requirement.showPasswordModal) {
-        console.log('⏸️ Password change required but delayed:', requirement.message)
-      }
-    }
-  }, [operator, passwordChangeComplete])
+  }, [operator?.id, operator?.auth_setup_completed, operator?.temp_password, operator?.status, passwordChangeComplete, passwordResetMode, showPasswordModal])
 
   // API Functions
   const fetchTours = async () => {
@@ -1180,6 +1336,13 @@ function AppContent() { // function App() { << before changes for the authcallba
     if (!isValid) {
       return
     }
+
+    // Check if payment setup is required for new tours
+    if (!editingTour && (!operator.stripe_onboarding_complete || !operator.stripe_charges_enabled || !operator.stripe_payouts_enabled)) {
+      alert('⚠️ Payment setup required!\n\nYou need to complete your Stripe Connect setup before creating activities. This allows you to receive payments from customers.\n\nGo to Profile → Payment Setup to complete this step.')
+      setActiveTab('profile') // Navigate to profile tab
+      return
+    }
     
     try {
       setLoading(true)
@@ -1195,11 +1358,54 @@ function AppContent() { // function App() { << before changes for the authcallba
       }
 
       if (editingTour) {
-        await operatorService.updateTour(editingTour.id, tourData)
+        // Update existing tour
+        const { error } = await supabase
+          .from('tours')
+          .update(tourData)
+          .eq('id', editingTour.id)
+        
+        if (error) throw error
         alert('✅ Activity updated successfully! Your changes are now live on the platform.')
       } else {
-        await operatorService.createTour(tourData)
+        // Create new tour
+        const { data: newTour, error } = await supabase
+          .from('tours')
+          .insert(tourData)
+          .select()
+          .single()
+        
+        if (error) throw error
+        
+        // Update operator's tour count
+        const newTourCount = (localOperator.tours_created || 0) + 1
+        const { error: updateError } = await supabase
+          .from('operators')
+          .update({ 
+            tours_created: newTourCount,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', localOperator.id)
+        
+        if (updateError) {
+          console.warn('Failed to update operator tour count:', updateError)
+        } else {
+          // Update local operator state immediately for real-time progress tracking
+          setLocalOperator(prev => ({
+            ...prev,
+            tours_created: newTourCount
+          }))
+        }
+        
         alert('🎉 Activity created successfully! It will appear on VAI Tickets within 2 minutes.')
+        
+        // Mark first activity as completed in onboarding
+        onboardingStateManager.markStepCompleted('firstActivity', false)
+        
+        // Update onboarding state manager with new data
+        onboardingStateManager.updateOperatorData({
+          ...localOperator,
+          tours_created: newTourCount
+        })
       }
         
       resetForm()
@@ -1296,8 +1502,13 @@ function AppContent() { // function App() { << before changes for the authcallba
 
   // Handle password change modal
   const handlePasswordChangeSuccess = async () => {
+    console.log('🔐 Password change successful, updating state...')
+    
     setShowPasswordModal(false)
     setPasswordChangeComplete(true)
+
+    // Update onboarding state
+    onboardingStateManager.markStepCompleted('password', false) // DB update handled in password modal
 
     // 🔑 CLEAR RESET MODE AND SHOW SUCCESS MESSAGE
     if (passwordResetMode) {
@@ -1310,10 +1521,18 @@ function AppContent() { // function App() { << before changes for the authcallba
           border: '1px solid #059669'
         }
       })
+    } else {
+      toast.success('✅ Password updated successfully!', {
+        duration: 3000,
+        style: {
+          background: '#059669',
+          color: 'white'
+        }
+      })
     }
     
     try {
-      // Refresh operator data to get updated auth_setup_completed status
+      // Refresh operator data WITHOUT page reload to prevent modal re-trigger
       const { data: updatedOperator, error } = await supabase
         .from('operators')
         .select('*')
@@ -1321,15 +1540,28 @@ function AppContent() { // function App() { << before changes for the authcallba
         .single()
       
       if (updatedOperator && !error) {
-        // Update the operator context if possible, or reload
-        window.location.reload()
+        console.log('✅ Operator data refreshed successfully')
+        // Update onboarding state with new operator data
+        onboardingStateManager.updateOperatorData(updatedOperator)
+        
+        // Show welcome celebration if this is first password setup
+        if (!operator.auth_setup_completed && updatedOperator.auth_setup_completed) {
+          setTimeout(() => {
+            toast.success('🎉 Welcome to VAI! Your account is now secure.', {
+              duration: 5000,
+              style: {
+                background: '#1e293b',
+                color: '#f1f5f9',
+                border: '1px solid #059669'
+              }
+            })
+          }, 1000)
+        }
       } else {
-        console.warn('⚠️ Could not refresh operator data, forcing reload')
-        window.location.reload()
+        console.warn('⚠️ Could not refresh operator data:', error)
       }
     } catch (error) {
       console.error('❌ Error refreshing operator data:', error)
-      window.location.reload() // Fallback
     }
   }
 
@@ -1514,6 +1746,97 @@ function AppContent() { // function App() { << before changes for the authcallba
   }
 
   // resetForm FUNCTION
+
+  // Onboarding action handlers
+  const handleStartPasswordSetup = () => {
+    setShowPasswordModal(true)
+  }
+
+  const handleStartTour = () => {
+    setShowOnboardingTour(true)
+  }
+
+  const handleStartPaymentSetup = () => {
+    setActiveTab('profile')
+    // Will show payment setup in ProfileTab
+  }
+
+  const handleNavigateToCreate = () => {
+    setActiveTab('create')
+    setShowForm(true)
+  }
+
+  const handleOnboardingDismiss = () => {
+    setOnboardingDismissed(true)
+    
+    // Add notification to help user restore onboarding if needed
+    if (onboardingState.progress < 100) {
+      const message = `Setup progress: ${onboardingState.progress}%. Click to continue setup.`
+      notificationService.addNotification({
+        type: 'system',
+        title: 'Setup Progress Minimized',
+        content: message,
+        onClick: () => setOnboardingDismissed(false)
+      })
+    }
+  }
+
+  // Welcome message handlers
+  const handleWelcomeDismiss = () => {
+    setShowWelcomeMessage(false)
+    if (localOperator?.id) {
+      localStorage.setItem(`vai-welcome-seen-${localOperator.id}`, 'true')
+    }
+  }
+
+  const handleStartOnboarding = () => {
+    setShowWelcomeMessage(false)
+    if (localOperator?.id) {
+      localStorage.setItem(`vai-welcome-seen-${localOperator.id}`, 'true')
+    }
+    // Navigate to Setup tab
+    setActiveTab('setup')
+  }
+
+  // Setup tab completion handler
+  const handleCompleteOnboarding = async () => {
+    try {
+      const { error } = await supabase
+        .from('operators')
+        .update({
+          onboarding_completed_at: new Date().toISOString(),
+          onboarding_dismissed_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', localOperator.id)
+
+      if (error) {
+        console.error('Error completing onboarding:', error)
+      } else {
+        // Update local state
+        setLocalOperator(prev => ({
+          ...prev,
+          onboarding_completed_at: new Date().toISOString(),
+          onboarding_dismissed_at: new Date().toISOString()
+        }))
+        
+        // Navigate to dashboard
+        setActiveTab('dashboard')
+        
+        // Show success toast
+        toast.success('🎉 Welcome to VAI Tickets! You\'re ready to start earning.', {
+          duration: 6000,
+          style: {
+            background: '#059669',
+            color: 'white'
+          }
+        })
+      }
+    } catch (error) {
+      console.error('Error completing onboarding:', error)
+    }
+  }
+
 
   const resetForm = () => {
     setFormData({
@@ -1803,7 +2126,14 @@ function AppContent() { // function App() { << before changes for the authcallba
           onNavigateToBooking={handleNavigateToBooking}
         />
 
-
+    {/* Welcome Message - Show for new operators (only if Setup tab is not active) */}
+    {showWelcomeMessage && localOperator?.status === 'active' && activeTab !== 'setup' && (
+      <WelcomeMessage 
+        operator={localOperator}
+        onDismiss={handleWelcomeDismiss}
+        onStartOnboarding={handleStartOnboarding}
+      />
+    )}
 
     {/* Booking Management Tab */}
 
@@ -1857,6 +2187,19 @@ function AppContent() { // function App() { << before changes for the authcallba
       />
     )}
         
+
+        {/* Setup Tab */}
+        {activeTab === 'setup' && shouldShowSetupTab && (
+          <SetupTab
+            operator={localOperator}
+            onboardingState={onboardingState}
+            onStartPasswordSetup={handleStartPasswordSetup}
+            onStartTour={handleStartTour}
+            onStartPaymentSetup={handleStartPaymentSetup}
+            onNavigateToCreate={handleNavigateToCreate}
+            onCompleteOnboarding={handleCompleteOnboarding}
+          />
+        )}
 
         {/* Create Tab */}
         {activeTab === 'create' && (
@@ -1964,18 +2307,29 @@ function AppContent() { // function App() { << before changes for the authcallba
           </div>
         )}
 
-        <Navigation activeTab={activeTab} setActiveTab={setActiveTab} stats={stats} />
+        <Navigation 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          stats={stats} 
+          showSetupTab={shouldShowSetupTab}
+        />
         
       </div>
 
-      {/* Onboarding Tour for new operators */}
-      <OnboardingTour 
-        operator={operator}
-        onComplete={() => {
-          // Optional: trigger any completion actions
-          console.log('Onboarding tour completed!')
-        }}
-      />
+      {/* Onboarding Tour - Show when explicitly requested */}
+      {showOnboardingTour && (
+        <OnboardingTour 
+          operator={localOperator}
+          onComplete={() => {
+            setShowOnboardingTour(false)
+            onboardingStateManager.markStepCompleted('tour', false)
+            console.log('Onboarding tour completed!')
+          }}
+        />
+      )}
+
+      {/* Debug Panel (only in development) */}
+      <OnboardingDebug operator={localOperator} />
 
       {/* Toast Notification System */}
       <Toaster 
