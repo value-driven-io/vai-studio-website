@@ -28,7 +28,7 @@ import { getPasswordChangeRequirement, detectPasswordEdgeCases, needsPasswordCha
 import { getMinimumTourDate, isDateAllowed } from './config/adminSettings'
 import OnboardingTour from './components/shared/OnboardingTour'
 import OnboardingProgress from './components/shared/OnboardingProgress'
-import OnboardingDebug from './components/debug/OnboardingDebug'
+// import OnboardingDebug from './components/debug/OnboardingDebug'
 import WelcomeMessage from './components/shared/WelcomeMessage'
 import SetupTab from './components/SetupTab'
 import notificationService from './services/notificationService'
@@ -2329,7 +2329,7 @@ function AppContent() { // function App() { << before changes for the authcallba
       )}
 
       {/* Debug Panel (only in development) */}
-      <OnboardingDebug operator={localOperator} />
+      {/* <OnboardingDebug operator={localOperator} /> */}
 
       {/* Toast Notification System */}
       <Toaster 
