@@ -1,7 +1,7 @@
 // Clean DiscoverTab - 3 Step Flow: Location → Mood → Personalize
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Camera } from 'lucide-react'
+import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
 import TourCard from '../shared/TourCard'
@@ -42,7 +42,7 @@ const DiscoverTab = () => {
     calculateSavings 
   } = useTours()
   
-  const { favorites, toggleFavorite } = useAppStore()
+  const { favorites, toggleFavorite, setActiveTab } = useAppStore()
 
   // Filter tours based on selections
   const filteredTours = useMemo(() => {
@@ -279,6 +279,7 @@ const DiscoverTab = () => {
             calculateSavings={calculateSavings}
             getUrgencyColor={getUrgencyColor}
             onReset={resetFlow}
+            setActiveTab={setActiveTab}
           />
         )}
       </div>
@@ -454,7 +455,7 @@ const MoodStep = ({ onSelect, selectedLocation, selectedMood }) => {
     { id: 'adventure', name: t('moods.adventure.title'), icon: Mountain, description: t('moods.adventure.description') },
     { id: 'relax', name: t('moods.relax.title'), icon: HeartHandshake, description: t('moods.relax.description') },
     { id: 'ocean', name: t('moods.ocean.title'), icon: Waves, description: t('moods.ocean.description') },
-    { id: 'culture', name: t('moods.culture.title'), icon: Camera, description: t('moods.culture.description') },
+    { id: 'culture', name: t('moods.culture.title'), icon: Palette, description: t('moods.culture.description') },
   ]
 
   return (
@@ -503,7 +504,7 @@ const PersonalizeStep = ({
             <span>{selectedLocation?.name}</span>
           </div>
           <div className="flex items-center gap-2 px-3 py-1 bg-purple-600 rounded-full text-sm">
-            <span>{selectedMood?.emoji}</span>
+            {selectedMood?.icon && <selectedMood.icon className="w-4 h-4" />}
             <span>{selectedMood?.name}</span>
           </div>
         </div>
@@ -592,7 +593,8 @@ const ResultsStep = ({
   formatTime,
   calculateSavings,
   getUrgencyColor,
-  onReset
+  onReset,
+  setActiveTab
 }) => {
   const { t } = useTranslation()
   const activeFilterCount = Object.values(filters).filter(v => v !== 'any').length
@@ -626,7 +628,7 @@ const ResultsStep = ({
         {/* Explore hint */}
         <div className="text-center pt-4 border-t border-slate-700">
           <button
-            onClick={() => window.location.hash = '#explore'}
+            onClick={() => setActiveTab('explore')}
             className="text-blue-400 hover:text-blue-300 text-sm none transition-colors"
           >
             {t('discovery.tryExploreTab')}
@@ -649,7 +651,7 @@ const ResultsStep = ({
                 <span>{selectedLocation?.name}</span>
               </div>
               <div className="flex items-center gap-2 px-3 py-1 bg-purple-600 rounded-full text-sm">
-                <span>{selectedMood?.emoji}</span>
+                {selectedMood?.icon && <selectedMood.icon className="w-4 h-4" />}
                 <span>{selectedMood?.name}</span>
               </div>
               {activeFilterCount > 0 && (
