@@ -1,7 +1,7 @@
 // Clean DiscoverTab - 3 Step Flow: Location → Mood → Personalize
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, MapPin, Heart, Filter, Sparkles } from 'lucide-react'
+import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, Leaf, Waves, Camera } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
 import TourCard from '../shared/TourCard'
@@ -411,44 +411,50 @@ const IslandCard = ({ island, onClick, isSelected = false }) => (
 )
 
 // Reusable Mood Card Component  
-const MoodCard = ({ mood, onClick, isSelected = false }) => (
-  <button
-    onClick={() => onClick(mood)}
-    className={`group relative p-4 xs:p-6 rounded-lg xs:rounded-xl border-2 text-left transition-all duration-300 transform ${
-      isSelected 
-        ? 'border-purple-500 bg-purple-500/20 shadow-lg shadow-purple-500/25' 
-        : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
-    }`}
-  >
-    <div className="flex items-center gap-3 xs:gap-4 mb-2 xs:mb-3">
-      <span className="text-2xl xs:text-3xl transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
-        {mood.emoji}
-      </span>
-      <h3 className={`text-base xs:text-lg font-semibold transition-colors duration-200 ${
-        isSelected ? 'text-purple-300' : 'text-white group-hover:hover:text-purple-300'
-      }`}>
-        {mood.name}
-      </h3>
-    </div>
-    <p className="text-slate-400 text-xs xs:text-sm leading-relaxed">{mood.description}</p>
-    
-    {/* Subtle glow effect - only show on hover when not selected */}
-    <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
-      isSelected 
-        ? 'bg-purple-500/10 opacity-100' 
-        : 'bg-purple-500/5 opacity-0'
-    }`} />
-  </button>
-)
+const MoodCard = ({ mood, onClick, isSelected = false }) => {
+  const IconComponent = mood.icon
+  
+  return (
+    <button
+      onClick={() => onClick(mood)}
+      className={`group relative p-4 xs:p-6 rounded-lg xs:rounded-xl border-2 text-left transition-all duration-300 transform ${
+        isSelected 
+          ? 'border-purple-500 bg-purple-500/20 shadow-lg shadow-purple-500/25' 
+          : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
+      }`}
+    >
+      <div className="flex items-center gap-3 xs:gap-4 mb-2 xs:mb-3">
+        <div className="transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
+          <IconComponent className={`w-6 h-6 xs:w-8 xs:h-8 ${
+            isSelected ? 'text-purple-300' : 'text-slate-300 group-hover:hover:text-purple-300'
+          }`} />
+        </div>
+        <h3 className={`text-base xs:text-lg font-semibold transition-colors duration-200 ${
+          isSelected ? 'text-purple-300' : 'text-white group-hover:hover:text-purple-300'
+        }`}>
+          {mood.name}
+        </h3>
+      </div>
+      <p className="text-slate-400 text-xs xs:text-sm leading-relaxed">{mood.description}</p>
+      
+      {/* Subtle glow effect - only show on hover when not selected */}
+      <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
+        isSelected 
+          ? 'bg-purple-500/10 opacity-100' 
+          : 'bg-purple-500/5 opacity-0'
+      }`} />
+    </button>
+  )
+}
 
 // Step 2: Mood selection
 const MoodStep = ({ onSelect, selectedLocation, selectedMood }) => {
   const { t } = useTranslation()
   const moods = [
-    { id: 'adventure', name: t('moods.adventure.title'), emoji: '🏔️', description: t('moods.adventure.description') },
-    { id: 'relax', name: t('moods.relax.title'), emoji: '🧘', description: t('moods.relax.description') },
-    { id: 'ocean', name: t('moods.ocean.title'), emoji: '🐋', description: t('moods.ocean.description') },
-    { id: 'culture', name: t('moods.culture.title'), emoji: '🗿', description: t('moods.culture.description') },
+    { id: 'adventure', name: t('moods.adventure.title'), icon: Mountain, description: t('moods.adventure.description') },
+    { id: 'relax', name: t('moods.relax.title'), icon: Leaf, description: t('moods.relax.description') },
+    { id: 'ocean', name: t('moods.ocean.title'), icon: Waves, description: t('moods.ocean.description') },
+    { id: 'culture', name: t('moods.culture.title'), icon: Camera, description: t('moods.culture.description') },
   ]
 
   return (
@@ -497,7 +503,7 @@ const PersonalizeStep = ({
             <span>{selectedLocation?.name}</span>
           </div>
           <div className="flex items-center gap-2 px-3 py-1 bg-purple-600 rounded-full text-sm">
-            <span>{selectedMood?.emoji}</span>
+            {selectedMood?.icon && <selectedMood.icon className="w-4 h-4" />}
             <span>{selectedMood?.name}</span>
           </div>
         </div>
@@ -643,7 +649,7 @@ const ResultsStep = ({
                 <span>{selectedLocation?.name}</span>
               </div>
               <div className="flex items-center gap-2 px-3 py-1 bg-purple-600 rounded-full text-sm">
-                <span>{selectedMood?.emoji}</span>
+                {selectedMood?.icon && <selectedMood.icon className="w-4 h-4" />}
                 <span>{selectedMood?.name}</span>
               </div>
               {activeFilterCount > 0 && (
