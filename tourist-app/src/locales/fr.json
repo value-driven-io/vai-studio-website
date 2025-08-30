@@ -71,7 +71,43 @@
     "tryFewerFilters": "Essaie d'enlever quelques filtres ou explore d'autres options",
     "clearFilters": "Supprimer les filtres",
     "tryDifferentIsland": "Essaie une autre île",
-    "noToursForMood": "Aucun tour disponible"
+    "noToursForMood": "Aucun tour disponible",
+    "steps": {
+      "location": "Localisation",
+      "mood": "Humeur",
+      "personalize": "Personnaliser"
+    },
+    "personalizeExperience": "Personnalise ton expérience",
+    "yourPerfectActivity": "Ton activité parfaite",
+    "selectIslandDescription": "Sélectionne l'île que tu veux explorer",
+    "pickTypeDescription": "Choisis un type qui correspond à ton vibe",
+    "addFiltersDescription": "Ajoute des filtres pour trouver ton activité",
+    "foundActivitiesDescription": "{{count}} activités trouvées qui correspondent à tes préférences",
+    "moreIslands": "Plus d'Îles",
+    "exploring": "À la découverte de",
+    "yourSelection": "Ton Choix",
+    "startOver": "Recommencer",
+    "findActivities": "Trouver des Activités",
+    "loadingActivities": "Chargement des activités...",
+    "noActivitiesFound": "Aucune activité trouvée",
+    "tryAdjustingFilters": "Essaie d'ajuster tes filtres ou de choisir une autre combinaison île/humeur.",
+    "filtersCount": "{{count}} filtres",
+    "foundPerfectMatches": "{{count}} résultats parfaits trouvés pour toi",
+    "perfectMatchesForYou": "résultats parfaits pour toi",
+    "tryDifferentPreferences": "Essaie d'Autres Préférences",
+    "exploreHint": "Ou parcours tous les tours disponibles avec des options de recherche détaillées :",
+    "tryExploreTab": "Découvrir toutes les activités →",
+    "filters": {
+      "halfDay": "Demi-journée (2-4 heures)",
+      "fullDay": "Journée complète (4-8 heures)",
+      "multiDay": "Plusieurs jours",
+      "difficultyLabel": "Difficulté",
+      "anyLevel": "Tous niveaux",
+      "anyBudget": "Tout budget",
+      "budgetFriendly": "Budget serré (moins de 10000 XPF)",
+      "midRange": "Gamme moyenne (10000-25000 XPF)",
+      "luxury": "Luxe (25000+ XPF)"
+    }
   },
 
   "moods": {
@@ -110,7 +146,21 @@
     "rangiroa": "Rangiroa",
     "fakarava": "Fakarava",
     "nukuHiva": "Nuku Hiva",
-    "other": "Autre"
+    "other": "Autre",
+    "descriptions": {
+      "tahiti": "Île principale - vibrante et culturelle",
+      "moorea": "Île sœur - montagnes et lagons",
+      "boraBora": "Paradis romantique - expériences de luxe",
+      "huahine": "Île jardin - paisible et authentique",
+      "raiatea": "Île sacrée - héritage de la navigation",
+      "tahaa": "Île de la vanille - expériences culinaires",
+      "maupiti": "Joyau caché - beauté intacte",
+      "tikehau": "Atoll de sable rose - paradis de la plongée",
+      "rangiroa": "Lagon infini - plongée de classe mondiale",
+      "fakarava": "Biosphère UNESCO - eaux vierges",
+      "nukuHiva": "Aventure des Marquises - sauvage et reculée",
+      "other": "Explore d'autres belles destinations"
+    }
   },
 
   "tours": {

@@ -71,7 +71,43 @@
     "tryFewerFilters": "Try removing some filters or explore different options",
     "clearFilters": "Clear filters",
     "tryDifferentIsland": "Try different island",
-    "noToursForMood": "No tours available"
+    "noToursForMood": "No tours available",
+    "steps": {
+      "location": "Location",
+      "mood": "Mood",
+      "personalize": "Personalize"
+    },
+    "personalizeExperience": "Personalize your experience",
+    "yourPerfectActivity": "Your perfect activity",
+    "selectIslandDescription": "Select which island you'd like to explore",
+    "pickTypeDescription": "Pick a type that matches your vibe",
+    "addFiltersDescription": "Add filters to find your activity",
+    "foundActivitiesDescription": "Found {{count}} activities matching your preferences",
+    "moreIslands": "More Islands",
+    "exploring": "Exploring",
+    "yourSelection": "Your Selection",
+    "startOver": "Start Over",
+    "findActivities": "Find Activities",
+    "loadingActivities": "Loading activities...",
+    "noActivitiesFound": "No activities found",
+    "tryAdjustingFilters": "Try adjusting your filters or selecting a different island/mood combination.",
+    "filtersCount": "{{count}} filters",
+    "foundPerfectMatches": "Found {{count}} perfect matches for you",
+    "perfectMatchesForYou": "perfect matches for you",
+    "tryDifferentPreferences": "Try Different Preferences",
+    "exploreHint": "Or browse all available tours with detailed search options:",
+    "tryExploreTab": "Or explore all activities →",
+    "filters": {
+      "halfDay": "Half day (2-4 hours)",
+      "fullDay": "Full day (4-8 hours)",
+      "multiDay": "Multi-day",
+      "difficultyLabel": "Difficulty",
+      "anyLevel": "Any level",
+      "anyBudget": "Any budget",
+      "budgetFriendly": "Budget friendly (under 10000 XPF)",
+      "midRange": "Mid-range (10000-25000 XPF)",
+      "luxury": "Luxury (25000+ XPF)"
+    }
   },
 
   "moods": {
@@ -110,7 +146,21 @@
     "rangiroa": "Rangiroa",
     "fakarava": "Fakarava",
     "nukuHiva": "Nuku Hiva",
-    "other": "Other"
+    "other": "Other",
+    "descriptions": {
+      "tahiti": "Main island - vibrant and cultural",
+      "moorea": "Sister island - mountains and lagoons",
+      "boraBora": "Romantic paradise - luxury experiences",
+      "huahine": "Garden island - peaceful and authentic",
+      "raiatea": "Sacred island - sailing heritage",
+      "tahaa": "Vanilla island - culinary experiences",
+      "maupiti": "Hidden gem - untouched beauty",
+      "tikehau": "Pink sand atoll - diving paradise",
+      "rangiroa": "Infinite lagoon - world-class diving",
+      "fakarava": "UNESCO biosphere - pristine waters",
+      "nukuHiva": "Marquesas adventure - wild and remote",
+      "other": "Explore other beautiful destinations"
+    }
   },
 
   "tours": {
