@@ -163,20 +163,22 @@ const DiscoverTab = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-0 mobile:min-h-screen bg-slate-900">
       {/* Header with progress */}
-      <div className="border-b border-slate-700 bg-slate-800/50">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          {/* Back button */}
-          {currentStep !== STEPS.LOCATION && (
-            <button
-              onClick={goBack}
-              className="flex items-center gap-2 text-slate-400 hover:text-white mb-4 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>{t('common.back')}</span>
-            </button>
-          )}
+      <div className="border-b border-slate-700">
+        <div className="max-w-4xl mx-auto px-4 py-4 xs:py-6">
+          {/* Back button - always reserve space to prevent layout jump */}
+          <div className="mb-4" style={{ minHeight: '2rem' }}>
+            {currentStep !== STEPS.LOCATION && (
+              <button
+                onClick={goBack}
+                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>{t('common.back')}</span>
+              </button>
+            )}
+          </div>
 
           {/* Progress indicator */}
           <div className="flex items-center justify-between mb-4">
@@ -189,7 +191,7 @@ const DiscoverTab = () => {
               onClick={() => setCurrentStep(STEPS.LOCATION)}
               clickable={true}
             />
-            <div className="flex-1 h-0.5 bg-slate-700 mx-2 xs:mx-4">
+            <div className="flex-1 h-0.5 bg-slate-700 mx-1 xs:mx-2 mobile:mx-4">
               <div 
                 className={`h-full bg-blue-500 transition-all duration-300 ${
                   selectedLocation ? 'w-full' : 'w-0'
@@ -205,7 +207,7 @@ const DiscoverTab = () => {
               onClick={() => selectedLocation && setCurrentStep(STEPS.MOOD)}
               clickable={selectedLocation !== null}
             />
-            <div className="flex-1 h-0.5 bg-slate-700 mx-2 xs:mx-4">
+            <div className="flex-1 h-0.5 bg-slate-700 mx-1 xs:mx-2 mobile:mx-4">
               <div 
                 className={`h-full bg-blue-500 transition-all duration-300 ${
                   selectedMood ? 'w-full' : 'w-0'
@@ -225,13 +227,13 @@ const DiscoverTab = () => {
 
           {/* Current step title */}
           <div className="text-center">
-            <h1 className="text-xl xs:text-2xl font-bold text-white">
+            <h1 className="text-mobile-xl xs:text-mobile-2xl mobile:text-mobile-3xl font-bold text-white">
               {currentStep === STEPS.LOCATION && t('discovery.chooseIsland')}
               {currentStep === STEPS.MOOD && t('discovery.moodQuestion')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.personalizeExperience')}
               {currentStep === STEPS.RESULTS && t('discovery.yourPerfectActivity')}
             </h1>
-            <p className="text-slate-400 mt-1 text-sm xs:text-base px-2">
+            <p className="text-slate-400 mt-1 text-mobile-sm xs:text-mobile-base px-2 leading-mobile-relaxed">
               {currentStep === STEPS.LOCATION && t('discovery.selectIslandDescription')}
               {currentStep === STEPS.MOOD && t('discovery.pickTypeDescription')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.addFiltersDescription')}
@@ -242,7 +244,7 @@ const DiscoverTab = () => {
       </div>
 
       {/* Step content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 xs:px-6 md:px-8 py-6 sm:py-8">
         {currentStep === STEPS.LOCATION && (
           <LocationStep onSelect={goToMood} selectedLocation={selectedLocation} />
         )}
@@ -319,7 +321,7 @@ const StepIndicator = ({ step, label, isActive, isCompleted, onClick, clickable 
     }`}>
       {isCompleted ? '✓' : step}
     </div>
-    <span className={`text-xs xs:text-sm font-medium transition-colors ${
+    <span className={`hidden mobile:inline text-mobile-xs xs:text-mobile-sm font-medium transition-colors ${
       isActive ? 'text-white' : isCompleted ? 'text-green-400' : clickable ? 'text-slate-300' : 'text-slate-400'
     }`}>
       {label}
@@ -353,7 +355,7 @@ const LocationStep = ({ onSelect, selectedLocation }) => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-3">
         {displayedIslands.map((island) => (
           <IslandCard
             key={island.id}
@@ -384,7 +386,7 @@ const LocationStep = ({ onSelect, selectedLocation }) => {
 const IslandCard = ({ island, onClick, isSelected = false }) => (
   <button
     onClick={() => onClick(island)}
-    className={`group relative p-4 xs:p-6 rounded-lg xs:rounded-xl border-2 text-left transition-all duration-300 transform ${
+    className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 ${
       isSelected 
         ? 'border-blue-500 bg-blue-500/20 shadow-lg shadow-blue-500/25' 
         : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
@@ -394,13 +396,13 @@ const IslandCard = ({ island, onClick, isSelected = false }) => (
       <span className="text-2xl xs:text-3xl transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
         {island.emoji}
       </span>
-      <h3 className={`text-base xs:text-lg font-semibold transition-colors duration-200 ${
+      <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 ${
         isSelected ? 'text-blue-300' : 'text-white group-hover:hover:text-blue-300'
       }`}>
         {island.name}
       </h3>
     </div>
-    <p className="text-slate-400 text-xs xs:text-sm leading-relaxed">{island.description}</p>
+    <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed">{island.description}</p>
     
     {/* Subtle glow effect - only show on hover when not selected */}
     <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
@@ -418,7 +420,7 @@ const MoodCard = ({ mood, onClick, isSelected = false }) => {
   return (
     <button
       onClick={() => onClick(mood)}
-      className={`group relative p-4 xs:p-6 rounded-lg xs:rounded-xl border-2 text-left transition-all duration-300 transform ${
+      className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 ${
         isSelected 
           ? 'border-purple-500 bg-purple-500/20 shadow-lg shadow-purple-500/25' 
           : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
@@ -430,13 +432,13 @@ const MoodCard = ({ mood, onClick, isSelected = false }) => {
             isSelected ? 'text-purple-300' : 'text-slate-300 group-hover:hover:text-purple-300'
           }`} />
         </div>
-        <h3 className={`text-base xs:text-lg font-semibold transition-colors duration-200 ${
+        <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 ${
           isSelected ? 'text-purple-300' : 'text-white group-hover:hover:text-purple-300'
         }`}>
           {mood.name}
         </h3>
       </div>
-      <p className="text-slate-400 text-xs xs:text-sm leading-relaxed">{mood.description}</p>
+      <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed">{mood.description}</p>
       
       {/* Subtle glow effect - only show on hover when not selected */}
       <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
@@ -511,7 +513,7 @@ const PersonalizeStep = ({
       </div>
 
       {/* Filter options */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 mobile:grid-cols-2 md:grid-cols-3 gap-4 mobile:gap-6">
         {/* Duration filter */}
         <div className="space-y-3">
           <label className="block text-sm font-medium text-white">{t('explore.filterLabels.duration')}</label>
@@ -559,19 +561,19 @@ const PersonalizeStep = ({
       </div>
 
       {/* Action buttons */}
-      <div className="flex gap-4 justify-center pt-6">
+      <div className="flex flex-col mobile:flex-row gap-3 mobile:gap-4 justify-center pt-6">
         <button
           onClick={onReset}
-          className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+          className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-mobile-lg transition-touch min-h-48 w-full mobile:w-auto"
         >
           {t('discovery.startOver')}
         </button>
         <button
           onClick={onShowResults}
-          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+          className="px-6 mobile:px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-mobile-lg font-medium transition-touch flex items-center justify-center gap-2 min-h-48 w-full mobile:w-auto"
         >
           <Sparkles className="w-5 h-5" />
-          {t('discovery.findActivities')} ({tourCount})
+          <span className="truncate">{t('discovery.findActivities')}</span>
         </button>
       </div>
     </div>
