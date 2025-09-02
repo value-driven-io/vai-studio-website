@@ -149,5 +149,116 @@ export const operatorService = {
     
     if (error) throw error
     return data
+  },
+
+  // Marketing Intelligence Queries
+  async getMarketingAnalytics(operatorId, startDate = null, endDate = null) {
+    // Default to last 30 days if no dates provided
+    const defaultStartDate = startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+    const defaultEndDate = endDate || new Date().toISOString()
+
+    // Get all bookings with tour and customer data
+    const { data: bookings, error: bookingsError } = await supabase
+      .from('bookings')
+      .select(`
+        *,
+        tours:tour_id (
+          tour_name,
+          tour_type,
+          tour_date,
+          max_capacity,
+          original_price_adult,
+          discount_price_adult
+        )
+      `)
+      .eq('operator_id', operatorId)
+      .gte('created_at', defaultStartDate)
+      .lte('created_at', defaultEndDate)
+
+    if (bookingsError) throw bookingsError
+
+    // Get tour performance data
+    const { data: tours, error: toursError } = await supabase
+      .from('tours')
+      .select(`
+        *,
+        bookings:bookings(
+          booking_status,
+          total_amount,
+          subtotal,
+          num_adults,
+          num_children,
+          created_at
+        )
+      `)
+      .eq('operator_id', operatorId)
+
+    if (toursError) throw toursError
+
+    return {
+      bookings: bookings || [],
+      tours: tours || []
+    }
+  },
+
+  // Get customer analytics
+  async getCustomerAnalytics(operatorId, period = 30) {
+    const startDate = new Date(Date.now() - period * 24 * 60 * 60 * 1000).toISOString()
+
+    const { data, error } = await supabase
+      .from('bookings')
+      .select(`
+        customer_email,
+        customer_whatsapp,
+        total_amount,
+        booking_status,
+        created_at
+      `)
+      .eq('operator_id', operatorId)
+      .gte('created_at', startDate)
+
+    if (error) throw error
+    return data || []
+  },
+
+  // Get tour type performance
+  async getTourTypeAnalytics(operatorId) {
+    const { data, error } = await supabase
+      .from('tours')
+      .select(`
+        tour_type,
+        bookings:bookings(
+          booking_status,
+          subtotal,
+          created_at
+        )
+      `)
+      .eq('operator_id', operatorId)
+
+    if (error) throw error
+    return data || []
+  },
+
+  // Get booking trends over time
+  async getBookingTrends(operatorId, period = 90) {
+    const startDate = new Date(Date.now() - period * 24 * 60 * 60 * 1000).toISOString()
+
+    const { data, error } = await supabase
+      .from('bookings')
+      .select(`
+        created_at,
+        booking_status,
+        subtotal,
+        tours:tour_id (
+          tour_date,
+          tour_type
+        )
+      `)
+      .eq('operator_id', operatorId)
+      .gte('created_at', startDate)
+      .order('created_at', { ascending: true })
+
+    if (error) throw error
+    return data || []
   }
 }

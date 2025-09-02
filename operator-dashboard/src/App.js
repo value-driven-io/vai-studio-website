@@ -16,6 +16,7 @@ import CreateTab from './components/CreateTab'
 import BookingsTab from './components/BookingsTab'
 import SchedulesTab from './components/SchedulesTab'
 import ProfileTab from './components/ProfileTab'
+import MarketingTab from './components/MarketingTab'
 import AuthCallback from './components/auth/AuthCallback'
 import { supabase } from './lib/supabase'
 import { polynesianNow, toPolynesianISO } from './utils/timezone'
@@ -2253,6 +2254,18 @@ function AppContent() { // function App() { << before changes for the authcallba
               operator={operator}
             />
           )}
+
+        {/* Marketing Tab */}
+        {activeTab === 'marketing' && (
+          <MarketingTab 
+            allBookings={allBookings}
+            tours={tours}
+            operator={operator}
+            loading={loading}
+            fetchTours={fetchTours}
+            fetchAllBookings={fetchAllBookings}
+          />
+        )}
 
         {/* Profile Tab */}
         {activeTab === 'profile' && (

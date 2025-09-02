@@ -6,6 +6,7 @@
     "create": "Create",
     "dashboard": "Dashboard",
     "bookings": "Bookings",
+    "marketing": "Marketing",
     "schedules": "Schedules",
     "refresh": "Refresh",
     "edit": "Edit",
@@ -87,18 +88,18 @@
     "sunsetTrend": "Sunset tours are in high demand this week"
   },
   "createTab": {
-    "title": "Create & Manage Tours",
-    "subtitle": "Create new tours or manage your existing ones",
-    "startCreating": "Start Creating Tour",
+    "title": "Create & Manage Activities",
+    "subtitle": "Create new activities or manage your existing ones",
+    "startCreating": "Create Activity",
     "editTour": "Edit Tour",
-    "createNewTour": "Create New Tour",
+    "createNewTour": "Create New Activity",
     "updateExisting": "Update your existing activity details",
     "setupNew": "Set up a new experience for travelers",
     "showPreview": "Show Preview",
     "hidePreview": "Hide Preview",
     "cancel": "Cancel",
-    "updateTour": "Update Tour",
-    "createTour": "Create Tour",
+    "updateTour": "Update Activity",
+    "createTour": "Create Activity",
     "saving": "Saving...",
     "reset": "Reset",
     "duplicate": "Duplicate"
@@ -110,16 +111,16 @@
     "scheduleDuration": "Schedule & Duration",
     "pricingCapacity": "Pricing & Capacity",
     "optionalSettings": "Optional Settings",
-    "tourName": "Tour Name",
+    "tourName": "Activity Name",
     "tourNamePlaceholder": "e.g., Morning Whale Watching Adventure",
-    "tourType": "Tour Type",
+    "tourType": "Activity Type",
     "description": "Description",
     "descriptionPlaceholder": "Describe your experience in detail. What makes it special? What will participants see and do?",
     "quickDateSelection": "Quick Date Selection",
     "customDate": "Custom Date",
     "timeSlot": "Time Slot",
     "startTime": "Start Time",
-    "startTimeHelper": "Set the exact time when your tour/activity begins",
+    "startTimeHelper": "Set the exact time when your activity begins",
     "duration": "Duration (hours)",
     "maxCapacity": "Max Capacity",
     "availableSpots": "Available Spots",
@@ -131,16 +132,16 @@
     "meetingPointPlaceholder": "e.g., Vaiare Ferry Terminal - Main Entrance",
     "tourLocation": "Island Location",
     "selectLocation": "Select an island...",
-    "locationHelper": "Choose the island where your tour/activity takes place",
+    "locationHelper": "Choose the island where your activity takes place",
     "tourTypeHelper": "Select the category that best describes your activity",
     "bookings": "Bookings", 
     "profile": "Profile"
   },
   "tooltips": {
     "tourName": "Make it catchy! That's in the spotlight!",
-    "duration": "Include travel time to/from activity location. Half-day tours: 3-4h, Full-day: 6-8h",
+    "duration": "Include travel time to/from activity location",
     "pricing": "Set your standard price. Only values ending in 00 allowed (e.g., 5600, 7200, 8500)",
-    "meetingPoint": "Be specific! Include known places for easy finding. Examples: 'Vaiare Ferry Terminal - Main Entrance'"
+    "meetingPoint": "Be specific! Include known places for easy finding. Examples: 'Ferry Terminal - Main Entrance'"
   },
   "optionalSections": {
     "title": "Optional Settings",
@@ -1512,7 +1513,7 @@
       "subtitle": "Your account is ready to receive bookings",
       "message": "You've successfully completed the essential setup steps. Your operator account is now optimized for success on VAI Tickets.",
       "nextSteps": "Next steps:",
-      "startCreating": "Create your first activity",
+      "startCreating": "Create first activity",
       "promoteActivities": "Share your activities on social media", 
       "trackPerformance": "Monitor your performance on the dashboard",
       "getStarted": "Start Creating Activities"
@@ -1592,7 +1593,67 @@
       "days": "{{count}}d ago",
       "weeks": "{{count}}w ago"
     }
-  }
+  },
 
-  
+  "marketing": {
+    "title": "Marketing Intelligence",
+    "subtitle": "Data-driven insights to grow your tourism business",
+    "refreshData": "Refresh Data",
+    "loadingData": "Loading marketing data...",
+    
+    "metrics": {
+      "totalRevenue": "Total Revenue",
+      "allTimeEarnings": "All time earnings",
+      "customerRetention": "Customer Retention",
+      "repeatCustomers": "repeat customers",
+      "avgOccupancy": "Avg Occupancy",
+      "acrossAllTours": "Across all tours",
+      "bookingConversion": "Booking Conversion",
+      "inquiryToBookingRate": "Inquiry to booking rate"
+    },
+
+    "customers": {
+      "title": "Customer Insights",
+      "totalCustomers": "Total Customers (30 days)",
+      "avgBookingValue": "Avg Booking Value",
+      "retentionRate": "Customer Retention Rate"
+    },
+
+    "tours": {
+      "title": "Top Performing Tours",
+      "bookings": "bookings",
+      "occupancy": "occupancy",
+      "conversion": "conversion",
+      "noTours": "No tours available yet"
+    },
+
+    "trends": {
+      "title": "Market Trends & Insights",
+      "tourTypeRevenue": "Tour Type Revenue Distribution",
+      "topPerformingTours": "Top Performing Tours",
+      "detailedStats": "Detailed Tour Type Stats",
+      "bookingInsights": "Booking Insights",
+      "peakBookingTime": "Peak Booking Time",
+      "yourIslandMarket": "Your Island Market",
+      "totalBookings": "total bookings",
+      "marketOpportunity": "Market Opportunity",
+      "focusOn": "Focus on",
+      "tours": "tours",
+      "noDataYet": "No data yet"
+    },
+
+    "insights": {
+      "title": "AI-Powered Insights",
+      "revenueOptimization": "Revenue Optimization",
+      "revenueOptimizationText": "Your {{tourName}} generates the most revenue. Consider creating similar experiences to maximize earnings.",
+      "defaultRevenueText": "Your top tour generates the most revenue. Consider creating similar experiences to maximize earnings.",
+      "customerFocus": "Customer Focus",
+      "goodRetention": "Great customer retention! Consider loyalty programs for repeat customers.",
+      "improveRetention": "Focus on follow-up communications to increase repeat bookings."
+    },
+
+    "charts": {
+      "noData": "No data available"
+    }
+  }
 }

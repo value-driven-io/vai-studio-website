@@ -5,6 +5,8 @@
     "save": "Enregistrer",
     "create": "Créer",
     "dashboard": "Dashboard",
+    "bookings": "Réservations", 
+    "marketing": "Marketing",
     "schedules": "Horaires",
     "refresh": "Actualiser",
     "edit": "Modifier",
@@ -153,7 +155,7 @@
     "refreshData": "Actualiser les données",
     "createNewTour": "Créer une Activité",
     "quickActions": "Actions Rapides",
-    "activeTours": "Excursions Actives",
+    "activeTours": "Expériences Actives",
     "allBookings": "Toutes les Réservations",
     "viewBookings": "Voir les Réservations",
     "needsAttention": "Nécessite attention",
@@ -174,11 +176,11 @@
     "contactVAI": "Contacter VAI Operator"
   },
   "tours": {
-    "allTours": "Toutes les Excursions",
+    "allTours": "Toutes les Activités",
     "totalToursCreated": "activités créées au total",
     "loadingTours": "Chargement des activités...",
-    "upcomingTours": "Excursions à Venir",
-    "completedTours": "Excursions Terminées",
+    "upcomingTours": "Activités à Venir",
+    "completedTours": "Activités Terminées",
     "moreCompletedTours": "activités terminées en plus",
     "noToursYet": "Aucune Activité créée",
     "createFirstTour": "Crée ta première Activité"
@@ -200,9 +202,9 @@
     "sunsetTrend": "Les tours coucher de soleil sont très demandés cette semaine"
   },
   "createTab": {
-    "title": "Créer et Gérer les Excursions",
+    "title": "Créer et Gérer les Activités",
     "subtitle": "Crée de nouvelles activités ou gère celles existantes",
-    "startCreating": "Commencer à Créer",
+    "startCreating": "Créer une activité",
     "editTour": "Modifier l'Activité",
     "createNewTour": "Créer Nouvelle Activité",
     "updateExisting": "Mettre à jour les détails de ton activité existante",
@@ -328,9 +330,9 @@
     "sunsetTourDesc": "Croisière romantique de 2,5 heures"
   },
   "tourManagement": {
-    "title": "Tes Excursions",
+    "title": "Tes Activité",
     "subtitle": "Gère et modifie tes activités existantes",
-    "totalTours": "Excursions Totales",
+    "totalTours": "Activités Totales",
     "all": "Tous",
     "upcoming": "À Venir",
     "past": "Passées",
@@ -743,7 +745,7 @@
       "commissionRate": "Taux de Commission",
       "commissionOwed": "Commission Due",
       "yourRevenue": "Tes Revenus",
-      "recentTourPerformance": "Performance Récente des Excursions",
+      "recentTourPerformance": "Performance Récente des Activités",
       "vaiBookings": "Réservations VAI",
       "avgPerBooking": "Moyenne par Réservation",
       "commissionPaid": "Commission Payée",
@@ -1494,6 +1496,68 @@
         "navigation": "Utilisez la navigation du bas pour basculer entre les sections. Les badges rouges montrent les éléments nécessitant attention.",
         "notifications": "Les notifications système apparaissent ici - mises à jour de réservations, confirmations de paiement, et annonces importantes. Cliquez pour voir et gérer."
       }
+    }
+  },
+
+  "marketing": {
+    "title": "Intelligence Marketing",
+    "subtitle": "Insights basés sur les données pour développer votre activité touristique",
+    "refreshData": "Actualiser les Données",
+    "loadingData": "Chargement des données marketing...",
+    
+    "metrics": {
+      "totalRevenue": "Chiffre d'Affaires Total",
+      "allTimeEarnings": "Gains de tous les temps",
+      "customerRetention": "Fidélisation Client",
+      "repeatCustomers": "clients fidèles",
+      "avgOccupancy": "Taux d'Occupation Moyen",
+      "acrossAllTours": "Sur toutes les activités",
+      "bookingConversion": "Conversion Réservation",
+      "inquiryToBookingRate": "Taux demande vers réservation"
+    },
+
+    "customers": {
+      "title": "Analyses Clients",
+      "totalCustomers": "Total Clients (30 jours)",
+      "avgBookingValue": "Valeur Moyenne Réservation",
+      "retentionRate": "Taux de Fidélisation Client"
+    },
+
+    "tours": {
+      "title": "Activités les Plus Performantes",
+      "bookings": "réservations",
+      "occupancy": "occupation",
+      "conversion": "conversion",
+      "noTours": "Aucune activité disponible"
+    },
+
+    "trends": {
+      "title": "Tendances et Analyses du Marché",
+      "tourTypeRevenue": "Répartition Revenus par Type d'Activité",
+      "topPerformingTours": "Activités les Plus Performantes",
+      "detailedStats": "Statistiques Détaillées par Type",
+      "bookingInsights": "Analyses de Réservation",
+      "peakBookingTime": "Heure de Pointe Réservations",
+      "yourIslandMarket": "Votre Marché Insulaire",
+      "totalBookings": "réservations totales",
+      "marketOpportunity": "Opportunité de Marché",
+      "focusOn": "Se concentrer sur",
+      "tours": "activités",
+      "noDataYet": "Pas encore de données"
+    },
+
+    "insights": {
+      "title": "Insights Alimentés par IA",
+      "revenueOptimization": "Optimisation des Revenus",
+      "revenueOptimizationText": "Votre {{tourName}} génère le plus de revenus. Envisagez de créer des expériences similaires pour maximiser les gains.",
+      "defaultRevenueText": "Votre activité principale génère le plus de revenus. Envisagez de créer des expériences similaires pour maximiser les gains.",
+      "customerFocus": "Focus Client",
+      "goodRetention": "Excellente fidélisation client ! Envisagez des programmes de fidélité pour les clients récurrents.",
+      "improveRetention": "Concentrez-vous sur les communications de suivi pour augmenter les réservations répétées."
+    },
+
+    "charts": {
+      "noData": "Aucune donnée disponible"
     }
   }
 }
