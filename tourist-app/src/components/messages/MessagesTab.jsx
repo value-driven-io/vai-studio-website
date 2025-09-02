@@ -453,7 +453,7 @@ const MessagesTab = () => {
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Enhanced Header */}
-      <div className="bg-slate-800 border-b border-slate-700 p-4 shadow-lg">
+      <div className="border-b border-slate-700 p-4 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-semibold text-white">{t('messages.interface.title')}</h1>

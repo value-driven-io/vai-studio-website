@@ -512,7 +512,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 <button
                   onClick={() => {
                     onClose() // Close modal
-                    setJourneyStage('modern') // Set to show modern booking view
+                    setJourneyStage('active') // Set to show active booking view
                     setActiveTab('journey') // Switch to journey tab
                   }}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"

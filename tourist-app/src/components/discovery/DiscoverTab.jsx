@@ -394,12 +394,12 @@ const IslandCard = ({ island, onClick, isSelected = false }) => (
   >
     <div className="flex-1 flex flex-col justify-center">
       <div className="flex items-center justify-center gap-2 xs:gap-3 mb-2 xs:mb-3">
-        <span className="text-2xl xs:text-3xl transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
+        <span className="text-2xl xs:text-3xl transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
           {island.emoji}
         </span>
       </div>
       <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${
-        isSelected ? 'text-blue-300' : 'text-white group-hover:hover:text-blue-300'
+        isSelected ? 'text-blue-300' : 'text-white group-hover:text-blue-300'
       }`}>
         {island.name}
       </h3>
@@ -430,14 +430,14 @@ const MoodCard = ({ mood, onClick, isSelected = false }) => {
     >
       <div className="flex-1 flex flex-col justify-center">
         <div className="flex items-center justify-center gap-2 xs:gap-3 mb-2 xs:mb-3">
-          <div className="transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
+          <div className="transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
             <IconComponent className={`w-6 h-6 xs:w-8 xs:h-8 ${
-              isSelected ? 'text-purple-300' : 'text-slate-300 group-hover:hover:text-purple-300'
+              isSelected ? 'text-purple-300' : 'text-slate-300 group-hover:text-purple-300'
             }`} />
           </div>
         </div>
         <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${
-          isSelected ? 'text-purple-300' : 'text-white group-hover:hover:text-purple-300'
+          isSelected ? 'text-purple-300' : 'text-white group-hover:text-purple-300'
         }`}>
           {mood.name}
         </h3>

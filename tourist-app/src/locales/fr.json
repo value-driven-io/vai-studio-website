@@ -18,7 +18,11 @@
     "hi": "Ia ora na",
     "welcome": "Maeva",
     "thankYou": "Mauruuru",
-    "goodbye": "Nana"
+    "goodbye": "Nana",
+    "notAvailable": "N/D",
+    "people": "personnes",
+    "adults": "adultes",
+    "children": "enfants"
   },
 
   "header": {
@@ -977,6 +981,173 @@
     "bookingAdded": "Réservation ajoutée à ton voyage ! 🌴",
     "bookingConfirmed": "Réservation {{ref}} confirmée ! 🎉",
     "bookingCancelled": "Réservation {{ref}} annulée"
+  },
+
+  "bookingDetails": {
+    "header": {
+      "tourDetails": "Détails de l'Activité"
+    },
+    "sections": {
+      "tourDetails": "Détails de l'Activité",
+      "bookingInfo": "Infos de Réservation",
+      "operatorDetails": "Détails de l'Opérateur",
+      "customerDetails": "Détails du Client",
+      "pricing": "Tarification",
+      "specialRequirements": "Exigences Spéciales",
+      "tourDescription": "Description de l'Activité"
+    },
+    "fields": {
+      "date": "Date",
+      "time": "Heure",
+      "duration": "Durée",
+      "type": "Type",
+      "meetingPoint": "Point de rendez-vous",
+      "maxCapacity": "Capacité maximale",
+      "whatsIncluded": "Ce qui est inclus",
+      "reference": "Référence",
+      "participants": "Participants",
+      "booked": "Réservé",
+      "confirmationBy": "Confirmation avant",
+      "confirmed": "Confirmé",
+      "company": "Compagnie",
+      "island": "Île",
+      "contact": "Contact",
+      "whatsapp": "WhatsApp",
+      "phone": "Téléphone",
+      "email": "Email",
+      "name": "Nom",
+      "adultPrice": "Prix adulte",
+      "childPrice": "Prix enfant",
+      "discount": "Remise",
+      "subtotal": "Sous-total",
+      "total": "Total",
+      "specialRequests": "Demandes spéciales",
+      "dietaryRestrictions": "Restrictions alimentaires",
+      "accessibilityNeeds": "Besoins d'accessibilité",
+      "paymentId": "ID de paiement"
+    },
+    "status": {
+      "unknown": "Inconnu",
+      "statusUnclear": "Statut incertain"
+    },
+    "messages": {
+      "savings": "Tu as économisé {{amount}} sur cette réservation !"
+    },
+    "help": {
+      "pendingTitle": "Que se passe-t-il ensuite ?",
+      "confirmedTitle": "Tout est prêt !",
+      "completedTitle": "Merci pour ton aventure !",
+      "cancelledTitle": "Statut de la Réservation",
+      "pending1": "Ta réservation est en cours d'examen par l'opérateur",
+      "pending2": "Tu recevras une confirmation dans les 24 heures",
+      "pending3": "Le paiement ne sera débité qu'après confirmation",
+      "pending4": "N'hésite pas à contacter l'opérateur pour toute question",
+      "confirmed1": "Ton activité est confirmée et sécurisée",
+      "confirmed2": "Arrive au point de rendez-vous à l'heure",
+      "confirmed3": "Apporte tous les objets requis mentionnés dans les détails",
+      "confirmed4": "Contacte l'opérateur si tu as des questions",
+      "completed1": "J'espère que tu as vécu une expérience incroyable !",
+      "completed2": "Ta réservation est maintenant terminée",
+      "completed3": "N'hésite pas à réserver la même activité à nouveau",
+      "completed4": "Contacte le support si tu as besoin d'aide",
+      "cancelled1": "Cette réservation n'est plus active",
+      "cancelled2": "Tous les paiements ont été remboursés",
+      "cancelled3": "Tu peux réserver une activité similaire à tout moment",
+      "cancelled4": "Contacte le support pour obtenir de l'aide"
+    },
+    "actions": {
+      "followUp": "Suivre avec l'Opérateur",
+      "contactOperator": "Chatter avec l'Opérateur",
+      "bookAgain": "Réserver à Nouveau",
+      "getSupport": "Obtenir de l'Aide"
+    }
+  },
+
+  "journeyTab": {
+    "navigation": {
+      "dashboard": "Tableau de Bord",
+      "dashboardShort": "Accueil",
+      "dashboardDesc": "Aperçu de tes réservations",
+      "active": "Actif",
+      "activeShort": "Actif",
+      "activeDesc": "Tours en attente et à venir",
+      "completed": "Terminé",
+      "completedShort": "Fini",
+      "completedDesc": "Tes souvenirs de voyage",
+      "findBookings": "Trouver des Réservations"
+    },
+    "header": {
+      "yourBookings": "Tes Réservations",
+      "bookingsCount": "{{count}} réservation(s) au total",
+      "noBookings": "Aucune réservation pour l'instant",
+      "actionNeeded": "action requise"
+    },
+    "quickActions": {
+      "title": "Besoin d'Aide ?",
+      "subtitle": "Trouve tes réservations ou obtiens de l'aide"
+    },
+    "welcome": {
+      "title": "Bienvenue dans ton Voyage !",
+      "subtitle": "Commence à explorer la Polynésie française",
+      "exploreTours": "Explorer les Activités",
+      "findMyBookings": "Trouver Mes Réservations"
+    },
+    "bookTour": "Réserver une Activité"
+  },
+
+  "bookingStats": {
+    "title": "Aperçu de tes Réservations",
+    "active": "Réservations Actives",
+    "completed": "Activités Terminées",
+    "totalSpent": "Total Dépensé",
+    "actionsNeeded": "actions requises",
+    "viewActive": "Voir Actif",
+    "viewMemories": "Voir Souvenirs",
+    "summary": "{{total}} réservations au total • {{completed}} terminées",
+    "noBookings": "Aucune réservation encore - commence à explorer !"
+  },
+
+  "nextTour": {
+    "title": "Prochaine Aventure",
+    "confirmed": "✅ Confirmé & Prêt",
+    "pending": "⏳ En Attente de Confirmation",
+    "daysUntil": "{{days}}j {{hours}}h avant l'aventure",
+    "hoursUntil": "{{hours}}h avant l'aventure",
+    "startingSoon": "Commence bientôt !",
+    "tourName": "Ton Activité",
+    "location": "Lieu à déterminer",
+    "operator": "Opérateur d'Activité",
+    "people": "personnes",
+    "totalPaid": "Total payé",
+    "meetingPoint": "Point de Rendez-vous",
+    "reference": "Référence",
+    "chat": "Chatter avec l'Opérateur",
+    "followUp": "Faire le Suivi"
+  },
+
+  "simplifiedView": {
+    "active": {
+      "title": "Réservations Actives",
+      "subtitle": "Tours en attente et à venir",
+      "emptyTitle": "Aucune Réservation Active",
+      "emptyMessage": "Toutes tes réservations sont terminées. C'est l'heure de nouvelles aventures !"
+    },
+    "completed": {
+      "title": "Tes Souvenirs de Voyage",
+      "subtitle": "Tours et expériences terminés",
+      "emptyTitle": "Aucune Activité Terminée Encore",
+      "emptyMessage": "Tes activités terminées apparaîtront ici après tes aventures."
+    },
+    "searchPlaceholder": "Rechercher des réservations...",
+    "refresh": "Actualiser",
+    "searchResults": "{{count}} sur {{total}} réservations affichées",
+    "noMatches": "Aucune réservation correspondante",
+    "tryDifferentSearch": "Essaie un terme de recherche différent ou vide la recherche.",
+    "clearSearch": "Vider la Recherche",
+    "exploreMore": "Explorer Plus d'Activités",
+    "pendingCount": "{{count}} en attente",
+    "confirmedCount": "{{count}} confirmé(es)",
+    "completedSummary": "{{count}} aventures incroyables terminées !"
   }
 
 }

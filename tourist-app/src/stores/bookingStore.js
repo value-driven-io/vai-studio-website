@@ -87,7 +87,7 @@ export const useAppStore = create(
 
       // 🆕 ADD THIS: Journey stage actions  
        setJourneyStage: (stage) => set({ journeyStage: stage }),
-       resetJourneyStage: () => set({ journeyStage: 'overview' }),
+       resetJourneyStage: () => set({ journeyStage: 'dashboard' }),
       
       // Language actions
       setLanguage: (language) => set({ currentLanguage: language }),

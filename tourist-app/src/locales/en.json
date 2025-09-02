@@ -18,7 +18,11 @@
     "hi": "Ia ora na",
     "welcome": "Maeva",
     "thankYou": "Mauruuru",
-    "goodbye": "Nana"
+    "goodbye": "Nana",
+    "notAvailable": "N/A",
+    "people": "people",
+    "adults": "adults",
+    "children": "children"
   },
 
   "header": {
@@ -779,9 +783,28 @@
   "journeyTab": {
     "header": {
       "title": "My Journey",
+      "yourBookings": "Your Bookings",
+      "bookingsCount": "{{count}} total bookings",
+      "noBookings": "No bookings yet",
+      "actionNeeded": "action needed",
       "activitiesExplored": "activities explored",
-      "findBookings": "Find Bookings",
       "newBadge": "NEW"
+    },
+    "navigation": {
+      "dashboard": "Dashboard",
+      "dashboardShort": "Home",
+      "dashboardDesc": "Overview of your bookings",
+      "active": "Active",
+      "activeShort": "Active",
+      "activeDesc": "Pending and upcoming tours",
+      "completed": "Completed",
+      "completedShort": "Done",
+      "completedDesc": "Your travel memories",
+      "findBookings": "Find Bookings"
+    },
+    "quickActions": {
+      "title": "Need Help?",
+      "subtitle": "Find your bookings or get support"
     },
     "achievements": {
       "firstAdventure": "First Adventure",
@@ -887,6 +910,141 @@
         "adventurer": "Adventurer"
       }
     }
+  },
+
+  "bookingStats": {
+    "title": "Your Booking Overview",
+    "active": "Active Bookings",
+    "completed": "Completed Tours",
+    "totalSpent": "Total Spent",
+    "actionsNeeded": "actions needed",
+    "viewActive": "View Active",
+    "viewMemories": "View Memories",
+    "summary": "{{total}} total bookings • {{completed}} completed",
+    "noBookings": "No bookings yet - start exploring!"
+  },
+
+  "nextTour": {
+    "title": "Next Adventure",
+    "confirmed": "✅ Confirmed & Ready",
+    "pending": "⏳ Awaiting Confirmation",
+    "daysUntil": "{{days}}d {{hours}}h until adventure",
+    "hoursUntil": "{{hours}}h until adventure",
+    "startingSoon": "Starting soon!",
+    "tourName": "Your Tour",
+    "location": "Location TBD",
+    "operator": "Tour Operator",
+    "people": "people",
+    "totalPaid": "Total paid",
+    "meetingPoint": "Meeting Point",
+    "reference": "Reference",
+    "chat": "Chat with Operator",
+    "followUp": "Follow Up"
+  },
+
+  "bookingDetails": {
+    "header": {
+      "tourDetails": "Tour Details"
+    },
+    "sections": {
+      "tourDetails": "Tour Details",
+      "bookingInfo": "Booking Info",
+      "operatorDetails": "Operator Details",
+      "customerDetails": "Customer Details",
+      "pricing": "Pricing",
+      "specialRequirements": "Special Requirements",
+      "tourDescription": "Tour Description"
+    },
+    "fields": {
+      "date": "Date",
+      "time": "Time",
+      "duration": "Duration",
+      "type": "Type",
+      "meetingPoint": "Meeting Point",
+      "maxCapacity": "Max capacity",
+      "whatsIncluded": "What's included",
+      "reference": "Reference",
+      "participants": "Participants",
+      "booked": "Booked",
+      "confirmationBy": "Confirmation by",
+      "confirmed": "Confirmed",
+      "company": "Company",
+      "island": "Island",
+      "contact": "Contact",
+      "whatsapp": "WhatsApp",
+      "phone": "Phone",
+      "email": "Email",
+      "name": "Name",
+      "adultPrice": "Adult price",
+      "childPrice": "Child price",
+      "discount": "Discount",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "specialRequests": "Special requests",
+      "dietaryRestrictions": "Dietary restrictions",
+      "accessibilityNeeds": "Accessibility needs",
+      "paymentId": "Payment ID"
+    },
+    "status": {
+      "unknown": "Unknown",
+      "statusUnclear": "Status unclear"
+    },
+    "messages": {
+      "savings": "You saved {{amount}} on this booking!"
+    },
+    "help": {
+      "pendingTitle": "What happens next?",
+      "confirmedTitle": "You're all set!",
+      "completedTitle": "Thanks for your adventure!",
+      "cancelledTitle": "Booking Status",
+      "pending1": "Your booking is being reviewed by the operator",
+      "pending2": "You will receive confirmation within 24 hours",
+      "pending3": "Payment will only be charged after confirmation",
+      "pending4": "Feel free to contact the operator for questions",
+      "confirmed1": "Your tour is confirmed and secured",
+      "confirmed2": "Arrive at the meeting point on time",
+      "confirmed3": "Bring any required items mentioned in tour details",
+      "confirmed4": "Contact the operator if you have any questions",
+      "completed1": "Hope you had an amazing experience!",
+      "completed2": "Your booking is now complete",
+      "completed3": "Feel free to book the same tour again",
+      "completed4": "Contact support if you need any help",
+      "cancelled1": "This booking is no longer active",
+      "cancelled2": "Any payments have been refunded",
+      "cancelled3": "You can book a similar tour anytime",
+      "cancelled4": "Contact support for assistance"
+    },
+    "actions": {
+      "followUp": "Follow Up with Operator",
+      "contactOperator": "Chat with Operator",
+      "bookAgain": "Book Again",
+      "getSupport": "Get Support"
+    }
+  },
+
+  "simplifiedView": {
+    "active": {
+      "title": "Active Bookings",
+      "subtitle": "Pending and upcoming tours",
+      "emptyTitle": "No Active Bookings",
+      "emptyMessage": "All your bookings are complete. Time for new adventures!"
+    },
+    "completed": {
+      "title": "Your Travel Memories",
+      "subtitle": "Completed tours and experiences",
+      "emptyTitle": "No Completed Tours Yet",
+      "emptyMessage": "Your completed tours will appear here after your adventures."
+    },
+    "searchPlaceholder": "Search bookings...",
+    "refresh": "Refresh",
+    "searchResults": "{{count}} of {{total}} bookings shown",
+    "noMatches": "No matching bookings",
+    "tryDifferentSearch": "Try a different search term or clear the search.",
+    "clearSearch": "Clear Search",
+    "exploreMore": "Explore More Tours",
+    "pendingCount": "{{count}} pending",
+    "confirmedCount": "{{count}} confirmed",
+    "completedSummary": "{{count}} amazing adventures completed!"
   },
 
   "messages": {

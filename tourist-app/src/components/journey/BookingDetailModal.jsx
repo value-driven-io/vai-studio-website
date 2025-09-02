@@ -1,8 +1,7 @@
 // File: tourist-app/src/components/journey/BookingDetailModal.jsx
-import React from 'react'
 import { 
-  X, Calendar, Clock, MapPin, Users, Star, Phone, MessageCircle,
-  CheckCircle, XCircle, AlertCircle, Timer, Award, Copy, Mail,
+  X, Calendar, MapPin, Users, Phone, MessageCircle,
+  CheckCircle, XCircle, AlertCircle, Timer, Award, Copy,
   ExternalLink, RotateCcw, Euro, Info, Utensils, Accessibility, 
   CreditCard, Shield
 } from 'lucide-react'
@@ -156,8 +155,8 @@ const BookingDetailModal = ({
       bgColor: 'bg-slate-500/10',
       borderColor: 'border-slate-500/20',
       icon: AlertCircle,
-      label: 'Unknown',
-      description: 'Status unclear',
+      label: t('bookingDetails.status.unknown', { default: 'Unknown' }),
+      description: t('bookingDetails.status.statusUnclear', { default: 'Status unclear' }),
       progress: 0,
       showPaymentInfo: false
     }
@@ -174,8 +173,8 @@ const BookingDetailModal = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] border border-slate-700 overflow-hidden">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+      <div className="bg-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] border border-slate-700 overflow-hidden">
         
         {/* Header */}
         <div className="relative p-6 border-b border-slate-700">
@@ -193,7 +192,7 @@ const BookingDetailModal = ({
                 <div className="text-3xl">{tourEmoji}</div>
                 <div>
                   <h2 className="text-xl font-bold text-white">
-                    {booking.tours?.tour_name || 'Tour Details'}
+                    {booking.tours?.tour_name || t('bookingDetails.header.tourDetails', { default: 'Tour Details' })}
                   </h2>
                   <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${statusConfig.bgColor} ${statusConfig.borderColor} border`}>
                     <StatusIcon className={`w-4 h-4 ${statusConfig.textColor}`} />
@@ -295,7 +294,7 @@ const BookingDetailModal = ({
                   
                   {booking.payment_intent_id && (
                     <div className="text-xs text-slate-500 border-t border-slate-600 pt-2">
-                      Payment ID: {booking.payment_intent_id}
+                      {t('bookingDetails.fields.paymentId', { default: 'Payment ID' })}: {booking.payment_intent_id}
                     </div>
                   )}
                 </div>
@@ -303,36 +302,50 @@ const BookingDetailModal = ({
             )}
 
             {/* Tour & Booking Info */}
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
               
               {/* Left Column */}
               <div className="space-y-4">
                 <div className="bg-slate-700/50 rounded-lg p-4">
                   <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
-                    Tour Details
+                    {t('bookingDetails.sections.tourDetails', { default: 'Tour Details' })}
                   </h3>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Date:</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.date', { default: 'Date' })}:</span>
                       <span className="text-white">{formatDate(booking.tours?.tour_date)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Time:</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.time', { default: 'Time' })}:</span>
                       <span className="text-white">{formatTime(booking.tours?.time_slot)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Duration:</span>
-                      <span className="text-white">{booking.tours?.duration_hours || 'N/A'}h</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.duration', { default: 'Duration' })}:</span>
+                      <span className="text-white">{booking.tours?.duration_hours || t('common.notAvailable', { default: 'N/A' })}h</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Type:</span>
-                      <span className="text-white">{booking.tours?.tour_type || 'N/A'}</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.type', { default: 'Type' })}:</span>
+                      <span className="text-white">{booking.tours?.tour_type || t('common.notAvailable', { default: 'N/A' })}</span>
                     </div>
                     {booking.tours?.meeting_point && (
                       <div className="pt-2 border-t border-slate-600">
-                        <div className="text-slate-400 mb-1">Meeting Point:</div>
-                        <div className="text-white text-xs">{booking.tours.meeting_point}</div>
+                        <div className="text-slate-400 mb-1">{t('bookingDetails.fields.meetingPoint', { default: 'Meeting Point' })}:</div>
+                        <div className="text-white text-xs bg-green-500/10 border border-green-500/20 rounded p-2 mt-1">
+                          {booking.tours.meeting_point}
+                        </div>
+                      </div>
+                    )}
+                    {booking.tours?.max_capacity && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.maxCapacity', { default: 'Max capacity' })}:</span>
+                        <span className="text-white">{booking.tours.max_capacity} {t('common.people', { default: 'people' })}</span>
+                      </div>
+                    )}
+                    {booking.tours?.whats_included && (
+                      <div className="pt-2 border-t border-slate-600">
+                        <div className="text-slate-400 mb-1">{t('bookingDetails.fields.whatsIncluded', { default: 'What\'s included' })}:</div>
+                        <div className="text-white text-xs">{booking.tours.whats_included}</div>
                       </div>
                     )}
                   </div>
@@ -342,11 +355,11 @@ const BookingDetailModal = ({
                 <div className="bg-slate-700/50 rounded-lg p-4">
                   <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                     <Info className="w-4 h-4" />
-                    Booking Info
+                    {t('bookingDetails.sections.bookingInfo', { default: 'Booking Info' })}
                   </h3>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-400">Reference:</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.reference', { default: 'Reference' })}:</span>
                       <button
                         onClick={copyBookingReference}
                         className="text-blue-400 hover:text-blue-300 font-mono transition-colors flex items-center gap-1"
@@ -356,58 +369,149 @@ const BookingDetailModal = ({
                       </button>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Participants:</span>
-                      <span className="text-white">{booking.num_adults + (booking.num_children || 0)} ({booking.num_adults} adults{booking.num_children ? `, ${booking.num_children} children` : ''})</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.participants', { default: 'Participants' })}:</span>
+                      <span className="text-white">{booking.num_adults + (booking.num_children || 0)} ({booking.num_adults} {t('common.adults', { default: 'adults' })}{booking.num_children ? `, ${booking.num_children} ${t('common.children', { default: 'children' })}` : ''})</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Booked:</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.booked', { default: 'Booked' })}:</span>
                       <span className="text-white">{formatDate(booking.created_at)}</span>
                     </div>
+                    {booking.confirmation_deadline && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.confirmationBy', { default: 'Confirmation by' })}:</span>
+                        <span className="text-orange-300">{formatDate(booking.confirmation_deadline)}</span>
+                      </div>
+                    )}
+                    {booking.booking_status === 'confirmed' && booking.confirmed_at && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.confirmed', { default: 'Confirmed' })}:</span>
+                        <span className="text-green-300">{formatDate(booking.confirmed_at)}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Middle Column */}
+              <div className="space-y-4">
+                <div className="bg-slate-700/50 rounded-lg p-4">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
+                    <MapPin className="w-4 h-4" />
+                    {t('bookingDetails.sections.operatorDetails', { default: 'Operator Details' })}
+                  </h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">{t('bookingDetails.fields.company', { default: 'Company' })}:</span>
+                      <span className="text-white">{booking.operators?.company_name || t('common.notAvailable', { default: 'N/A' })}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">{t('bookingDetails.fields.island', { default: 'Island' })}:</span>
+                      <span className="text-white">{booking.operators?.island || t('common.notAvailable', { default: 'N/A' })}</span>
+                    </div>
+                    {booking.operators?.contact_person && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.contact', { default: 'Contact' })}:</span>
+                        <span className="text-white">{booking.operators.contact_person}</span>
+                      </div>
+                    )}
+                    {booking.operators?.whatsapp_number && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.whatsapp', { default: 'WhatsApp' })}:</span>
+                        <span className="text-white">{booking.operators.whatsapp_number}</span>
+                      </div>
+                    )}
+                    {booking.operators?.phone && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.phone', { default: 'Phone' })}:</span>
+                        <span className="text-white">{booking.operators.phone}</span>
+                      </div>
+                    )}
+                    {booking.operators?.email && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.email', { default: 'Email' })}:</span>
+                        <span className="text-white text-xs">{booking.operators.email}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Customer Information */}
+                <div className="bg-slate-700/50 rounded-lg p-4">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
+                    <Users className="w-4 h-4" />
+                    {t('bookingDetails.sections.customerDetails', { default: 'Customer Details' })}
+                  </h3>
+                  <div className="space-y-3 text-sm">
+                    {booking.customer_name && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.name', { default: 'Name' })}:</span>
+                        <span className="text-white">{booking.customer_name}</span>
+                      </div>
+                    )}
+                    {booking.customer_email && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.email', { default: 'Email' })}:</span>
+                        <span className="text-white text-xs">{booking.customer_email}</span>
+                      </div>
+                    )}
+                    {booking.customer_whatsapp && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.whatsapp', { default: 'WhatsApp' })}:</span>
+                        <span className="text-white">{booking.customer_whatsapp}</span>
+                      </div>
+                    )}
+                    {booking.customer_phone && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.phone', { default: 'Phone' })}:</span>
+                        <span className="text-white">{booking.customer_phone}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Right Column */}
               <div className="space-y-4">
-                <div className="bg-slate-700/50 rounded-lg p-4">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    Operator Details
-                  </h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Company:</span>
-                      <span className="text-white">{booking.operators?.company_name || 'N/A'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Island:</span>
-                      <span className="text-white">{booking.operators?.island || 'N/A'}</span>
-                    </div>
-                    {booking.operators?.contact_person && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Contact:</span>
-                        <span className="text-white">{booking.operators.contact_person}</span>
-                      </div>
-                    )}
-                    {booking.operators?.whatsapp_number && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">WhatsApp:</span>
-                        <span className="text-white">{booking.operators.whatsapp_number}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
 
                 <div className="bg-slate-700/50 rounded-lg p-4">
                   <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                     <Euro className="w-4 h-4" />
-                    Pricing
+                    {t('bookingDetails.sections.pricing', { default: 'Pricing' })}
                   </h3>
                   <div className="space-y-3 text-sm">
-                    <div className="flex justify-between font-semibold pt-2 border-t border-slate-600">
-                      <span className="text-white">Total:</span>
+                    {booking.adult_price && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.adultPrice', { default: 'Adult price' })}:</span>
+                        <span className="text-white">{formatPrice(booking.adult_price)} x {booking.num_adults}</span>
+                      </div>
+                    )}
+                    {booking.child_price && booking.num_children > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.childPrice', { default: 'Child price' })}:</span>
+                        <span className="text-white">{formatPrice(booking.child_price)} x {booking.num_children}</span>
+                      </div>
+                    )}
+                    {booking.discount_amount && booking.discount_amount > 0 && (
+                      <div className="flex justify-between text-green-400">
+                        <span>{t('bookingDetails.fields.discount', { default: 'Discount' })}:</span>
+                        <span>-{formatPrice(booking.discount_amount)}</span>
+                      </div>
+                    )}
+                    {booking.subtotal && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('bookingDetails.fields.subtotal', { default: 'Subtotal' })}:</span>
+                        <span className="text-white">{formatPrice(booking.subtotal)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between font-semibold pt-2 border-t border-slate-600 text-lg">
+                      <span className="text-white">{t('bookingDetails.fields.total', { default: 'Total' })}:</span>
                       <span className="text-white">{formatPrice(booking.total_amount || booking.subtotal)}</span>
                     </div>
+                    {booking.discount_amount && booking.discount_amount > 0 && (
+                      <div className="text-xs text-green-400 text-center">
+                        💰 {t('bookingDetails.messages.savings', { amount: formatPrice(booking.discount_amount), default: 'You saved {{amount}} on this booking!' })}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -418,12 +522,12 @@ const BookingDetailModal = ({
               <div className="bg-slate-700/50 rounded-lg p-4">
                 <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                   <Info className="w-4 h-4" />
-                  Special Requirements
+                  {t('bookingDetails.sections.specialRequirements', { default: 'Special Requirements' })}
                 </h3>
                 <div className="space-y-2 text-sm">
                   {booking.special_requirements && (
                     <div>
-                      <span className="text-slate-400">Special requests:</span>
+                      <span className="text-slate-400">{t('bookingDetails.fields.specialRequests', { default: 'Special requests' })}:</span>
                       <p className="text-white mt-1">{booking.special_requirements}</p>
                     </div>
                   )}
@@ -431,7 +535,7 @@ const BookingDetailModal = ({
                     <div>
                       <span className="text-slate-400 flex items-center gap-1">
                         <Utensils className="w-3 h-3" />
-                        Dietary restrictions:
+                        {t('bookingDetails.fields.dietaryRestrictions', { default: 'Dietary restrictions' })}:
                       </span>
                       <p className="text-white mt-1">{booking.dietary_restrictions}</p>
                     </div>
@@ -440,7 +544,7 @@ const BookingDetailModal = ({
                     <div>
                       <span className="text-slate-400 flex items-center gap-1">
                         <Accessibility className="w-3 h-3" />
-                        Accessibility needs:
+                        {t('bookingDetails.fields.accessibilityNeeds', { default: 'Accessibility needs' })}:
                       </span>
                       <p className="text-white mt-1">{booking.accessibility_needs}</p>
                     </div>
@@ -452,59 +556,120 @@ const BookingDetailModal = ({
             {/* Tour Description */}
             {booking.tours?.description && (
               <div className="bg-slate-700/50 rounded-lg p-4">
-                <h3 className="font-semibold text-white mb-3">Tour Description</h3>
+                <h3 className="font-semibold text-white mb-3">{t('bookingDetails.sections.tourDescription', { default: 'Tour Description' })}</h3>
                 <p className="text-slate-300 text-sm leading-relaxed">
                   {booking.tours.description}
                 </p>
               </div>
             )}
+
+            {/* Status-Specific Help Section */}
+            <div className={`rounded-lg p-4 ${statusConfig.bgColor} ${statusConfig.borderColor} border`}>
+              <h3 className={`font-semibold mb-3 flex items-center gap-2 ${statusConfig.textColor}`}>
+                <Info className="w-4 h-4" />
+                {booking.booking_status === 'pending' && t('bookingDetails.help.pendingTitle', { default: 'What happens next?' })}
+                {booking.booking_status === 'confirmed' && t('bookingDetails.help.confirmedTitle', { default: 'You\'re all set!' })}
+                {booking.booking_status === 'completed' && t('bookingDetails.help.completedTitle', { default: 'Thanks for your adventure!' })}
+                {(booking.booking_status === 'declined' || booking.booking_status === 'cancelled') && t('bookingDetails.help.cancelledTitle', { default: 'Booking Status' })}
+              </h3>
+              <div className={`text-sm space-y-2 ${statusConfig.textColor}`}>
+                {booking.booking_status === 'pending' && (
+                  <>
+                    <p>• {t('bookingDetails.help.pending1', { default: 'Your booking is being reviewed by the operator' })}</p>
+                    <p>• {t('bookingDetails.help.pending2', { default: 'You will receive confirmation within 24 hours' })}</p>
+                    <p>• {t('bookingDetails.help.pending3', { default: 'Payment will only be charged after confirmation' })}</p>
+                    <p>• {t('bookingDetails.help.pending4', { default: 'Feel free to contact the operator for questions' })}</p>
+                  </>
+                )}
+                {booking.booking_status === 'confirmed' && (
+                  <>
+                    <p>• {t('bookingDetails.help.confirmed1', { default: 'Your tour is confirmed and secured' })}</p>
+                    <p>• {t('bookingDetails.help.confirmed2', { default: 'Arrive at the meeting point on time' })}</p>
+                    <p>• {t('bookingDetails.help.confirmed3', { default: 'Bring any required items mentioned in tour details' })}</p>
+                    <p>• {t('bookingDetails.help.confirmed4', { default: 'Contact the operator if you have any questions' })}</p>
+                  </>
+                )}
+                {booking.booking_status === 'completed' && (
+                  <>
+                    <p>• {t('bookingDetails.help.completed1', { default: 'Hope you had an amazing experience!' })}</p>
+                    <p>• {t('bookingDetails.help.completed2', { default: 'Your booking is now complete' })}</p>
+                    <p>• {t('bookingDetails.help.completed3', { default: 'Feel free to book the same tour again' })}</p>
+                    <p>• {t('bookingDetails.help.completed4', { default: 'Contact support if you need any help' })}</p>
+                  </>
+                )}
+                {(booking.booking_status === 'declined' || booking.booking_status === 'cancelled') && (
+                  <>
+                    <p>• {t('bookingDetails.help.cancelled1', { default: 'This booking is no longer active' })}</p>
+                    <p>• {t('bookingDetails.help.cancelled2', { default: 'Any payments have been refunded' })}</p>
+                    <p>• {t('bookingDetails.help.cancelled3', { default: 'You can book a similar tour anytime' })}</p>
+                    <p>• {t('bookingDetails.help.cancelled4', { default: 'Contact support for assistance' })}</p>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Footer Actions */}
         <div className="p-6 border-t border-slate-700 bg-slate-800/50">
-          <div className="flex gap-3">
-            {/* Contact Button */}
-            {canContactOperator(booking) && (
-              <button
-                onClick={() => onContactOperator?.(booking)}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-              >
-                {booking.operators?.whatsapp_number ? (
-                  <MessageCircle className="w-4 h-4" />
-                ) : (
-                  <Phone className="w-4 h-4" />
-                )}
-                Contact Operator
-              </button>
-            )}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex gap-3 flex-1">
+              {/* Primary Action Based on Status */}
+              {booking.booking_status === 'pending' && canContactOperator(booking) && (
+                <button
+                  onClick={() => onContactOperator?.(booking)}
+                  className="flex items-center gap-2 px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-medium"
+                >
+                  {booking.operators?.whatsapp_number ? (
+                    <MessageCircle className="w-4 h-4" />
+                  ) : (
+                    <Phone className="w-4 h-4" />
+                  )}
+                  {t('bookingDetails.actions.followUp', { default: 'Follow Up with Operator' })}
+                </button>
+              )}
 
-            {/* Rebook Button */}
-            {canRebook(booking) && (
-              <button
-                onClick={() => onRebook?.(booking)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Book Again
-              </button>
-            )}
+              {booking.booking_status === 'confirmed' && canContactOperator(booking) && (
+                <button
+                  onClick={() => onContactOperator?.(booking)}
+                  className="flex items-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium"
+                >
+                  {booking.operators?.whatsapp_number ? (
+                    <MessageCircle className="w-4 h-4" />
+                  ) : (
+                    <Phone className="w-4 h-4" />
+                  )}
+                  {t('bookingDetails.actions.contactOperator', { default: 'Chat with Operator' })}
+                </button>
+              )}
 
-            {/* Support Button */}
-            <button
-              onClick={() => onGetSupport?.(booking)}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
-            >
-              <ExternalLink className="w-4 h-4" />
-              Get Support
-            </button>
+              {/* Rebook Button */}
+              {canRebook(booking) && (
+                <button
+                  onClick={() => onRebook?.(booking)}
+                  className="flex items-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  {t('bookingDetails.actions.bookAgain', { default: 'Book Again' })}
+                </button>
+              )}
+
+              {/* Support Button */}
+              <button
+                onClick={() => onGetSupport?.(booking)}
+                className="flex items-center gap-2 px-4 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                {t('bookingDetails.actions.getSupport', { default: 'Get Support' })}
+              </button>
+            </div>
 
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 px-4 rounded-lg transition-colors"
+              className="bg-slate-700 hover:bg-slate-600 text-white py-3 px-6 rounded-lg transition-colors font-medium min-w-[100px]"
             >
-              Close
+              {t('common.close', { default: 'Close' })}
             </button>
           </div>
         </div>
