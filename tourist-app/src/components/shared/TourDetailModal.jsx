@@ -146,7 +146,7 @@ const TourDetailModal = ({
               <div className="flex-1 min-w-0">
                 <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight">{tour.tour_name}</h2>
                 <p className="text-slate-400 text-sm sm:text-base mt-1">
-                  {tour.company_name} • 📍 {tour.operator_island}
+                  {tour.company_name} • 📍 {tour.location || tour.operator_island}
                 </p>
                 
                 {/* Trust Indicators  */}

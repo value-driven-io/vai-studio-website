@@ -67,7 +67,9 @@ export const TOUR_TYPE_EMOJIS = {
   'Lagoon Tour': '🏝️',
   'Relax': '🧘',
   'Whale Watching': '🐋',
-  'Snorkeling': '🐢'
+  'Snorkeling': '🐢',
+  'Culinary Experience': '🍽️',
+  'Mindfulness': '🧘'
 }
 
 export const ISLAND_EMOJIS = {
