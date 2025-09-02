@@ -231,6 +231,8 @@
     "quickDateSelection": "Sélection Rapide de Date",
     "customDate": "Date Personnalisée",
     "timeSlot": "Créneau Horaire",
+    "startTime": "Heure de Début",
+    "startTimeHelper": "Définir l'heure exacte du début de votre tour/activité",
     "duration": "Durée (heures)",
     "maxCapacity": "Capacité Maximum",
     "availableSpots": "Places Disponibles",
@@ -240,6 +242,9 @@
     "yourRevenue": "Tes revenus",
     "meetingPoint": "Point de Rendez-vous",
     "meetingPointPlaceholder": "ex. Terminal Ferry Vaiare - Entrée Principale",
+    "tourLocation": "Île de Localisation",
+    "selectLocation": "Sélectionner une île...",
+    "locationHelper": "Choisir l'île où votre tour/activité a lieu",
     "tourTypeHelper": "Sélectionne la catégorie qui décrit le mieux ton expérience d'activité"
   },
   "tooltips": {
@@ -271,7 +276,14 @@
     "equipment": "Équipement Inclus",
     "food": "Nourriture Incluse",
     "drinks": "Boissons Incluses",
-    "languages": "Langues Proposées"
+    "languages": "Langues Proposées",
+    "detailsHint": {
+      "title": "💡 Soyez Spécifique pour les Touristes",
+      "description": "Ces cases montrent les catégories générales. Ajoutez des détails spécifiques dans votre description ou notes spéciales pour attirer plus de réservations:",
+      "equipmentExample": "Équipement: Au lieu de juste cocher, spécifiez 'Matériel de plongée, caméra sous-marine, palmes fournies'",
+      "foodExample": "Nourriture: Détaillez exactement ce qui est inclus comme 'Déjeuner polynésien traditionnel avec poisson cru et fruits frais'",
+      "drinksExample": "Boissons: Soyez précis comme 'Eau de coco fraîche, jus de fruits tropicaux, et eau tout au long du tour'"
+    }
   },
   "requirements": {
     "title": "Exigences et Restrictions",

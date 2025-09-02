@@ -11,6 +11,22 @@ import {
   Filter, Search, Shield, Activity, Settings, FileText
 } from 'lucide-react'
 
+// Island locations array based on database constraint
+const ISLAND_LOCATIONS = [
+  'Tahiti',
+  'Moorea', 
+  'Bora Bora',
+  'Huahine',
+  'Raiatea',
+  'Taha\'a',
+  'Maupiti',
+  'Tikehau',
+  'Rangiroa',
+  'Fakarava',
+  'Nuku Hiva',
+  'Other'
+]
+
 // Tooltip component 
 const Tooltip = ({ children, content, position = 'top' }) => {
   const [isVisible, setIsVisible] = useState(false)
@@ -759,18 +775,16 @@ const CreateTab = ({
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.timeSlot')} *</label>
-                      <select
+                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.startTime')} *</label>
+                      <input
+                        type="time"
                         value={formData.time_slot}
                         onChange={(e) => handleFieldChange('time_slot', e.target.value)}
                         className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                      >
-                        {timeSlots.map(slot => (
-                          <option key={slot.value} value={slot.value}>
-                            {slot.label} {slot.popular ? '⭐' : ''}
-                          </option>
-                        ))}
-                      </select>
+                      />
+                      <p className="text-slate-400 text-xs mt-1">
+                        {t('form.startTimeHelper')}
+                      </p>
                     </div>
 
                     <div>
@@ -874,13 +888,18 @@ const CreateTab = ({
                         <input
                           type="range"
                           min="0"
-                          max="60"
+                          max="100"
                           step="5"
                           value={formData.discount_percentage}
                           onChange={(e) => handleFieldChange('discount_percentage', parseInt(e.target.value))}
                           className="w-full"
                         />
-                        <div className="text-center text-white font-medium">{formData.discount_percentage}%</div>
+                        <div className="text-center text-white font-medium">
+                          {formData.discount_percentage}%
+                          {formData.discount_percentage === 100 && (
+                            <span className="text-green-400 text-sm ml-2">• FREE</span>
+                          )}
+                        </div>
                       </div>
 
                       <div>
@@ -892,15 +911,65 @@ const CreateTab = ({
                       </div>
                     </div>
                   </div>
-
+                </div>
+              </div>
+              
+              {/* Location & Pickup - Required */}
+              <div className="border border-slate-600 rounded-lg overflow-hidden">
+                <div className="p-4 bg-slate-700/30">
+                  <div className="flex items-center gap-3">
+                    <MapPin className="w-5 h-5 text-red-400" />
+                    <h4 className="text-md font-medium text-slate-300">{t('locationPickup.title')}</h4>
+                    <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">{t('form.required')}</span>
+                  </div>
+                </div>
+                <div className="p-4 bg-slate-800/20 space-y-4">
+                  {/* Island Location Selection */}
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                    {t('form.meetingPoint')} *
-                    <ContextualTooltip tooltipKey="create.meetingPoint" type="onboarding" placement="top">
+                      {t('form.tourLocation')} *
+                      <ContextualTooltip tooltipKey="create.location" type="onboarding" placement="top">
                         <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help hover:bg-slate-600 transition-colors">
-                        📍
+                          🏝️
                         </span>
-                    </ContextualTooltip>
+                      </ContextualTooltip>
+                    </label>
+                    <select
+                      value={formData.location || ''}
+                      onChange={(e) => handleFieldChange('location', e.target.value)}
+                      className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
+                        validationErrors.location ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                      }`}
+                    >
+                      <option value="">{t('form.selectLocation')}</option>
+                      {ISLAND_LOCATIONS.map(location => (
+                        <option key={location} value={location}>
+                          {location}
+                        </option>
+                      ))}
+                    </select>
+                    {validationErrors.location && (
+                      <div className="flex items-center gap-2 mt-1">
+                        <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                        <p className="text-red-400 text-sm">{validationErrors.location}</p>
+                      </div>
+                    )}
+                    {!validationErrors.location && (
+                      <p className="text-slate-400 text-xs mt-1">
+                        {t('form.locationHelper')}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Meeting Point */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                      {t('form.meetingPoint')} *
+                      <ContextualTooltip tooltipKey="create.meetingPoint" type="onboarding" placement="top">
+                        <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help hover:bg-slate-600 transition-colors">
+                          📍
+                        </span>
+                      </ContextualTooltip>
                     </label>
                     <input
                       type="text"
@@ -918,9 +987,65 @@ const CreateTab = ({
                       </div>
                     )}
                   </div>
+
+                  {/* Optional Pickup */}
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.pickup_available}
+                      onChange={(e) => handleFieldChange('pickup_available', e.target.checked)}
+                      className="w-4 h-4 rounded border-slate-600"
+                    />
+                    <span className="text-slate-300">{t('locationPickup.offerPickup')}</span>
+                  </label>
+
+                  {formData.pickup_available && (
+                    <div className="ml-6 space-y-3">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder={t('locationPickup.addPickupLocation')}
+                          className="flex-1 p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400"
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault()
+                              handlePickupLocationAdd(e.target.value)
+                              e.target.value = ''
+                            }
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            const input = e.target.parentElement.querySelector('input')
+                            handlePickupLocationAdd(input.value)
+                            input.value = ''
+                          }}
+                          className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                        >
+                          {t('locationPickup.add')}
+                        </button>
+                      </div>
+                      {formData.pickup_locations?.length > 0 && (
+                        <div className="space-y-2">
+                          {formData.pickup_locations.map((location, index) => (
+                            <div key={index} className="flex items-center justify-between p-2 bg-slate-600/30 rounded">
+                              <span className="text-slate-200">{location}</span>
+                              <button
+                                type="button"
+                                onClick={() => handlePickupLocationRemove(index)}
+                                className="text-red-400 hover:text-red-300 p-1"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
-              
 
               {/* OPTIONAL SECTIONS - Toggleable */}
 
@@ -933,18 +1058,6 @@ const CreateTab = ({
                     {t('optionalSections.subtitle')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-slate-600/20 transition-colors">
-                    <input
-                        type="checkbox"
-                        checked={showOptionalSections.location}
-                        onChange={(e) => setShowOptionalSections(prev => ({...prev, location: e.target.checked}))}
-                        className="w-4 h-4 rounded border-slate-600"
-                    />
-                    <div>
-                        <span className="text-slate-300 text-sm font-medium">{t('optionalSections.location')}</span>
-                        <p className="text-slate-400 text-xs">{t('optionalSections.locationDesc')}</p>
-                    </div>
-                    </label>
                     <label className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-slate-600/20 transition-colors">
                     <input
                         type="checkbox"
@@ -983,76 +1096,6 @@ const CreateTab = ({
                     </label>
                 </div>
               </div>
-
-              {/* Location & Pickup (Optional) */}
-                {showOptionalSections.location && (
-                  <div className="border border-slate-600 rounded-lg overflow-hidden">
-                    <div className="p-4 bg-slate-700/30">
-                      <div className="flex items-center gap-3">
-                        <MapPin className="w-5 h-5 text-red-400" />
-                        <h4 className="text-md font-medium text-slate-300">{t('locationPickup.title')}</h4>
-                        <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">{t('form.optional')}</span>
-                      </div>
-                    </div>
-                    <div className="p-4 bg-slate-800/20 space-y-4">
-                      <label className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={formData.pickup_available}
-                          onChange={(e) => handleFieldChange('pickup_available', e.target.checked)}
-                          className="w-4 h-4 rounded border-slate-600"
-                        />
-                        <span className="text-slate-300">{t('locationPickup.offerPickup')}</span>
-                      </label>
-
-                      {formData.pickup_available && (
-                        <div className="ml-6 space-y-3">
-                          <div className="flex gap-2">
-                            <input
-                              type="text"
-                              placeholder={t('locationPickup.addPickupLocation')}
-                              className="flex-1 p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400"
-                              onKeyPress={(e) => {
-                                if (e.key === 'Enter') {
-                                  e.preventDefault()
-                                  handlePickupLocationAdd(e.target.value)
-                                  e.target.value = ''
-                                }
-                              }}
-                            />
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                const input = e.target.parentElement.querySelector('input')
-                                handlePickupLocationAdd(input.value)
-                                input.value = ''
-                              }}
-                              className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                            >
-                              {t('locationPickup.add')}
-                            </button>
-                          </div>
-                          {formData.pickup_locations?.length > 0 && (
-                            <div className="space-y-2">
-                              {formData.pickup_locations.map((location, index) => (
-                                <div key={index} className="flex items-center justify-between p-2 bg-slate-600/30 rounded">
-                                  <span className="text-slate-200">{location}</span>
-                                  <button
-                                    type="button"
-                                    onClick={() => handlePickupLocationRemove(index)}
-                                    className="text-red-400 hover:text-red-300 p-1"
-                                  >
-                                    <X className="w-4 h-4" />
-                                  </button>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
 
               {/* Inclusions (Optional) */}
                 {showOptionalSections.inclusions && (
@@ -1120,6 +1163,34 @@ const CreateTab = ({
                           </div>
                         </div>
                       </div>
+                      
+                      {/* Helpful Hint for Inclusions */}
+                      {(formData.equipment_included || formData.food_included || formData.drinks_included) && (
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mt-4">
+                          <div className="flex items-start gap-3">
+                            <div className="bg-blue-500/20 rounded-full p-2 flex-shrink-0">
+                              <Info className="w-4 h-4 text-blue-400" />
+                            </div>
+                            <div>
+                              <h6 className="text-blue-400 font-medium mb-2">{t('inclusions.detailsHint.title')}</h6>
+                              <p className="text-slate-300 text-sm mb-2">
+                                {t('inclusions.detailsHint.description')}
+                              </p>
+                              <div className="text-slate-400 text-xs space-y-1">
+                                {formData.equipment_included && (
+                                  <p>▶︎ {t('inclusions.detailsHint.equipmentExample')}</p>
+                                )}
+                                {formData.food_included && (
+                                  <p>▶︎ {t('inclusions.detailsHint.foodExample')}</p>
+                                )}
+                                {formData.drinks_included && (
+                                  <p>▶︎ {t('inclusions.detailsHint.drinksExample')}</p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

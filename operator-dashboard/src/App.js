@@ -245,8 +245,9 @@ function AppContent() { // function App() { << before changes for the authcallba
     { value: 'Hike', icon: '🥾', color: 'bg-green-500' },
     { value: 'Cultural', icon: '🗿', color: 'bg-amber-500' },
     { value: 'Adrenalin', icon: '🪂', color: 'bg-red-500' },
-    { value: 'Diving', icon: '🤿', color: 'bg-indigo-500' },
-    { value: 'Mindfulness', icon: '🧘', color: 'bg-purple-500' }
+    { value: 'Mindfulness', icon: '🧘', color: 'bg-purple-500' },
+    { value: 'Culinary Experience', icon: '🍽️', color: 'bg-orange-500' },
+    { value: 'Diving', icon: '🤿', color: 'bg-indigo-500' }
   ]
 
   const timeSlots = [
@@ -1570,7 +1571,7 @@ function AppContent() { // function App() { << before changes for the authcallba
     
     // Only validate specific field if provided, otherwise validate all
     const fieldsToValidate = specificField ? [specificField] : [
-      'tour_name', 'description', 'tour_date', 'meeting_point', 
+      'tour_name', 'description', 'tour_date', 'meeting_point', 'location',
       'max_capacity', 'original_price_adult', 'duration_hours',
       'min_age', 'max_age' // ADD AGE VALIDATION
     ]
@@ -1636,6 +1637,12 @@ function AppContent() { // function App() { << before changes for the authcallba
         case 'meeting_point':
           if (!formData.meeting_point.trim()) {
             errors.meeting_point = 'Meeting point is required - where will customers meet you?'
+          }
+          break
+          
+        case 'location':
+          if (!formData.location || formData.location.trim() === '') {
+            errors.location = 'Island location is required - select where your tour/activity takes place'
           }
           break
           
@@ -1853,6 +1860,7 @@ function AppContent() { // function App() { << before changes for the authcallba
       discount_price_child: 5600,
       discount_percentage: 20, // Standard last-minute discount
       meeting_point: '',
+      location: '', // New location field
       pickup_available: false,
       pickup_locations: [],
       equipment_included: false,
