@@ -325,7 +325,7 @@ const MessagesTab = () => {
     return (
       <div className="bg-slate-900">
         {/* Enhanced Chat Header */}
-        <div className="bg-slate-800 border-b border-slate-700 p-4 shadow-lg sticky top-0 z-50">
+        <div className="border-b border-slate-700 p-4 shadow-lg sticky top-0 z-50">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSelectedConversation(null)}
@@ -517,7 +517,7 @@ const MessagesTab = () => {
                     setSelectedConversation(conversation)
                     loadMessages(conversation.id)
                   }}
-                  className="w-full bg-slate-800 hover:bg-slate-700 rounded-2xl p-5 text-left transition-all duration-200 border border-slate-700/50 hover:border-slate-600 hover:shadow-lg group"
+                  className="w-full rounded-2xl p-5 text-left transition-all duration-200 border border-slate-700/50 group"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
