@@ -282,7 +282,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       
       return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700 max-h-[90vh] overflow-y-auto">
+          <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700 max-h-[calc(100vh-120px)] overflow-y-auto">
             <div className="p-6">
               {/* Header with Success Icon */}
               <div className="text-center mb-6">
@@ -408,11 +408,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   <div className="flex justify-between border-t border-slate-600 pt-2">
                     <span className="text-slate-400">{t('success.total')}</span>
                     <div className="text-right">
-                      <span className="text-white font-semibold">{formatPrice(bookingResult.total_amount || bookingResult.subtotal)}</span>
+                      <span className="text-white font-semibold">{formatPrice(bookingResult.total_amount || bookingResult.subtotal || pricing.total)}</span>
                       {hasPaymentData && (
                         <div className="text-xs text-slate-400 mt-1">
                           <CompactPriceDisplay 
-                            xpfAmount={bookingResult.total_amount || bookingResult.subtotal}
+                            xpfAmount={bookingResult.total_amount || bookingResult.subtotal || pricing.total}
                             selectedCurrency="USD"
                             showCurrency={false}
                           /> {t('bookingDetails.chargedUSD')}
@@ -562,7 +562,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   // MAIN BOOKING FORM
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-700">
+      <div className="bg-slate-800 rounded-2xl max-w-lg w-full max-h-[calc(100vh-120px)] overflow-y-auto border border-slate-700">
         {/* Header */}
         <div className="sticky top-0 bg-slate-800 p-6 border-b border-slate-700 flex items-center justify-between">
           <h2 className="text-xl font-bold text-white">{t('bookingModal.header')}</h2>

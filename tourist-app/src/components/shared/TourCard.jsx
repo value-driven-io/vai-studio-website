@@ -114,7 +114,7 @@ const TourCard = ({
                       {tour.tour_name}
                     </h3>
                     <p className="text-slate-400 text-sm mt-0.5">
-                      {tour.company_name} • 📍 {tour.operator_island || tour.island}
+                      {tour.company_name} • 📍 {tour.location || tour.operator_island}
                     </p>
                   </div>
                 </div>
