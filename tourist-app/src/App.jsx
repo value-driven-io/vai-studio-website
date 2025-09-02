@@ -66,7 +66,7 @@ const AppHeader = () => {
                 </h1>
                 <p className="text-slate-400 text-sm">
                   {user 
-                    ? t('header.greeting', `Welcome back, ${user.user_metadata?.first_name || 'Explorer'}!`)
+                    ? t('header.greeting', { name: user.user_metadata?.first_name || 'Explorer' })
                     : t('header.subtitle', 'Discover French Polynesia')
                   }
                 </p>
@@ -85,7 +85,7 @@ const AppHeader = () => {
               
               {/* User info when logged in */}
               {user && (
-                <div className="flex items-center gap-2 px-3 py-2 bg-slate-700/50 rounded-lg">
+                <div className="flex items-center gap-2 px-3 py-2 bg-slate-700/50 rounded-lg hidden">
                   <span className="text-slate-300 text-sm hidden sm:inline">
                     {user.email}
                   </span>

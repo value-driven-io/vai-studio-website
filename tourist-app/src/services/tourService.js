@@ -269,7 +269,7 @@ export const tourService = {
         .eq('status', 'active')
         .gt('available_spots', 0)
         .gte('tour_date', todayFP)
-        .lte('tour_date', threeDaysFromNowFP)
+        // .lte('tour_date', threeDaysFromNowFP) // Deactivated: was limiting tours to 3 days only
         .order('tour_date', { ascending: true })
 
       if (error) throw error
