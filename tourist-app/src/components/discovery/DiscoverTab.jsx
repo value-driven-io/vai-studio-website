@@ -56,9 +56,9 @@ const DiscoverTab = () => {
       
       // Mood filter (basic mapping to tour types)
       const moodToTypes = {
+        ocean: ['Diving', 'Snorkeling', 'Whale Watching', 'Lagoon Tour'],
         adventure: ['Adrenalin', 'Hike', 'Hiking', 'Diving'],
         relax: ['Mindfulness', 'Lagoon Tour', 'Cultural', 'Relax'],
-        ocean: ['Diving', 'Snorkeling', 'Whale Watching', 'Lagoon Tour'],
         culture: ['Cultural', 'Culinary Experience']
       }
       
@@ -163,7 +163,7 @@ const DiscoverTab = () => {
   }
 
   return (
-    <div className="min-h-0 mobile:min-h-screen bg-slate-900">
+    <div className="min-h-0 mobile:min-h-0 bg-slate-900">
       {/* Header with progress */}
       <div className="border-b border-slate-700">
         <div className="max-w-4xl mx-auto px-4 py-4 xs:py-6">
@@ -244,7 +244,7 @@ const DiscoverTab = () => {
       </div>
 
       {/* Step content */}
-      <div className="max-w-4xl mx-auto px-4 xs:px-6 md:px-8 py-6 sm:py-8">
+      <div className="max-w-4xl mx-auto px-0 md:px-8 py-6 sm:py-8">
         {currentStep === STEPS.LOCATION && (
           <LocationStep onSelect={goToMood} selectedLocation={selectedLocation} />
         )}
@@ -321,7 +321,7 @@ const StepIndicator = ({ step, label, isActive, isCompleted, onClick, clickable 
     }`}>
       {isCompleted ? '✓' : step}
     </div>
-    <span className={`hidden mobile:inline text-mobile-xs xs:text-mobile-sm font-medium transition-colors ${
+    <span className={`hidden sm:inline text-mobile-xs xs:text-mobile-sm font-medium transition-colors ${
       isActive ? 'text-white' : isCompleted ? 'text-green-400' : clickable ? 'text-slate-300' : 'text-slate-400'
     }`}>
       {label}
@@ -336,8 +336,8 @@ const LocationStep = ({ onSelect, selectedLocation }) => {
   
   const allIslands = [
     { id: 'Tahiti', name: t('islands.tahiti'), emoji: '🤙', description: t('islands.descriptions.tahiti'), featured: true },
-    { id: 'Moorea', name: t('islands.moorea'), emoji: '🌺', description: t('islands.descriptions.moorea'), featured: true },
     { id: 'Bora Bora', name: t('islands.boraBora'), emoji: '🏖️', description: t('islands.descriptions.boraBora'), featured: true },
+    { id: 'Moorea', name: t('islands.moorea'), emoji: '🌺', description: t('islands.descriptions.moorea'), featured: true },
     { id: 'Huahine', name: t('islands.huahine'), emoji: '🌸', description: t('islands.descriptions.huahine'), featured: true },
     { id: 'Raiatea', name: t('islands.raiatea'), emoji: '⛵', description: t('islands.descriptions.raiatea'), featured: false },
     { id: 'Taha\'a', name: t('islands.tahaa'), emoji: '🥥', description: t('islands.descriptions.tahaa'), featured: false },
@@ -355,7 +355,7 @@ const LocationStep = ({ onSelect, selectedLocation }) => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 auto-rows-fr">
         {displayedIslands.map((island) => (
           <IslandCard
             key={island.id}
@@ -386,23 +386,25 @@ const LocationStep = ({ onSelect, selectedLocation }) => {
 const IslandCard = ({ island, onClick, isSelected = false }) => (
   <button
     onClick={() => onClick(island)}
-    className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 ${
+    className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 flex flex-col justify-between h-full ${
       isSelected 
         ? 'border-blue-500 bg-blue-500/20 shadow-lg shadow-blue-500/25' 
         : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
     }`}
   >
-    <div className="flex items-center gap-3 xs:gap-4 mb-2 xs:mb-3">
-      <span className="text-2xl xs:text-3xl transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
-        {island.emoji}
-      </span>
-      <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 ${
+    <div className="flex-1 flex flex-col justify-center">
+      <div className="flex items-center justify-center gap-2 xs:gap-3 mb-2 xs:mb-3">
+        <span className="text-2xl xs:text-3xl transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
+          {island.emoji}
+        </span>
+      </div>
+      <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${
         isSelected ? 'text-blue-300' : 'text-white group-hover:hover:text-blue-300'
       }`}>
         {island.name}
       </h3>
     </div>
-    <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed">{island.description}</p>
+    <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">{island.description}</p>
     
     {/* Subtle glow effect - only show on hover when not selected */}
     <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
@@ -420,25 +422,27 @@ const MoodCard = ({ mood, onClick, isSelected = false }) => {
   return (
     <button
       onClick={() => onClick(mood)}
-      className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 ${
+      className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 flex flex-col justify-between h-full ${
         isSelected 
           ? 'border-purple-500 bg-purple-500/20 shadow-lg shadow-purple-500/25' 
           : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
       }`}
     >
-      <div className="flex items-center gap-3 xs:gap-4 mb-2 xs:mb-3">
-        <div className="transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
-          <IconComponent className={`w-6 h-6 xs:w-8 xs:h-8 ${
-            isSelected ? 'text-purple-300' : 'text-slate-300 group-hover:hover:text-purple-300'
-          }`} />
+      <div className="flex-1 flex flex-col justify-center">
+        <div className="flex items-center justify-center gap-2 xs:gap-3 mb-2 xs:mb-3">
+          <div className="transition-transform duration-200 group-hover:hover:scale-110 group-active:scale-95">
+            <IconComponent className={`w-6 h-6 xs:w-8 xs:h-8 ${
+              isSelected ? 'text-purple-300' : 'text-slate-300 group-hover:hover:text-purple-300'
+            }`} />
+          </div>
         </div>
-        <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 ${
+        <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${
           isSelected ? 'text-purple-300' : 'text-white group-hover:hover:text-purple-300'
         }`}>
           {mood.name}
         </h3>
       </div>
-      <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed">{mood.description}</p>
+      <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">{mood.description}</p>
       
       {/* Subtle glow effect - only show on hover when not selected */}
       <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
@@ -454,9 +458,9 @@ const MoodCard = ({ mood, onClick, isSelected = false }) => {
 const MoodStep = ({ onSelect, selectedLocation, selectedMood }) => {
   const { t } = useTranslation()
   const moods = [
+    { id: 'ocean', name: t('moods.ocean.title'), icon: Waves, description: t('moods.ocean.description') },
     { id: 'adventure', name: t('moods.adventure.title'), icon: Mountain, description: t('moods.adventure.description') },
     { id: 'relax', name: t('moods.relax.title'), icon: HeartHandshake, description: t('moods.relax.description') },
-    { id: 'ocean', name: t('moods.ocean.title'), icon: Waves, description: t('moods.ocean.description') },
     { id: 'culture', name: t('moods.culture.title'), icon: Palette, description: t('moods.culture.description') },
   ]
 
@@ -469,7 +473,7 @@ const MoodStep = ({ onSelect, selectedLocation, selectedMood }) => {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 auto-rows-fr">
         {moods.map((mood) => (
           <MoodCard
             key={mood.id}

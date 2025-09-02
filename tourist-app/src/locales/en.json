@@ -37,7 +37,7 @@
 
   "discovery": {
     "title": "Discover French Polynesia",
-    "subtitle": "Find your perfect adventure",
+    "subtitle": "Find your perfect activity",
     "refreshTours": "Refresh Tours",
     "moodQuestion": "What's your mood today?",
     "clearMood": "Change Mood",
@@ -124,7 +124,7 @@
     "culture": {
       "title": "Culture",
       "subtitle": "Connect with traditions",
-      "description": "Authentic Polynesian experiences and island heritage"
+      "description": "Authentic experiences and island traditions"
     },
     "ocean": {
       "title": "Ocean",
