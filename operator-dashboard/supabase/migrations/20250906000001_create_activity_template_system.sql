@@ -31,15 +31,6 @@ CREATE TABLE IF NOT EXISTS public.activity_templates (
     discount_price_adult INTEGER NOT NULL,
     discount_price_child INTEGER,
     
-    -- Auto-calculated discount percentage
-    discount_percentage INTEGER GENERATED ALWAYS AS (
-        CASE 
-            WHEN original_price_adult > 0 THEN 
-                ROUND(((original_price_adult - discount_price_adult)::NUMERIC / original_price_adult::NUMERIC) * 100)
-            ELSE 0
-        END
-    ) STORED,
-    
     -- Location & Logistics
     island_location VARCHAR(50) NOT NULL,
     meeting_point TEXT,
@@ -168,6 +159,12 @@ CREATE INDEX IF NOT EXISTS idx_schedules_template_id ON public.schedules(templat
 CREATE OR REPLACE VIEW public.active_activity_templates_with_operators AS
 SELECT 
     at.*,
+    -- Calculate discount percentage in view
+    CASE 
+        WHEN at.original_price_adult > 0 THEN 
+            ROUND(((at.original_price_adult - at.discount_price_adult)::NUMERIC / at.original_price_adult::NUMERIC) * 100)
+        ELSE 0
+    END as discount_percentage,
     o.company_name,
     o.contact_email,
     o.whatsapp_number,
@@ -229,7 +226,12 @@ SELECT
     COALESCE(ti.override_price_adult, at.discount_price_adult) as discount_price_adult,
     COALESCE(ti.override_price_child, at.discount_price_child) as discount_price_child,
     at.original_price_adult,
-    at.discount_percentage,
+    -- Calculate discount percentage
+    CASE 
+        WHEN at.original_price_adult > 0 THEN 
+            ROUND(((at.original_price_adult - at.discount_price_adult)::NUMERIC / at.original_price_adult::NUMERIC) * 100)
+        ELSE 0
+    END as discount_percentage,
     
     -- Operator Information
     o.company_name,
