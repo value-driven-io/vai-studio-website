@@ -25,7 +25,127 @@
     "spots": "places",
     "bookings": "Réservations", 
     "profile": "Profil",
-    "close": "Fermer"  
+    "close": "Fermer",
+    "actions": "Actions",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "update": "Mettre à jour",
+    "required": "Requis",
+    "optional": "Optionnel",
+    "reset": "Réinitialiser",
+    "saving": "Enregistrement..."
+  },
+
+  "schedules": {
+    "management": {
+      "title": "Gestion des Horaires",
+      "subtitle": "Gérez vos horaires d'activités récurrentes",
+      "noSchedulesYet": "Aucun Horaire Encore",
+      "noSchedulesMessage": "Vous n'avez pas encore créé d'horaires récurrents. Quand vous le ferez, ils apparaîtront ici.",
+      "loading": "Chargement des horaires...",
+      "refresh": "Actualiser",
+      "showing": "Affichage de {{count}} horaire{{count !== 1 ? 's' : ''}}",
+      "createSchedule": "Créer un Horaire",
+      "editSchedule": "Modifier l'Horaire", 
+      "setupRecurring": "Configurez des activités récurrentes",
+      "showPreview": "Afficher l'Aperçu",
+      "hidePreview": "Masquer l'Aperçu"
+    },
+    "sections": {
+      "basicInfo": "Informations de Base",
+      "recurrencePattern": "Modèle de Récurrence", 
+      "dateRange": "Plage de Dates",
+      "exceptions": "Dates d'Exception"
+    },
+    "recurrence": {
+      "once": "Une Fois",
+      "daily": "Quotidien", 
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel"
+    },
+    "days": {
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi", 
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "sunday": "Dimanche"
+    },
+    "preview": {
+      "title": "Aperçu de l'Horaire",
+      "fillFormToSee": "Remplissez le formulaire pour voir les instances d'activité générées",
+      "showingFirst10": "Affichage des 10 premières instances...",
+      "completeFormHint": "Sélectionnez une activité, des dates et un modèle de récurrence pour l'aperçu",
+      "moreWillBeGenerated": "Plus d'instances seront générées selon vos paramètres",
+      "instances": "instances",
+      "onDays": "les jours",
+      "excluding": "excluant",
+      "dates": "dates",
+      "willCreate": "créera",
+      "refresh": "Actualiser l'Aperçu"
+    },
+    "quickSelect": {
+      "weekdays": "Jours de Semaine",
+      "weekends": "Week-ends", 
+      "allDays": "Tous les Jours",
+      "clear": "Effacer"
+    },
+    "form": {
+      "createSchedule": "Créer un Horaire",
+      "editSchedule": "Modifier l'Horaire",
+      "duplicateSchedule": "Dupliquer l'Horaire",
+      "selectTour": "Sélectionner l'Activité",
+      "selectTourPlaceholder": "Choisir une activité à planifier",
+      "recurrenceType": "Type de Récurrence",
+      "once": "Une fois",
+      "daily": "Quotidien",
+      "weekly": "Hebdomadaire", 
+      "monthly": "Mensuel",
+      "daysOfWeek": "Jours de la Semaine",
+      "startTime": "Heure de Début",
+      "startDate": "Date de Début",
+      "endDate": "Date de Fin",
+      "exceptions": "Dates d'Exception",
+      "exceptionsHelp": "Dates à ignorer (vacances, etc.)",
+      "preview": "Aperçu",
+      "previewInstances": "Aperçu des Instances Générées",
+      "noPreview": "Aucune instance à prévisualiser",
+      "creating": "Création...",
+      "updating": "Mise à jour...",
+      "chooseTour": "Choisir une activité à planifier...",
+      "selectedDays": "Jours sélectionnés",
+      "addExceptionDate": "Ajouter une Date d'Exception",
+      "exceptionDescription": "Sélectionnez des dates spécifiques à ignorer (vacances, jours de maintenance, etc.)",
+      "addDate": "Ajouter une Date",
+      "removeDate": "Supprimer la Date",
+      "exceptionDates": "Dates d'Exception"
+    },
+    "actions": {
+      "create": "Créer",
+      "edit": "Modifier", 
+      "duplicate": "Dupliquer",
+      "delete": "Supprimer",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet horaire ?",
+      "confirmDeleteMessage": "Cette action ne peut pas être annulée.",
+      "deleting": "Suppression..."
+    },
+    "table": {
+      "activity": "Activité",
+      "recurrence": "Récurrence", 
+      "days": "Jours",
+      "time": "Heure",
+      "period": "Période",
+      "created": "Créé",
+      "noData": "Aucune donnée disponible",
+      "unknownTour": "Activité Inconnue"
+    },
+    "success": {
+      "created": "Horaire créé avec succès",
+      "updated": "Horaire mis à jour avec succès", 
+      "deleted": "Horaire supprimé avec succès",
+      "duplicated": "Horaire dupliqué avec succès"
+    }
   },
   
   "learnMore": {

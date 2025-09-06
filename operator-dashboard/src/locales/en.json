@@ -29,7 +29,9 @@
     "cancel": "Cancel",
     "update": "Update",
     "saving": "Saving...",
-    "optional": "Optional"
+    "optional": "Optional",
+    "actions": "Actions",
+    "delete": "Delete"
   },
   "header": {
     "title": "Operator Dashboard",
