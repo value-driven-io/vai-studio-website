@@ -91,9 +91,6 @@ CREATE TABLE IF NOT EXISTS public.activity_instances (
     -- Instance-specific Information  
     instance_date DATE NOT NULL,
     instance_time TIME NOT NULL,
-    instance_datetime TIMESTAMP GENERATED ALWAYS AS (
-        (instance_date || ' ' || instance_time)::TIMESTAMP
-    ) STORED,
     
     -- Availability Management
     max_capacity INTEGER NOT NULL,
@@ -132,7 +129,7 @@ CREATE INDEX idx_activity_instances_template_id ON public.activity_instances(tem
 CREATE INDEX idx_activity_instances_schedule_id ON public.activity_instances(schedule_id);
 CREATE INDEX idx_activity_instances_operator_id ON public.activity_instances(operator_id);
 CREATE INDEX idx_activity_instances_date ON public.activity_instances(instance_date);
-CREATE INDEX idx_activity_instances_datetime ON public.activity_instances(instance_datetime);
+CREATE INDEX idx_activity_instances_date_time ON public.activity_instances(instance_date, instance_time);
 CREATE INDEX idx_activity_instances_status ON public.activity_instances(status);
 CREATE INDEX idx_activity_instances_available ON public.activity_instances(available_spots) WHERE available_spots > 0;
 
@@ -200,7 +197,7 @@ SELECT
     ti.operator_id,
     ti.instance_date as tour_date,
     ti.instance_time as time_slot,
-    ti.instance_datetime,
+    (ti.instance_date || ' ' || ti.instance_time)::TIMESTAMP as instance_datetime,
     ti.max_capacity,
     ti.available_spots,
     ti.booked_spots,
@@ -241,7 +238,7 @@ SELECT
     o.status as operator_status,
     
     -- Calculated fields for tourist app
-    EXTRACT(EPOCH FROM (ti.instance_datetime - NOW())) / 3600 as hours_until_tour,
+    EXTRACT(EPOCH FROM ((ti.instance_date || ' ' || ti.instance_time)::TIMESTAMP - NOW())) / 3600 as hours_until_tour,
     CASE 
         WHEN ti.booking_deadline IS NOT NULL THEN
             EXTRACT(EPOCH FROM (ti.booking_deadline - NOW())) / 3600
@@ -256,7 +253,7 @@ AND at.status = 'active'
 AND o.status = 'active'
 AND ti.available_spots > 0
 AND ti.instance_date >= CURRENT_DATE
-ORDER BY ti.instance_datetime ASC;
+ORDER BY ti.instance_date ASC, ti.instance_time ASC;
 
 -- ==============================================================================
 -- PHASE 5: CREATE HELPER FUNCTIONS
