@@ -64,7 +64,7 @@ const ScheduleCreateModal = ({
           template_id: isTemplateSchedule ? existingSchedule.tour_id : '',
           recurrence_type: existingSchedule.recurrence_type || 'weekly',
           days_of_week: existingSchedule.days_of_week || [],
-          start_time: existingSchedule.start_time || '09:00',
+          start_time: existingSchedule.start_time ? existingSchedule.start_time.substring(0, 5) : '09:00', // Convert HH:MM:SS to HH:MM
           start_date: existingSchedule.start_date || '',
           end_date: existingSchedule.end_date || '',
           exceptions: existingSchedule.exceptions || []

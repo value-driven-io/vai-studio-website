@@ -470,20 +470,195 @@ export const scheduleService = {
 
       console.log('✅ Activity template schedule created successfully:', newSchedule.id)
 
-      // Step 7: Return schedule with template data attached (UNIFIED TABLE APPROACH)
+      // Step 7: AUTOMATICALLY GENERATE SCHEDULED TOURS (UNIFIED TABLE APPROACH)
+      console.log('🔄 About to generate scheduled tours with data:', {
+        templateId: template.id,
+        templateName: template.tour_name,
+        scheduleData: {
+          start_date: scheduleData.start_date,
+          end_date: scheduleData.end_date,
+          recurrence_type: scheduleData.recurrence_type,
+          days_of_week: scheduleData.days_of_week,
+          start_time: scheduleData.start_time
+        }
+      })
+      
+      const scheduledTours = await this.generateScheduledToursFromTemplate(template, scheduleData)
+      
+      console.log(`✅ Generated ${scheduledTours.length} scheduled tours from template`)
+      console.log('📋 Generated tours details:', scheduledTours.map(t => ({
+        id: t.id,
+        tour_name: t.tour_name,
+        activity_type: t.activity_type,
+        tour_date: t.tour_date,
+        time_slot: t.time_slot,
+        status: t.status
+      })))
+
+      // Step 8: Return schedule with template data and generated tours count
       return {
         ...newSchedule,
         activity_templates: {
           id: template.id,
           activity_name: template.tour_name,
           status: template.status
-        }
+        },
+        generated_tours_count: scheduledTours.length,
+        first_tour_date: scheduledTours[0]?.tour_date,
+        last_tour_date: scheduledTours[scheduledTours.length - 1]?.tour_date
       }
 
     } catch (error) {
       console.error('Error in createActivityTemplateSchedule:', error)
       throw error
     }
+  },
+
+  /**
+   * Generate scheduled tours from template (Unified Table Approach)
+   * Creates actual bookable tours from template + schedule data
+   */
+  async generateScheduledToursFromTemplate(template, scheduleData) {
+    try {
+      const dates = this.generateDatesFromSchedule(scheduleData)
+      const scheduledTours = []
+
+      for (const date of dates) {
+        // Create scheduled tour based on template
+        const scheduledTourData = {
+          ...template,
+          id: undefined, // Let Supabase generate new UUID
+          activity_type: 'scheduled',
+          is_template: false,
+          parent_template_id: template.id,
+          tour_date: date,
+          time_slot: scheduleData.start_time,
+          created_at: undefined, // Let Supabase set timestamp
+          updated_at: undefined,  // Let Supabase set timestamp
+          // Ensure ALL required fields are not null - comprehensive fix based on database schema
+          tour_type: template.tour_type || 'Lagoon Tour', // Must match CHECK constraint values
+          status: template.status || 'active',
+          max_capacity: template.max_capacity || 1,
+          available_spots: template.available_spots || template.max_capacity || 1,
+          original_price_adult: template.original_price_adult || 0,
+          discount_price_adult: template.discount_price_adult || template.original_price_adult || 0,
+          discount_price_child: template.discount_price_child || 0,
+          meeting_point: template.meeting_point || 'TBD'
+        }
+        
+        console.log('🔧 Creating scheduled tour with data:', {
+          tour_name: scheduledTourData.tour_name,
+          tour_type: scheduledTourData.tour_type,
+          activity_type: scheduledTourData.activity_type,
+          tour_date: scheduledTourData.tour_date,
+          time_slot: scheduledTourData.time_slot,
+          status: scheduledTourData.status,
+          max_capacity: scheduledTourData.max_capacity,
+          available_spots: scheduledTourData.available_spots,
+          original_price_adult: scheduledTourData.original_price_adult,
+          discount_price_adult: scheduledTourData.discount_price_adult,
+          discount_price_child: scheduledTourData.discount_price_child,
+          meeting_point: scheduledTourData.meeting_point
+        })
+
+        const { data: scheduledTour, error } = await supabase
+          .from('tours')
+          .insert(scheduledTourData)
+          .select()
+          .single()
+
+        if (error) {
+          console.error('Error creating scheduled tour:', error)
+          throw error
+        }
+
+        scheduledTours.push(scheduledTour)
+      }
+
+      return scheduledTours
+
+    } catch (error) {
+      console.error('Error generating scheduled tours:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Generate dates from schedule configuration
+   */
+  generateDatesFromSchedule(scheduleData) {
+    console.log('📅 Generating dates from schedule:', {
+      start_date: scheduleData.start_date,
+      end_date: scheduleData.end_date,
+      recurrence_type: scheduleData.recurrence_type,
+      days_of_week: scheduleData.days_of_week,
+      exceptions: scheduleData.exceptions
+    })
+    
+    const dates = []
+    // FIX: Create dates in Polynesian timezone to avoid UTC conversion issues
+    const POLYNESIA_TZ = 'Pacific/Tahiti' // UTC-10
+    const startDate = new Date(scheduleData.start_date + 'T12:00:00')  // Noon to avoid timezone shifts
+    const endDate = new Date(scheduleData.end_date + 'T12:00:00')      // Noon to avoid timezone shifts
+    const exceptions = scheduleData.exceptions || []
+
+    if (scheduleData.recurrence_type === 'once') {
+      dates.push(scheduleData.start_date)
+    } else if (scheduleData.recurrence_type === 'daily') {
+      let currentDate = new Date(startDate)
+      while (currentDate <= endDate) {
+        // FIX: Use proper date formatting to avoid timezone shift
+        const year = currentDate.getFullYear()
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+        const day = String(currentDate.getDate()).padStart(2, '0')
+        const dateStr = `${year}-${month}-${day}`
+        if (!exceptions.includes(dateStr)) {
+          dates.push(dateStr)
+        }
+        currentDate.setDate(currentDate.getDate() + 1)
+      }
+    } else if (scheduleData.recurrence_type === 'weekly') {
+      console.log('🔍 Weekly recurrence - days_of_week array:', scheduleData.days_of_week)
+      console.log('🔍 Array element types:', scheduleData.days_of_week.map(d => typeof d))
+      
+      let currentDate = new Date(startDate)
+      while (currentDate <= endDate) {
+        const dayOfWeek = currentDate.getDay() === 0 ? 7 : currentDate.getDay() // Convert Sunday=0 to Sunday=7
+        const dayOfWeekString = String(dayOfWeek)
+        const dayOfWeekNumber = Number(dayOfWeek)
+        
+        // FIX: Use proper date formatting to avoid timezone shift
+        const year = currentDate.getFullYear()
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+        const day = String(currentDate.getDate()).padStart(2, '0')
+        const dateStr = `${year}-${month}-${day}`
+        
+        // Only log first few checks to avoid console spam
+        if (dates.length < 3) {
+          console.log(`🔍 Checking date ${dateStr} (day ${dayOfWeek}):`, {
+            dayOfWeek,
+            dayOfWeekString,
+            dayOfWeekNumber,
+            arrayIncludes_String: scheduleData.days_of_week.includes(dayOfWeekString),
+            arrayIncludes_Number: scheduleData.days_of_week.includes(dayOfWeekNumber),
+            daysArray: scheduleData.days_of_week
+          })
+        }
+        
+        // Try both string and number formats
+        if (scheduleData.days_of_week.includes(String(dayOfWeek)) || scheduleData.days_of_week.includes(Number(dayOfWeek))) {
+          if (!exceptions.includes(dateStr)) {
+            console.log(`✅ Adding date: ${dateStr}`)
+            dates.push(dateStr)
+          }
+        }
+        currentDate.setDate(currentDate.getDate() + 1)
+      }
+    }
+
+    const sortedDates = dates.sort()
+    console.log(`📅 Generated ${sortedDates.length} dates:`, sortedDates)
+    return sortedDates
   },
 
   /**
@@ -572,52 +747,8 @@ export const scheduleService = {
     }
   },
 
-  /**
-   * Generate activity instances from a template schedule
-   * @param {string} scheduleId - The schedule ID
-   * @param {string} operatorId - The operator ID (for security)
-   * @returns {Promise<Object>} Generation result
-   */
-  async generateActivityInstances(scheduleId, operatorId) {
-    try {
-      console.log('🔄 Generating activity instances from schedule:', scheduleId)
-
-      // Step 1: Verify schedule belongs to operator and has tour_id pointing to template
-      const { data: schedule, error: scheduleError } = await supabase
-        .from('schedules')
-        .select('id, tour_id, operator_id')
-        .eq('id', scheduleId)
-        .eq('operator_id', operatorId)
-        .not('tour_id', 'is', null) // Must have tour_id
-        .single()
-
-      if (scheduleError || !schedule) {
-        throw new Error('TEMPLATE_SCHEDULE_NOT_FOUND_OR_ACCESS_DENIED')
-      }
-
-      // Step 2: Call the database function to generate instances
-      const { data: result, error: functionError } = await supabase
-        .rpc('generate_activity_instances_from_schedule', { schedule_uuid: scheduleId })
-
-      if (functionError) {
-        console.error('Error generating activity instances:', functionError)
-        throw new Error(`INSTANCE_GENERATION_FAILED|${functionError.message}`)
-      }
-
-      console.log('✅ Activity instances generated successfully:', result)
-      return {
-        schedule_id: scheduleId,
-        template_id: schedule.tour_id, // tour_id points to template
-        generated_count: result.generated_instances || 0,
-        first_date: result.first_instance_date,
-        last_date: result.last_instance_date
-      }
-
-    } catch (error) {
-      console.error('Error in generateActivityInstances:', error)
-      throw error
-    }
-  },
+  // REMOVED: generateActivityInstances - obsolete in unified table approach
+  // Tours are generated automatically during schedule creation
 
   /**
    * Check for schedule conflicts with activity templates

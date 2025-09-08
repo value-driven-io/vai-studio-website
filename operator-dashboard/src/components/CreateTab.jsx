@@ -618,11 +618,11 @@ const CreateTab = ({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-white mb-2">
-            {showForm ? '🎯 Define Activity' : 'Activities'}
+            {showForm ? '🎯 Create Activity' : 'Activities'}
           </h2>
           <p className="text-slate-400">
             {showForm 
-              ? 'Create a reusable activity definition that can be scheduled when needed'
+              ? 'Create an activity that can be scheduled when needed'
               : 'Define your activity types and manage offerings'
             }
           </p>
@@ -634,7 +634,7 @@ const CreateTab = ({
               className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
             >
               <Plus className="w-5 h-5" />
-              Define Activity
+              Create Activity
             </button>
           )}
         </div>
@@ -647,10 +647,10 @@ const CreateTab = ({
           <div className="flex items-center justify-between p-6 border-b border-slate-700 bg-gradient-to-r from-slate-800 to-slate-700">
             <div>
               <h3 className="text-xl font-semibold text-white">
-                {editingTour ? 'Edit Activity Definition' : 'Define Activity'}
+                {editingTour ? 'Edit Activity' : 'Create Activity'}
               </h3>
               <p className="text-slate-400 mt-1">
-                {editingTour ? 'Update your activity template details' : 'Create a reusable activity definition for scheduling'}
+                {editingTour ? 'Update your activity template details' : 'You can then set a schedule for this activity in "Schedules"'}
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -1389,7 +1389,7 @@ const CreateTab = ({
                       ) : (
                         <>
                           <Save className="w-4 h-4" />
-                          {editingTour ? 'Update Activity' : 'Define Activity'}
+                          {editingTour ? 'Update Activity' : 'Create Activity'}
                         </>
                       )}
                     </button>

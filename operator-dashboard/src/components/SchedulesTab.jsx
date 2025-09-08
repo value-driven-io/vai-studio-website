@@ -1,10 +1,10 @@
 // operator-dashboard/src/components/SchedulesTab.jsx - Enhanced with Activity Templates & Calendar View
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
   Calendar, Clock, RefreshCw, AlertCircle, Plus, Edit, Trash2, 
-  Grid, List, ChevronLeft, ChevronRight, Activity, Play,
-  Users, DollarSign, MapPin
+  Grid, List, ChevronLeft, ChevronRight, Activity,
+  Users, DollarSign
 } from 'lucide-react'
 import { scheduleService } from '../services/scheduleService'
 import { supabase } from '../lib/supabase'
@@ -14,7 +14,6 @@ import ScheduleCreateModal from './ScheduleCreateModal'
 const SchedulesTab = ({ operator, formatPrice }) => {
   const { t } = useTranslation()
   const [schedules, setSchedules] = useState([])
-  const [instances, setInstances] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showCreateModal, setShowCreateModal] = useState(false)
@@ -26,7 +25,6 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   
   // Calendar state
   const [calendarInstances, setCalendarInstances] = useState([])
-  const [generatingInstances, setGeneratingInstances] = useState({})
 
   // Load schedules on component mount
   useEffect(() => {
@@ -55,13 +53,27 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     }
   }
 
-  // Load instances for calendar view
+  // Load scheduled tours for calendar view
   const loadCalendarInstances = async () => {
     try {
       const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
       const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
       
-      const { data: instances } = await supabase
+      console.log('📅 Loading scheduled tours for calendar:', {
+        month: startOfMonth.toISOString().split('T')[0],
+        operator: operator.id
+      })
+      
+      // Debug: Check ALL tours for this operator first
+      const { data: allTours, error: allToursError } = await supabase
+        .from('tours')
+        .select('id, tour_name, activity_type, tour_date, time_slot, status, is_template')
+        .eq('operator_id', operator.id)
+        
+      console.log('🔍 ALL tours for this operator:', allTours)
+      console.log('🔍 Scheduled tours only:', allTours?.filter(t => t.activity_type === 'scheduled'))
+      
+      const { data: scheduledTours, error } = await supabase
         .from('tours')
         .select('*')
         .eq('operator_id', operator.id)
@@ -70,45 +82,27 @@ const SchedulesTab = ({ operator, formatPrice }) => {
         .lte('tour_date', endOfMonth.toISOString().split('T')[0])
         .eq('status', 'active')
         .order('tour_date')
-      setCalendarInstances(instances)
+        
+      if (error) {
+        console.error('Error loading scheduled tours:', error)
+      } else {
+        console.log('📅 Found scheduled tours:', scheduledTours?.length || 0)
+      }
+      
+      setCalendarInstances(scheduledTours || [])
     } catch (err) {
       console.error('Error loading calendar instances:', err)
     }
   }
 
-  // Load instances when calendar view is activated or month changes
+  // Load scheduled tours when calendar view is activated or month changes
   useEffect(() => {
     if (operator?.id && viewMode === 'calendar') {
       loadCalendarInstances()
     }
   }, [operator, viewMode, currentDate])
 
-  // Generate instances from a template schedule
-  const handleGenerateInstances = async (scheduleId) => {
-    if (!scheduleId) return
-
-    setGeneratingInstances(prev => ({ ...prev, [scheduleId]: true }))
-    
-    try {
-      const result = await scheduleService.generateActivityInstances(scheduleId, operator.id)
-      console.log('✅ Generated instances:', result)
-      
-      // Reload calendar instances if in calendar view
-      if (viewMode === 'calendar') {
-        await loadCalendarInstances()
-      }
-      
-      // Show success notification (you can add a notification system)
-      alert(`✅ Success! Created ${result.generated_count} bookable tours from ${result.first_date} to ${result.last_date}. Customers can now book these activities!`)
-      
-    } catch (error) {
-      console.error('Error generating instances:', error)
-      // Show error notification
-      alert(`❌ Failed to create tours: ${error.message}`)
-    } finally {
-      setGeneratingInstances(prev => ({ ...prev, [scheduleId]: false }))
-    }
-  }
+  // Removed obsolete instance generation - scheduled tours are created automatically when schedule is created
 
   const formatDaysOfWeek = (daysArray) => {
     if (!daysArray || daysArray.length === 0) return 'No days set'
@@ -131,6 +125,16 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     setSchedules(prev => [newSchedule, ...prev])
     setShowCreateModal(false)
     setEditingSchedule(null)
+    
+    // Show success message with tour generation info
+    if (newSchedule.generated_tours_count > 0) {
+      alert(`✅ Schedule created successfully! Generated ${newSchedule.generated_tours_count} bookable tours from ${newSchedule.first_tour_date} to ${newSchedule.last_tour_date}. Customers can now book these activities!`)
+      
+      // Reload calendar if in calendar view
+      if (viewMode === 'calendar') {
+        loadCalendarInstances()
+      }
+    }
   }
 
   const handleEditSchedule = (schedule) => {
@@ -145,7 +149,8 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   }
   
   const handleDeleteSchedule = async (schedule) => {
-    if (!window.confirm(`Are you sure you want to delete the schedule for "${schedule.activity_templates?.activity_name || schedule.tours?.tour_name}"?`)) {
+    const activityName = schedule.activity_templates?.activity_name || schedule.tours?.tour_name
+    if (!window.confirm(t('schedules.actions.confirmDelete') + ` for "${activityName}"?`)) {
       return
     }
     
@@ -155,7 +160,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
       await loadSchedules()
     } catch (error) {
       console.error('Error deleting schedule:', error)
-      alert(`Error deleting schedule: ${error.message}`)
+      alert(`❌ Failed to delete schedule: ${error.message}`)
     }
   }
 
@@ -225,10 +230,10 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     return days
   }
 
-  const getInstancesForDate = (date) => {
+  const getScheduledToursForDate = (date) => {
     if (!date) return []
     const dateStr = date.toISOString().split('T')[0]
-    return calendarInstances.filter(instance => instance.tour_date === dateStr)
+    return calendarInstances.filter(tour => tour.tour_date === dateStr)
   }
 
   return (
@@ -237,7 +242,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-white mb-2">{t('schedules.management.title')}</h1>
-          <p className="text-slate-400">{t('schedules.management.subtitle')}</p>
+          <p className="text-slate-400">Create schedules for your activity templates to generate bookable tours</p>
         </div>
         <div className="flex items-center gap-3">
           {/* View Mode Toggle */}
@@ -322,7 +327,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
               </button>
             </div>
             <div className="text-sm text-slate-400">
-              {calendarInstances.length} instances this month
+              {calendarInstances.length} scheduled tours this month
             </div>
           </div>
 
@@ -340,7 +345,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
             {/* Calendar days */}
             <div className="grid grid-cols-7 gap-px bg-slate-700 rounded-lg overflow-hidden">
               {getDaysInMonth(currentDate).map((date, index) => {
-                const instances = date ? getInstancesForDate(date) : []
+                const scheduledTours = date ? getScheduledToursForDate(date) : []
                 const isToday = date && date.toDateString() === new Date().toDateString()
                 
                 return (
@@ -360,18 +365,18 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                           {date.getDate()}
                         </div>
                         <div className="space-y-1">
-                          {instances.slice(0, 3).map(instance => (
+                          {scheduledTours.slice(0, 3).map(tour => (
                             <div
-                              key={instance.id}
+                              key={tour.id}
                               className="text-xs p-1 bg-green-500/20 text-green-400 rounded truncate"
-                              title={`${instance.activity_name} at ${instance.instance_time}`}
+                              title={`${tour.tour_name} at ${tour.time_slot}`}
                             >
-                              {instance.instance_time} {instance.activity_name}
+                              {tour.time_slot} {tour.tour_name}
                             </div>
                           ))}
-                          {instances.length > 3 && (
+                          {scheduledTours.length > 3 && (
                             <div className="text-xs text-slate-400">
-                              +{instances.length - 3} more
+                              +{scheduledTours.length - 3} more
                             </div>
                           )}
                         </div>
@@ -390,7 +395,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
             <table className="w-full">
               <thead className="bg-slate-700/50">
                 <tr>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.activity')}</th>
+                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.tour')}</th>
                   <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.recurrence')}</th>
                   <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.days')}</th>
                   <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.time')}</th>
@@ -467,26 +472,18 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        {/* Create Bookings Button (for activity templates) */}
+                        {/* Dynamic status indicator based on schedule type and activity */}
                         {schedule.activity_templates && (
-                          <button
-                            onClick={() => handleGenerateInstances(schedule.id)}
-                            disabled={generatingInstances[schedule.id]}
-                            className="flex items-center gap-1 px-3 py-1 text-xs bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            title="Create bookable tour instances from this activity template schedule"
-                          >
-                            {generatingInstances[schedule.id] ? (
-                              <>
-                                <RefreshCw className="w-3 h-3 animate-spin" />
-                                Creating...
-                              </>
-                            ) : (
-                              <>
-                                <Play className="w-3 h-3" />
-                                Create Tours
-                              </>
-                            )}
-                          </button>
+                          <span className="flex items-center gap-1 px-2 py-1 text-xs bg-blue-600/20 text-blue-400 rounded-lg">
+                            <Activity className="w-3 h-3" />
+                            Template Schedule
+                          </span>
+                        )}
+                        {schedule.tours && !schedule.activity_templates && (
+                          <span className="flex items-center gap-1 px-2 py-1 text-xs bg-green-600/20 text-green-400 rounded-lg">
+                            <Calendar className="w-3 h-3" />
+                            Tour Schedule
+                          </span>
                         )}
                         
                         <button
