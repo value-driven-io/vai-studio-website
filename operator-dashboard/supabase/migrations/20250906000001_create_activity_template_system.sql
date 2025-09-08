@@ -163,7 +163,7 @@ SELECT
         ELSE 0
     END as discount_percentage,
     o.company_name,
-    o.contact_email,
+    o.email,
     o.whatsapp_number,
     o.island as operator_island,
     o.status as operator_status,
@@ -232,7 +232,7 @@ SELECT
     
     -- Operator Information
     o.company_name,
-    o.contact_email,
+    o.email,
     o.whatsapp_number,
     o.island as operator_island,
     o.status as operator_status,
@@ -270,7 +270,7 @@ CREATE OR REPLACE FUNCTION public.generate_activity_instances_from_schedule(
 DECLARE
     schedule_record RECORD;
     template_record RECORD;
-    current_date DATE;
+    iter_date DATE;
     end_date DATE;
     generated_instances INTEGER := 0;
     first_date DATE;
@@ -297,13 +297,13 @@ BEGIN
     END IF;
     
     -- Initialize dates
-    current_date := schedule_record.start_date;
+    iter_date := schedule_record.start_date;
     end_date := schedule_record.end_date;
     first_date := NULL;
     last_date := NULL;
     
     -- Generate instances based on recurrence type
-    WHILE current_date <= end_date LOOP
+    WHILE iter_date <= end_date LOOP
         DECLARE
             should_create_instance BOOLEAN := FALSE;
             day_of_week INTEGER;
@@ -311,21 +311,21 @@ BEGIN
             -- Check if we should create instance for this date
             CASE schedule_record.recurrence_type
                 WHEN 'once' THEN
-                    should_create_instance := (current_date = schedule_record.start_date);
+                    should_create_instance := (iter_date = schedule_record.start_date);
                 WHEN 'daily' THEN
                     should_create_instance := TRUE;
                 WHEN 'weekly' THEN
-                    day_of_week := EXTRACT(DOW FROM current_date);
+                    day_of_week := EXTRACT(DOW FROM iter_date);
                     -- Convert Sunday=0 to Sunday=7 for consistency with days_of_week array
                     IF day_of_week = 0 THEN day_of_week := 7; END IF;
                     should_create_instance := (day_of_week = ANY(schedule_record.days_of_week));
                 WHEN 'monthly' THEN
-                    should_create_instance := (EXTRACT(DAY FROM current_date) = EXTRACT(DAY FROM schedule_record.start_date));
+                    should_create_instance := (EXTRACT(DAY FROM iter_date) = EXTRACT(DAY FROM schedule_record.start_date));
             END CASE;
             
             -- Check exceptions
             IF should_create_instance AND schedule_record.exceptions IS NOT NULL THEN
-                IF current_date::TEXT = ANY(
+                IF iter_date::TEXT = ANY(
                     SELECT jsonb_array_elements_text(schedule_record.exceptions::jsonb)
                 ) THEN
                     should_create_instance := FALSE;
@@ -347,24 +347,24 @@ BEGIN
                     template_record.id,
                     schedule_uuid,
                     template_record.operator_id,
-                    current_date,
+                    iter_date,
                     schedule_record.start_time,
                     template_record.max_capacity,
                     template_record.max_capacity,
                     -- Calculate booking deadline
-                    (current_date || ' ' || schedule_record.start_time)::TIMESTAMP 
+                    (iter_date || ' ' || schedule_record.start_time)::TIMESTAMP 
                     - INTERVAL '1 hour' * template_record.advance_booking_hours
                 );
                 
                 generated_instances := generated_instances + 1;
                 
                 -- Track first and last dates
-                IF first_date IS NULL THEN first_date := current_date; END IF;
-                last_date := current_date;
+                IF first_date IS NULL THEN first_date := iter_date; END IF;
+                last_date := iter_date;
             END IF;
             
             -- Increment date
-            current_date := current_date + INTERVAL '1 day';
+            iter_date := iter_date + INTERVAL '1 day';
         END;
     END LOOP;
     
