@@ -13,10 +13,12 @@ import { operatorService } from './lib/supabase'
 import Header from './components/Header'
 import DashboardTab from './components/DashboardTab'
 import CreateTab from './components/CreateTab'
+// import ActivitiesTab from './components/ActivitiesTab' // Removed: Using CreateTab with template mode
 import BookingsTab from './components/BookingsTab'
 import SchedulesTab from './components/SchedulesTab'
 import ProfileTab from './components/ProfileTab'
 import MarketingTab from './components/MarketingTab'
+import templateService from './services/templateService'
 import AuthCallback from './components/auth/AuthCallback'
 import { supabase } from './lib/supabase'
 import { polynesianNow, toPolynesianISO } from './utils/timezone'
@@ -120,6 +122,8 @@ function AppContent() { // function App() { << before changes for the authcallba
   // 🔥 CONNECTION POOL PREWARMING - Run immediately on app start
   useEffect(() => {
     prewarmConnectionPool()
+    // 🔧 TEMPORARY: Make supabase available for database state checking
+    window.supabase = supabase
   }, [])
   
   // State management
@@ -127,6 +131,7 @@ function AppContent() { // function App() { << before changes for the authcallba
   const [loading, setLoading] = useState(true)
   const [localOperator, setLocalOperator] = useState(operator) // Local operator state for real-time updates
   const [showForm, setShowForm] = useState(false)
+  const [activityCreationMode, setActivityCreationMode] = useState(null) // 'activity' or 'template'
   const [editingTour, setEditingTour] = useState(null)
   const [stats, setStats] = useState({
     totalBookings: 0,
@@ -1328,6 +1333,28 @@ function AppContent() { // function App() { << before changes for the authcallba
     }
 
   }
+
+  // Template success handler
+  const handleTemplateSuccess = async (templateData) => {
+    try {
+      const result = await templateService.createTemplate(templateData)
+      
+      if (result.success) {
+        toast.success('🎯 Activity template created successfully!')
+        // Refresh tours list to include new template
+        fetchTours()
+        // Reset form
+        resetForm()
+        // Optional: Switch to schedules tab to show the template can be scheduled
+        // setActiveTab('schedules')
+      } else {
+        toast.error(`❌ Template creation failed: ${result.error}`)
+      }
+    } catch (error) {
+      console.error('Template creation error:', error)
+      toast.error('❌ Failed to create template')
+    }
+  }
   
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -2210,11 +2237,13 @@ function AppContent() { // function App() { << before changes for the authcallba
           />
         )}
 
-        {/* Create Tab */}
-        {activeTab === 'create' && (
+        {/* Activities Tab - Dual Creation Path */}
+        {activeTab === 'activities' && (
           <CreateTab 
             showForm={showForm}
             setShowForm={setShowForm}
+            activityCreationMode={activityCreationMode}
+            setActivityCreationMode={setActivityCreationMode}
             editingTour={editingTour}
             setEditingTour={setEditingTour}
             formData={formData}
@@ -2230,8 +2259,6 @@ function AppContent() { // function App() { << before changes for the authcallba
             expandedSections={expandedSections}
             handleInputChange={handleInputChange}
             validationErrors={validationErrors}
-            validateForm={validateForm}
-            handleInputChangeWithValidation={handleInputChange}
             tourTypes={tourTypes}
             getQuickDates={getQuickDates}
             timeSlots={timeSlots}
@@ -2241,17 +2268,21 @@ function AppContent() { // function App() { << before changes for the authcallba
             availableLanguages={availableLanguages}
             handleLanguageToggle={handleLanguageToggle}
             handleDuplicate={handleDuplicate}
+            validateForm={validateForm}
             tours={tours}
             handleEdit={handleEdit}
             getTodayInPolynesia={getTodayInPolynesia}
             setActiveTab={setActiveTab}
+            onTemplateSuccess={handleTemplateSuccess}
           />
         )}
+
           
         {/* Schedules Tab */}
           {activeTab === 'schedules' && (
             <SchedulesTab 
               operator={operator}
+              formatPrice={formatPrice}
             />
           )}
 

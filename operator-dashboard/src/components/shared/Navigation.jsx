@@ -1,7 +1,7 @@
 // src/components/Navigation.jsx
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { BarChart3, Plus, Calendar, User, TrendingUp, Rocket, Target, LineChart } from 'lucide-react'
+import { BarChart3, Plus, Calendar, User, Rocket, Target, LineChart, Copy } from 'lucide-react'
 
 const Navigation = ({ activeTab, setActiveTab, stats, showSetupTab = false }) => {
   const { t } = useTranslation()
@@ -22,9 +22,9 @@ const Navigation = ({ activeTab, setActiveTab, stats, showSetupTab = false }) =>
       badge: null
     },
     {
-      id: 'create',
+      id: 'activities',
       icon: Plus,
-      label: t('common.create'),
+      label: 'Activities',
       badge: null
     },
     {
