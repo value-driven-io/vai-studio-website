@@ -20,6 +20,7 @@ const ScheduleCreateModal = ({
   // ==================== FORM STATE ====================
   const [formData, setFormData] = useState({
     tour_id: '',
+    template_id: '', // Added for activity templates
     recurrence_type: 'weekly',
     days_of_week: [],
     start_time: '09:00',
@@ -41,8 +42,9 @@ const ScheduleCreateModal = ({
     preview: false
   })
   
-  // Available tours for selection
+  // Available tours and templates for selection
   const [availableTours, setAvailableTours] = useState([])
+  const [availableTemplates, setAvailableTemplates] = useState([])
   const [loadingTours, setLoadingTours] = useState(true)
   
   // Exception dates management
@@ -55,8 +57,11 @@ const ScheduleCreateModal = ({
       
       // Pre-populate for edit mode
       if (existingSchedule) {
+        // For template schedules, tour_id actually contains the template ID
+        const isTemplateSchedule = existingSchedule.activity_templates || existingSchedule.tours?.is_template
         setFormData({
-          tour_id: existingSchedule.tour_id || '',
+          tour_id: isTemplateSchedule ? '' : existingSchedule.tour_id || '',
+          template_id: isTemplateSchedule ? existingSchedule.tour_id : '',
           recurrence_type: existingSchedule.recurrence_type || 'weekly',
           days_of_week: existingSchedule.days_of_week || [],
           start_time: existingSchedule.start_time || '09:00',
@@ -79,14 +84,14 @@ const ScheduleCreateModal = ({
 
   // Auto-generate preview when form data changes
   useEffect(() => {
-    if (showPreview && formData.tour_id && formData.start_date && formData.end_date) {
+    if (showPreview && (formData.tour_id || formData.template_id) && formData.start_date && formData.end_date) {
       generatePreview()
     }
   }, [formData, showPreview])
 
   // Auto-show preview when form has enough data
   useEffect(() => {
-    const hasMinimalData = formData.tour_id && formData.start_date && formData.end_date && formData.recurrence_type
+    const hasMinimalData = (formData.tour_id || formData.template_id) && formData.start_date && formData.end_date && formData.recurrence_type
     const shouldAutoShowPreview = hasMinimalData && !showPreview
     
     if (shouldAutoShowPreview) {
@@ -97,7 +102,7 @@ const ScheduleCreateModal = ({
       
       return () => clearTimeout(timer)
     }
-  }, [formData.tour_id, formData.start_date, formData.end_date, formData.recurrence_type, showPreview])
+  }, [formData.tour_id, formData.template_id, formData.start_date, formData.end_date, formData.recurrence_type, showPreview])
 
   // ==================== DATA LOADING ====================
   const loadAvailableTours = async () => {
@@ -105,14 +110,20 @@ const ScheduleCreateModal = ({
     
     try {
       setLoadingTours(true)
-      // Get active tours for this operator
-      const { data: tours, error } = await scheduleService.getOperatorTours(operator.id)
-      
-      if (error) throw error
+      // Get active tours for this operator (legacy)
+      const { data: tours, error: toursError } = await scheduleService.getOperatorTours(operator.id)
+      if (toursError) throw toursError
       setAvailableTours(tours || [])
+      
+      // Get activity templates for this operator (new system)
+      const { data: templates, error: templatesError } = await scheduleService.getOperatorActivityTemplates(operator.id)
+      if (templatesError) throw templatesError
+      setAvailableTemplates(templates || [])
+      
     } catch (error) {
-      console.error('Error loading tours:', error)
+      console.error('Error loading tours and templates:', error)
       setAvailableTours([])
+      setAvailableTemplates([])
     } finally {
       setLoadingTours(false)
     }
@@ -121,7 +132,16 @@ const ScheduleCreateModal = ({
   const generatePreview = async () => {
     try {
       setGeneratingPreview(true)
-      const preview = await scheduleService.generateSchedulePreview(formData)
+      let preview = []
+      
+      if (formData.template_id) {
+        // Generate preview for activity template schedule
+        preview = await scheduleService.generateActivityTemplateSchedulePreview(formData)
+      } else {
+        // Generate preview for legacy tour schedule
+        preview = await scheduleService.generateSchedulePreview(formData)
+      }
+      
       setPreviewData(preview)
     } catch (error) {
       console.error('Error generating preview:', error)
@@ -184,6 +204,7 @@ const ScheduleCreateModal = ({
   const resetForm = () => {
     setFormData({
       tour_id: '',
+      template_id: '',
       recurrence_type: 'weekly',
       days_of_week: [],
       start_time: '09:00',
@@ -217,9 +238,18 @@ const ScheduleCreateModal = ({
       
       let result
       if (existingSchedule) {
-        result = await scheduleService.updateSchedule(existingSchedule.id, schedulePayload)
+        result = await scheduleService.updateSchedule(existingSchedule.id, schedulePayload, operator.id)
       } else {
-        result = await scheduleService.createSchedule(schedulePayload)
+        // Determine if this is a template schedule or legacy tour schedule
+        if (formData.template_id) {
+          // Creating schedule for activity template (new system)
+          result = await scheduleService.createActivityTemplateSchedule(schedulePayload)
+        } else if (formData.tour_id) {
+          // Creating schedule for legacy tour (old system)
+          result = await scheduleService.createSchedule(schedulePayload)
+        } else {
+          throw new Error('TOUR_OR_TEMPLATE_REQUIRED')
+        }
       }
       
       // Success!
@@ -338,87 +368,6 @@ const ScheduleCreateModal = ({
                       <AlertCircle className="w-5 h-5" />
                       {validationErrors.general}
                     </div>
-
-                {/* EXCEPTION DATES SECTION */}
-                <div className="border border-slate-600 rounded-lg overflow-hidden">
-                  <button
-                    type="button"
-                    onClick={() => toggleSection('exceptions')}
-                    className="w-full p-4 bg-slate-700/30 flex items-center justify-between hover:bg-slate-700/50 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <AlertCircle className="w-5 h-5 text-orange-400" />
-                      <h4 className="text-md font-medium text-slate-300">{t('schedules.sections.exceptions')}</h4>
-                      <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">{t('common.optional')}</span>
-                    </div>
-                    {expandedSections.exceptions ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
-                  </button>
-                  
-                  {expandedSections.exceptions && (
-                    <div className="p-4 bg-slate-800/20 space-y-4">
-                      
-                      {/* Exception Date Input */}
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">
-                          {t('schedules.form.addExceptionDate')}
-                        </label>
-                        <p className="text-xs text-slate-400 mb-3">
-                          {t('schedules.form.exceptionDescription')}
-                        </p>
-                        
-                        <div className="flex gap-2">
-                          <input
-                            type="date"
-                            value={newExceptionDate}
-                            onChange={(e) => setNewExceptionDate(e.target.value)}
-                            min={formData.start_date}
-                            max={formData.end_date}
-                            className="flex-1 p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 transition-colors"
-                          />
-                          <button
-                            type="button"
-                            onClick={addExceptionDate}
-                            disabled={!newExceptionDate || formData.exceptions.includes(newExceptionDate)}
-                            className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium"
-                          >
-                            {t('schedules.form.addDate')}
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Exception Dates List */}
-                      {formData.exceptions.length > 0 && (
-                        <div>
-                          <label className="block text-sm font-medium text-slate-300 mb-3">
-                            {t('schedules.form.exceptionDates')} ({formData.exceptions.length})
-                          </label>
-                          <div className="space-y-2 max-h-32 overflow-y-auto">
-                            {formData.exceptions.map((date, index) => (
-                              <div key={index} className="flex items-center justify-between p-2 bg-slate-700/50 rounded-lg border border-slate-600">
-                                <div className="flex items-center gap-2">
-                                  <Calendar className="w-4 h-4 text-orange-400" />
-                                  <span className="text-slate-300 font-medium">{formatDisplayDate(date)}</span>
-                                  <span className="text-xs text-slate-400">
-                                    ({new Date(date).toLocaleDateString('en-US', { weekday: 'long' })})
-                                  </span>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => removeExceptionDate(date)}
-                                  className="text-red-400 hover:text-red-300 p-1 rounded transition-colors"
-                                  title={t('schedules.form.removeDate')}
-                                >
-                                  <X className="w-4 h-4" />
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                    </div>
-                  )}
-                </div>
                   </div>
                 )}
                 
@@ -446,24 +395,62 @@ const ScheduleCreateModal = ({
                           {t('schedules.form.selectTour')} *
                         </label>
                         <select
-                          value={formData.tour_id}
-                          onChange={(e) => handleFieldChange('tour_id', e.target.value)}
+                          value={formData.template_id ? `template_${formData.template_id}` : formData.tour_id || ''}
+                          onChange={(e) => {
+                            const value = e.target.value
+                            if (value.startsWith('template_')) {
+                              // Activity template selected
+                              const templateId = value.replace('template_', '')
+                              handleFieldChange('template_id', templateId)
+                              handleFieldChange('tour_id', '') // Clear tour_id
+                            } else {
+                              // Legacy tour selected
+                              handleFieldChange('tour_id', value)
+                              handleFieldChange('template_id', '') // Clear template_id
+                              
+                              // Auto-populate dates from legacy tour to avoid date mismatch
+                              const selectedTour = availableTours.find(tour => tour.id === value)
+                              if (selectedTour) {
+                                handleFieldChange('start_date', selectedTour.tour_date)
+                                handleFieldChange('end_date', selectedTour.tour_date) // Same date for 'once' recurrence
+                                handleFieldChange('start_time', selectedTour.time_slot)
+                                handleFieldChange('recurrence_type', 'once') // Legacy tours are one-time
+                              }
+                            }
+                          }}
                           className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
-                            validationErrors.tour_id 
+                            (validationErrors.tour_id || validationErrors.template_id)
                               ? 'border-red-500 focus:border-red-500' 
                               : 'border-slate-600 focus:border-blue-500'
                           }`}
                           disabled={loadingTours}
                         >
                           <option value="">{loadingTours ? t('common.loading') : t('schedules.form.chooseTour')}</option>
-                          {availableTours.map((tour) => (
-                            <option key={tour.id} value={tour.id}>
-                              {tour.tour_name} - {tour.tour_type}
-                            </option>
-                          ))}
+                          
+                          {/* Activity Templates (New System) */}
+                          {availableTemplates.length > 0 && (
+                            <optgroup label="📋 Activity Templates">
+                              {availableTemplates.map((template) => (
+                                <option key={`template_${template.id}`} value={`template_${template.id}`}>
+                                  🟣 {template.activity_name} - {template.activity_type}
+                                </option>
+                              ))}
+                            </optgroup>
+                          )}
+                          
+                          {/* Legacy Tours */}
+                          {availableTours.length > 0 && (
+                            <optgroup label="📅 Legacy Tours">
+                              {availableTours.map((tour) => (
+                                <option key={tour.id} value={tour.id}>
+                                  🔵 {tour.tour_name} - {tour.tour_type}
+                                </option>
+                              ))}
+                            </optgroup>
+                          )}
                         </select>
-                        {validationErrors.tour_id && (
-                          <p className="text-red-400 text-sm mt-1">{validationErrors.tour_id}</p>
+                        {(validationErrors.tour_id || validationErrors.template_id) && (
+                          <p className="text-red-400 text-sm mt-1">{validationErrors.tour_id || validationErrors.template_id}</p>
                         )}
                       </div>
 
@@ -690,6 +677,87 @@ const ScheduleCreateModal = ({
                   )}
                 </div>
 
+                {/* EXCEPTION DATES SECTION */}
+                <div className="border border-slate-600 rounded-lg overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => toggleSection('exceptions')}
+                    className="w-full p-4 bg-slate-700/30 flex items-center justify-between hover:bg-slate-700/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 text-orange-400" />
+                      <h4 className="text-md font-medium text-slate-300">{t('schedules.sections.exceptions')}</h4>
+                      <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">{t('common.optional')}</span>
+                    </div>
+                    {expandedSections.exceptions ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
+                  </button>
+                  
+                  {expandedSections.exceptions && (
+                    <div className="p-4 bg-slate-800/20 space-y-4">
+                      
+                      {/* Exception Date Input */}
+                      <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                          {t('schedules.form.addExceptionDate')}
+                        </label>
+                        <p className="text-xs text-slate-400 mb-3">
+                          {t('schedules.form.exceptionDescription')}
+                        </p>
+                        
+                        <div className="flex gap-2">
+                          <input
+                            type="date"
+                            value={newExceptionDate}
+                            onChange={(e) => setNewExceptionDate(e.target.value)}
+                            min={formData.start_date}
+                            max={formData.end_date}
+                            className="flex-1 p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500 transition-colors"
+                          />
+                          <button
+                            type="button"
+                            onClick={addExceptionDate}
+                            disabled={!newExceptionDate || formData.exceptions.includes(newExceptionDate)}
+                            className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium"
+                          >
+                            {t('schedules.form.addDate')}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Exception Dates List */}
+                      {formData.exceptions.length > 0 && (
+                        <div>
+                          <label className="block text-sm font-medium text-slate-300 mb-3">
+                            {t('schedules.form.exceptionDates')} ({formData.exceptions.length})
+                          </label>
+                          <div className="space-y-2 max-h-32 overflow-y-auto">
+                            {formData.exceptions.map((date, index) => (
+                              <div key={index} className="flex items-center justify-between p-2 bg-slate-700/50 rounded-lg border border-slate-600">
+                                <div className="flex items-center gap-2">
+                                  <Calendar className="w-4 h-4 text-orange-400" />
+                                  <span className="text-slate-300 font-medium">{formatDisplayDate(date)}</span>
+                                  <span className="text-xs text-slate-400">
+                                    ({new Date(date).toLocaleDateString('en-US', { weekday: 'long' })})
+                                  </span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeExceptionDate(date)}
+                                  className="text-red-400 hover:text-red-300 p-1 rounded transition-colors"
+                                  title={t('schedules.form.removeDate')}
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                    </div>
+                  )}
+                </div>
+
                 {/* FORM ACTIONS */}
                 <div className="flex items-center justify-between pt-6 border-t border-slate-700">
                   <div className="flex gap-3">
@@ -755,7 +823,7 @@ const ScheduleCreateModal = ({
                 </div>
 
                 {/* Schedule Summary */}
-                {formData.tour_id && (
+                {(formData.tour_id || formData.template_id) && (
                   <div className="p-3 bg-slate-700/30 rounded-lg border border-slate-600 mb-4">
                     <div className="flex items-center gap-2 mb-2">
                       {getRecurrenceIcon(formData.recurrence_type)}
