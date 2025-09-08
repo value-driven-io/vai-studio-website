@@ -1,32 +1,57 @@
-# 🚀 VAI Platform: Tours → Activities Migration Roadmap
+# 🚀 VAI Platform: Dual-System Implementation Roadmap
 
-**Mission**: Transform VAI from single-date tours to template-based activities with schedule generation
-**Strategy**: Gradual migration (Option B) - build new system alongside old, then switch
-**Timeline**: 4-5 weeks  
-**Status**: 🟡 In Progress
+**Mission**: Transform VAI into the world's first dual-system tourism platform
+**Strategy**: Revolutionary Coexistence - Two activity types serving different market segments
+**Timeline**: 4-6 weeks  
+**Status**: 🟡 Phase 4 In Progress
+
+### 🎯 **Strategic Pivot: From Migration → Innovation**
+Instead of migrating away from tours, we're building **two complementary systems**:
+- **🚨 Last-Minute Activities** (Enhanced legacy system)  
+- **📅 Scheduled Activities** (New template system)
 
 ---
 
-## 📊 Migration Overview
+## 📊 Dual-System Architecture Overview
 
-### Current Architecture (Legacy)
+### 🚨 **Last-Minute Activities Architecture** (Enhanced Legacy)
 ```
-tours (single date/time instances)
+tours (fixed date/time instances)
   ↓
-schedules (references single tour)
-  ↓
-bookings (references tour_id)
+bookings (direct reference to tour_id)
+  
+ENHANCED FEATURES:
+├─ Dynamic pricing based on urgency
+├─ Weather integration for availability  
+├─ Real-time capacity management
+└─ Premium last-minute booking UX
 ```
 
-### Target Architecture (New)
+### 📅 **Scheduled Activities Architecture** (New Template System)
 ```
 activity_templates (reusable definitions, no dates)
   ↓  
-schedules (references template)
+schedules (references template with recurrence patterns)
   ↓
-activity_instances (generated from schedules)
+activity_instances (auto-generated from schedules)
   ↓
-bookings (references instance_id)
+bookings (references activity_instance_id)
+
+ADVANCED FEATURES:
+├─ Template-based efficiency for operators
+├─ Bulk instance generation and management
+├─ Early-bird pricing for advance bookings
+└─ Group booking optimization
+```
+
+### 🎯 **Unified Customer Experience**
+```
+TOURIST APP INTERFACE:
+├─ 🚨 "Available Today" section (last-minute activities)
+├─ 📅 "Plan Ahead" section (scheduled activities) 
+├─ 🔄 Unified search across both systems
+├─ 💳 Single checkout flow for both activity types
+└─ 🎯 Smart recommendations (last-minute vs scheduled)
 ```
 
 ### Migration Benefits
