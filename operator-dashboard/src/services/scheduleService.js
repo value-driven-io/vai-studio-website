@@ -347,7 +347,491 @@ export const scheduleService = {
   },
 
   /**
-   * Get active tours for schedule creation
+   * Get active activity templates for schedule creation (UNIFIED TABLE APPROACH)
+   * @param {string} operatorId - The operator ID
+   * @returns {Promise<Object>} Activity templates data or error
+   */
+  async getOperatorActivityTemplates(operatorId) {
+    try {
+      const { data: templates, error } = await supabase
+        .from('tours')
+        .select(`
+          id,
+          tour_name,
+          tour_type,
+          duration_hours,
+          max_capacity,
+          original_price_adult,
+          discount_price_adult,
+          location,
+          status
+        `)
+        .eq('operator_id', operatorId)
+        .eq('is_template', true)
+        .eq('status', 'active')
+        .order('tour_name', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching operator activity templates:', error)
+        throw error
+      }
+
+      // Map to consistent field names for backward compatibility
+      const mappedTemplates = (templates || []).map(template => ({
+        ...template,
+        activity_name: template.tour_name,
+        activity_type: template.tour_type,
+        island_location: template.location
+      }))
+
+      return { data: mappedTemplates, error: null }
+    } catch (error) {
+      console.error('Error in getOperatorActivityTemplates:', error)
+      return { data: null, error }
+    }
+  },
+
+  /**
+   * Create a schedule linked to an activity template
+   * @param {Object} scheduleData - The schedule data including template_id
+   * @returns {Promise<Object>} Created schedule record
+   */
+  async createActivityTemplateSchedule(scheduleData) {
+    try {
+      console.log('🚀 Creating activity template schedule with data:', scheduleData)
+
+      // Step 1: Basic input validation
+      const validation = this.validateActivityTemplateScheduleData(scheduleData)
+      if (!validation.valid) {
+        throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
+      }
+
+      // Step 2: Verify operator status and permissions
+      const { data: operator, error: operatorError } = await supabase
+        .from('operators')
+        .select('id, status')
+        .eq('id', scheduleData.operator_id)
+        .single()
+
+      if (operatorError || !operator) {
+        throw new Error('OPERATOR_NOT_FOUND')
+      }
+
+      if (operator.status !== 'active') {
+        throw new Error(`OPERATOR_INACTIVE|${operator.status}`)
+      }
+
+      // Step 3: Verify activity template exists and belongs to operator (UNIFIED TABLE APPROACH)
+      const { data: template, error: templateError } = await supabase
+        .from('tours')
+        .select('id, tour_name, operator_id, status, is_template')
+        .eq('id', scheduleData.template_id)
+        .eq('operator_id', scheduleData.operator_id)
+        .eq('is_template', true)
+        .single()
+
+      if (templateError || !template) {
+        throw new Error('TEMPLATE_NOT_FOUND_OR_ACCESS_DENIED')
+      }
+
+      if (template.status !== 'active') {
+        throw new Error(`TEMPLATE_INACTIVE|${template.status}`)
+      }
+
+      // Step 4: Check for schedule conflicts with existing templates
+      const conflictCheck = await this.checkTemplateScheduleConflicts(scheduleData, template)
+      if (!conflictCheck.valid) {
+        throw new Error(`SCHEDULE_CONFLICT|${conflictCheck.reason}`)
+      }
+
+      // Step 5: Prepare data for insertion
+      const insertData = {
+        tour_id: scheduleData.template_id, // Store template ID in tour_id column
+        operator_id: scheduleData.operator_id,
+        recurrence_type: scheduleData.recurrence_type,
+        days_of_week: scheduleData.days_of_week || null,
+        start_time: scheduleData.start_time,
+        start_date: scheduleData.start_date,
+        end_date: scheduleData.end_date,
+        exceptions: scheduleData.exceptions || null
+      }
+
+      // Step 6: Insert into database
+      const { data: newSchedule, error: insertError } = await supabase
+        .from('schedules')
+        .insert(insertData)
+        .select()
+        .single()
+
+      if (insertError) {
+        console.error('Error inserting activity template schedule:', insertError)
+        throw new Error(`DATABASE_INSERT_FAILED|${insertError.message}`)
+      }
+
+      console.log('✅ Activity template schedule created successfully:', newSchedule.id)
+
+      // Step 7: Return schedule with template data attached (UNIFIED TABLE APPROACH)
+      return {
+        ...newSchedule,
+        activity_templates: {
+          id: template.id,
+          activity_name: template.tour_name,
+          status: template.status
+        }
+      }
+
+    } catch (error) {
+      console.error('Error in createActivityTemplateSchedule:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Get schedules with activity template information (UNIFIED TABLE APPROACH)
+   * @param {string} operatorId - The operator's ID
+   * @returns {Promise<Array>} Array of schedule records with template data
+   */
+  async getSchedulesWithTemplates(operatorId) {
+    try {
+      // First get schedules
+      const { data: schedules, error: schedulesError } = await supabase
+        .from('schedules')
+        .select('*')
+        .eq('operator_id', operatorId)
+        .order('created_at', { ascending: false })
+
+      if (schedulesError) {
+        console.error('Error fetching schedules with templates:', schedulesError)
+        throw schedulesError
+      }
+
+      if (!schedules || schedules.length === 0) {
+        return []
+      }
+
+      // Get tour IDs (includes both templates and regular tours)
+      const tourIds = [...new Set(schedules.map(s => s.tour_id).filter(Boolean))]
+      const allIds = [...new Set(tourIds)]
+
+      // Fetch all related tours (templates and regular tours)
+      const { data: tours, error: toursError } = await supabase
+        .from('tours')
+        .select(`
+          id,
+          tour_name,
+          tour_type,
+          max_capacity,
+          discount_price_adult,
+          status,
+          location,
+          is_template
+        `)
+        .in('id', allIds)
+
+      if (toursError) {
+        console.warn('Error fetching related tours:', toursError)
+      }
+
+      // Map schedules with related data
+      const schedulesWithData = schedules.map(schedule => {
+        const relatedTour = tours?.find(t => t.id === schedule.tour_id)
+        // Determine if this is a template or regular tour schedule
+        const template = relatedTour?.is_template ? relatedTour : null
+        const tour = relatedTour?.is_template ? null : relatedTour
+        
+        return {
+          ...schedule,
+          ...(template && {
+            activity_templates: {
+              id: template.id,
+              activity_name: template.tour_name,
+              activity_type: template.tour_type,
+              max_capacity: template.max_capacity,
+              discount_price_adult: template.discount_price_adult,
+              status: template.status,
+              island_location: template.location
+            }
+          }),
+          ...(tour && {
+            tours: {
+              id: tour.id,
+              tour_name: tour.tour_name,
+              tour_type: tour.tour_type,
+              max_capacity: tour.max_capacity,
+              discount_price_adult: tour.discount_price_adult,
+              status: tour.status
+            }
+          })
+        }
+      })
+
+      return schedulesWithData
+    } catch (error) {
+      console.error('Error in getSchedulesWithTemplates:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Generate activity instances from a template schedule
+   * @param {string} scheduleId - The schedule ID
+   * @param {string} operatorId - The operator ID (for security)
+   * @returns {Promise<Object>} Generation result
+   */
+  async generateActivityInstances(scheduleId, operatorId) {
+    try {
+      console.log('🔄 Generating activity instances from schedule:', scheduleId)
+
+      // Step 1: Verify schedule belongs to operator and has tour_id pointing to template
+      const { data: schedule, error: scheduleError } = await supabase
+        .from('schedules')
+        .select('id, tour_id, operator_id')
+        .eq('id', scheduleId)
+        .eq('operator_id', operatorId)
+        .not('tour_id', 'is', null) // Must have tour_id
+        .single()
+
+      if (scheduleError || !schedule) {
+        throw new Error('TEMPLATE_SCHEDULE_NOT_FOUND_OR_ACCESS_DENIED')
+      }
+
+      // Step 2: Call the database function to generate instances
+      const { data: result, error: functionError } = await supabase
+        .rpc('generate_activity_instances_from_schedule', { schedule_uuid: scheduleId })
+
+      if (functionError) {
+        console.error('Error generating activity instances:', functionError)
+        throw new Error(`INSTANCE_GENERATION_FAILED|${functionError.message}`)
+      }
+
+      console.log('✅ Activity instances generated successfully:', result)
+      return {
+        schedule_id: scheduleId,
+        template_id: schedule.tour_id, // tour_id points to template
+        generated_count: result.generated_instances || 0,
+        first_date: result.first_instance_date,
+        last_date: result.last_instance_date
+      }
+
+    } catch (error) {
+      console.error('Error in generateActivityInstances:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Check for schedule conflicts with activity templates
+   * @param {Object} scheduleData - New schedule data
+   * @param {Object} template - Activity template data
+   * @returns {Promise<Object>} Conflict check result
+   */
+  async checkTemplateScheduleConflicts(scheduleData, template) {
+    try {
+      // Check for existing schedules with same template + time that might conflict
+      const { data: existingSchedules, error } = await supabase
+        .from('schedules')
+        .select('id, recurrence_type, start_time, start_date, end_date, days_of_week, exceptions')
+        .eq('tour_id', scheduleData.template_id)
+        .eq('start_time', scheduleData.start_time)
+
+      if (error) {
+        console.error('Error checking template schedule conflicts:', error)
+        return { valid: true } // Allow on error, logged for monitoring
+      }
+
+      if (!existingSchedules || existingSchedules.length === 0) {
+        return { valid: true }
+      }
+
+      // Use existing conflict detection logic
+      for (const existing of existingSchedules) {
+        const conflict = this.detectDateTimeConflict(scheduleData, existing)
+        if (conflict.hasConflict) {
+          return { 
+            valid: false, 
+            reason: `TEMPLATE_SCHEDULE_CONFLICT|${existing.id}|${conflict.conflictDate}` 
+          }
+        }
+      }
+
+      return { valid: true }
+
+    } catch (error) {
+      console.error('Error in checkTemplateScheduleConflicts:', error)
+      return { valid: true } // Allow on error
+    }
+  },
+
+  /**
+   * Validation for activity template schedule data
+   * @param {Object} scheduleData - The schedule data to validate
+   * @returns {Object} Validation result
+   */
+  validateActivityTemplateScheduleData(scheduleData) {
+    const errors = []
+
+    try {
+      // Required fields validation for templates
+      if (!scheduleData.template_id) errors.push('TEMPLATE_ID_REQUIRED')
+      if (!scheduleData.operator_id) errors.push('OPERATOR_ID_REQUIRED')
+
+      // Template-specific validation (excluding tour_id requirement)
+      if (!scheduleData.recurrence_type) {
+        errors.push('RECURRENCE_TYPE_REQUIRED')
+      }
+
+      if (!scheduleData.start_time) {
+        errors.push('START_TIME_REQUIRED')
+      }
+
+      if (!scheduleData.start_date) {
+        errors.push('START_DATE_REQUIRED')
+      }
+
+      if (!scheduleData.end_date) {
+        errors.push('END_DATE_REQUIRED')
+      }
+
+      // Recurrence type validation
+      const validRecurrenceTypes = ['once', 'daily', 'weekly', 'monthly']
+      if (scheduleData.recurrence_type && !validRecurrenceTypes.includes(scheduleData.recurrence_type)) {
+        errors.push('INVALID_RECURRENCE_TYPE')
+      }
+
+      // Days of week validation
+      if (scheduleData.days_of_week) {
+        if (!Array.isArray(scheduleData.days_of_week)) {
+          errors.push('DAYS_OF_WEEK_MUST_BE_ARRAY')
+        } else {
+          const invalidDays = scheduleData.days_of_week.filter(day => !Number.isInteger(day) || day < 1 || day > 7)
+          if (invalidDays.length > 0) {
+            errors.push('INVALID_DAYS_OF_WEEK')
+          }
+        }
+      }
+
+      // Weekly recurrence requires days_of_week
+      if (scheduleData.recurrence_type === 'weekly' && (!scheduleData.days_of_week || scheduleData.days_of_week.length === 0)) {
+        errors.push('WEEKLY_REQUIRES_DAYS')
+      }
+
+      // Time format validation (HH:MM)
+      if (scheduleData.start_time) {
+        const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
+        if (!timeRegex.test(scheduleData.start_time)) {
+          errors.push('INVALID_TIME_FORMAT')
+        }
+      }
+
+      // Date format validation (YYYY-MM-DD)
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+
+      if (scheduleData.start_date && !dateRegex.test(scheduleData.start_date)) {
+        errors.push('INVALID_START_DATE_FORMAT')
+      }
+
+      if (scheduleData.end_date && !dateRegex.test(scheduleData.end_date)) {
+        errors.push('INVALID_END_DATE_FORMAT')
+      }
+
+      // Date logic validation
+      if (scheduleData.start_date && scheduleData.end_date) {
+        const startDate = new Date(scheduleData.start_date)
+        const endDate = new Date(scheduleData.end_date)
+        const today = new Date()
+        today.setHours(0, 0, 0, 0) // Reset time for date comparison
+
+        if (startDate < today) {
+          errors.push('START_DATE_IN_PAST')
+        }
+
+        if (endDate <= startDate) {
+          errors.push('END_DATE_BEFORE_START')
+        }
+
+        // Reasonable date range limits (2 years max)
+        const maxDateRange = 365 * 2 * 24 * 60 * 60 * 1000 // 2 years in milliseconds
+        if (endDate - startDate > maxDateRange) {
+          errors.push('DATE_RANGE_TOO_LARGE')
+        }
+      }
+
+      // Exceptions validation
+      if (scheduleData.exceptions) {
+        if (!Array.isArray(scheduleData.exceptions)) {
+          errors.push('EXCEPTIONS_MUST_BE_ARRAY')
+        } else {
+          const invalidExceptions = scheduleData.exceptions.filter(date => !dateRegex.test(date))
+          if (invalidExceptions.length > 0) {
+            errors.push('INVALID_EXCEPTION_DATES')
+          }
+        }
+      }
+
+      // UUID format validation for template_id
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+      if (scheduleData.template_id && !uuidRegex.test(scheduleData.template_id)) {
+        errors.push('INVALID_TEMPLATE_ID_FORMAT')
+      }
+
+    } catch (error) {
+      errors.push(`VALIDATION_ERROR|${error.message}`)
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors: errors
+    }
+  },
+
+  /**
+   * Generate preview of activity instances that would be created from template schedule
+   * @param {Object} scheduleData - The schedule data with template_id
+   * @param {number} limit - Maximum number of instances to preview
+   * @returns {Promise<Array>} Array of preview instances with template details
+   */
+  async generateActivityTemplateSchedulePreview(scheduleData, limit = 10) {
+    try {
+      // Get base preview using existing logic
+      const basePreview = this.generateSchedulePreview(scheduleData, limit)
+      
+      if (!scheduleData.template_id) {
+        return basePreview
+      }
+
+      // Get template details for enhanced preview (UNIFIED TABLE APPROACH)
+      const { data: template, error } = await supabase
+        .from('tours')
+        .select('id, tour_name, tour_type, max_capacity, discount_price_adult')
+        .eq('id', scheduleData.template_id)
+        .eq('is_template', true)
+        .single()
+
+      if (error) {
+        console.error('Error fetching template for preview:', error)
+        return basePreview
+      }
+
+      // Enhance preview with template information
+      return basePreview.map(instance => ({
+        ...instance,
+        template: {
+          id: template.id,
+          activity_name: template.tour_name,
+          activity_type: template.tour_type,
+          max_capacity: template.max_capacity,
+          price: template.discount_price_adult
+        }
+      }))
+
+    } catch (error) {
+      console.error('Error generating activity template schedule preview:', error)
+      return []
+    }
+  },
+
+  /**
+   * Get active tours for schedule creation (LEGACY - for backward compatibility)
    * @param {string} operatorId - The operator ID
    * @returns {Promise<Object>} Tours data or error
    */

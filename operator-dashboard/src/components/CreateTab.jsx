@@ -364,6 +364,8 @@ const canDeleteTour = (tour) => {
 const CreateTab = ({ 
   showForm,
   setShowForm,
+  activityCreationMode,
+  setActivityCreationMode,
   editingTour,
   setEditingTour,
   formData,
@@ -392,10 +394,43 @@ const CreateTab = ({
   tours,
   handleEdit,
   getTodayInPolynesia,
-  setActiveTab
+  setActiveTab,
+  onTemplateSuccess = null // NEW: Template success callback
 }) => {
 
   const { t } = useTranslation()
+
+  // Template-specific submission handler
+  const handleTemplateSubmit = async (e) => {
+    e.preventDefault()
+    
+    try {
+      // For templates, we need to set specific fields
+      const templateData = {
+        ...formData,
+        operator_id: operator.id, // Required for RLS policy
+        activity_type: 'template',
+        is_template: true,
+        tour_date: null, // Templates don't have specific dates
+        time_slot: null, // Templates don't have specific times
+        available_spots: formData.max_capacity // Templates start with max availability
+      }
+
+      // If there's a custom handler provided, use it
+      if (onTemplateSuccess) {
+        await onTemplateSuccess(templateData)
+      } else {
+        // Otherwise use the regular submission handler
+        await handleSubmit(e, templateData)
+      }
+      
+      // Optional: Show success message or redirect
+      console.log('✅ Template created successfully')
+      
+    } catch (error) {
+      console.error('❌ Template creation failed:', error)
+    }
+  }
 
   // Check if operator can create tours (requires Stripe Connect setup)
   const canCreateTours = () => {
@@ -579,20 +614,27 @@ const CreateTab = ({
         </div>
       )}
 
-      {/* Create Tab Header */}
+      {/* Activities Tab Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">{t('createTab.title')}</h2>
-          <p className="text-slate-400">{t('createTab.subtitle')}</p>
+          <h2 className="text-2xl font-bold text-white mb-2">
+            {showForm ? '🎯 Define Activity' : 'Activities'}
+          </h2>
+          <p className="text-slate-400">
+            {showForm 
+              ? 'Create a reusable activity definition that can be scheduled when needed'
+              : 'Define your activity types and manage offerings'
+            }
+          </p>
         </div>
         <div className="flex gap-3">
           {!showForm && (
             <button
-              onClick={handleCreateAttempt}
+              onClick={() => setShowForm(true)}
               className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
             >
               <Plus className="w-5 h-5" />
-              {t('createTab.startCreating')}
+              Define Activity
             </button>
           )}
         </div>
@@ -605,10 +647,10 @@ const CreateTab = ({
           <div className="flex items-center justify-between p-6 border-b border-slate-700 bg-gradient-to-r from-slate-800 to-slate-700">
             <div>
               <h3 className="text-xl font-semibold text-white">
-                {editingTour ? t('createTab.editTour') : t('createTab.createNewTour')}
+                {editingTour ? 'Edit Activity Definition' : 'Define Activity'}
               </h3>
               <p className="text-slate-400 mt-1">
-                {editingTour ? t('createTab.updateExisting') : t('createTab.setupNew')}
+                {editingTour ? 'Update your activity template details' : 'Create a reusable activity definition for scheduling'}
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -630,7 +672,7 @@ const CreateTab = ({
           </div>
 
           {/* SINGLE COLUMN FORM */}
-          <form onSubmit={handleSubmit} className="p-6">
+          <form onSubmit={handleTemplateSubmit} className="p-6">
             <div className="max-w-4xl mx-auto space-y-6">
               
               {/* ESSENTIAL SECTIONS - Always Visible */}
@@ -723,79 +765,28 @@ const CreateTab = ({
                 </div>
               </div>
 
-              {/* Schedule & Duration */}
+              {/* Activity Duration */}
               <div className="border border-slate-600 rounded-lg overflow-hidden">
                 <div className="p-4 bg-slate-700/30">
                   <div className="flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-green-400" />
-                    <h4 className="text-md font-medium text-slate-300">{t('form.scheduleDuration')}</h4>
+                    <Clock className="w-5 h-5 text-green-400" />
+                    <h4 className="text-md font-medium text-slate-300">Activity Duration</h4>
                     <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">{t('form.required')}</span>
                   </div>
+                  <p className="text-slate-400 text-sm mt-2">
+                    How long does this activity typically take? This will be used when scheduling.
+                  </p>
                 </div>
                 <div className="p-4 bg-slate-800/20 space-y-4">
-                  {/* Quick Date Selection */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.quickDateSelection')}</label>
-                    <div className="grid grid-cols-3 lg:grid-cols-7 gap-2 mb-4">
-                      {getQuickDates().map(({ date, label }) => (
-                        <button
-                          key={date}
-                          type="button"
-                          onClick={() => handleFieldChange('tour_date', date)}
-                          className={`p-2 rounded-lg border text-sm font-medium transition-all ${
-                            formData.tour_date === date
-                              ? 'bg-blue-500 border-blue-500 text-white'
-                              : 'bg-slate-700/50 border-slate-600 text-slate-300 hover:border-slate-500'
-                          }`}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.customDate')} *</label>
-                      <input
-                        type="date"
-                        value={formData.tour_date}
-                        onChange={(e) => handleFieldChange('tour_date', e.target.value)}
-                        min={getTodayInPolynesia()}
-                        className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
-                          validationErrors.tour_date ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
-                        }`}
-                      />
-                      {validationErrors.tour_date && (
-                        <div className="flex items-center gap-2 mt-1">
-                          <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
-                          <p className="text-red-400 text-sm">{validationErrors.tour_date}</p>
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.startTime')} *</label>
-                      <input
-                        type="time"
-                        value={formData.time_slot}
-                        onChange={(e) => handleFieldChange('time_slot', e.target.value)}
-                        className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-blue-500"
-                      />
-                      <p className="text-slate-400 text-xs mt-1">
-                        {t('form.startTimeHelper')}
-                      </p>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                        {t('form.duration')}
-                        <Tooltip content={t('tooltips.duration')}>
-                            <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
-                            ⏱️
-                            </span>
-                        </Tooltip>
-                        </label>
+                    <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                      {t('form.duration')} *
+                      <Tooltip content="Typical duration for this activity">
+                          <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help">
+                          ⏱️
+                          </span>
+                      </Tooltip>
+                      </label>
                       <input
                         type="number"
                         value={formData.duration_hours}
@@ -806,20 +797,25 @@ const CreateTab = ({
                         step="0.5"
                         placeholder="e.g., 3.5"
                       />
+                      <p className="text-slate-400 text-xs mt-1">
+                        {t('form.durationHours')}
+                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
               
 
-              {/* Pricing Strategy */}
+              {/* Base Pricing & Capacity */}
               <div className="border border-slate-600 rounded-lg overflow-hidden">
                 <div className="p-4 bg-slate-700/30">
                   <div className="flex items-center gap-3">
                     <DollarSign className="w-5 h-5 text-yellow-400" />
-                    <h4 className="text-md font-medium text-slate-300">{t('form.pricingCapacity')}</h4>
+                    <h4 className="text-md font-medium text-slate-300">Base Pricing & Capacity</h4>
                     <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">{t('form.required')}</span>
                   </div>
+                  <p className="text-slate-400 text-sm mt-2">
+                    Set your base price and maximum capacity. Pricing adjustments can be applied when scheduling.
+                  </p>
                 </div>
                 <div className="p-4 bg-slate-800/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -860,12 +856,12 @@ const CreateTab = ({
                     </div>
                   )}
 
-                  {/* Simplified Pricing */}
+                  {/* Base Pricing */}
                   <div className="bg-slate-700/30 rounded-lg p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="max-w-md">
                       <div>
                         <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                            {t('form.regularPrice')} *
+                            Base Price *
                             <ContextualTooltip tooltipKey="create.pricing" type="onboarding" placement="top">
                                 <span className="text-xs text-slate-500 bg-slate-700 px-2 py-1 rounded cursor-help hover:bg-slate-600 transition-colors">
                                 💰
@@ -880,34 +876,12 @@ const CreateTab = ({
                           min="1000"
                           step="100"
                         />
-                        <p className="text-slate-400 text-xs mt-1">{formatPrice(formData.original_price_adult)}</p>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.discountPercent')}</label>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          step="5"
-                          value={formData.discount_percentage}
-                          onChange={(e) => handleFieldChange('discount_percentage', parseInt(e.target.value))}
-                          className="w-full"
-                        />
-                        <div className="text-center text-white font-medium">
-                          {formData.discount_percentage}%
-                          {formData.discount_percentage === 100 && (
-                            <span className="text-green-400 text-sm ml-2">• FREE</span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">{t('form.finalPrice')}</label>
-                        <div className="p-3 bg-slate-600/30 rounded-lg">
-                          <div className="text-green-400 font-bold text-lg">{formatPrice(formData.discount_price_adult)}</div>
-                          <div className="text-slate-400 text-xs">{t('form.yourRevenue')}: {formatPrice(Math.round(formData.discount_price_adult * (1 - (operator?.commission_rate || 10) / 100)))}</div>
-                        </div>
+                        <p className="text-slate-400 text-xs mt-1">
+                          {formatPrice(formData.original_price_adult)} • Your revenue: {formatPrice(Math.round(formData.original_price_adult * (1 - (operator?.commission_rate || 10) / 100)))}
+                        </p>
+                        <p className="text-slate-500 text-xs mt-2">
+                          💡 Pricing adjustments and promotions can be applied when scheduling activities
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1415,15 +1389,13 @@ const CreateTab = ({
                       ) : (
                         <>
                           <Save className="w-4 h-4" />
-                          {editingTour ? t('createTab.updateTour') : t('createTab.createTour')}
+                          {editingTour ? 'Update Activity' : 'Define Activity'}
                         </>
                       )}
                     </button>
                   </div>
                 </div>
-
-
-            </div>
+              </div>
           </form>
         </div>
       ) : (
@@ -1431,7 +1403,7 @@ const CreateTab = ({
         <div className="space-y-6">
 
           {/* Quick Tour Templates */}
-            <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 p-6">
               <h3 className="text-lg font-semibold text-white mb-4">{t('templates.title')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button
