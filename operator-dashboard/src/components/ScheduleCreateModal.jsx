@@ -7,6 +7,33 @@ import {
   ChevronDown, ChevronUp, Repeat, MapPin
 } from 'lucide-react'
 import { scheduleService } from '../services/scheduleService'
+import { formatPolynesianDate } from '../utils/timezone'
+
+// Local helper for dd.mm.yyyy format to avoid modifying shared timezone.js
+const POLYNESIA_TZ = 'Pacific/Tahiti' // UTC-10
+
+const parsePolynesianDate = (dateString) => {
+  if (!dateString) return null
+  const [year, month, day] = dateString.split('-').map(Number)
+  return new Date(year, month - 1, day) // month is 0-indexed
+}
+
+const formatPolynesianDateDMY = (date) => {
+  if (!date) return ''
+  
+  try {
+    const dateObj = typeof date === 'string' ? parsePolynesianDate(date) : date
+    if (!dateObj) return ''
+    
+    const day = String(dateObj.getDate()).padStart(2, '0')
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0')
+    const year = dateObj.getFullYear()
+    
+    return `${day}.${month}.${year}`
+  } catch {
+    return date?.toString() || ''
+  }
+}
 
 const ScheduleCreateModal = ({ 
   isOpen, 
@@ -31,9 +58,11 @@ const ScheduleCreateModal = ({
   
   const [validationErrors, setValidationErrors] = useState({})
   const [loading, setLoading] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState('')
   const [showPreview, setShowPreview] = useState(false)
   const [previewData, setPreviewData] = useState([])
   const [generatingPreview, setGeneratingPreview] = useState(false)
+  const [userHidPreview, setUserHidPreview] = useState(false) // Track if user manually hid preview
   const [expandedSections, setExpandedSections] = useState({
     basic: true,
     recurrence: true,
@@ -89,10 +118,10 @@ const ScheduleCreateModal = ({
     }
   }, [formData, showPreview])
 
-  // Auto-show preview when form has enough data
+  // Auto-show preview when form has enough data (but respect user's manual hide)
   useEffect(() => {
     const hasMinimalData = (formData.tour_id || formData.template_id) && formData.start_date && formData.end_date && formData.recurrence_type
-    const shouldAutoShowPreview = hasMinimalData && !showPreview
+    const shouldAutoShowPreview = hasMinimalData && !showPreview && !userHidPreview
     
     if (shouldAutoShowPreview) {
       // Add a slight delay for better UX
@@ -102,7 +131,7 @@ const ScheduleCreateModal = ({
       
       return () => clearTimeout(timer)
     }
-  }, [formData.tour_id, formData.template_id, formData.start_date, formData.end_date, formData.recurrence_type, showPreview])
+  }, [formData.tour_id, formData.template_id, formData.start_date, formData.end_date, formData.recurrence_type, showPreview, userHidPreview])
 
   // ==================== DATA LOADING ====================
   const loadAvailableTours = async () => {
@@ -158,23 +187,23 @@ const ScheduleCreateModal = ({
       [field]: value
     }))
     
-    // Clear validation error for this field
-    if (validationErrors[field]) {
-      setValidationErrors(prev => {
-        const newErrors = { ...prev }
-        delete newErrors[field]
-        return newErrors
-      })
-    }
+    // Clear existing errors for this field and validate
+    setValidationErrors(prev => {
+      const newErrors = { ...prev }
+      delete newErrors[field]
+      
+      // Add new validation errors if any
+      const fieldErrors = validateFormField(field, value)
+      return { ...newErrors, ...fieldErrors }
+    })
   }
 
   const handleDayToggle = (day) => {
-    setFormData(prev => ({
-      ...prev,
-      days_of_week: prev.days_of_week.includes(day)
-        ? prev.days_of_week.filter(d => d !== day)
-        : [...prev.days_of_week, day].sort()
-    }))
+    const newDaysOfWeek = formData.days_of_week.includes(day)
+      ? formData.days_of_week.filter(d => d !== day)
+      : [...formData.days_of_week, day].sort()
+    
+    handleFieldChange('days_of_week', newDaysOfWeek)
   }
 
   const addExceptionDate = () => {
@@ -215,6 +244,7 @@ const ScheduleCreateModal = ({
     setValidationErrors({})
     setPreviewData([])
     setShowPreview(false)
+    setUserHidPreview(false) // Reset user hide preference
     setNewExceptionDate('')
     setGeneratingPreview(false)
   }
@@ -238,19 +268,31 @@ const ScheduleCreateModal = ({
       
       let result
       if (existingSchedule) {
+        setLoadingMessage('Updating schedule...')
         result = await scheduleService.updateSchedule(existingSchedule.id, schedulePayload, operator.id)
       } else {
         // Determine if this is a template schedule or legacy tour schedule
         if (formData.template_id) {
           // Creating schedule for activity template (new system)
+          setLoadingMessage('Creating schedule from template...')
           result = await scheduleService.createActivityTemplateSchedule(schedulePayload)
+          
+          // Add progress indicator for tour generation
+          if (result && result.generated_tours_count > 0) {
+            setLoadingMessage(`Generated ${result.generated_tours_count} bookable tours...`)
+            // Small delay to show the message
+            await new Promise(resolve => setTimeout(resolve, 1000))
+          }
         } else if (formData.tour_id) {
           // Creating schedule for legacy tour (old system)
+          setLoadingMessage('Creating schedule...')
           result = await scheduleService.createSchedule(schedulePayload)
         } else {
           throw new Error('TOUR_OR_TEMPLATE_REQUIRED')
         }
       }
+      
+      setLoadingMessage('Schedule saved successfully!')
       
       // Success!
       onSuccess?.(result)
@@ -260,14 +302,10 @@ const ScheduleCreateModal = ({
     } catch (error) {
       console.error('Error saving schedule:', error)
       
-      // Handle validation errors from service
-      if (error.message.includes('|')) {
-        const [errorCode, ...params] = error.message.split('|')
-        // For now, show generic error - can be enhanced with specific field mapping
-        setValidationErrors({ general: t(`schedules.errors.${errorCode}`, { params: params.join('|') }) })
-      } else {
-        setValidationErrors({ general: error.message || t('schedules.errors.UNEXPECTED_ERROR') })
-      }
+      // Map service errors to specific form fields
+      const fieldErrors = mapErrorsToFields(error.message)
+      setValidationErrors(fieldErrors)
+      
     } finally {
       setLoading(false)
     }
@@ -299,16 +337,178 @@ const ScheduleCreateModal = ({
 
   const formatDisplayDate = (dateString) => {
     try {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short', 
-        day: 'numeric'
-      })
+      // Use dd.mm.yyyy format for consistent display
+      return formatPolynesianDateDMY(dateString)
     } catch {
       return dateString
     }
   }
+
+  // Map service error codes to form field errors
+  const mapErrorsToFields = (errorMessage) => {
+    const fieldErrors = {}
+    
+    if (errorMessage.includes('|')) {
+      const [errorCode, ...params] = errorMessage.split('|')
+      
+      // Map specific error codes to form fields
+      const errorFieldMap = {
+        'TOUR_ID_REQUIRED': 'tour_id',
+        'TEMPLATE_ID_REQUIRED': 'template_id',
+        'START_TIME_REQUIRED': 'start_time',
+        'START_DATE_REQUIRED': 'start_date',
+        'END_DATE_REQUIRED': 'end_date',
+        'RECURRENCE_TYPE_REQUIRED': 'recurrence_type',
+        'WEEKLY_REQUIRES_DAYS': 'days_of_week',
+        'INVALID_TIME_FORMAT': 'start_time',
+        'INVALID_START_DATE_FORMAT': 'start_date',
+        'INVALID_END_DATE_FORMAT': 'end_date',
+        'START_DATE_IN_PAST': 'start_date',
+        'END_DATE_BEFORE_START': 'end_date',
+        'DATE_RANGE_TOO_LARGE': 'end_date',
+        'INVALID_DAYS_OF_WEEK': 'days_of_week',
+        'BOOKING_DEADLINE_PASSED': 'start_date'
+      }
+      
+      const field = errorFieldMap[errorCode]
+      if (field) {
+        fieldErrors[field] = t(`schedules.errors.${errorCode}`, { defaultValue: errorCode.replace(/_/g, ' ').toLowerCase() })
+      } else {
+        fieldErrors.general = t(`schedules.errors.${errorCode}`, { defaultValue: errorMessage })
+      }
+    } else {
+      fieldErrors.general = errorMessage
+    }
+    
+    return fieldErrors
+  }
+
+  // Helper function for date+time validation with auto-close hours
+  const validateDateTimeWithAutoClose = (dateValue, timeValue, templateId) => {
+    if (!dateValue || !timeValue || !templateId) return null
+    
+    const startDate = parsePolynesianDate(dateValue)
+    const selectedTemplate = availableTemplates.find(t => t.id === templateId)
+    
+    console.log('🔍 DateTime validation:', { 
+      dateValue,
+      timeValue,
+      templateId, 
+      template: selectedTemplate, 
+      autoCloseHours: selectedTemplate?.auto_close_hours 
+    })
+    
+    if (selectedTemplate && selectedTemplate.auto_close_hours !== undefined) {
+      const [hours, minutes] = timeValue.split(':').map(Number)
+      const activityDateTime = new Date(startDate)
+      activityDateTime.setHours(hours, minutes, 0, 0)
+      
+      const autoCloseHours = selectedTemplate.auto_close_hours || 2
+      const bookingDeadline = new Date(activityDateTime.getTime() - (autoCloseHours * 60 * 60 * 1000))
+      const currentDateTime = new Date()
+      
+      console.log('📅 Booking deadline check:', {
+        activityDateTime: activityDateTime.toLocaleString(),
+        bookingDeadline: bookingDeadline.toLocaleString(),
+        currentDateTime: currentDateTime.toLocaleString(),
+        autoCloseHours,
+        isPastDeadline: currentDateTime >= bookingDeadline
+      })
+      
+      if (currentDateTime >= bookingDeadline) {
+        return t('schedules.errors.BOOKING_DEADLINE_PASSED', { 
+          defaultValue: `Too late to schedule - booking closes ${autoCloseHours} hours before activity`,
+          hours: autoCloseHours 
+        })
+      }
+    }
+    
+    return null
+  }
+
+  // Client-side validation for immediate feedback
+  const validateFormField = (field, value) => {
+    const errors = {}
+    
+    switch (field) {
+      case 'tour_id':
+      case 'template_id':
+        // Use the new value being set, not the old formData values
+        const currentTourId = field === 'tour_id' ? value : formData.tour_id
+        const currentTemplateId = field === 'template_id' ? value : formData.template_id
+        
+        if (!currentTourId && !currentTemplateId) {
+          errors[field] = t('schedules.errors.ACTIVITY_REQUIRED', { defaultValue: 'Please select an activity or template' })
+        }
+        break
+        
+      case 'start_time':
+        if (!value) {
+          errors[field] = t('schedules.errors.START_TIME_REQUIRED', { defaultValue: 'Start time is required' })
+        } else if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)) {
+          errors[field] = t('schedules.errors.INVALID_TIME_FORMAT', { defaultValue: 'Invalid time format (HH:MM)' })
+        } else {
+          // Check auto-close hours validation when time changes
+          const dateTimeError = validateDateTimeWithAutoClose(
+            formData.start_date, 
+            value, 
+            formData.template_id
+          )
+          if (dateTimeError) {
+            errors['start_date'] = dateTimeError // Show error on date field for consistency
+          }
+        }
+        break
+        
+      case 'start_date':
+        if (!value) {
+          errors[field] = t('schedules.errors.START_DATE_REQUIRED', { defaultValue: 'Start date is required' })
+        } else {
+          // Use timezone-safe date parsing
+          const startDate = parsePolynesianDate(value)
+          
+          // Try auto-close hours validation first
+          const dateTimeError = validateDateTimeWithAutoClose(
+            value, 
+            formData.start_time, 
+            formData.template_id
+          )
+          
+          if (dateTimeError) {
+            errors[field] = dateTimeError
+          } else {
+            // Fallback to basic past date check if no template/time data
+            const today = new Date()
+            today.setHours(0, 0, 0, 0)
+            if (startDate < today) {
+              errors[field] = t('schedules.errors.START_DATE_IN_PAST', { defaultValue: 'Start date cannot be in the past' })
+            }
+          }
+        }
+        break
+        
+      case 'end_date':
+        if (!value) {
+          errors[field] = t('schedules.errors.END_DATE_REQUIRED', { defaultValue: 'End date is required' })
+        } else if (formData.start_date) {
+          const startDate = new Date(formData.start_date)
+          const endDate = new Date(value)
+          if (endDate <= startDate) {
+            errors[field] = t('schedules.errors.END_DATE_BEFORE_START', { defaultValue: 'End date must be after start date' })
+          }
+        }
+        break
+        
+      case 'days_of_week':
+        if (formData.recurrence_type === 'weekly' && (!value || value.length === 0)) {
+          errors[field] = t('schedules.errors.WEEKLY_REQUIRES_DAYS', { defaultValue: 'Select at least one day for weekly recurrence' })
+        }
+        break
+    }
+    
+    return errors
+  }
+
 
   const getRecurrenceIcon = (type) => {
     const icons = {
@@ -338,7 +538,16 @@ const ScheduleCreateModal = ({
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={() => setShowPreview(!showPreview)}
+              onClick={() => {
+                const newShowState = !showPreview
+                setShowPreview(newShowState)
+                // Track if user manually hid the preview
+                if (!newShowState) {
+                  setUserHidPreview(true)
+                } else {
+                  setUserHidPreview(false)
+                }
+              }}
               className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-lg transition-colors"
             >
               {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -401,12 +610,37 @@ const ScheduleCreateModal = ({
                             if (value.startsWith('template_')) {
                               // Activity template selected
                               const templateId = value.replace('template_', '')
-                              handleFieldChange('template_id', templateId)
-                              handleFieldChange('tour_id', '') // Clear tour_id
+                              
+                              // Update both fields atomically to avoid validation race condition
+                              setFormData(prev => ({
+                                ...prev,
+                                template_id: templateId,
+                                tour_id: ''
+                              }))
+                              
+                              // Clear errors for both fields
+                              setValidationErrors(prev => {
+                                const newErrors = { ...prev }
+                                delete newErrors.template_id
+                                delete newErrors.tour_id
+                                return newErrors
+                              })
+                              
                             } else {
-                              // Legacy tour selected
-                              handleFieldChange('tour_id', value)
-                              handleFieldChange('template_id', '') // Clear template_id
+                              // Legacy tour selected  
+                              setFormData(prev => ({
+                                ...prev,
+                                tour_id: value,
+                                template_id: ''
+                              }))
+                              
+                              // Clear errors for both fields
+                              setValidationErrors(prev => {
+                                const newErrors = { ...prev }
+                                delete newErrors.template_id
+                                delete newErrors.tour_id
+                                return newErrors
+                              })
                               
                               // Auto-populate dates from legacy tour to avoid date mismatch
                               const selectedTour = availableTours.find(tour => tour.id === value)

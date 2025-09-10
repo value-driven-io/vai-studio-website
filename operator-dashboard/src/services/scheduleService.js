@@ -1,5 +1,45 @@
 // operator-dashboard/src/services/scheduleService.js - PHASE 3 with i18n + Edge Cases
 import { supabase } from '../lib/supabase'
+import { formatPolynesianDate } from '../utils/timezone'
+
+// Local timezone helpers to avoid modifying shared timezone.js
+const POLYNESIA_TZ = 'Pacific/Tahiti' // UTC-10
+
+const parsePolynesianDate = (dateString) => {
+  if (!dateString) return null
+  // Split date string and create date in Polynesian timezone
+  const [year, month, day] = dateString.split('-').map(Number)
+  return new Date(year, month - 1, day) // month is 0-indexed
+}
+
+const formatPolynesianDateISO = (date) => {
+  if (!date) return ''
+  // Format in Polynesian timezone, then convert to ISO format
+  const formatted = new Date(date).toLocaleDateString("en-CA", {
+    timeZone: POLYNESIA_TZ,
+    year: 'numeric',
+    month: '2-digit', 
+    day: '2-digit'
+  })
+  return formatted // en-CA locale gives YYYY-MM-DD format
+}
+
+const formatPolynesianDateDMY = (date) => {
+  if (!date) return ''
+  
+  try {
+    const dateObj = typeof date === 'string' ? parsePolynesianDate(date) : date
+    if (!dateObj) return ''
+    
+    const day = String(dateObj.getDate()).padStart(2, '0')
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0')
+    const year = dateObj.getFullYear()
+    
+    return `${day}.${month}.${year}`
+  } catch {
+    return date?.toString() || ''
+  }
+}
 
 export const scheduleService = {
   /**
@@ -175,13 +215,33 @@ export const scheduleService = {
       // Step 1: Verify schedule exists and belongs to active operator
       const { data: existingSchedule, error: fetchError } = await supabase
         .from('schedules')
-        .select('*, tours!inner(id, tour_name, status)')
+        .select('*')
         .eq('id', scheduleId)
         .eq('operator_id', operatorId)
         .single()
 
       if (fetchError || !existingSchedule) {
+        console.error('Schedule fetch error:', fetchError)
         throw new Error('SCHEDULE_NOT_FOUND_OR_ACCESS_DENIED')
+      }
+
+      // Step 1b: Get related tour/template data separately to handle both cases
+      const { data: relatedTour, error: tourError } = await supabase
+        .from('tours')
+        .select(`
+          id, tour_name, status, is_template, auto_close_hours, booking_deadline,
+          tour_type, description, max_capacity, original_price_adult, discount_price_adult, 
+          discount_price_child, meeting_point, location, meeting_point_gps, duration_hours,
+          pickup_available, equipment_included, food_included, drinks_included,
+          whale_regulation_compliant, weather_dependent, pickup_locations, languages,
+          max_whale_group_size, min_age, max_age, fitness_level, requirements, restrictions
+        `)
+        .eq('id', existingSchedule.tour_id)
+        .single()
+
+      if (tourError || !relatedTour) {
+        console.error('Related tour/template fetch error:', tourError)
+        throw new Error('LINKED_TOUR_OR_TEMPLATE_NOT_FOUND')
       }
 
       // Step 2: 🛡️ EDGE CASE - Check if schedule has active bookings
@@ -190,15 +250,31 @@ export const scheduleService = {
         throw new Error(`SCHEDULE_HAS_ACTIVE_BOOKINGS|${activeBookingsCheck.count}`)
       }
 
-      // Step 3: 🛡️ EDGE CASE - Verify linked tour is still active
-      if (existingSchedule.tours && existingSchedule.tours.status !== 'active') {
-        throw new Error(`LINKED_TOUR_INACTIVE|${existingSchedule.tours.status}`)
+      // Step 3: 🛡️ EDGE CASE - Verify linked tour/template is still active
+      if (relatedTour.status !== 'active') {
+        const entityType = relatedTour.is_template ? 'TEMPLATE' : 'TOUR'
+        throw new Error(`LINKED_${entityType}_INACTIVE|${relatedTour.status}`)
       }
 
-      // Step 4: Validate update data  
-      const validation = this.validateScheduleData({ ...existingSchedule, ...updateData }, true)
-      if (!validation.valid) {
-        throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
+      // Step 4: Enhanced validation with template data (if it's a template schedule)
+      let validationData = { ...existingSchedule, ...updateData }
+      
+      // If this is a template schedule, use template-specific validation
+      if (relatedTour.is_template) {
+        validationData.auto_close_hours = relatedTour.auto_close_hours || 2
+        validationData.booking_deadline = relatedTour.booking_deadline
+        validationData.template_id = relatedTour.id // Add template_id for validation
+        
+        const validation = this.validateActivityTemplateScheduleData(validationData, relatedTour)
+        if (!validation.valid) {
+          throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
+        }
+      } else {
+        // Regular tour schedule validation
+        const validation = this.validateScheduleData(validationData, true)
+        if (!validation.valid) {
+          throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
+        }
       }
 
       // Step 5: Prepare update data (only allow certain fields)
@@ -228,6 +304,35 @@ export const scheduleService = {
       }
 
       console.log('✅ Schedule updated successfully:', scheduleId)
+      
+      // Step 7: Regenerate activity instances if this is a template-based schedule
+      if (relatedTour.is_template) {
+        console.log('🔄 Regenerating activity instances from updated template...')
+        
+        // First, delete existing scheduled tours for this schedule
+        const { error: deleteError } = await supabase
+          .from('tours')
+          .delete()
+          .eq('parent_schedule_id', scheduleId)
+          .eq('operator_id', operatorId)
+          .eq('activity_type', 'scheduled')
+        
+        if (deleteError) {
+          console.warn('Warning: Could not delete old instances:', deleteError)
+        }
+        
+        // Then regenerate with updated schedule data and full template data
+        const mergedScheduleData = {
+          ...existingSchedule,
+          ...filteredUpdateData,
+          template_id: existingSchedule.tour_id,
+          id: scheduleId // Ensure schedule ID is available for RLS compliance
+        }
+        
+        const regeneratedTours = await this.generateScheduledToursFromTemplate(relatedTour, mergedScheduleData)
+        console.log(`✅ Regenerated ${regeneratedTours.length} activity instances`)
+      }
+      
       return updatedSchedule
 
     } catch (error) {
@@ -364,7 +469,9 @@ export const scheduleService = {
           original_price_adult,
           discount_price_adult,
           location,
-          status
+          status,
+          auto_close_hours,
+          booking_deadline
         `)
         .eq('operator_id', operatorId)
         .eq('is_template', true)
@@ -400,13 +507,7 @@ export const scheduleService = {
     try {
       console.log('🚀 Creating activity template schedule with data:', scheduleData)
 
-      // Step 1: Basic input validation
-      const validation = this.validateActivityTemplateScheduleData(scheduleData)
-      if (!validation.valid) {
-        throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
-      }
-
-      // Step 2: Verify operator status and permissions
+      // Step 1: Verify operator status and permissions
       const { data: operator, error: operatorError } = await supabase
         .from('operators')
         .select('id, status')
@@ -421,10 +522,17 @@ export const scheduleService = {
         throw new Error(`OPERATOR_INACTIVE|${operator.status}`)
       }
 
-      // Step 3: Verify activity template exists and belongs to operator (UNIFIED TABLE APPROACH)
+      // Step 2: Verify activity template exists and belongs to operator (UNIFIED TABLE APPROACH)
       const { data: template, error: templateError } = await supabase
         .from('tours')
-        .select('id, tour_name, operator_id, status, is_template')
+        .select(`
+          id, tour_name, operator_id, status, is_template, auto_close_hours, booking_deadline,
+          tour_type, description, max_capacity, original_price_adult, discount_price_adult, 
+          discount_price_child, meeting_point, location, meeting_point_gps, duration_hours,
+          pickup_available, equipment_included, food_included, drinks_included,
+          whale_regulation_compliant, weather_dependent, pickup_locations, languages,
+          max_whale_group_size, min_age, max_age, fitness_level, requirements, restrictions
+        `)
         .eq('id', scheduleData.template_id)
         .eq('operator_id', scheduleData.operator_id)
         .eq('is_template', true)
@@ -436,6 +544,18 @@ export const scheduleService = {
 
       if (template.status !== 'active') {
         throw new Error(`TEMPLATE_INACTIVE|${template.status}`)
+      }
+
+      // Step 3: Enhanced validation with template data (including auto-close hours)
+      const enhancedScheduleData = {
+        ...scheduleData,
+        auto_close_hours: template.auto_close_hours || 2,
+        booking_deadline: template.booking_deadline
+      }
+      
+      const validation = this.validateActivityTemplateScheduleData(enhancedScheduleData, template)
+      if (!validation.valid) {
+        throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
       }
 
       // Step 4: Check for schedule conflicts with existing templates
@@ -483,7 +603,13 @@ export const scheduleService = {
         }
       })
       
-      const scheduledTours = await this.generateScheduledToursFromTemplate(template, scheduleData)
+      // Add the newly created schedule ID to the schedule data for tour generation
+      const scheduleDataWithId = {
+        ...scheduleData,
+        id: newSchedule.id
+      }
+      
+      const scheduledTours = await this.generateScheduledToursFromTemplate(template, scheduleDataWithId)
       
       console.log(`✅ Generated ${scheduledTours.length} scheduled tours from template`)
       console.log('📋 Generated tours details:', scheduledTours.map(t => ({
@@ -524,26 +650,66 @@ export const scheduleService = {
       const scheduledTours = []
 
       for (const date of dates) {
-        // Create scheduled tour based on template
+        // Create scheduled tour based on template - COMPREHENSIVE DATA COPYING
         const scheduledTourData = {
-          ...template,
-          id: undefined, // Let Supabase generate new UUID
+          // Core identification
+          operator_id: template.operator_id,
+          tour_name: template.tour_name,
+          tour_type: template.tour_type || 'Lagoon Tour',
+          description: template.description,
+          
+          // Schedule-specific fields
+          tour_date: date,
+          time_slot: scheduleData.start_time,
           activity_type: 'scheduled',
           is_template: false,
           parent_template_id: template.id,
-          tour_date: date,
-          time_slot: scheduleData.start_time,
-          created_at: undefined, // Let Supabase set timestamp
-          updated_at: undefined,  // Let Supabase set timestamp
-          // Ensure ALL required fields are not null - comprehensive fix based on database schema
-          tour_type: template.tour_type || 'Lagoon Tour', // Must match CHECK constraint values
-          status: template.status || 'active',
+          parent_schedule_id: scheduleData.id, // Critical for RLS policy compliance
+          
+          // Capacity and availability
           max_capacity: template.max_capacity || 1,
-          available_spots: template.available_spots || template.max_capacity || 1,
+          available_spots: template.max_capacity || 1,
+          
+          // Pricing - CRITICAL FIX
           original_price_adult: template.original_price_adult || 0,
           discount_price_adult: template.discount_price_adult || template.original_price_adult || 0,
           discount_price_child: template.discount_price_child || 0,
-          meeting_point: template.meeting_point || 'TBD'
+          
+          // Location and logistics - CRITICAL FIX
+          meeting_point: template.meeting_point || 'TBD',
+          location: template.location,
+          meeting_point_gps: template.meeting_point_gps,
+          
+          // Tour details
+          duration_hours: template.duration_hours,
+          
+          // Boolean features
+          pickup_available: template.pickup_available || false,
+          equipment_included: template.equipment_included || false,
+          food_included: template.food_included || false,
+          drinks_included: template.drinks_included || false,
+          whale_regulation_compliant: template.whale_regulation_compliant || false,
+          weather_dependent: template.weather_dependent !== undefined ? template.weather_dependent : true,
+          
+          // Arrays
+          pickup_locations: template.pickup_locations || null,
+          languages: template.languages || ['French'],
+          
+          // Constraints and requirements
+          max_whale_group_size: template.max_whale_group_size || 6,
+          min_age: template.min_age,
+          max_age: template.max_age,
+          fitness_level: template.fitness_level,
+          requirements: template.requirements,
+          restrictions: template.restrictions,
+          
+          // Business logic
+          status: template.status || 'active',
+          booking_deadline: template.booking_deadline,
+          auto_close_hours: template.auto_close_hours || 2,
+          backup_plan: template.backup_plan,
+          special_notes: template.special_notes,
+          created_by_operator: true
         }
         
         console.log('🔧 Creating scheduled tour with data:', {
@@ -597,10 +763,19 @@ export const scheduleService = {
     
     const dates = []
     // FIX: Create dates in Polynesian timezone to avoid UTC conversion issues
-    const POLYNESIA_TZ = 'Pacific/Tahiti' // UTC-10
     const startDate = new Date(scheduleData.start_date + 'T12:00:00')  // Noon to avoid timezone shifts
     const endDate = new Date(scheduleData.end_date + 'T12:00:00')      // Noon to avoid timezone shifts
-    const exceptions = scheduleData.exceptions || []
+    
+    // FIX: Normalize exception dates to avoid timezone issues
+    const exceptions = (scheduleData.exceptions || []).map(exceptionDate => {
+      // Ensure exception dates are in YYYY-MM-DD format without time/timezone confusion
+      if (typeof exceptionDate === 'string' && exceptionDate.includes('T')) {
+        return exceptionDate.split('T')[0]  // Remove time part if present
+      }
+      return exceptionDate
+    })
+    
+    console.log('🔍 Normalized exceptions:', exceptions)
 
     if (scheduleData.recurrence_type === 'once') {
       dates.push(scheduleData.start_date)
@@ -796,9 +971,10 @@ export const scheduleService = {
   /**
    * Validation for activity template schedule data
    * @param {Object} scheduleData - The schedule data to validate
+   * @param {Object} template - The template data for enhanced validation (optional)
    * @returns {Object} Validation result
    */
-  validateActivityTemplateScheduleData(scheduleData) {
+  validateActivityTemplateScheduleData(scheduleData, template = null) {
     const errors = []
 
     try {
@@ -872,9 +1048,7 @@ export const scheduleService = {
         const today = new Date()
         today.setHours(0, 0, 0, 0) // Reset time for date comparison
 
-        if (startDate < today) {
-          errors.push('START_DATE_IN_PAST')
-        }
+        // Skip basic past date check for templates - auto-close validation handles timing
 
         if (endDate <= startDate) {
           errors.push('END_DATE_BEFORE_START')
@@ -903,6 +1077,34 @@ export const scheduleService = {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
       if (scheduleData.template_id && !uuidRegex.test(scheduleData.template_id)) {
         errors.push('INVALID_TEMPLATE_ID_FORMAT')
+      }
+
+      // Enhanced validation with auto-close hours for template schedules
+      if (scheduleData.start_time && scheduleData.auto_close_hours !== undefined && scheduleData.start_date) {
+        const currentDateTime = new Date()
+        const [hours, minutes] = scheduleData.start_time.split(':').map(Number)
+        
+        // Check earliest schedule date with time (timezone-safe parsing)
+        const [year, month, day] = scheduleData.start_date.split('-').map(Number)
+        const earliestDateTime = new Date(year, month - 1, day, hours, minutes, 0, 0)
+        
+        // Calculate booking deadline = activity time - auto_close_hours
+        const autoCloseHours = scheduleData.auto_close_hours || 2
+        const bookingDeadline = new Date(earliestDateTime.getTime() - (autoCloseHours * 60 * 60 * 1000))
+        
+        console.log('🔍 Backend validation:', {
+          startDate: scheduleData.start_date,
+          startTime: scheduleData.start_time,
+          currentDateTime: currentDateTime.toLocaleString(),
+          earliestDateTime: earliestDateTime.toLocaleString(),
+          bookingDeadline: bookingDeadline.toLocaleString(),
+          autoCloseHours,
+          isPastDeadline: currentDateTime >= bookingDeadline
+        })
+        
+        if (currentDateTime >= bookingDeadline) {
+          errors.push(`BOOKING_DEADLINE_PASSED|${autoCloseHours}`)
+        }
       }
 
     } catch (error) {
@@ -1179,9 +1381,7 @@ export const scheduleService = {
         const today = new Date()
         today.setHours(0, 0, 0, 0) // Reset time for date comparison
 
-        if (startDate < today) {
-          errors.push('START_DATE_IN_PAST')
-        }
+        // Skip basic past date check for templates - auto-close validation handles timing
 
         if (endDate <= startDate) {
           errors.push('END_DATE_BEFORE_START')
@@ -1241,8 +1441,9 @@ export const scheduleService = {
         return preview
       }
 
-      const startDate = new Date(scheduleData.start_date)
-      const endDate = new Date(scheduleData.end_date)
+      // Timezone-safe date parsing using Polynesian timezone
+      const startDate = parsePolynesianDate(scheduleData.start_date)
+      const endDate = parsePolynesianDate(scheduleData.end_date)
       const exceptions = scheduleData.exceptions || []
 
       if (scheduleData.recurrence_type === 'once') {
@@ -1259,7 +1460,7 @@ export const scheduleService = {
         // Daily recurrence
         let currentDate = new Date(startDate)
         while (currentDate <= endDate && preview.length < limit) {
-          const dateStr = currentDate.toISOString().split('T')[0]
+          const dateStr = formatPolynesianDateISO(currentDate)
           if (!exceptions.includes(dateStr)) {
             preview.push({
               date: dateStr,
@@ -1278,7 +1479,7 @@ export const scheduleService = {
           const dayOfWeek = currentDate.getDay() === 0 ? 7 : currentDate.getDay() // Convert Sunday from 0 to 7
           
           if (daysOfWeek.includes(dayOfWeek)) {
-            const dateStr = currentDate.toISOString().split('T')[0]
+            const dateStr = formatPolynesianDateISO(currentDate)
             if (!exceptions.includes(dateStr)) {
               preview.push({
                 date: dateStr,
@@ -1296,7 +1497,7 @@ export const scheduleService = {
         
         while (currentDate <= endDate && preview.length < limit) {
           if (currentDate.getDate() === dayOfMonth) {
-            const dateStr = currentDate.toISOString().split('T')[0]
+            const dateStr = formatPolynesianDateISO(currentDate)
             if (!exceptions.includes(dateStr)) {
               preview.push({
                 date: dateStr,
@@ -1315,6 +1516,422 @@ export const scheduleService = {
       console.error('Error generating schedule preview:', error)
       return []
     }
+  },
+
+  // ==============================================================================
+  // PHASE 4: INDIVIDUAL TOUR MANAGEMENT FUNCTIONS
+  // ==============================================================================
+
+  /**
+   * Get individual tour management dashboard for an operator
+   * @param {string} operatorId - The operator ID
+   * @param {Object} filters - Optional filters for date range, customization status, etc.
+   * @returns {Promise<Array>} Array of tours with management information
+   */
+  async getTourManagementDashboard(operatorId, filters = {}) {
+    try {
+      console.log('🎯 Loading tour management dashboard for operator:', operatorId)
+
+      let query = supabase
+        .from('tour_management_dashboard')
+        .select('*')
+        .eq('operator_id', operatorId)
+
+      // Apply filters
+      if (filters.dateFrom) {
+        query = query.gte('tour_date', filters.dateFrom)
+      }
+      if (filters.dateTo) {
+        query = query.lte('tour_date', filters.dateTo)
+      }
+      if (filters.activityType) {
+        query = query.eq('activity_type', filters.activityType)
+      }
+      if (filters.isCustomized !== undefined) {
+        query = query.eq('is_customized', filters.isCustomized)
+      }
+      if (filters.scheduleId) {
+        query = query.eq('parent_schedule_id', filters.scheduleId)
+      }
+
+      const { data: tours, error } = await query
+        .order('tour_date', { ascending: true })
+        .order('time_slot', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching tour management dashboard:', error)
+        throw error
+      }
+
+      console.log(`✅ Loaded ${tours?.length || 0} tours for management`)
+      return tours || []
+
+    } catch (error) {
+      console.error('Error in getTourManagementDashboard:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Apply individual customization to a tour
+   * @param {string} tourId - The tour ID
+   * @param {Object} customizations - The customizations to apply
+   * @param {Array<string>} frozenFields - Fields to freeze from bulk updates
+   * @returns {Promise<Object>} Result of customization
+   */
+  async customizeTour(tourId, customizations, frozenFields = []) {
+    try {
+      console.log('🎨 Customizing tour:', tourId, customizations)
+
+      // Validation
+      if (!tourId) {
+        throw new Error('TOUR_ID_REQUIRED')
+      }
+      if (!customizations || Object.keys(customizations).length === 0) {
+        throw new Error('CUSTOMIZATIONS_REQUIRED')
+      }
+
+      // Call the database function
+      const { data, error } = await supabase
+        .rpc('apply_tour_customization', {
+          tour_id_param: tourId,
+          customizations: customizations,
+          frozen_fields_param: frozenFields
+        })
+
+      if (error) {
+        console.error('Error applying tour customization:', error)
+        throw new Error(`CUSTOMIZATION_FAILED|${error.message}`)
+      }
+
+      if (!data || data.length === 0 || !data[0].success) {
+        const message = data?.[0]?.message || 'Unknown error'
+        throw new Error(`CUSTOMIZATION_FAILED|${message}`)
+      }
+
+      const result = data[0]
+      console.log('✅ Tour customization applied successfully')
+      
+      return {
+        success: true,
+        tour: result.tour_data,
+        message: result.message
+      }
+
+    } catch (error) {
+      console.error('Error in customizeTour:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Bulk update scheduled tours with override protection
+   * @param {string} scheduleId - The schedule ID
+   * @param {Object} updates - Updates to apply
+   * @param {boolean} respectCustomizations - Whether to respect customizations (default: true)
+   * @returns {Promise<Object>} Update results
+   */
+  async bulkUpdateScheduledTours(scheduleId, updates, respectCustomizations = true) {
+    try {
+      console.log('🔄 Bulk updating scheduled tours:', scheduleId, updates)
+
+      if (!scheduleId) {
+        throw new Error('SCHEDULE_ID_REQUIRED')
+      }
+      if (!updates || Object.keys(updates).length === 0) {
+        throw new Error('UPDATES_REQUIRED')
+      }
+
+      // Call the database function
+      const { data, error } = await supabase
+        .rpc('bulk_update_scheduled_tours', {
+          schedule_id_param: scheduleId,
+          updates: updates,
+          respect_customizations: respectCustomizations
+        })
+
+      if (error) {
+        console.error('Error in bulk update:', error)
+        throw new Error(`BULK_UPDATE_FAILED|${error.message}`)
+      }
+
+      const result = data[0]
+      console.log(`✅ Bulk update completed: ${result.tours_updated} updated, ${result.tours_skipped} skipped`)
+      
+      return {
+        success: true,
+        toursUpdated: result.tours_updated,
+        toursSkipped: result.tours_skipped,
+        message: result.message
+      }
+
+    } catch (error) {
+      console.error('Error in bulkUpdateScheduledTours:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Detach a tour from its schedule (make it independent)
+   * @param {string} tourId - The tour ID
+   * @returns {Promise<Object>} Detachment result
+   */
+  async detachTourFromSchedule(tourId) {
+    try {
+      console.log('🔓 Detaching tour from schedule:', tourId)
+
+      if (!tourId) {
+        throw new Error('TOUR_ID_REQUIRED')
+      }
+
+      // Call the database function
+      const { data, error } = await supabase
+        .rpc('detach_tour_from_schedule', {
+          tour_id_param: tourId
+        })
+
+      if (error) {
+        console.error('Error detaching tour:', error)
+        throw new Error(`DETACH_FAILED|${error.message}`)
+      }
+
+      if (!data || data.length === 0 || !data[0].success) {
+        const message = data?.[0]?.message || 'Unknown error'
+        throw new Error(`DETACH_FAILED|${message}`)
+      }
+
+      const result = data[0]
+      console.log('✅ Tour detached successfully')
+      
+      return {
+        success: true,
+        message: result.message
+      }
+
+    } catch (error) {
+      console.error('Error in detachTourFromSchedule:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Reset tour customizations (make it follow schedule again)
+   * @param {string} tourId - The tour ID
+   * @returns {Promise<Object>} Reset result
+   */
+  async resetTourCustomizations(tourId) {
+    try {
+      console.log('🔄 Resetting tour customizations:', tourId)
+
+      if (!tourId) {
+        throw new Error('TOUR_ID_REQUIRED')
+      }
+
+      // Reset customization flags and data
+      const { data: tour, error } = await supabase
+        .from('tours')
+        .update({
+          is_customized: false,
+          frozen_fields: [],
+          overrides: {},
+          customization_timestamp: null,
+          promo_discount_percent: null,
+          promo_discount_value: null,
+          instance_note: null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', tourId)
+        .eq('is_template', false)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error resetting tour customizations:', error)
+        throw new Error(`RESET_FAILED|${error.message}`)
+      }
+
+      console.log('✅ Tour customizations reset successfully')
+      
+      return {
+        success: true,
+        tour: tour,
+        message: 'Tour customizations reset. Tour will now follow schedule updates.'
+      }
+
+    } catch (error) {
+      console.error('Error in resetTourCustomizations:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Get scheduled tours for a specific schedule with customization status
+   * @param {string} scheduleId - The schedule ID
+   * @param {Object} options - Query options
+   * @returns {Promise<Array>} Array of scheduled tours
+   */
+  async getScheduledToursForSchedule(scheduleId, options = {}) {
+    try {
+      console.log('📋 Loading scheduled tours for schedule:', scheduleId)
+
+      if (!scheduleId) {
+        throw new Error('SCHEDULE_ID_REQUIRED')
+      }
+
+      let query = supabase
+        .from('tours')
+        .select(`
+          *,
+          parent_template:parent_template_id(tour_name, tour_type)
+        `)
+        .eq('parent_schedule_id', scheduleId)
+        .eq('activity_type', 'scheduled')
+
+      // Apply date filters
+      if (options.dateFrom) {
+        query = query.gte('tour_date', options.dateFrom)
+      }
+      if (options.dateTo) {
+        query = query.lte('tour_date', options.dateTo)
+      }
+
+      // Apply status filters
+      if (options.status) {
+        query = query.eq('status', options.status)
+      }
+
+      const { data: tours, error } = await query
+        .order('tour_date', { ascending: true })
+        .order('time_slot', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching scheduled tours:', error)
+        throw error
+      }
+
+      console.log(`✅ Loaded ${tours?.length || 0} scheduled tours`)
+      return tours || []
+
+    } catch (error) {
+      console.error('Error in getScheduledToursForSchedule:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Get tour customization history and details
+   * @param {string} tourId - The tour ID
+   * @returns {Promise<Object>} Tour details with customization info
+   */
+  async getTourCustomizationDetails(tourId) {
+    try {
+      console.log('🔍 Loading tour customization details:', tourId)
+
+      if (!tourId) {
+        throw new Error('TOUR_ID_REQUIRED')
+      }
+
+      const { data: tour, error } = await supabase
+        .from('tour_management_dashboard')
+        .select('*')
+        .eq('id', tourId)
+        .single()
+
+      if (error) {
+        console.error('Error fetching tour customization details:', error)
+        throw error
+      }
+
+      if (!tour) {
+        throw new Error('TOUR_NOT_FOUND')
+      }
+
+      console.log('✅ Tour customization details loaded')
+      return tour
+
+    } catch (error) {
+      console.error('Error in getTourCustomizationDetails:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Validate tour customization data
+   * @param {Object} customizations - The customizations to validate
+   * @returns {Object} Validation result
+   */
+  validateTourCustomizations(customizations) {
+    const errors = []
+
+    try {
+      // Price validations
+      if (customizations.discount_price_adult !== undefined) {
+        if (typeof customizations.discount_price_adult !== 'number' || customizations.discount_price_adult < 0) {
+          errors.push('INVALID_ADULT_PRICE')
+        }
+      }
+
+      if (customizations.discount_price_child !== undefined) {
+        if (customizations.discount_price_child !== null && 
+            (typeof customizations.discount_price_child !== 'number' || customizations.discount_price_child < 0)) {
+          errors.push('INVALID_CHILD_PRICE')
+        }
+      }
+
+      // Capacity validations
+      if (customizations.max_capacity !== undefined) {
+        if (typeof customizations.max_capacity !== 'number' || customizations.max_capacity <= 0 || customizations.max_capacity > 100) {
+          errors.push('INVALID_CAPACITY')
+        }
+      }
+
+      // Promo discount validations
+      if (customizations.promo_discount_percent !== undefined) {
+        if (customizations.promo_discount_percent !== null &&
+            (typeof customizations.promo_discount_percent !== 'number' || 
+             customizations.promo_discount_percent < 0 || 
+             customizations.promo_discount_percent > 100)) {
+          errors.push('INVALID_PROMO_PERCENT')
+        }
+      }
+
+      if (customizations.promo_discount_value !== undefined) {
+        if (customizations.promo_discount_value !== null &&
+            (typeof customizations.promo_discount_value !== 'number' || customizations.promo_discount_value < 0)) {
+          errors.push('INVALID_PROMO_VALUE')
+        }
+      }
+
+      // Status validations
+      if (customizations.status !== undefined) {
+        const validStatuses = ['active', 'sold_out', 'cancelled', 'completed']
+        if (!validStatuses.includes(customizations.status)) {
+          errors.push('INVALID_STATUS')
+        }
+      }
+
+      // Text field validations
+      if (customizations.instance_note !== undefined) {
+        if (typeof customizations.instance_note !== 'string' || customizations.instance_note.length > 1000) {
+          errors.push('INVALID_INSTANCE_NOTE')
+        }
+      }
+
+      if (customizations.meeting_point !== undefined) {
+        if (typeof customizations.meeting_point !== 'string' || customizations.meeting_point.length > 255) {
+          errors.push('INVALID_MEETING_POINT')
+        }
+      }
+
+    } catch (error) {
+      errors.push(`VALIDATION_ERROR|${error.message}`)
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors: errors
+    }
   }
+
 }
 
