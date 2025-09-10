@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { 
   Calendar, Clock, RefreshCw, AlertCircle, Plus, Edit, Trash2, 
   Grid, List, ChevronLeft, ChevronRight, Activity,
-  Users, DollarSign
+  Users, DollarSign, Settings
 } from 'lucide-react'
 import { scheduleService } from '../services/scheduleService'
 import { supabase } from '../lib/supabase'
 // import { instanceService } from '../services/instanceService' // Removed: Using unified table approach
 import ScheduleCreateModal from './ScheduleCreateModal'
+import TourCustomizationModal from './TourCustomizationModal'
 
 const SchedulesTab = ({ operator, formatPrice }) => {
   const { t } = useTranslation()
@@ -25,6 +26,10 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   
   // Calendar state
   const [calendarInstances, setCalendarInstances] = useState([])
+  
+  // Tour customization state
+  const [showTourCustomization, setShowTourCustomization] = useState(false)
+  const [selectedTour, setSelectedTour] = useState(null)
 
   // Load schedules on component mount
   useEffect(() => {
@@ -236,6 +241,34 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     return calendarInstances.filter(tour => tour.tour_date === dateStr)
   }
 
+  // Handle tour customization
+  const handleCustomizeTour = (tour) => {
+    setSelectedTour(tour)
+    setShowTourCustomization(true)
+  }
+
+  const handleTourCustomizationSuccess = (updatedTour) => {
+    // Refresh calendar instances to show updated data
+    if (viewMode === 'calendar') {
+      loadCalendarInstances()
+    }
+    
+    // Show success message
+    if (updatedTour) {
+      alert('✅ Tour customization saved successfully!')
+    } else {
+      alert('✅ Tour customizations reset successfully!')
+    }
+    
+    setShowTourCustomization(false)
+    setSelectedTour(null)
+  }
+
+  const handleCloseTourCustomization = () => {
+    setShowTourCustomization(false)
+    setSelectedTour(null)
+  }
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
@@ -368,10 +401,22 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                           {scheduledTours.slice(0, 3).map(tour => (
                             <div
                               key={tour.id}
-                              className="text-xs p-1 bg-green-500/20 text-green-400 rounded truncate"
-                              title={`${tour.tour_name} at ${tour.time_slot}`}
+                              onClick={() => handleCustomizeTour(tour)}
+                              className={`text-xs p-1 rounded truncate cursor-pointer transition-colors ${
+                                tour.is_customized 
+                                  ? 'bg-blue-500/20 text-blue-400 hover:bg-blue-500/30' 
+                                  : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
+                              }`}
+                              title={`${tour.tour_name} at ${tour.time_slot}${tour.is_customized ? ' (Customized)' : ''} - Click to customize`}
                             >
-                              {tour.time_slot} {tour.tour_name}
+                              <div className="flex items-center justify-between">
+                                <span className="truncate">
+                                  {tour.time_slot} {tour.tour_name}
+                                </span>
+                                {tour.is_customized && (
+                                  <Settings className="w-2 h-2 ml-1 flex-shrink-0" />
+                                )}
+                              </div>
                             </div>
                           ))}
                           {scheduledTours.length > 3 && (
@@ -522,6 +567,15 @@ const SchedulesTab = ({ operator, formatPrice }) => {
         onSuccess={editingSchedule ? handleScheduleUpdated : handleScheduleCreated}
         operator={operator}
         existingSchedule={editingSchedule}
+      />
+
+      {/* Tour Customization Modal */}
+      <TourCustomizationModal
+        isOpen={showTourCustomization}
+        onClose={handleCloseTourCustomization}
+        onSuccess={handleTourCustomizationSuccess}
+        tour={selectedTour}
+        formatPrice={formatPrice}
       />
     </div>
   )

@@ -1,0 +1,27 @@
+ -- Rename the columns
+  ALTER TABLE public.tours
+  RENAME COLUMN child_max_age TO max_age_child;
+
+  ALTER TABLE public.tours
+  RENAME COLUMN child_discount_percentage TO discount_percentage_child;
+
+  -- Drop old constraints (they still reference old column names)
+  ALTER TABLE public.tours
+  DROP CONSTRAINT IF EXISTS chk_child_max_age;
+
+  ALTER TABLE public.tours
+  DROP CONSTRAINT IF EXISTS chk_child_discount_percentage;
+
+  -- Add new constraints with correct names
+  ALTER TABLE public.tours
+  ADD CONSTRAINT chk_max_age_child CHECK (max_age_child >= 1 AND max_age_child <= 17);
+
+  ALTER TABLE public.tours
+  ADD CONSTRAINT chk_discount_percentage_child CHECK (discount_percentage_child >= 0 AND
+  discount_percentage_child <= 100);
+
+  -- Update comments (old comments are automatically transferred, but let's be explicit)
+  COMMENT ON COLUMN public.tours.max_age_child IS 'Maximum age to be considered a child (ages 0 to this 
+  value pay child price)';
+  COMMENT ON COLUMN public.tours.discount_percentage_child IS 'Percentage discount for children from adult 
+  price (30% = child pays 70% of adult price)';

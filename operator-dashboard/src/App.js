@@ -13,6 +13,7 @@ import { operatorService } from './lib/supabase'
 import Header from './components/Header'
 import DashboardTab from './components/DashboardTab'
 import CreateTab from './components/CreateTab'
+import TemplatesTab from './components/TemplatesTab'
 // import ActivitiesTab from './components/ActivitiesTab' // Removed: Using CreateTab with template mode
 import BookingsTab from './components/BookingsTab'
 import SchedulesTab from './components/SchedulesTab'
@@ -2237,7 +2238,15 @@ function AppContent() { // function App() { << before changes for the authcallba
           />
         )}
 
-        {/* Activities Tab - Dual Creation Path */}
+        {/* Templates Tab - Dedicated Template Management */}
+        {activeTab === 'templates' && (
+          <TemplatesTab 
+            operator={operator}
+            formatPrice={formatPrice}
+          />
+        )}
+
+        {/* Activities Tab - Dual Creation Path (Legacy) */}
         {activeTab === 'activities' && (
           <CreateTab 
             showForm={showForm}

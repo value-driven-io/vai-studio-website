@@ -377,6 +377,7 @@ const CreateTab = ({
   showPreview,
   setShowPreview,
   resetForm,
+  templateMode = false, // New prop to enable template-only mode
   toggleSection,
   expandedSections,
   handleInputChange,

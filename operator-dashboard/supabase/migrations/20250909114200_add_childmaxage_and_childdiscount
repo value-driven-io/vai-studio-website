@@ -1,0 +1,21 @@
+ -- Add child_max_age column
+  ALTER TABLE public.tours
+  ADD COLUMN child_max_age INTEGER DEFAULT 11;
+
+  -- Add child_discount_percentage column  
+  ALTER TABLE public.tours
+  ADD COLUMN child_discount_percentage INTEGER DEFAULT 30;
+
+  -- Add constraints for data validation
+  ALTER TABLE public.tours
+  ADD CONSTRAINT chk_child_max_age CHECK (child_max_age >= 1 AND child_max_age <= 17);
+
+  ALTER TABLE public.tours
+  ADD CONSTRAINT chk_child_discount_percentage CHECK (child_discount_percentage >= 0 AND
+  child_discount_percentage <= 100);
+
+  -- Add helpful comment
+  COMMENT ON COLUMN public.tours.child_max_age IS 'Maximum age to be considered a child (ages 0 to this 
+  value pay child price)';
+  COMMENT ON COLUMN public.tours.child_discount_percentage IS 'Percentage discount for children from adult 
+  price (30% = child pays 70% of adult price)';

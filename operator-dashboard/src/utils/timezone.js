@@ -17,3 +17,4 @@ export const formatPolynesianDate = (date) => {
     day: '2-digit'
   })
 }
+
