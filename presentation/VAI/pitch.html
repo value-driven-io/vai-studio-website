@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAI Platform - Investor Pitch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Base Variables */
+        :root {
+            --background-dark: #ffffff;
+            --background-light: #bdcfea;
+            --text-primary: #010004;
+            --text-secondary: #0b0a0d;
+            --accent-glow: #d013bd;
+            --accent-border: rgba(139, 148, 158, 0.2);
+            --glass-bg: rgba(242, 243, 246, 0.7);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        /* Professional Pitch Styles */
+        .pitch-slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%);
+            overflow: hidden;
+        }
+
+        .pitch-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(208, 19, 189, 0.02), transparent),
+                radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.02), transparent);
+            pointer-events: none;
+        }
+
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .slide-title {
+            font-family: var(--font-heading);
+            font-size: 3.8rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .slide-subtitle {
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .slide-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        /* Professional Cards */
+        .professional-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(208, 19, 189, 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .professional-card:hover::before {
+            opacity: 1;
+        }
+
+        .professional-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(208, 19, 189, 0.12);
+        }
+
+        /* Professional Data Visualizations */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+        }
+
+        .data-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(208, 19, 189, 0.12);
+        }
+
+        .data-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .data-value {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .data-label {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        /* Advanced Chart Visualizations */
+        .market-visualization {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 2rem auto;
+        }
+
+        .market-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                var(--accent-glow) 0deg 130deg,
+                #8a2be2 130deg 230deg,
+                rgba(208,19,189,0.2) 230deg 360deg
+            );
+            animation: rotateChart 8s ease-in-out infinite;
+            position: relative;
+        }
+
+        .market-ring::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            background: var(--glass-bg);
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+        }
+
+        .market-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .market-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+        }
+
+        .market-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        @keyframes rotateChart {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Growth Line Chart */
+        .growth-chart {
+            height: 200px;
+            background: linear-gradient(135deg, rgba(208,19,189,0.05), rgba(138,43,226,0.05));
+            border-radius: 15px;
+            position: relative;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .chart-grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+        }
+
+        .chart-grid-lines::before {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--text-secondary);
+        }
+
+        .chart-grid-lines::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--text-secondary);
+        }
+
+        .growth-path {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+            height: 120px;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,100 Q75,80 150,40 T300,20' stroke='%23d013bd' stroke-width='4' fill='none' stroke-dasharray='1200' stroke-dashoffset='1200'%3E%3Canimate attributeName='stroke-dashoffset' values='1200;0' dur='3s' fill='freeze'/%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+            background-size: contain;
+        }
+
+        /* Professional Bar Chart */
+        .comparison-bars {
+            margin: 2rem 0;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            width: 120px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 16px;
+            background: rgba(208,19,189,0.1);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-glow), #8a2be2);
+            border-radius: 8px;
+            position: relative;
+            animation: fillBar 2s ease-out forwards;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        .bar-fill.competitive {
+            background: linear-gradient(90deg, #ff4444, #cc0000);
+        }
+
+        .bar-value {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        @keyframes fillBar {
+            to { transform: scaleX(1); }
+        }
+
+        .bar-fill:nth-child(1) { animation-delay: 0.2s; }
+        .bar-fill:nth-child(2) { animation-delay: 0.4s; }
+        .bar-fill:nth-child(3) { animation-delay: 0.6s; }
+
+        /* Working Chart Containers */
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .chart-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(208, 19, 189, 0.15);
+        }
+
+        .chart-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .animated-bar {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--accent-glow), #8a2be2);
+            border-radius: 4px;
+            margin-top: 1rem;
+            animation: growBar 2s ease-out forwards;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        @keyframes growBar {
+            to { transform: scaleX(1); }
+        }
+
+        /* Market Circle Visualization */
+        .market-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                var(--accent-glow) 0deg 120deg,
+                #8a2be2 120deg 240deg,
+                rgba(208,19,189,0.3) 240deg 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem auto;
+            position: relative;
+            animation: rotateMarket 6s ease-in-out infinite;
+        }
+
+        .market-circle::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: var(--glass-bg);
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+        }
+
+        .market-circle span {
+            position: relative;
+            z-index: 2;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        @keyframes rotateMarket {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* Growth Graph */
+        .growth-graph {
+            position: relative;
+            height: 60px;
+            margin: 1.5rem 0;
+            background: linear-gradient(135deg, rgba(208,19,189,0.05), rgba(138,43,226,0.05));
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .growth-line {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            height: 40px;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,35 Q50,25 100,15 T200,5' stroke='%23d013bd' stroke-width='3' fill='none' stroke-dasharray='400' stroke-dashoffset='400'%3E%3Canimate attributeName='stroke-dashoffset' values='400;0' dur='2s' fill='freeze'/%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+            background-size: contain;
+        }
+
+        .key-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .metric-card {
+            background: rgba(208,19,189,0.05);
+            border: 2px solid rgba(208,19,189,0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .metric-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent-glow);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .pitch-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 1000;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(208,19,189,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--accent-glow);
+            transform: scale(1.5);
+        }
+
+        /* Slide-specific backgrounds */
+        .slide-1 { background-image: url('/via-studio-images/social/LinkedIn /VAI.studio LinkedIn Banner Private.png'); background-size: cover; background-position: center; }
+        .slide-1::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); }
+        .slide-1 .slide-content { position: relative; z-index: 1; }
+
+        @media (max-width: 768px) {
+            .slide-title { font-size: 2.5rem; }
+            .slide-subtitle { font-size: 1.2rem; }
+            .chart-container { grid-template-columns: 1fr; gap: 2rem; }
+            .key-metrics { grid-template-columns: 1fr; }
+            .market-circle { width: 150px; height: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="pitch-nav">
+        <div class="nav-dot active" data-slide="1"></div>
+        <div class="nav-dot" data-slide="2"></div>
+        <div class="nav-dot" data-slide="3"></div>
+        <div class="nav-dot" data-slide="4"></div>
+        <div class="nav-dot" data-slide="5"></div>
+        <div class="nav-dot" data-slide="6"></div>
+    </div>
+
+    <!-- Slide 1: Hero -->
+    <section class="pitch-slide slide-1" id="slide-1">
+        <div class="slide-content">
+            <h1 class="slide-title">VAI Platform</h1>
+            <p class="slide-subtitle">The Digital Infrastructure for French Polynesia's Tourism Economy</p>
+            <div class="key-metrics">
+                <div class="metric-card">
+                    <div class="metric-number">99B</div>
+                    <div class="metric-label">XPF Tourism Economy</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">4,500+</div>
+                    <div class="metric-label">Underserved Operators</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">11%</div>
+                    <div class="metric-label">Fair Commission Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: The Why - Problem -->
+    <section class="pitch-slide" id="slide-2">
+        <div class="slide-content">
+            <h2 class="slide-title">Why French Polynesia Needs VAI</h2>
+            <p class="slide-subtitle">The Paradise Paradox: Massive market opportunity trapped by systemic inefficiencies</p>
+            <div class="slide-description">
+                <p><strong>French Polynesia's tourism economy is bleeding value</strong> through fragmented operations, excessive foreign platform fees, and lack of integrated infrastructure. While tourism generates 99B XPF annually, operators struggle with 30-60 day payment cycles, 20-30% commission rates, and operational chaos that prevents growth.</p>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-card">
+                    <h3>💸 Economic Leakage</h3>
+                    <div class="metric-number" style="color: #ff4444;">3-5B XPF</div>
+                    <p>Lost annually to foreign platforms charging excessive fees and providing poor local support</p>
+                    <div class="animated-bar" style="background: linear-gradient(90deg, #ff4444, #cc0000);"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>⚖️ Commission Burden</h3>
+                    <div class="metric-number">20-30%</div>
+                    <p>Current platform fees vs our competitive 11% - doubling operator profitability potential</p>
+                    <div class="animated-bar"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>🏝️ Market Fragmentation</h3>
+                    <div class="market-circle">
+                        <span>4,500<br>Operators<br>Scattered</span>
+                    </div>
+                    <p>Thousands of operators lacking unified infrastructure and support systems</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: The How - Solution -->
+    <section class="pitch-slide" id="slide-3">
+        <div class="slide-content">
+            <h2 class="slide-title">How VAI Solves This</h2>
+            <p class="slide-subtitle">Integrated digital ecosystem built specifically for French Polynesia</p>
+            <div class="slide-description">
+                <p><strong>VAI Platform is the comprehensive digital infrastructure</strong> that unifies tourism operations through a multi-channel management system, AI-powered optimization, and culturally-aware business intelligence. We're not just another booking platform - we're the nervous system for French Polynesia's tourism economy.</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin: 3rem 0;">
+                <div>
+                    <img src="/via-studio-images/app-screens/VAI Operator Tablet and Phone Screen_learnmore.png" alt="VAI Platform" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(208,19,189,0.3);">
+                </div>
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <h3>🎯 Unified Channel Manager</h3>
+                        <p>Single dashboard managing all distribution channels, inventory, and pricing across platforms</p>
+                        <div class="animated-bar"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>⚡ 7-Day Payment Cycles</h3>
+                        <p>Immediate cash flow improvement vs 30-60 day industry standard - critical for small operators</p>
+                        <div class="animated-bar"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>🌱 5% Cultural Impact Fund</h3>
+                        <p>Built-in social responsibility driving authentic cultural and environmental preservation</p>
+                        <div class="animated-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: The What - Market Opportunity -->
+    <section class="pitch-slide" id="slide-4">
+        <div class="slide-content">
+            <h2 class="slide-title">What We're Building</h2>
+            <p class="slide-subtitle">The definitive platform for French Polynesia's digital tourism transformation</p>
+            <div class="slide-description">
+                <p><strong>VAI Platform represents a 15B XPF total addressable market opportunity</strong> with clear path to 525M XPF annual revenue by Year 3. We're targeting the serviceable 5-7B XPF market through systematic operator onboarding and ecosystem expansion, creating sustainable competitive advantages through local expertise and integrated services.</p>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-card">
+                    <h3>🌊 Total Market (TAM)</h3>
+                    <div class="metric-number">15B</div>
+                    <div class="metric-label">XPF Total Addressable Market</div>
+                    <p>Entire French Polynesia tourism economy digitization opportunity</p>
+                    <div class="growth-graph">
+                        <div class="growth-line"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>🎯 Serviceable Market (SAM)</h3>
+                    <div class="metric-number">5-7B</div>
+                    <div class="metric-label">XPF Serviceable Market</div>
+                    <p>Operators ready for digital transformation and platform adoption</p>
+                    <div class="growth-graph">
+                        <div class="growth-line" style="animation-delay: 0.5s;"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>🚀 Target Share (SOM)</h3>
+                    <div class="metric-number">525M</div>
+                    <div class="metric-label">XPF Revenue by Year 3</div>
+                    <p>Conservative 7% market capture through systematic expansion strategy</p>
+                    <div class="growth-graph">
+                        <div class="growth-line" style="animation-delay: 1s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Growth Strategy & Execution -->
+    <section class="pitch-slide" id="slide-5">
+        <div class="slide-content">
+            <h2 class="slide-title">Strategic Execution Roadmap</h2>
+            <p class="slide-subtitle">Systematic path to market dominance through proven growth methodology</p>
+            <div class="slide-description">
+                <p><strong>Our three-phase growth strategy leverages network effects</strong> to create sustainable competitive advantages. Phase 1 focuses on critical mass through 150 operator onboarding, Phase 2 achieves profitability through operational efficiency, Phase 3 expands into complementary services creating an unassailable ecosystem moat.</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 3rem 0;">
+                <div class="chart-card">
+                    <h3>🏗️ Foundation Phase</h3>
+                    <div class="metric-label">Months 1-18</div>
+                    <div class="metric-number" style="font-size: 2rem;">150</div>
+                    <div class="metric-label">Strategic Operators Onboarded</div>
+                    <p>Core platform development, key partnerships, operational systems</p>
+                    <div class="animated-bar"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>💰 Profitability Phase</h3>
+                    <div class="metric-label">Months 19-36</div>
+                    <div class="metric-number" style="font-size: 2rem;">📈</div>
+                    <div class="metric-label">Break-even + Growth</div>
+                    <p>Scale operations, optimize unit economics, establish market leadership</p>
+                    <div class="animated-bar"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>🚀 Ecosystem Phase</h3>
+                    <div class="metric-label">Months 37+</div>
+                    <div class="metric-number" style="font-size: 2rem;">🏝️</div>
+                    <div class="metric-label">Total Market Integration</div>
+                    <p>Expand into adjacent services, create platform lock-in effects</p>
+                    <div class="animated-bar"></div>
+                </div>
+            </div>
+            
+            <div class="professional-card" style="margin-top: 3rem;">
+                <h3 style="margin-bottom: 2rem; text-align: center;">Future Ecosystem Expansion</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+                    <div>
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
+                        <h4>VAI Insights</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Business Intelligence & Analytics</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎓</div>
+                        <h4>VAI Skills</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Training & Certification</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏠</div>
+                        <h4>VAI Homes</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Accommodation Network</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚛</div>
+                        <h4>VAI Supply</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Procurement & Logistics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Investment Opportunity -->
+    <section class="pitch-slide" id="slide-6">
+        <div class="slide-content">
+            <h2 class="slide-title">Partnership Opportunity</h2>
+            <p class="slide-subtitle">Join us in building French Polynesia's digital tourism sovereignty</p>
+            <div class="slide-description">
+                <p><strong>VAI Platform represents more than a business opportunity</strong> - it's a chance to architect the digital infrastructure that will define French Polynesia's tourism future. With proven technology, deep local expertise, and a clear path to profitability, we're seeking strategic partners who share our vision of sustainable, culturally-conscious growth.</p>
+            </div>
+            
+            <div class="key-metrics">
+                <div class="metric-card">
+                    <h3>🎯 Proven Foundation</h3>
+                    <div class="metric-number">28M+</div>
+                    <div class="metric-label">XPF Current Platform Value</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;">Validated technology stack with active user base</p>
+                </div>
+                <div class="metric-card">
+                    <h3>🏝️ Local Advantage</h3>
+                    <div class="metric-number">100%</div>
+                    <div class="metric-label">Built in Fenua</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;">Deep cultural understanding and operational presence</p>
+                </div>
+                <div class="metric-card">
+                    <h3>🤝 Impact Integration</h3>
+                    <div class="metric-number">5%</div>
+                    <div class="metric-label">Cultural Impact Fund</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;">Built-in social responsibility and community benefit</p>
+                </div>
+            </div>
+
+            <div class="professional-card" style="margin-top: 4rem;">
+                <h3 style="text-align: center; margin-bottom: 3rem;">Ready to Transform Tourism Together?</h3>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 3rem;">
+                    <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent-glow); box-shadow: 0 8px 24px rgba(208,19,189,0.3);">
+                    <div style="text-align: left;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1.8rem;">Kevin De Silva</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 1.1rem;">Founder & CEO, VAI Platform</p>
+                        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem; opacity: 0.8;">Engineer | AI Product Strategist | French Polynesia Tourism Innovation</p>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="https://wa.me/68987269065" style="background: #25D366; color: white; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">💬 WhatsApp</a>
+                            <a href="mailto:hello@vai.studio" style="background: var(--accent-glow); color: white; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">✉️ Email</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple slide navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            const dots = document.querySelectorAll('.nav-dot');
+            const slides = document.querySelectorAll('.pitch-slide');
+            
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const slideNum = dot.getAttribute('data-slide');
+                    document.getElementById(`slide-${slideNum}`).scrollIntoView({ behavior: 'smooth' });
+                    
+                    dots.forEach(d => d.classList.remove('active'));
+                    dot.classList.add('active');
+                });
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                const currentSlide = Math.ceil(window.scrollY / window.innerHeight) + 1;
+                let nextSlide = currentSlide;
+                
+                if (e.key === 'ArrowDown' || e.key === ' ') {
+                    nextSlide = Math.min(currentSlide + 1, 6);
+                } else if (e.key === 'ArrowUp') {
+                    nextSlide = Math.max(currentSlide - 1, 1);
+                }
+                
+                if (nextSlide !== currentSlide) {
+                    document.getElementById(`slide-${nextSlide}`).scrollIntoView({ behavior: 'smooth' });
+                    dots.forEach(d => d.classList.remove('active'));
+                    document.querySelector(`[data-slide="${nextSlide}"]`).classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
