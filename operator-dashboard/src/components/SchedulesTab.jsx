@@ -279,10 +279,45 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     }
   }
 
-  const handleEditSchedule = (schedule) => {
-    // Show warning modal first for schedule updates
-    setPendingEditSchedule(schedule)
-    setShowWarningModal(true)
+  const handleEditSchedule = async (schedule) => {
+    try {
+      // Fetch existing tours for this schedule to show accurate warning
+      const { data: existingTours, error } = await supabase
+        .from('tours')
+        .select('id, tour_date, time_slot, is_customized, customization_timestamp')
+        .eq('parent_schedule_id', schedule.id)
+        .eq('activity_type', 'scheduled')
+        .order('tour_date', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching existing tours:', error)
+        // Still show modal but with basic info
+        setPendingEditSchedule(schedule)
+        setShowWarningModal(true)
+        return
+      }
+
+      // Create analysis for the warning modal
+      const customizedTours = existingTours.filter(t => t.is_customized)
+      const standardTours = existingTours.filter(t => !t.is_customized)
+      
+      const updateAnalysis = {
+        customizedCount: customizedTours.length,
+        standardCount: standardTours.length,
+        existingTours: existingTours,
+        newDates: [],
+        removedDates: [],
+        timeChange: null
+      }
+
+      setPendingEditSchedule({ ...schedule, updateAnalysis })
+      setShowWarningModal(true)
+    } catch (err) {
+      console.error('Error preparing schedule edit:', err)
+      // Fallback to basic modal
+      setPendingEditSchedule(schedule)
+      setShowWarningModal(true)
+    }
   }
 
   const handleConfirmEdit = () => {
@@ -662,6 +697,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
         onClose={handleCancelEdit}
         onConfirm={handleConfirmEdit}
         schedule={pendingEditSchedule}
+        updateAnalysis={pendingEditSchedule?.updateAnalysis}
       />
     </div>
   )
