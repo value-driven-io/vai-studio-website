@@ -5,10 +5,21 @@ const ScheduleUpdateWarningModal = ({
   isOpen, 
   onClose, 
   onConfirm, 
+  schedule,
   updateAnalysis,
   loading = false 
 }) => {
   if (!isOpen) return null
+
+  // Use updateAnalysis if provided, otherwise create basic analysis from schedule
+  const analysis = updateAnalysis || {
+    customizedCount: 0,
+    standardCount: 0,
+    newDates: [],
+    removedDates: [],
+    timeChange: null,
+    existingTours: []
+  }
 
   const {
     customizedCount = 0,
@@ -17,7 +28,7 @@ const ScheduleUpdateWarningModal = ({
     removedDates = [],
     timeChange = null,
     existingTours = []
-  } = updateAnalysis
+  } = analysis
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
