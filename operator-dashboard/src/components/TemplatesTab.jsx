@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import templateService from '../services/templateService'
 import TemplateCreateModal from './TemplateCreateModal'
+import TemplatesEmptyState from './TemplatesEmptyState'
 
 const TemplatesTab = ({ operator, formatPrice }) => {
   const { t } = useTranslation()
@@ -239,27 +240,11 @@ const TemplatesTab = ({ operator, formatPrice }) => {
 
       {/* Templates Display */}
       {filteredTemplates.length === 0 ? (
-        <div className="text-center py-12">
-          <Activity className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-white mb-2">
-            {searchTerm || filterType !== 'all' ? 'No templates found' : 'No templates yet'}
-          </h3>
-          <p className="text-slate-400 mb-6">
-            {searchTerm || filterType !== 'all' 
-              ? 'Try adjusting your search or filter criteria'
-              : 'Create your first activity template to get started'
-            }
-          </p>
-          {!searchTerm && filterType === 'all' && (
-            <button
-              onClick={handleCreateTemplate}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mx-auto"
-            >
-              <Plus className="w-5 h-5" />
-              Create First Template
-            </button>
-          )}
-        </div>
+        <TemplatesEmptyState
+          hasTemplates={templates.length > 0}
+          isFiltered={searchTerm || filterType !== 'all'}
+          onCreateTemplate={handleCreateTemplate}
+        />
       ) : (
         <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
           {filteredTemplates.map(template => (
