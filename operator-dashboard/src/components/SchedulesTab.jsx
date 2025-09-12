@@ -11,6 +11,7 @@ import { supabase } from '../lib/supabase'
 // import { instanceService } from '../services/instanceService' // Removed: Using unified table approach
 import ScheduleCreateModal from './ScheduleCreateModal'
 import TourCustomizationModal from './TourCustomizationModal'
+import ScheduleUpdateWarningModal from './ScheduleUpdateWarningModal'
 
 // Template-Based Schedule Card Component (CLEAN BREAK)
 const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar, t }) => {
@@ -151,6 +152,8 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   const [error, setError] = useState(null)
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [editingSchedule, setEditingSchedule] = useState(null)
+  const [showWarningModal, setShowWarningModal] = useState(false)
+  const [pendingEditSchedule, setPendingEditSchedule] = useState(null)
   
   // View state
   const [viewMode, setViewMode] = useState('list') // 'list' or 'calendar'
@@ -277,8 +280,21 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   }
 
   const handleEditSchedule = (schedule) => {
-    setEditingSchedule(schedule)
+    // Show warning modal first for schedule updates
+    setPendingEditSchedule(schedule)
+    setShowWarningModal(true)
+  }
+
+  const handleConfirmEdit = () => {
+    setEditingSchedule(pendingEditSchedule)
     setShowCreateModal(true)
+    setShowWarningModal(false)
+    setPendingEditSchedule(null)
+  }
+
+  const handleCancelEdit = () => {
+    setShowWarningModal(false)
+    setPendingEditSchedule(null)
   }
 
   const handleScheduleUpdated = (updatedSchedule) => {
@@ -638,6 +654,14 @@ const SchedulesTab = ({ operator, formatPrice }) => {
         onSuccess={handleTourCustomizationSuccess}
         tour={selectedTour}
         formatPrice={formatPrice}
+      />
+
+      {/* Schedule Update Warning Modal */}
+      <ScheduleUpdateWarningModal
+        isOpen={showWarningModal}
+        onClose={handleCancelEdit}
+        onConfirm={handleConfirmEdit}
+        schedule={pendingEditSchedule}
       />
     </div>
   )

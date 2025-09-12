@@ -1,0 +1,82 @@
+/* Toast Animation Styles */
+.toast-wrapper {
+  pointer-events: none;
+}
+
+.toast-wrapper > * {
+  pointer-events: auto;
+}
+
+.toast-container {
+  animation-fill-mode: forwards;
+}
+
+.toast-enter {
+  animation: toastSlideIn 0.3s ease-out forwards;
+}
+
+.toast-exit {
+  animation: toastSlideOut 0.3s ease-in forwards;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Toast container responsive adjustments */
+@media (max-width: 640px) {
+  .toast-wrapper {
+    left: 1rem;
+    right: 1rem;
+    top: 1rem;
+  }
+  
+  .toast-container {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+/* Hover effects */
+.toast-container:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease-out;
+}
+
+/* Progress bar for timed toasts */
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: currentColor;
+  opacity: 0.3;
+  animation: progressBar linear forwards;
+}
+
+@keyframes progressBar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
