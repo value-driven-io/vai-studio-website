@@ -1,6 +1,5 @@
-// operator-dashboard/src/services/scheduleService.js - PHASE 3 with i18n + Edge Cases
+// operator-dashboard/src/services/scheduleService.js - TEMPLATE-FIRST CLEAN BREAK
 import { supabase } from '../lib/supabase'
-import { formatPolynesianDate } from '../utils/timezone'
 
 // Local timezone helpers to avoid modifying shared timezone.js
 const POLYNESIA_TZ = 'Pacific/Tahiti' // UTC-10
@@ -24,22 +23,7 @@ const formatPolynesianDateISO = (date) => {
   return formatted // en-CA locale gives YYYY-MM-DD format
 }
 
-const formatPolynesianDateDMY = (date) => {
-  if (!date) return ''
-  
-  try {
-    const dateObj = typeof date === 'string' ? parsePolynesianDate(date) : date
-    if (!dateObj) return ''
-    
-    const day = String(dateObj.getDate()).padStart(2, '0')
-    const month = String(dateObj.getMonth() + 1).padStart(2, '0')
-    const year = dateObj.getFullYear()
-    
-    return `${day}.${month}.${year}`
-  } catch {
-    return date?.toString() || ''
-  }
-}
+// Removed unused date formatting function
 
 export const scheduleService = {
   /**
@@ -49,15 +33,16 @@ export const scheduleService = {
    */
   async getSchedules(operatorId) {
     try {
-      // First, get schedules without join
+      // Use the new schedule_details view for clean data access (TEMPLATE-FIRST APPROACH)
       const { data: schedules, error: schedulesError } = await supabase
-        .from('schedules')
+        .from('schedule_details')
         .select('*')
         .eq('operator_id', operatorId)
+        .eq('schedule_type', 'template_based') // Only template-based schedules
         .order('created_at', { ascending: false })
 
       if (schedulesError) {
-        console.error('Error fetching schedules:', schedulesError)
+        console.error('Error fetching template-based schedules:', schedulesError)
         throw schedulesError
       }
 
@@ -65,145 +50,40 @@ export const scheduleService = {
         return []
       }
 
-      // Get unique tour IDs
-      const tourIds = [...new Set(schedules.map(s => s.tour_id))]
-
-      // Fetch tour details separately
-      const { data: tours, error: toursError } = await supabase
-        .from('tours')
-        .select('id, tour_name, tour_type, max_capacity, discount_price_adult, status')
-        .in('id', tourIds)
-
-      if (toursError) {
-        console.error('Error fetching tours:', toursError)
-        // Continue without tour data rather than failing completely
-      }
-
-      // Merge the data
-      const schedulesWithTours = schedules.map(schedule => ({
-        ...schedule,
-        tours: tours?.find(tour => tour.id === schedule.tour_id) || null
+      // Map to consistent format for backward compatibility
+      const mappedSchedules = schedules.map(schedule => ({
+        id: schedule.id,
+        operator_id: schedule.operator_id,
+        schedule_type: schedule.schedule_type,
+        recurrence_type: schedule.recurrence_type,
+        days_of_week: schedule.days_of_week,
+        start_time: schedule.start_time,
+        start_date: schedule.start_date,
+        end_date: schedule.end_date,
+        exceptions: schedule.exceptions,
+        created_at: schedule.created_at,
+        updated_at: schedule.updated_at,
+        // Template data (replaces legacy tours field)
+        activity_templates: {
+          id: schedule.template_id,
+          activity_name: schedule.template_name,
+          activity_type: schedule.template_type,
+          max_capacity: schedule.template_capacity,
+          discount_price_adult: schedule.template_price,
+          status: schedule.template_status,
+          auto_close_hours: schedule.auto_close_hours
+        }
       }))
 
-      return schedulesWithTours
+      return mappedSchedules
     } catch (error) {
       console.error('Error in getSchedules:', error)
       throw error
     }
   },
 
-  /**
-   * ✅ PHASE 3: Create a new schedule with comprehensive validation + edge case handling
-   * @param {Object} scheduleData - The schedule data to create
-   * @param {string} scheduleData.tour_id - UUID of the tour (required)
-   * @param {string} scheduleData.operator_id - UUID of the operator (required)  
-   * @param {string} scheduleData.recurrence_type - 'once', 'daily', 'weekly', 'monthly' (required)
-   * @param {Array<number>} scheduleData.days_of_week - Array of integers 1-7 for Mon-Sun (optional for 'once')
-   * @param {string} scheduleData.start_time - Time in HH:MM format (required)
-   * @param {string} scheduleData.start_date - Date in YYYY-MM-DD format (required)
-   * @param {string} scheduleData.end_date - Date in YYYY-MM-DD format (required)
-   * @param {Array<string>} scheduleData.exceptions - Array of dates to skip in YYYY-MM-DD format (optional)
-   * @returns {Promise<Object>} Created schedule record
-   * @throws {Error} Translated error codes for component handling
-   */
-  async createSchedule(scheduleData) {
-    try {
-      console.log('🚀 Creating schedule with data:', scheduleData)
-
-      // Step 1: Basic input validation
-      const validation = this.validateScheduleData(scheduleData)
-      if (!validation.valid) {
-        throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
-      }
-
-      // Step 2: 🛡️ EDGE CASE - Verify operator status and permissions
-      const { data: operator, error: operatorError } = await supabase
-        .from('operators')
-        .select('id, status, commission_rate')
-        .eq('id', scheduleData.operator_id)
-        .single()
-
-      if (operatorError || !operator) {
-        throw new Error('OPERATOR_NOT_FOUND')
-      }
-
-      if (operator.status !== 'active') {
-        throw new Error(`OPERATOR_INACTIVE|${operator.status}`)
-      }
-
-      // Step 3: 🛡️ EDGE CASE - Verify tour exists, belongs to operator, and is active
-      const { data: tour, error: tourError } = await supabase
-        .from('tours')  
-        .select('id, tour_name, operator_id, status, tour_date, time_slot')
-        .eq('id', scheduleData.tour_id)
-        .eq('operator_id', scheduleData.operator_id)
-        .single()
-
-      if (tourError || !tour) {
-        throw new Error('TOUR_NOT_FOUND_OR_ACCESS_DENIED')
-      }
-
-      if (tour.status !== 'active') {
-        throw new Error(`TOUR_INACTIVE|${tour.status}`)
-      }
-
-      // Step 4: 🛡️ EDGE CASE - Check for schedule conflicts
-      const conflictCheck = await this.checkScheduleConflicts(scheduleData, tour)
-      if (!conflictCheck.valid) {
-        throw new Error(`SCHEDULE_CONFLICT|${conflictCheck.reason}`)
-      }
-
-      // Step 5: 🛡️ EDGE CASE - Verify date logic against existing tour
-      if (scheduleData.recurrence_type === 'once') {
-        const scheduleDate = new Date(scheduleData.start_date)
-        const tourDate = new Date(tour.tour_date)
-        if (scheduleDate.getTime() !== tourDate.getTime()) {
-          throw new Error('SINGLE_SCHEDULE_DATE_MISMATCH')
-        }
-      }
-
-      // Step 6: Prepare data for insertion
-      const insertData = {
-        tour_id: scheduleData.tour_id,
-        operator_id: scheduleData.operator_id,
-        recurrence_type: scheduleData.recurrence_type,
-        days_of_week: scheduleData.days_of_week || null,
-        start_time: scheduleData.start_time,
-        start_date: scheduleData.start_date,
-        end_date: scheduleData.end_date,
-        exceptions: scheduleData.exceptions || null
-      }
-
-      // Step 7: Insert into database
-      const { data: newSchedule, error: insertError } = await supabase
-        .from('schedules')
-        .insert(insertData)
-        .select()
-        .single()
-
-      if (insertError) {
-        console.error('Error inserting schedule:', insertError)
-        throw new Error(`DATABASE_INSERT_FAILED|${insertError.message}`)
-      }
-
-      console.log('✅ Schedule created successfully:', newSchedule.id)
-
-      // Step 8: Return schedule with tour data attached
-      return {
-        ...newSchedule,
-        tours: {
-          id: tour.id,
-          tour_name: tour.tour_name,
-          status: tour.status
-        }
-      }
-
-    } catch (error) {
-      console.error('Error in createSchedule:', error)
-      // Preserve error codes for component translation
-      throw error
-    }  
-  },
+  // REMOVED: createSchedule - Legacy method for direct tour scheduling
+  // Use createActivityTemplateSchedule instead for template-first workflow
 
   /**
    * ✅ PHASE 3: Update an existing schedule with edge case protection
@@ -229,14 +109,14 @@ export const scheduleService = {
       const { data: relatedTour, error: tourError } = await supabase
         .from('tours')
         .select(`
-          id, tour_name, status, is_template, auto_close_hours, booking_deadline,
+          id, operator_id, tour_name, status, is_template, auto_close_hours, booking_deadline,
           tour_type, description, max_capacity, original_price_adult, discount_price_adult, 
           discount_price_child, meeting_point, location, meeting_point_gps, duration_hours,
           pickup_available, equipment_included, food_included, drinks_included,
           whale_regulation_compliant, weather_dependent, pickup_locations, languages,
           max_whale_group_size, min_age, max_age, fitness_level, requirements, restrictions
         `)
-        .eq('id', existingSchedule.tour_id)
+        .eq('id', existingSchedule.template_id)
         .single()
 
       if (tourError || !relatedTour) {
@@ -250,31 +130,22 @@ export const scheduleService = {
         throw new Error(`SCHEDULE_HAS_ACTIVE_BOOKINGS|${activeBookingsCheck.count}`)
       }
 
-      // Step 3: 🛡️ EDGE CASE - Verify linked tour/template is still active
+      // Step 3: 🛡️ EDGE CASE - Verify linked template is still active (TEMPLATE-FIRST)
       if (relatedTour.status !== 'active') {
-        const entityType = relatedTour.is_template ? 'TEMPLATE' : 'TOUR'
-        throw new Error(`LINKED_${entityType}_INACTIVE|${relatedTour.status}`)
+        throw new Error(`LINKED_TEMPLATE_INACTIVE|${relatedTour.status}`)
       }
 
-      // Step 4: Enhanced validation with template data (if it's a template schedule)
+      // Step 4: Enhanced validation with template data (always template-based now)
       let validationData = { ...existingSchedule, ...updateData }
       
-      // If this is a template schedule, use template-specific validation
-      if (relatedTour.is_template) {
-        validationData.auto_close_hours = relatedTour.auto_close_hours || 2
-        validationData.booking_deadline = relatedTour.booking_deadline
-        validationData.template_id = relatedTour.id // Add template_id for validation
-        
-        const validation = this.validateActivityTemplateScheduleData(validationData, relatedTour)
-        if (!validation.valid) {
-          throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
-        }
-      } else {
-        // Regular tour schedule validation
-        const validation = this.validateScheduleData(validationData, true)
-        if (!validation.valid) {
-          throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
-        }
+      // Use template-specific validation (all schedules are template-based)
+      validationData.auto_close_hours = relatedTour.auto_close_hours || 2
+      validationData.booking_deadline = relatedTour.booking_deadline
+      validationData.template_id = relatedTour.id // Add template_id for validation
+      
+      const validation = this.validateActivityTemplateScheduleData(validationData, relatedTour)
+      if (!validation.valid) {
+        throw new Error(`VALIDATION_FAILED|${validation.errors.join('|')}`)
       }
 
       // Step 5: Prepare update data (only allow certain fields)
@@ -305,32 +176,215 @@ export const scheduleService = {
 
       console.log('✅ Schedule updated successfully:', scheduleId)
       
-      // Step 7: Regenerate activity instances if this is a template-based schedule
-      if (relatedTour.is_template) {
-        console.log('🔄 Regenerating activity instances from updated template...')
+      // Step 7: INTELLIGENT DIFFERENTIAL UPDATE - Industry Standard Approach
+      // Preserve customizations, update only what changed, avoid data loss
+      {
+        console.log('🔄 Applying intelligent differential update to activity instances...')
         
-        // First, delete existing scheduled tours for this schedule
-        const { error: deleteError } = await supabase
-          .from('tours')
-          .delete()
-          .eq('parent_schedule_id', scheduleId)
-          .eq('operator_id', operatorId)
-          .eq('activity_type', 'scheduled')
-        
-        if (deleteError) {
-          console.warn('Warning: Could not delete old instances:', deleteError)
+        try {
+          // Prepare updated schedule data
+          const mergedScheduleData = {
+            ...existingSchedule,
+            ...filteredUpdateData,
+            template_id: existingSchedule.template_id,
+            id: scheduleId
+          }
+          
+          // Get existing tours for this schedule
+          const { data: existingTours, error: fetchError } = await supabase
+            .from('tours')
+            .select('id, tour_date, time_slot, is_customized, customization_timestamp, overrides, frozen_fields')
+            .eq('parent_schedule_id', scheduleId)
+            .eq('activity_type', 'scheduled')
+            .order('tour_date', { ascending: true })
+          
+          if (fetchError) {
+            console.error('Error fetching existing tours:', fetchError)
+            throw new Error(`EXISTING_TOURS_FETCH_FAILED: ${fetchError.message}`)
+          }
+          
+          // Generate new schedule dates
+          const newDates = this.generateDatesFromSchedule(mergedScheduleData)
+          const newTime = mergedScheduleData.start_time
+          
+          console.log(`📊 Schedule update analysis:`, {
+            existing_tours: existingTours?.length || 0,
+            customized_tours: existingTours?.filter(t => t.is_customized).length || 0,
+            new_schedule_dates: newDates.length,
+            time_change: existingSchedule.start_time !== newTime ? `${existingSchedule.start_time} → ${newTime}` : 'no change'
+          })
+          
+          // STEP 1: Identify tours to keep, update, and remove
+          const existingDatesMap = new Map()
+          const customizedTours = []
+          const nonCustomizedTours = []
+          
+          existingTours?.forEach(tour => {
+            existingDatesMap.set(tour.tour_date, tour)
+            if (tour.is_customized) {
+              customizedTours.push(tour)
+            } else {
+              nonCustomizedTours.push(tour)
+            }
+          })
+          
+          // STEP 2: Process each category intelligently
+          const toursToRemove = []
+          const toursToUpdate = []
+          const datesToAdd = []
+          
+          // Identify obsolete tours (dates no longer in schedule)
+          existingTours?.forEach(tour => {
+            if (!newDates.includes(tour.tour_date)) {
+              if (tour.is_customized) {
+                console.log(`⚠️ Customized tour on obsolete date ${tour.tour_date} - keeping but marking as detached`)
+                // Keep customized tours even if date is removed, but detach them
+                toursToUpdate.push({
+                  id: tour.id,
+                  is_detached: true,
+                  updated_at: new Date().toISOString()
+                })
+              } else {
+                console.log(`🗑️ Removing non-customized tour on obsolete date ${tour.tour_date}`)
+                toursToRemove.push(tour.id)
+              }
+            }
+          })
+          
+          // Identify dates that need new tours
+          newDates.forEach(date => {
+            if (!existingDatesMap.has(date)) {
+              datesToAdd.push(date)
+            }
+          })
+          
+          // Identify existing tours that need time updates (non-customized only)
+          nonCustomizedTours.forEach(tour => {
+            if (newDates.includes(tour.tour_date) && tour.time_slot !== newTime) {
+              console.log(`🔄 Updating time for non-customized tour ${tour.tour_date}: ${tour.time_slot} → ${newTime}`)
+              toursToUpdate.push({
+                id: tour.id,
+                time_slot: newTime,
+                updated_at: new Date().toISOString()
+              })
+            }
+          })
+          
+          console.log(`📋 Differential update plan:`, {
+            tours_to_remove: toursToRemove.length,
+            tours_to_update: toursToUpdate.length, 
+            dates_to_add: datesToAdd.length,
+            customized_tours_preserved: customizedTours.length
+          })
+          
+          // STEP 3: Execute the differential update
+          let operationsCompleted = 0
+          
+          // Remove obsolete non-customized tours
+          if (toursToRemove.length > 0) {
+            const { error: removeError } = await supabase
+              .from('tours')
+              .delete()
+              .in('id', toursToRemove)
+            
+            if (removeError) {
+              console.warn('Warning: Could not remove some obsolete tours:', removeError)
+            } else {
+              console.log(`✅ Removed ${toursToRemove.length} obsolete tours`)
+              operationsCompleted++
+            }
+          }
+          
+          // Update existing tours (time changes, detachment)
+          if (toursToUpdate.length > 0) {
+            for (const update of toursToUpdate) {
+              const { error: updateError } = await supabase
+                .from('tours')
+                .update(update)
+                .eq('id', update.id)
+              
+              if (updateError) {
+                console.warn(`Warning: Could not update tour ${update.id}:`, updateError)
+              }
+            }
+            console.log(`✅ Updated ${toursToUpdate.length} existing tours`)
+            operationsCompleted++
+          }
+          
+          // Add new tours for new dates
+          if (datesToAdd.length > 0) {
+            const newTours = []
+            for (const date of datesToAdd) {
+              const tourData = {
+                // Core identification
+                operator_id: relatedTour.operator_id,
+                tour_name: relatedTour.tour_name,
+                tour_type: relatedTour.tour_type,
+                description: relatedTour.description,
+                
+                // Schedule-specific fields
+                tour_date: date,
+                time_slot: newTime,
+                activity_type: 'scheduled',
+                is_template: false,
+                parent_template_id: relatedTour.id,
+                parent_schedule_id: scheduleId,
+                
+                // Template data
+                max_capacity: relatedTour.max_capacity,
+                available_spots: relatedTour.max_capacity,
+                original_price_adult: relatedTour.original_price_adult,
+                discount_price_adult: relatedTour.discount_price_adult,
+                discount_price_child: relatedTour.discount_price_child,
+                meeting_point: relatedTour.meeting_point || 'Meeting Point TBD',
+                location: relatedTour.location,
+                meeting_point_gps: relatedTour.meeting_point_gps,
+                duration_hours: relatedTour.duration_hours,
+                pickup_available: relatedTour.pickup_available || false,
+                equipment_included: relatedTour.equipment_included || false,
+                food_included: relatedTour.food_included || false,
+                drinks_included: relatedTour.drinks_included || false,
+                whale_regulation_compliant: relatedTour.whale_regulation_compliant || false,
+                weather_dependent: relatedTour.weather_dependent !== undefined ? relatedTour.weather_dependent : true,
+                pickup_locations: relatedTour.pickup_locations,
+                languages: relatedTour.languages || ['French'],
+                max_whale_group_size: relatedTour.max_whale_group_size || 6,
+                min_age: relatedTour.min_age,
+                max_age: relatedTour.max_age,
+                fitness_level: relatedTour.fitness_level,
+                requirements: relatedTour.requirements,
+                restrictions: relatedTour.restrictions,
+                status: relatedTour.status || 'active',
+                booking_deadline: relatedTour.booking_deadline,
+                auto_close_hours: relatedTour.auto_close_hours || 2,
+                backup_plan: relatedTour.backup_plan,
+                special_notes: relatedTour.special_notes,
+                created_by_operator: true
+              }
+              newTours.push(tourData)
+            }
+            
+            const { data: insertedTours, error: insertError } = await supabase
+              .from('tours')
+              .insert(newTours)
+              .select('id, tour_date')
+            
+            if (insertError) {
+              console.error('Error adding new tours:', insertError)
+              throw new Error(`NEW_TOURS_INSERT_FAILED: ${insertError.message}`)
+            }
+            
+            console.log(`✅ Added ${insertedTours?.length || 0} new tours for new dates`)
+            operationsCompleted++
+          }
+          
+          console.log(`🎉 Intelligent differential update completed: ${operationsCompleted} operations executed`)
+          console.log(`📊 Final state: ${customizedTours.length} customized tours preserved, schedule updated successfully`)
+          
+        } catch (differentialUpdateError) {
+          console.error('❌ CRITICAL: Differential update failed:', differentialUpdateError)
+          throw new Error(`DIFFERENTIAL_UPDATE_FAILED: ${differentialUpdateError.message}`)
         }
-        
-        // Then regenerate with updated schedule data and full template data
-        const mergedScheduleData = {
-          ...existingSchedule,
-          ...filteredUpdateData,
-          template_id: existingSchedule.tour_id,
-          id: scheduleId // Ensure schedule ID is available for RLS compliance
-        }
-        
-        const regeneratedTours = await this.generateScheduledToursFromTemplate(relatedTour, mergedScheduleData)
-        console.log(`✅ Regenerated ${regeneratedTours.length} activity instances`)
       }
       
       return updatedSchedule
@@ -564,9 +618,10 @@ export const scheduleService = {
         throw new Error(`SCHEDULE_CONFLICT|${conflictCheck.reason}`)
       }
 
-      // Step 5: Prepare data for insertion
+      // Step 5: Prepare data for insertion (CLEAN TEMPLATE-FIRST APPROACH)
       const insertData = {
-        tour_id: scheduleData.template_id, // Store template ID in tour_id column
+        template_id: scheduleData.template_id, // Store template ID in dedicated template_id column
+        schedule_type: 'template_based', // Explicitly mark as template-based schedule
         operator_id: scheduleData.operator_id,
         recurrence_type: scheduleData.recurrence_type,
         days_of_week: scheduleData.days_of_week || null,
@@ -574,6 +629,7 @@ export const scheduleService = {
         start_date: scheduleData.start_date,
         end_date: scheduleData.end_date,
         exceptions: scheduleData.exceptions || null
+        // NOTE: tour_id is left as NULL for template-based schedules
       }
 
       // Step 6: Insert into database
@@ -675,8 +731,8 @@ export const scheduleService = {
           discount_price_adult: template.discount_price_adult || template.original_price_adult || 0,
           discount_price_child: template.discount_price_child || 0,
           
-          // Location and logistics - CRITICAL FIX
-          meeting_point: template.meeting_point || 'TBD',
+          // Location and logistics - CRITICAL FIX: meeting_point is NOT NULL in schema
+          meeting_point: template.meeting_point || 'Meeting Point TBD',
           location: template.location,
           meeting_point_gps: template.meeting_point_gps,
           
@@ -725,6 +781,28 @@ export const scheduleService = {
           discount_price_adult: scheduledTourData.discount_price_adult,
           discount_price_child: scheduledTourData.discount_price_child,
           meeting_point: scheduledTourData.meeting_point
+        })
+
+        // CRITICAL DEBUG: Auth and RLS context analysis
+        console.log('🔍 AUTH DEBUG - About to INSERT tour:', {
+          operator_id_from_tour_data: scheduledTourData.operator_id,
+          template_operator_id: template.operator_id,
+          schedule_operator_id: scheduleData.operator_id,
+          parent_template_id: scheduledTourData.parent_template_id,
+          parent_schedule_id: scheduledTourData.parent_schedule_id,
+          activity_type: scheduledTourData.activity_type,
+          is_template: scheduledTourData.is_template,
+          template_id_from_template: template.id,
+          schedule_id_from_schedule_data: scheduleData.id
+        })
+        
+        // Additional auth context check
+        console.log('🔍 RLS POLICY CHECK - Expected vs Actual:', {
+          expected_pattern: 'auth.uid() should match operators.auth_user_id where operators.id = tour.operator_id',
+          tour_operator_id: scheduledTourData.operator_id,
+          template_source: 'template.operator_id',
+          schedule_source: 'scheduleData.operator_id',
+          note: 'RLS policy will check if current auth.uid() matches operator with this operator_id'
         })
 
         const { data: scheduledTour, error } = await supabase
@@ -843,11 +921,12 @@ export const scheduleService = {
    */
   async getSchedulesWithTemplates(operatorId) {
     try {
-      // First get schedules
+      // Use the new schedule_details view for comprehensive template data (TEMPLATE-FIRST APPROACH)
       const { data: schedules, error: schedulesError } = await supabase
-        .from('schedules')
+        .from('schedule_details')
         .select('*')
         .eq('operator_id', operatorId)
+        .eq('schedule_type', 'template_based') // Only template-based schedules
         .order('created_at', { ascending: false })
 
       if (schedulesError) {
@@ -859,63 +938,33 @@ export const scheduleService = {
         return []
       }
 
-      // Get tour IDs (includes both templates and regular tours)
-      const tourIds = [...new Set(schedules.map(s => s.tour_id).filter(Boolean))]
-      const allIds = [...new Set(tourIds)]
-
-      // Fetch all related tours (templates and regular tours)
-      const { data: tours, error: toursError } = await supabase
-        .from('tours')
-        .select(`
-          id,
-          tour_name,
-          tour_type,
-          max_capacity,
-          discount_price_adult,
-          status,
-          location,
-          is_template
-        `)
-        .in('id', allIds)
-
-      if (toursError) {
-        console.warn('Error fetching related tours:', toursError)
-      }
-
-      // Map schedules with related data
-      const schedulesWithData = schedules.map(schedule => {
-        const relatedTour = tours?.find(t => t.id === schedule.tour_id)
-        // Determine if this is a template or regular tour schedule
-        const template = relatedTour?.is_template ? relatedTour : null
-        const tour = relatedTour?.is_template ? null : relatedTour
-        
-        return {
-          ...schedule,
-          ...(template && {
-            activity_templates: {
-              id: template.id,
-              activity_name: template.tour_name,
-              activity_type: template.tour_type,
-              max_capacity: template.max_capacity,
-              discount_price_adult: template.discount_price_adult,
-              status: template.status,
-              island_location: template.location
-            }
-          }),
-          ...(tour && {
-            tours: {
-              id: tour.id,
-              tour_name: tour.tour_name,
-              tour_type: tour.tour_type,
-              max_capacity: tour.max_capacity,
-              discount_price_adult: tour.discount_price_adult,
-              status: tour.status
-            }
-          })
+      // Map to expected format (template data is already joined in the view)
+      const schedulesWithTemplates = schedules.map(schedule => ({
+        id: schedule.id,
+        operator_id: schedule.operator_id,
+        schedule_type: schedule.schedule_type,
+        recurrence_type: schedule.recurrence_type,
+        days_of_week: schedule.days_of_week,
+        start_time: schedule.start_time,
+        start_date: schedule.start_date,
+        end_date: schedule.end_date,
+        exceptions: schedule.exceptions,
+        created_at: schedule.created_at,
+        updated_at: schedule.updated_at,
+        // Template data from the joined view
+        activity_templates: {
+          id: schedule.template_id,
+          activity_name: schedule.template_name,
+          activity_type: schedule.template_type,
+          max_capacity: schedule.template_capacity,
+          discount_price_adult: schedule.template_price,
+          status: schedule.template_status,
+          island_location: schedule.template_location || schedule.location,
+          auto_close_hours: schedule.auto_close_hours
         }
-      })
+      }))
 
-      return schedulesWithData
+      return schedulesWithTemplates
     } catch (error) {
       console.error('Error in getSchedulesWithTemplates:', error)
       throw error
@@ -933,11 +982,12 @@ export const scheduleService = {
    */
   async checkTemplateScheduleConflicts(scheduleData, template) {
     try {
-      // Check for existing schedules with same template + time that might conflict
+      // Check for existing template-based schedules with same template + time that might conflict
       const { data: existingSchedules, error } = await supabase
         .from('schedules')
         .select('id, recurrence_type, start_time, start_date, end_date, days_of_week, exceptions')
-        .eq('tour_id', scheduleData.template_id)
+        .eq('template_id', scheduleData.template_id) // Use template_id instead of tour_id
+        .eq('schedule_type', 'template_based') // Only check template-based schedules
         .eq('start_time', scheduleData.start_time)
 
       if (error) {
@@ -1163,82 +1213,11 @@ export const scheduleService = {
     }
   },
 
-  /**
-   * Get active tours for schedule creation (LEGACY - for backward compatibility)
-   * @param {string} operatorId - The operator ID
-   * @returns {Promise<Object>} Tours data or error
-   */
-    async getOperatorTours(operatorId) {
-        try {
-        const { data: tours, error } = await supabase
-            .from('tours')
-            .select(`
-            id,
-            tour_name,
-            tour_type,
-            tour_date,
-            time_slot,
-            status,
-            max_capacity,
-            available_spots
-            `)
-            .eq('operator_id', operatorId)
-            .eq('status', 'active')
-            .gte('tour_date', new Date().toISOString().split('T')[0]) // Only future tours
-            .order('tour_date', { ascending: true })
-            .order('time_slot', { ascending: true })
+  // REMOVED: getOperatorTours - Legacy method for fetching tours directly
+  // Use getOperatorActivityTemplates instead for template-first workflow
 
-        if (error) {
-            console.error('Error fetching operator tours:', error)
-            throw error
-        }
-
-        return { data: tours || [], error: null }
-        } catch (error) {
-        console.error('Error in getOperatorTours:', error)
-        return { data: null, error }
-        }
-    },
-
-  /**
-   * 🛡️ EDGE CASE HELPER: Check for schedule conflicts
-   */
-  async checkScheduleConflicts(scheduleData, tour) {
-    try {
-      // Check for existing schedules with same tour + time that might conflict
-      const { data: existingSchedules, error } = await supabase
-        .from('schedules')
-        .select('id, recurrence_type, start_time, start_date, end_date, days_of_week, exceptions')
-        .eq('tour_id', scheduleData.tour_id)
-        .eq('start_time', scheduleData.start_time)
-
-      if (error) {
-        console.error('Error checking schedule conflicts:', error)
-        return { valid: true } // Allow on error, logged for monitoring
-      }
-
-      if (!existingSchedules || existingSchedules.length === 0) {
-        return { valid: true }
-      }
-
-      // Implement conflict detection logic
-      for (const existing of existingSchedules) {
-        const conflict = this.detectDateTimeConflict(scheduleData, existing)
-        if (conflict.hasConflict) {
-          return { 
-            valid: false, 
-            reason: `EXISTING_SCHEDULE_CONFLICT|${existing.id}|${conflict.conflictDate}` 
-          }
-        }
-      }
-
-      return { valid: true }
-
-    } catch (error) {
-      console.error('Error in checkScheduleConflicts:', error)
-      return { valid: true } // Allow on error
-    }
-  },
+  // REMOVED: checkScheduleConflicts - Legacy conflict checking for tours
+  // Use checkTemplateScheduleConflicts instead for template-first workflow
 
   /**
    * 🛡️ EDGE CASE HELPER: Check for active bookings
@@ -1310,9 +1289,9 @@ export const scheduleService = {
     const errors = []
 
     try {
-      // Required fields validation (skip for updates)
+      // Required fields validation (skip for updates) - TEMPLATE-FIRST ONLY
       if (!isUpdate) {
-        if (!scheduleData.tour_id) errors.push('TOUR_ID_REQUIRED')
+        if (!scheduleData.template_id) errors.push('TEMPLATE_ID_REQUIRED')
         if (!scheduleData.operator_id) errors.push('OPERATOR_ID_REQUIRED')
       }
 
@@ -1409,8 +1388,8 @@ export const scheduleService = {
       // UUID format validation (basic)
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
-      if (scheduleData.tour_id && !uuidRegex.test(scheduleData.tour_id)) {
-        errors.push('INVALID_TOUR_ID_FORMAT')
+      if (scheduleData.template_id && !uuidRegex.test(scheduleData.template_id)) {
+        errors.push('INVALID_TEMPLATE_ID_FORMAT')
       }
 
       if (scheduleData.operator_id && !uuidRegex.test(scheduleData.operator_id)) {

@@ -4,7 +4,17 @@
 
 This document defines the optimal tab structure and user flow for the VAI Tourism Platform operator dashboard based on industry standards and our specific use cases.
 
-**🎉 Phase 1 Update (January 2025)**: All critical schedule creation and validation issues have been resolved! The system now properly handles template-based schedules with correct timezone parsing, auto-close hours validation, and complete activity instance generation. Ready to proceed with Phase 2 - Schedules Tab redesign.
+**🎉 MAJOR UPDATE (September 2025)**: **CLEAN BREAK IMPLEMENTATION COMPLETED!** 
+
+The legacy tour creation system has been **completely eliminated**. The platform now enforces a pure **Template-First Architecture**:
+- ✅ **Templates Tab** - Create reusable activity blueprints
+- ✅ **Schedules Tab** - Generate tours from templates only
+- ✅ **Pure Workflow** - Template → Schedule → Generated Tours → Individual Customization
+- ✅ **Database Enforced** - Impossible to create tours without templates
+- ✅ **Clean Codebase** - Legacy dual-system code removed
+- ✅ **End-to-End Tested** - Schedule creation generating tours automatically
+
+**System Status**: Ready for production with optimized template-first workflow!
 
 ## 🎯 **Core Concept: Template → Schedule → Instance**
 
@@ -47,9 +57,9 @@ This document defines the optimal tab structure and user flow for the VAI Touris
 
 ---
 
-### **Schedules Tab** ✨ **REDESIGNED** 
+### **Schedules Tab** ✨ **CLEAN BREAK COMPLETED** 
 **Purpose**: Create recurring patterns + manage individual instances
-**Status**: 🔄 Needs major redesign
+**Status**: ✅ **Template-first workflow implemented and tested**
 
 **Why This Approach**:
 - **Industry Standard**: Most scheduling platforms (Calendly, Acuity, etc.) work this way
@@ -97,6 +107,177 @@ This document defines the optimal tab structure and user flow for the VAI Touris
 - Add special notes/requirements
 - Change status (active/cancelled)
 - View/manage bookings for this instance
+
+---
+
+## 🎨 **TOUR CUSTOMIZATION SYSTEM** ✨ **NEW**
+
+**Status**: ✅ **Schema Complete** | 🔄 **Implementation Phase 1 Ready**
+
+### **Industry Research & Standards Applied**
+Based on analysis of Airbnb Experiences, GetYourGuide, Viator, and Calendly:
+- **Template → Schedule → Instance** hierarchy (industry standard)
+- **Selective field freezing** with visual indicators
+- **Override protection** for bulk operations
+- **Smart conflict resolution** when template changes affect customizations
+
+### **Core Use Cases Supported**
+
+**1. Promotional Pricing** 🏷️
+```
+Use Case: Last-minute discount
+- Generated tour: 12,000 XPF → Custom: 8,000 XPF
+- System: Override price, freeze field, add promo badge
+- Future template updates respect frozen pricing
+```
+
+**2. Capacity Adjustments** 👥
+```
+Use Case: Equipment/weather limitations
+- Template capacity: 8 people → Instance: 4 people
+- System: Maintains existing bookings, prevents overbooking
+```
+
+**3. Special Requirements** 📝
+```
+Use Case: Private groups, anniversaries
+- Add custom meeting points, special instructions
+- Instance-specific notes without affecting other dates
+```
+
+### **Technical Architecture**
+
+**Database Schema** (Already Deployed ✅):
+- `is_customized`: Boolean flag for modified instances
+- `frozen_fields`: Array of fields protected from bulk updates
+- `overrides`: JSONB of field-specific customizations
+- `promo_discount_percent/value`: Promotional pricing
+- `customization_timestamp`: Audit trail
+
+**Three-Level Hierarchy**:
+```
+Template Level    → Base pricing, capacity, description
+Schedule Level    → Recurring patterns, seasonal rules
+Instance Level    → Individual overrides, promos, notes
+```
+
+### **Conflict Resolution Strategy**
+
+**Template Update Conflicts**:
+When templates change but instances are customized:
+- 🔒 **Frozen fields** remain unchanged
+- 🔄 **Dynamic fields** update automatically  
+- ⚠️ **Operator choice** for breaking changes
+- 🎯 **Visual indicators** show customization status
+
+**Bulk Operations**:
+- **Default**: Respect existing customizations
+- **Option**: Override all (with confirmation)
+- **Smart preview**: Show what will/won't change
+
+### **Visual Design System**
+
+**Calendar Indicators**:
+```
+📅 Sept 15 - 8,000 XPF 🏷️PROMO    [Custom pricing with badge]
+📅 Sept 16 - 12,000 XPF            [Standard template pricing]
+📅 Sept 17 - 10,000 XPF 🔒         [Price locked from template update]
+```
+
+**Customization Modal**:
+- Clear **locked/unlocked** field indicators
+- **Price breakdown** showing discount sources
+- **Freeze toggle** for protecting specific changes
+- **Promo badge** management
+
+### **Implementation Phases**
+
+**✅ Phase 0**: Database schema deployed, template-first workflow working
+**✅ Phase 1**: SQL function bugs fixed, basic customization working
+**🔄 Phase 2**: Visual indicators, promo badges, lock icons  
+**📅 Phase 3**: Conflict resolution UI, bulk operations
+**📅 Phase 4**: Advanced scheduling rules, seasonal pricing
+
+### **Phase 1 Testing Results & Critical Fixes**
+
+**🧪 COMPREHENSIVE TESTING COMPLETED (September 2025)**
+
+#### **✅ WORKING FUNCTIONALITY:**
+- **Template Creation** ✅ - Templates created successfully
+- **Schedule Creation** ✅ - Template-first schedules generate tours automatically  
+- **Individual Customization** ✅ - Price, capacity, meeting point customization works
+- **End-to-End Booking** ✅ - Template → Schedule → Tours → Bookings flow complete
+- **Data Persistence** ✅ - Customizations stored in `overrides` JSONB field
+- **Intelligent Schedule Updates** ✅ - Differential updates preserve customizations
+
+#### **🐛 CRITICAL BUGS DISCOVERED & FIXED:**
+
+**Bug #1: Promo Discount NULL Handling**
+- **Error**: `malformed array literal: "promo_discount_value = NULL"`
+- **Root Cause**: SQL function built arrays incorrectly when handling NULL promo values
+- **Impact**: Could not modify base pricing without first setting promo discount
+- **Fix**: Replaced array concatenation with individual `EXECUTE` statements
+- **File**: `PHASE1_ALTERNATIVE_FIX.sql` (deployed)
+- **Status**: ✅ **RESOLVED**
+
+**Bug #2: Schedule Update UUID Syntax**  
+- **Error**: `invalid input syntax for type uuid: "null"`
+- **Root Cause**: Schedule update used `existingSchedule.tour_id` (NULL) instead of `template_id`
+- **Impact**: Could not modify schedules that had customized tour instances
+- **Fix**: Changed to `existingSchedule.template_id` for template-first consistency
+- **File**: Modified `scheduleService.js` lines 119, 208
+- **Status**: ✅ **RESOLVED**
+
+**Bug #3: Row Level Security (RLS) Policy**
+- **Error**: `new row violates row-level security policy for table "tours"`  
+- **Root Cause**: RLS policies didn't account for tour generation during schedule updates
+- **Impact**: Schedule updates fail when trying to regenerate tours
+- **Fix**: Added specific RLS policy for scheduled tour generation from templates
+- **File**: `FIX_RLS_tour_generation.sql` (deployed)
+- **Status**: ✅ **RESOLVED**
+
+**Bug #4: Missing operator_id in Template Queries**
+- **Error**: `operator_id_from_tour_data: undefined`
+- **Root Cause**: Template SELECT query in updateSchedule missing `operator_id` field
+- **Impact**: Tours created with NULL operator_id causing RLS policy violations
+- **Fix**: Added `operator_id` to template SELECT query in scheduleService.js:112
+- **Status**: ✅ **RESOLVED**
+
+**Bug #5: CRITICAL - Data Loss During Schedule Updates**
+- **Error**: Schedule updates were deleting ALL existing tours then regenerating
+- **Root Cause**: "Delete all + regenerate all" approach ignored customizations
+- **Impact**: Customized tours permanently lost during schedule updates
+- **Fix**: Implemented intelligent differential update algorithm
+- **File**: Complete rewrite of updateSchedule logic in scheduleService.js:179-388
+- **Status**: ✅ **RESOLVED**
+
+#### **🏗️ ARCHITECTURE INSIGHTS:**
+
+**Template-First Workflow Validation:**
+- ✅ **Clean Break Successful** - Legacy tour creation completely eliminated
+- ✅ **Database Constraints** - Impossible to create non-template schedules
+- ✅ **Data Integrity** - All relationships properly maintained
+- ✅ **User Experience** - Intuitive workflow confirmed
+
+**Customization System Design:**
+- ✅ **Field Freezing** - `frozen_fields` array properly stores protected fields
+- ✅ **Override Tracking** - `overrides` JSONB captures all customizations  
+- ✅ **Audit Trail** - `customization_timestamp` tracks when tours were modified
+- ✅ **Conflict Prevention** - Customized tours preserved during schedule updates
+
+**Performance & Scalability:**
+- ✅ **Efficient Queries** - Template-based views perform well
+- ✅ **Batch Operations** - Schedule updates handle multiple tour generation
+- ✅ **Real-time Updates** - Supabase real-time subscriptions work with new schema
+- ✅ **Intelligent Differential Updates** - Only modify what actually changed
+
+**Industry-Standard Schedule Update Algorithm:**
+- ✅ **Preserve Customizations** - Customized tours never lost during schedule changes
+- ✅ **Detach Obsolete Customized Tours** - Keep customized tours even when dates removed
+- ✅ **Update Non-Customized Tours** - Apply schedule changes only to standard tours
+- ✅ **Add New Dates** - Generate tours only for newly added schedule dates
+- ✅ **Remove Obsolete Tours** - Delete only non-customized tours for removed dates
+- ✅ **Comprehensive Logging** - Detailed analysis and operation reporting
 
 **Benefits**:
 - ✅ **Contextual**: See instance in calendar context
@@ -213,7 +394,24 @@ This document defines the optimal tab structure and user flow for the VAI Touris
 - Implemented instance regeneration logic in `updateSchedule` function
 - Fixed atomic state updates to prevent validation race conditions
 
-### **Phase 2**: Redesign Schedules Tab
+### **Phase 2**: Redesign Schedules Tab 🔄 **IN PROGRESS**
+**Status**: Phase 2 initiated (January 2025)
+
+**🎯 Key Goals for Phase 2:**
+- **Eliminate separate Activities Tab** - Manage instances directly within schedules context
+- **Industry-standard UX** - Match patterns from Calendly, Acuity, Google Calendar
+- **Visual Schedule Management** - Clear overview of patterns, instances, and customizations  
+- **Contextual Instance Editing** - Click calendar instances to customize without tab switching
+- **Mobile-friendly Design** - Simplified navigation optimized for mobile devices
+- **Clear instructions/explanations** - Direct feedback and guidance for users
+- **Complete, reliable error handling** - Understandable error messages with recovery paths
+- **Holistic concept alignment** - Match detailed concept with actual functionality
+- **Complete instance editing** - Full customization capabilities for scheduled instances  
+- **Correct database connectivity** - Reliable data persistence and retrieval
+- **Timezone-aware operations** - Respect Pacific/Tahiti timezone challenges
+- **Responsive behavior** - Optimal experience across different device screens
+
+**Implementation Tasks:**
 1. Implement new list view with status legend
 2. Enhanced calendar view with instance management
 3. Unified instance customization modal
