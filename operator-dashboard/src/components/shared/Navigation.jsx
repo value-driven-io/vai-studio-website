@@ -27,12 +27,20 @@ const Navigation = ({ activeTab, setActiveTab, stats, showSetupTab = false }) =>
       label: 'Templates',
       badge: null
     },
+    //{
+      //id: 'activities',
+      //icon: Plus,
+      //label: 'Activities (Legacy)',
+      //badge: null
+    //},
+
     {
-      id: 'activities',
-      icon: Plus,
-      label: 'Activities (Legacy)',
+      id: 'schedules',
+      icon: Calendar,
+      label: t('common.schedules'), 
       badge: null
     },
+
     {
       id: 'bookings',
       icon: Rocket,
@@ -47,13 +55,6 @@ const Navigation = ({ activeTab, setActiveTab, stats, showSetupTab = false }) =>
     },
 
     {
-      id: 'schedules',
-      icon: Calendar,
-      label: t('common.schedules'), 
-      badge: null
-    },
-
-    {
       id: 'profile',
       icon: User,
       label: t('common.profile'),
@@ -63,7 +64,7 @@ const Navigation = ({ activeTab, setActiveTab, stats, showSetupTab = false }) =>
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-slate-800/90 backdrop-blur-sm border-t border-slate-700 z-50">
-      <div className={`grid ${showSetupTab ? 'grid-cols-8' : 'grid-cols-7'} h-16 max-w-7xl mx-auto`}>
+      <div className={`grid ${showSetupTab ? 'grid-cols-7' : 'grid-cols-6'} h-16 max-w-7xl mx-auto`}>
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.id

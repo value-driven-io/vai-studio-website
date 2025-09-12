@@ -97,6 +97,8 @@
       "duplicateSchedule": "Dupliquer l'Horaire",
       "selectTour": "Sélectionner l'Activité",
       "selectTourPlaceholder": "Choisir une activité à planifier",
+      "selectTemplate": "Sélectionner le Modèle d'Activité",
+      "chooseTemplate": "Choisir un modèle à planifier",
       "recurrenceType": "Type de Récurrence",
       "once": "Une fois",
       "daily": "Quotidien",

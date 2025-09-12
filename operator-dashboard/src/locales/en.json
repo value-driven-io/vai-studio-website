@@ -969,6 +969,8 @@
       "duplicateSchedule": "Duplicate Schedule",
       "selectTour": "Select Tour",
       "selectTourPlaceholder": "Choose an activity to schedule",
+      "selectTemplate": "Select Activity Template",
+      "chooseTemplate": "Choose a template to schedule",
       "recurrenceType": "Recurrence Type",
       "once": "One-time",
       "daily": "Daily",

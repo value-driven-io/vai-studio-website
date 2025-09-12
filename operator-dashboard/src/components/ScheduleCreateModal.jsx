@@ -3,14 +3,11 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
   X, Save, RotateCcw, Calendar, Clock, RefreshCw, 
-  Info, AlertCircle, CheckCircle, Eye, EyeOff,
-  ChevronDown, ChevronUp, Repeat, MapPin
+  Info, AlertCircle, Eye, EyeOff,
+  ChevronDown, ChevronUp, Repeat
 } from 'lucide-react'
 import { scheduleService } from '../services/scheduleService'
-import { formatPolynesianDate } from '../utils/timezone'
-
-// Local helper for dd.mm.yyyy format to avoid modifying shared timezone.js
-const POLYNESIA_TZ = 'Pacific/Tahiti' // UTC-10
+// Local helper for dd.mm.yyyy format
 
 const parsePolynesianDate = (dateString) => {
   if (!dateString) return null
@@ -44,10 +41,9 @@ const ScheduleCreateModal = ({
 }) => {
   const { t } = useTranslation()
   
-  // ==================== FORM STATE ====================
+  // ==================== FORM STATE - TEMPLATE-FIRST ONLY ====================
   const [formData, setFormData] = useState({
-    tour_id: '',
-    template_id: '', // Added for activity templates
+    template_id: '', // Only activity templates allowed
     recurrence_type: 'weekly',
     days_of_week: [],
     start_time: '09:00',
@@ -58,7 +54,7 @@ const ScheduleCreateModal = ({
   
   const [validationErrors, setValidationErrors] = useState({})
   const [loading, setLoading] = useState(false)
-  const [loadingMessage, setLoadingMessage] = useState('')
+  const [, setLoadingMessage] = useState('')
   const [showPreview, setShowPreview] = useState(false)
   const [previewData, setPreviewData] = useState([])
   const [generatingPreview, setGeneratingPreview] = useState(false)
@@ -71,10 +67,9 @@ const ScheduleCreateModal = ({
     preview: false
   })
   
-  // Available tours and templates for selection
-  const [availableTours, setAvailableTours] = useState([])
+  // Available templates for selection (TEMPLATE-FIRST ONLY)
   const [availableTemplates, setAvailableTemplates] = useState([])
-  const [loadingTours, setLoadingTours] = useState(true)
+  const [loadingTemplates, setLoadingTemplates] = useState(true)
   
   // Exception dates management
   const [newExceptionDate, setNewExceptionDate] = useState('')
@@ -82,18 +77,16 @@ const ScheduleCreateModal = ({
   // ==================== LIFECYCLE ====================
   useEffect(() => {
     if (isOpen) {
-      loadAvailableTours()
+      loadAvailableTemplates()
       
       // Pre-populate for edit mode
       if (existingSchedule) {
-        // For template schedules, tour_id actually contains the template ID
-        const isTemplateSchedule = existingSchedule.activity_templates || existingSchedule.tours?.is_template
+        // Only template-based schedules are supported
         setFormData({
-          tour_id: isTemplateSchedule ? '' : existingSchedule.tour_id || '',
-          template_id: isTemplateSchedule ? existingSchedule.tour_id : '',
+          template_id: existingSchedule.template_id || existingSchedule.activity_templates?.id || '',
           recurrence_type: existingSchedule.recurrence_type || 'weekly',
           days_of_week: existingSchedule.days_of_week || [],
-          start_time: existingSchedule.start_time ? existingSchedule.start_time.substring(0, 5) : '09:00', // Convert HH:MM:SS to HH:MM
+          start_time: existingSchedule.start_time ? existingSchedule.start_time.substring(0, 5) : '09:00',
           start_date: existingSchedule.start_date || '',
           end_date: existingSchedule.end_date || '',
           exceptions: existingSchedule.exceptions || []
@@ -109,18 +102,18 @@ const ScheduleCreateModal = ({
         resetForm()
       }
     }
-  }, [isOpen, existingSchedule])
+  }, [isOpen, existingSchedule]) // loadAvailableTemplates is stable
 
   // Auto-generate preview when form data changes
   useEffect(() => {
-    if (showPreview && (formData.tour_id || formData.template_id) && formData.start_date && formData.end_date) {
+    if (showPreview && formData.template_id && formData.start_date && formData.end_date) {
       generatePreview()
     }
-  }, [formData, showPreview])
+  }, [formData, showPreview]) // generatePreview is stable
 
   // Auto-show preview when form has enough data (but respect user's manual hide)
   useEffect(() => {
-    const hasMinimalData = (formData.tour_id || formData.template_id) && formData.start_date && formData.end_date && formData.recurrence_type
+    const hasMinimalData = formData.template_id && formData.start_date && formData.end_date && formData.recurrence_type
     const shouldAutoShowPreview = hasMinimalData && !showPreview && !userHidPreview
     
     if (shouldAutoShowPreview) {
@@ -131,30 +124,25 @@ const ScheduleCreateModal = ({
       
       return () => clearTimeout(timer)
     }
-  }, [formData.tour_id, formData.template_id, formData.start_date, formData.end_date, formData.recurrence_type, showPreview, userHidPreview])
+  }, [formData.template_id, formData.start_date, formData.end_date, formData.recurrence_type, showPreview, userHidPreview])
 
-  // ==================== DATA LOADING ====================
-  const loadAvailableTours = async () => {
+  // ==================== DATA LOADING - TEMPLATE-FIRST ONLY ====================
+  const loadAvailableTemplates = async () => {
     if (!operator?.id) return
     
     try {
-      setLoadingTours(true)
-      // Get active tours for this operator (legacy)
-      const { data: tours, error: toursError } = await scheduleService.getOperatorTours(operator.id)
-      if (toursError) throw toursError
-      setAvailableTours(tours || [])
+      setLoadingTemplates(true)
       
-      // Get activity templates for this operator (new system)
+      // Get activity templates for this operator (TEMPLATE-FIRST APPROACH)
       const { data: templates, error: templatesError } = await scheduleService.getOperatorActivityTemplates(operator.id)
       if (templatesError) throw templatesError
       setAvailableTemplates(templates || [])
       
     } catch (error) {
-      console.error('Error loading tours and templates:', error)
-      setAvailableTours([])
+      console.error('Error loading activity templates:', error)
       setAvailableTemplates([])
     } finally {
-      setLoadingTours(false)
+      setLoadingTemplates(false)
     }
   }
 
@@ -163,13 +151,8 @@ const ScheduleCreateModal = ({
       setGeneratingPreview(true)
       let preview = []
       
-      if (formData.template_id) {
-        // Generate preview for activity template schedule
-        preview = await scheduleService.generateActivityTemplateSchedulePreview(formData)
-      } else {
-        // Generate preview for legacy tour schedule
-        preview = await scheduleService.generateSchedulePreview(formData)
-      }
+      // Generate preview for activity template schedule (TEMPLATE-FIRST ONLY)
+      preview = await scheduleService.generateActivityTemplateSchedulePreview(formData)
       
       setPreviewData(preview)
     } catch (error) {
@@ -232,7 +215,6 @@ const ScheduleCreateModal = ({
 
   const resetForm = () => {
     setFormData({
-      tour_id: '',
       template_id: '',
       recurrence_type: 'weekly',
       days_of_week: [],
@@ -271,24 +253,15 @@ const ScheduleCreateModal = ({
         setLoadingMessage('Updating schedule...')
         result = await scheduleService.updateSchedule(existingSchedule.id, schedulePayload, operator.id)
       } else {
-        // Determine if this is a template schedule or legacy tour schedule
-        if (formData.template_id) {
-          // Creating schedule for activity template (new system)
-          setLoadingMessage('Creating schedule from template...')
-          result = await scheduleService.createActivityTemplateSchedule(schedulePayload)
-          
-          // Add progress indicator for tour generation
-          if (result && result.generated_tours_count > 0) {
-            setLoadingMessage(`Generated ${result.generated_tours_count} bookable tours...`)
-            // Small delay to show the message
-            await new Promise(resolve => setTimeout(resolve, 1000))
-          }
-        } else if (formData.tour_id) {
-          // Creating schedule for legacy tour (old system)
-          setLoadingMessage('Creating schedule...')
-          result = await scheduleService.createSchedule(schedulePayload)
-        } else {
-          throw new Error('TOUR_OR_TEMPLATE_REQUIRED')
+        // Create schedule from activity template (TEMPLATE-FIRST ONLY)
+        setLoadingMessage('Creating schedule from template...')
+        result = await scheduleService.createActivityTemplateSchedule(schedulePayload)
+        
+        // Add progress indicator for tour generation
+        if (result && result.generated_tours_count > 0) {
+          setLoadingMessage(`Generated ${result.generated_tours_count} bookable tours...`)
+          // Small delay to show the message
+          await new Promise(resolve => setTimeout(resolve, 1000))
         }
       }
       
@@ -349,11 +322,11 @@ const ScheduleCreateModal = ({
     const fieldErrors = {}
     
     if (errorMessage.includes('|')) {
-      const [errorCode, ...params] = errorMessage.split('|')
+      const [errorCode] = errorMessage.split('|')
       
       // Map specific error codes to form fields
       const errorFieldMap = {
-        'TOUR_ID_REQUIRED': 'tour_id',
+        'TOUR_ID_REQUIRED': 'template_id', // Legacy error code mapped to template
         'TEMPLATE_ID_REQUIRED': 'template_id',
         'START_TIME_REQUIRED': 'start_time',
         'START_DATE_REQUIRED': 'start_date',
@@ -431,14 +404,9 @@ const ScheduleCreateModal = ({
     const errors = {}
     
     switch (field) {
-      case 'tour_id':
       case 'template_id':
-        // Use the new value being set, not the old formData values
-        const currentTourId = field === 'tour_id' ? value : formData.tour_id
-        const currentTemplateId = field === 'template_id' ? value : formData.template_id
-        
-        if (!currentTourId && !currentTemplateId) {
-          errors[field] = t('schedules.errors.ACTIVITY_REQUIRED', { defaultValue: 'Please select an activity or template' })
+        if (!value) {
+          errors[field] = t('schedules.errors.TEMPLATE_REQUIRED', { defaultValue: 'Please select an activity template' })
         }
         break
         
@@ -503,6 +471,10 @@ const ScheduleCreateModal = ({
         if (formData.recurrence_type === 'weekly' && (!value || value.length === 0)) {
           errors[field] = t('schedules.errors.WEEKLY_REQUIRES_DAYS', { defaultValue: 'Select at least one day for weekly recurrence' })
         }
+        break
+      
+      default:
+        // No validation for other fields
         break
     }
     
@@ -598,93 +570,67 @@ const ScheduleCreateModal = ({
                   {expandedSections.basic && (
                     <div className="p-4 bg-slate-800/20 space-y-4">
                       
-                      {/* Tour Selection */}
+                      {/* Activity Template Selection - TEMPLATE-FIRST ONLY */}
                       <div>
                         <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
-                          {t('schedules.form.selectTour')} *
+                          📋 {t('schedules.form.selectTemplate')} *
                         </label>
                         <select
-                          value={formData.template_id ? `template_${formData.template_id}` : formData.tour_id || ''}
+                          value={formData.template_id || ''}
                           onChange={(e) => {
-                            const value = e.target.value
-                            if (value.startsWith('template_')) {
-                              // Activity template selected
-                              const templateId = value.replace('template_', '')
-                              
-                              // Update both fields atomically to avoid validation race condition
-                              setFormData(prev => ({
-                                ...prev,
-                                template_id: templateId,
-                                tour_id: ''
-                              }))
-                              
-                              // Clear errors for both fields
-                              setValidationErrors(prev => {
-                                const newErrors = { ...prev }
-                                delete newErrors.template_id
-                                delete newErrors.tour_id
-                                return newErrors
-                              })
-                              
-                            } else {
-                              // Legacy tour selected  
-                              setFormData(prev => ({
-                                ...prev,
-                                tour_id: value,
-                                template_id: ''
-                              }))
-                              
-                              // Clear errors for both fields
-                              setValidationErrors(prev => {
-                                const newErrors = { ...prev }
-                                delete newErrors.template_id
-                                delete newErrors.tour_id
-                                return newErrors
-                              })
-                              
-                              // Auto-populate dates from legacy tour to avoid date mismatch
-                              const selectedTour = availableTours.find(tour => tour.id === value)
-                              if (selectedTour) {
-                                handleFieldChange('start_date', selectedTour.tour_date)
-                                handleFieldChange('end_date', selectedTour.tour_date) // Same date for 'once' recurrence
-                                handleFieldChange('start_time', selectedTour.time_slot)
-                                handleFieldChange('recurrence_type', 'once') // Legacy tours are one-time
-                              }
-                            }
+                            const templateId = e.target.value
+                            handleFieldChange('template_id', templateId)
                           }}
                           className={`w-full p-3 bg-slate-700/50 border rounded-lg text-white transition-colors ${
-                            (validationErrors.tour_id || validationErrors.template_id)
+                            validationErrors.template_id
                               ? 'border-red-500 focus:border-red-500' 
                               : 'border-slate-600 focus:border-blue-500'
                           }`}
-                          disabled={loadingTours}
+                          disabled={loadingTemplates}
                         >
-                          <option value="">{loadingTours ? t('common.loading') : t('schedules.form.chooseTour')}</option>
+                          <option value="">
+                            {loadingTemplates ? t('common.loading') : t('schedules.form.chooseTemplate')}
+                          </option>
                           
-                          {/* Activity Templates (New System) */}
-                          {availableTemplates.length > 0 && (
-                            <optgroup label="📋 Activity Templates">
-                              {availableTemplates.map((template) => (
-                                <option key={`template_${template.id}`} value={`template_${template.id}`}>
-                                  🟣 {template.activity_name} - {template.activity_type}
-                                </option>
-                              ))}
-                            </optgroup>
-                          )}
-                          
-                          {/* Legacy Tours */}
-                          {availableTours.length > 0 && (
-                            <optgroup label="📅 Legacy Tours">
-                              {availableTours.map((tour) => (
-                                <option key={tour.id} value={tour.id}>
-                                  🔵 {tour.tour_name} - {tour.tour_type}
-                                </option>
-                              ))}
-                            </optgroup>
-                          )}
+                          {availableTemplates.map((template) => (
+                            <option key={template.id} value={template.id}>
+                              🟣 {template.activity_name} - {template.activity_type} 
+                              {template.island_location && ` (${template.island_location})`}
+                            </option>
+                          ))}
                         </select>
-                        {(validationErrors.tour_id || validationErrors.template_id) && (
-                          <p className="text-red-400 text-sm mt-1">{validationErrors.tour_id || validationErrors.template_id}</p>
+                        {validationErrors.template_id && (
+                          <p className="text-red-400 text-sm mt-1">{validationErrors.template_id}</p>
+                        )}
+                        
+                        {/* Template Info */}
+                        {formData.template_id && (
+                          <div className="mt-2 p-2 bg-slate-700/30 rounded-lg border border-slate-600">
+                            {(() => {
+                              const selectedTemplate = availableTemplates.find(t => t.id === formData.template_id)
+                              if (selectedTemplate) {
+                                return (
+                                  <div className="text-xs text-slate-300 space-y-1">
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-slate-400">Capacity:</span>
+                                      <span>{selectedTemplate.max_capacity} people</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-slate-400">Price:</span>
+                                      <span>{selectedTemplate.discount_price_adult} XPF</span>
+                                    </div>
+                                    {selectedTemplate.auto_close_hours && (
+                                      <div className="flex items-center justify-between">
+                                        <span className="text-slate-400">Booking deadline:</span>
+                                        <span>{selectedTemplate.auto_close_hours}h before activity</span>
+                                      </div>
+                                    )}
+                                  </div>
+                                )
+                              }
+                              return null
+                            })()} 
+                          </div>
                         )}
                       </div>
 
@@ -1057,7 +1003,7 @@ const ScheduleCreateModal = ({
                 </div>
 
                 {/* Schedule Summary */}
-                {(formData.tour_id || formData.template_id) && (
+                {formData.template_id && (
                   <div className="p-3 bg-slate-700/30 rounded-lg border border-slate-600 mb-4">
                     <div className="flex items-center gap-2 mb-2">
                       {getRecurrenceIcon(formData.recurrence_type)}

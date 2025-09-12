@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { 
-  Calendar, Clock, RefreshCw, AlertCircle, Plus, Edit, Trash2, 
+  Calendar, Clock, RefreshCw, AlertCircle, Plus, 
   Grid, List, ChevronLeft, ChevronRight, Activity,
   Users, DollarSign, Settings
 } from 'lucide-react'
@@ -11,6 +11,138 @@ import { supabase } from '../lib/supabase'
 // import { instanceService } from '../services/instanceService' // Removed: Using unified table approach
 import ScheduleCreateModal from './ScheduleCreateModal'
 import TourCustomizationModal from './TourCustomizationModal'
+
+// Template-Based Schedule Card Component (CLEAN BREAK)
+const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar, t }) => {
+  // TEMPLATE-FIRST: All schedules are template-based
+  const template = schedule.activity_templates
+  const activityName = template?.activity_name || 'Unknown Activity'
+  const activityType = template?.activity_type || 'Unknown Type'
+  
+  // Template schedule status
+  const getStatusInfo = () => {
+    if (template?.status === 'active') {
+      return { color: 'green', text: 'Active', dot: 'bg-green-500' }
+    }
+    return { color: 'red', text: 'Inactive', dot: 'bg-red-500' }
+  }
+  
+  const status = getStatusInfo()
+  
+  // Format recurrence pattern
+  const formatRecurrencePattern = () => {
+    if (schedule.recurrence_type === 'once') {
+      return `One-time on ${formatDate(schedule.start_date)}`
+    }
+    if (schedule.recurrence_type === 'daily') {
+      return `Daily ${schedule.start_time}`
+    }
+    if (schedule.recurrence_type === 'weekly') {
+      const days = schedule.days_of_week?.join(', ') || 'No days'
+      return `${days} ${schedule.start_time}`
+    }
+    return `${schedule.recurrence_type} ${schedule.start_time}`
+  }
+
+  const formatDate = (dateString) => {
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric',
+        year: 'numeric'
+      })
+    } catch {
+      return dateString
+    }
+  }
+
+  const formatDateRange = () => {
+    const start = formatDate(schedule.start_date)
+    const end = formatDate(schedule.end_date)
+    if (start === end) return start
+    return `${start} - ${end}`
+  }
+
+  return (
+    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
+      <div className="p-6">
+        {/* Header Line - Activity Name + Template */}
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-purple-500/20 text-purple-400">
+              <Activity className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-white text-lg">📅 {activityName}</h3>
+              <p className="text-sm text-slate-400">Template: {activityType}</p>
+            </div>
+          </div>
+          <div className={`w-3 h-3 ${status.dot} rounded-full`} title={status.text}></div>
+        </div>
+
+        {/* Schedule Pattern Line */}
+        <div className="flex items-center gap-2 mb-2 text-slate-300">
+          <Clock className="w-4 h-4" />
+          <span className="font-mono">🗓️  {formatRecurrencePattern()} | {formatDateRange()}</span>
+        </div>
+
+        {/* Capacity & Pricing Line */}
+        <div className="flex items-center gap-4 mb-2 text-slate-300">
+          <div className="flex items-center gap-1">
+            <Users className="w-4 h-4" />
+            <span>👥 {template?.max_capacity || 0} spots each</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <DollarSign className="w-4 h-4" />
+            <span>💰 {formatPrice(template?.discount_price_adult || 0)}</span>
+          </div>
+          <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+            status.color === 'green' 
+              ? 'bg-green-500/20 text-green-400' 
+              : 'bg-blue-500/20 text-blue-400'
+          }`}>
+            🟢 {status.text}
+          </div>
+        </div>
+
+        {/* Statistics Line - Placeholder for now */}
+        <div className="flex items-center gap-4 mb-4 text-slate-400 text-sm">
+          <span>📊 ? instances</span>
+          <span>? customized</span>
+          <span>? bookings</span>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 pt-2 border-t border-slate-700">
+          <button
+            onClick={() => onEdit(schedule)}
+            className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-lg transition-colors text-sm font-medium"
+          >
+            Edit Schedule
+          </button>
+          <button
+            onClick={() => {/* TODO: Implement pause/resume */}}
+            className="px-3 py-2 bg-yellow-600/20 hover:bg-yellow-600/30 text-yellow-400 hover:text-yellow-300 rounded-lg transition-colors text-sm font-medium"
+          >
+            Pause
+          </button>
+          <button
+            onClick={onViewCalendar}
+            className="px-3 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 hover:text-blue-300 rounded-lg transition-colors text-sm font-medium"
+          >
+            View Calendar
+          </button>
+          <button
+            onClick={() => onDelete(schedule)}
+            className="px-3 py-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 hover:text-red-300 rounded-lg transition-colors text-sm font-medium ml-auto"
+          >
+            Archive
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const SchedulesTab = ({ operator, formatPrice }) => {
   const { t } = useTranslation()
@@ -36,7 +168,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     if (operator?.id) {
       loadSchedules()
     }
-  }, [operator])
+  }, [operator]) // loadSchedules is stable
 
   const loadSchedules = async () => {
     try {
@@ -70,7 +202,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
       })
       
       // Debug: Check ALL tours for this operator first
-      const { data: allTours, error: allToursError } = await supabase
+      const { data: allTours } = await supabase
         .from('tours')
         .select('id, tour_name, activity_type, tour_date, time_slot, status, is_template')
         .eq('operator_id', operator.id)
@@ -105,10 +237,11 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     if (operator?.id && viewMode === 'calendar') {
       loadCalendarInstances()
     }
-  }, [operator, viewMode, currentDate])
+  }, [operator, viewMode, currentDate]) // loadCalendarInstances is stable
 
   // Removed obsolete instance generation - scheduled tours are created automatically when schedule is created
 
+  // eslint-disable-next-line no-unused-vars
   const formatDaysOfWeek = (daysArray) => {
     if (!daysArray || daysArray.length === 0) return 'No days set'
     
@@ -116,6 +249,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     return daysArray.map(day => dayNames[day - 1] || '?').join(', ')
   }
 
+  // eslint-disable-next-line no-unused-vars
   const formatRecurrenceType = (type) => {
     const types = {
       'once': t('schedules.recurrence.once'),
@@ -434,123 +568,51 @@ const SchedulesTab = ({ operator, formatPrice }) => {
           </div>
         </div>
       ) : (
-        /* List View - Enhanced */
-        <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-700/50">
-                <tr>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.tour')}</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.recurrence')}</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.days')}</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.time')}</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.period')}</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('schedules.table.created')}</th>
-                  <th className="text-left px-6 py-4 text-sm font-medium text-slate-300">{t('common.actions')}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-700">
-                {schedules.map((schedule) => (
-                  <tr key={schedule.id} className="hover:bg-slate-700/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${
-                          schedule.activity_templates 
-                            ? 'bg-purple-500/20 text-purple-400' 
-                            : 'bg-blue-500/20 text-blue-400'
-                        }`}>
-                          {schedule.activity_templates ? <Activity className="w-4 h-4" /> : <Calendar className="w-4 h-4" />}
-                        </div>
-                        <div>
-                          <div className="font-medium text-white">
-                            {schedule.activity_templates?.activity_name || schedule.tours?.tour_name || 'Unknown Activity'}
-                          </div>
-                          <div className="text-sm text-slate-400 flex items-center gap-2">
-                            {schedule.activity_templates ? (
-                              <>
-                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-purple-500/20 text-purple-400">
-                                  Template
-                                </span>
-                                <span className="flex items-center gap-1">
-                                  <Users className="w-3 h-3" />
-                                  {schedule.activity_templates.max_capacity} max
-                                </span>
-                                <span className="flex items-center gap-1">
-                                  <DollarSign className="w-3 h-3" />
-                                  {formatPrice(schedule.activity_templates.price_adult)}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-500/20 text-blue-400">
-                                  Legacy Tour
-                                </span>
-                                <span>{schedule.tours?.tour_type} • {schedule.tours?.max_capacity} max</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400">
-                        {formatRecurrenceType(schedule.recurrence_type)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-slate-300">
-                      {formatDaysOfWeek(schedule.days_of_week)}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-1 text-slate-300">
-                        <Clock className="w-4 h-4" />
-                        {schedule.start_time}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-slate-300">
-                      <div className="text-sm">
-                        <div>{schedule.start_date}</div>
-                        <div className="text-slate-500">to {schedule.end_date}</div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-slate-400 text-sm">
-                      {new Date(schedule.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        {/* Dynamic status indicator based on schedule type and activity */}
-                        {schedule.activity_templates && (
-                          <span className="flex items-center gap-1 px-2 py-1 text-xs bg-blue-600/20 text-blue-400 rounded-lg">
-                            <Activity className="w-3 h-3" />
-                            Template Schedule
-                          </span>
-                        )}
-                        {schedule.tours && !schedule.activity_templates && (
-                          <span className="flex items-center gap-1 px-2 py-1 text-xs bg-green-600/20 text-green-400 rounded-lg">
-                            <Calendar className="w-3 h-3" />
-                            Tour Schedule
-                          </span>
-                        )}
-                        
-                        <button
-                          onClick={() => handleEditSchedule(schedule)}
-                          className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
-                          title={t('common.edit')}
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteSchedule(schedule)}
-                          className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
-                          title={t('common.delete')}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        /* Enhanced Card-Based List View */
+        <div className="space-y-4">
+          {/* Status Legend */}
+          <div className="bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700 p-4">
+            <h3 className="text-sm font-medium text-slate-300 mb-3">Status Legend</h3>
+            <div className="flex flex-wrap gap-4 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-slate-400">Active & On Schedule</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                <span className="text-slate-400">Paused</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <span className="text-slate-400">Issues / Inactive</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                <span className="text-slate-400">Template-based</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                <span className="text-slate-400">Legacy Tour</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Schedule Cards */}
+          <div className="space-y-3">
+            {schedules.map((schedule) => (
+              <ScheduleCard 
+                key={schedule.id} 
+                schedule={schedule} 
+                formatPrice={formatPrice}
+                onEdit={handleEditSchedule}
+                onDelete={handleDeleteSchedule}
+                onViewCalendar={() => {
+                  setViewMode('calendar')
+                  // TODO: Filter calendar by this schedule
+                }}
+                t={t}
+              />
+            ))}
           </div>
         </div>
       )}
