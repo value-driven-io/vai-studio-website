@@ -1706,18 +1706,12 @@ export const scheduleService = {
         throw new Error('TOUR_ID_REQUIRED')
       }
 
-      // Step 1: Get the tour and its linked template
+      // Step 1: Get the tour and its schedule's template_id
       const { data: tourData, error: tourError } = await supabase
         .from('tours')
         .select(`
-          id, parent_schedule_id, template_id,
-          activity_schedules!parent_schedule_id(
-            template_id,
-            activity_templates!template_id(
-              discount_price_adult, discount_price_child, max_capacity, 
-              meeting_point, special_notes
-            )
-          )
+          id, parent_schedule_id,
+          schedules!parent_schedule_id(template_id)
         `)
         .eq('id', tourId)
         .eq('is_template', false)
@@ -1728,11 +1722,23 @@ export const scheduleService = {
         throw new Error(`TOUR_FETCH_FAILED|${tourError?.message}`)
       }
 
-      // Step 2: Get template values
-      const template = tourData.activity_schedules?.activity_templates
-      if (!template) {
-        console.error('No template found for tour:', tourId)
-        throw new Error('TEMPLATE_NOT_FOUND')
+      const templateId = tourData.schedules?.template_id
+      if (!templateId) {
+        console.error('No template_id found for tour:', tourId)
+        throw new Error('TEMPLATE_ID_NOT_FOUND')
+      }
+
+      // Step 2: Get template values directly
+      const { data: template, error: templateError } = await supabase
+        .from('tours')
+        .select('discount_price_adult, discount_price_child, max_capacity, meeting_point, special_notes')
+        .eq('id', templateId)
+        .eq('is_template', true)
+        .single()
+
+      if (templateError || !template) {
+        console.error('Error fetching template:', templateError)
+        throw new Error(`TEMPLATE_FETCH_FAILED|${templateError?.message}`)
       }
 
       console.log('📋 Found template for reset:', template)
