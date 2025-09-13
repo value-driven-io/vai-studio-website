@@ -7,6 +7,7 @@ const Toast = ({
   message, 
   details = null,
   duration = 6000, 
+  showProgress = true,
   onClose 
 }) => {
   const [isVisible, setIsVisible] = useState(true)
@@ -72,7 +73,7 @@ const Toast = ({
     <div className={`toast-container ${isVisible ? 'toast-enter' : 'toast-exit'}`}>
       <div className={`
         max-w-md w-full ${style.bg} ${style.border} border rounded-lg shadow-lg p-4
-        transform transition-all duration-300 ease-out
+        transform transition-all duration-300 ease-out relative overflow-hidden
       `}>
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
@@ -117,6 +118,14 @@ const Toast = ({
             <X className="w-4 h-4" />
           </button>
         </div>
+        
+        {/* Progress bar for timed toasts */}
+        {showProgress && duration > 0 && (
+          <div 
+            className={`toast-progress ${style.icon}`}
+            style={{ animationDuration: `${duration}ms` }}
+          />
+        )}
       </div>
     </div>
   )

@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { 
   Calendar, Clock, RefreshCw, AlertCircle, Plus, 
   Grid, List, ChevronLeft, ChevronRight, Activity,
-  Users, DollarSign, Settings
+  Users, DollarSign, Settings, CheckSquare, Square,
+  Pause, Play, Trash2, BarChart3, Target, CheckCircle
 } from 'lucide-react'
 import { scheduleService } from '../services/scheduleService'
 import { supabase } from '../lib/supabase'
@@ -14,7 +15,7 @@ import TourCustomizationModal from './TourCustomizationModal'
 import ScheduleUpdateWarningModal from './ScheduleUpdateWarningModal'
 
 // Template-Based Schedule Card Component (CLEAN BREAK)
-const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar, t }) => {
+const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar, t, bulkMode, isSelected, onToggleSelect }) => {
   // TEMPLATE-FIRST: All schedules are template-based
   const template = schedule.activity_templates
   const activityName = template?.activity_name || 'Unknown Activity'
@@ -70,11 +71,19 @@ const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar,
         {/* Header Line - Activity Name + Template */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
+            {bulkMode && (
+              <input
+                type="checkbox"
+                checked={isSelected}
+                onChange={() => onToggleSelect(schedule.id)}
+                className="w-4 h-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
+              />
+            )}
             <div className="p-2 rounded-lg bg-purple-500/20 text-purple-400">
               <Activity className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-semibold text-white text-lg">📅 {activityName}</h3>
+              <h3 className="font-semibold text-white text-lg">{activityName}</h3>
               <p className="text-sm text-slate-400">Template: {activityType}</p>
             </div>
           </div>
@@ -84,33 +93,49 @@ const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar,
         {/* Schedule Pattern Line */}
         <div className="flex items-center gap-2 mb-2 text-slate-300">
           <Clock className="w-4 h-4" />
-          <span className="font-mono">🗓️  {formatRecurrencePattern()} | {formatDateRange()}</span>
+          <span className="font-mono">{formatRecurrencePattern()} | {formatDateRange()}</span>
         </div>
 
         {/* Capacity & Pricing Line */}
         <div className="flex items-center gap-4 mb-2 text-slate-300">
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
-            <span>👥 {template?.max_capacity || 0} spots each</span>
+            <span>{template?.max_capacity || 0} spots each</span>
           </div>
           <div className="flex items-center gap-1">
             <DollarSign className="w-4 h-4" />
-            <span>💰 {formatPrice(template?.discount_price_adult || 0)}</span>
+            <span>{formatPrice(template?.discount_price_adult || 0)}</span>
           </div>
-          <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
             status.color === 'green' 
               ? 'bg-green-500/20 text-green-400' 
               : 'bg-blue-500/20 text-blue-400'
           }`}>
-            🟢 {status.text}
+            <CheckCircle className="w-3 h-3" />
+            {status.text}
           </div>
         </div>
 
-        {/* Statistics Line - Placeholder for now */}
+        {/* Statistics Line - Real Analytics */}
         <div className="flex items-center gap-4 mb-4 text-slate-400 text-sm">
-          <span>📊 ? instances</span>
-          <span>? customized</span>
-          <span>? bookings</span>
+          <span className="flex items-center gap-1">
+            <BarChart3 className="w-3 h-3" />
+            {schedule.total_instances || 0} instances
+          </span>
+          <span className="flex items-center gap-1">
+            <Settings className="w-3 h-3" />
+            {schedule.customized_instances || 0} customized
+          </span>
+          <span className="flex items-center gap-1">
+            <Target className="w-3 h-3" />
+            {schedule.total_bookings || 0} bookings
+          </span>
+          {schedule.revenue && (
+            <span className="flex items-center gap-1">
+              <DollarSign className="w-3 h-3" />
+              {formatPrice(schedule.revenue)}
+            </span>
+          )}
         </div>
 
         {/* Action Buttons */}
@@ -158,6 +183,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   // View state
   const [viewMode, setViewMode] = useState('list') // 'list' or 'calendar'
   const [currentDate, setCurrentDate] = useState(new Date())
+  const [calendarFilter, setCalendarFilter] = useState('all') // 'all' or specific schedule ID
   
   // Calendar state
   const [calendarInstances, setCalendarInstances] = useState([])
@@ -165,6 +191,10 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   // Tour customization state
   const [showTourCustomization, setShowTourCustomization] = useState(false)
   const [selectedTour, setSelectedTour] = useState(null)
+  
+  // Bulk operations state
+  const [selectedSchedules, setSelectedSchedules] = useState(new Set())
+  const [bulkMode, setBulkMode] = useState(false)
 
   // Load schedules on component mount
   useEffect(() => {
@@ -423,7 +453,80 @@ const SchedulesTab = ({ operator, formatPrice }) => {
   const getScheduledToursForDate = (date) => {
     if (!date) return []
     const dateStr = date.toISOString().split('T')[0]
-    return calendarInstances.filter(tour => tour.tour_date === dateStr)
+    let filteredTours = calendarInstances.filter(tour => tour.tour_date === dateStr)
+    
+    // Apply calendar filter by schedule
+    if (calendarFilter !== 'all') {
+      filteredTours = filteredTours.filter(tour => tour.parent_schedule_id === calendarFilter)
+    }
+    
+    return filteredTours
+  }
+  
+  // Helper function for calendar filter count
+  const getFilteredToursCount = () => {
+    if (calendarFilter === 'all') {
+      return calendarInstances.length
+    }
+    return calendarInstances.filter(tour => tour.parent_schedule_id === calendarFilter).length
+  }
+
+  // Bulk operations handlers
+  const toggleScheduleSelection = (scheduleId) => {
+    const newSelected = new Set(selectedSchedules)
+    if (newSelected.has(scheduleId)) {
+      newSelected.delete(scheduleId)
+    } else {
+      newSelected.add(scheduleId)
+    }
+    setSelectedSchedules(newSelected)
+  }
+
+  const selectAllSchedules = () => {
+    setSelectedSchedules(new Set(schedules.map(s => s.id)))
+  }
+
+  const clearSelection = () => {
+    setSelectedSchedules(new Set())
+    setBulkMode(false)
+  }
+
+  const handleBulkAction = async (action) => {
+    if (selectedSchedules.size === 0) return
+    
+    try {
+      const scheduleIds = Array.from(selectedSchedules)
+      let successCount = 0
+      
+      for (const scheduleId of scheduleIds) {
+        // For now, we'll implement pause/resume via template status update
+        // This could be expanded to proper schedule status management
+        const schedule = schedules.find(s => s.id === scheduleId)
+        if (schedule) {
+          const newStatus = action === 'pause' ? 'inactive' : 'active'
+          
+          // Update template status (affects all future tours from this schedule)
+          const { error } = await supabase
+            .from('tours')
+            .update({ status: newStatus })
+            .eq('id', schedule.template_id)
+            .eq('is_template', true)
+          
+          if (!error) {
+            successCount++
+          }
+        }
+      }
+      
+      if (successCount > 0) {
+        alert(`✅ ${action === 'pause' ? 'Paused' : 'Resumed'} ${successCount} schedule(s) successfully!`)
+        loadSchedules() // Refresh the list
+        clearSelection()
+      }
+    } catch (error) {
+      console.error('Bulk operation error:', error)
+      alert('❌ Error performing bulk operation: ' + error.message)
+    }
   }
 
   // Handle tour customization
@@ -488,6 +591,21 @@ const SchedulesTab = ({ operator, formatPrice }) => {
               Calendar
             </button>
           </div>
+
+          {/* Bulk Operations Toggle (only in list view) */}
+          {viewMode === 'list' && (
+            <button
+              onClick={() => setBulkMode(!bulkMode)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                bulkMode 
+                  ? 'bg-orange-600 text-white hover:bg-orange-700' 
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              {bulkMode ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
+              {bulkMode ? 'Exit Bulk' : 'Bulk Select'}
+            </button>
+          )}
           
           <button
             onClick={() => setShowCreateModal(true)}
@@ -505,6 +623,47 @@ const SchedulesTab = ({ operator, formatPrice }) => {
           </button>
         </div>
       </div>
+
+      {/* Bulk Actions Bar */}
+      {bulkMode && selectedSchedules.size > 0 && (
+        <div className="mb-6 p-4 bg-slate-800/50 border border-slate-600 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-slate-300">
+                {selectedSchedules.size} schedule{selectedSchedules.size > 1 ? 's' : ''} selected
+              </span>
+              <button
+                onClick={selectAllSchedules}
+                className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
+              >
+                Select All ({schedules.length})
+              </button>
+              <button
+                onClick={clearSelection}
+                className="text-slate-400 hover:text-slate-300 text-sm transition-colors"
+              >
+                Clear Selection
+              </button>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleBulkAction('pause')}
+                className="flex items-center gap-2 px-3 py-1 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors text-sm"
+              >
+                <Pause className="w-4 h-4" />
+                Pause Selected
+              </button>
+              <button
+                onClick={() => handleBulkAction('resume')}
+                className="flex items-center gap-2 px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm"
+              >
+                <Play className="w-4 h-4" />
+                Resume Selected
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Content Area */}
       {schedules.length === 0 ? (
@@ -544,8 +703,29 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
-            <div className="text-sm text-slate-400">
-              {calendarInstances.length} scheduled tours this month
+            
+            {/* Calendar Filter */}
+            <div className="flex items-center gap-4">
+              <select
+                value={calendarFilter}
+                onChange={(e) => setCalendarFilter(e.target.value)}
+                className="px-3 py-1 bg-slate-700 border border-slate-600 rounded-md text-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="all">All Schedules</option>
+                {schedules.map(schedule => {
+                  const template = schedule.activity_templates
+                  const activityName = template?.activity_name || 'Unknown Activity'
+                  return (
+                    <option key={schedule.id} value={schedule.id}>
+                      {activityName} ({schedule.recurrence_type})
+                    </option>
+                  )
+                })}
+              </select>
+              
+              <div className="text-sm text-slate-400">
+                {getFilteredToursCount()} tours {calendarFilter !== 'all' ? 'in filtered view' : 'this month'}
+              </div>
             </div>
           </div>
 
@@ -583,7 +763,13 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                           {date.getDate()}
                         </div>
                         <div className="space-y-1">
-                          {scheduledTours.slice(0, 3).map(tour => (
+                          {scheduledTours.slice(0, 3).map(tour => {
+                            // Determine promo badge
+                            const hasPromoDiscount = tour.promo_discount_percent || tour.promo_discount_value
+                            const hasCustomPricing = tour.discount_price_adult && tour.discount_price_adult !== tour.original_price_adult
+                            const showPromoBadge = hasPromoDiscount || hasCustomPricing
+                            
+                            return (
                             <div
                               key={tour.id}
                               onClick={() => handleCustomizeTour(tour)}
@@ -592,18 +778,24 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                                   ? 'bg-blue-500/20 text-blue-400 hover:bg-blue-500/30' 
                                   : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
                               }`}
-                              title={`${tour.tour_name} at ${tour.time_slot}${tour.is_customized ? ' (Customized)' : ''} - Click to customize`}
+                              title={`${tour.tour_name} at ${tour.time_slot}${tour.is_customized ? ' (Customized)' : ''}${hasPromoDiscount ? ' - Promo Applied' : hasCustomPricing ? ' - Custom Pricing' : ''} - Click to customize`}
                             >
-                              <div className="flex items-center justify-between">
+                              <div className="flex items-center justify-between gap-1">
                                 <span className="truncate">
                                   {tour.time_slot} {tour.tour_name}
                                 </span>
-                                {tour.is_customized && (
-                                  <Settings className="w-2 h-2 ml-1 flex-shrink-0" />
-                                )}
+                                <div className="flex items-center gap-0.5 flex-shrink-0">
+                                  {showPromoBadge && (
+                                    <div className="w-1.5 h-1.5 bg-amber-400 rounded-full" title={hasPromoDiscount ? 'Promotional discount applied' : 'Custom pricing set'} />
+                                  )}
+                                  {tour.is_customized && (
+                                    <Settings className="w-2 h-2" title="Tour has customizations" />
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          ))}
+                            )
+                          })}
                           {scheduledTours.length > 3 && (
                             <div className="text-xs text-slate-400">
                               +{scheduledTours.length - 3} more
@@ -617,6 +809,33 @@ const SchedulesTab = ({ operator, formatPrice }) => {
               })}
             </div>
           </div>
+
+          {/* Calendar Status Legend */}
+          <div className="p-4 border-t border-slate-700 bg-slate-900/30">
+            <h4 className="text-sm font-medium text-slate-300 mb-3">Calendar Legend</h4>
+            <div className="flex flex-wrap gap-6 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-green-500/20 border border-green-500/40 rounded"></div>
+                <span className="text-slate-400">Standard Tours</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-blue-500/20 border border-blue-500/40 rounded"></div>
+                <span className="text-slate-400">Customized Tours</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-amber-400 rounded-full"></div>
+                <span className="text-slate-400">Promotional Pricing</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Settings className="w-3 h-3 text-slate-400" />
+                <span className="text-slate-400">Has Customizations</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-blue-900/30 border-2 border-blue-500 rounded"></div>
+                <span className="text-slate-400">Today</span>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         /* Enhanced Card-Based List View */
@@ -624,27 +843,29 @@ const SchedulesTab = ({ operator, formatPrice }) => {
           {/* Status Legend */}
           <div className="bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700 p-4">
             <h3 className="text-sm font-medium text-slate-300 mb-3">Status Legend</h3>
-            <div className="flex flex-wrap gap-4 text-xs">
+            <div className="flex flex-wrap gap-6 text-xs">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-slate-400">Active & On Schedule</span>
+                <CheckCircle className="w-3 h-3 text-green-500" />
+                <span className="text-slate-400">Active Schedule</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                <span className="text-slate-400">Paused</span>
+                <Settings className="w-3 h-3 text-blue-400" />
+                <span className="text-slate-400">Customized Tours</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <span className="text-slate-400">Issues / Inactive</span>
+                <div className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
+                <span className="text-slate-400">Promotional Pricing</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                <span className="text-slate-400">Template-based</span>
+                <BarChart3 className="w-3 h-3 text-purple-400" />
+                <span className="text-slate-400">Analytics Available</span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                <span className="text-slate-400">Legacy Tour</span>
-              </div>
+              {bulkMode && (
+                <div className="flex items-center gap-2">
+                  <CheckSquare className="w-3 h-3 text-orange-400" />
+                  <span className="text-slate-400">Bulk Selection Mode</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -659,9 +880,12 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                 onDelete={handleDeleteSchedule}
                 onViewCalendar={() => {
                   setViewMode('calendar')
-                  // TODO: Filter calendar by this schedule
+                  setCalendarFilter(schedule.id) // Filter calendar by this schedule
                 }}
                 t={t}
+                bulkMode={bulkMode}
+                isSelected={selectedSchedules.has(schedule.id)}
+                onToggleSelect={toggleScheduleSelection}
               />
             ))}
           </div>
