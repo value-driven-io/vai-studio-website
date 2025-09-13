@@ -178,7 +178,7 @@ const ScheduleUpdateWarningModal = ({
                 Updating...
               </div>
             ) : (
-              'Apply Changes'
+              'Edit Schedule'
             )}
           </button>
         </div>

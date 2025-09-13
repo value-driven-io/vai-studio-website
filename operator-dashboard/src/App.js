@@ -37,6 +37,7 @@ import WelcomeMessage from './components/shared/WelcomeMessage'
 import SetupTab from './components/SetupTab'
 import notificationService from './services/notificationService'
 import onboardingStateManager from './services/onboardingStateManager'
+// Phase 2 will integrate custom Toast notifications with existing react-hot-toast
 
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
@@ -119,6 +120,7 @@ function AppContent() { // function App() { << before changes for the authcallba
   // ALL HOOKS MUST BE AT THE TOP
   const { operator, loading: authLoading, login, logout, isAuthenticated } = useAuth()
   const { t } = useTranslation()
+  // Custom toast integration pending Phase 2B implementation
   
   // 🔥 CONNECTION POOL PREWARMING - Run immediately on app start
   useEffect(() => {
@@ -2417,6 +2419,8 @@ function AppContent() { // function App() { << before changes for the authcallba
           }
         }}
       />
+
+      {/* Custom Toast System - Phase 2B Integration Point */}
 
     </div>
   )

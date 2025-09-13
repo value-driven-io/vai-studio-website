@@ -13,7 +13,7 @@ const TemplatesEmptyState = ({ onCreateTemplate }) => {
 
       {/* Heading */}
       <h3 className="text-xl font-semibold text-gray-900 mb-3">
-        🎨 Create Your First Activity Template
+        Create Your First Activity Template
       </h3>
       
       {/* Description */}
