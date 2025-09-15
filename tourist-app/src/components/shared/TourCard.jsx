@@ -76,7 +76,7 @@ const TourCard = ({
       {/* Main Card - ALL STYLING AND STRUCTURE PRESERVED */}
       <div 
         className={`bg-slate-800 rounded-xl border border-slate-700 hover:border-slate-600 
-            transition-all duration-300 overflow-hidden cursor-pointer mobile-card ${className}`}
+            transition-all duration-300 overflow-hidden cursor-pointer tour-card ${className}`}
         onClick={handleCardClick}
       >
         {/* Compact View */}

@@ -526,7 +526,7 @@ const MessagesTab = () => {
                           {conversation.tours?.tour_name || t('messages.interface.tourChat')}
                         </h3>
                         {conversation.unreadCount > 0 && (
-                          <span className="bg-blue-600 text-white text-xs px-2.5 py-1 rounded-full font-medium shadow-lg">
+                          <span className="bg-blue-600 text-white text-xs px-2.5 py-1 rounded-full font-medium shadow-lg message-notification">
                             {conversation.unreadCount}
                           </span>
                         )}

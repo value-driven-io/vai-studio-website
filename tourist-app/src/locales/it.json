@@ -1,21 +1,1074 @@
 {
+  "common": {
+    "discover": "Scopri",
+    "explore": "Esplora",
+    "journey": "Prenotazioni",
+    "messages": "Chat",
+    "loading": "Caricamento...",
+    "refresh": "Aggiorna",
+    "bookNow": "Prenota ora",
+    "close": "Chiudi",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "continue": "Continua",
+    "back": "Indietro",
+    "next": "Avanti",
+    "login": "Login",
+    "signOut": "Esci",
+    "hi": "Ia ora na",
+    "welcome": "Maeva",
+    "thankYou": "Mauruuru",
+    "goodbye": "Nana",
+    "notAvailable": "N/D",
+    "people": "persone",
+    "adults": "adulti",
+    "children": "bambini"
+  },
+  "header": {
+    "title": "VAI Tickets",
+    "subtitle": "La tua chiave per il paradiso",
+    "greeting": "Ia ora na, {{name}}!"
+  },
+  "navigation": {
+    "discover": "Scopri",
+    "explore": "Esplora",
+    "journey": "Prenotazioni",
+    "messages": "Chat",
+    "profile": "Supporto"
+  },
+  "discovery": {
+    "title": "Scopri la Polinesia Francese",
+    "subtitle": "Trova la tua attività perfetta",
+    "refreshTours": "Aggiorna attività",
+    "moodQuestion": "Scegli il tipo di attività",
+    "clearMood": "Cambia tipo",
+    "browseAllTours": "Sfoglia tutte le attività",
+    "lastMinuteDeals": "Offerte last-minute sull'isola",
+    "urgent": "URGENTE",
+    "endingSoon": "termina presto",
+    "moreUrgentDeals": "Vedi altre {{count}} offerte urgenti",
+    "perfectForMood": "Perfetto per il tipo {{mood}}",
+    "availableAdventures": "🌴 Avventure disponibili",
+    "viewAll": "Vedi tutto",
+    "seeMoreTours": "Vedi altre {{count}} attività",
+    "noToursFound": "Nessuna attività trovata per questo tipo",
+    "tryDifferentMood": "Prova un tipo diverso o controlla più tardi",
+    "didntFindQuestion": "Non hai trovato quello che cercavi?",
+    "tours": "attività",
+    "toursPlural": "attività",
+    "chooseIsland": "Scegli la tua isola",
+    "islandFirst": "Dov'è la tua attività?",
+    "personalize": "Personalizza:",
+    "quick": "Esperienze veloci",
+    "budget": "Budget",
+    "luxury": "Lusso",
+    "family": "Famiglia",
+    "romantic": "Romantico",
+    "noToursAvailable": "Nessuna attività disponibile",
+    "seeAllOptions": "Vedi tutte le opzioni",
+    "islandSelectionHelp": "Seleziona un'isola per vedere le attività disponibili",
+    "moodSelectionHelp": "Seleziona il tuo tipo per vedere attività personalizzate",
+    "perfectMatches": "Abbinamenti perfetti per te",
+    "tryFewerFilters": "Prova a rimuovere alcuni filtri o a esplorare opzioni diverse",
+    "clearFilters": "Cancella filtri",
+    "tryDifferentIsland": "Prova un'altra isola",
+    "noToursForMood": "Nessuna attività disponibile",
+    "steps": {
+      "location": "Luogo",
+      "mood": "Tipo",
+      "personalize": "Personalizza"
+    },
+    "personalizeExperience": "Personalizza la tua esperienza",
+    "yourPerfectActivity": "La tua attività perfetta",
+    "selectIslandDescription": "Seleziona quale isola vorresti esplorare",
+    "pickTypeDescription": "Scegli un tipo che si adatti al tuo vibe",
+    "addFiltersDescription": "Aggiungi filtri per trovare la tua attività",
+    "foundActivitiesDescription": "Trovate {{count}} attività che corrispondono alle tue preferenze",
+    "moreIslands": "Altre isole",
+    "exploring": "Esplorando",
+    "yourSelection": "La tua selezione",
+    "startOver": "Ricomincia",
+    "findActivities": "Trova attività",
+    "loadingActivities": "Caricamento attività...",
+    "noActivitiesFound": "Nessuna attività trovata",
+    "tryAdjustingFilters": "Prova a modificare i filtri o a selezionare una combinazione diversa di isola/tipo.",
+    "filtersCount": "{{count}} filtri",
+    "foundPerfectMatches": "Trovati {{count}} abbinamenti perfetti per te",
+    "perfectMatchesForYou": "abbinamenti perfetti per te",
+    "tryDifferentPreferences": "Prova preferenze diverse",
+    "exploreHint": "Oppure sfoglia tutte le attività disponibili con opzioni di ricerca dettagliate:",
+    "tryExploreTab": "O esplora tutte le attività →",
+    "filters": {
+      "halfDay": "Mezza giornata (2-4 ore)",
+      "fullDay": "Giornata intera (4-8 ore)",
+      "multiDay": "Più giorni",
+      "difficultyLabel": "Difficoltà",
+      "anyLevel": "Qualsiasi livello",
+      "anyBudget": "Qualsiasi budget",
+      "budgetFriendly": "Economico (sotto i 10000 XPF)",
+      "midRange": "Fascia media (10000-25000 XPF)",
+      "luxury": "Lusso (25000+ XPF)"
+    }
+  },
+  "moods": {
+    "adventure": {
+      "title": "Avventura",
+      "subtitle": "Fai salire l'adrenalina",
+      "description": "Esperienze elettrizzanti che ti faranno battere forte il cuore"
+    },
+    "relax": {
+      "title": "Relax",
+      "subtitle": "Trova la tua pace interiore",
+      "description": "Vibrazioni pacifiche per rigenerare la tua anima isolana"
+    },
+    "culture": {
+      "title": "Cultura",
+      "subtitle": "Connettiti con le tradizioni",
+      "description": "Esperienze autentiche e tradizioni dell'isola"
+    },
+    "ocean": {
+      "title": "Oceano",
+      "subtitle": "Tuffati nel paradiso",
+      "description": "Esplora l'incredibile mondo sottomarino delle nostre lagune"
+    }
+  },
+  "islands": {
+    "all": "Tutte le isole",
+    "tahiti": "Tahiti",
+    "moorea": "Moorea",
+    "boraBora": "Bora Bora",
+    "huahine": "Huahine",
+    "raiatea": "Raiatea",
+    "tahaa": "Taha'a",
+    "maupiti": "Maupiti",
+    "tikehau": "Tikehau",
+    "rangiroa": "Rangiroa",
+    "fakarava": "Fakarava",
+    "nukuHiva": "Nuku Hiva",
+    "other": "Altre",
+    "descriptions": {
+      "tahiti": "Isola principale - vibrante e culturale",
+      "moorea": "Isola sorella - montagne e lagune",
+      "boraBora": "Paradiso romantico - esperienze di lusso",
+      "huahine": "Isola giardino - pacifica e autentica",
+      "raiatea": "Isola sacra - eredità velica",
+      "tahaa": "Isola della vaniglia - esperienze culinarie",
+      "maupiti": "Gemma nascosta - bellezza incontaminata",
+      "tikehau": "Atollo di sabbia rosa - paradiso delle immersioni",
+      "rangiroa": "Laguna infinita - immersioni di classe mondiale",
+      "fakarava": "Biosfera UNESCO - acque cristalline",
+      "nukuHiva": "Avventura nelle Marchesi - selvaggia e remota",
+      "other": "Esplora altre splendide destinazioni"
+    }
+  },
+  "tours": {
+    "availableSpots": "posti disponibili",
+    "participants": "partecipanti",
+    "adults": "Adulti",
+    "children": "Bambini",
+    "totalAmount": "Importo totale",
+    "bookingDeadline": "Scadenza prenotazione",
+    "meetingPoint": "Punto d'incontro",
+    "duration": "Durata",
+    "inclusions": "Inclusioni",
+    "requirements": "Requisiti",
+    "restrictions": "Restrizioni"
+  },
+  "booking": {
+    "bookTour": "Prenota la tua avventura",
+    "customerInfo": "I tuoi dati",
+    "fullName": "Il tuo nome completo",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "phone": "Telefono",
+    "participants": "Partecipanti",
+    "specialRequirements": "Richieste speciali",
+    "totalCost": "Costo totale",
+    "confirmBooking": "Conferma la tua prenotazione",
+    "processingBooking": "Elaborazione della prenotazione...",
+    "bookingSuccess": "Prenotazione riuscita! Mauruuru",
+    "bookingError": "Errore di prenotazione"
+  },
+  "bookingModal": {
+    "header": "Prenota la tua avventura",
+    "tourSummary": "Riepilogo attività",
+    "quickBooking": "⚡ Prenotazione rapida",
+    "optionalDetails": "Dettagli opzionali (Telefono, Richieste speciali)",
+    "pricingSummary": "Riepilogo prezzi",
+    "estimatedTotal": "Totale stimato",
+    "paymentNote": "💡 Il pagamento viene effettuato direttamente con VAI!",
+    "termsNote": "Prenotando, accetti che il pagamento venga gestito direttamente all'interno della piattaforma VAI.",
+    "spotsLeft": "{{count}} posto rimasto",
+    "spotsLeftPlural": "{{count}} posti rimasti"
+  },
+  "form": {
+    "firstName": "Nome *",
+    "lastName": "Cognome *",
+    "whatsappNumber": "Numero WhatsApp *",
+    "emailAddress": "Indirizzo email *",
+    "adults": "Adulti *",
+    "children": "Bambini",
+    "phoneNumber": "Numero di telefono",
+    "specialRequirements": "Requisiti speciali",
+    "dietaryRestrictions": "Restrizioni alimentari",
+    "accessibilityNeeds": "Esigenze di accessibilità"
+  },
+  "placeholders": {
+    "firstName": "Il tuo nome",
+    "lastName": "Il tuo cognome",
+    "whatsapp": "+689 12 34 56 78",
+    "email": "la_tua@email.com",
+    "phone": "+689 12 34 56 78",
+    "specialRequests": "Eventuali richieste speciali o domande...",
+    "dietary": "Vegetariano, allergie, ecc.",
+    "accessibility": "Accesso per sedie a rotelle, assistenza alla mobilità, ecc.",
+    "backupContact": "Opzionale - per contatto di riserva"
+  },
+  "validation": {
+    "firstNameRequired": "Il nome è obbligatorio",
+    "lastNameRequired": "Il cognome è obbligatorio",
+    "whatsappRequired": "Il numero di WhatsApp è obbligatorio",
+    "whatsappInvalid": "Inserisci un numero di telefono valido",
+    "emailRequired": "L'email è obbligatoria",
+    "emailInvalid": "Inserisci un indirizzo email valido",
+    "phoneInvalid": "Inserisci un numero di telefono valido",
+    "adultsRequired": "È richiesto almeno 1 adulto",
+    "spotsExceeded": "Sono disponibili solo {{count}} posti"
+  },
+  "buttons": {
+    "reserveSpot": "🎫 Prenota il mio posto",
+    "creatingBooking": "Creazione prenotazione...",
+    "trackBooking": "Traccia la tua prenotazione",
+    "close": "Chiudi",
+    "whatsapp": "WhatsApp",
+    "viewPaymentDetails": "Vedi dettagli pagamento",
+    "checkRefundStatus": "Controlla stato rimborso",
+    "contactSupport": "Contatta il supporto"
+  },
+  "success": {
+    "bookingRequested": "Richiesta di prenotazione inviata! 🎉",
+    "adventureRequest": "La tua richiesta di avventura è in viaggio verso l'operatore!",
+    "bookingProgress": "AVANZAMENTO PRENOTAZIONE",
+    "paymentSecured": "Pagamento sicuro",
+    "paymentSecuredDesc": "Il tuo pagamento è autorizzato e protetto",
+    "operatorReview": "Revisione",
+    "operatorReviewDesc": "L'operatore confermerà entro 24 ore. Tieni d'occhio le tue email/controlla questa app!",
+    "paymentCaptured": "Pagamento acquisito",
+    "paymentCapturedDesc": "Pagamento finale elaborato dopo la conferma",
+    "readyAdventure": "Andiamo!",
+    "readyAdventureDesc": "La tua esperienza è confermata e pronta. È ora di divertirsi!",
+    "requested": "Richiesto",
+    "confirmed": "Confermato",
+    "complete": "Completato",
+    "accountCreated": "Account creato!",
+    "accountLinked": "Account collegato!",
+    "accountCreatedDesc": "Questa prenotazione è stata aggiunta al tuo account VAI esistente.",
+    "bookingDetails": "Dettagli prenotazione",
+    "reference": "Riferimento:",
+    "activity": "Attività:",
+    "date": "Data:",
+    "participants": "Partecipanti:",
+    "total": "Totale:",
+    "whatsNext": "Cosa succede ora?",
+    "confirmationChat": "Conferma e Chat",
+    "confirmationChatDesc": "La scheda messaggi si sbloccherà dopo la conferma",
+    "paymentProtection": "Protezione pagamento",
+    "paymentProtectionDesc": "Il tuo pagamento è sicuro. Nessun addebito fino alla conferma dell'operatore.",
+    "operatorDecision": "Decisione dell'operatore",
+    "operatorDecisionDesc": "Gli operatori rispondono il prima possibile",
+    "confirmationNotification": "Conferma e Notifica",
+    "confirmationNotificationDesc": "Riceverai una conferma istantanea quando accettata"
+  },
+  "status": {
+    "pending": "In attesa",
+    "pendingPayment": "In attesa (Pagamento sicuro)",
+    "pendingPaymentDesc": "Pagamento autorizzato, in attesa di conferma dall'operatore",
+    "confirmed": "Confermato",
+    "confirmedPaid": "Confermato e Pagato",
+    "confirmedPaidDesc": "Prenotazione confermata, pagamento acquisito con successo",
+    "completed": "Completato",
+    "declined": "Rifiutato",
+    "declinedRefunded": "Rifiutato (Rimborsato)",
+    "declinedRefundedDesc": "Prenotazione rifiutata, rimborso completo elaborato",
+    "cancelled": "Annullato",
+    "refunded": "Rimborsato",
+    "paymentAuthorized": "Pagamento autorizzato",
+    "paymentCaptured": "Pagamento acquisito",
+    "paymentRefunded": "Pagamento rimborsato",
+    "awaitingCapture": "In attesa di acquisizione del pagamento"
+  },
+  "bookingDetails": {
+    "paymentStatus": "Stato pagamento",
+    "paymentMethod": "Metodo di pagamento",
+    "authorizedAmount": "Importo autorizzato",
+    "capturedAmount": "Importo acquisito",
+    "refundedAmount": "Importo rimborsato",
+    "paymentProtected": "Il tuo pagamento è protetto",
+    "stripeSecured": "Protetto da Stripe",
+    "noChargeYet": "Nessun addebito fino alla conferma",
+    "chargeOnConfirmation": "Verrà addebitato alla conferma",
+    "refundProcessing": "Elaborazione rimborso...",
+    "refundComplete": "Rimborso completato",
+    "chargedUSD": "addebitato"
+  },
+  "explore": {
+    "title": "🔍 Esplora attività",
+    "subtitle": "Trova la tua prossima esperienza",
+    "available": "disponibile",
+    "loading": "Caricamento...",
+    "refresh": "Aggiorna",
+    "searchPlaceholder": "Cerca attività, isole...",
+    "filters": "Filtri",
+    "clear": "Pulisci",
+    "applyFilters": "Applica filtri",
+    "clearAllFilters": "Cancella tutti i filtri",
+    "toursFound": "attività trovate",
+    "noToursFound": "Nessuna attività trovata",
+    "noToursFoundDesc": "Prova a modificare i filtri o i termini di ricerca",
+    "timeFilters": {
+      "today": "Oggi",
+      "tomorrow": "Domani",
+      "thisWeek": "Settimana"
+    },
+    "filterLabels": {
+      "island": "📍 Isola",
+      "activityType": "🎯 Tipo di attività",
+      "duration": "⏱️ Durata",
+      "priceRange": "💰 Fascia di prezzo (XPF)"
+    },
+    "filterOptions": {
+      "allIslands": "Tutte le isole",
+      "allTypes": "Tutti i tipi",
+      "anyDuration": "Qualsiasi durata",
+      "under3Hours": "Meno di 3 ore",
+      "3to6Hours": "3-6 ore",
+      "over6Hours": "6+ ore"
+    },
+    "placeholders": {
+      "minPrice": "Prezzo min.",
+      "maxPrice": "Prezzo max."
+    },
+    "favorites": {
+      "added": "❤️ Aggiunto ai preferiti",
+      "removed": "💔 Rimosso dai preferiti"
+    },
+    "sortOptions": {
+      "date": "Data",
+      "price": "Prezzo",
+      "availability": "Posti",
+      "urgency": "Urgente"
+    },
+    "datePicker": {
+      "selectDates": "Seleziona date"
+    }
+  },
+  "tourCard": {
+    "urgency": {
+      "bookingEndsSoon": "La prenotazione termina a breve!",
+      "limitedTime": "Tempo limitato",
+      "bookToday": "Prenota oggi",
+      "minutesLeft": "min rimasti",
+      "hoursLeft": "h rimaste"
+    },
+    "capacity": {
+      "spotsLeft": "posti rimasti",
+      "max": "Max"
+    },
+    "pricing": {
+      "perAdult": "per adulto",
+      "save": "Risparmia"
+    },
+    "inclusions": {
+      "equipment": "Attrezzatura",
+      "food": "Cibo",
+      "pickup": "Trasporto"
+    },
+    "actions": {
+      "bookNow": "Prenota ora",
+      "details": "Dettagli"
+    },
+    "accessibility": {
+      "addToFavorites": "Aggiungi ai preferiti",
+      "removeFromFavorites": "Rimuovi dai preferiti",
+      "viewDetails": "Vedi dettagli"
+    },
+    "share": {
+      "copylink": "Link copiato negli appunti!"
+    }
+  },
+  "tourDetail": {
+    "languages": {
+      "tbd": "Lingue da definire",
+      "offered": "Lingue offerte"
+    },
+    "age": {
+      "ageRange": "Età {{min}}-{{max}} anni",
+      "minimumAge": "Età minima: {{min}} anni",
+      "maximumAge": "Età massima: {{max}} anni",
+      "suitableForAll": "Adatto a tutte le età",
+      "ageRequirements": "Requisiti di età per questa attività"
+    },
+    "fitness": {
+      "easy": "Facile - Per tutti",
+      "moderate": "Moderato - Un po' di attività",
+      "challenging": "Impegnativo - Buona forma fisica",
+      "expert": "Esperto - Ottima forma fisica",
+      "tbd": "Livello di fitness da definire",
+      "allLevels": "Tutti i livelli"
+    },
+    "sections": {
+      "aboutExperience": "Riguardo a questa esperienza",
+      "whatsIncluded": "Cosa è incluso",
+      "meetingPoint": "Punto d'incontro e luogo",
+      "ageRequirements": "Età e requisiti",
+      "weatherSafety": "Meteo e sicurezza",
+      "specialNotes": "Note speciali"
+    },
+    "details": {
+      "dateTime": "Data e ora",
+      "availability": "Disponibilità",
+      "duration": "Durata",
+      "fitnessLevel": "Livello di fitness",
+      "spotsLeft": "posti rimasti",
+      "ofMax": "di {{max}} max",
+      "hoursExperience": "{{hours}}h di esperienza",
+      "fullAdventure": "Avventura completa",
+      "toursCompleted": "attività completate"
+    },
+    "inclusions": {
+      "professionalEquipment": "Attrezzatura professionale",
+      "equipmentDesc": "Tutta l'attrezzatura necessaria fornita",
+      "foodRefreshments": "Cibo e rinfreschi",
+      "foodDesc": "Pasti e snack durante l'attività",
+      "beverages": "Bevande",
+      "beveragesDesc": "Acqua e bevande fornite",
+      "hotelTransfer": "Trasferimento dall'hotel",
+      "transferDesc": "Comodo servizio di trasporto"
+    },
+    "meetingPoint": {
+      "willBeConfirmed": "Il punto d'incontro sarà confermato dopo la prenotazione",
+      "detailsAfterBooking": "Dettagli esatti sulla posizione e indicazioni forniti dopo la conferma della prenotazione",
+      "pickupLocations": "Luoghi di prelievo disponibili:"
+    },
+    "requirements": {
+      "importantRequirements": "Requisiti importanti"
+    },
+    "weather": {
+      "weatherDependent": "Attività dipendente dal meteo",
+      "alternativeArrangements": "In caso di condizioni meteorologiche avverse verranno presi accordi alternativi",
+      "regulationCompliant": "Conforme alle normative",
+      "certifiedMarine": "Certificato per la fauna marina della Polinesia Francese"
+    },
+    "pricing": {
+      "perAdult": "per adulto",
+      "children": "Bambini:",
+      "save": "Risparmia",
+      "bookThisExperience": "Prenota questa esperienza"
+    },
+    "trust": {
+      "socialImpact": "🌱 Contributo a impatto sociale",
+      "authenticExperience": "🔥 Esperienza 100% autentica"
+    },
+    "defaults": {
+      "experienceDescription": "Vivi la bellezza della Polinesia Francese con la nostra attività attentamente curata. I dettagli saranno forniti al momento della prenotazione."
+    }
+  },
   "launchingSoon": {
     "title": "In arrivo!",
-    "message": "Ia ora na! Stiamo preparando un'esperienza indimenticabile per te nella Polinesia Francese. Sii il primo a sapere quando lanceremo.",
+    "message": "Ia ora na! Stiamo preparando un'esperienza indimenticabile per te nella Polinesia Francese. Sii il primo a sapere quando saremo online.",
     "form": {
       "placeholder": "Inserisci la tua email",
       "button": "Avvisami",
       "submitting": "Invio in corso...",
       "successTitle": "Māuruuru!",
-      "successMessage": "Sei nella lista. Ti avviseremo al lancio.",
-      "error": "Si è verificato un errore. Riprova.",
-      "consent": "Registrandoti, accetti di ricevere informazioni sul lancio di VAI Tickets.",
-      "duplicate": "Sei già nella nostra lista d'attesa!"
+      "successMessage": "Sei in lista. Ti avviseremo al lancio.",
+      "error": "Si è verificato un errore. Per favore, riprova.",
+      "consent": "Registrandoti, accetti di ricevere aggiornamenti sul lancio di VAI Tickets."
     },
     "footer": "VAI Tickets - La tua chiave per il paradiso"
   },
   "login": {
-    "moreInfo": "Maggiori informazioni su",
-    "foroperator": "Vuoi diventare un VAI Operator? → Clicca qui"
+    "moreInfo": "Più informazioni su ",
+    "foroperator": "Vuoi diventare un VAI Operator? → Clicca qui!"
+  },
+  "payment": {
+    "securePayment": "Pagamento sicuro",
+    "cardInformation": "Informazioni sulla carta",
+    "securedByStripe": "Protetto da Stripe • I dati della tua carta non vengono mai memorizzati",
+    "completePayment": "Completa pagamento",
+    "processing": "Elaborazione...",
+    "authorizingPayment": "Autorizzazione pagamento...",
+    "paymentAuthorized": "Pagamento sicuro! 💳",
+    "paymentSecured": "Il tuo pagamento è sicuro. L'operatore confermerà la tua prenotazione entro 24 ore.",
+    "noChargeUntilConfirmed": "💡 La tua carta non verrà addebitata finché l'operatore non conferma la prenotazione.",
+    "automaticRefund": "In caso di rifiuto, riceverai un rimborso completo automatico entro 24 ore.",
+    "paymentSetupError": "Errore di configurazione del pagamento: informazioni dell'operatore mancanti. Per favore, riprova.",
+    "chargingIn": "Ti verranno addebitati {{amount}} USD",
+    "displayedAs": "Visualizzato come {{amount}} {{currency}}",
+    "paymentError": "Pagamento non riuscito. Per favore, riprova o contatta il supporto.",
+    "paymentErrorDesc": "Controlla i dettagli della tua carta e riprova.",
+    "networkError": "Errore di connessione. Per favore, riprova.",
+    "insufficientFunds": "Fondi insufficienti. Per favore, usa una carta diversa.",
+    "cardDeclined": "Carta rifiutata. Per favore, riprova o usa una carta diversa.",
+    "expiredCard": "Carta scaduta. Per favore, usa una carta valida.",
+    "incorrectCvc": "Codice di sicurezza errato. Controlla il tuo CVC.",
+    "paymentSuccess": "Pagamento sicuro! La tua prenotazione è in fase di elaborazione.",
+    "paymentAuthorizedSuccess": "Pagamento autorizzato con successo! 🎉",
+    "awaitingConfirmation": "In attesa della conferma dell'operatore per acquisire il pagamento",
+    "chargeWillCaptureOn": "La tua carta verrà addebitata quando l'operatore confermerà",
+    "noRefundNeeded": "Nessun rimborso necessario - pagamento solo autorizzato",
+    "captureIn24h": "Il pagamento verrà acquisito entro 24 ore dalla conferma"
+  },
+  "errors": {
+    "activityNotAvailable": "Attività non disponibile"
+  },
+  "paymentFlow": {
+    "step1": "Inserisci i dettagli",
+    "step2": "Pagamento sicuro",
+    "step3": "Conferma",
+    "backToDetails": "Torna ai dettagli",
+    "proceedToPayment": "Procedi al pagamento"
+  },
+  "statusCard": {
+    "status": {
+      "pending": "In attesa",
+      "pendingDesc": "In attesa di conferma",
+      "confirmed": "Confermato!",
+      "confirmedDesc": "Pronti a partire",
+      "complete": "Completato",
+      "completeDesc": "Avventura terminata",
+      "declined": "Rifiutato",
+      "declinedDesc": "Non disponibile",
+      "cancelled": "Annullato",
+      "cancelledDesc": "Non disponibile",
+      "unknown": "Sconosciuto",
+      "unknownDesc": "Stato non chiaro"
+    },
+    "details": {
+      "participants": "Partecipanti",
+      "total": "Totale",
+      "reference": "Riferimento"
+    },
+    "actions": {
+      "moreDetails": "Più dettagli",
+      "contactOperator": "Contatta l'operatore",
+      "bookAgain": "Prenota di nuovo",
+      "getSupport": "Ottieni supporto"
+    },
+    "messages": {
+      "referencesCopied": "Riferimento prenotazione copiato!",
+      "pendingInfo": "{{statusDesc}} - Tieni d'occhio le tue email!",
+      "meetingPoint": "📍 Punto d'incontro: {{location}}"
+    },
+    "tourInfo": {
+      "tourNotAvailable": "Nome attività non disponibile",
+      "locationTBD": "Luogo da definire",
+      "operator": "Operatore"
+    }
+  },
+  "auth": {
+    "modal": {
+      "welcomeBack": "Bentornato",
+      "createAccount": "Crea account",
+      "firstName": "Nome",
+      "emailAddress": "Indirizzo email",
+      "password": "Password",
+      "whatsappOptional": "Numero WhatsApp (Opzionale)",
+      "forgotPassword": "Password dimenticata?",
+      "signIn": "Accedi",
+      "createAccountBtn": "Crea account",
+      "processing": "Elaborazione...",
+      "switchToRegister": "Non hai un account? Registrati",
+      "switchToLogin": "Hai già un account? Accedi"
+    },
+    "placeholders": {
+      "firstName": "Il tuo nome",
+      "email": "la_tua@email.com",
+      "password": "Password (min 6 caratteri)",
+      "whatsapp": "+689 12 34 56 78"
+    },
+    "benefits": {
+      "title": "Vantaggi dell'account:",
+      "trackBookings": "• Tieni traccia di tutte le tue prenotazioni in un unico posto",
+      "syncFavorites": "• Sincronizza i preferiti su tutti i dispositivi",
+      "fasterRebooking": "• Riprenota più velocemente con le preferenze salvate"
+    },
+    "emailConfirmation": {
+      "title": "📧 Conferma email:",
+      "message": "Dopo la registrazione, controlla la tua email (inclusa la cartella spam) e fai clic sul link di conferma per attivare il tuo account."
+    },
+    "messages": {
+      "accountCreated": "🎉 Account creato! Controlla la tua email per verificare il tuo account.",
+      "welcomeBack": "Bentornato! 🌴",
+      "checkEmailFormat": "Controlla il formato della tua email e riprova.",
+      "passwordTooShort": "La password deve essere di almeno 6 caratteri.",
+      "emailExists": "Questa email è già registrata. Prova ad accedere.",
+      "rateLimited": "Troppi tentativi. Attendi un momento e riprova.",
+      "authFailed": "Autenticazione fallita. Per favore, riprova.",
+      "enterEmailFirst": "Inserisci prima il tuo indirizzo email",
+      "resetEmailSent": "Email per il ripristino della password inviata! Controlla la tua casella di posta.",
+      "resetEmailFailed": "Impossibile inviare l'email di ripristino: {{error}}"
+    }
+  },
+  "app": {
+    "notifications": {
+      "emailConfirmed": "🎉 Benvenuto! La tua email è stata confermata.",
+      "passwordResetSuccess": "🔑 Reset della password riuscito! Ora puoi accedere.",
+      "tourNotFound": "Attività non trovata o non disponibile per la prenotazione",
+      "tourLoadFailed": "Impossibile caricare l'attività per la prenotazione"
+    }
+  },
+  "authCallback": {
+    "processing": {
+      "title": "🔄 Elaborazione autenticazione",
+      "message": "Elaborazione della tua autenticazione..."
+    },
+    "success": {
+      "title": "✅ Successo!",
+      "operatorWelcome": "Bentornato, {{companyName}}! Reindirizzamento al tuo pannello operatore...",
+      "touristWelcome": "Benvenuto, {{firstName}}! Reindirizzamento a VAI Tickets...",
+      "genericWelcome": "Benvenuto! Reindirizzamento a VAI Tickets..."
+    },
+    "error": {
+      "title": "❌ Errore di autenticazione",
+      "noSession": "Nessuna sessione di autenticazione valida trovata.",
+      "authFailed": "Autenticazione fallita. Riprova o contatta il supporto.",
+      "goToVaiTickets": "Vai a VAI Tickets",
+      "goToVaiOperator": "Vai a VAI Operator"
+    }
+  },
+  "modernBookingView": {
+    "searchPlaceholder": "Cerca prenotazioni, attività, operatori...",
+    "filters": "Filtri",
+    "refresh": "Aggiorna",
+    "status": "Stato",
+    "all": "Tutti",
+    "pending": "In attesa",
+    "paidPending": "Pagato e in attesa",
+    "confirmed": "Confermate",
+    "completed": "Completate",
+    "cancelled": "Annullate",
+    "refunded": "Rimborsate",
+    "dateRange": "Intervallo di date",
+    "dateRangeOptions": {
+      "all": "Sempre",
+      "thisWeek": "Questa settimana",
+      "thisMonth": "Questo mese",
+      "past": "Attività passate"
+    },
+    "tourType": "Tipo di attività",
+    "allTypes": "Tutti i tipi",
+    "island": "Isola",
+    "allIslands": "Tutte le isole",
+    "sortBy": "Ordina per:",
+    "sortOptions": {
+      "statusPriority": "Priorità stato",
+      "dateNewest": "Più recenti",
+      "dateOldest": "Meno recenti",
+      "tourDate": "Data attività",
+      "alphabetical": "A-Z"
+    },
+    "clearAll": "Cancella tutto",
+    "resultsShowing": "Mostrando {{count}} di {{total}} prenotazioni",
+    "filtered": "(filtrato)",
+    "sortedBy": "Ordinato per {{sortBy}}",
+    "emptyState": {
+      "noMatches": "Nessuna prenotazione corrisponde ai tuoi filtri",
+      "noBookings": "Nessuna prenotazione trovata",
+      "adjustFilters": "Prova a modificare i criteri di ricerca o i filtri",
+      "firstBooking": "Le tue prenotazioni appariranno qui una volta effettuata la prima",
+      "clearFilters": "Cancella filtri"
+    }
+  },
+  "overviewSection": {
+    "stats": {
+      "activeBookings": "Prenotazioni attive",
+      "upcomingTours": "Prossime attività",
+      "completed": "Completate",
+      "savedTours": "Attività salvate"
+    },
+    "welcome": {
+      "title": "🌴 Il tuo viaggio nella Polinesia Francese",
+      "withBookings": "Tieni traccia della tua prenotazione ({{count}}) e scopri altre fantastiche avventure",
+      "noBookings": "Pronto a iniziare la tua avventura? Scopri fantastiche attività qui sotto!"
+    },
+    "nextAdventure": {
+      "title": "Prossima avventura",
+      "with": "con {{operator}}",
+      "tbd": "Da definire",
+      "participants": "partecipanti",
+      "totalPaid": "Totale pagato:"
+    },
+    "awaitingConfirmation": {
+      "title": "In attesa di conferma",
+      "pending": "In attesa",
+      "responseTime": "Risposta entro 60 min",
+      "viewAll": "Vedi tutte le {{count}} prenotazioni in attesa →"
+    },
+    "emptyState": {
+      "title": "Inizia il tuo viaggio",
+      "message": "Non hai ancora effettuato nessuna prenotazione. Scopri fantastiche attività e inizia la tua avventura con VAI Tickets!",
+      "exploreTours": "Esplora attività"
+    }
+  },
+  "useTours": {
+    "badges": {
+      "ecoCertified": "Eco-Certificato",
+      "greatDeal": "Ottima Offerta"
+    },
+    "toasts": {
+      "loadFailed": "Impossibile caricare le attività. Per favore, riprova.",
+      "refreshSuccess": "Aggiornato! Trovate {{urgentCount}} offerte urgenti, {{totalCount}} attività totali {{moodInfo}}",
+      "refreshFailed": "Impossibile aggiornare le attività"
+    }
+  },
+  "journeyTab": {
+    "header": {
+      "title": "Il mio viaggio",
+      "yourBookings": "Le tue prenotazioni",
+      "bookingsCount": "{{count}} prenotazioni totali",
+      "noBookings": "Ancora nessuna prenotazione",
+      "actionNeeded": "azione richiesta",
+      "activitiesExplored": "attività esplorate",
+      "newBadge": "NUOVO"
+    },
+    "navigation": {
+      "dashboard": "Dashboard",
+      "dashboardShort": "Home",
+      "dashboardDesc": "Panoramica delle tue prenotazioni",
+      "active": "Attive",
+      "activeShort": "Attive",
+      "activeDesc": "Attività in attesa e imminenti",
+      "completed": "Completate",
+      "completedShort": "Fatte",
+      "completedDesc": "I tuoi ricordi di viaggio",
+      "findBookings": "Trova prenotazioni"
+    },
+    "quickActions": {
+      "title": "Hai bisogno di aiuto?",
+      "subtitle": "Trova le tue prenotazioni o ottieni supporto"
+    },
+    "achievements": {
+      "firstAdventure": "Prima avventura",
+      "activityExplorer": "Esploratore di attività",
+      "islandHopper": "Giramondo delle isole",
+      "wishlistMaster": "Maestro della wishlist",
+      "yourAchievements": "I tuoi traguardi"
+    },
+    "countdown": {
+      "untilNextAdventure": "alla prossima avventura"
+    },
+    "quickStats": {
+      "upcoming": "In arrivo",
+      "completed": "Completate",
+      "favorites": "Preferiti",
+      "achievements": "Traguardi",
+      "clickToView": "Clicca per vedere →",
+      "hideFavorites": "Nascondi preferiti ↑",
+      "showFavorites": "Mostra preferiti ↓",
+      "viewAchievements": "Vedi traguardi →"
+    },
+    "favorites": {
+      "yourFavorites": "I tuoi preferiti",
+      "manageAll": "Gestisci tutto",
+      "favoritedTour": "Attività preferita",
+      "viewAllFavorites": "Vedi tutti i {{count}} preferiti →"
+    },
+    "missingBookings": {
+      "title": "Mancano prenotazioni?",
+      "description": "Trova prenotazioni via email o WhatsApp",
+      "find": "Trova"
+    },
+    "welcome": {
+      "title": "Benvenuto nel tuo viaggio",
+      "subtitle": "La tua avventura nella Polinesia Francese inizia qui",
+      "exploreTours": "Esplora attività",
+      "findMyBookings": "Trova le mie prenotazioni"
+    },
+    "refreshReminder": "Clicca su aggiorna per lo stato più recente delle prenotazioni",
+    "bookTour": "Prenota attività"
+  },
+  "journey": {
+    "stages": {
+      "overview": "Panoramica",
+      "allBookings": "Tutte le prenotazioni",
+      "favorites": "Preferiti",
+      "active": "Attive",
+      "pending": "In attesa",
+      "readyToGo": "Pronte per partire",
+      "memories": "Ricordi"
+    },
+    "descriptions": {
+      "overview": "Il tuo viaggio in sintesi",
+      "allBookings": "Gestione prenotazioni",
+      "favorites": "Le tue esperienze salvate",
+      "active": "Tutte le prenotazioni attive",
+      "pending": "Richiede conferma",
+      "readyToGo": "Avventure confermate",
+      "memories": "Esperienze completate"
+    },
+    "messages": {
+      "openingChat": "Apertura chat con {{operator}}",
+      "bookingRefCopied": "Riferimento prenotazione copiato!",
+      "bookingsFound": "Trovata {{count}} prenotazione!",
+      "noBookingsFound": "Nessuna prenotazione trovata per questa email/WhatsApp",
+      "bookingSearchFailed": "Impossibile trovare le prenotazioni. Per favore, riprova.",
+      "bookingsRefreshed": "Prenotazioni aggiornate",
+      "noContactInfo": "Nessuna informazione di contatto trovata. Usa prima \"Trova le mie prenotazioni\"."
+    },
+    "sections": {
+      "activeBookings": "Prenotazioni attive",
+      "upcomingAdventures": "Prossime avventure",
+      "pastExperiences": "Esperienze passate",
+      "actionNeeded": "Azione richiesta",
+      "readyToGo": "Pronte per partire",
+      "yourMemories": "I tuoi ricordi"
+    },
+    "emptyStates": {
+      "activePending": "Le tue richieste di prenotazione in attesa appariranno qui",
+      "upcomingConfirmed": "Le attività confermate che hai prenotato appariranno qui",
+      "pastCompleted": "Le tue avventure completate saranno elencate qui",
+      "noActionNeeded": "Nessuna azione richiesta",
+      "noConfirmedYet": "Ancora nessuna attività confermata",
+      "noCompletedYet": "Ancora nessuna avventura completata",
+      "allUpToDate": "Tutte le tue prenotazioni sono aggiornate!",
+      "getStarted": "Prenota la tua prima avventura per iniziare",
+      "completedWillAppear": "Le tue attività completate appariranno qui",
+      "noBooksInCategory": "Nessuna prenotazione in questa categoria"
+    },
+    "tourInfo": {
+      "tourExperience": "Esperienza dell'attività",
+      "tourOperator": "Operatore dell'attività",
+      "withOperator": "con {{operator}}"
+    },
+    "interface": {
+      "searchPlaceholder": "Cerca prenotazioni...",
+      "exploreTours": "Esplora attività",
+      "startingSoon": "Inizia a breve!",
+      "userLevel": {
+        "explorer": "Esploratore",
+        "beginner": "Principiante",
+        "adventurer": "Avventuriero"
+      }
+    }
+  },
+  "bookingStats": {
+    "title": "Riepilogo delle tue prenotazioni",
+    "active": "Prenotazioni attive",
+    "completed": "Attività completate",
+    "totalSpent": "Spesa totale",
+    "actionsNeeded": "azioni richieste",
+    "viewActive": "Vedi attive",
+    "viewMemories": "Vedi ricordi",
+    "summary": "{{total}} prenotazioni totali • {{completed}} completate",
+    "noBookings": "Ancora nessuna prenotazione - inizia a esplorare!"
+  },
+  "nextTour": {
+    "title": "Prossima avventura",
+    "confirmed": "✅ Confermato e pronto",
+    "pending": "⏳ In attesa di conferma",
+    "daysUntil": "{{days}}g {{hours}}o all'avventura",
+    "hoursUntil": "{{hours}}o all'avventura",
+    "startingSoon": "Inizia a breve!",
+    "tourName": "La tua attività",
+    "location": "Luogo da definire",
+    "operator": "Operatore dell'attività",
+    "people": "persone",
+    "totalPaid": "Totale pagato",
+    "meetingPoint": "Punto d'incontro",
+    "reference": "Riferimento",
+    "chat": "Chatta con l'operatore",
+    "followUp": "Follow Up"
+  },
+  "bookingDetails": {
+    "header": {
+      "tourDetails": "Dettagli attività"
+    },
+    "sections": {
+      "tourDetails": "Dettagli attività",
+      "bookingInfo": "Info prenotazione",
+      "operatorDetails": "Dettagli operatore",
+      "customerDetails": "Dettagli cliente",
+      "pricing": "Prezzi",
+      "specialRequirements": "Requisiti speciali",
+      "tourDescription": "Descrizione attività"
+    },
+    "fields": {
+      "date": "Data",
+      "time": "Ora",
+      "duration": "Durata",
+      "type": "Tipo",
+      "meetingPoint": "Punto d'incontro",
+      "maxCapacity": "Capacità max",
+      "whatsIncluded": "Cosa è incluso",
+      "reference": "Riferimento",
+      "participants": "Partecipanti",
+      "booked": "Prenotato",
+      "confirmationBy": "Conferma entro",
+      "confirmed": "Confermato",
+      "company": "Azienda",
+      "island": "Isola",
+      "contact": "Contatto",
+      "whatsapp": "WhatsApp",
+      "phone": "Telefono",
+      "email": "Email",
+      "name": "Nome",
+      "adultPrice": "Prezzo adulto",
+      "childPrice": "Prezzo bambino",
+      "discount": "Sconto",
+      "subtotal": "Subtotale",
+      "total": "Totale",
+      "specialRequests": "Richieste speciali",
+      "dietaryRestrictions": "Restrizioni alimentari",
+      "accessibilityNeeds": "Esigenze di accessibilità",
+      "paymentId": "ID pagamento"
+    },
+    "status": {
+      "unknown": "Sconosciuto",
+      "statusUnclear": "Stato non chiaro"
+    },
+    "messages": {
+      "savings": "Hai risparmiato {{amount}} su questa prenotazione!"
+    },
+    "help": {
+      "pendingTitle": "Cosa succede dopo?",
+      "confirmedTitle": "Tutto a posto!",
+      "completedTitle": "Grazie per la tua avventura!",
+      "cancelledTitle": "Stato prenotazione",
+      "pending1": "La tua prenotazione è in fase di revisione da parte dell'operatore",
+      "pending2": "Riceverai una conferma entro 24 ore",
+      "pending3": "Il pagamento verrà addebitato solo dopo la conferma",
+      "pending4": "Non esitare a contattare l'operatore per domande",
+      "confirmed1": "La tua attività è confermata e assicurata",
+      "confirmed2": "Arriva puntuale al punto d'incontro",
+      "confirmed3": "Porta con te eventuali articoli richiesti menzionati nei dettagli dell'attività",
+      "confirmed4": "Contatta l'operatore se hai domande",
+      "completed1": "Speriamo tu abbia avuto un'esperienza fantastica!",
+      "completed2": "La tua prenotazione è ora completa",
+      "completed3": "Sentiti libero di prenotare di nuovo la stessa attività",
+      "completed4": "Contatta il supporto se hai bisogno di aiuto",
+      "cancelled1": "Questa prenotazione non è più attiva",
+      "cancelled2": "Eventuali pagamenti sono stati rimborsati",
+      "cancelled3": "Puoi prenotare un'attività simile in qualsiasi momento",
+      "cancelled4": "Contatta il supporto per assistenza"
+    },
+    "actions": {
+      "followUp": "Segui con l'operatore",
+      "contactOperator": "Chatta con l'operatore",
+      "bookAgain": "Prenota di nuovo",
+      "getSupport": "Ottieni supporto"
+    }
+  },
+  "simplifiedView": {
+    "active": {
+      "title": "Prenotazioni attive",
+      "subtitle": "Attività in attesa e imminenti",
+      "emptyTitle": "Nessuna prenotazione attiva",
+      "emptyMessage": "Tutte le tue prenotazioni sono complete. È tempo di nuove avventure!"
+    },
+    "completed": {
+      "title": "I tuoi ricordi di viaggio",
+      "subtitle": "Attività ed esperienze completate",
+      "emptyTitle": "Ancora nessuna attività completata",
+      "emptyMessage": "Le tue attività completate appariranno qui dopo le tue avventure."
+    },
+    "searchPlaceholder": "Cerca prenotazioni...",
+    "refresh": "Aggiorna",
+    "searchResults": "Mostrate {{count}} di {{total}} prenotazioni",
+    "noMatches": "Nessuna prenotazione corrispondente",
+    "tryDifferentSearch": "Prova un termine di ricerca diverso o cancella la ricerca.",
+    "clearSearch": "Cancella ricerca",
+    "exploreMore": "Esplora più attività",
+    "pendingCount": "{{count}} in attesa",
+    "confirmedCount": "{{count}} confermate",
+    "completedSummary": "{{count}} fantastiche avventure completate!"
+  },
+  "messages": {
+    "interface": {
+      "title": "Messaggi",
+      "subtitle": "Chatta con gli operatori delle tue attività",
+      "noConversations": "Ancora nessuna conversazione",
+      "startBooking": "I messaggi appariranno qui dopo che avrai confermato le prenotazioni",
+      "typeMessage": "Scrivi un messaggio...",
+      "sendMessage": "Invia messaggio",
+      "tourChat": "Chat attività",
+      "operator": "Operatore",
+      "you": "Tu: ",
+      "operatorLabel": "Operatore: ",
+      "today": "Oggi",
+      "yesterday": "Ieri"
+    },
+    "auth": {
+      "signInTitle": "Accedi per visualizzare i messaggi",
+      "signInDescription": "Connettiti con gli operatori delle tue attività"
+    },
+    "emptyChat": {
+      "noMessages": "Ancora nessun messaggio",
+      "startConversation": "Inizia la conversazione con il tuo operatore!"
+    },
+    "howItWorks": {
+      "title": "💡 Come funziona:",
+      "step1": "Prenota un'attività tramite l'app",
+      "step2": "Attendi la conferma dell'operatore",
+      "step3": "Inizia a chattare una volta confermato!"
+    },
+    "notifications": {
+      "loadConversationsFailed": "Impossibile caricare le conversazioni",
+      "loadMessagesFailed": "Impossibile caricare i messaggi",
+      "sendMessageFailed": "Impossibile inviare il messaggio",
+      "messageSent": "Messaggio inviato!"
+    }
+  },
+  "bookingLookup": {
+    "title": "Trova le tue prenotazioni",
+    "info": "Inserisci l'email o il numero di WhatsApp che hai usato al momento della prenotazione per visualizzare le tue prenotazioni.",
+    "form": {
+      "emailLabel": "Indirizzo email",
+      "whatsappLabel": "Numero WhatsApp",
+      "searchButton": "Trova le mie prenotazioni"
+    },
+    "placeholders": {
+      "email": "la_tua@email.com",
+      "whatsapp": "+689 12 34 56 78"
+    },
+    "validation": {
+      "provideContact": "Fornisci l'email o il numero di WhatsApp",
+      "validEmail": "Inserisci un indirizzo email valido",
+      "validPhone": "Inserisci un numero di telefono valido"
+    }
+  },
+  "profile": {
+    "support": {
+      "title": "💬 Supporto",
+      "whatsappButton": "📱 Supporto WhatsApp",
+      "emailButton": "✉️ Supporto Email",
+      "description": "Qui troverai tutto ciò che devi sapere. In caso di problemi, contattaci tramite WhatsApp."
+    },
+    "howItWorks": {
+      "title": "❓ Come funziona: VAI Tickets",
+      "step1": "1. Sfoglia le attività per tutte le isole 🔎",
+      "step2": "2. Invia una richiesta di prenotazione istantaneamente con l'app 🔥",
+      "step3": "3. Ricevi la conferma della prenotazione 😎",
+      "step4": "4. Connettiti con l'operatore 🗣️",
+      "step5": "5. Accordati sui dettagli come il punto di prelievo o d'incontro 💸",
+      "step6": "6. Goditi la tua attività 🏝️",
+      "step7": "7. Ripeti! 🤙"
+    },
+    "footer": "VAI Studio © 2025 Tutti i diritti riservati<br></br>Dalla Polinesia Francese con ❤️"
+  },
+  "toastNotifications": {
+    "tourUpdated": "Attività aggiornate!",
+    "refreshFailed": "Impossibile aggiornare le attività",
+    "favoriteAdded": "❤️ Aggiunto ai preferiti",
+    "favoriteRemoved": "💔 Rimosso dai preferiti",
+    "linkCopied": "Link dell'attività copiato negli appunti!",
+    "favoritesLoadFailed": "Impossibile caricare le attività preferite",
+    "operatorInfoFailed": "Impossibile ottenere le informazioni dell'operatore",
+    "operatorInfoMissing": "Mancano le informazioni dell'operatore. Contatta il supporto.",
+    "paymentDetails": "Dettagli pagamento: {{paymentId}}",
+    "bookingsLoadFailed": "Impossibile caricare le tue prenotazioni",
+    "bookingAdded": "Prenotazione aggiunta al tuo viaggio! 🌴",
+    "bookingConfirmed": "Prenotazione {{ref}} confermata! 🎉",
+    "bookingCancelled": "La prenotazione {{ref}} è stata annullata"
   }
 }

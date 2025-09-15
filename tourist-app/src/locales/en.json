@@ -42,7 +42,7 @@
   "discovery": {
     "title": "Discover French Polynesia",
     "subtitle": "Find your perfect Activity",
-    "refreshTours": "Refresh Tours",
+    "refreshTours": "Refresh Activities",
     "moodQuestion": "Choose the Type of Activities",
     "clearMood": "Change Type",
     "browseAllTours": "Browse All Activities",
@@ -53,12 +53,12 @@
     "perfectForMood": "Perfect for the {{mood}} type",
     "availableAdventures": "🌴 Available Adventures",
     "viewAll": "View All",
-    "seeMoreTours": "See {{count}} More Tours",
-    "noToursFound": "No tours found for this type",
+    "seeMoreTours": "See {{count}} More Activities",
+    "noToursFound": "No activities found for this type",
     "tryDifferentMood": "Try a different type or check back later",
     "didntFindQuestion": "Didn't find what you're looking for?",
-    "tours": "tour",
-    "toursPlural": "tours",
+    "tours": "activity",
+    "toursPlural": "activities",
     "chooseIsland": "Choose your island",
     "islandFirst": "Where's your activity?",
     "personalize": "Personalize:",
@@ -67,7 +67,7 @@
     "luxury": "Luxury",
     "family": "Family",
     "romantic": "Romantic",
-    "noToursAvailable": "No tours available",
+    "noToursAvailable": "No activities available",
     "seeAllOptions": "See all options",
     "islandSelectionHelp": "Select an island to see available activities",
     "moodSelectionHelp": "Select your type to see personalized activities",
@@ -75,7 +75,7 @@
     "tryFewerFilters": "Try removing some filters or explore different options",
     "clearFilters": "Clear filters",
     "tryDifferentIsland": "Try different island",
-    "noToursForMood": "No tours available",
+    "noToursForMood": "No activities available",
     "steps": {
       "location": "Location",
       "mood": "Type",
@@ -99,7 +99,7 @@
     "foundPerfectMatches": "Found {{count}} perfect matches for you",
     "perfectMatchesForYou": "perfect matches for you",
     "tryDifferentPreferences": "Try Different Preferences",
-    "exploreHint": "Or browse all available tours with detailed search options:",
+    "exploreHint": "Or browse all available activities with detailed search options:",
     "tryExploreTab": "Or explore all activities →",
     "filters": {
       "halfDay": "Half day (2-4 hours)",
@@ -199,13 +199,13 @@
 
   "bookingModal": {
     "header": "Book Your Adventure",
-    "tourSummary": "Tour Summary",
+    "tourSummary": "Activity Summary",
     "quickBooking": "⚡ Quick Booking",
     "optionalDetails": "Optional Details (Phone, Special Requests)",
     "pricingSummary": "Pricing Summary", 
     "estimatedTotal": "Estimated Total",
-    "paymentNote": "💡 Payment is made directly with the operator - no upfront cost!",
-    "termsNote": "By booking, you agree that payment will be handled directly with the tour operator.",
+    "paymentNote": "💡 Payment is made directly with VAI!",
+    "termsNote": "By booking, you agree that payment will be handled directly within the VAI platform.",
     "spotsLeft": "{{count}} spot left",
     "spotsLeftPlural": "{{count}} spots left"
   },
@@ -328,18 +328,18 @@
   },
 
   "explore": {
-    "title": "🔍 Explore Tours",
+    "title": "🔍 Explore Actvities",
     "subtitle": "Find your next experience", 
     "available": "available",
     "loading": "Loading...",
     "refresh": "Refresh",
-    "searchPlaceholder": "Search tours, islands...",
+    "searchPlaceholder": "Search activties, islands...",
     "filters": "Filters",
     "clear": "Clear",
     "applyFilters": "Apply Filters",
     "clearAllFilters": "Clear All Filters",
-    "toursFound": "tours found",
-    "noToursFound": "No tours found",
+    "toursFound": "activities found",
+    "noToursFound": "No activities found",
     "noToursFoundDesc": "Try adjusting your filters or search terms",
     
     "timeFilters": {
@@ -440,7 +440,7 @@
       "minimumAge": "Minimum age: {{min}} years", 
       "maximumAge": "Maximum age: {{max}} years",
       "suitableForAll": "Suitable for all ages",
-      "ageRequirements": "Age requirements for this tour"
+      "ageRequirements": "Age requirements for this activity"
     },
     
     "fitness": {
@@ -470,14 +470,14 @@
       "ofMax": "of {{max}} max",
       "hoursExperience": "{{hours}}h experience",
       "fullAdventure": "Full adventure",
-      "toursCompleted": "tours completed"
+      "toursCompleted": "activities completed"
     },
     
     "inclusions": {
       "professionalEquipment": "Professional Equipment",
       "equipmentDesc": "All necessary gear provided",
       "foodRefreshments": "Food & Refreshments", 
-      "foodDesc": "Meals and snacks during tour",
+      "foodDesc": "Meals and snacks during activity",
       "beverages": "Beverages",
       "beveragesDesc": "Water and drinks provided",
       "hotelTransfer": "Hotel Transfer",
@@ -514,7 +514,7 @@
     },
     
     "defaults": {
-      "experienceDescription": "Experience the beauty of French Polynesia with our carefully crafted tour. Details will be provided upon booking."
+      "experienceDescription": "Experience the beauty of French Polynesia with our carefully crafted activity. Details will be provided upon booking."
     }
   },
 
@@ -612,7 +612,7 @@
       "meetingPoint": "📍 Meeting point: {{location}}"
     },
     "tourInfo": {
-      "tourNotAvailable": "Tour Name Not Available",
+      "tourNotAvailable": "Activity Name Not Available",
       "locationTBD": "Location TBD",
       "operator": "Operator"
     }
@@ -667,8 +667,8 @@
     "notifications": {
       "emailConfirmed": "🎉 Welcome! Your email has been confirmed.",
       "passwordResetSuccess": "🔑 Password reset successful! You can now sign in.",
-      "tourNotFound": "Tour not found or unavailable for booking",
-      "tourLoadFailed": "Failed to load tour for booking"
+      "tourNotFound": "Activity not found or unavailable for booking",
+      "tourLoadFailed": "Failed to load activity for booking"
     }
   },
 
@@ -693,7 +693,7 @@
   },
 
   "modernBookingView": {
-    "searchPlaceholder": "Search bookings, tours, operators...",
+    "searchPlaceholder": "Search bookings, activities, operators...",
     "filters": "Filters",
     "refresh": "Refresh",
     "status": "Status",
@@ -709,9 +709,9 @@
       "all": "All Time",
       "thisWeek": "This Week",
       "thisMonth": "This Month",
-      "past": "Past Tours"
+      "past": "Past Activities"
     },
-    "tourType": "Tour Type",
+    "tourType": "Activity Type",
     "allTypes": "All Types",
     "island": "Island",
     "allIslands": "All Islands",
@@ -720,7 +720,7 @@
       "statusPriority": "Status Priority",
       "dateNewest": "Newest First",
       "dateOldest": "Oldest First",
-      "tourDate": "Tour Date",
+      "tourDate": "Activity Date",
       "alphabetical": "A-Z"
     },
     "clearAll": "Clear all",
@@ -739,14 +739,14 @@
   "overviewSection": {
     "stats": {
       "activeBookings": "Active Bookings",
-      "upcomingTours": "Upcoming Tours",
+      "upcomingTours": "Upcoming Activities",
       "completed": "Completed",
-      "savedTours": "Saved Tours"
+      "savedTours": "Saved Activities"
     },
     "welcome": {
       "title": "🌴 Your French Polynesia Journey",
       "withBookings": "Track your {{count}} booking{{plural}} and discover more amazing adventures",
-      "noBookings": "Ready to start your adventure? Discover amazing tours below!"
+      "noBookings": "Ready to start your adventure? Discover amazing activities below!"
     },
     "nextAdventure": {
       "title": "Next Adventure",
@@ -763,8 +763,8 @@
     },
     "emptyState": {
       "title": "Start Your Journey",
-      "message": "You haven't made any bookings yet. Discover amazing tours and start your adventure with VAI Tickets!",
-      "exploreTours": "Explore Tours"
+      "message": "You haven't made any bookings yet. Discover amazing activities and start your adventure with VAI Tickets!",
+      "exploreTours": "Explore Activities"
     }
   },
 
@@ -774,8 +774,8 @@
       "greatDeal": "Great Deal"
     },
     "toasts": {
-      "loadFailed": "Failed to load tours. Please try again.",
-      "refreshSuccess": "Refreshed! Found {{urgentCount}} urgent deals, {{totalCount}} total tours{{moodInfo}}",
+      "loadFailed": "Failed to load activities. Please try again.",
+      "refreshSuccess": "Refreshed! Found {{urgentCount}} urgent deals, {{totalCount}} total activities {{moodInfo}}",
       "refreshFailed": "Failed to refresh activities"
     }
   },
@@ -796,7 +796,7 @@
       "dashboardDesc": "Overview of your bookings",
       "active": "Active",
       "activeShort": "Active",
-      "activeDesc": "Pending and upcoming tours",
+      "activeDesc": "Pending and upcoming Activities",
       "completed": "Completed",
       "completedShort": "Done",
       "completedDesc": "Your travel memories",
@@ -829,7 +829,7 @@
     "favorites": {
       "yourFavorites": "Your Favorites",
       "manageAll": "Manage All",
-      "favoritedTour": "Favorited Tour",
+      "favoritedTour": "Favorited Activity",
       "viewAllFavorites": "View all {{count}} favorites →"
     },
     "missingBookings": {
@@ -840,11 +840,11 @@
     "welcome": {
       "title": "Welcome to Your Journey",
       "subtitle": "Your French Polynesia adventure starts here",
-      "exploreTours": "Explore Tours",
+      "exploreTours": "Explore Activities",
       "findMyBookings": "Find My Bookings"
     },
     "refreshReminder": "Click refresh for latest status updates on bookings",
-    "bookTour": "Book Tour"
+    "bookTour": "Book Activity"
   },
 
   "journey": {
@@ -885,24 +885,24 @@
     },
     "emptyStates": {
       "activePending": "Your pending booking requests will appear here",
-      "upcomingConfirmed": "Confirmed tours you've booked will show here", 
+      "upcomingConfirmed": "Confirmed activities you've booked will show here", 
       "pastCompleted": "Your completed adventures will be listed here",
       "noActionNeeded": "No action needed",
-      "noConfirmedYet": "No confirmed tours yet",
+      "noConfirmedYet": "No confirmed activities yet",
       "noCompletedYet": "No completed adventures yet",
       "allUpToDate": "All your bookings are up to date!",
       "getStarted": "Book your first adventure to get started",
-      "completedWillAppear": "Your completed tours will appear here",
+      "completedWillAppear": "Your completed activities will appear here",
       "noBooksInCategory": "No bookings in this category"
     },
     "tourInfo": {
-      "tourExperience": "Tour Experience",
-      "tourOperator": "Tour Operator", 
+      "tourExperience": "Activity Experience",
+      "tourOperator": "Activity Operator", 
       "withOperator": "with {{operator}}"
     },
     "interface": {
       "searchPlaceholder": "Search bookings...",
-      "exploreTours": "Explore Tours",
+      "exploreTours": "Explore Activities",
       "startingSoon": "Starting soon!",
       "userLevel": {
         "explorer": "Explorer",
@@ -915,7 +915,7 @@
   "bookingStats": {
     "title": "Your Booking Overview",
     "active": "Active Bookings",
-    "completed": "Completed Tours",
+    "completed": "Completed Activities",
     "totalSpent": "Total Spent",
     "actionsNeeded": "actions needed",
     "viewActive": "View Active",
@@ -931,9 +931,9 @@
     "daysUntil": "{{days}}d {{hours}}h until adventure",
     "hoursUntil": "{{hours}}h until adventure",
     "startingSoon": "Starting soon!",
-    "tourName": "Your Tour",
+    "tourName": "Your Activity",
     "location": "Location TBD",
-    "operator": "Tour Operator",
+    "operator": "Activity Operator",
     "people": "people",
     "totalPaid": "Total paid",
     "meetingPoint": "Meeting Point",
@@ -944,16 +944,16 @@
 
   "bookingDetails": {
     "header": {
-      "tourDetails": "Tour Details"
+      "tourDetails": "Activity Details"
     },
     "sections": {
-      "tourDetails": "Tour Details",
+      "tourDetails": "Activity Details",
       "bookingInfo": "Booking Info",
       "operatorDetails": "Operator Details",
       "customerDetails": "Customer Details",
       "pricing": "Pricing",
       "specialRequirements": "Special Requirements",
-      "tourDescription": "Tour Description"
+      "tourDescription": "Activity Description"
     },
     "fields": {
       "date": "Date",
@@ -1001,17 +1001,17 @@
       "pending2": "You will receive confirmation within 24 hours",
       "pending3": "Payment will only be charged after confirmation",
       "pending4": "Feel free to contact the operator for questions",
-      "confirmed1": "Your tour is confirmed and secured",
+      "confirmed1": "Your Activity is confirmed and secured",
       "confirmed2": "Arrive at the meeting point on time",
-      "confirmed3": "Bring any required items mentioned in tour details",
+      "confirmed3": "Bring any required items mentioned in activity details",
       "confirmed4": "Contact the operator if you have any questions",
       "completed1": "Hope you had an amazing experience!",
       "completed2": "Your booking is now complete",
-      "completed3": "Feel free to book the same tour again",
+      "completed3": "Feel free to book the same activity again",
       "completed4": "Contact support if you need any help",
       "cancelled1": "This booking is no longer active",
       "cancelled2": "Any payments have been refunded",
-      "cancelled3": "You can book a similar tour anytime",
+      "cancelled3": "You can book a similar activity anytime",
       "cancelled4": "Contact support for assistance"
     },
     "actions": {
@@ -1025,15 +1025,15 @@
   "simplifiedView": {
     "active": {
       "title": "Active Bookings",
-      "subtitle": "Pending and upcoming tours",
+      "subtitle": "Pending and upcoming activities",
       "emptyTitle": "No Active Bookings",
       "emptyMessage": "All your bookings are complete. Time for new adventures!"
     },
     "completed": {
       "title": "Your Travel Memories",
-      "subtitle": "Completed tours and experiences",
-      "emptyTitle": "No Completed Tours Yet",
-      "emptyMessage": "Your completed tours will appear here after your adventures."
+      "subtitle": "Completed activities and experiences",
+      "emptyTitle": "No Completed Activities Yet",
+      "emptyMessage": "Your completed activities will appear here after your adventures."
     },
     "searchPlaceholder": "Search bookings...",
     "refresh": "Refresh",
@@ -1041,7 +1041,7 @@
     "noMatches": "No matching bookings",
     "tryDifferentSearch": "Try a different search term or clear the search.",
     "clearSearch": "Clear Search",
-    "exploreMore": "Explore More Tours",
+    "exploreMore": "Explore More Activities",
     "pendingCount": "{{count}} pending",
     "confirmedCount": "{{count}} confirmed",
     "completedSummary": "{{count}} amazing adventures completed!"
@@ -1050,12 +1050,12 @@
   "messages": {
     "interface": {
       "title": "Messages",
-      "subtitle": "Chat with your tour operators",
+      "subtitle": "Chat with your activity operators",
       "noConversations": "No conversations yet",
       "startBooking": "Messages will appear here after you have confirmed bookings",
       "typeMessage": "Type a message...",
       "sendMessage": "Send message",
-      "tourChat": "Tour Chat",
+      "tourChat": "Activity Chat",
       "operator": "Operator",
       "you": "You: ",
       "operatorLabel": "Operator: ",
@@ -1064,7 +1064,7 @@
     },
     "auth": {
       "signInTitle": "Sign in to view messages",
-      "signInDescription": "Connect with your tour operators"
+      "signInDescription": "Connect with your activity operators"
     },
     "emptyChat": {
       "noMessages": "No messages yet",
@@ -1072,7 +1072,7 @@
     },
     "howItWorks": {
       "title": "💡 How it works:",
-      "step1": "Book a tour through the app",
+      "step1": "Book a activity through the app",
       "step2": "Wait for operator confirmation", 
       "step3": "Start chatting once confirmed!"
     },
@@ -1112,26 +1112,26 @@
     },
     "howItWorks": {
       "title": "❓ How to: VAI Tickets",
-      "step1": "1. Browse last-minute tour deals 🔎",
+      "step1": "1. Browse Activities for All Islands 🔎",
       "step2": "2. Send booking request instantly with the app 🔥", 
       "step3": "3. Get booking confirmation 😎",
       "step4": "4. Connect with the Operator 🗣️",
-      "step5": "5. Pay directly with the Operator 💸",
+      "step5": "5. Agree on details like pick-up spot or meeting-point 💸",
       "step6": "6. Enjoy your Activity 🏝️",
       "step7": "7. Repeat! 🤙"
     },
-    "footer": "VAI.studio © 2025 All rights reserved<br></br>From French Polynesia with ❤️"
+    "footer": "VAI Studio © 2025 All rights reserved<br></br>From French Polynesia with ❤️"
   },
 
   "toastNotifications": {
-    "tourUpdated": "Tours updated!",
-    "refreshFailed": "Failed to refresh tours",
+    "tourUpdated": "Activities updated!",
+    "refreshFailed": "Failed to refresh activities",
     "favoriteAdded": "❤️ Added to favorites", 
     "favoriteRemoved": "💔 Removed from favorites",
     "linkCopied": "Activity link copied to clipboard!",
-    "favoritesLoadFailed": "Failed to load favorite tours",
-    "operatorInfoFailed": "Failed to get tour operator information",
-    "operatorInfoMissing": "Tour operator information is missing. Please contact support.",
+    "favoritesLoadFailed": "Failed to load favorite activities",
+    "operatorInfoFailed": "Failed to get operator information",
+    "operatorInfoMissing": "Operator information is missing. Please contact support.",
     "paymentDetails": "Payment details: {{paymentId}}",
     "bookingsLoadFailed": "Failed to load your bookings",
     "bookingAdded": "Booking added to your journey! 🌴",

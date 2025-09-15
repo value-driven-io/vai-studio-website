@@ -252,7 +252,7 @@ const JourneyTab = () => {
                       : hasUrgent
                       ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
                       : 'bg-slate-700/40 text-slate-300'
-                  }`}
+                  } journey-stage-button`}
                   title={view.description}
                 >
                   {/* Icon with urgent indicator */}
@@ -408,7 +408,7 @@ const JourneyTab = () => {
         <div className="fixed bottom-20 right-6 z-50">
           <button
             onClick={() => setActiveTab && setActiveTab('explore')}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center gap-2 group"
+            className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center gap-2 group floating-button"
           >
             <Plus className="w-6 h-6" />
             <span className="hidden group-hover:block text-sm font-medium pr-2">

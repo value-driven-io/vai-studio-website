@@ -71,7 +71,7 @@ const BookingStatsCard = ({
               key={stat.id}
               className={`relative rounded-xl p-4 border transition-all ${stat.bgColor} ${stat.borderColor} ${
                 stat.id !== 'total' ? 'cursor-pointer group' : ''
-              }`}
+              } stats-card`}
               onClick={stat.id !== 'total' ? () => onViewChange(stat.id) : undefined}
             >
               <div className="flex items-center gap-3">

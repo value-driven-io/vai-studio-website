@@ -81,7 +81,7 @@ const OverviewSection = ({
               onClick={() => setActiveSection(stat.section)}
               className={`p-4 rounded-xl border transition-all hover:scale-105 ${
                 stat.bgColor
-              } border-slate-600 hover:border-slate-500`}
+              } border-slate-600 hover:border-slate-500 stats-card`}
             >
               <div className="flex items-center gap-3">
                 <Icon className={`w-5 h-5 ${stat.color}`} />
