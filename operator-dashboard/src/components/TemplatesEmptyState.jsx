@@ -12,19 +12,19 @@ const TemplatesEmptyState = ({ onCreateTemplate }) => {
       </div>
 
       {/* Heading */}
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">
+      <h3 className="text-xl font-semibold text-gray-300 mb-3">
         Create Your First Activity Template
       </h3>
       
       {/* Description */}
-      <p className="text-gray-600 mb-6 max-w-md mx-auto">
+      <p className="text-slate-500 mb-6 max-w-md mx-auto">
         Templates are reusable and the foundation for your Activity instances. Create them once, then schedule them multiple times with different dates and frequencies.
       </p>
 
       {/* Benefits */}
-      <div className="bg-gray-50 rounded-lg p-4 mb-6 max-w-lg mx-auto">
-        <h4 className="text-sm font-medium text-gray-900 mb-3">Templates help you:</h4>
-        <ul className="text-sm text-gray-600 space-y-2">
+      <div className="rounded-lg p-4 mb-6 max-w-lg mx-auto border border-slate-600">
+        <h4 className="text-sm font-medium text-slate-300 mb-3">Templates help you:</h4>
+        <ul className="text-sm text-slate-500 space-y-2">
           <li className="flex items-center gap-2">
             <span className="text-green-500">✓</span>
             Save time by reusing activity details
@@ -62,16 +62,6 @@ const TemplatesEmptyState = ({ onCreateTemplate }) => {
         </p>
       </div>
 
-      {/* Help link */}
-      <div className="mt-8 pt-6 border-t border-gray-200">
-        <a 
-          href="#" 
-          className="text-sm text-indigo-600 hover:text-indigo-700 flex items-center justify-center gap-1"
-        >
-          <HelpCircle className="w-4 h-4" />
-          Learn more about templates
-        </a>
-      </div>
     </div>
   )
 }
