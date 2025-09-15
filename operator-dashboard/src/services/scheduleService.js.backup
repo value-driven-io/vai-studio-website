@@ -1883,7 +1883,7 @@ export const scheduleService = {
 
       // Status validations
       if (customizations.status !== undefined) {
-        const validStatuses = ['active', 'sold_out', 'cancelled', 'completed']
+        const validStatuses = ['active', 'sold_out', 'cancelled', 'completed', 'paused', 'hidden']
         if (!validStatuses.includes(customizations.status)) {
           errors.push('INVALID_STATUS')
         }
