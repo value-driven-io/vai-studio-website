@@ -4,21 +4,26 @@
 -- PROBLEM: The apply_tour_customization function only accepts old status values
 -- SOLUTION: Update the status validation to match database constraint
 
+-- First drop the existing function to avoid signature conflicts
+DROP FUNCTION IF EXISTS public.apply_tour_customization(UUID, JSONB, TEXT[]);
+
+-- Recreate with the correct signature and updated status validation
 CREATE OR REPLACE FUNCTION public.apply_tour_customization(
   tour_id_param UUID,
-  customizations_param JSONB,
-  frozen_fields_param TEXT[] DEFAULT '{}'::TEXT[]
+  customizations JSONB,
+  frozen_fields_param TEXT[] DEFAULT NULL
 )
 RETURNS TABLE(
   success BOOLEAN,
-  message TEXT,
-  updated_tour_id UUID
+  tour_data JSONB,
+  message TEXT
 )
 LANGUAGE plpgsql
 AS $$
 DECLARE
   field_name TEXT;
   field_value TEXT;
+  updated_tour JSONB;
 BEGIN
   -- Validate tour exists and is a scheduled activity
   IF NOT EXISTS (
@@ -27,13 +32,13 @@ BEGIN
     AND activity_type = 'scheduled'
     AND is_template = FALSE
   ) THEN
-    RETURN QUERY SELECT FALSE, 'Tour not found or not a scheduled activity'::TEXT, tour_id_param;
+    RETURN QUERY SELECT FALSE, '{}'::JSONB, 'Tour not found or not a scheduled activity'::TEXT;
     RETURN;
   END IF;
 
-  -- Process each customization field
+  -- Process each customization field using the proven PHASE1_ALTERNATIVE_FIX logic
   FOR field_name, field_value IN
-    SELECT * FROM jsonb_each_text(customizations_param)
+    SELECT * FROM jsonb_each_text(customizations)
   LOOP
     CASE field_name
       WHEN 'original_price_adult' THEN
@@ -117,9 +122,14 @@ BEGIN
     customization_timestamp = NOW(),
     updated_at = NOW()
     WHERE id = $3'
-  USING frozen_fields_param, customizations_param, tour_id_param;
+  USING frozen_fields_param, customizations, tour_id_param;
 
-  RETURN QUERY SELECT TRUE, 'Tour customization applied successfully'::TEXT, tour_id_param;
+  -- Get updated tour data
+  SELECT to_jsonb(t.*) INTO updated_tour
+  FROM public.tours t
+  WHERE t.id = tour_id_param;
+
+  RETURN QUERY SELECT TRUE, updated_tour, 'Tour customization applied successfully'::TEXT;
 END $$;
 
 -- Grant permissions
