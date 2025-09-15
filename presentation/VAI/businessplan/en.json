@@ -94,9 +94,9 @@
           "content": [
             "While our initial human-to-human focus is crucial, our technological reach is not limited.",
             "**Day 1: Open for All Islands**. The VAI platform will be technically capable of onboarding operators from all five archipelagos from the moment we launch. This ensures we never turn away an interested operator from the Tuamotus or Marquesas.",
-            "**Targeted Onboarding Efforts (Phase 1)**: Our proactive, hands-on support and marketing efforts will be concentrated on the high-density markets of **Moorea** and **Tahiti**. This allows for capital-efficient growth and the ability to work closely with our first **100-150 operators** to perfect the user experience, supported by the Commune of Moorea's endorsement.",
-            "**Organic Expansion (Phase 2)**: As the network grows and word-of-mouth spreads, we will see organic adoption from the outer islands, supported by remote digital onboarding.",
-            "**Archipelago Consolidation & Network Maturity (Phase 3)**: We will systematically roll out campaigns to the Tuamotus, Marquesas, and other archipelagos, establishing VAI as the undisputed digital infrastructure for the entire destination."
+            "**Targeted Onboarding Efforts**: Our proactive, hands-on support and marketing efforts will be concentrated on the high-density markets of **Moorea** and **Tahiti**. This allows for capital-efficient growth and the ability to work closely with our first **100-150 operators** to perfect the user experience, supported by the Commune of Moorea's endorsement.",
+            "**Organic Expansion**: As the network grows and word-of-mouth spreads, we will see organic adoption from the outer islands, supported by remote digital onboarding.",
+            "**Archipelago Consolidation & Network Maturity**: We will systematically roll out campaigns to the Tuamotus, Marquesas, and other archipelagos, establishing VAI as the undisputed digital infrastructure for the entire destination."
           ]
         },
         {
@@ -115,9 +115,9 @@
           "table": {
             "headers": ["Phase", "Timeline", "Core Objective", "Key Hires"],
             "rows": [
-              ["Phase 1: Foundation & Traction", "Months 1-18", "Achieve Product-Market Fit & Onboard first 150 Operators", "Founder, Co-Founder, Operator Success Manager, Marketing & Community Lead, (Ambassadors and Social Influencer)"],
-              ["Phase 2: Scale & Optimization", "Months 19-36", "Reach profitability & Reach for Market Leadership", "Head of Partnerships (Hotels/Airlines/Communities)"],
-              ["Phase 3: Ecosystem Dominance", "Months 37+", "Launch new VAI verticals & Prepare for Expansion", "Data Analyst (VAI Insights), General Manager, VAI Homes"]
+              ["Step 1: Foundation & Traction", "Months 1-18", "Achieve Product-Market Fit & Onboard first 250 Operators", "Founder, Co-Founder, Operator Success Manager, Marketing & Community Lead, (Ambassadors and Social Influencer)"],
+              ["Step 2: Scale & Optimization", "Months 19-36", "Reach profitability & Reach for Market Leadership", "Head of Partnerships (Hotels/Airlines/Communities)"],
+              ["Step 3: Ecosystem Dominance", "Months 37+", "Launch new VAI verticals & Prepare for Expansion", "Data Analyst (VAI Insights), General Manager, VAI Homes"]
             ]
           }
         }
