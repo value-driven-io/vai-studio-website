@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     html: `<div class="founder-section">
                         <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva, Founder" class="founder-image" loading="lazy">
                         <div class="founder-quote">
-                            <p class="quote-text">"Technology should enhance human capability and connect business success with positive, sustainable impact."</p>
+                            <p class="quote-text">\"Technology should enhance human capability and connect business success with positive, sustainable impact.\"</p>
                             <p class="quote-author">— Kevin De Silva, Founder</p>
                         </div>
                     </div>`
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     html: `<div class="founder-section">
                         <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva, Fondateur" class="founder-image" loading="lazy">
                         <div class="founder-quote">
-                            <p class="quote-text">"La technologie doit améliorer les capacités humaines et lier le succès commercial à un impact positif et durable."</p>
+                            <p class="quote-text">\"La technologie doit améliorer les capacités humaines et lier le succès commercial à un impact positif et durable.\"</p>
                             <p class="quote-author">— Kevin De Silva, Fondateur</p>
                         </div>
                     </div>`
@@ -282,6 +282,23 @@ document.addEventListener('DOMContentLoaded', () => {
         heroSubtitle.className = 'hero-subtitle';
         heroSubtitle.textContent = allData.subtitle;
         heroContent.appendChild(heroSubtitle);
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'hero-buttons-container';
+
+        const button1 = document.createElement('a');
+        button1.href = '/presentation/VAI/finances/index.html';
+        button1.className = 'hero-button';
+        button1.textContent = 'Financial Projection';
+        buttonContainer.appendChild(button1);
+
+        const button2 = document.createElement('a');
+        button2.href = '/presentation/VAI/funding-strategy/index.html';
+        button2.className = 'hero-button';
+        button2.textContent = 'Funding Strategy';
+        buttonContainer.appendChild(button2);
+
+        heroContent.appendChild(buttonContainer);
 
         heroSection.appendChild(heroContent);
         contentSectionsContainer.appendChild(heroSection);
@@ -677,7 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 start: 'top center',
                 end: 'bottom center',
                 onToggle: self => {
-                    const link = document.querySelector(`a[href="#${section.id}"]`);
+                    const link = document.querySelector(`a[href=\"#${section.id}\"]`);
                     if (link) {
                         if (self.isActive) {
                             document.querySelectorAll('.main-nav a').forEach(a => a.classList.remove('active'));

@@ -484,7 +484,7 @@ body {
 .section {
     padding: 6rem 2rem;
     border-bottom: 1px solid var(--accent-border);
-    opacity: 0; /* For GSAP animation */
+    /*opacity: 0; /* For GSAP animation */
 }
 
 .section-header {
@@ -549,6 +549,32 @@ body {
     font-size: clamp(1.2rem, 2vw, 1.5rem);
     color: var(--text-secondary);
     margin: 0;
+}
+
+.hero-buttons-container {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.hero-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--accent-border);
+    color: var(--text-secondary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.hero-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Card Grid Layout --- */

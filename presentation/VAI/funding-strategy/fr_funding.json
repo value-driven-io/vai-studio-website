@@ -1,0 +1,267 @@
+{
+  "title": "Plan de Financement Stratégique VAI Platform",
+  "executive_summary": {
+    "title": "Résumé Exécutif : Une Opportunité Exceptionnelle",
+    "description": "VAI Platform représente une opportunité d'investissement unique pour les programmes d'aide publique de la Polynésie française. Le fondateur apporte une plateforme technologique opérationnelle valorisée entre 28 et 44 millions XPF - un actif déjà construit qui élimine le risque technique et permet un démarrage immédiat.",
+    "value_proposition": {
+      "title": "La Proposition de Valeur",
+      "items": [
+        "Apport du Fondateur : Plateforme de 28-44 millions XPF (18 mois de développement)",
+        "Investissement Public Demandé : 12 millions XPF",
+        "Ratio de Levier : 3:1 (apport privé/public)",
+        "Retour Année 1 : 40 millions XPF de revenus projetés",
+        "Délai avant premiers revenus : 30 jours"
+      ]
+    },
+    "funding_stack": {
+      "title": "Stack de Financement Optimisé",
+      "table": {
+        "headers": ["Programme", "Montant Demandé", "Objectif Stratégique", "Probabilité"],
+        "rows": [
+          ["DAD", "4 000 000 XPF", "Opérations numériques", "90%"],
+          ["AEPE", "3 000 000 XPF", "Équipement stratégique", "85%"],
+          ["PACE", "5 000 000 XPF", "Fonds de roulement", "85%"],
+          ["TOTAL", "12 000 000 XPF", "", ""]
+        ]
+      }
+    }
+  },
+  "sections": [
+    {
+      "title": "L'Histoire d'une Réussite Annoncée",
+      "market_context": {
+        "title": "Le Contexte du Marché",
+        "description": "Le secteur touristique polynésien génère 99 milliards XPF annuellement, mais souffre d'une hémorragie économique massive : les 4 500+ opérateurs locaux perdent 20-30% de leurs revenus aux plateformes internationales (Viator, GetYourGuide). Cela représente une fuite annuelle de 3-5 milliards XPF."
+      },
+      "vai_solution": {
+        "title": "La Solution VAI : Souveraineté Numérique",
+        "description": "VAI n'est pas une simple plateforme de réservation. C'est l'infrastructure numérique du tourisme polynésien, construite localement, pour les locaux :",
+        "points": [
+          "Commission révolutionnaire : 11% (vs 20-30% des concurrents)",
+          "Paiements rapides : 7 jours (vs 30-60 jours)",
+          "Channel Manager intégré : Gestion centralisée de tous les canaux de vente",
+          "100% local : Profits réinvestis dans l'économie polynésienne"
+        ]
+      },
+      "technological_asset": {
+        "title": "L'Actif Technologique : Un Avantage Décisif",
+        "description": "Le fondateur a développé pendant 18 mois une plateforme complète :",
+        "points": [
+          "27 636 lignes de code production",
+          "Architecture React 19 + Supabase (temps réel)",
+          "Stripe Connect intégré (paiements internationaux)",
+          "6 langues dont le tahitien",
+          "Productivité exceptionnelle : 4.6x à 11.5x la norme industrie",
+          "Valeur marchande documentée : 28 000 000 - 44 000 000 XPF"
+        ]
+      }
+    },
+    {
+      "title": "Budget Année 1 : Lean et Orienté Revenus",
+      "cost_structure": {
+        "title": "Structure des Coûts",
+        "personnel": {
+          "title": "Personnel Stratégique (35% du budget)",
+          "note": "Note : Le fondateur assure le développement technique, économisant 4-6M XPF/an",
+          "table": {
+            "headers": ["Poste", "Coût Annuel", "Justification"],
+            "rows": [
+              ["Fondateur (CEO/CTO)", "1 800 000 XPF", "Sous le marché (sacrifice pour equity)"],
+              ["Operator Success Manager", "2 160 000 XPF", "Clé pour acquisition B2B"],
+              ["Marketing & Community Lead", "2 160 000 XPF", "Croissance et ambassadeurs"],
+              ["Charges sociales (35%)", "2 142 000 XPF", "CPS/CST obligatoires"]
+            ],
+            "footer": ["Total Personnel", "8 262 000 XPF", ""]
+          }
+        },
+        "technology": {
+          "title": "Infrastructure Technologique (9% du budget)",
+          "table": {
+            "headers": ["Catégorie", "Coût Annuel", "Détail"],
+            "rows": [
+              ["Cloud & Hosting", "360 000 XPF", "Supabase, Vercel, n8n"],
+              ["Outils de développement", "180 000 XPF", "GitHub, monitoring"],
+              ["Stripe Connect", "580 000 XPF", "Setup + frais transactions"],
+              ["Télécommunications", "360 000 XPF", "Internet fibre + mobiles"],
+              ["Maintenance plateforme", "240 000 XPF", "Assurée par fondateur"]
+            ],
+            "footer": ["Total Tech", "1 720 000 XPF", ""]
+          }
+        },
+        "marketing": {
+          "title": "Marketing & Acquisition (12% du budget)",
+          "table": {
+            "headers": ["Initiative", "Coût Annuel", "ROI Attendu"],
+            "rows": [
+              ["Programme Ambassadeurs", "600 000 XPF", "30 opérateurs/ambassadeur"],
+              ["Marketing digital ciblé", "600 000 XPF", "5x ROAS"],
+              ["Workshops/Formation", "500 000 XPF", "100 opérateurs formés"],
+              ["Production contenu", "650 000 XPF", "Assets réutilisables"]
+            ],
+            "footer": ["Total Marketing", "2 350 000 XPF", ""]
+          }
+        },
+        "services": {
+          "title": "Services Professionnels (8% du budget)",
+          "table": {
+            "headers": ["Service", "Fréquence"],
+            "rows": [
+              ["Création SARL", "One-time"],
+              ["Comptabilité", "Mensuel"],
+              ["Conseil juridique", "Trimestriel"],
+              ["Assurances (RC Pro + Générale)", "Annuel"]
+            ],
+            "footer": ["Total Services", "1 430 000 XP", ""]
+          }
+        },
+        "operations": {
+          "title": "Opérations & Espace de Travail (15% du budget)",
+          "table": {
+            "headers": ["Poste", "Coût Annuel", "Note"],
+            "rows": [
+              ["Co-working (3 postes)", "1 800 000 XPF", "150k/mois, flexible"],
+              ["Déplacements inter-îles", "700 000 XPF", "Onboarding terrain"],
+              ["Matériel bureau", "180 000 XPF", "Fournitures de base"],
+              ["Divers opérationnel", "120 000 XPF", "Imprévus courants"]
+            ],
+            "footer": ["Total Opérations", "2 800 000 XPF", ""]
+          }
+        },
+        "reserve": {
+          "title": "Réserve de Sécurité (11% du budget)",
+          "table": {
+            "headers": ["Type", "Montant", "Objectif"],
+            "rows": [
+              ["Fonds d'urgence (10%)", "1 656 000 XPF", "Imprévus majeurs"],
+              ["Buffer trésorerie", "500 000 XPF", "Délais paiement"]
+            ],
+            "footer": ["Total Réserve", "2 156 000 XPF", ""]
+          }
+        },
+        "summary": {
+          "title": "Synthèse Budget Année 1",
+          "table": {
+            "headers": ["Catégorie", "Montant", "% Total"],
+            "rows": [
+              ["Personnel", "8 262 000 XPF", "43%"],
+              ["Technologie", "1 720 000 XPF", "9%"],
+              ["Marketing", "2 350 000 XPF", "12%"],
+              ["Services Pro", "1 430 000 XPF", "8%"],
+              ["Opérations", "2 800 000 XPF", "15%"],
+              ["Réserve", "2 156 000 XPF", "11%"],
+              ["Intérêts PACE", "100 000 XPF", "1%"]
+            ],
+            "footer": ["TOTAL", "18 818 000 XPF", "100%"]
+          }
+        }
+      }
+    },
+    {
+      "title": "Projections de Revenus : 250 Opérateurs, 40M XPF",
+      "growth_trajectory": {
+        "title": "Trajectoire de Croissance Validée",
+        "institutional_support": {
+          "title": "Soutiens Institutionnels:",
+          "points": [
+            "✅ Commune de Moorea (Vaiani) - Confirmé",
+            "🔄 Tahiti Tourisme - En finalisation",
+            "→ Accès immédiat à 700+ opérateurs qualifiés"
+          ]
+        },
+        "metrics": {
+          "title": "Métriques Clés Année 1:",
+          "table": {
+            "headers": ["Indicateur", "Valeur"],
+            "rows": [
+              ["Opérateurs fin Mois 9", "250"],
+              ["GMV Total", "364 200 000 XPF"],
+              ["Revenus (11%)", "40 062 000 XPF"],
+              ["Revenus mensuels fin d'année", "6 187 500 XPF"],
+              ["Point mort", "Mois 8"]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Allocation Stratégique par Programme",
+      "dad": {
+        "title": "DAD - Transformation Numérique (4 000 000 XPF)",
+        "expenses": {
+          "title": "Dépenses Éligibles Mises en Avant:",
+          "points": [
+            "Infrastructure cloud et licences : 540 000 XPF",
+            "Marketing digital et acquisition : 900 000 XPF",
+            "Système de paiement international : 580 000 XPF",
+            "Formation et onboarding digital : 700 000 XPF",
+            "Développement features (temps fondateur) : 1 280 000 XPF"
+          ]
+        },
+        "score": "Score DAD Anticipé : 91/100"
+      },
+      "aepe": {
+        "title": "AEPE - Équipement Stratégique (3 000 000 XPF)",
+        "equipment_list": {
+          "title": "Liste Optimisée avec Justifications Fortes:",
+          "table": {
+            "headers": ["Équipement", "Qté", "Prix Unit", "Total", "Impact Business"],
+            "rows": [
+              ["MacBook Pro M3 Max", "2", "500 000", "1 000 000", "Dev + demos clients"],
+              ["iPad Pro (onboarding)", "3", "200 000", "600 000", "Acquisition terrain"],
+              ["Moniteurs 4K", "4", "100 000", "400 000", "Productivité x2"],
+              ["Imprimante 3D", "1", "450 000", "450 000", "Support opérateurs"],
+              ["Caméra pro", "1", "350 000", "350 000", "Content marketing"],
+              ["Infrastructure réseau", "-", "200 000", "200 000", "Fiabilité critique"]
+            ],
+            "footer": ["TOTAL", "", "", "3 000 000", ""]
+          }
+        }
+      },
+      "pace": {
+        "title": "PACE - Fonds de Roulement (5 000 000 XPF)",
+        "use": {
+          "title": "Utilisation Stratégique:",
+          "points": [
+            "Trésorerie Mois 1-3 : 2 500 000 XPF",
+            "Campagne lancement : 1 000 000 XPF",
+            "Buffer sécurité : 1 500 000 XPF"
+          ]
+        },
+        "repayment": {
+          "title": "Capacité de Remboursement:",
+          "points": [
+            "Revenus Mois 12 : 6 187 500 XPF/mois",
+            "Capacité remboursement : 2 000 000 XPF/an",
+            "Ratio dette/revenus : 12.5% (excellent)"
+          ]
+        }
+      }
+    },
+    {
+      "title": "Facteurs Critiques de Succès",
+      "factors": [
+        "L'Actif Technologique (28-44M XPF) : Élimine le risque de développement et permet un démarrage immédiat.",
+        "Les Endorsements Institutionnels : Moorea : Accès à 200+ opérateurs, Tahiti Tourisme : Crédibilité nationale.",
+        "Le Modèle Économique Disruptif : 50% moins cher, paiements 4-8x plus rapides, et un Channel Manager gratuit.",
+        "L'Équipe Focalisée : Fondateur technique prouvé, un success manager pour l'acquisition, et un marketing lead pour la croissance.",
+        "La Stratégie d'Exécution : Déploiement phasé de Moorea (Mois 1-3) à Tahiti (Mois 4-6) et consolidation (Mois 7-9)."
+      ]
+    },
+    {
+      "title": "Conclusion : Un Investissement, Pas une Subvention",
+      "description": "VAI Platform n'est pas un projet en devenir - c'est une entreprise opérationnelle avec un actif technologique majeur cherchant le capital nécessaire pour conquérir son marché.",
+      "equation": {
+        "title": "L'équation est simple :",
+        "items": [
+          "Vous investissez : 12 millions XPF",
+          "Le fondateur apporte : 28-44 millions XPF d'actifs",
+          "Retour Année 1 : 40 millions XPF de revenus",
+          "Impact : Transformation numérique du tourisme polynésien"
+        ]
+      },
+      "conclusion": "C'est une opportunité rare où l'investissement public génère un retour immédiat tout en construisant l'infrastructure stratégique du pays. Le moment est maintenant. La plateforme est prête. Le marché attend. Les partenaires institutionnels soutiennent. Avec votre investissement, VAI deviendra l'infrastructure numérique du tourisme polynésien sous 12 mois.",
+      "footer": "Document préparé pour les programmes DAD, AEPE et PACE",
+      "contact": "Contact : Kevin De Silva - Fondateur & CEO Plateforme VAI - L'infrastructure numérique du tourisme polynésien"
+    }
+  ]
+}

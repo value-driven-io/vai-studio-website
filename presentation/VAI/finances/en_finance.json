@@ -1,0 +1,241 @@
+
+{
+  "title": "VAI Platform: Financial Projections",
+  "subtitle": "Accelerated Growth Scenario with Institutional Support",
+  "meta": {
+    "context": "Confirmed Institutional Support",
+    "support_items": [
+      "Municipality of Moorea (Vaiani) - Letter of endorsement obtained",
+      "Tahiti Tourisme - Discussions in progress"
+    ],
+    "access": "Direct access to 200+ operators via Moorea. Extended network via institutional partnerships.",
+    "assumptions": {
+      "commission": "VAI Commission: 11% (vs. 20-30% for competitors)",
+      "booking_value": "Average value per booking: 15,000 XPF",
+      "payout": "Payment within 7 days (vs. 30-60 days for competitors)",
+      "platform_status": "Platform operational from Day 1"
+    }
+  },
+  "sections": [
+    {
+      "title": "Revenue Projections - Year 1",
+      "phases": [
+        {
+          "title": "Phase 1: Launch and Initial Acquisition (Months 1-3)",
+          "strategy": "Focus on Moorea with support from the municipality.",
+          "table": {
+            "headers": ["Month", "New Operators", "Cumulative Total", "Bookings/Op/Month", "Monthly GMV", "Revenue (11%)"],
+            "rows": [
+              ["Month 1", "20", "20", "3", "900,000", "99,000"],
+              ["Month 2", "30", "50", "5", "3,750,000", "412,500"],
+              ["Month 3", "40", "90", "7", "9,450,000", "1,039,500"]
+            ],
+            "footer": ["Q1 Subtotal", "90", "", "", "14,100,000", "1,551,000"]
+          }
+        },
+        {
+          "title": "Phase 2: Acceleration via Partnerships (Months 4-6)",
+          "strategy": "Tahiti expansion + Moorea network effect.",
+          "table": {
+            "headers": ["Month", "New Operators", "Cumulative Total", "Bookings/Op/Month", "Monthly GMV", "Revenue (11%)"],
+            "rows": [
+              ["Month 4", "35", "125", "8", "15,000,000", "1,650,000"],
+              ["Month 5", "40", "165", "9", "22,275,000", "2,450,250"],
+              ["Month 6", "35", "200", "10", "30,000,000", "3,300,000"]
+            ],
+            "footer": ["Q2 Subtotal", "110", "", "", "67,275,000", "7,400,250"]
+          }
+        },
+        {
+          "title": "Phase 3: Consolidation and Optimization (Months 7-9)",
+          "strategy": "Optimization and scaling of existing operators.",
+          "table": {
+            "headers": ["Month", "New Operators", "Cumulative Total", "Bookings/Op/Month", "Monthly GMV", "Revenue (11%)"],
+            "rows": [
+              ["Month 7", "25", "225", "11", "37,125,000", "4,083,750"],
+              ["Month 8", "15", "240", "12", "43,200,000", "4,752,000"],
+              ["Month 9", "10", "250", "12", "45,000,000", "4,950,000"]
+            ],
+            "footer": ["Q3 Subtotal", "50", "", "", "125,325,000", "13,785,750"]
+          }
+        },
+        {
+          "title": "Phase 4: Maturity and Stable Growth (Months 10-12)",
+          "strategy": "",
+          "table": {
+            "headers": ["Month", "Total Operators", "Bookings/Op/Month", "Monthly GMV", "Revenue (11%)"],
+            "rows": [
+              ["Month 10", "250", "13", "48,750,000", "5,362,500"],
+              ["Month 11", "250", "14", "52,500,000", "5,775,000"],
+              ["Month 12", "250", "15", "56,250,000", "6,187,500"]
+            ],
+            "footer": ["Q4 Subtotal", "", "", "157,500,000", "17,325,000"]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Year 1 Summary",
+      "summary_table": {
+        "headers": ["Key Metrics", "Value"],
+        "rows": [
+          ["Operators acquired", "250"],
+          ["Total Year 1 GMV", "364,200,000 XPF"],
+          ["Total Revenue (11%)", "40,062,000 XPF"],
+          ["Average Monthly Revenue", "3,338,500 XPF"],
+          ["End-of-Year Revenue (run rate)", "6,187,500 XPF/month"]
+        ]
+      },
+      "distribution_table": {
+        "title": "Geographic Distribution of Operators (Target)",
+        "headers": ["Area", "Number of Operators", "% of Total"],
+        "rows": [
+          ["Moorea", "80", "32%"],
+          ["Tahiti", "100", "40%"],
+          ["Bora Bora", "30", "12%"],
+          ["Other islands", "40", "16%"]
+        ],
+        "footer": ["Total", "250", "100%"]
+      }
+    },
+    {
+      "title": "Success Factors & Justification",
+      "content": [
+        {
+          "title": "Why 250 Operators is Realistic",
+          "points": [
+            "**Immediately Accessible Base**: Moorea: 200+ identified operators, Tahiti: 500+ identified operators, Total market: 4,500+ operators in Polynesia",
+            "**Decisive Competitive Advantages**: Immediate savings: 9-19% lower commission, Improved cash flow: Payment 3-8x faster, Free Channel Manager: Valued at 50,000-100,000 XPF/month",
+            "**Institutional Support**: Workshops organized by the Municipality of Moorea, Promotion via official channels, Established credibility and trust",
+            "**Network Effect**: Each satisfied operator recommends 2-3 others, Tourists ask for VAI after their first use, Hotels recommend the platform"
+          ]
+        },
+        {
+          "title": "Conservative Assumptions",
+          "points": [
+            "Average booking value: 15,000 XPF (reality: 12,000-25,000 XPF)",
+            "Activation rate: 60% of registered operators",
+            "Seasonality: Linear projections (no high-season peak)",
+            "No additional revenue: Focus is solely on commissions"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Deep Dive: Competitive Landscape & VAI's Unique Advantage",
+      "description": "Our competition is not just other platforms; it's the status quo of operational chaos. VAI is not simply another OTA; we are a fundamentally different business model designed to be the central operating system for tourism operators.",
+      "table": {
+        "headers": ["Competitor", "Business Model", "Commission", "Key Feature / USP", "Weakness VAI Exploits"],
+        "rows": [
+          ["VAI Platform", "Marketplace + B2B SaaS", "11% commission, 0 monthly fees", "Integrated Channel Manager, 7-day payouts, local support, and a suite of free business management tools.", "(We are both a sales channel and an operational tool)"],
+          ["Viator / GetYourGuide", "Global Aggregator", "20-30%", "Massive global audience, brand recognition.", "High cost, slow payouts, no local presence, generic experience. They are a channel, not a tool."],
+          ["FareHarbor / Bokun", "B2B SaaS Booking Software", "Monthly fees + booking fees", "Powerful backend booking and scheduling tools.", "Not a marketplace (no demand generation), complex, can be expensive for small operators."],
+          ["Status Quo (WhatsApp/Email)", "Manual / Direct", "0%", "Free and simple for very low volume.", "Unscalable, prone to errors, no payment processing, invisible to new tourists."]
+        ]
+      },
+      "vai_advantage": {
+        "title": "VAI's Unique Advantage",
+        "description": "We are the only platform that combines the demand generation of a marketplace with the powerful operational tools of a B2B SaaS provider (via the Channel Manager), all delivered with a locally-focused, low-commission business model. We don't force operators to choose between a tool and a channel; we are both."
+      },
+      "strategy": "Our strategy is not to compete with Viator and others on Google Ads. Our strategy is to become so essential to the daily operations of local providers that listing on VAI is the first and most logical step they take."
+    },
+    {
+      "title": "Sensitivity Analysis",
+      "scenarios": [
+        {
+          "title": "Pessimistic Scenario (-30%)",
+          "values": [
+            "175 operators",
+            "GMV: 255 million XPF",
+            "Revenue: 28 million XPF"
+          ]
+        },
+        {
+          "title": "Realistic Scenario (Baseline)",
+          "values": [
+            "250 operators",
+            "GMV: 364 million XPF",
+            "Revenue: 40 million XPF"
+          ]
+        },
+        {
+          "title": "Optimistic Scenario (+30%)",
+          "values": [
+            "325 operators",
+            "GMV: 473 million XPF",
+            "Revenue: 52 million XPF"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Investment vs. Return",
+      "investment": {
+        "title": "Public Investment Requested",
+        "items": [
+          "DAD: 4,000,000 XPF",
+          "AEPE: 3,000,000 XPF",
+          "PACE: 5,000,000 XPF"
+        ],
+        "total": "Total: 12,000,000 XPF"
+      },
+      "return": {
+        "title": "Return on Investment",
+        "items": [
+          "Year 1 ROI: 334% (40M revenue / 12M investment)",
+          "Payback period: 4 months",
+          "Jobs created: 3 direct + 10 indirect",
+          "Economic impact: 364M XPF facilitated"
+        ]
+      }
+    },
+    {
+      "title": "Next Steps",
+      "steps": [
+        {
+          "title": "Months 1-2: Preparation",
+          "tasks": [
+            "Platform finalization (already complete)",
+            "Moorea endorsement (obtained)",
+            "Signature from Tahiti Tourisme",
+            "Initial team training"
+          ]
+        },
+        {
+          "title": "Months 3-4: Moorea Launch",
+          "tasks": [
+            "Workshops with the Municipality",
+            "Assisted onboarding of the first 50 operators",
+            "Local communication campaign"
+          ]
+        },
+        {
+          "title": "Months 5-6: Tahiti Expansion",
+          "tasks": [
+            "Opening of Papeete office",
+            "Hotel partnerships",
+            "CCISM events"
+          ]
+        },
+        {
+          "title": "Months 7-9: Consolidation",
+          "tasks": [
+            "Optimization based on feedback",
+            "Launch of ambassador program",
+            "Preparation for high season"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Conclusion",
+      "paragraphs": [
+        "With the support of the Municipality of Moorea and the ongoing commitment from Tahiti Tourisme, the goal of 250 operators in 9 months is not only achievable but conservative.",
+        "The VAI platform, already operational and valued at 28-44 million XPF, combined with a disruptive economic model (11% vs. 20-30%), will create rapid and massive market adoption.",
+        "The public investment of 12 million XPF will generate a return of 40 million XPF in the first year alone, while establishing the digital tourism infrastructure for French Polynesia."
+      ],
+      "footer": "Document prepared for the DAD, AEPE, and PACE funding applications",
+      "contact": "Contact: Kevin De Silva - Founder, VAI Platform"
+    }
+  ]
+}

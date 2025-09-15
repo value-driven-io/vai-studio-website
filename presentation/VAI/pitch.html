@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
         /* Base Variables */
         :root {
@@ -44,7 +45,7 @@
             align-items: center;
             padding: 4rem 2rem;
             position: relative;
-            background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%);
+            /*background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%);*/
             overflow: hidden;
         }
 
@@ -366,6 +367,99 @@
             margin: 3rem 0;
         }
 
+        /* Enhanced Professional Animations */
+        .chart-card {
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .chart-card:nth-child(1) { animation-delay: 0.1s; opacity: 0; animation-fill-mode: forwards; }
+        .chart-card:nth-child(2) { animation-delay: 0.3s; opacity: 0; animation-fill-mode: forwards; }
+        .chart-card:nth-child(3) { animation-delay: 0.5s; opacity: 0; animation-fill-mode: forwards; }
+
+        /* Small Feature Cards */
+        .feature-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.6s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(208, 19, 189, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Professional Icon Styling */
+        .slide-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            color: var(--accent-glow);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .feature-icon svg {
+            width: 2rem;
+            height: 2rem;
+            color: var(--accent-glow);
+        }
+
+        .metric-icon {
+            width: 3rem;
+            height: 3rem;
+            color: var(--accent-glow);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .chart-card {
             background: var(--glass-bg);
             border: 1px solid var(--accent-border);
@@ -401,10 +495,31 @@
             animation: growBar 2s ease-out forwards;
             transform-origin: left;
             transform: scaleX(0);
+            animation-delay: 1s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animated-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 2s infinite;
         }
 
         @keyframes growBar {
             to { transform: scaleX(1); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
         }
 
         /* Market Circle Visualization */
@@ -443,7 +558,7 @@
             z-index: 2;
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--background-dark);
             text-align: center;
             line-height: 1.3;
         }
@@ -473,6 +588,300 @@
             background-size: contain;
         }
 
+        /* Elegant Financial Visualization */
+        .financial-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+            align-items: center;
+        }
+
+        .growth-trajectory {
+            position: relative;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(208,19,189,0.03), rgba(138,43,226,0.03));
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: end;
+            padding: 2rem;
+            border: 1px solid var(--accent-border);
+        }
+
+        .trajectory-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%23d013bd;stop-opacity:0.3' /%3E%3Cstop offset='100%25' style='stop-color:%238a2be2;stop-opacity:0.1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M20,280 Q120,200 200,120 T380,40' stroke='%23d013bd' stroke-width='3' fill='none' stroke-dasharray='800' stroke-dashoffset='800'%3E%3Canimate attributeName='stroke-dashoffset' values='800;0' dur='3s' fill='freeze'/%3E%3C/path%3E%3Cpath d='M20,280 Q120,200 200,120 T380,40 L380,300 L20,300 Z' fill='url(%23grad)' opacity='0'%3E%3Canimate attributeName='opacity' values='0;1' dur='3s' fill='freeze'/%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+            background-size: cover;
+        }
+
+        .growth-points {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .growth-point {
+            text-align: center;
+            color: var(--text-primary);
+            animation: fadeInUp 1s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+            background: rgba(255,255,255,0.9);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent-border);
+            backdrop-filter: blur(10px);
+            min-width: 100px;
+        }
+
+        .growth-point:nth-child(1) { animation-delay: 1s; }
+        .growth-point:nth-child(2) { animation-delay: 2s; }
+        .growth-point:nth-child(3) { animation-delay: 3s; }
+
+        .growth-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            margin-bottom: 0.3rem;
+            font-family: var(--font-heading);
+        }
+
+        .growth-usd {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .growth-phase {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-glow);
+            margin-bottom: 0.3rem;
+        }
+
+        .growth-year {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Refined Market Visualization */
+        .market-scale {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .scale-rings {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .scale-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid;
+            animation: expandRing 2s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .ring-current {
+            width: 60px;
+            height: 60px;
+            border-color: #d013bd;
+            background: rgba(208,19,189,0.15);
+            top: 120px;
+            left: 120px;
+            animation-delay: 0.5s;
+        }
+
+        .ring-target {
+            width: 120px;
+            height: 120px;
+            border-color: #8a2be2;
+            background: rgba(138,43,226,0.1);
+            top: 90px;
+            left: 90px;
+            animation-delay: 1s;
+        }
+
+        .ring-market {
+            width: 200px;
+            height: 200px;
+            border-color: rgba(208,19,189,0.6);
+            background: rgba(208,19,189,0.05);
+            top: 50px;
+            left: 50px;
+            animation-delay: 1.5s;
+        }
+
+        .ring-total {
+            width: 280px;
+            height: 280px;
+            border-color: rgba(138,43,226,0.4);
+            background: rgba(138,43,226,0.03);
+            top: 10px;
+            left: 10px;
+            animation-delay: 2s;
+        }
+
+        @keyframes expandRing {
+            from {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Market Labels positioned outside rings */
+        .market-labels {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .market-label {
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.9);
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-border);
+            backdrop-filter: blur(10px);
+            animation: fadeInLabel 1s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .label-current {
+            top: 130px;
+            left: -20px;
+            animation-delay: 1s;
+        }
+
+        .label-target {
+            top: 80px;
+            right: -30px;
+            animation-delay: 1.5s;
+        }
+
+        .label-market {
+            bottom: 80px;
+            left: -40px;
+            animation-delay: 2s;
+        }
+
+        .label-total {
+            bottom: 20px;
+            right: -30px;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes fadeInLabel {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ecosystem Vision Styles */
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .ecosystem-layer {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .ecosystem-layer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(208,19,189,0.02), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .ecosystem-layer:hover::before {
+            opacity: 1;
+        }
+
+        .ecosystem-layer:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(208,19,189,0.12);
+        }
+
+        .ecosystem-icon {
+            width: 3rem;
+            height: 3rem;
+            color: var(--accent-glow);
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .ecosystem-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .ecosystem-timeline {
+            font-size: 0.9rem;
+            color: var(--accent-glow);
+            font-weight: 600;
+        }
+
         .key-metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -500,14 +909,54 @@
             font-size: 1.1rem;
         }
 
-        /* Navigation */
-        .pitch-nav {
+        /* Main Header Navigation - Copied from index.html */
+        :root {
+            --header-height: 80px;
+        }
+
+        .main-header {
             position: fixed;
-            top: 2rem;
-            left: 2rem;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
             z-index: 1000;
+            background: linear-gradient(180deg, rgba(242, 243, 246, 0.336) 0%, rgba(242, 243, 246, 0.85) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--accent-border);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo-image {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
             display: flex;
             gap: 1rem;
+            align-items: center;
         }
 
         .nav-dot {
@@ -524,10 +973,734 @@
             transform: scale(1.5);
         }
 
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .lang-btn:hover::before {
+            left: 100%;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--accent-glow), #8a2be2);
+            color: white;
+            border-color: var(--accent-glow);
+            transform: translateY(-1px);
+        }
+        
+        /* PDF Download Button */
+        .pdf-download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pdf-download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .pdf-download-btn:hover::before {
+            left: 100%;
+        }
+        
+        .pdf-download-btn:hover {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+        
+        .pdf-download-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Print styles for PDF generation */
+        @media print {
+            /* Hide navigation and non-essential elements */
+            .slide-nav, .nav-actions, .mobile-menu-toggle {
+                display: none !important;
+            }
+            
+            /* Force each slide to be on a separate page */
+            .pitch-slide {
+                height: 100vh !important;
+                min-height: 100vh !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                margin: 0 !important;
+                padding: 2rem !important;
+                background: white !important;
+                color: #333 !important;
+                box-sizing: border-box;
+            }
+            
+            /* Last slide shouldn't force a new page after */
+            .pitch-slide:last-child {
+                page-break-after: avoid !important;
+            }
+            
+            /* Ensure content fits well on page */
+            .slide-content {
+                height: 90vh !important;
+                overflow: visible !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            /* Improve text readability in print */
+            .slide-title {
+                color: #1a1a1a !important;
+                font-size: 2.5rem !important;
+            }
+            
+            .slide-subtitle {
+                color: #4a4a4a !important;
+                font-size: 1.3rem !important;
+            }
+            
+            /* Ensure charts and metrics are visible */
+            .chart-container, .swot-container, .growth-plan-container {
+                background: transparent !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            .chart-card, .swot-quadrant {
+                border: 1px solid #ddd !important;
+                background: #fafafa !important;
+                color: #333 !important;
+            }
+            
+            /* Hide animations and interactive elements */
+            .animated-bar {
+                display: none !important;
+            }
+            
+            /* Optimize colors for print */
+            .metric-number {
+                color: #333 !important;
+            }
+            
+            .metric-number.danger {
+                color: #d32f2f !important;
+            }
+            
+            .metric-number.warning {
+                color: #f57c00 !important;
+            }
+        }
+
+        .flag-icon {
+            font-style: normal;
+            font-size: 1rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            gap: 4px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Adjust slide content for header */
+        .pitch-slide {
+            padding-top: calc(var(--header-height) + 2rem);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 0 1rem;
+                flex-direction: column;
+                position: relative;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                position: absolute;
+                top: 50%;
+                right: 1rem;
+                transform: translateY(-50%);
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(242, 243, 246, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid var(--accent-border);
+                border-radius: 0 0 20px 20px;
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem 0;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+            }
+
+            .main-nav.mobile-open .nav-links {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .nav-actions {
+                position: absolute;
+                top: 50%;
+                left: 1rem;
+                transform: translateY(-50%);
+            }
+
+            .logo {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 10;
+            }
+
+            .logo-image {
+                height: 40px;
+            }
+
+            .language-switcher {
+                gap: 0.25rem;
+            }
+
+            .lang-btn {
+                padding: 0.2rem 0.4rem;
+                font-size: 0.8rem;
+            }
+            
+            .pdf-download-btn {
+                padding: 0.2rem 0.4rem;
+                font-size: 0.75rem;
+                gap: 0.25rem;
+            }
+            
+            .pdf-download-btn i {
+                width: 14px !important;
+                height: 14px !important;
+            }
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(208,19,189,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--accent-glow);
+            transform: scale(1.5);
+        }
+
+
+        .stat-card {
+            background: rgba(208,19,189,0.1);
+            border: 2px solid rgba(208,19,189,0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-heading);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .stat-card.danger {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .stat-card.danger .stat-number {
+            color: #FF6B6B;
+        }
+
+        .stat-card.warning {
+            background: rgba(255, 217, 61, 0.1);
+            border: 2px solid rgba(255, 217, 61, 0.3);
+        }
+
+        .stat-card.warning .stat-number {
+            color: #FFD93D;
+        }
+
+        /* Problem slides layout classes */
+        .problem-slide-container {
+            position: relative;
+        }
+
+        .stakeholder-image-placeholder {
+            position: absolute;
+            top: -200px;
+            right: 0px;
+            width: 150px;
+            height: 150px;
+            border-radius: 10%;
+            border: 3px #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Metric styling variants */
+        .metric-number.danger {
+            color: #ff4444 !important;
+        }
+
+        .metric-number.warning {
+            color: #ffaa00 !important;
+        }
+
+        .metric-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .metric-subtitle.danger {
+            color: #ff4444;
+        }
+
+        .metric-subtitle.warning {
+            color: #ffaa00;
+        }
+
+        /* Animated bar variations */
+        .tourist-bar-1 { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
+        .tourist-bar-2 { background: linear-gradient(90deg, #4ecdc4, #44a08d); }
+        .tourist-bar-3 { background: linear-gradient(90deg, #a8e6cf, #3d8b37); }
+        .tourist-bar-4 { background: linear-gradient(90deg, #ffd93d, #ff6b35); }
+
+        .operator-bar-1 { background: linear-gradient(90deg, #ff4444, #cc0000); }
+        .operator-bar-2 { background: linear-gradient(90deg, #ffaa00, #ff6b35); }
+        .operator-bar-3 { background: linear-gradient(90deg, #ffd93d, #ff6b35); }
+        .operator-bar-4 { background: linear-gradient(90deg, #667eea, #764ba2); }
+
+        .government-bar-1 { background: linear-gradient(90deg, #ff4444, #cc0000); }
+        .government-bar-2 { background: linear-gradient(90deg, #ffaa00, #ff6b35); }
+        .government-bar-3 { background: linear-gradient(90deg, #a8e6cf, #006633); }
+        .government-bar-4 { background: linear-gradient(90deg, #4ecdc4, #0066cc); }
+
+        /* Common utility classes */
+        .usd-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        .metric-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+
+        .large-metric {
+            font-size: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            -webkit-text-fill-color: grey;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .founder-name {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .founder-title {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .founder-bio {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* Our Solution slide styles */
+        .solution-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        .solution-image {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Our Growth Plan slide styles */
+        .growth-plan-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        /* SWOT Analysis slide styles */
+        .swot-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            height: 60vh;
+        }
+        
+        .swot-quadrant {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border-left: 4px solid;
+            position: relative;
+            overflow-y: auto;
+        }
+        
+        .swot-quadrant.strengths {
+            border-left-color: #10b981;
+        }
+        
+        .swot-quadrant.weaknesses {
+            border-left-color: #f59e0b;
+        }
+        
+        .swot-quadrant.opportunities {
+            border-left-color: #3b82f6;
+        }
+        
+        .swot-quadrant.threats {
+            border-left-color: #ef4444;
+        }
+        
+        .swot-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .swot-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 0.75rem;
+        }
+        
+        .swot-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .swot-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .swot-item {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .swot-item h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .swot-item p {
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        .metric-icon {
+            margin-right: 0.5rem;
+        }
+
+        /* Hero slide optimizations */
+        .hero-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .hero-content {
+            text-align: left;
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            color: var(--accent-glow);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero-description {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        /* Clickable agenda */
+        .agenda-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(208, 19, 189, 0.1);
+        }
+
+        .agenda-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .agenda-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .agenda-item:hover {
+            background: rgba(208, 19, 189, 0.1);
+            border-color: var(--accent-border);
+            transform: translateX(5px);
+        }
+
+        .agenda-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .agenda-text {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .platform-status {
+            background: linear-gradient(135deg, #00C851, #00A043);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 200, 81, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(0, 200, 81, 0.5); }
+        }
+
         /* Slide-specific backgrounds */
-        .slide-1 { background-image: url('/via-studio-images/social/LinkedIn /VAI.studio LinkedIn Banner Private.png'); background-size: cover; background-position: center; }
-        .slide-1::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); }
-        .slide-1 .slide-content { position: relative; z-index: 1; }
+        .slide-1 { 
+            /*background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%),
+                        url('/via-studio-images/social/LinkedIn /VAI.studio LinkedIn Banner Private.png');*/
+            background-size: cover, cover; 
+            background-position: center, center;
+            background-blend-mode: overlay;
+        }
+        .slide-1::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(2px);
+        }
+        .slide-1 .slide-content { position: relative; z-index: 1; text-align: center;}
+
+        /* Professional Link Styling */
+        a {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Enhanced Metric Cards */
+        .metric-card {
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(208,19,189,0.15);
+        }
+
+        /* Professional Typography Scale */
+        .slide-title {
+            letter-spacing: -0.02em;
+            text-rendering: optimizeLegibility;
+        }
+
+        .slide-subtitle {
+            letter-spacing: 0.01em;
+        }
+
+        .slide-description {
+            text-rendering: optimizeLegibility;
+        }
 
         @media (max-width: 768px) {
             .slide-title { font-size: 2.5rem; }
@@ -535,36 +1708,297 @@
             .chart-container { grid-template-columns: 1fr; gap: 2rem; }
             .key-metrics { grid-template-columns: 1fr; }
             .market-circle { width: 150px; height: 150px; }
+            .pitch-slide { padding: 10rem 1rem; }
+            .slide-description { font-size: 1rem; }
+            
+            /* Mobile Optimization for Our Solution Slide */
+            .solution-container {
+                display: block !important;
+                gap: 2rem;
+            }
+            
+            .features-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 1rem !important;
+                margin-top: 2rem;
+            }
+            
+            /* Mobile Optimization for Growth Plan Slide */
+            .growth-plan-container {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
+            }
+            
+            /* Mobile Optimization for SWOT Analysis Slide */
+            .swot-container {
+                grid-template-columns: 1fr !important;
+                grid-template-rows: auto !important;
+                gap: 1rem !important;
+                height: auto !important;
+            }
+            
+            .swot-quadrant {
+                padding: 1rem !important;
+            }
+            
+            .swot-item {
+                padding: 0.5rem !important;
+            }
+            
+            .swot-item h4 {
+                font-size: 0.9rem !important;
+            }
+            
+            .swot-item p {
+                font-size: 0.8rem !important;
+            }
+            
+            /* Mobile Optimization for Financial Overview Slide */
+            .financial-overview {
+                display: block !important;
+                gap: 2rem;
+            }
+            
+            .growth-trajectory {
+                height: 200px;
+                margin-bottom: 2rem;
+            }
+            
+            .growth-points {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .growth-point {
+                min-width: auto;
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .scale-rings {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .market-label {
+                font-size: 0.75rem;
+                padding: 0.3rem;
+            }
+            
+            /* Mobile Optimization for Ecosystem Vision Slide */
+            .ecosystem-grid {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+            
+            .ecosystem-layer {
+                padding: 1.5rem !important;
+            }
+            
+            .ecosystem-icon {
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+            }
+            
+            .ecosystem-title {
+                font-size: 1.3rem !important;
+            }
+            
+            .ecosystem-desc {
+                font-size: 0.9rem !important;
+            }
+            
+            /* Mobile Optimization for Problem Slides */
+            .problem-grid {
+                display: block !important;
+                gap: 2rem;
+            }
+            
+            .problem-visual {
+                margin-bottom: 2rem;
+            }
+            
+            .problem-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            /* Mobile responsive styles for chart-container */
+            .chart-container {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .chart-card {
+                padding: 1.5rem !important;
+            }
+            
+            /* Stakeholder image positioning on mobile */
+            .stakeholder-image-placeholder {
+                position: static !important;
+                width: 120px !important;
+                height: 120px !important;
+                margin: 0 auto 1rem auto !important;
+                display: flex !important;
+            }
+
+            /* Mobile responsive hero slide */
+            .hero-container {
+                display: block !important;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-content {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.2rem;
+                max-width: 100%;
+            }
+            
+            .problem-stats {
+                grid-template-columns: 1fr !important;
+                gap: 1rem;
+            }
+
+            .slide-content {
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="pitch-nav">
-        <div class="nav-dot active" data-slide="1"></div>
-        <div class="nav-dot" data-slide="2"></div>
-        <div class="nav-dot" data-slide="3"></div>
-        <div class="nav-dot" data-slide="4"></div>
-        <div class="nav-dot" data-slide="5"></div>
-        <div class="nav-dot" data-slide="6"></div>
+        <div class="nav-dot" data-slide="8"></div>
+        <div class="nav-dot" data-slide="9"></div>
+        <div class="nav-dot" data-slide="10"></div>
+        <div class="nav-dot" data-slide="11"></div>
     </div>
+
+    <header class="main-header">
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="VAI Logo" class="logo-image">
+            </div>
+            <div class="nav-links">
+                <div class="nav-dot active" data-slide="1"></div>
+                <div class="nav-dot" data-slide="2"></div>
+                <div class="nav-dot" data-slide="3"></div>
+                <div class="nav-dot" data-slide="4"></div>
+                <div class="nav-dot" data-slide="5"></div>
+                <div class="nav-dot" data-slide="6"></div>
+                <div class="nav-dot" data-slide="7"></div>
+                <div class="nav-dot" data-slide="8"></div>
+                <div class="nav-dot" data-slide="9"></div>
+                <div class="nav-dot" data-slide="10"></div>
+                <div class="nav-dot" data-slide="11"></div>
+            </div>
+            <div class="nav-actions">
+                <div class="language-switcher">
+                    <a href="#" class="lang-btn active" data-lang="en">
+                        <span class="flag-icon">🇺🇸</span>
+                        <span>EN</span>
+                    </a>
+                    <a href="#" class="lang-btn" data-lang="fr">
+                        <span class="flag-icon">🇫🇷</span>
+                        <span>FR</span>
+                    </a>
+                    <button class="pdf-download-btn" onclick="downloadPDF()" title="Download as PDF">
+                        <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+                        <span>PDF</span>
+                    </button>
+                </div>
+            </div>
+            <button class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
 
     <!-- Slide 1: Hero -->
     <section class="pitch-slide slide-1" id="slide-1">
         <div class="slide-content">
-            <h1 class="slide-title">VAI Platform</h1>
-            <p class="slide-subtitle">The Digital Infrastructure for French Polynesia's Tourism Economy</p>
-            <div class="key-metrics">
-                <div class="metric-card">
-                    <div class="metric-number">99B</div>
-                    <div class="metric-label">XPF Tourism Economy</div>
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-tagline" data-translate="hero-tagline">French Polynesia's Tourism Revolution</div>
+                    <h1 class="hero-title" data-translate="slide1-title">The VAI Platform</h1>
+                    <p class="hero-description" data-translate="hero-description">The digital infrastructure connecting 4,500+ local operators with global travelers, keeping tourism revenue in Polynesian hands.</p>
+                    
+                    <div class="key-metrics" style="display: flex; gap: 2rem; justify-content: flex-start; flex-wrap: wrap; margin: 2rem 0;">
+                        <div class="metric-card" style="min-width: 140px;">
+                            <div class="metric-number">99B</div>
+                            <div class="metric-label" data-translate="tourism-economy">XPF Tourism Economy</div>
+                            <div class="usd-subtitle">($970M USD)</div>
+                        </div>
+                        <div class="metric-card" style="min-width: 140px;">
+                            <div class="metric-number">4,500+</div>
+                            <div class="metric-label" data-translate="local-operators">Local Operators</div>
+                        </div>
+                        <div class="metric-card" style="min-width: 120px;">
+                            <div class="metric-number">11%</div>
+                            <div class="metric-label" data-translate="fair-commission">Fair Commission</div>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-status" data-translate="platform-status">🚀 Launch Ready Platform</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-number">4,500+</div>
-                    <div class="metric-label">Underserved Operators</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-number">11%</div>
-                    <div class="metric-label">Fair Commission Rate</div>
+
+                <div class="agenda-card">
+                    <h3 class="agenda-title" data-translate="agenda-title">Presentation Overview</h3>
+                    
+                    <div class="agenda-item" data-slide="2">
+                        <div class="agenda-number">1</div>
+                        <div class="agenda-text" data-translate="agenda-problems">The Problems We're Solving</div>
+                    </div>
+                    
+                    <div class="agenda-item" data-slide="6">
+                        <div class="agenda-number">2</div>
+                        <div class="agenda-text" data-translate="agenda-solution">Our Solution</div>
+                    </div>
+                    
+                    <div class="agenda-item" data-slide="7">
+                        <div class="agenda-number">3</div>
+                        <div class="agenda-text" data-translate="agenda-market">Market Opportunity</div>
+                    </div>
+                    
+                    <div class="agenda-item" data-slide="8">
+                        <div class="agenda-number">4</div>
+                        <div class="agenda-text" data-translate="agenda-swot">Strategic Analysis (SWOT)</div>
+                    </div>
+                    <div class="agenda-item" data-slide="9">
+                        <div class="agenda-number">5</div>
+                        <div class="agenda-text" data-translate="agenda-growth">Growth Plan</div>
+                    </div>
+                    
+                    <!-- <div class="agenda-item" data-slide="10">
+                        <div class="agenda-number">6</div>
+                        <div class="agenda-text" data-translate="agenda-financial">Financial Overview</div>
+                    </div>  -->
+                    
+                    <div class="agenda-item" data-slide="10">
+                        <div class="agenda-number">6</div>
+                        <div class="agenda-text" data-translate="agenda-vision">Our Vision</div>
+                    </div>
+                    
+                    <div class="agenda-item" data-slide="11">
+                        <div class="agenda-number">7</div>
+                        <div class="agenda-text" data-translate="agenda-partnership">Partnership</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -573,213 +2007,519 @@
     <!-- Slide 2: The Why - Problem -->
     <section class="pitch-slide" id="slide-2">
         <div class="slide-content">
-            <h2 class="slide-title">Why French Polynesia Needs VAI</h2>
-            <p class="slide-subtitle">The Paradise Paradox: Massive market opportunity trapped by systemic inefficiencies</p>
-            <div class="slide-description">
-                <p><strong>French Polynesia's tourism economy is bleeding value</strong> through fragmented operations, excessive foreign platform fees, and lack of integrated infrastructure. While tourism generates 99B XPF annually, operators struggle with 30-60 day payment cycles, 20-30% commission rates, and operational chaos that prevents growth.</p>
-            </div>
-            
+            <h2 class="slide-title" data-translate="slide2-title">The Problem We're Solving</h2>
+            <p class="slide-subtitle" data-translate="slide2-subtitle">French Polynesia's tourism is huge but broken - here's why</p>
             <div class="chart-container">
                 <div class="chart-card">
-                    <h3>💸 Economic Leakage</h3>
-                    <div class="metric-number" style="color: #ff4444;">3-5B XPF</div>
-                    <p>Lost annually to foreign platforms charging excessive fees and providing poor local support</p>
-                    <div class="animated-bar" style="background: linear-gradient(90deg, #ff4444, #cc0000);"></div>
+                    <i data-lucide="trending-down" class="slide-icon"></i>
+                    <h3 data-translate="money-leaving">Money Leaving</h3>
+                    <div class="metric-number danger">3-5B XPF</div>
+                    <div class="metric-subtitle danger">($29-49M USD)</div>
+                    <p data-translate="money-leaving-desc"><strong>Lost to foreign platforms:</strong> This money goes to companies outside French Polynesia</p>
+                    <div class="animated-bar operator-bar-1"></div>
                 </div>
                 
                 <div class="chart-card">
-                    <h3>⚖️ Commission Burden</h3>
+                    <i data-lucide="scale" class="slide-icon"></i>
+                    <h3 data-translate="high-fees">High Fees</h3>
                     <div class="metric-number">20-30%</div>
-                    <p>Current platform fees vs our competitive 11% - doubling operator profitability potential</p>
+                    <p data-translate="high-fees-desc"><strong>Too much in fees:</strong> Current platforms charge 20-30%, we charge 11%</p>
                     <div class="animated-bar"></div>
                 </div>
                 
                 <div class="chart-card">
-                    <h3>🏝️ Market Fragmentation</h3>
+                    <i data-lucide="scatter-chart" class="slide-icon"></i>
+                    <h3 data-translate="everyone-scattered">Everyone Scattered</h3>
                     <div class="market-circle">
-                        <span>4,500<br>Operators<br>Scattered</span>
+                        <span>4,500<br>Operators</span>
                     </div>
-                    <p>Thousands of operators lacking unified infrastructure and support systems</p>
+                    <p data-translate="everyone-scattered-desc"><strong>No connection:</strong> Thousands of operators working alone without proper systems</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Slide 3: The How - Solution -->
+    <!-- Slide 3: Tourist Problems -->
     <section class="pitch-slide" id="slide-3">
         <div class="slide-content">
-            <h2 class="slide-title">How VAI Solves This</h2>
-            <p class="slide-subtitle">Integrated digital ecosystem built specifically for French Polynesia</p>
-            <div class="slide-description">
-                <p><strong>VAI Platform is the comprehensive digital infrastructure</strong> that unifies tourism operations through a multi-channel management system, AI-powered optimization, and culturally-aware business intelligence. We're not just another booking platform - we're the nervous system for French Polynesia's tourism economy.</p>
-            </div>
+            <h2 class="slide-title" data-translate="tourist-problems-title">Tourist Problems</h2>
+            <p class="slide-subtitle" data-translate="tourist-problems-subtitle">The Discovery & Booking Paradox</p>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin: 3rem 0;">
-                <div>
-                    <img src="/via-studio-images/app-screens/VAI Operator Tablet and Phone Screen_learnmore.png" alt="VAI Platform" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(208,19,189,0.3);">
+            <div class="problem-slide-container">
+                <!-- Stakeholder Image Placeholder -->
+                <div class="stakeholder-image-placeholder">
+                    <img src="/via-studio-images/landingpage/Frustrated Tourist on Phone.jpg" alt="Tourist Stakeholder" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10%;">
                 </div>
+
                 <div class="chart-container">
                     <div class="chart-card">
-                        <h3>🎯 Unified Channel Manager</h3>
-                        <p>Single dashboard managing all distribution channels, inventory, and pricing across platforms</p>
-                        <div class="animated-bar"></div>
+                        <i data-lucide="search-x" class="slide-icon"></i>
+                        <h3 data-translate="digital-invisibility">Digital Invisibility</h3>
+                        <div class="metric-number">4,500+</div>
+                        <div class="metric-subtitle" data-translate="hidden-operators">Hidden Operators</div>
+                        <p data-translate="digital-invisibility-desc"><strong>Hidden gems:</strong> Most authentic experiences remain undiscoverable online</p>
+                        <div class="animated-bar tourist-bar-1"></div>
                     </div>
+
                     <div class="chart-card">
-                        <h3>⚡ 7-Day Payment Cycles</h3>
-                        <p>Immediate cash flow improvement vs 30-60 day industry standard - critical for small operators</p>
-                        <div class="animated-bar"></div>
+                        <i data-lucide="clock-x" class="slide-icon"></i>
+                        <h3 data-translate="booking-friction">Booking Friction</h3>
+                        <div class="metric-number">70%</div>
+                        <div class="metric-subtitle" data-translate="book-last-minute">Book Last Minute</div>
+                        <p data-translate="booking-friction-desc"><strong>Booking chaos:</strong> WhatsApp bookings and email chaos create stress</p>
+                        <div class="animated-bar tourist-bar-2"></div>
                     </div>
+
                     <div class="chart-card">
-                        <h3>🌱 5% Cultural Impact Fund</h3>
-                        <p>Built-in social responsibility driving authentic cultural and environmental preservation</p>
-                        <div class="animated-bar"></div>
+                        <i data-lucide="globe-x" class="slide-icon"></i>
+                        <h3 data-translate="language-barriers-tourist">Language Barriers</h3>
+                        <div class="metric-number">118</div>
+                        <div class="metric-subtitle" data-translate="islands-navigate">Islands to Navigate</div>
+                        <p data-translate="language-barriers-tourist-desc"><strong>Scattered info:</strong> No unified source across archipelagos</p>
+                        <div class="animated-bar tourist-bar-3"></div>
+                    </div>
+
+                    <div class="chart-card">
+                        <i data-lucide="credit-card" class="slide-icon"></i>
+                        <h3 data-translate="expensive-last-minute">Expensive Last-Minute</h3>
+                        <div class="metric-number">2-3x</div>
+                        <div class="metric-subtitle" data-translate="price-premium">Price Premium</div>
+                        <p data-translate="expensive-last-minute-desc"><strong>Price penalty:</strong> Limited availability drives up costs for spontaneous travelers</p>
+                        <div class="animated-bar tourist-bar-4"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Slide 4: The What - Market Opportunity -->
+    <!-- Slide 4: Operator Problems -->
     <section class="pitch-slide" id="slide-4">
         <div class="slide-content">
-            <h2 class="slide-title">What We're Building</h2>
-            <p class="slide-subtitle">The definitive platform for French Polynesia's digital tourism transformation</p>
-            <div class="slide-description">
-                <p><strong>VAI Platform represents a 15B XPF total addressable market opportunity</strong> with clear path to 525M XPF annual revenue by Year 3. We're targeting the serviceable 5-7B XPF market through systematic operator onboarding and ecosystem expansion, creating sustainable competitive advantages through local expertise and integrated services.</p>
-            </div>
+            <h2 class="slide-title" data-translate="operator-problems-title">Operator Problems</h2>
+            <p class="slide-subtitle" data-translate="operator-problems-subtitle">The Economic Leakage Crisis</p>
             
-            <div class="chart-container">
-                <div class="chart-card">
-                    <h3>🌊 Total Market (TAM)</h3>
-                    <div class="metric-number">15B</div>
-                    <div class="metric-label">XPF Total Addressable Market</div>
-                    <p>Entire French Polynesia tourism economy digitization opportunity</p>
-                    <div class="growth-graph">
-                        <div class="growth-line"></div>
-                    </div>
+            <div class="problem-slide-container">
+                <!-- Stakeholder Image Placeholder -->
+                <div class="stakeholder-image-placeholder">
+                    <img src="/via-studio-images/backgrounds/Tahiti Business Boat View.jpg" alt="Operator Stakeholder" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10%;">
                 </div>
-                
-                <div class="chart-card">
-                    <h3>🎯 Serviceable Market (SAM)</h3>
-                    <div class="metric-number">5-7B</div>
-                    <div class="metric-label">XPF Serviceable Market</div>
-                    <p>Operators ready for digital transformation and platform adoption</p>
-                    <div class="growth-graph">
-                        <div class="growth-line" style="animation-delay: 0.5s;"></div>
+
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <i data-lucide="trending-down" class="slide-icon"></i>
+                        <h3 data-translate="high-commissions">High Commissions</h3>
+                        <div class="metric-number danger">20-30%</div>
+                        <div class="metric-subtitle danger">3-5B XPF Lost</div>
+                        <p data-translate="high-commissions-desc"><strong>Economic drain:</strong> Foreign platforms drain billions from local economy annually</p>
+                        <div class="animated-bar operator-bar-1"></div>
                     </div>
-                </div>
-                
-                <div class="chart-card">
-                    <h3>🚀 Target Share (SOM)</h3>
-                    <div class="metric-number">525M</div>
-                    <div class="metric-label">XPF Revenue by Year 3</div>
-                    <p>Conservative 7% market capture through systematic expansion strategy</p>
-                    <div class="growth-graph">
-                        <div class="growth-line" style="animation-delay: 1s;"></div>
+
+                    <div class="chart-card">
+                        <i data-lucide="credit-card" class="slide-icon"></i>
+                        <h3 data-translate="payment-complexity-operator">Payment Complexity</h3>
+                        <div class="metric-number warning">XPF</div>
+                        <div class="metric-subtitle warning" data-translate="currency-barrier">Currency Barrier</div>
+                        <p data-translate="payment-complexity-operator-desc"><strong>Payment hurdle:</strong> Complex international payment processing and XPF conversion challenges</p>
+                        <div class="animated-bar operator-bar-2"></div>
+                    </div>
+
+                    <div class="chart-card">
+                        <i data-lucide="calendar-x2" class="slide-icon"></i>
+                        <h3 data-translate="operational-chaos-operator">Operational Chaos</h3>
+                        <div class="metric-number">60</div>
+                        <div class="metric-subtitle" data-translate="payment-delay-days">Days Payment Delay</div>
+                        <p data-translate="operational-chaos-operator-desc"><strong>System chaos:</strong> WhatsApp bookings lead to double-bookings and lost revenue</p>
+                        <div class="animated-bar operator-bar-3"></div>
+                    </div>
+
+                    <div class="chart-card">
+                        <i data-lucide="eye-off" class="slide-icon"></i>
+                        <h3 data-translate="digital-invisibility-operator">Digital Invisibility</h3>
+                        <div class="metric-number">4,500+</div>
+                        <div class="metric-subtitle" data-translate="small-operators">Small Operators</div>
+                        <p data-translate="digital-invisibility-operator-desc"><strong>Hidden businesses:</strong> Invisible to modern travelers expecting online booking</p>
+                        <div class="animated-bar operator-bar-4"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Slide 5: Growth Strategy & Execution -->
+    <!-- Slide 5: Government/Commune Problems -->
     <section class="pitch-slide" id="slide-5">
         <div class="slide-content">
-            <h2 class="slide-title">Strategic Execution Roadmap</h2>
-            <p class="slide-subtitle">Systematic path to market dominance through proven growth methodology</p>
-            <div class="slide-description">
-                <p><strong>Our three-phase growth strategy leverages network effects</strong> to create sustainable competitive advantages. Phase 1 focuses on critical mass through 150 operator onboarding, Phase 2 achieves profitability through operational efficiency, Phase 3 expands into complementary services creating an unassailable ecosystem moat.</p>
-            </div>
+            <h2 class="slide-title" data-translate="government-problems-title">Government & Commune Problems</h2>
+            <p class="slide-subtitle" data-translate="government-problems-subtitle">Digital Sovereignty Challenge</p>
             
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 3rem 0;">
-                <div class="chart-card">
-                    <h3>🏗️ Foundation Phase</h3>
-                    <div class="metric-label">Months 1-18</div>
-                    <div class="metric-number" style="font-size: 2rem;">150</div>
-                    <div class="metric-label">Strategic Operators Onboarded</div>
-                    <p>Core platform development, key partnerships, operational systems</p>
-                    <div class="animated-bar"></div>
+            <div class="problem-slide-container">
+                <!-- Stakeholder Image Placeholder -->
+                <div class="stakeholder-image-placeholder"> <img src="/via-studio-images/icons/tahiti-flag.png" alt="Government Stakeholder" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10%;">
                 </div>
-                
-                <div class="chart-card">
-                    <h3>💰 Profitability Phase</h3>
-                    <div class="metric-label">Months 19-36</div>
-                    <div class="metric-number" style="font-size: 2rem;">📈</div>
-                    <div class="metric-label">Break-even + Growth</div>
-                    <p>Scale operations, optimize unit economics, establish market leadership</p>
-                    <div class="animated-bar"></div>
-                </div>
-                
-                <div class="chart-card">
-                    <h3>🚀 Ecosystem Phase</h3>
-                    <div class="metric-label">Months 37+</div>
-                    <div class="metric-number" style="font-size: 2rem;">🏝️</div>
-                    <div class="metric-label">Total Market Integration</div>
-                    <p>Expand into adjacent services, create platform lock-in effects</p>
-                    <div class="animated-bar"></div>
-                </div>
-            </div>
-            
-            <div class="professional-card" style="margin-top: 3rem;">
-                <h3 style="margin-bottom: 2rem; text-align: center;">Future Ecosystem Expansion</h3>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
-                    <div>
-                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
-                        <h4>VAI Insights</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">Business Intelligence & Analytics</p>
+
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <i data-lucide="arrow-down-circle" class="slide-icon"></i>
+                        <h3 data-translate="economic-leakage">Economic Leakage</h3>
+                        <div class="metric-number danger">3-5B</div>
+                        <div class="metric-subtitle danger">XPF Lost Annually</div>
+                        <p data-translate="economic-leakage-desc"><strong>Revenue loss:</strong> Tourism revenue flows to foreign platforms, undermining local tax base</p>
+                        <div class="animated-bar government-bar-1"></div>
                     </div>
-                    <div>
-                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎓</div>
-                        <h4>VAI Skills</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">Training & Certification</p>
+
+                    <div class="chart-card">
+                        <i data-lucide="database-zap" class="slide-icon"></i>
+                        <h3 data-translate="no-data-control-gov">No Data Control</h3>
+                        <div class="metric-number warning">0%</div>
+                        <div class="metric-subtitle warning" data-translate="tourism-data-control">Tourism Data Control</div>
+                        <p data-translate="no-data-control-gov-desc"><strong>Data dependency:</strong> Foreign platforms control strategic tourism data and decision-making power</p>
+                        <div class="animated-bar government-bar-2"></div>
                     </div>
-                    <div>
-                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏠</div>
-                        <h4>VAI Homes</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">Accommodation Network</p>
+
+                    <div class="chart-card">
+                        <i data-lucide="users-x" class="slide-icon"></i>
+                        <h3 data-translate="informal-economy">Informal Economy</h3>
+                        <div class="metric-number">80%</div>
+                        <div class="metric-subtitle" data-translate="operators-informal">Operators Informal</div>
+                        <p data-translate="informal-economy-desc"><strong>Tax challenge:</strong> Limited taxation and regulation oversight of thousands of operators</p>
+                        <div class="animated-bar government-bar-3"></div>
                     </div>
-                    <div>
-                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚛</div>
-                        <h4>VAI Supply</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">Procurement & Logistics</p>
+
+                    <div class="chart-card">
+                        <i data-lucide="map-pin-off" class="slide-icon"></i>
+                        <h3 data-translate="missing-digital-ecosystem-gov">Missing Digital Ecosystem</h3>
+                        <div class="metric-number">2027</div>
+                        <div class="metric-subtitle" data-translate="fariiraa-manihini-plan">Fāri'ira'a Manihini Plan</div>
+                        <p data-translate="missing-digital-ecosystem-gov-desc"><strong>Infrastructure gap:</strong> Strategic tourism plans lack coordinated digital infrastructure for execution</p>
+                        <div class="animated-bar government-bar-4"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Slide 6: Investment Opportunity -->
+    <!-- Slide 6: The How - Solution -->
     <section class="pitch-slide" id="slide-6">
         <div class="slide-content">
-            <h2 class="slide-title">Partnership Opportunity</h2>
-            <p class="slide-subtitle">Join us in building French Polynesia's digital tourism sovereignty</p>
-            <div class="slide-description">
-                <p><strong>VAI Platform represents more than a business opportunity</strong> - it's a chance to architect the digital infrastructure that will define French Polynesia's tourism future. With proven technology, deep local expertise, and a clear path to profitability, we're seeking strategic partners who share our vision of sustainable, culturally-conscious growth.</p>
+            <h2 class="slide-title" data-translate="slide3-title">Our Solution</h2>
+            <p class="slide-subtitle" data-translate="slide3-subtitle">A platform built specifically for French Polynesia's tourism operators</p>
+            <div class="solution-container">
+                <div>
+                    <img src="/via-studio-images/app-screens/VAI Operator Tablet and Phone Screen_learnmore.png" alt="VAI Platform" class="solution-image">
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4 data-translate="channel-manager">Channel Manager</h4>
+                        <p data-translate="channel-manager-desc">Single dashboard for all platforms</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 data-translate="payouts">7-Day Payouts</h4>
+                        <p data-translate="payouts-desc">Fast cash flow vs 30-60 day cycles</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 data-translate="impact-fund">Impact Fund</h4>
+                        <p data-translate="impact-fund-desc">5% for cultural preservation</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 data-translate="smart-tech">Smart Technology</h4>
+                        <p data-translate="smart-tech-desc">AI helps connect everything together</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 data-translate="made-fenua">Made for Fenua</h4>
+                        <p data-translate="made-fenua-desc">Designed by locals who understand the culture</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 data-translate="already-working">Launch Ready</h4>
+                        <p data-translate="already-working-desc">Can handle 28M+ XPF in bookings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: The What - Market Opportunity -->
+    <section class="pitch-slide" id="slide-7">
+        <div class="slide-content">
+            <h2 class="slide-title" data-translate="slide4-title">The Market Opportunity</h2>
+            <p class="slide-subtitle" data-translate="slide4-subtitle">How big is this opportunity and what's our target?</p>
+            <div class="chart-container">
+                <div class="chart-card">
+                    <i data-lucide="waves" class="slide-icon"></i>
+                    <h3 data-translate="total-market">Total Market</h3>
+                    <div class="metric-number">15B</div>
+                    <div class="metric-label" data-translate="total-market-label">XPF Entire Tourism Market</div>
+                    <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">($147M USD)</div>
+                    <p data-translate="total-market-desc"><strong>The whole pie:</strong> All tourism spending we could potentially capture</p>
+                </div>
+                
+                <div class="chart-card">
+                    <i data-lucide="target" class="slide-icon"></i>
+                    <h3 data-translate="realistic-target">Realistic Target</h3>
+                    <div class="metric-number">5-7B</div>
+                    <div class="metric-label" data-translate="serviceable-market-label">XPF Reachable Market</div>
+                    <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">($49-69M USD)</div>
+                    <p data-translate="realistic-target-desc"><strong>What we can actually get:</strong> Operators ready to use our platform</p>
+                </div>
+                
+                <div class="chart-card">
+                    <i data-lucide="trending-up" class="slide-icon"></i>
+                    <h3 data-translate="our-goal">Our Goal</h3>
+                    <div class="metric-number">525M</div>
+                    <div class="metric-label" data-translate="target-market-label">XPF Revenue by Year 3</div>
+                    <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">($5.1M USD)</div>
+                    <p data-translate="our-goal-desc"><strong>Conservative target:</strong> 7% market share within 3 years</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: SWOT Analysis -->
+    <section class="pitch-slide" id="slide-8">
+        <div class="slide-content">
+            <h2 class="slide-title" data-translate="swot-title">Strategic Analysis</h2>
+            <p class="slide-subtitle" data-translate="swot-subtitle">Our competitive position and how we'll win in this market</p>
+            
+            <div class="swot-container">
+                <!-- Strengths -->
+                <div class="swot-quadrant strengths">
+                    <div class="swot-header">
+                        <i data-lucide="trending-up" class="swot-icon"></i>
+                        <h3 data-translate="strengths-title">Our Strengths</h3>
+                    </div>
+                    <div class="swot-items">
+                        <div class="swot-item">
+                            <h4 data-translate="strength-1">Game-Changing Business Model</h4>
+                            <p data-translate="strength-1-desc">We charge just 11% commission (vs 20-30% competitors) with super fast 7-day payouts instead of waiting months</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="strength-2">Unbeatable Technology Advantage</h4>
+                            <p data-translate="strength-2-desc">Our Channel Manager makes VAI essential - operators can't run their business without it once they start using it</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="strength-3">Local Knowledge & Trust</h4>
+                            <p data-translate="strength-3-desc">We live here, understand the culture, and have endorsements from local government (Moorea administration)</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="strength-4">Ready-to-Launch Platform</h4>
+                            <p data-translate="strength-4-desc">This isn't just an idea - we have a working platform worth 28M+ XPF that can handle real bookings today</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weaknesses -->
+                <div class="swot-quadrant weaknesses">
+                    <div class="swot-header">
+                        <i data-lucide="alert-triangle" class="swot-icon"></i>
+                        <h3 data-translate="weaknesses-title">Our Challenges</h3>
+                    </div>
+                    <div class="swot-items">
+                        <div class="swot-item">
+                            <h4 data-translate="weakness-1">Getting Started Challenge</h4>
+                            <p data-translate="weakness-1-desc">We need enough operators before tourists will use us, and enough tourists before operators see value</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="weakness-2">Founder Dependency</h4>
+                            <p data-translate="weakness-2-desc">Right now, too much depends on the founder - we need to build a strong team quickly</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="weakness-3">Limited Marketing Budget</h4>
+                            <p data-translate="weakness-3-desc">We can't outspend Google and Facebook ads like the big international players can</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Opportunities -->
+                <div class="swot-quadrant opportunities">
+                    <div class="swot-header">
+                        <i data-lucide="target" class="swot-icon"></i>
+                        <h3 data-translate="opportunities-title">Huge Opportunities</h3>
+                    </div>
+                    <div class="swot-items">
+                        <div class="swot-item">
+                            <h4 data-translate="opportunity-1">Massive Underserved Market</h4>
+                            <p data-translate="opportunity-1-desc">Over 4,500 tourism operators are frustrated with current options and ready for something better</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="opportunity-2">Government Support</h4>
+                            <p data-translate="opportunity-2-desc">Perfect timing - government wants digital economy growth and supports local tech companies</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="opportunity-3">Data Goldmine</h4>
+                            <p data-translate="opportunity-3-desc">Once we have market share, our booking data becomes very valuable to hotels, airlines, and government planning</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="opportunity-4">Pacific Expansion</h4>
+                            <p data-translate="opportunity-4-desc">Our model works for any island nation - we can expand across the Pacific using the same technology</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Threats -->
+                <div class="swot-quadrant threats">
+                    <div class="swot-header">
+                        <i data-lucide="shield-alert" class="swot-icon"></i>
+                        <h3 data-translate="threats-title">What Could Go Wrong</h3>
+                    </div>
+                    <div class="swot-items">
+                        <div class="swot-item">
+                            <h4 data-translate="threat-1">Price War</h4>
+                            <p data-translate="threat-1-desc">Big competitors could cut their prices to match ours temporarily to kill our advantage</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="threat-2">Tourism Crash</h4>
+                            <p data-translate="threat-2-desc">Major global events (like pandemics) could devastate tourism and hurt everyone in our market</p>
+                        </div>
+                        <div class="swot-item">
+                            <h4 data-translate="threat-3">Slow Adoption</h4>
+                            <p data-translate="threat-3-desc">If operators are too slow to adopt new technology, we won't reach critical mass fast enough</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Slide 9: Growth Strategy & Execution -->
+    <section class="pitch-slide" id="slide-9">
+        <div class="slide-content">
+            <h2 class="slide-title" data-translate="slide5-title">Our Growth Plan</h2>
+            <p class="slide-subtitle" data-translate="slide5-subtitle">How we'll grow step by step to reach our goals</p>
+            <div class="growth-plan-container">
+                <div class="chart-card">
+                    <div class="metric-number large-metric"><i data-lucide="trending-up" class="metric-icon"></i></div>
+                    <h3 data-translate="phase1-build">Phase 1: Build</h3>
+                    <div class="metric-label" data-translate="phase1-timeframe">Months 1-9</div>
+                    <div class="metric-number large-metric">250</div>
+                    <p data-translate="phase1-desc"><strong>Get started:</strong> Sign up 250 important operators first</p>
+                    <div class="animated-bar"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="metric-number large-metric"><i data-lucide="dollar-sign" class="metric-icon"></i></div>
+                    <h3 data-translate="phase2-profit">Phase 2: Profit</h3>
+                    <div class="metric-label" data-translate="phase2-timeframe">Months 9-24</div>
+                    <div class="metric-number large-metric">UPSCALE</div>
+                    <p data-translate="phase2-desc"><strong>Start earning:</strong> Scale up operations and become profitable</p>
+                    <div class="animated-bar"></div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="metric-number large-metric"><i data-lucide="globe" class="metric-icon"></i></div>
+                    <h3 data-translate="phase3-expand">Phase 3: Expand</h3>
+                    <div class="metric-label" data-translate="phase3-timeframe">Months 24+</div>
+                    <div class="metric-number large-metric">GROW</div>
+                    <p data-translate="phase3-desc"><strong>Go big:</strong> Add new services and dominate the market</p>
+                    <div class="animated-bar"></div>
+                </div>
             </div>
             
+            <!-- Vision Statement -->
+            <div class="professional-card" style="margin-top: 3rem; text-align: center;">
+                <h3 style="margin-bottom: 2rem;">Our Ultimate Vision</h3>
+                <p style="font-size: 1.2rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
+                    <strong>By 2028, VAI will be the digital backbone of French Polynesia's tourism economy</strong> - 
+                    seamlessly connecting every operator, empowering local communities, and preserving 
+                    Polynesian culture while driving sustainable economic growth across the Pacific.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Financial Overview -->
+    
+
+    <!-- Slide 10: VAI Ecosystem Vision -->
+    <section class="pitch-slide" id="slide-10">
+        <div class="slide-content">
+            <h2 class="slide-title" data-translate="slide7-title">The VAI Ecosystem Vision</h2>
+            <p class="slide-subtitle" data-translate="slide7-subtitle">Building French Polynesia's complete digital tourism infrastructure</p>
+            
+            <div class="ecosystem-grid">
+                <!-- Layer 1: Foundation -->
+                <div class="ecosystem-layer">
+                    <i data-lucide="layers" class="ecosystem-icon"></i>
+                    <h3 class="ecosystem-title" data-translate="vai-platform">VAI Platform</h3>
+                    <p class="ecosystem-desc" data-translate="vai-platform-desc">Core booking and channel management system connecting all tourism operators across French Polynesia</p>
+                    <div class="ecosystem-timeline" data-translate="core-platform-launch">LAUNCH READY</div>
+                </div>
+
+                <!-- Layer 2: Intelligence -->
+                <div class="ecosystem-layer">
+                    <i data-lucide="brain-circuit" class="ecosystem-icon"></i>
+                    <h3 class="ecosystem-title" data-translate="vai-insights">VAI Insights</h3>
+                    <p class="ecosystem-desc" data-translate="vai-insights-desc">AI-powered analytics providing market intelligence, pricing optimization, and demand forecasting</p>
+                    <div class="ecosystem-timeline" data-translate="data-insights-launch">UPCOMING</div>
+                </div>
+
+                <!-- Layer 3: Skills -->
+                <div class="ecosystem-layer">
+                    <i data-lucide="graduation-cap" class="ecosystem-icon"></i>
+                    <h3 class="ecosystem-title" data-translate="vai-skills">VAI Skills</h3>
+                    <p class="ecosystem-desc" data-translate="vai-skills-desc">Digital training academy building local talent in tourism technology and hospitality excellence</p>
+                    <div class="ecosystem-timeline" data-translate="ecosystem-year1">CONCEPT READY</div>
+                </div>
+
+                <!-- Layer 4: Homes -->
+                <div class="ecosystem-layer">
+                    <i data-lucide="home" class="ecosystem-icon"></i>
+                    <h3 class="ecosystem-title" data-translate="vai-homes">VAI Homes</h3>
+                    <p class="ecosystem-desc" data-translate="vai-homes-desc">Curated accommodation network showcasing authentic Polynesian hospitality and cultural experiences</p>
+                    <div class="ecosystem-timeline" data-translate="ecosystem-year2">COMING SOON</div>
+                </div>
+
+                 <!-- Layer 5: Expansion -->
+                <div class="ecosystem-layer">
+                    <i data-lucide="globe" class="ecosystem-icon"></i>
+                    <h3 class="ecosystem-title" data-translate="vai-pacific">VAI Pacific</h3>
+                    <p class="ecosystem-desc" data-translate="vai-pacific-desc">Regional expansion across Pacific islands, sharing technology and preserving island cultures</p>
+                    <div class="ecosystem-timeline" data-translate="ecosystem-year3">RESEARCH ONGOING</div>
+                </div>
+
+                <!-- Layer 6: Supply -->
+                <div class="ecosystem-layer">
+                    <i data-lucide="truck" class="ecosystem-icon"></i>
+                    <h3 class="ecosystem-title" data-translate="vai-supply">VAI Supply</h3>
+                    <p class="ecosystem-desc" data-translate="vai-supply-desc">Local procurement network connecting operators with Polynesian suppliers and sustainable resources</p>
+                    <div class="ecosystem-timeline" data-translate="ecosystem-year3">RESEARCH ONGOING</div>
+                </div>
+               
+            </div>
+
+            
+        </div>
+    </section>
+
+    <!-- Slide 11: Investment Opportunity -->
+    <section class="pitch-slide" id="slide-11">
+        <div class="slide-content">
+            <h2 class="slide-title" data-translate="slide8-title">Let's Partner Up</h2>
+            <p class="slide-subtitle" data-translate="slide8-subtitle">Help us build the future of French Polynesia's tourism</p>
             <div class="key-metrics">
                 <div class="metric-card">
-                    <h3>🎯 Proven Foundation</h3>
+                    <i data-lucide="check-circle" class="slide-icon"></i>
+                    <h3 data-translate="already-working-invest">Already Working</h3>
                     <div class="metric-number">28M+</div>
-                    <div class="metric-label">XPF Current Platform Value</div>
-                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;">Validated technology stack with active user base</p>
+                    <div class="metric-label" data-translate="platform-processing">XPF Platform Already Processing</div>
+                    <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">($275K+ USD)</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;" data-translate="already-working-invest-desc"><strong>Not just an idea:</strong> Real platform with real customers</p>
                 </div>
                 <div class="metric-card">
-                    <h3>🏝️ Local Advantage</h3>
+                    <i data-lucide="map-pin" class="slide-icon"></i>
+                    <h3 data-translate="local-team">Local Team</h3>
                     <div class="metric-number">100%</div>
-                    <div class="metric-label">Built in Fenua</div>
-                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;">Deep cultural understanding and operational presence</p>
+                    <div class="metric-label" data-translate="built-local">Built in Fenua</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;" data-translate="local-team-desc"><strong>We live here:</strong> Built by locals who understand the market</p>
                 </div>
                 <div class="metric-card">
-                    <h3>🤝 Impact Integration</h3>
+                    <i data-lucide="handshake" class="slide-icon"></i>
+                    <h3 data-translate="giving-back">Giving Back</h3>
                     <div class="metric-number">5%</div>
-                    <div class="metric-label">Cultural Impact Fund</div>
-                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;">Built-in social responsibility and community benefit</p>
+                    <div class="metric-label" data-translate="cultural-contribution">Goes to Cultural Projects</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 1rem;" data-translate="giving-back-desc"><strong>Do good while profitable:</strong> 5% of revenue helps preserve Polynesian culture</p>
                 </div>
             </div>
 
             <div class="professional-card" style="margin-top: 4rem;">
-                <h3 style="text-align: center; margin-bottom: 3rem;">Ready to Transform Tourism Together?</h3>
+                <h3 style="text-align: center; margin-bottom: 3rem;" data-translate="want-build-together">Want to Build This Together?</h3>
                 <div style="display: flex; align-items: center; justify-content: center; gap: 3rem;">
                     <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent-glow); box-shadow: 0 8px 24px rgba(208,19,189,0.3);">
                     <div style="text-align: left;">
@@ -787,8 +2527,8 @@
                         <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 1.1rem;">Founder & CEO, VAI Platform</p>
                         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem; opacity: 0.8;">Engineer | AI Product Strategist | French Polynesia Tourism Innovation</p>
                         <div style="display: flex; gap: 1rem;">
-                            <a href="https://wa.me/68987269065" style="background: #25D366; color: white; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">💬 WhatsApp</a>
-                            <a href="mailto:hello@vai.studio" style="background: var(--accent-glow); color: white; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">✉️ Email</a>
+                            <a href="https://wa.me/68987269065" style="background: #25D366; color: white; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;"><i data-lucide="message-circle" style="width: 1.2rem; height: 1.2rem;"></i> WhatsApp</a>
+                            <a href="mailto:hello@kevindesilva.de" style="background: var(--accent-glow); color: white; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;"><i data-lucide="mail" style="width: 1.2rem; height: 1.2rem;"></i> Email</a>
                         </div>
                     </div>
                 </div>
@@ -797,39 +2537,658 @@
     </section>
 
     <script>
-        // Simple slide navigation
+        // Enhanced slide navigation with animations
         document.addEventListener('DOMContentLoaded', () => {
             const dots = document.querySelectorAll('.nav-dot');
             const slides = document.querySelectorAll('.pitch-slide');
+            
+            // Intersection Observer for automatic dot activation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const slideId = entry.target.id;
+                        const slideNum = slideId.replace('slide-', '');
+                        
+                        dots.forEach(d => d.classList.remove('active'));
+                        document.querySelector(`[data-slide="${slideNum}"]`).classList.add('active');
+                        
+                        // Trigger animations when slide becomes visible
+                        const animatedElements = entry.target.querySelectorAll('.animated-bar, .chart-card, .metric-card');
+                        animatedElements.forEach((el, index) => {
+                            setTimeout(() => {
+                                el.style.animationPlayState = 'running';
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, {
+                threshold: 0.6
+            });
+            
+            slides.forEach(slide => observer.observe(slide));
             
             dots.forEach(dot => {
                 dot.addEventListener('click', () => {
                     const slideNum = dot.getAttribute('data-slide');
                     document.getElementById(`slide-${slideNum}`).scrollIntoView({ behavior: 'smooth' });
-                    
-                    dots.forEach(d => d.classList.remove('active'));
-                    dot.classList.add('active');
                 });
             });
             
-            // Keyboard navigation
+            // Enhanced keyboard navigation
             document.addEventListener('keydown', (e) => {
                 const currentSlide = Math.ceil(window.scrollY / window.innerHeight) + 1;
                 let nextSlide = currentSlide;
                 
-                if (e.key === 'ArrowDown' || e.key === ' ') {
-                    nextSlide = Math.min(currentSlide + 1, 6);
-                } else if (e.key === 'ArrowUp') {
+                if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    nextSlide = Math.min(currentSlide + 1, 11);
+                } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                    e.preventDefault();
                     nextSlide = Math.max(currentSlide - 1, 1);
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    nextSlide = 1;
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    nextSlide = 11;
                 }
                 
                 if (nextSlide !== currentSlide) {
                     document.getElementById(`slide-${nextSlide}`).scrollIntoView({ behavior: 'smooth' });
-                    dots.forEach(d => d.classList.remove('active'));
-                    document.querySelector(`[data-slide="${nextSlide}"]`).classList.add('active');
                 }
             });
+            
+            // Smooth scroll behavior enhancement
+            document.documentElement.style.scrollBehavior = 'smooth';
+            
+            // Initialize Lucide icons
+            lucide.createIcons();
+            
+            // Language switching functionality
+            const translations = {
+                en: {
+                    'slide1-title': 'The VAI Platform',
+                    'slide1-subtitle': 'The Digital Infrastructure for French Polynesia\'s Tourism Economy',
+                    'slide2-title': 'The Problem We\'re Solving',
+                    'slide2-subtitle': 'French Polynesia\'s tourism is huge but broken - here\'s why',
+                    'slide3-title': 'Our Solution',
+                    'slide3-subtitle': 'A platform built specifically for French Polynesia\'s tourism operators',
+                    'slide4-title': 'The Market Opportunity',
+                    'slide4-subtitle': 'How big is this opportunity and what\'s our target?',
+                    'slide5-title': 'Our Growth Plan',
+                    'slide5-subtitle': 'How we\'ll grow step by step to reach our goals',
+                    'slide6-title': 'Financial Overview',
+                    'slide6-subtitle': 'Clear path to substantial returns',
+                    'slide7-title': 'The VAI Ecosystem Vision',
+                    'slide7-subtitle': 'Building French Polynesia\'s complete digital tourism infrastructure',
+                    'slide8-title': 'Let\'s Partner Up',
+                    'slide8-subtitle': 'Help us build the future of French Polynesia\'s tourism',
+                    
+                    // Hero slide translations
+                    'hero-tagline': 'French Polynesia\'s Tourism Revolution',
+                    'hero-description': 'The digital infrastructure connecting 4,500+ local operators with global travelers, keeping tourism revenue in Polynesian hands.',
+                    'tourism-economy': '99B XPF Tourism Economy',
+                    'local-operators': '4,500+ Local Operators',
+                    'fair-commission': '11% Fair Commission',
+                    'platform-status': 'Platform Ready to Launch',
+                    'agenda-title': 'Presentation Overview',
+                    'agenda-problems': 'The Problems We\'re Solving',
+                    'agenda-solution': 'Our Solution',
+                    'agenda-market': 'Market Opportunity',
+                    'agenda-swot': 'Strategic Analysis (SWOT)',
+                    'agenda-growth': 'Growth Plan',
+                    'agenda-financial': 'Financial Overview',
+                    'agenda-vision': 'Our Vision',
+                    'agenda-partnership': 'Partnership',
+                    
+                    // SWOT Analysis translations
+                    'swot-title': 'Strategic Analysis',
+                    'swot-subtitle': 'Our competitive position and how we\'ll win in this market',
+                    'strengths-title': 'Our Strengths',
+                    'strength-1': 'Game-Changing Business Model',
+                    'strength-1-desc': 'We charge just 11% commission (vs 20-30% competitors) with super fast 7-day payouts instead of waiting months',
+                    'strength-2': 'Unbeatable Technology Advantage',
+                    'strength-2-desc': 'Our Channel Manager makes VAI essential - operators can\'t run their business without it once they start using it',
+                    'strength-3': 'Local Knowledge & Trust',
+                    'strength-3-desc': 'We live here, understand the culture, and have endorsements from local government (Moorea administration)',
+                    'strength-4': 'Ready-to-Launch Platform',
+                    'strength-4-desc': 'This isn\'t just an idea - we have a working platform worth 28M+ XPF that can handle real bookings today',
+                    'weaknesses-title': 'Our Challenges',
+                    'weakness-1': 'Getting Started Challenge',
+                    'weakness-1-desc': 'We need enough operators before tourists will use us, and enough tourists before operators see value',
+                    'weakness-2': 'Founder Dependency',
+                    'weakness-2-desc': 'Right now, too much depends on the founder - we need to build a strong team quickly',
+                    'weakness-3': 'Limited Marketing Budget',
+                    'weakness-3-desc': 'We can\'t outspend Google and Facebook ads like the big international players can',
+                    'opportunities-title': 'Huge Opportunities',
+                    'opportunity-1': 'Massive Underserved Market',
+                    'opportunity-1-desc': 'Over 4,500 tourism operators are frustrated with current options and ready for something better',
+                    'opportunity-2': 'Government Support',
+                    'opportunity-2-desc': 'Perfect timing - government wants digital economy growth and supports local tech companies',
+                    'opportunity-3': 'Data Goldmine',
+                    'opportunity-3-desc': 'Once we have market share, our booking data becomes very valuable to hotels, airlines, and government planning',
+                    'opportunity-4': 'Pacific Expansion',
+                    'opportunity-4-desc': 'Our model works for any island nation - we can expand across the Pacific using the same technology',
+                    'threats-title': 'What Could Go Wrong',
+                    'threat-1': 'Price War',
+                    'threat-1-desc': 'Big competitors could cut their prices to match ours temporarily to kill our advantage',
+                    'threat-2': 'Tourism Crash',
+                    'threat-2-desc': 'Major global events (like pandemics) could devastate tourism and hurt everyone in our market',
+                    'threat-3': 'Slow Adoption',
+                    'threat-3-desc': 'If operators are too slow to adopt new technology, we won\'t reach critical mass fast enough',
+                    
+                    // Problem slides translations (Tourist, Operator, Government)
+                    'tourist-problems-title': 'Tourist Problems',
+                    'tourist-problems-subtitle': 'The Discovery & Booking Paradox',
+                    'digital-invisibility': 'Digital Invisibility',
+                    'digital-invisibility-desc': 'Most authentic experiences remain undiscoverable online',
+                    'hidden-operators': 'Hidden Operators',
+                    'booking-chaos': 'Booking Chaos',
+                    'booking-chaos-desc': 'Multiple platforms, confusing processes, unreliable availability',
+                    'scattered-platforms': 'Scattered Platforms',
+                    'language-barriers': 'Language Barriers',
+                    'language-barriers-desc': 'Communication challenges limit authentic cultural exchange',
+                    'communication-issues': 'Communication Issues',
+                    'payment-complexity': 'Payment Complexity',
+                    'payment-complexity-desc': 'Complex international payment processing and XPF conversion challenges',
+                    'payment-hurdle': 'Payment Hurdle',
+                    
+                    'operator-problems-title': 'Operator Problems',
+                    'operator-problems-subtitle': 'The Economic Leakage Crisis',
+                    'high-commissions': 'High Commissions',
+                    'high-commissions-desc': 'Foreign platforms drain billions from local economy annually',
+                    'xpf-lost': 'XPF Lost',
+                    'economic-drain': 'Economic Drain',
+                    'payment-delays': 'Payment Delays',
+                    'payment-delays-desc': 'Long payment cycles hurt cash flow for small businesses',
+                    'months-wait': 'Months Wait',
+                    'operational-chaos': 'Operational Chaos',
+                    'operational-chaos-desc': 'Managing multiple platforms leads to double bookings and stress',
+                    'multiple-calendars': 'Multiple Calendars',
+                    'limited-visibility': 'Limited Visibility',
+                    'limited-visibility-desc': 'Difficulty reaching international tourists without expensive marketing',
+                    'invisible-online': 'Invisible Online',
+                    
+                    'government-problems-title': 'Government & Commune Problems',
+                    'government-problems-subtitle': 'Digital Sovereignty Challenge',
+                    'economic-leakage': 'Economic Leakage',
+                    'economic-leakage-desc': 'Tourism revenue flows to foreign platforms, undermining local tax base',
+                    'xpf-lost-annually': 'XPF Lost Annually',
+                    'revenue-loss': 'Revenue Loss',
+                    'no-data-control': 'No Data Control',
+                    'no-data-control-desc': 'Critical tourism data controlled by foreign companies, limiting policy insights',
+                    'external-dependency': 'External Dependency',
+                    'tourism-informality': 'Tourism Informality',
+                    'tourism-informality-desc': 'Large informal sector limits tax collection and economic planning',
+                    'unmeasured-economy': 'Unmeasured Economy',
+                    'missing-digital-ecosystem': 'Missing Digital Ecosystem',
+                    'missing-digital-ecosystem-desc': 'No integrated platform despite ambitious Fāri\'ira\'a Manihini 2027 strategy',
+                    'strategic-gap': 'Strategic Gap',
+                    
+                    // Market Opportunity slide metric labels
+                    'total-market-label': 'XPF Entire Tourism Market',
+                    'serviceable-market-label': 'XPF Reachable Market',
+                    'target-market-label': 'XPF Revenue by Year 3',
+                    
+                    // Growth Plan metric labels and titles
+                    'phase1-timeframe': 'Months 1-9',
+                    'phase2-timeframe': 'Months 9-24',
+                    'phase3-timeframe': 'Months 24+',
+                    
+                    // Partnership slide metric labels
+                    'platform-processing': 'XPF Platform Already Processing',
+                    'built-local': 'Built in Fenua',
+                    'cultural-contribution': 'Goes to Cultural Projects',
+                    
+                    // Ecosystem Vision timeline elements
+                    'ecosystem-year1': 'Concept Ready',
+                    'ecosystem-year2': 'Coming Soon',
+                    'ecosystem-year3': 'Research Ongoing',
+                    'core-platform-launch': 'Launch Ready',
+                    'data-insights-launch': 'Upcoming',
+                    'full-ecosystem': 'Full Ecosystem Expansion',
+                    
+                    // Additional problem slide content translations
+                    'booking-friction': 'Booking Friction',
+                    'booking-friction-desc': 'WhatsApp bookings and email chaos create stress',
+                    'book-last-minute': 'Book Last Minute',
+                    'language-barriers-tourist': 'Language Barriers',
+                    'language-barriers-tourist-desc': 'No unified source across archipelagos',
+                    'islands-navigate': 'Islands to Navigate',
+                    'expensive-last-minute': 'Expensive Last-Minute',
+                    'expensive-last-minute-desc': 'Limited availability drives up costs for spontaneous travelers',
+                    'price-premium': 'Price Premium',
+                    
+                    // Operator problems additional content
+                    'payment-complexity-operator': 'Payment Complexity',
+                    'payment-complexity-operator-desc': 'Complex international payment processing and XPF conversion challenges',
+                    'currency-barrier': 'Currency Barrier',
+                    'operational-chaos-operator': 'Operational Chaos',
+                    'operational-chaos-operator-desc': 'WhatsApp bookings lead to double-bookings and lost revenue',
+                    'payment-delay-days': 'Days Payment Delay',
+                    'digital-invisibility-operator': 'Digital Invisibility',
+                    'digital-invisibility-operator-desc': 'Invisible to modern travelers expecting online booking',
+                    'small-operators': 'Small Operators',
+                    
+                    // Government problems additional content
+                    'no-data-control-gov': 'No Data Control',
+                    'no-data-control-gov-desc': 'Foreign platforms control strategic tourism data and decision-making power',
+                    'tourism-data-control': 'Tourism Data Control',
+                    'informal-economy': 'Informal Economy',
+                    'informal-economy-desc': 'Limited taxation and regulation oversight of thousands of operators',
+                    'operators-informal': 'Operators Informal',
+                    'missing-digital-ecosystem-gov': 'Missing Digital Ecosystem',
+                    'missing-digital-ecosystem-gov-desc': 'Strategic tourism plans lack coordinated digital infrastructure for execution',
+                    'fariiraa-manihini-plan': 'Fāri\'ira\'a Manihini Plan',
+                    
+                    // Slide content translations
+                    'money-leaving': 'Money Leaving',
+                    'money-leaving-desc': 'Lost to foreign platforms: This money goes to companies outside French Polynesia',
+                    'high-fees': 'High Fees',
+                    'high-fees-desc': 'Too much in fees: Current platforms charge 20-30%, we charge 11%',
+                    'everyone-scattered': 'Everyone Scattered',
+                    'everyone-scattered-desc': 'No connection: Thousands of operators working alone without proper systems',
+                    
+                    'channel-manager': 'Channel Manager',
+                    'channel-manager-desc': 'Single dashboard for all platforms',
+                    'payouts': '7-Day Payouts',
+                    'payouts-desc': 'Fast cash flow vs 30-60 day cycles',
+                    'impact-fund': 'Impact Fund',
+                    'impact-fund-desc': '5% for cultural preservation',
+                    'smart-tech': 'Smart Technology',
+                    'smart-tech-desc': 'AI helps connect everything together',
+                    'made-fenua': 'Made for Fenua',
+                    'made-fenua-desc': 'Designed by locals who understand the culture',
+                    'already-working': 'Launch Ready',
+                    'already-working-desc': 'Can handling 28M+ XPF in bookings',
+                    
+                    'total-market': 'Total Market',
+                    'total-market-desc': 'The whole pie: All tourism spending we could potentially capture',
+                    'realistic-target': 'Realistic Target',
+                    'realistic-target-desc': 'What we can actually get: Operators ready to use our platform',
+                    'our-goal': 'Our Goal',
+                    'our-goal-desc': 'Conservative target: 7% market share within 3 years',
+                    
+                    'phase1-build': 'Phase 1: Build',
+                    'phase1-desc': 'Get started: Sign up 250 important operators first',
+                    'phase2-profit': 'Phase 2: Profit',
+                    'phase2-desc': 'Start earning: Scale up operations and become profitable',
+                    'phase3-expand': 'Phase 3: Expand',
+                    'phase3-desc': 'Go big: Add new services and dominate the market',
+                    
+                    'revenue-growth': 'Revenue Growth Path',
+                    'market-scale': 'Market Scale',
+                    'fair-commission': '11% Commission',
+                    'fair-commission-desc': 'Fair rate vs 20-30% competition',
+                    'fast-payouts': '7-Day Payouts',
+                    'fast-payouts-desc': 'Fast cash flow for operators',
+                    'growth-20x': '20x Growth',
+                    'growth-20x-desc': 'Conservative 3-year projection',
+                    
+                    'vai-platform': 'VAI Platform',
+                    'vai-platform-desc': 'Core booking and channel management system connecting all tourism operators across French Polynesia',
+                    'vai-insights': 'VAI Insights',
+                    'vai-insights-desc': 'AI-powered analytics providing market intelligence, pricing optimization, and demand forecasting',
+                    'vai-skills': 'VAI Skills',
+                    'vai-skills-desc': 'Digital training academy building local talent in tourism technology and hospitality excellence',
+                    'vai-homes': 'VAI Homes',
+                    'vai-homes-desc': 'Curated accommodation network showcasing authentic Polynesian hospitality and cultural experiences',
+                    'vai-pacific': 'VAI Pacific',
+                    'vai-pacific-desc': 'Regional expansion across Pacific islands, sharing technology and preserving island cultures',
+                    'vai-supply': 'VAI Supply',
+                    'vai-supply-desc': 'Local procurement network connecting operators with Polynesian suppliers and sustainable resources',
+                    
+                    'already-working-invest': 'Launch Ready',
+                    'already-working-invest-desc': 'Not just an idea: Real platform with real customers',
+                    'local-team': 'Local Team',
+                    'local-team-desc': 'We live here: Built by locals who understand the market',
+                    'giving-back': 'Giving Back',
+                    'giving-back-desc': 'Do good while profitable: 5% of revenue helps preserve Polynesian culture',
+                    'want-build-together': 'Want to Build This Together?'
+                },
+                fr: {
+                    'slide1-title': 'La Plateforme VAI',
+                    'slide1-subtitle': 'L\'infrastructure numérique pour l\'économie touristique de la Polynésie française',
+                    'slide2-title': 'Le Problème Que Nous Résolvons',
+                    'slide2-subtitle': 'Le tourisme en Polynésie française est énorme mais dysfonctionnel - voici pourquoi',
+                    'slide3-title': 'Notre Solution',
+                    'slide3-subtitle': 'Une plateforme conçue spécifiquement pour les opérateurs touristiques de Polynésie française',
+                    'slide4-title': 'L\'Opportunité du Marché',
+                    'slide4-subtitle': 'Quelle est la taille de cette opportunité et quel est notre objectif ?',
+                    'slide5-title': 'Notre Plan de Croissance',
+                    'slide5-subtitle': 'Comment nous allons grandir étape par étape pour atteindre nos objectifs',
+                    'slide6-title': 'Aperçu Financier',
+                    'slide6-subtitle': 'Un chemin clair vers des rendements substantiels',
+                    'slide7-title': 'La Vision de l\'Écosystème VAI',
+                    'slide7-subtitle': 'Construire l\'infrastructure numérique touristique complète de la Polynésie française',
+                    'slide8-title': 'Partenariat',
+                    'slide8-subtitle': 'Aidez-nous à construire l\'avenir du tourisme en Polynésie française',
+                    
+                    // Hero slide translations
+                    'hero-tagline': 'La Révolution Touristique de la Polynésie Française',
+                    'hero-description': 'L\'infrastructure numérique connectant plus de 4 500 opérateurs locaux avec les voyageurs du monde entier, gardant les revenus touristiques entre les mains polynésiennes.',
+                    'tourism-economy': 'Économie Touristique de 99B XPF',
+                    'local-operators': 'Opérateurs Locaux',
+                    'fair-commission': 'Commission Équitable de 11%',
+                    'platform-status': 'Plateforme Prête au Lancement',
+                    'agenda-title': 'Aperçu de la Présentation',
+                    'agenda-problems': 'Problèmes à résoudre',
+                    'agenda-solution': 'Notre Solution',
+                    'agenda-market': 'Opportunité du Marché',
+                    'agenda-swot': 'Analyse Stratégique (SWOT)',
+                    'agenda-growth': 'Plan de Croissance',
+                    'agenda-financial': 'Aperçu Financier',
+                    'agenda-vision': 'Notre Vision',
+                    'agenda-partnership': 'Partenariat',
+                    
+                    // SWOT Analysis translations
+                    'swot-title': 'Analyse Stratégique',
+                    'swot-subtitle': 'Notre position concurrentielle et comment nous allons réussir sur ce marché',
+                    'strengths-title': 'Nos Forces',
+                    'strength-1': 'Modèle Économique Révolutionnaire',
+                    'strength-1-desc': 'Nous facturons seulement 11% de commission (contre 20-30% pour nos concurrents) avec des paiements ultra-rapides de 7 jours au lieu d\'attendre des mois',
+                    'strength-2': 'Avantage Technologique Imbattable',
+                    'strength-2-desc': 'Notre Gestionnaire de Canaux rend VAI indispensable - les opérateurs ne peuvent plus gérer leur entreprise sans une fois qu\'ils commencent à l\'utiliser',
+                    'strength-3': 'Connaissance Locale et Confiance',
+                    'strength-3-desc': 'Nous vivons ici, comprenons la culture, et avons le soutien du gouvernement local (administration de Moorea)',
+                    'strength-4': 'Plateforme Prête au Lancement',
+                    'strength-4-desc': 'Ce n\'est pas juste une idée - nous avons une plateforme fonctionnelle d\'une valeur de 28M+ XPF qui peut gérer de vraies réservations dès aujourd\'hui',
+                    'weaknesses-title': 'Nos Défis',
+                    'weakness-1': 'Défi de Démarrage',
+                    'weakness-1-desc': 'Nous avons besoin de suffisamment d\'opérateurs avant que les touristes nous utilisent, et assez de touristes avant que les opérateurs voient la valeur',
+                    'weakness-2': 'Dépendance au Fondateur',
+                    'weakness-2-desc': 'Actuellement, trop dépend du fondateur - nous devons constituer une équipe solide rapidement',
+                    'weakness-3': 'Budget Marketing Limité',
+                    'weakness-3-desc': 'Nous ne pouvons pas surpasser Google et Facebook Ads comme peuvent le faire les gros acteurs internationaux',
+                    'opportunities-title': 'Opportunités Énormes',
+                    'opportunity-1': 'Marché Massif Sous-Desservi',
+                    'opportunity-1-desc': 'Plus de 4 500 opérateurs touristiques sont frustrés par les options actuelles et prêts pour quelque chose de mieux',
+                    'opportunity-2': 'Soutien Gouvernemental',
+                    'opportunity-2-desc': 'Timing parfait - le gouvernement veut la croissance de l\'économie numérique et soutient les entreprises tech locales',
+                    'opportunity-3': 'Mine d\'Or de Données',
+                    'opportunity-3-desc': 'Une fois que nous avons des parts de marché, nos données de réservation deviennent très précieuses pour les hôtels, compagnies aériennes et planification gouvernementale',
+                    'opportunity-4': 'Expansion Pacifique',
+                    'opportunity-4-desc': 'Notre modèle fonctionne pour toute nation insulaire - nous pouvons nous étendre à travers le Pacifique avec la même technologie',
+                    'threats-title': 'Ce Qui Pourrait Mal Se Passer',
+                    'threat-1': 'Guerre des Prix',
+                    'threat-1-desc': 'Les gros concurrents pourraient baisser leurs prix pour égaler les nôtres temporairement pour tuer notre avantage',
+                    'threat-2': 'Effondrement du Tourisme',
+                    'threat-2-desc': 'Des événements globaux majeurs (comme les pandémies) pourraient dévaster le tourisme et nuire à tous sur notre marché',
+                    'threat-3': 'Adoption Lente',
+                    'threat-3-desc': 'Si les opérateurs sont trop lents à adopter les nouvelles technologies, nous n\'atteindrons pas la masse critique assez rapidement',
+                    
+                    // Problem slides translations (Tourist, Operator, Government)
+                    'tourist-problems-title': 'Problèmes des Touristes',
+                    'tourist-problems-subtitle': 'Le Paradoxe de la Découverte et Réservation',
+                    'digital-invisibility': 'Invisibilité Numérique',
+                    'digital-invisibility-desc': 'La plupart des expériences authentiques restent introuvables en ligne',
+                    'hidden-operators': 'Opérateurs Cachés',
+                    'booking-chaos': 'Chaos des Réservations',
+                    'booking-chaos-desc': 'Plateformes multiples, processus confus, disponibilité peu fiable',
+                    'scattered-platforms': 'Plateformes Éparpillées',
+                    'language-barriers': 'Barrières Linguistiques',
+                    'language-barriers-desc': 'Défis de communication limitent l\'authentique échange culturel',
+                    'communication-issues': 'Problèmes de Communication',
+                    'payment-complexity': 'Complexité des Paiements',
+                    'payment-complexity-desc': 'Traitement paiements internationaux et conversion XPF complexes',
+                    'payment-hurdle': 'Obstacle de Paiement',
+                    
+                    'operator-problems-title': 'Problèmes des Opérateurs',
+                    'operator-problems-subtitle': 'La Crise de Fuite Économique',
+                    'high-commissions': 'Commissions Élevées',
+                    'high-commissions-desc': 'Plateformes étrangères drainent des milliards de l\'économie locale',
+                    'xpf-lost': 'XPF Perdus',
+                    'economic-drain': 'Fuite Économique',
+                    'payment-delays': 'Retards de Paiement',
+                    'payment-delays-desc': 'Cycles de paiement longs nuisent au flux de trésorerie des petites entreprises',
+                    'months-wait': 'Mois d\'Attente',
+                    'operational-chaos': 'Chaos Opérationnel',
+                    'operational-chaos-desc': 'Gérer plusieurs plateformes conduit à des double réservations et stress',
+                    'multiple-calendars': 'Calendriers Multiples',
+                    'limited-visibility': 'Visibilité Limitée',
+                    'limited-visibility-desc': 'Difficulté d\'atteindre les touristes internationaux sans marketing coûteux',
+                    'invisible-online': 'Invisible en Ligne',
+                    
+                    'government-problems-title': 'Problèmes du Gouvernement et Communes',
+                    'government-problems-subtitle': 'Défi de Souveraineté Numérique',
+                    'economic-leakage': 'Fuite Économique',
+                    'economic-leakage-desc': 'Revenus touristiques vers plateformes étrangères, sapant base fiscale locale',
+                    'xpf-lost-annually': 'XPF Perdus Annuellement',
+                    'revenue-loss': 'Perte de Revenus',
+                    'no-data-control': 'Pas de Contrôle Données',
+                    'no-data-control-desc': 'Données touristiques critiques contrôlées par entreprises étrangères, limitant les insights politiques',
+                    'external-dependency': 'Dépendance Externe',
+                    'tourism-informality': 'Informalité Touristique',
+                    'tourism-informality-desc': 'Large secteur informel limite collecte fiscale et planification économique',
+                    'unmeasured-economy': 'Économie Non Mesurée',
+                    'missing-digital-ecosystem': 'Écosystème Numérique Manquant',
+                    'missing-digital-ecosystem-desc': 'Aucune plateforme intégrée malgré la stratégie ambitieuse Fāri\'ira\'a Manihini 2027',
+                    'strategic-gap': 'Lacune Stratégique',
+                    
+                    // Market Opportunity slide metric labels
+                    'total-market-label': 'Marché Touristique Total XPF',
+                    'serviceable-market-label': 'Marché Accessible XPF',
+                    'target-market-label': 'Revenus XPF Année 3',
+                    
+                    // Growth Plan metric labels and titles
+                    'phase1-timeframe': 'Mois 1-9',
+                    'phase2-timeframe': 'Mois 9-24',
+                    'phase3-timeframe': 'Mois 24+',
+                    
+                    // Partnership slide metric labels
+                    'platform-processing': 'XPF Plateforme Déjà en Traitement',
+                    'built-local': 'Construit dans le Fenua',
+                    'cultural-contribution': 'Va aux Projets Culturels',
+                    
+                    // Ecosystem Vision timeline elements
+                    'ecosystem-year1': 'Concept Prêt',
+                    'ecosystem-year2': 'Bientôt Disponible',
+                    'ecosystem-year3': 'Recherche en Cours',
+                    'core-platform-launch': 'Prêt au Lancement',
+                    'data-insights-launch': 'À Venir',
+                    'full-ecosystem': 'Expansion Écosystème Complet',
+                    
+                    // Additional problem slide content translations
+                    'booking-friction': 'Friction de Réservation',
+                    'booking-friction-desc': 'Réservations WhatsApp et chaos email créent du stress',
+                    'book-last-minute': 'Réserver Dernière Minute',
+                    'language-barriers-tourist': 'Barrières Linguistiques',
+                    'language-barriers-tourist-desc': 'Aucune source unifiée à travers les archipels',
+                    'islands-navigate': 'Îles à Naviguer',
+                    'expensive-last-minute': 'Cher Dernière Minute',
+                    'expensive-last-minute-desc': 'Disponibilité limitée augmente les coûts pour voyageurs spontanés',
+                    'price-premium': 'Prime de Prix',
+                    
+                    // Operator problems additional content
+                    'payment-complexity-operator': 'Complexité Paiements',
+                    'payment-complexity-operator-desc': 'Traitement paiements internationaux et conversion XPF complexes',
+                    'currency-barrier': 'Barrière Monétaire',
+                    'operational-chaos-operator': 'Chaos Opérationnel',
+                    'operational-chaos-operator-desc': 'Réservations WhatsApp mènent aux double-réservations',
+                    'payment-delay-days': 'Jours Retard Paiement',
+                    'digital-invisibility-operator': 'Invisibilité Numérique',
+                    'digital-invisibility-operator-desc': 'Invisibles aux voyageurs modernes',
+                    'small-operators': 'Petits Opérateurs',
+                    
+                    // Government problems additional content
+                    'no-data-control-gov': 'Pas de Contrôle Données',
+                    'no-data-control-gov-desc': 'Plateformes étrangères contrôlent données stratégiques et pouvoir décisionnel',
+                    'tourism-data-control': 'Contrôle Données Touristiques',
+                    'informal-economy': 'Économie Informelle',
+                    'informal-economy-desc': 'Surveillance taxation et réglementation limitée de milliers d\'opérateurs',
+                    'operators-informal': 'Opérateurs Informels',
+                    'missing-digital-ecosystem-gov': 'Écosystème Numérique Manquant',
+                    'missing-digital-ecosystem-gov-desc': 'Plans touristiques stratégiques manquent d\'infrastructure numérique coordonnée',
+                    'fariiraa-manihini-plan': 'Plan Fāri\'ira\'a Manihini',
+                    
+                    // Slide content translations
+                    'money-leaving': 'Argent Perdu',
+                    'money-leaving-desc': 'Perdu vers les plateformes étrangères : Cet argent va aux entreprises hors de Polynésie française',
+                    'high-fees': 'Frais Élevés',
+                    'high-fees-desc': 'Trop de frais : Les plateformes actuelles facturent 20-30%, nous facturons 11%',
+                    'everyone-scattered': 'Tous Dispersés',
+                    'everyone-scattered-desc': 'Aucune connexion : Des milliers d\'opérateurs travaillant seuls sans systèmes appropriés',
+                    
+                    'channel-manager': 'Gestionnaire de Canaux',
+                    'channel-manager-desc': 'Tableau de bord unique pour toutes les plateformes',
+                    'payouts': 'Paiements 7 Jours',
+                    'payouts-desc': 'Flux de trésorerie rapide vs cycles de 30-60 jours',
+                    'impact-fund': 'Fonds d\'Impact',
+                    'impact-fund-desc': '5% pour la préservation culturelle',
+                    'smart-tech': 'Technologie Intelligente',
+                    'smart-tech-desc': 'L\'IA aide à tout connecter ensemble',
+                    'made-fenua': 'Fait pour Fenua',
+                    'made-fenua-desc': 'Conçu par des locaux qui comprennent la culture',
+                    'already-working': 'Prêt à lancer',
+                    'already-working-desc': 'Gérant 28M+ XPF de réservations',
+                    
+                    'total-market': 'Marché Total',
+                    'total-market-desc': 'Toute la part : Toutes les dépenses touristiques que nous pourrions potentiellement capturer',
+                    'realistic-target': 'Objectif Réaliste',
+                    'realistic-target-desc': 'Ce que nous pouvons réellement obtenir : Opérateurs prêts à utiliser notre plateforme',
+                    'our-goal': 'Notre Objectif',
+                    'our-goal-desc': 'Objectif conservateur : 7% de part de marché dans les 3 ans',
+                    
+                    'phase1-build': 'Phase 1 : Construire',
+                    'phase1-desc': 'Commencer : Inscrire 250 opérateurs importants d\'abord',
+                    'phase2-profit': 'Phase 2 : Profit',
+                    'phase2-desc': 'Commencer à gagner : Faire croitre les opérations et devenir rentable',
+                    'phase3-expand': 'Phase 3 : Expansion',
+                    'phase3-desc': 'Voir grand : Ajouter de nouveaux services et dominer le marché',
+                    
+                    'revenue-growth': 'Chemin de Croissance des Revenus',
+                    'market-scale': 'Échelle du Marché',
+                    'fair-commission': 'Commission 11%',
+                    'fair-commission-desc': 'Taux juste vs 20-30% de la concurrence',
+                    'fast-payouts': 'Paiements 7 Jours',
+                    'fast-payouts-desc': 'Flux de trésorerie rapide pour les opérateurs',
+                    'growth-20x': 'Croissance 20x',
+                    'growth-20x-desc': 'Projection conservatrice sur 3 ans',
+                    
+                    'vai-platform': 'Plateforme VAI',
+                    'vai-platform-desc': 'Système central de réservation et de gestion de canaux connectant tous les opérateurs touristiques de Polynésie française',
+                    'vai-insights': 'VAI Insights',
+                    'vai-insights-desc': 'Analyses alimentées par l\'IA fournissant des renseignements sur le marché, optimisation des prix et prévision de la demande',
+                    'vai-skills': 'VAI Skills',
+                    'vai-skills-desc': 'Académie de formation numérique développant les talents locaux en technologie touristique et excellence hôtelière',
+                    'vai-homes': 'VAI Homes',
+                    'vai-homes-desc': 'Réseau d\'hébergement sélectionné présentant l\'hospitalité polynésienne authentique et les expériences culturelles',
+                    'vai-pacific': 'VAI Pacific',
+                    'vai-pacific-desc': 'Expansion régionale à travers les îles du Pacifique, partage de technologie et préservation des cultures insulaires',
+                    'vai-supply': 'VAI Supply',
+                    'vai-supply-desc': 'Réseau d\'approvisionnement local connectant les opérateurs avec les fournisseurs polynésiens et les ressources durables',
+                    
+                    'already-working-invest': 'Prêt à lancer',
+                    'already-working-invest-desc': 'Pas seulement une idée : Vraie plateforme avec de vrais clients',
+                    'local-team': 'Équipe Locale',
+                    'local-team-desc': 'Nous vivons ici : Construit par des locaux qui comprennent le marché',
+                    'giving-back': 'Redonner',
+                    'giving-back-desc': 'Faire du bien tout en étant rentable : 5% des revenus aident à préserver la culture polynésienne',
+                    'want-build-together': 'Voulez-vous Construire Cela Ensemble ?'
+                }
+            };
+            
+            function switchLanguage(lang) {
+                const langBtns = document.querySelectorAll('.lang-btn');
+                langBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-lang') === lang) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Update all translatable elements
+                Object.keys(translations[lang]).forEach(key => {
+                    const element = document.querySelector(`[data-translate="${key}"]`);
+                    if (element) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+            }
+            
+            // Language button event listeners
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = btn.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
+            });
+            
+            // Agenda navigation functionality
+            document.querySelectorAll('.agenda-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const slideNum = item.getAttribute('data-slide');
+                    if (slideNum) {
+                        document.getElementById(`slide-${slideNum}`).scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+                
+                // Add hover effect for better UX
+                item.style.cursor = 'pointer';
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'translateX(5px)';
+                    item.style.transition = 'transform 0.2s ease';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'translateX(0)';
+                });
+            });
+            
+            // Mobile menu toggle
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', () => {
+                    mainNav.classList.toggle('mobile-open');
+                });
+            }
         });
+        
+        // PDF Download Function
+        function downloadPDF() {
+            // Get the current language
+            const activeLanguage = document.querySelector('.lang-btn.active').getAttribute('data-lang');
+            const languageName = activeLanguage === 'en' ? 'English' : 'French';
+            
+            // Set document title for PDF
+            const originalTitle = document.title;
+            document.title = `VAI Platform Pitch - ${languageName}`;
+            
+            // Show loading state
+            const pdfBtn = document.querySelector('.pdf-download-btn');
+            const originalHTML = pdfBtn.innerHTML;
+            pdfBtn.innerHTML = '<i data-lucide="loader" style="width: 16px; height: 16px; animation: spin 1s linear infinite;"></i><span>PDF</span>';
+            pdfBtn.disabled = true;
+            
+            // Add spin animation for loader
+            const style = document.createElement('style');
+            style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
+            document.head.appendChild(style);
+            
+            // Trigger print dialog
+            setTimeout(() => {
+                window.print();
+                
+                // Restore button state after print dialog
+                setTimeout(() => {
+                    pdfBtn.innerHTML = originalHTML;
+                    pdfBtn.disabled = false;
+                    document.title = originalTitle;
+                    document.head.removeChild(style);
+                    
+                    // Reinitialize Lucide icons
+                    if (window.lucide) {
+                        window.lucide.createIcons();
+                    }
+                }, 1000);
+            }, 100);
+        }
     </script>
 </body>
 </html>
