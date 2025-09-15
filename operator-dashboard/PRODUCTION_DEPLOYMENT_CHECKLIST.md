@@ -22,7 +22,7 @@
 
 **⚠️ CRITICAL ORDER - Apply in sequence:**
 
-### **1. Core Template-First Migration**
+### **1. Core Template-First Migration** XXX
 **File**: `supabase/migrations/20250907000001_create_unified_dual_system_FINAL.sql`
 **Purpose**: Add template system columns to tours table
 **Status**: ✅ Required for basic template-first workflow
@@ -31,7 +31,7 @@
 - Creates template/scheduled activity views
 - Adds generation function for scheduled tours
 
-### **2. Clean Break Schedule Migration** 
+### **2. Clean Break Schedule Migration** XXX
 **File**: `supabase/migrations/20250909000003_add_template_schedule_relationship.sql`
 **Purpose**: Eliminate legacy tour scheduling, enforce template-first
 **Status**: ✅ Required for schedule creation
@@ -42,7 +42,7 @@
 - **DELETES all non-template schedules** (clean break)
 - Creates template-only views and functions
 
-### **3. Tour Customization System**
+### **3. Tour Customization System** XXX
 **File**: `supabase/migrations/20250909000002_add_individual_tour_override_system_fixed.sql`
 **Purpose**: Enable individual tour instance customization
 **Status**: ✅ Required for tour customization features
@@ -51,7 +51,7 @@
 - Adds promo pricing: `promo_discount_percent`, `promo_discount_value`  
 - Creates bulk update and customization functions
 
-### **4. CRITICAL FIX: Customization Function**
+### **4. CRITICAL FIX: Customization Function** XXX
 **File**: `PHASE1_ALTERNATIVE_FIX.sql`
 **Purpose**: Fix critical SQL function bugs for tour customization  
 **Status**: 🚨 **ESSENTIAL** - Without this, customization will fail
@@ -71,7 +71,7 @@
 - Enable schedule extension with preserved customizations
 **Testing**: ✅ UUID errors resolved in development
 
-### **6. CRITICAL FIX: Row Level Security Policies**
+### **6. CRITICAL FIX: Row Level Security Policies** XXX
 **File**: `FINAL_RLS_fix_schedule_updates.sql`
 **Purpose**: Allow tour generation during schedule updates
 **Status**: ✅ **RESOLVED** - Comprehensive RLS policy implemented
@@ -137,18 +137,18 @@ WHERE t.is_template = false OR t.is_template IS NULL;
 
 ## 🚀 **DEPLOYMENT PROCEDURE**
 
-### **Phase 1: Core Infrastructure** 
+### **Phase 1: Core Infrastructure** XXX
 1. **Apply base migration**: `20250907000001_create_unified_dual_system_FINAL.sql`
 2. **Verify**: Check that `tours` table has new columns
 3. **Test**: Existing functionality still works
 
-### **Phase 2: Clean Break Implementation**
+### **Phase 2: Clean Break Implementation** XXX
 1. **Apply clean break**: `20250909000003_add_template_schedule_relationship.sql`  
 2. **⚠️ WARNING**: This removes legacy schedules - point of no return
 3. **Verify**: Only template-based schedules remain
 4. **Test**: Schedule creation works with templates only
 
-### **Phase 3: Customization System + ALL CRITICAL FIXES**
+### **Phase 3: Customization System + ALL CRITICAL FIXES** XXX
 1. **Apply customization base**: `20250909000002_add_individual_tour_override_system_fixed.sql`
 2. **🚨 CRITICAL**: Apply customization fix: `PHASE1_ALTERNATIVE_FIX.sql`
 3. **🚨 CRITICAL**: Apply RLS fix: `FINAL_RLS_fix_schedule_updates.sql`
@@ -292,9 +292,15 @@ ALTER TABLE tours DROP COLUMN IF EXISTS is_template;
 ### **Required Files for Production:**
 ```
 Database Migrations (Apply in order):
-├── supabase/migrations/20250907000001_create_unified_dual_system_FINAL.sql
-├── supabase/migrations/20250909000003_add_template_schedule_relationship.sql
-├── supabase/migrations/20250909000002_add_individual_tour_override_system_fixed.sql
+├── supabase/migrations/20250907000001_create_unified_dual_system_FINAL.sql >> APPLIED
+>> operator-dashboard/supabase/migrations/20250907000002_fix_rls_for_templates.sql >> APPLIED
+>> 
+├── supabase/migrations/20250909000003_add_template_schedule_relationship.sql >> APPLIED
+├── supabase/migrations/20250909000002_add_individual_tour_override_system_fixed.sql >> APPLIED
+>> operator-dashboard/supabase/migrations/20250909000003_fix_tour_customization_critical_bugs.sql >> APPLIED
+>> operator-dashboard/supabase/migrations/20250909114200_add_childmaxage_and_childdiscount >> APPLIED
+>> operator-dashboard/supabase/migrations/20250909114800_change_childmaxage_and_childdiscount_names_for_consistency >>> APPLIED
+
 ├── supabase/migrations/20250912000001_add_schedule_pause_resume_system.sql
 ├── supabase/migrations/20250912000002_update_schedule_availability_view.sql
 ├── supabase/migrations/20250912000003_add_schedule_analytics_to_view.sql
