@@ -291,15 +291,21 @@ ALTER TABLE tours DROP COLUMN IF EXISTS is_template;
 
 ### **Required Files for Production:**
 ```
-Database Migrations:
+Database Migrations (Apply in order):
 ├── supabase/migrations/20250907000001_create_unified_dual_system_FINAL.sql
-├── supabase/migrations/20250909000003_add_template_schedule_relationship.sql  
+├── supabase/migrations/20250909000003_add_template_schedule_relationship.sql
 ├── supabase/migrations/20250909000002_add_individual_tour_override_system_fixed.sql
+├── supabase/migrations/20250912000001_add_schedule_pause_resume_system.sql
+├── supabase/migrations/20250912000002_update_schedule_availability_view.sql
+├── supabase/migrations/20250912000003_add_schedule_analytics_to_view.sql
+├── supabase/migrations/20250914000001_add_individual_tour_status_options.sql (✅ APPLIED)
+├── supabase/migrations/20250914000002_fix_detached_tour_architecture.sql (✅ APPLIED)
+├── HOTFIX_detach_function_conflict.sql (✅ APPLIED - September 14, 2025)
 ├── PHASE1_ALTERNATIVE_FIX.sql (🚨 CRITICAL)
 └── FIX_RLS_tour_generation.sql (🚨 CRITICAL)
 
 Application Code Changes:
-└── src/services/scheduleService.js (lines 119, 208 modified)
+└── src/services/scheduleService.js (comprehensive rewrite with differential updates)
 
 Translation Files:
 ├── src/locales/en.json (updated)
@@ -408,9 +414,142 @@ UI Integration Files (Integrated and Working):
 
 ---
 
+---
+
+## 🔄 **PHASE 4: PAUSE/RESUME SYSTEM (UPCOMING)**
+
+### **Industry-Standard Pause/Resume Enhancement**
+**Purpose**: Add professional schedule availability management matching industry standards (Airbnb, GetYourGuide)
+**Impact**: Improves operator control over schedule availability without losing data
+
+### **Database Schema Enhancement Required:**
+```sql
+-- Add pause/resume fields to schedules table
+ALTER TABLE schedules ADD COLUMN is_paused BOOLEAN DEFAULT false;
+ALTER TABLE schedules ADD COLUMN paused_at TIMESTAMP WITH TIME ZONE NULL;
+ALTER TABLE schedules ADD COLUMN paused_by UUID REFERENCES auth.users(id) NULL;
+
+-- Add index for performance
+CREATE INDEX idx_schedules_is_paused ON schedules(is_paused);
+
+-- Update RLS policies to include pause field access
+-- (Detailed RLS updates will be provided with implementation)
+```
+
+### **Application Code Changes Required:**
+```
+Modified Files for Phase 4:
+├── src/services/scheduleService.js (Add pause/resume functions)
+├── src/components/SchedulesTab.jsx (Update bulk operations)
+├── src/components/ScheduleCard.jsx (Add pause visual indicators)
+└── src/hooks/useSchedules.js (Update queries to include pause state)
+```
+
+### **Pause/Resume System Features:**
+- ✅ **Schedule-Level Control**: Pause entire schedules (all activities)
+- ✅ **Hierarchical Logic**: Paused schedules inherit to all activities
+- ✅ **Booking Preservation**: Existing bookings always honored
+- ✅ **Bulk Operations**: Pause/resume multiple schedules simultaneously
+- ✅ **Visual Indicators**: Clear status display in UI
+- ✅ **Audit Trail**: Track who paused/resumed and when
+
+### **Implementation Phases:**
+1. **Database Schema**: Add 3 new columns to schedules table
+2. **Core Logic**: Implement pause/resume in scheduleService
+3. **UI Integration**: Add visual indicators and bulk operations
+4. **Testing**: Verify booking behavior and status inheritance
+
+**Status**: ✅ **DATABASE COMPLETE** - Schema migration applied successfully
+
+### **✅ MIGRATION COMPLETED (September 12, 2025)**
+- ✅ Added `is_paused`, `paused_at`, `paused_by` columns to schedules table
+- ✅ Created performance indexes for pause operations  
+- ✅ Updated RLS policies for pause field access
+- ✅ Added helper functions: `pause_schedule()`, `resume_schedule()`, `bulk_pause_schedules()`, `bulk_resume_schedules()`
+- ✅ Created `schedule_availability` view with status indicators
+- ✅ Migration file: `20250912000001_add_schedule_pause_resume_system.sql`
+
+### **✅ FOLLOW-UP MIGRATION COMPLETED (September 12, 2025)**
+- ✅ Fixed `schedule_availability` view column conflict issue
+- ✅ Updated view to properly include template data without duplicates
+- ✅ Migration file: `20250912000002_update_schedule_availability_view.sql`
+- ✅ **STATUS**: Applied successfully
+- ✅ **RESULT**: Schedule status now shows "Active" correctly, pause functionality working
+
+### **📊 TESTING RESULTS (September 12, 2025)**
+- ✅ **Schedule Status Display**: Fixed - shows "Active" instead of "Inactive"
+- ✅ **Pause/Resume Functionality**: Working - button toggles properly
+- 🔄 **Analytics Data**: Issue identified - shows 0 instances despite having tours
+- ⏳ **Calendar View**: Pending full test
+- ⏳ **Tour Customization Modal**: Pending test
+
+### **✅ ANALYTICS FIX MIGRATION COMPLETED (September 12, 2025)**
+- ✅ Created analytics-enabled `schedule_availability` view
+- ✅ Added real-time calculations for: instances, customizations, bookings, revenue
+- ✅ Migration file: `20250912000003_add_schedule_analytics_to_view.sql`
+- ✅ **STATUS**: Applied successfully - fixed "0 instances" issue
+- ✅ **RESULT**: Analytics now showing correct values (instances, customizations, bookings, revenue)
+- ✅ **CURRENCY DISPLAY**: XPF already implemented via formatPrice() function
+
+### **✅ INDIVIDUAL TOUR STATUS ENHANCEMENT (September 14, 2025) - APPLIED**
+- ✅ **Purpose**: Enable granular tour-level control (pause/hidden individual tours)
+- ✅ **Migration file**: `20250914000001_add_individual_tour_status_options.sql`
+- ✅ **Database Change**: Updated tours.status constraint to include 'paused' and 'hidden'
+- ✅ **Use Cases**:
+  - `paused`: Temporarily unavailable (maintenance, weather, staff break)
+  - `hidden`: Not visible to customers (testing, preparation, special events)
+- ✅ **STATUS**: **APPLIED** (September 14, 2025) - provides tour-level control separate from schedule-level pause
+- ✅ **PRODUCTION READY**: Can be applied to production database
+
+### **🚨 CRITICAL: DETACHED TOUR ARCHITECTURE FIX (September 14, 2025) - APPLIED**
+- ✅ **Purpose**: Prevent schedule update duplicates when detached tours exist
+- ✅ **Migration file**: `20250914000002_fix_detached_tour_architecture.sql`
+- ✅ **Problem Solved**: Schedule updates creating duplicate tours on detached dates
+- ✅ **Architecture Change**:
+  - **Before**: Detached tours keep `parent_schedule_id` (confusing)
+  - **After**: Detached tours have `parent_schedule_id = NULL` (clean separation)
+  - **Audit Trail**: Added `detached_from_schedule_id` for history tracking
+- ✅ **Application Updates**:
+  - Schedule update logic only affects attached tours (`parent_schedule_id IS NOT NULL`)
+  - Override-first display priority implemented in calendar and modal
+  - Detached tour conflict detection during schedule updates
+- ✅ **STATUS**: **APPLIED** (September 14, 2025) - CRITICAL for data integrity
+- ✅ **PRODUCTION READY**: Can be applied to production database
+- ⚠️ **IMPACT**: Prevents duplicate tour creation and clarifies detached tour ownership
+
+### **🔧 HOTFIX: DETACHED FUNCTION CONFLICT (September 14, 2025) - APPLIED**
+- ✅ **Purpose**: Resolve function overloading conflict preventing detach operations
+- ✅ **Migration file**: `HOTFIX_detach_function_conflict.sql`
+- ✅ **Problem Solved**: Multiple `detach_tour_from_schedule` functions causing "Could not choose best candidate" error
+- ✅ **Solution**: Drop all existing function versions and create single definitive function
+- ✅ **Compatibility**: Maintains frontend call signature (`tour_id_param` only) with optional `detach_reason`
+- ✅ **Architecture**: Implements new detached tour architecture with clean separation
+- ✅ **STATUS**: **APPLIED** (September 14, 2025) - Detach functionality working
+- ✅ **PRODUCTION READY**: Can be applied to production database
+
+### **🎨 UI ENHANCEMENTS: DETACHED TOUR VISUAL INDICATORS (September 14, 2025) - APPLIED**
+- ✅ **Purpose**: Provide clear visual feedback for detached tour status
+- ✅ **Application files**:
+  - `src/components/SchedulesTab.jsx` (calendar view updates)
+  - `src/components/TourCustomizationModal.jsx` (template/schedule data fix)
+- ✅ **Implementation**:
+  - Orange unplug icon (🔌) for detached tours in calendar view
+  - Enhanced tooltip showing "(Detached)" status
+  - Compact legend entry for visual clarity
+  - Template/Schedule data properly displayed using relationship joins
+- ✅ **Technical Changes**:
+  - Enhanced calendar query to include template and schedule relationships
+  - Smart fallback logic for data display in customization modal
+  - Color coding using orange (#f97316) for detached status
+- ✅ **STATUS**: **APPLIED** (September 14, 2025) - Visual indicators working
+- ✅ **PRODUCTION READY**: All UI changes tested and functional
+
+---
+
 **Deployment Prepared By**: Claude Code Assistant  
 **Date**: September 2025  
-**Version**: Clean Break + Customization v2.0 + UI Integration + Complete UX
+**Version**: Clean Break + Customization v2.0 + UI Integration + Complete UX + Pause/Resume Ready
 **Backend Status**: ✅ Production-ready with comprehensive testing completed
 **Frontend Status**: ✅ Complete UI integration with industry-standard UX patterns
-**Overall Status**: 🎉 **COMPLETE SYSTEM READY FOR PRODUCTION**
+**Phase 4 Status**: 📋 Designed and documented, ready for implementation
+**Overall Status**: 🎉 **COMPLETE SYSTEM READY FOR PRODUCTION (Phase 3) + Phase 4 Ready**

@@ -37,19 +37,25 @@ const TourCustomizationModal = ({
   const [activeTab, setActiveTab] = useState('pricing')
   const [promoType, setPromoType] = useState('none') // 'none', 'percent', 'value'
   
+  // Helper function to get effective value (override > original)
+  const getEffectiveValue = (fieldName) => {
+    return tour.overrides?.[fieldName] ?? tour[fieldName]
+  }
+
   // Initialize form when tour changes
   useEffect(() => {
     if (tour && isOpen) {
       setFormData({
-        discount_price_adult: tour.discount_price_adult?.toString() || '',
-        discount_price_child: tour.discount_price_child?.toString() || '',
-        max_capacity: tour.max_capacity?.toString() || '',
-        meeting_point: tour.meeting_point || '',
-        special_notes: tour.special_notes || '',
-        instance_note: tour.instance_note || '',
+        discount_price_adult: getEffectiveValue('discount_price_adult')?.toString() || '',
+        discount_price_child: getEffectiveValue('discount_price_child')?.toString() || '',
+        max_capacity: getEffectiveValue('max_capacity')?.toString() || '',
+        meeting_point: getEffectiveValue('meeting_point') || '',
+        time_slot: getEffectiveValue('time_slot') || '',
+        special_notes: getEffectiveValue('special_notes') || '',
+        instance_note: getEffectiveValue('instance_note') || '',
         promo_discount_percent: tour.promo_discount_percent?.toString() || '',
         promo_discount_value: tour.promo_discount_value?.toString() || '',
-        status: tour.status || ''
+        status: getEffectiveValue('status') || ''
       })
       
       // Set promo type based on existing values
@@ -174,6 +180,11 @@ const TourCustomizationModal = ({
         customizations.meeting_point = formData.meeting_point
         changedFields.push('meeting_point')
       }
+
+      if (formData.time_slot !== (tour.time_slot || '')) {
+        customizations.time_slot = formData.time_slot
+        changedFields.push('time_slot')
+      }
       
       if (formData.special_notes !== (tour.special_notes || '')) {
         customizations.special_notes = formData.special_notes
@@ -295,7 +306,9 @@ const TourCustomizationModal = ({
   const statusOptions = [
     { value: 'active', label: 'Active', color: 'text-green-400' },
     { value: 'sold_out', label: 'Sold Out', color: 'text-yellow-400' },
-    { value: 'cancelled', label: 'Cancelled', color: 'text-red-400' }
+    { value: 'cancelled', label: 'Cancelled', color: 'text-red-400' },
+    { value: 'paused', label: 'Paused (Temporarily Unavailable)', color: 'text-amber-400' },
+    { value: 'hidden', label: 'Hidden (Not Visible to Customers)', color: 'text-slate-400' }
   ]
 
   const effectivePrice = calculateEffectivePrice()
@@ -624,6 +637,39 @@ const TourCustomizationModal = ({
                     </button>
                   </div>
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    Time Slot
+                    {frozenFields.includes('time_slot') && (
+                      <Lock className="w-3 h-3 text-yellow-400" />
+                    )}
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="time"
+                      value={formData.time_slot}
+                      onChange={(e) => handleInputChange('time_slot', e.target.value)}
+                      className="flex-1 p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleFrozenField('time_slot')}
+                      className={`p-2 rounded-lg transition-colors ${
+                        frozenFields.includes('time_slot')
+                          ? 'bg-yellow-500/20 text-yellow-400'
+                          : 'bg-slate-600 text-slate-400 hover:text-white'
+                      }`}
+                      title={frozenFields.includes('time_slot') ? 'Unfreeze time from schedule updates' : 'Freeze time from schedule updates'}
+                    >
+                      {frozenFields.includes('time_slot') ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1">
+                    When unfrozen, time will update with schedule changes. When frozen, keeps custom time.
+                  </p>
+                </div>
               </div>
             )}
 
@@ -720,11 +766,11 @@ const TourCustomizationModal = ({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-slate-400">Template:</span>
-                      <span className="text-white ml-2">{tour.template_name || 'N/A'}</span>
+                      <span className="text-white ml-2">{tour.template?.tour_name || tour.template_name || 'N/A'}</span>
                     </div>
                     <div>
                       <span className="text-slate-400">Schedule:</span>
-                      <span className="text-white ml-2">{tour.recurrence_type || 'N/A'}</span>
+                      <span className="text-white ml-2">{tour.parent_schedule?.recurrence_type || tour.recurrence_type || (tour.is_detached ? 'Detached' : 'N/A')}</span>
                     </div>
                     <div>
                       <span className="text-slate-400">Customized:</span>

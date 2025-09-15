@@ -1,11 +1,11 @@
 // operator-dashboard/src/components/SchedulesTab.jsx - Enhanced with Activity Templates & Calendar View
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { 
-  Calendar, Clock, RefreshCw, AlertCircle, Plus, 
+import {
+  Calendar, Clock, RefreshCw, AlertCircle, Plus,
   Grid, List, ChevronLeft, ChevronRight, Activity,
   Users, DollarSign, Settings, CheckSquare, Square,
-  Pause, Play, Trash2, BarChart3, Target, CheckCircle
+  Pause, Play, Trash2, BarChart3, Target, CheckCircle, Unplug
 } from 'lucide-react'
 import { scheduleService } from '../services/scheduleService'
 import { supabase } from '../lib/supabase'
@@ -15,21 +15,43 @@ import TourCustomizationModal from './TourCustomizationModal'
 import ScheduleUpdateWarningModal from './ScheduleUpdateWarningModal'
 
 // Template-Based Schedule Card Component (CLEAN BREAK)
-const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar, t, bulkMode, isSelected, onToggleSelect }) => {
+const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar, onPause, onResume, t, bulkMode, isSelected, onToggleSelect }) => {
   // TEMPLATE-FIRST: All schedules are template-based
   const template = schedule.activity_templates
   const activityName = template?.activity_name || 'Unknown Activity'
   const activityType = template?.activity_type || 'Unknown Type'
   
-  // Template schedule status
+  // Get schedule availability status including pause state
   const getStatusInfo = () => {
-    if (template?.status === 'active') {
-      return { color: 'green', text: 'Active', dot: 'bg-green-500' }
+    console.log('🔍 Debug schedule status:', {
+      is_paused: schedule.is_paused,
+      template_status: template?.status,
+      template_data: template,
+      schedule_id: schedule.id
+    })
+    
+    // Check pause state first (highest priority)
+    if (schedule.is_paused === true) {
+      return { color: 'amber', text: 'Paused', dot: 'bg-amber-500', priority: 1 }
     }
-    return { color: 'red', text: 'Inactive', dot: 'bg-red-500' }
+    
+    // Then check template status - be more defensive
+    const templateStatus = template?.status || schedule.template_status
+    if (templateStatus === 'active') {
+      return { color: 'green', text: 'Active', dot: 'bg-green-500', priority: 2 }
+    }
+    
+    // If we have template data but status isn't active
+    if (templateStatus) {
+      return { color: 'red', text: `Template ${templateStatus}`, dot: 'bg-red-500', priority: 3 }
+    }
+    
+    // Fallback
+    return { color: 'gray', text: 'Unknown Status', dot: 'bg-gray-500', priority: 4 }
   }
   
   const status = getStatusInfo()
+  const isPaused = schedule.is_paused
   
   // Format recurrence pattern
   const formatRecurrencePattern = () => {
@@ -109,9 +131,11 @@ const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar,
           <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
             status.color === 'green' 
               ? 'bg-green-500/20 text-green-400' 
-              : 'bg-blue-500/20 text-blue-400'
+              : status.color === 'amber'
+              ? 'bg-amber-500/20 text-amber-400'
+              : 'bg-red-500/20 text-red-400'
           }`}>
-            <CheckCircle className="w-3 h-3" />
+            {status.color === 'amber' ? <Pause className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
             {status.text}
           </div>
         </div>
@@ -146,12 +170,23 @@ const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar,
           >
             Edit Schedule
           </button>
-          <button
-            onClick={() => {/* TODO: Implement pause/resume */}}
-            className="px-3 py-2 bg-yellow-600/20 hover:bg-yellow-600/30 text-yellow-400 hover:text-yellow-300 rounded-lg transition-colors text-sm font-medium"
-          >
-            Pause
-          </button>
+          {isPaused ? (
+            <button
+              onClick={() => onResume(schedule)}
+              className="flex items-center gap-1 px-3 py-2 bg-green-600/20 hover:bg-green-600/30 text-green-400 hover:text-green-300 rounded-lg transition-colors text-sm font-medium"
+            >
+              <Play className="w-4 h-4" />
+              Resume
+            </button>
+          ) : (
+            <button
+              onClick={() => onPause(schedule)}
+              className="flex items-center gap-1 px-3 py-2 bg-amber-600/20 hover:bg-amber-600/30 text-amber-400 hover:text-amber-300 rounded-lg transition-colors text-sm font-medium"
+            >
+              <Pause className="w-4 h-4" />
+              Pause
+            </button>
+          )}
           <button
             onClick={onViewCalendar}
             className="px-3 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 hover:text-blue-300 rounded-lg transition-colors text-sm font-medium"
@@ -245,21 +280,37 @@ const SchedulesTab = ({ operator, formatPrice }) => {
       
       const { data: scheduledTours, error } = await supabase
         .from('tours')
-        .select('*')
+        .select(`
+          *,
+          parent_schedule:parent_schedule_id(id, is_paused, paused_at, paused_by, recurrence_type),
+          template:parent_template_id(tour_name)
+        `)
         .eq('operator_id', operator.id)
         .eq('activity_type', 'scheduled')
         .gte('tour_date', startOfMonth.toISOString().split('T')[0])
         .lte('tour_date', endOfMonth.toISOString().split('T')[0])
-        .eq('status', 'active')
+        .in('status', ['active', 'paused', 'sold_out', 'cancelled'])
         .order('tour_date')
         
       if (error) {
         console.error('Error loading scheduled tours:', error)
       } else {
         console.log('📅 Found scheduled tours:', scheduledTours?.length || 0)
+        
+        // Map tours with pause inheritance logic
+        const toursWithPauseStatus = (scheduledTours || []).map(tour => ({
+          ...tour,
+          schedule_is_paused: tour.parent_schedule?.is_paused || false,
+          schedule_paused_at: tour.parent_schedule?.paused_at,
+          schedule_paused_by: tour.parent_schedule?.paused_by
+        }))
+        
+        console.log('📅 Tours with pause status:', toursWithPauseStatus.filter(t => t.schedule_is_paused).length)
+        setCalendarInstances(toursWithPauseStatus)
+        return
       }
       
-      setCalendarInstances(scheduledTours || [])
+      setCalendarInstances([])
     } catch (err) {
       console.error('Error loading calendar instances:', err)
     }
@@ -491,40 +542,68 @@ const SchedulesTab = ({ operator, formatPrice }) => {
     setBulkMode(false)
   }
 
+  // Individual pause/resume handlers
+  const handlePauseSchedule = async (schedule) => {
+    try {
+      await scheduleService.pauseSchedule(schedule.id, operator.id)
+      alert('✅ Schedule paused successfully')
+      loadSchedules() // Reload to see updated status
+    } catch (error) {
+      console.error('Error pausing schedule:', error)
+      alert('❌ Error pausing schedule: ' + error.message)
+    }
+  }
+
+  const handleResumeSchedule = async (schedule) => {
+    try {
+      await scheduleService.resumeSchedule(schedule.id, operator.id)
+      alert('✅ Schedule resumed successfully')
+      loadSchedules() // Reload to see updated status
+    } catch (error) {
+      console.error('Error resuming schedule:', error)
+      alert('❌ Error resuming schedule: ' + error.message)
+    }
+  }
+
   const handleBulkAction = async (action) => {
     if (selectedSchedules.size === 0) return
     
     try {
       const scheduleIds = Array.from(selectedSchedules)
-      let successCount = 0
+      let result
       
-      for (const scheduleId of scheduleIds) {
-        // For now, we'll implement pause/resume via template status update
-        // This could be expanded to proper schedule status management
-        const schedule = schedules.find(s => s.id === scheduleId)
-        if (schedule) {
-          const newStatus = action === 'pause' ? 'inactive' : 'active'
-          
-          // Update template status (affects all future tours from this schedule)
-          const { error } = await supabase
-            .from('tours')
-            .update({ status: newStatus })
-            .eq('id', schedule.template_id)
-            .eq('is_template', true)
-          
-          if (!error) {
+      if (action === 'pause') {
+        result = await scheduleService.bulkPauseSchedules(scheduleIds, operator.id)
+      } else if (action === 'resume') {
+        result = await scheduleService.bulkResumeSchedules(scheduleIds, operator.id)
+      } else {
+        // Legacy bulk operations for other actions
+        let successCount = 0
+        for (const scheduleId of scheduleIds) {
+          const schedule = schedules.find(s => s.id === scheduleId)
+          if (schedule && action === 'archive') {
+            await scheduleService.deleteSchedule(scheduleId, operator.id)
             successCount++
           }
         }
+        
+        if (successCount > 0) {
+          alert(`✅ ${successCount} schedules ${action}d successfully`)
+          loadSchedules() // Reload to see changes
+          clearSelection()
+        }
+        return
       }
       
-      if (successCount > 0) {
-        alert(`✅ ${action === 'pause' ? 'Paused' : 'Resumed'} ${successCount} schedule(s) successfully!`)
-        loadSchedules() // Refresh the list
+      // Handle pause/resume results
+      if (result && result.success) {
+        alert(`✅ ${result.message}`)
+        loadSchedules() // Reload to see changes
         clearSelection()
       }
+      
     } catch (error) {
-      console.error('Bulk operation error:', error)
+      console.error('Error performing bulk operation:', error)
       alert('❌ Error performing bulk operation: ' + error.message)
     }
   }
@@ -603,7 +682,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
               }`}
             >
               {bulkMode ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
-              {bulkMode ? 'Exit Bulk' : 'Bulk Select'}
+              {bulkMode ? 'Exit' : 'Select'}
             </button>
           )}
           
@@ -666,22 +745,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
       )}
 
       {/* Content Area */}
-      {schedules.length === 0 ? (
-        <div className="text-center py-12">
-          <Calendar className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-white mb-2">{t('schedules.management.noSchedulesYet')}</h3>
-          <p className="text-slate-400 mb-6">
-            {t('schedules.management.noSchedulesMessage')}
-          </p>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mx-auto"
-          >
-            <Plus className="w-5 h-5" />
-            {t('schedules.management.createSchedule')}
-          </button>
-        </div>
-      ) : viewMode === 'calendar' ? (
+      {viewMode === 'calendar' ? (
         /* Calendar View */
         <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700 overflow-hidden">
           {/* Calendar Header */}
@@ -764,29 +828,74 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                         </div>
                         <div className="space-y-1">
                           {scheduledTours.slice(0, 3).map(tour => {
+                            // Apply override priority system: override values > original values
+                            const displayTime = tour.overrides?.time_slot || tour.time_slot
+                            const displayPrice = tour.overrides?.discount_price_adult || tour.discount_price_adult
+                            const displayCapacity = tour.overrides?.max_capacity || tour.max_capacity
+                            
                             // Determine promo badge
                             const hasPromoDiscount = tour.promo_discount_percent || tour.promo_discount_value
-                            const hasCustomPricing = tour.discount_price_adult && tour.discount_price_adult !== tour.original_price_adult
+                            const hasCustomPricing = displayPrice && displayPrice !== tour.original_price_adult
                             const showPromoBadge = hasPromoDiscount || hasCustomPricing
+                            
+                            // Determine tour status (individual tour status or inherited from paused schedule)
+                            const tourIsPaused = tour.status === 'paused' || (tour.schedule_is_paused && !tour.is_customized)
+                            const tourIsCancelled = tour.status === 'cancelled'
+                            const tourIsSoldOut = tour.status === 'sold_out'
+                            
+                            // Choose styling based on status priority
+                            let tourStyling = {
+                              bg: 'bg-green-500/20',
+                              text: 'text-green-400',
+                              hover: 'hover:bg-green-500/30'
+                            }
+                            
+                            if (tourIsPaused) {
+                              tourStyling = {
+                                bg: 'bg-amber-500/20',
+                                text: 'text-amber-400',
+                                hover: 'hover:bg-amber-500/30'
+                              }
+                            } else if (tourIsCancelled) {
+                              tourStyling = {
+                                bg: 'bg-red-500/20',
+                                text: 'text-red-400',
+                                hover: 'hover:bg-red-500/30'
+                              }
+                            } else if (tourIsSoldOut) {
+                              tourStyling = {
+                                bg: 'bg-yellow-500/20',
+                                text: 'text-yellow-400',
+                                hover: 'hover:bg-yellow-500/30'
+                              }
+                            } else if (tour.is_customized) {
+                              tourStyling = {
+                                bg: 'bg-blue-500/20',
+                                text: 'text-blue-400',
+                                hover: 'hover:bg-blue-500/30'
+                              }
+                            }
                             
                             return (
                             <div
                               key={tour.id}
                               onClick={() => handleCustomizeTour(tour)}
-                              className={`text-xs p-1 rounded truncate cursor-pointer transition-colors ${
-                                tour.is_customized 
-                                  ? 'bg-blue-500/20 text-blue-400 hover:bg-blue-500/30' 
-                                  : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
-                              }`}
-                              title={`${tour.tour_name} at ${tour.time_slot}${tour.is_customized ? ' (Customized)' : ''}${hasPromoDiscount ? ' - Promo Applied' : hasCustomPricing ? ' - Custom Pricing' : ''} - Click to customize`}
+                              className={`text-xs p-1 rounded truncate cursor-pointer transition-colors ${tourStyling.bg} ${tourStyling.text} ${tourStyling.hover}`}
+                              title={`${tour.tour_name} at ${displayTime}${tour.is_customized ? ' (Customized)' : ''}${tour.is_detached ? ' (Detached)' : ''}${tourIsPaused ? ' (Paused)' : ''}${tourIsCancelled ? ' (Cancelled)' : ''}${tourIsSoldOut ? ' (Sold Out)' : ''}${hasPromoDiscount ? ' - Promo Applied' : hasCustomPricing ? ' - Custom Pricing' : ''} - Click to customize`}
                             >
                               <div className="flex items-center justify-between gap-1">
                                 <span className="truncate">
-                                  {tour.time_slot} {tour.tour_name}
+                                  {displayTime} {tour.tour_name}
                                 </span>
                                 <div className="flex items-center gap-0.5 flex-shrink-0">
                                   {showPromoBadge && (
                                     <div className="w-1.5 h-1.5 bg-amber-400 rounded-full" title={hasPromoDiscount ? 'Promotional discount applied' : 'Custom pricing set'} />
+                                  )}
+                                  {tour.is_detached && (
+                                    <Unplug className="w-2 h-2 text-orange-400" title="Tour is detached from schedule" />
+                                  )}
+                                  {tourIsPaused && (
+                                    <Pause className="w-2 h-2" title="Tour is paused" />
                                   )}
                                   {tour.is_customized && (
                                     <Settings className="w-2 h-2" title="Tour has customizations" />
@@ -813,29 +922,65 @@ const SchedulesTab = ({ operator, formatPrice }) => {
           {/* Calendar Status Legend */}
           <div className="p-4 border-t border-slate-700 bg-slate-900/30">
             <h4 className="text-sm font-medium text-slate-300 mb-3">Calendar Legend</h4>
-            <div className="flex flex-wrap gap-6 text-xs">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500/20 border border-green-500/40 rounded"></div>
-                <span className="text-slate-400">Standard Tours</span>
+                <span className="text-slate-400">Active Tours</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-blue-500/20 border border-blue-500/40 rounded"></div>
                 <span className="text-slate-400">Customized Tours</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-amber-400 rounded-full"></div>
-                <span className="text-slate-400">Promotional Pricing</span>
+                <div className="w-3 h-3 bg-amber-500/20 border border-amber-500/40 rounded"></div>
+                <span className="text-slate-400">Paused Tours</span>
               </div>
               <div className="flex items-center gap-2">
-                <Settings className="w-3 h-3 text-slate-400" />
-                <span className="text-slate-400">Has Customizations</span>
+                <div className="w-3 h-3 bg-yellow-500/20 border border-yellow-500/40 rounded"></div>
+                <span className="text-slate-400">Sold Out</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-red-500/20 border border-red-500/40 rounded"></div>
+                <span className="text-slate-400">Cancelled</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-blue-900/30 border-2 border-blue-500 rounded"></div>
                 <span className="text-slate-400">Today</span>
               </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-amber-400 rounded-full"></div>
+                <span className="text-slate-400">Promo Pricing</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Unplug className="w-3 h-3 text-orange-400" />
+                <span className="text-slate-400">Detached</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Settings className="w-3 h-3 text-slate-400" />
+                <span className="text-slate-400">Customizations</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Pause className="w-3 h-3 text-slate-400" />
+                <span className="text-slate-400">Paused Status</span>
+              </div>
             </div>
           </div>
+        </div>
+      ) : schedules.length === 0 ? (
+        /* Empty State for List View Only */
+        <div className="text-center py-12">
+          <Calendar className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-white mb-2">{t('schedules.management.noSchedulesYet')}</h3>
+          <p className="text-slate-400 mb-6">
+            {t('schedules.management.noSchedulesMessage')}
+          </p>
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mx-auto"
+          >
+            <Plus className="w-5 h-5" />
+            {t('schedules.management.createSchedule')}
+          </button>
         </div>
       ) : (
         /* Enhanced Card-Based List View */
@@ -878,6 +1023,8 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                 formatPrice={formatPrice}
                 onEdit={handleEditSchedule}
                 onDelete={handleDeleteSchedule}
+                onPause={handlePauseSchedule}
+                onResume={handleResumeSchedule}
                 onViewCalendar={() => {
                   setViewMode('calendar')
                   setCalendarFilter(schedule.id) // Filter calendar by this schedule

@@ -190,12 +190,13 @@ export const scheduleService = {
             id: scheduleId
           }
           
-          // Get existing tours for this schedule
+          // Get existing tours for this schedule (only attached tours)
           const { data: existingTours, error: fetchError } = await supabase
             .from('tours')
             .select('id, tour_date, time_slot, is_customized, customization_timestamp, overrides, frozen_fields')
             .eq('parent_schedule_id', scheduleId)
             .eq('activity_type', 'scheduled')
+            .is('is_detached', false) // Only get attached tours
             .order('tour_date', { ascending: true })
           
           if (fetchError) {
@@ -251,22 +252,48 @@ export const scheduleService = {
             }
           })
           
-          // Identify dates that need new tours
+          // Check for detached tour conflicts before adding new dates
+          const { data: detachedConflicts, error: conflictError } = await supabase
+            .rpc('get_schedule_date_conflicts', {
+              schedule_id_param: scheduleId,
+              new_dates: newDates
+            })
+
+          if (conflictError) {
+            console.warn('Could not check for detached tour conflicts:', conflictError)
+          } else if (detachedConflicts && detachedConflicts.length > 0) {
+            console.log('⚠️ Detached tour conflicts detected:', detachedConflicts)
+            detachedConflicts.forEach(conflict => {
+              console.log(`📅 Date ${conflict.conflicted_date} has ${conflict.detached_tour_count} detached tour(s) - skipping new tour creation`)
+            })
+          }
+
+          // Identify dates that need new tours (excluding detached conflicts)
+          const conflictedDates = new Set((detachedConflicts || []).map(c => c.conflicted_date))
           newDates.forEach(date => {
-            if (!existingDatesMap.has(date)) {
+            if (!existingDatesMap.has(date) && !conflictedDates.has(date)) {
               datesToAdd.push(date)
+            } else if (conflictedDates.has(date)) {
+              console.log(`🚫 Skipping tour creation for ${date} - detached tour conflict`)
             }
           })
           
-          // Identify existing tours that need time updates (non-customized only)
-          nonCustomizedTours.forEach(tour => {
+          // Identify existing tours that need time updates (check frozen_fields, not just customization status)
+          existingTours.forEach(tour => {
             if (newDates.includes(tour.tour_date) && tour.time_slot !== newTime) {
-              console.log(`🔄 Updating time for non-customized tour ${tour.tour_date}: ${tour.time_slot} → ${newTime}`)
-              toursToUpdate.push({
-                id: tour.id,
-                time_slot: newTime,
-                updated_at: new Date().toISOString()
-              })
+              // Check if time_slot is frozen for this tour
+              const timeSlotIsFrozen = tour.frozen_fields && tour.frozen_fields.includes('time_slot')
+              
+              if (!timeSlotIsFrozen) {
+                console.log(`🔄 Updating time for tour ${tour.tour_date}: ${tour.time_slot} → ${newTime} ${tour.is_customized ? '(customized but time not frozen)' : ''}`)
+                toursToUpdate.push({
+                  id: tour.id,
+                  time_slot: newTime,
+                  updated_at: new Date().toISOString()
+                })
+              } else {
+                console.log(`⏸️ Skipping time update for ${tour.tour_date} - time_slot is frozen in customization`)
+              }
             }
           })
           
@@ -435,7 +462,20 @@ export const scheduleService = {
         throw new Error(`SCHEDULE_HAS_ACTIVE_BOOKINGS|${activeBookings.length}`)
       }
 
-      // Step 3: Delete the schedule (will set bookings.schedule_id to NULL due to ON DELETE SET NULL)
+      // Step 3: Delete related tours first (to prevent orphaned records)
+      const { error: tourDeleteError } = await supabase
+        .from('tours')
+        .delete()
+        .eq('parent_schedule_id', scheduleId)
+        .eq('operator_id', operatorId)
+
+      if (tourDeleteError) {
+        console.warn('Warning: Could not delete all scheduled tours:', tourDeleteError)
+      } else {
+        console.log('✅ Related tours deleted successfully')
+      }
+
+      // Step 4: Delete the schedule
       const { error: deleteError } = await supabase
         .from('schedules')
         .delete()
@@ -921,9 +961,9 @@ export const scheduleService = {
    */
   async getSchedulesWithTemplates(operatorId) {
     try {
-      // Use the new schedule_details view for comprehensive template data (TEMPLATE-FIRST APPROACH)
+      // Use the schedule_availability view to get pause status along with template data
       const { data: schedules, error: schedulesError } = await supabase
-        .from('schedule_details')
+        .from('schedule_availability')
         .select('*')
         .eq('operator_id', operatorId)
         .eq('schedule_type', 'template_based') // Only template-based schedules
@@ -938,7 +978,7 @@ export const scheduleService = {
         return []
       }
 
-      // Map to expected format (template data is already joined in the view)
+      // Map to expected format (template data and pause status from the view)
       const schedulesWithTemplates = schedules.map(schedule => ({
         id: schedule.id,
         operator_id: schedule.operator_id,
@@ -951,7 +991,19 @@ export const scheduleService = {
         exceptions: schedule.exceptions,
         created_at: schedule.created_at,
         updated_at: schedule.updated_at,
-        // Template data from the joined view
+        // Pause status fields
+        is_paused: schedule.is_paused,
+        paused_at: schedule.paused_at,
+        paused_by: schedule.paused_by,
+        paused_by_email: schedule.paused_by_email,
+        is_available: schedule.is_available,
+        availability_status: schedule.availability_status,
+        // Analytics fields
+        total_instances: schedule.total_instances,
+        customized_instances: schedule.customized_instances,
+        total_bookings: schedule.total_bookings,
+        revenue: schedule.revenue,
+        // Template data from the joined view (using correct field names from migration)
         activity_templates: {
           id: schedule.template_id,
           activity_name: schedule.template_name,
@@ -959,8 +1011,8 @@ export const scheduleService = {
           max_capacity: schedule.template_capacity,
           discount_price_adult: schedule.template_price,
           status: schedule.template_status,
-          island_location: schedule.template_location || schedule.location,
-          auto_close_hours: schedule.auto_close_hours
+          island_location: schedule.template_location,
+          auto_close_hours: schedule.template_auto_close_hours
         }
       }))
 
@@ -1956,6 +2008,293 @@ export const scheduleService = {
     return {
       valid: errors.length === 0,
       errors: errors
+    }
+  },
+
+  // ==============================================================================
+  // PHASE 4: PAUSE/RESUME SYSTEM
+  // ==============================================================================
+
+  /**
+   * Pause a schedule (make it unavailable for booking)
+   * @param {string} scheduleId - The schedule ID to pause
+   * @param {string} operatorId - The operator ID for security
+   * @returns {Promise<Object>} Pause result
+   */
+  async pauseSchedule(scheduleId, operatorId) {
+    try {
+      console.log('⏸️ Pausing schedule:', scheduleId)
+
+      if (!scheduleId) {
+        throw new Error('SCHEDULE_ID_REQUIRED')
+      }
+      if (!operatorId) {
+        throw new Error('OPERATOR_ID_REQUIRED')
+      }
+
+      // Call the database function
+      const { data, error } = await supabase
+        .rpc('pause_schedule', {
+          schedule_id: scheduleId,
+          user_id: operatorId
+        })
+
+      if (error) {
+        console.error('Error pausing schedule:', error)
+        throw new Error(`PAUSE_FAILED|${error.message}`)
+      }
+
+      if (!data) {
+        throw new Error('PAUSE_FAILED|No response from database')
+      }
+
+      console.log('✅ Schedule paused successfully')
+      return {
+        success: true,
+        message: 'Schedule paused successfully'
+      }
+
+    } catch (error) {
+      console.error('Error in pauseSchedule:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Resume a paused schedule (make it available for booking again)
+   * @param {string} scheduleId - The schedule ID to resume
+   * @param {string} operatorId - The operator ID for security
+   * @returns {Promise<Object>} Resume result
+   */
+  async resumeSchedule(scheduleId, operatorId) {
+    try {
+      console.log('▶️ Resuming schedule:', scheduleId)
+
+      if (!scheduleId) {
+        throw new Error('SCHEDULE_ID_REQUIRED')
+      }
+      if (!operatorId) {
+        throw new Error('OPERATOR_ID_REQUIRED')
+      }
+
+      // Call the database function
+      const { data, error } = await supabase
+        .rpc('resume_schedule', {
+          schedule_id: scheduleId,
+          user_id: operatorId
+        })
+
+      if (error) {
+        console.error('Error resuming schedule:', error)
+        throw new Error(`RESUME_FAILED|${error.message}`)
+      }
+
+      if (!data) {
+        throw new Error('RESUME_FAILED|No response from database')
+      }
+
+      console.log('✅ Schedule resumed successfully')
+      return {
+        success: true,
+        message: 'Schedule resumed successfully'
+      }
+
+    } catch (error) {
+      console.error('Error in resumeSchedule:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Bulk pause multiple schedules
+   * @param {Array<string>} scheduleIds - Array of schedule IDs to pause
+   * @param {string} operatorId - The operator ID for security
+   * @returns {Promise<Object>} Bulk pause result
+   */
+  async bulkPauseSchedules(scheduleIds, operatorId) {
+    try {
+      console.log('⏸️ Bulk pausing schedules:', scheduleIds)
+
+      if (!scheduleIds || scheduleIds.length === 0) {
+        throw new Error('SCHEDULE_IDS_REQUIRED')
+      }
+      if (!operatorId) {
+        throw new Error('OPERATOR_ID_REQUIRED')
+      }
+
+      // Call the database function
+      const { data, error } = await supabase
+        .rpc('bulk_pause_schedules', {
+          schedule_ids: scheduleIds,
+          user_id: operatorId
+        })
+
+      if (error) {
+        console.error('Error bulk pausing schedules:', error)
+        throw new Error(`BULK_PAUSE_FAILED|${error.message}`)
+      }
+
+      // Process results
+      const results = {
+        successful: [],
+        failed: [],
+        total: scheduleIds.length
+      }
+
+      if (data) {
+        data.forEach(result => {
+          if (result.success) {
+            results.successful.push(result.schedule_id)
+          } else {
+            results.failed.push({
+              scheduleId: result.schedule_id,
+              error: result.error_message
+            })
+          }
+        })
+      }
+
+      console.log(`✅ Bulk pause completed: ${results.successful.length} successful, ${results.failed.length} failed`)
+      return {
+        success: true,
+        results: results,
+        message: `${results.successful.length} of ${results.total} schedules paused successfully`
+      }
+
+    } catch (error) {
+      console.error('Error in bulkPauseSchedules:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Bulk resume multiple schedules
+   * @param {Array<string>} scheduleIds - Array of schedule IDs to resume
+   * @param {string} operatorId - The operator ID for security
+   * @returns {Promise<Object>} Bulk resume result
+   */
+  async bulkResumeSchedules(scheduleIds, operatorId) {
+    try {
+      console.log('▶️ Bulk resuming schedules:', scheduleIds)
+
+      if (!scheduleIds || scheduleIds.length === 0) {
+        throw new Error('SCHEDULE_IDS_REQUIRED')
+      }
+      if (!operatorId) {
+        throw new Error('OPERATOR_ID_REQUIRED')
+      }
+
+      // Call the database function
+      const { data, error } = await supabase
+        .rpc('bulk_resume_schedules', {
+          schedule_ids: scheduleIds,
+          user_id: operatorId
+        })
+
+      if (error) {
+        console.error('Error bulk resuming schedules:', error)
+        throw new Error(`BULK_RESUME_FAILED|${error.message}`)
+      }
+
+      // Process results
+      const results = {
+        successful: [],
+        failed: [],
+        total: scheduleIds.length
+      }
+
+      if (data) {
+        data.forEach(result => {
+          if (result.success) {
+            results.successful.push(result.schedule_id)
+          } else {
+            results.failed.push({
+              scheduleId: result.schedule_id,
+              error: result.error_message
+            })
+          }
+        })
+      }
+
+      console.log(`✅ Bulk resume completed: ${results.successful.length} successful, ${results.failed.length} failed`)
+      return {
+        success: true,
+        results: results,
+        message: `${results.successful.length} of ${results.total} schedules resumed successfully`
+      }
+
+    } catch (error) {
+      console.error('Error in bulkResumeSchedules:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Get schedule availability status including pause state
+   * @param {string} scheduleId - The schedule ID
+   * @returns {Promise<Object>} Availability status
+   */
+  async getScheduleAvailability(scheduleId) {
+    try {
+      console.log('🔍 Checking schedule availability:', scheduleId)
+
+      if (!scheduleId) {
+        throw new Error('SCHEDULE_ID_REQUIRED')
+      }
+
+      // Use the schedule_availability view
+      const { data: availability, error } = await supabase
+        .from('schedule_availability')
+        .select('*')
+        .eq('id', scheduleId)
+        .single()
+
+      if (error) {
+        console.error('Error fetching schedule availability:', error)
+        throw error
+      }
+
+      if (!availability) {
+        throw new Error('SCHEDULE_NOT_FOUND')
+      }
+
+      console.log('✅ Schedule availability checked')
+      return availability
+
+    } catch (error) {
+      console.error('Error in getScheduleAvailability:', error)
+      throw error
+    }
+  },
+
+  /**
+   * Check if a schedule is effectively available for booking
+   * @param {string} scheduleId - The schedule ID
+   * @param {string} checkDate - Date to check (YYYY-MM-DD), defaults to today
+   * @returns {Promise<boolean>} Whether schedule is available
+   */
+  async isScheduleAvailable(scheduleId, checkDate = null) {
+    try {
+      if (!scheduleId) {
+        throw new Error('SCHEDULE_ID_REQUIRED')
+      }
+
+      const { data, error } = await supabase
+        .rpc('is_schedule_available', {
+          schedule_record: { id: scheduleId },
+          check_date: checkDate
+        })
+
+      if (error) {
+        console.error('Error checking schedule availability:', error)
+        throw error
+      }
+
+      return !!data
+
+    } catch (error) {
+      console.error('Error in isScheduleAvailable:', error)
+      return false
     }
   }
 
