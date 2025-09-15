@@ -289,7 +289,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
         .eq('activity_type', 'scheduled')
         .gte('tour_date', startOfMonth.toISOString().split('T')[0])
         .lte('tour_date', endOfMonth.toISOString().split('T')[0])
-        .in('status', ['active', 'paused', 'sold_out', 'cancelled'])
+        .in('status', ['active', 'paused', 'sold_out', 'cancelled', 'hidden'])
         .order('tour_date')
         
       if (error) {
@@ -842,15 +842,22 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                             const tourIsPaused = tour.status === 'paused' || (tour.schedule_is_paused && !tour.is_customized)
                             const tourIsCancelled = tour.status === 'cancelled'
                             const tourIsSoldOut = tour.status === 'sold_out'
-                            
+                            const tourIsHidden = tour.status === 'hidden'
+
                             // Choose styling based on status priority
                             let tourStyling = {
                               bg: 'bg-green-500/20',
                               text: 'text-green-400',
                               hover: 'hover:bg-green-500/30'
                             }
-                            
-                            if (tourIsPaused) {
+
+                            if (tourIsHidden) {
+                              tourStyling = {
+                                bg: 'bg-gray-500/20',
+                                text: 'text-gray-400',
+                                hover: 'hover:bg-gray-500/30'
+                              }
+                            } else if (tourIsPaused) {
                               tourStyling = {
                                 bg: 'bg-amber-500/20',
                                 text: 'text-amber-400',
@@ -881,7 +888,7 @@ const SchedulesTab = ({ operator, formatPrice }) => {
                               key={tour.id}
                               onClick={() => handleCustomizeTour(tour)}
                               className={`text-xs p-1 rounded truncate cursor-pointer transition-colors ${tourStyling.bg} ${tourStyling.text} ${tourStyling.hover}`}
-                              title={`${tour.tour_name} at ${displayTime}${tour.is_customized ? ' (Customized)' : ''}${tour.is_detached ? ' (Detached)' : ''}${tourIsPaused ? ' (Paused)' : ''}${tourIsCancelled ? ' (Cancelled)' : ''}${tourIsSoldOut ? ' (Sold Out)' : ''}${hasPromoDiscount ? ' - Promo Applied' : hasCustomPricing ? ' - Custom Pricing' : ''} - Click to customize`}
+                              title={`${tour.tour_name} at ${displayTime}${tour.is_customized ? ' (Customized)' : ''}${tour.is_detached ? ' (Detached)' : ''}${tourIsHidden ? ' (Hidden)' : ''}${tourIsPaused ? ' (Paused)' : ''}${tourIsCancelled ? ' (Cancelled)' : ''}${tourIsSoldOut ? ' (Sold Out)' : ''}${hasPromoDiscount ? ' - Promo Applied' : hasCustomPricing ? ' - Custom Pricing' : ''} - Click to customize`}
                             >
                               <div className="flex items-center justify-between gap-1">
                                 <span className="truncate">
@@ -922,46 +929,66 @@ const SchedulesTab = ({ operator, formatPrice }) => {
           {/* Calendar Status Legend */}
           <div className="p-4 border-t border-slate-700 bg-slate-900/30">
             <h4 className="text-sm font-medium text-slate-300 mb-3">Calendar Legend</h4>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500/20 border border-green-500/40 rounded"></div>
-                <span className="text-slate-400">Active Tours</span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-y-3 gap-x-6 text-xs">
+              {/* Tour Status (Primary) */}
+              <div className="space-y-2">
+                <h5 className="text-xs font-medium text-slate-300 uppercase tracking-wide">Tour Status</h5>
+                <div className="space-y-1.5 pl-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500/20 border border-green-500/40 rounded"></div>
+                    <span className="text-slate-400">Active Tours</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-amber-500/20 border border-amber-500/40 rounded"></div>
+                    <span className="text-slate-400">Paused Tours</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-gray-500/20 border border-gray-500/40 rounded"></div>
+                    <span className="text-slate-400">Hidden Tours</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-yellow-500/20 border border-yellow-500/40 rounded"></div>
+                    <span className="text-slate-400">Sold Out</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-red-500/20 border border-red-500/40 rounded"></div>
+                    <span className="text-slate-400">Cancelled</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-500/20 border border-blue-500/40 rounded"></div>
-                <span className="text-slate-400">Customized Tours</span>
+
+              {/* Tour Features (Secondary) */}
+              <div className="space-y-2">
+                <h5 className="text-xs font-medium text-slate-300 uppercase tracking-wide">Tour Features</h5>
+                <div className="space-y-1.5 pl-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-blue-500/20 border border-blue-500/40 rounded"></div>
+                    <span className="text-slate-400">Customized Tours</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Unplug className="w-3 h-3 text-orange-400" />
+                    <span className="text-slate-400">Detached</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-amber-400 rounded-full"></div>
+                    <span className="text-slate-400">Promo Pricing</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-amber-500/20 border border-amber-500/40 rounded"></div>
-                <span className="text-slate-400">Paused Tours</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-yellow-500/20 border border-yellow-500/40 rounded"></div>
-                <span className="text-slate-400">Sold Out</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-500/20 border border-red-500/40 rounded"></div>
-                <span className="text-slate-400">Cancelled</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-900/30 border-2 border-blue-500 rounded"></div>
-                <span className="text-slate-400">Today</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-amber-400 rounded-full"></div>
-                <span className="text-slate-400">Promo Pricing</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Unplug className="w-3 h-3 text-orange-400" />
-                <span className="text-slate-400">Detached</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Settings className="w-3 h-3 text-slate-400" />
-                <span className="text-slate-400">Customizations</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Pause className="w-3 h-3 text-slate-400" />
-                <span className="text-slate-400">Paused Status</span>
+
+              {/* Calendar Indicators (Tertiary) */}
+              <div className="space-y-2">
+                <h5 className="text-xs font-medium text-slate-300 uppercase tracking-wide">Calendar</h5>
+                <div className="space-y-1.5 pl-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-blue-900/30 border-2 border-blue-500 rounded"></div>
+                    <span className="text-slate-400">Today</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Settings className="w-3 h-3 text-slate-400" />
+                    <span className="text-slate-400">Click to customize</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

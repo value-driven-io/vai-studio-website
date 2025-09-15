@@ -791,6 +791,52 @@ Template: {tour.template?.tour_name || tour.template_name || 'N/A'}
 Schedule: {tour.parent_schedule?.recurrence_type || (tour.is_detached ? 'Detached' : 'N/A')}
 ```
 
+### **✅ HIDDEN TOUR STATUS IMPLEMENTATION & UI REORGANIZATION (September 15, 2025)**
+
+**Problem Context**: Hidden tours were disappearing from calendar view and status legend needed better organization.
+
+**User Experience Enhancement**: Complete implementation of hidden tour status with professional UI organization.
+
+**Implementation**:
+- ✅ **Grey Box Styling**: Hidden tours display with grey background (`bg-gray-500/20`) and grey text (`text-gray-400`)
+- ✅ **Status Priority System**: Hidden status gets highest priority in styling hierarchy (before paused/cancelled/sold out)
+- ✅ **Calendar Integration**: Hidden tours remain visible but clearly distinguished with grey styling
+- ✅ **Tooltip Enhancement**: Added "(Hidden)" indicator to tour hover tooltips for clear status communication
+
+**Professional Status Legend Reorganization**:
+- ✅ **Three-Category Structure**: Organized legend into logical sections:
+  - **Tour Status** (Primary): Active, Paused, Hidden, Sold Out, Cancelled
+  - **Tour Features** (Secondary): Customized, Detached, Promo Pricing
+  - **Calendar** (Tertiary): Today marker, Click to customize
+- ✅ **Visual Hierarchy**: Section headers with proper spacing and indentation
+- ✅ **Responsive Layout**: `grid-cols-1 lg:grid-cols-2 xl:grid-cols-3` for optimal display
+- ✅ **Professional Typography**: Uppercase section headers with tracking-wide for enterprise feel
+
+**Technical Implementation**:
+```javascript
+// Hidden tour styling priority
+if (tourIsHidden) {
+  tourStyling = {
+    bg: 'bg-gray-500/20',
+    text: 'text-gray-400',
+    hover: 'hover:bg-gray-500/30'
+  }
+}
+
+// Organized legend structure
+<div className="space-y-2">
+  <h5 className="text-xs font-medium text-slate-300 uppercase tracking-wide">Tour Status</h5>
+  <div className="space-y-1.5 pl-2">
+    {/* Status indicators... */}
+  </div>
+</div>
+```
+
+**User Experience Impact**:
+- **Before**: Hidden tours disappeared from calendar, confusing legend organization
+- **After**: Hidden tours remain visible with clear grey styling, professional categorized legend
+- **Benefit**: Operators can see all tours including hidden ones, with intuitive visual hierarchy
+
 ### **🏆 COMPLETE DETACHED TOUR SYSTEM STATUS**
 
 **Database Architecture**: ✅ **Production Ready**
@@ -803,6 +849,8 @@ Schedule: {tour.parent_schedule?.recurrence_type || (tour.is_detached ? 'Detache
 - Visual indicators in calendar view with orange unplug icons
 - Proper template/schedule data display in customization modal
 - Intuitive detach functionality with clear feedback
+- Professional status legend with logical organization
+- Hidden tour support with grey box styling
 - Industry-standard UX patterns throughout
 
 **Data Integrity**: ✅ **Production Ready**
@@ -810,10 +858,11 @@ Schedule: {tour.parent_schedule?.recurrence_type || (tour.is_detached ? 'Detache
 - Clean relationship management without orphaned records
 - Comprehensive conflict detection and prevention
 - Smart override-first display priority
+- Complete status validation pipeline (frontend → SQL → database)
 
 ---
 
 **Status**: All Phases Complete ✅ | Production Deployment Ready 🚀
 **Last Updated**: September 2025
-**Architecture**: Template-First + Individual Customization + Detached Tour Management
+**Architecture**: Template-First + Individual Customization + Detached Tour Management + Hidden Status Support
 **Next Steps**: Production deployment with complete feature set
