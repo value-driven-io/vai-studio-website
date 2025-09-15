@@ -301,6 +301,7 @@ Database Migrations (Apply in order):
 ├── supabase/migrations/20250914000001_add_individual_tour_status_options.sql (✅ APPLIED)
 ├── supabase/migrations/20250914000002_fix_detached_tour_architecture.sql (✅ APPLIED)
 ├── HOTFIX_detach_function_conflict.sql (✅ APPLIED - September 14, 2025)
+├── HOTFIX_status_validation_sql_function.sql (🚨 CRITICAL - Status validation fix)
 ├── FIX_RLS_infinite_recursion.sql (🚨 CRITICAL - Prevents RLS policy infinite loops)
 ├── PHASE1_ALTERNATIVE_FIX.sql (🚨 CRITICAL)
 └── FIX_RLS_tour_generation.sql (🚨 CRITICAL)
@@ -535,6 +536,20 @@ Modified Files for Phase 4:
   - Maintain security while preventing recursion
 - ⚠️ **STATUS**: **REQUIRES APPLICATION** - Critical for system stability
 - ⚠️ **PRODUCTION IMPACT**: Must be applied before schedule operations will work reliably
+
+### **🚨 CRITICAL: SQL STATUS VALIDATION FIX (September 14, 2025) - REQUIRES APPLICATION**
+- ✅ **Purpose**: Fix status validation in SQL apply_tour_customization function
+- ✅ **Migration file**: `HOTFIX_status_validation_sql_function.sql`
+- ✅ **Problem Solved**: SQL function only accepted old status values (active, sold_out, cancelled, completed)
+- ✅ **Critical Impact**:
+  - **Before**: "INVALID_STATUS" error when setting tour status to 'paused' or 'hidden'
+  - **After**: All database-valid status options work in tour customization
+- ✅ **Solution**:
+  - Updated SQL function status validation to include 'paused' and 'hidden'
+  - Maintains direct status field updates (not overrides) for performance
+  - Consistent with database constraint: tours_status_check
+- ⚠️ **STATUS**: **REQUIRES APPLICATION** - Critical for tour customization functionality
+- ⚠️ **PRODUCTION IMPACT**: Tour status changes will fail without this fix
 
 ### **🔧 HOTFIX: DETACHED FUNCTION CONFLICT (September 14, 2025) - APPLIED**
 - ✅ **Purpose**: Resolve function overloading conflict preventing detach operations
