@@ -748,6 +748,7 @@ const isBookable = (tour, schedule) => {
 **Technical Implementation**:
 - ✅ **Migration**: `20250914000002_fix_detached_tour_architecture.sql` (Applied)
 - ✅ **Function Fix**: `HOTFIX_detach_function_conflict.sql` (Applied)
+- ✅ **RLS Security Fix**: `FIX_RLS_infinite_recursion.sql` (Critical - prevents system crashes)
 - ✅ **Database**: Migrated existing detached tours to new architecture
 - ✅ **Application**: Schedule updates only affect attached tours (`parent_schedule_id IS NOT NULL`)
 
