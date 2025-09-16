@@ -33,7 +33,6 @@ import ThemeToggle from './components/shared/ThemeToggle'
 
 import { useAppStore } from './stores/bookingStore'
 import TourPage from './components/tours/TourPage'
-import { supabase } from './services/supabase'
 
 // 2. CHECK THE ENVIRONMENT VARIABLE
 // This variable will control whether the app is "live" or shows the "coming soon" screen.
@@ -172,6 +171,8 @@ function AppContent() {
     if (bookTourId) {
       const fetchTourForBooking = async () => {
         try {
+          // Dynamic import to avoid static loading issues
+          const { supabase } = await import('./services/supabase')
           const { data: tourData, error } = await supabase
             .from('tours')
             .select(`
