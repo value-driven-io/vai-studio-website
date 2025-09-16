@@ -63,33 +63,33 @@ export const getUrgencyLevel = (hoursLeft) => {
     level: 'critical', 
     color: 'red', 
     text: 'Booking closes in 1h!',
-    bgColor: 'bg-red-500/20',
-    textColor: 'text-red-400',
-    borderColor: 'border-red-500/30'
+    bgColor: 'bg-status-error-bg',
+    textColor: 'text-status-error-light',
+    borderColor: 'border-status-error'
   }
   if (hoursLeft <= 2) return { 
     level: 'high', 
     color: 'orange', 
     text: 'Booking closes in 2h!',
-    bgColor: 'bg-orange-500/20',
-    textColor: 'text-orange-400',
-    borderColor: 'border-orange-500/30'
+    bgColor: 'bg-status-warning-bg',
+    textColor: 'text-status-warning-light',
+    borderColor: 'border-status-warning'
   }
   if (hoursLeft <= 4) return { 
     level: 'medium', 
     color: 'yellow', 
     text: 'Booking closes soon!',
-    bgColor: 'bg-yellow-500/20',
-    textColor: 'text-yellow-400',
-    borderColor: 'border-yellow-500/30'
+    bgColor: 'bg-status-caution-bg',
+    textColor: 'text-status-caution-light',
+    borderColor: 'border-status-caution'
   }
   return { 
     level: 'normal', 
     color: 'green', 
     text: 'Available',
-    bgColor: 'bg-green-500/20',
-    textColor: 'text-green-400',
-    borderColor: 'border-green-500/30'
+    bgColor: 'bg-status-success-bg',
+    textColor: 'text-status-success-light',
+    borderColor: 'border-status-success'
   }
 }
 

@@ -35,7 +35,7 @@ const VAILogo = ({
       
       {/* Optional text label */}
       {showText && (
-        <span className="text-white font-medium text-sm">
+        <span className="text-ui-text-primary font-medium text-sm">
           VAI
         </span>
       )}

@@ -782,7 +782,7 @@
 
   "journeyTab": {
     "header": {
-      "title": "My Journey",
+      "title": "Bookings",
       "yourBookings": "Your Bookings",
       "bookingsCount": "{{count}} total bookings",
       "noBookings": "No bookings yet",
@@ -1112,12 +1112,12 @@
     },
     "howItWorks": {
       "title": "❓ How to: VAI Tickets",
-      "step1": "1. Browse Activities for All Islands 🔎",
-      "step2": "2. Send booking request instantly with the app 🔥", 
-      "step3": "3. Get booking confirmation 😎",
-      "step4": "4. Connect with the Operator 🗣️",
-      "step5": "5. Agree on details like pick-up spot or meeting-point 💸",
-      "step6": "6. Enjoy your Activity 🏝️",
+      "step1": "1. Browse Activities for All Islands",
+      "step2": "2. Send booking request instantly with the app", 
+      "step3": "3. Get booking confirmation",
+      "step4": "4. Connect with the Operator",
+      "step5": "5. Agree on details like pick-up spot or meeting-point",
+      "step6": "6. Enjoy your Activity",
       "step7": "7. Repeat! 🤙"
     },
     "footer": "VAI Studio © 2025 All rights reserved<br></br>From French Polynesia with ❤️"

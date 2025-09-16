@@ -11,7 +11,7 @@ export default {
       colors: {
         'vai': {
           'deep-ocean': '#0f172a',      // slate-900
-          'lagoon': '#1e293b',          // slate-800  
+          'lagoon': '#1e293b',          // slate-800
           'coral': '#3b82f6',           // blue-500
           'sunset': '#f97316',          // orange-500
           'teal': '#14b8a6',            // teal-500
@@ -20,15 +20,85 @@ export default {
           'hibiscus': '#ec4899',        // pink-500
           'bamboo': '#22c55e',          // green-500
         },
+
         // Polynesian-inspired gradients
         'polynesian': {
           'ocean-start': '#0f172a',
           'ocean-end': '#1e293b',
-          'lagoon-start': '#1e293b', 
+          'lagoon-start': '#1e293b',
           'lagoon-end': '#334155',
           'coral-start': '#3b82f6',
           'coral-end': '#8b5cf6',
-        }
+        },
+
+        // ==================== SEMANTIC THEME SYSTEM ====================
+        // UI Surface Colors - replaces hardcoded slate backgrounds
+        'ui': {
+          'surface': {
+            'primary': 'var(--color-surface-primary, #334155)',     // replaces bg-slate-700
+            'secondary': 'var(--color-surface-secondary, #1e293b)', // replaces bg-slate-800
+            'tertiary': 'var(--color-surface-tertiary, #475569)',   // replaces bg-slate-600
+            'elevated': 'var(--color-surface-elevated, #475569)',   // for cards/modals
+            'overlay': 'var(--color-surface-overlay, #0f172a)',     // for backdrops
+          },
+          'border': {
+            'primary': 'var(--color-border-primary, #334155)',      // replaces border-slate-700
+            'secondary': 'var(--color-border-secondary, #475569)',  // replaces border-slate-600
+            'muted': 'var(--color-border-muted, #64748b)',         // lighter borders
+            'focus': 'var(--color-border-focus, #3b82f6)',         // focus states
+          },
+          'text': {
+            'primary': 'var(--color-text-primary, #f8fafc)',       // main text
+            'secondary': 'var(--color-text-secondary, #94a3b8)',   // replaces text-slate-400
+            'muted': 'var(--color-text-muted, #cbd5e1)',          // replaces text-slate-300
+            'disabled': 'var(--color-text-disabled, #64748b)',     // replaces text-slate-500
+            'inverse': 'var(--color-text-inverse, #0f172a)',       // for light backgrounds
+          },
+        },
+
+        // Interactive Elements - replaces hardcoded blue colors
+        'interactive': {
+          'primary': 'var(--color-interactive-primary, #2563eb)',     // replaces bg-blue-600
+          'primary-hover': 'var(--color-interactive-primary-hover, #1d4ed8)', // hover states
+          'primary-light': 'var(--color-interactive-primary-light, #3b82f6)', // bg-blue-500
+          'secondary': 'var(--color-interactive-secondary, #475569)', // secondary buttons
+          'secondary-hover': 'var(--color-interactive-secondary-hover, #64748b)',
+          'focus': 'var(--color-interactive-focus, #3b82f6)',         // focus rings
+          'disabled': 'var(--color-interactive-disabled, #64748b)',   // disabled states
+        },
+
+        // Status & Feedback Colors - replaces scattered red/green/orange
+        'status': {
+          'success': 'var(--color-status-success, #22c55e)',         // replaces bg-green-500
+          'success-light': 'var(--color-status-success-light, #4ade80)', // text-green-400
+          'success-bg': 'var(--color-status-success-bg, #0f1419)',   // success backgrounds
+          'error': 'var(--color-status-error, #ef4444)',             // replaces bg-red-500
+          'error-light': 'var(--color-status-error-light, #f87171)', // text-red-400
+          'error-bg': 'var(--color-status-error-bg, #1f1416)',       // error backgrounds
+          'warning': 'var(--color-status-warning, #f97316)',         // replaces bg-orange-500
+          'warning-light': 'var(--color-status-warning-light, #fb923c)', // text-orange-400
+          'warning-bg': 'var(--color-status-warning-bg, #1f1611)',   // warning backgrounds
+          'caution': 'var(--color-status-caution, #eab308)',         // replaces bg-yellow-500
+          'caution-light': 'var(--color-status-caution-light, #facc15)', // text-yellow-400
+          'caution-bg': 'var(--color-status-caution-bg, #1f1e0f)',   // caution backgrounds
+          'info': 'var(--color-status-info, #3b82f6)',               // info states
+          'info-light': 'var(--color-status-info-light, #60a5fa)',
+          'info-bg': 'var(--color-status-info-bg, #0f1419)',
+        },
+
+        // Mood-specific colors (for tourism app mood categories)
+        'mood': {
+          'adventure': 'var(--color-mood-adventure, #f97316)',       // Orange theme
+          'adventure-light': 'var(--color-mood-adventure-light, #fb923c)',
+          'relax': 'var(--color-mood-relax, #3b82f6)',              // Blue theme
+          'relax-light': 'var(--color-mood-relax-light, #60a5fa)',
+          'culture': 'var(--color-mood-culture, #a855f7)',          // Purple theme
+          'culture-light': 'var(--color-mood-culture-light, #c084fc)',
+          'ocean': 'var(--color-mood-ocean, #06b6d4)',              // Cyan theme
+          'ocean-light': 'var(--color-mood-ocean-light, #22d3ee)',
+          'luxury': 'var(--color-mood-luxury, #ec4899)',            // Pink theme
+          'luxury-light': 'var(--color-mood-luxury-light, #f472b6)',
+        },
       },
       
       // Background gradients

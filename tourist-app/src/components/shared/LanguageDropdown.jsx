@@ -180,7 +180,7 @@ const LanguageDropdown = () => {
   const DropdownMenu = () => (
     <div 
       ref={dropdownRef}
-      className="fixed w-56 bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden"
+      className="fixed w-56 vai-surface-elevated rounded-lg shadow-xl overflow-hidden"
       style={{
         top: `${dropdownPosition.top}px`,
         left: `${Math.max(16, dropdownPosition.left)}px`,
@@ -195,7 +195,7 @@ const LanguageDropdown = () => {
 
         <div 
             ref={dropdownRef}
-            className="fixed w-56 bg-slate-800 border border-slate-600 rounded-lg shadow-xl overflow-hidden"
+            className="fixed w-56 vai-surface-elevated rounded-lg shadow-xl overflow-hidden"
             style={{
             top: `${dropdownPosition.top}px`,
             left: `${Math.max(16, dropdownPosition.left)}px`,
@@ -212,7 +212,7 @@ const LanguageDropdown = () => {
   </div>
       <div className="py-2">
         {/* Header */}
-        <div className="px-4 py-2 text-xs font-medium text-slate-400 uppercase tracking-wider border-b border-slate-700">
+        <div className="px-4 py-2 text-xs font-medium vai-text-disabled uppercase tracking-wider border-b border-ui-border-primary">
           Choose Language
         </div>
         
@@ -222,27 +222,27 @@ const LanguageDropdown = () => {
             key={language.code}
             onClick={() => handleLanguageChange(language.code)}
             disabled={isChanging}
-            className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700/50 transition-colors text-left ${
+            className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-ui-surface-tertiary transition-colors text-left ${
               language.code === i18n.language 
-                ? 'bg-blue-500/10 text-blue-400' 
-                : 'text-slate-300 hover:text-white'
+                ? 'bg-status-info-bg text-status-info-light' 
+                : 'vai-text-secondary hover:vai-text-primary'
             } ${isChanging ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <span className="text-xl">{language.flag}</span>
             <div className="flex-1">
               <div className="font-medium">{language.nativeName}</div>
-              <div className="text-xs text-slate-400">{language.name}</div>
+              <div className="text-xs vai-text-disabled">{language.name}</div>
             </div>
             {language.code === i18n.language && (
-              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+              <div className="w-2 h-2 bg-status-info-light rounded-full"></div>
             )}
           </button>
         ))}
       </div>
       
       {/* Footer */}
-      <div className="border-t border-slate-700 px-4 py-3 bg-slate-700/20">
-        <div className="text-xs text-slate-400">
+      <div className="border-t border-ui-border-primary px-4 py-3 bg-ui-surface-tertiary">
+        <div className="text-xs vai-text-disabled">
           🌺 VAI Tickets - French Polynesia
         </div>
       </div>
@@ -257,7 +257,7 @@ const LanguageDropdown = () => {
           ref={buttonRef}
           onClick={handleToggle}
           disabled={isChanging}
-          className={`flex items-center gap-2 px-3 py-2 bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600 rounded-lg transition-colors text-slate-300 hover:text-white ${
+          className={`flex items-center gap-2 px-3 py-2 vai-button-secondary rounded-lg transition-colors ${
             isChanging ? 'opacity-50 cursor-not-allowed' : ''
           }`}
           aria-label="Select language"

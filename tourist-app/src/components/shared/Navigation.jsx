@@ -101,7 +101,7 @@ const Navigation = () => {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-slate-800 border-t border-slate-700 z-50 pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 bg-ui-surface-secondary border-t border-ui-border-primary z-50 pb-safe">
       <div className="grid grid-cols-5 h-16">
         {tabs.map((tab) => {
           const Icon = tab.icon
@@ -137,21 +137,21 @@ const Navigation = () => {
               }}
               className={`flex flex-col items-center justify-center space-y-1 transition-colors ${
                 isActive 
-                  ? 'text-blue-400' 
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'text-interactive-primary-light'
+                  : 'text-ui-text-secondary hover:text-ui-text-muted'
               }`}
             >
               <div className="relative">
                 <Icon size={18} />
                 {tab.badge && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                  <span className="absolute -top-2 -right-2 bg-status-error text-ui-text-primary text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
                     {tab.badge > 99 ? '99+' : tab.badge}
                   </span>
                 )}
               </div>
               <span className="text-xs font-medium">{tab.label}</span>
               {isActive && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-400 rounded-full" />
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-interactive-primary-light rounded-full" />
               )}
             </button>
           )

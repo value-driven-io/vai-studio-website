@@ -251,18 +251,18 @@ const ModernBookingView = ({
     <div className="space-y-4">
       
       {/* Header Controls */}
-      <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700/50">
+      <div className="vai-surface-elevated backdrop-blur-sm rounded-xl p-4">
         
         {/* Search Bar */}
         <div className="flex gap-3 mb-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 vai-text-disabled" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('modernBookingView.searchPlaceholder')}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="vai-input w-full pl-10 pr-4 py-2.5 rounded-lg text-ui-text-primary"
             />
           </div>
 
@@ -270,14 +270,14 @@ const ModernBookingView = ({
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-colors ${
               showFilters || hasActiveFilters
-                ? 'bg-blue-600 hover:bg-blue-700 text-white' 
-                : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
+                ? 'vai-button-primary' 
+                : 'vai-button-secondary'
             }`}
           >
             <SlidersHorizontal className="w-4 h-4" />
             {t('modernBookingView.filters')}
             {hasActiveFilters && (
-              <span className="bg-white text-blue-600 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="bg-white text-interactive-primary text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                 !
               </span>
             )}
@@ -285,7 +285,7 @@ const ModernBookingView = ({
 
           <button
             onClick={onRefresh}
-            className="flex items-center gap-2 px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg font-medium transition-colors"
+            className="vai-button-secondary flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-colors"
             disabled={loading}
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -295,18 +295,18 @@ const ModernBookingView = ({
 
         {/* Filter Panel */}
         {showFilters && (
-          <div className="space-y-4 pt-4 border-t border-slate-700">
+          <div className="space-y-4 pt-4 border-t border-ui-border-primary">
             
             {/* Quick Status Filters - NEW FLOW */}
               <div>
-                <label className="text-sm font-medium text-slate-300 mb-2 block">{t('modernBookingView.status')}</label>
+                <label className="vai-form-label text-sm font-medium mb-2 block">{t('modernBookingView.status')}</label>
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => updateFilter('status', 'all')}
                     className={`px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                      filters.status === 'all' 
-                        ? 'bg-blue-600 text-white' 
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      filters.status === 'all'
+                        ? 'vai-button-primary'
+                        : 'vai-button-secondary'
                     }`}
                   >
                     {t('modernBookingView.all')} ({allBookings.length})
@@ -315,9 +315,9 @@ const ModernBookingView = ({
                   <button
                     onClick={() => updateFilter('status', 'pending')}
                     className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                      filters.status === 'pending' 
-                        ? 'bg-yellow-600 text-white' 
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      filters.status === 'pending'
+                        ? 'bg-status-caution text-white'
+                        : 'vai-button-secondary'
                     }`}
                   >
                     <Timer className="w-3 h-3" />
@@ -329,9 +329,9 @@ const ModernBookingView = ({
                     <button
                       onClick={() => updateFilter('status', 'pending_paid')}
                       className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                        filters.status === 'pending_paid' 
-                          ? 'bg-blue-600 text-white' 
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                        filters.status === 'pending_paid'
+                          ? 'vai-button-primary'
+                          : 'vai-button-secondary'
                       }`}
                     >
                       <CreditCard className="w-3 h-3" />
@@ -342,9 +342,9 @@ const ModernBookingView = ({
                   <button
                     onClick={() => updateFilter('status', 'confirmed')}
                     className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                      filters.status === 'confirmed' 
-                        ? 'bg-green-600 text-white' 
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      filters.status === 'confirmed'
+                        ? 'bg-status-success text-white'
+                        : 'vai-button-secondary'
                     }`}
                   >
                     <CheckCircle className="w-3 h-3" />
@@ -354,9 +354,9 @@ const ModernBookingView = ({
                   <button
                     onClick={() => updateFilter('status', 'completed')}
                     className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                      filters.status === 'completed' 
-                        ? 'bg-blue-600 text-white' 
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      filters.status === 'completed'
+                        ? 'vai-button-primary'
+                        : 'vai-button-secondary'
                     }`}
                   >
                     <Award className="w-3 h-3" />
@@ -367,9 +367,9 @@ const ModernBookingView = ({
                     <button
                       onClick={() => updateFilter('status', 'cancelled')}
                       className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                        filters.status === 'cancelled' 
-                          ? 'bg-red-600 text-white' 
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                        filters.status === 'cancelled'
+                          ? 'bg-status-error text-white'
+                          : 'vai-button-secondary'
                       }`}
                     >
                       <XCircle className="w-3 h-3" />
@@ -382,9 +382,9 @@ const ModernBookingView = ({
                     <button
                       onClick={() => updateFilter('status', 'refunded')}
                       className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-colors ${
-                        filters.status === 'refunded' 
-                          ? 'bg-orange-600 text-white' 
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                        filters.status === 'refunded'
+                          ? 'bg-status-warning text-white'
+                          : 'vai-button-secondary'
                       }`}
                     >
                       <RotateCcw className="w-3 h-3" />
@@ -399,11 +399,11 @@ const ModernBookingView = ({
               
               {/* Date Range */}
               <div>
-                <label className="text-sm font-medium text-slate-300 mb-2 block">{t('modernBookingView.dateRange')}</label>
+                <label className="vai-form-label text-sm font-medium mb-2 block">{t('modernBookingView.dateRange')}</label>
                 <select
                   value={filters.dateRange}
                   onChange={(e) => updateFilter('dateRange', e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="vai-input w-full px-3 py-2 rounded-lg text-ui-text-primary text-sm"
                 >
                   <option value="all">{t('modernBookingView.dateRangeOptions.all')}</option>
                   <option value="this_week">{t('modernBookingView.dateRangeOptions.thisWeek')}</option>
@@ -414,11 +414,11 @@ const ModernBookingView = ({
 
               {/* Tour Type */}
               <div>
-                <label className="text-sm font-medium text-slate-300 mb-2 block">{t('modernBookingView.tourType')}</label>
+                <label className="vai-form-label text-sm font-medium mb-2 block">{t('modernBookingView.tourType')}</label>
                 <select
                   value={filters.tourType}
                   onChange={(e) => updateFilter('tourType', e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="vai-input w-full px-3 py-2 rounded-lg text-ui-text-primary text-sm"
                 >
                   <option value="all">{t('modernBookingView.allTypes')}</option>
                   {filterOptions.tourTypes.map(type => (
@@ -431,11 +431,11 @@ const ModernBookingView = ({
 
               {/* Island */}
               <div>
-                <label className="text-sm font-medium text-slate-300 mb-2 block">{t('modernBookingView.island')}</label>
+                <label className="vai-form-label text-sm font-medium mb-2 block">{t('modernBookingView.island')}</label>
                 <select
                   value={filters.island}
                   onChange={(e) => updateFilter('island', e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="vai-input w-full px-3 py-2 rounded-lg text-ui-text-primary text-sm"
                 >
                   <option value="all">{t('modernBookingView.allIslands')}</option>
                   {filterOptions.islands.map(island => (
@@ -448,13 +448,13 @@ const ModernBookingView = ({
             </div>
 
             {/* Sort & Clear Row */}
-            <div className="flex items-center justify-between pt-2 border-t border-slate-700">
+            <div className="flex items-center justify-between pt-2 border-t border-ui-border-primary">
               <div className="flex items-center gap-3">
-                <label className="text-sm font-medium text-slate-300">{t('modernBookingView.sortBy')}</label>
+                <label className="vai-form-label text-sm font-medium">{t('modernBookingView.sortBy')}</label>
                 <select
                   value={filters.sortBy}
                   onChange={(e) => updateFilter('sortBy', e.target.value)}
-                  className="px-3 py-1.5 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="vai-input px-3 py-1.5 rounded-lg text-ui-text-primary text-sm"
                 >
                   <option value="status_priority">{t('modernBookingView.sortOptions.statusPriority')}</option>
                   <option value="date_newest">{t('modernBookingView.sortOptions.dateNewest')}</option>
@@ -467,7 +467,7 @@ const ModernBookingView = ({
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-1"
+                  className="text-sm vai-text-disabled hover:vai-text-primary transition-colors flex items-center gap-1"
                 >
                   <X className="w-3 h-3" />
                   {t('modernBookingView.clearAll')}
@@ -479,13 +479,13 @@ const ModernBookingView = ({
       </div>
 
       {/* Results Summary */}
-      <div className="flex items-center justify-between text-sm text-slate-400 px-2">
+      <div className="flex items-center justify-between text-sm vai-text-secondary px-2">
         <span>
           {t('modernBookingView.resultsShowing', { count: filteredAndSortedBookings.length, total: allBookings.length })}
           {hasActiveFilters && ` ${t('modernBookingView.filtered')}`}
         </span>
         {filteredAndSortedBookings.length > 0 && (
-          <span className="text-slate-500">
+          <span className="vai-text-disabled">
             {t('modernBookingView.sortedBy', { sortBy: filters.sortBy.replace('_', ' ') })}
           </span>
         )}
@@ -497,19 +497,19 @@ const ModernBookingView = ({
           // Loading skeletons
           <div className="space-y-4">
             {[1, 2, 3].map(i => (
-              <div key={i} className="bg-slate-800/50 rounded-xl h-48 animate-pulse border border-slate-700/50"></div>
+              <div key={i} className="vai-surface-elevated rounded-xl h-48 animate-pulse"></div>
             ))}
           </div>
         ) : filteredAndSortedBookings.length === 0 ? (
           // Empty state
-          <div className="text-center py-12 bg-slate-800/30 rounded-xl border border-slate-700/50">
+          <div className="text-center py-12 vai-surface-secondary rounded-xl">
             <div className="text-6xl mb-4">
               {hasActiveFilters ? '🔍' : '📋'}
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <h3 className="text-xl font-semibold text-ui-text-primary mb-2">
               {hasActiveFilters ? t('modernBookingView.emptyState.noMatches') : t('modernBookingView.emptyState.noBookings')}
             </h3>
-            <p className="text-slate-400 mb-6">
+            <p className="vai-text-secondary mb-6">
               {hasActiveFilters 
                 ? t('modernBookingView.emptyState.adjustFilters')
                 : t('modernBookingView.emptyState.firstBooking')
@@ -518,7 +518,7 @@ const ModernBookingView = ({
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                className="vai-button-primary px-6 py-3 rounded-lg font-medium transition-colors"
               >
                 {t('modernBookingView.emptyState.clearFilters')}
               </button>

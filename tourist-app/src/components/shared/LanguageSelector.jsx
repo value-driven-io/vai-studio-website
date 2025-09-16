@@ -126,16 +126,16 @@ const LanguageSelector = ({ size = 'sm', showText = false }) => {
 
       {/* Language Toggle Buttons */}
       <div className="flex items-center gap-2">
-        <Globe className="w-4 h-4 text-slate-400" />
+        <Globe className="w-4 h-4 vai-text-disabled" />
         <div className="flex gap-1">
             {languages.map((language) => (
             <button
                 key={language.code}
                 onClick={() => handleLanguageChange(language.code)}
                 className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors ${
-                language.code === i18n.language 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 hover:text-white border border-slate-600'
+                language.code === i18n.language
+                    ? 'vai-button-primary'
+                    : 'vai-surface-secondary vai-text-secondary hover:vai-surface-tertiary hover:text-ui-text-primary border border-ui-border-primary'
                 }`}
                 title={`Switch to ${language.name}`}
             >

@@ -33,9 +33,9 @@ const BookingSection = ({
   if (displayBookings.length === 0) {
     return (
       <div className="text-center py-12">
-        <EmptyIcon className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-slate-400 mb-2">{emptyMessage}</h3>
-        <p className="text-slate-500">
+        <EmptyIcon className="w-12 h-12 vai-text-disabled mx-auto mb-4" />
+        <h3 className="text-xl font-semibold vai-text-disabled mb-2">{emptyMessage}</h3>
+        <p className="vai-text-disabled">
           {title === t('journey.sections.activeBookings') && t('journey.emptyStates.activePending')}
           {title === t('journey.sections.upcomingAdventures') && t('journey.emptyStates.upcomingConfirmed')}
           {title === t('journey.sections.pastExperiences') && t('journey.emptyStates.pastCompleted')}
@@ -87,18 +87,18 @@ const BookingCard = ({
   const statusIcon = getBookingStatusIcon(booking.booking_status)
 
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 hover:border-slate-600 transition-all">
+    <div className="vai-surface-elevated border border-ui-border-primary rounded-xl p-6 hover:border-ui-border-secondary transition-all">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xl">{tourEmoji}</span>
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-ui-text-primary">
               {booking.tours?.tour_name || t('journey.tourInfo.tourExperience')}
             </h3>
           </div>
           
-          <div className="text-slate-400 text-sm">
+          <div className="vai-text-disabled text-sm">
             {t('journey.tourInfo.withOperator', { operator: booking.operators?.company_name || t('journey.tourInfo.tourOperator') })}
           </div>
           
@@ -114,10 +114,10 @@ const BookingCard = ({
 
         {/* Booking Reference */}
         <div className="text-right">
-          <div className="text-xs text-slate-400 mb-1">Booking Reference</div>
+          <div className="text-xs vai-text-disabled mb-1">Booking Reference</div>
           <button
             onClick={() => copyBookingReference(booking.booking_reference)}
-            className="flex items-center gap-1 text-sm text-slate-300 hover:text-white transition-colors"
+            className="flex items-center gap-1 text-sm text-ui-text-secondary hover:text-ui-text-primary transition-colors"
           >
             <span className="font-mono">{booking.booking_reference}</span>
             <Copy className="w-3 h-3" />
@@ -127,45 +127,45 @@ const BookingCard = ({
 
       {/* Tour Details */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="flex items-center gap-2 text-slate-300">
-          <Calendar className="w-4 h-4 text-slate-400" />
+        <div className="flex items-center gap-2 text-ui-text-secondary">
+          <Calendar className="w-4 h-4 vai-text-disabled" />
           <div>
             <div className="text-sm font-medium">
               {formatDate(booking.tours?.tour_date)}
             </div>
-            <div className="text-xs text-slate-400">
+            <div className="text-xs vai-text-disabled">
               {formatTime(booking.tours?.time_slot)}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-slate-300">
-          <MapPin className="w-4 h-4 text-slate-400" />
+        <div className="flex items-center gap-2 text-ui-text-secondary">
+          <MapPin className="w-4 h-4 vai-text-disabled" />
           <div>
             <div className="text-sm font-medium">
               {booking.tours?.meeting_point || 'TBD'}
             </div>
-            <div className="text-xs text-slate-400">Meeting Point</div>
+            <div className="text-xs vai-text-disabled">Meeting Point</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-slate-300">
-          <Users className="w-4 h-4 text-slate-400" />
+        <div className="flex items-center gap-2 text-ui-text-secondary">
+          <Users className="w-4 h-4 vai-text-disabled" />
           <div>
             <div className="text-sm font-medium">
               {booking.num_adults} adult{booking.num_adults !== 1 ? 's' : ''}
               {booking.num_children > 0 && `, ${booking.num_children} child${booking.num_children !== 1 ? 'ren' : ''}`}
             </div>
-            <div className="text-xs text-slate-400">Participants</div>
+            <div className="text-xs vai-text-disabled">Participants</div>
           </div>
         </div>
       </div>
 
       {/* Special Requirements */}
       {(booking.special_requirements || booking.dietary_restrictions || booking.accessibility_needs) && (
-        <div className="mb-6 p-3 bg-slate-700/50 rounded-lg">
-          <h4 className="text-sm font-medium text-slate-300 mb-2">Special Requirements</h4>
-          <div className="space-y-1 text-xs text-slate-400">
+        <div className="mb-6 p-3 vai-surface-secondary rounded-lg">
+          <h4 className="text-sm font-medium text-ui-text-secondary mb-2">Special Requirements</h4>
+          <div className="space-y-1 text-xs vai-text-disabled">
             {booking.special_requirements && (
               <div>• {booking.special_requirements}</div>
             )}
@@ -181,28 +181,28 @@ const BookingCard = ({
 
       {/* Operator Response */}
       {booking.operator_response && (
-        <div className="mb-6 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-          <h4 className="text-sm font-medium text-blue-400 mb-2">Operator Message</h4>
-          <p className="text-sm text-slate-300">{booking.operator_response}</p>
+        <div className="mb-6 p-3 bg-status-info-bg border border-status-info rounded-lg">
+          <h4 className="text-sm font-medium text-status-info-light mb-2">Operator Message</h4>
+          <p className="text-sm text-ui-text-secondary">{booking.operator_response}</p>
         </div>
       )}
 
       {/* Decline Reason */}
       {booking.decline_reason && (
-        <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-          <h4 className="text-sm font-medium text-red-400 mb-2">Decline Reason</h4>
-          <p className="text-sm text-slate-300">{booking.decline_reason}</p>
+        <div className="mb-6 p-3 bg-status-error-bg border border-status-error rounded-lg">
+          <h4 className="text-sm font-medium text-status-error-light mb-2">Decline Reason</h4>
+          <p className="text-sm text-ui-text-secondary">{booking.decline_reason}</p>
         </div>
       )}
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-4 border-t border-slate-700">
+      <div className="flex items-center justify-between pt-4 border-t border-ui-border-primary">
         {/* Pricing */}
         <div className="text-right">
-          <div className="text-lg font-bold text-white">
+          <div className="text-lg font-bold text-ui-text-primary">
             {formatPrice(booking.total_amount)}
           </div>
-          <div className="text-xs text-slate-400">
+          <div className="text-xs vai-text-disabled">
             Total paid
           </div>
         </div>
@@ -213,7 +213,7 @@ const BookingCard = ({
           {canContactOperator(booking) && (
             <button
               onClick={() => handleContactOperator(booking)}
-              className="flex items-center gap-1 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors"
+              className="flex items-center gap-1 px-3 py-2 vai-button-success text-ui-text-primary text-sm rounded-lg transition-colors"
             >
               {booking.operators?.whatsapp_number ? (
                 <MessageCircle className="w-4 h-4" />
@@ -228,7 +228,7 @@ const BookingCard = ({
           {canRebook(booking) && (
             <button
               onClick={() => handleRebook(booking)}
-              className="flex items-center gap-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
+              className="flex items-center gap-1 px-3 py-2 vai-button-primary text-ui-text-primary text-sm rounded-lg transition-colors"
             >
               <RotateCcw className="w-4 h-4" />
               Rebook
@@ -238,7 +238,7 @@ const BookingCard = ({
           {/* Get Support */}
           <button
             onClick={() => handleGetSupport(booking)}
-            className="flex items-center gap-1 px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm rounded-lg transition-colors"
+            className="flex items-center gap-1 px-3 py-2 vai-button-secondary text-ui-text-primary text-sm rounded-lg transition-colors"
           >
             <ExternalLink className="w-4 h-4" />
             Support
@@ -248,11 +248,11 @@ const BookingCard = ({
 
       {/* Confirmation Deadline Warning */}
       {booking.booking_status === 'pending' && booking.confirmation_deadline && (
-        <div className="mt-4 p-3 bg-orange-500/10 border border-orange-500/20 rounded-lg">
+        <div className="mt-4 p-3 bg-status-warning-bg border border-status-warning rounded-lg">
           <div className="flex items-center gap-2">
-            <Timer className="w-4 h-4 text-orange-400" />
+            <Timer className="w-4 h-4 text-status-warning-light" />
             <div className="text-sm">
-              <span className="text-orange-400 font-medium">
+              <span className="text-status-warning-light font-medium">
                 Waiting for confirmation from the operator.
               </span>
             </div>

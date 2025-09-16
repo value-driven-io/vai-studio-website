@@ -282,19 +282,19 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       
       return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-800 rounded-2xl max-w-md w-full border border-slate-700 max-h-[calc(100vh-120px)] overflow-y-auto">
+          <div className="bg-ui-surface-secondary rounded-2xl max-w-md w-full border border-ui-border-primary max-h-[calc(100vh-120px)] overflow-y-auto">
             <div className="p-6">
               {/* Header with Success Icon */}
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 bg-status-success rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-ui-text-primary" />
                 </div>
                 
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <h2 className="text-2xl font-bold text-ui-text-primary mb-2">
                   {hasPaymentData ? t('payment.paymentAuthorizedSuccess') : t('success.bookingRequested')}
                 </h2>
                 
-                <p className="text-slate-300">
+                <p className="text-ui-text-muted">
                   {hasPaymentData 
                     ? t('payment.awaitingConfirmation')
                     : t('success.adventureRequest')
@@ -305,28 +305,28 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               {/* 🆕 ENHANCED STATUS PROGRESSION BAR - NEW FLOW */}
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-slate-400">{t('success.bookingProgress')}</span>
+                  <span className="text-xs font-medium text-ui-text-secondary">{t('success.bookingProgress')}</span>
                 </div>
                 
                 <div className="flex items-center justify-between relative">
                   {/* Progress Line */}
-                  <div className="absolute top-4 left-4 right-4 h-0.5 bg-slate-600"></div>
-                  <div className="absolute top-4 left-4 h-0.5 bg-blue-500 transition-all duration-500" 
+                  <div className="absolute top-4 left-4 right-4 h-0.5 bg-ui-surface-tertiary"></div>
+                  <div className="absolute top-4 left-4 h-0.5 bg-interactive-primary transition-all duration-500" 
                       style={{width: hasPaymentData ? '25%' : '0%'}}></div>
                   
                   {/* Status Steps - 4 STEP PROGRESSION FOR NEW FLOW */}
                   <div className="flex items-center justify-between w-full relative z-10">
                     {/* Step 1: Payment Secured / Requested (Current) */}
                     <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center mb-2">
+                      <div className="w-8 h-8 rounded-full bg-interactive-primary border-2 border-white flex items-center justify-center mb-2">
                         {hasPaymentData ? (
-                          <CreditCard className="w-4 h-4 text-white" />
+                          <CreditCard className="w-4 h-4 text-ui-text-primary" />
                         ) : (
-                          <CheckCircle className="w-4 h-4 text-white" />
+                          <CheckCircle className="w-4 h-4 text-ui-text-primary" />
                         )}
                       </div>
                       <div className="text-center">
-                        <div className="text-blue-400 text-xs font-medium">
+                        <div className="text-interactive-primary-light text-xs font-medium">
                           {hasPaymentData ? t('success.paymentSecured') : t('success.requested')}
                         </div>
                       </div>
@@ -334,25 +334,25 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
                     {/* Step 2: Operator Review */}
                     <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-white flex items-center justify-center mb-2">
-                        <Timer className="w-4 h-4 text-slate-400" />
+                      <div className="w-8 h-8 rounded-full bg-ui-surface-tertiary border-2 border-white flex items-center justify-center mb-2">
+                        <Timer className="w-4 h-4 text-ui-text-secondary" />
                       </div>
                       <div className="text-center">
-                        <div className="text-slate-400 text-xs font-medium">{t('success.operatorReview')}</div>
+                        <div className="text-ui-text-secondary text-xs font-medium">{t('success.operatorReview')}</div>
                       </div>
                     </div>
 
                     {/* Step 3: Payment Captured / Confirmed */}
                     <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-white flex items-center justify-center mb-2">
+                      <div className="w-8 h-8 rounded-full bg-ui-surface-tertiary border-2 border-white flex items-center justify-center mb-2">
                         {hasPaymentData ? (
-                          <DollarSign className="w-4 h-4 text-slate-400" />
+                          <DollarSign className="w-4 h-4 text-ui-text-secondary" />
                         ) : (
-                          <CheckCircle className="w-4 h-4 text-slate-400" />
+                          <CheckCircle className="w-4 h-4 text-ui-text-secondary" />
                         )}
                       </div>
                       <div className="text-center">
-                        <div className="text-slate-400 text-xs font-medium">
+                        <div className="text-ui-text-secondary text-xs font-medium">
                           {hasPaymentData ? t('success.paymentCaptured') : t('success.confirmed')}
                         </div>
                       </div>
@@ -360,11 +360,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     
                     {/* Step 4: Ready for Adventure */}
                     <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-slate-600 border-2 border-white flex items-center justify-center mb-2">
-                        <Award className="w-4 h-4 text-slate-400" />
+                      <div className="w-8 h-8 rounded-full bg-ui-surface-tertiary border-2 border-white flex items-center justify-center mb-2">
+                        <Award className="w-4 h-4 text-ui-text-secondary" />
                       </div>
                       <div className="text-center">
-                        <div className="text-slate-400 text-xs font-medium">{t('success.readyAdventure')}</div>
+                        <div className="text-ui-text-secondary text-xs font-medium">{t('success.readyAdventure')}</div>
                       </div>
                     </div>
                   </div>
@@ -373,44 +373,44 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
               {/* 🆕 PAYMENT PROTECTION NOTICE - NEW FLOW ONLY */}
               {hasPaymentData && (
-                <div className="mb-6 bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                <div className="mb-6 bg-interactive-primary-light/10 border border-interactive-primary-light/20 rounded-lg p-4">
                   <div className="flex items-start gap-3">
-                    <Shield className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                    <Shield className="w-5 h-5 text-interactive-primary-light mt-0.5 flex-shrink-0" />
                     <div className="space-y-2 text-sm">
-                      <p className="text-blue-300 font-medium">{t('payment.noChargeUntilConfirmed')}</p>
-                      <p className="text-blue-200">{t('payment.automaticRefund')}</p>
+                      <p className="text-interactive-primary-light font-medium">{t('payment.noChargeUntilConfirmed')}</p>
+                      <p className="text-interactive-primary-light">{t('payment.automaticRefund')}</p>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Booking Details */}
-              <div className="bg-slate-700/30 rounded-lg p-4 mb-6">
-                <h3 className="text-lg font-medium text-white mb-3">{t('success.bookingDetails')}</h3>
+              <div className="bg-ui-surface-primary/30 rounded-lg p-4 mb-6">
+                <h3 className="text-lg font-medium text-ui-text-primary mb-3">{t('success.bookingDetails')}</h3>
                 
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-slate-400">{t('success.reference')}</span>
-                    <span className="text-white font-mono">{bookingResult.booking_reference}</span>
+                    <span className="text-ui-text-secondary">{t('success.reference')}</span>
+                    <span className="text-ui-text-primary font-mono">{bookingResult.booking_reference}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">{t('success.activity')}</span>
-                    <span className="text-white">{tour.tour_name}</span>
+                    <span className="text-ui-text-secondary">{t('success.activity')}</span>
+                    <span className="text-ui-text-primary">{tour.tour_name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">{t('success.date')}</span>
-                    <span className="text-white">{formatDate(tour.tour_date)}</span>
+                    <span className="text-ui-text-secondary">{t('success.date')}</span>
+                    <span className="text-ui-text-primary">{formatDate(tour.tour_date)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">{t('success.participants')}</span>
-                    <span className="text-white">{formData.num_adults + formData.num_children}</span>
+                    <span className="text-ui-text-secondary">{t('success.participants')}</span>
+                    <span className="text-ui-text-primary">{formData.num_adults + formData.num_children}</span>
                   </div>
-                  <div className="flex justify-between border-t border-slate-600 pt-2">
-                    <span className="text-slate-400">{t('success.total')}</span>
+                  <div className="flex justify-between border-t border-ui-border-secondary pt-2">
+                    <span className="text-ui-text-secondary">{t('success.total')}</span>
                     <div className="text-right">
-                      <span className="text-white font-semibold">{formatPrice(bookingResult.total_amount || bookingResult.subtotal || pricing.total)}</span>
+                      <span className="text-ui-text-primary font-semibold">{formatPrice(bookingResult.total_amount || bookingResult.subtotal || pricing.total)}</span>
                       {hasPaymentData && (
-                        <div className="text-xs text-slate-400 mt-1">
+                        <div className="text-xs text-ui-text-secondary mt-1">
                           <CompactPriceDisplay 
                             xpfAmount={bookingResult.total_amount || bookingResult.subtotal || pricing.total}
                             selectedCurrency="USD"
@@ -424,8 +424,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   {/* 🆕 Payment Status - NEW FLOW ONLY */}
                   {hasPaymentData && (
                     <div className="flex justify-between">
-                      <span className="text-slate-400">{t('bookingDetails.paymentStatus')}</span>
-                      <span className="text-green-400">{t('status.paymentAuthorized')}</span>
+                      <span className="text-ui-text-secondary">{t('bookingDetails.paymentStatus')}</span>
+                      <span className="text-status-success-light">{t('status.paymentAuthorized')}</span>
                     </div>
                   )}
                 </div>
@@ -433,39 +433,39 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
               {/* 🆕 WHAT'S NEXT SECTION - UPDATED FOR NEW FLOW */}
               <div className="mb-6">
-                <h3 className="text-lg font-medium text-white mb-4">{t('success.whatsNext')}</h3>
+                <h3 className="text-lg font-medium text-ui-text-primary mb-4">{t('success.whatsNext')}</h3>
                 
                 <div className="space-y-4">
                   {hasPaymentData ? (
                     // NEW FLOW What's Next
                     <>
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <span className="text-white text-xs font-bold">1</span>
+                        <div className="w-6 h-6 rounded-full bg-interactive-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-ui-text-primary text-xs font-bold">1</span>
                         </div>
                         <div>
-                          <div className="text-blue-400 font-medium">{t('success.paymentProtection')}</div>
-                          <div className="text-slate-500 text-xs">{t('success.paymentProtectionDesc')}</div>
+                          <div className="text-interactive-primary-light font-medium">{t('success.paymentProtection')}</div>
+                          <div className="text-ui-text-disabled text-xs">{t('success.paymentProtectionDesc')}</div>
                         </div>
                       </div>
                       
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <span className="text-white text-xs font-bold">2</span>
+                        <div className="w-6 h-6 rounded-full bg-status-caution flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-ui-text-primary text-xs font-bold">2</span>
                         </div>
                         <div>
-                          <div className="text-yellow-400 font-medium">{t('success.operatorDecision')}</div>
-                          <div className="text-slate-500 text-xs">{t('success.operatorDecisionDesc')}</div>
+                          <div className="text-status-caution font-medium">{t('success.operatorDecision')}</div>
+                          <div className="text-ui-text-disabled text-xs">{t('success.operatorDecisionDesc')}</div>
                         </div>
                       </div>
                       
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <span className="text-slate-400 text-xs font-bold">3</span>
+                        <div className="w-6 h-6 rounded-full bg-ui-surface-tertiary flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-ui-text-secondary text-xs font-bold">3</span>
                         </div>
                         <div>
-                          <div className="text-slate-400 font-medium">{t('success.confirmationNotification')}</div>
-                          <div className="text-slate-500 text-xs">{t('success.confirmationNotificationDesc')}</div>
+                          <div className="text-ui-text-secondary font-medium">{t('success.confirmationNotification')}</div>
+                          <div className="text-ui-text-disabled text-xs">{t('success.confirmationNotificationDesc')}</div>
                         </div>
                       </div>
                     </>
@@ -473,32 +473,32 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     // OLD FLOW What's Next (fallback)
                     <>
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <span className="text-white text-xs font-bold">1</span>
+                        <div className="w-6 h-6 rounded-full bg-status-caution flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-ui-text-primary text-xs font-bold">1</span>
                         </div>
                         <div>
-                          <div className="text-yellow-400 font-medium">{t('success.operatorReview')}</div>
-                          <div className="text-slate-500 text-xs">{t('success.operatorReviewDesc')}</div>
+                          <div className="text-status-caution font-medium">{t('success.operatorReview')}</div>
+                          <div className="text-ui-text-disabled text-xs">{t('success.operatorReviewDesc')}</div>
                         </div>
                       </div>
                       
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <span className="text-slate-400 text-xs font-bold">2</span>
+                        <div className="w-6 h-6 rounded-full bg-ui-surface-tertiary flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-ui-text-secondary text-xs font-bold">2</span>
                         </div>
                         <div>
-                          <div className="text-slate-400 font-medium">{t('success.confirmationChat')}</div>
-                          <div className="text-slate-500 text-xs">{t('success.confirmationChatDesc')}</div>
+                          <div className="text-ui-text-secondary font-medium">{t('success.confirmationChat')}</div>
+                          <div className="text-ui-text-disabled text-xs">{t('success.confirmationChatDesc')}</div>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <span className="text-slate-400 text-xs font-bold">3</span>
+                        <div className="w-6 h-6 rounded-full bg-ui-surface-tertiary flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-ui-text-secondary text-xs font-bold">3</span>
                         </div>
                         <div>
-                          <div className="text-slate-400 font-medium">{t('success.readyAdventure')}</div>
-                          <div className="text-slate-500 text-xs">{t('success.readyAdventureDesc')}</div>
+                          <div className="text-ui-text-secondary font-medium">{t('success.readyAdventure')}</div>
+                          <div className="text-ui-text-disabled text-xs">{t('success.readyAdventureDesc')}</div>
                         </div>
                       </div>
                     </>
@@ -515,7 +515,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     setJourneyStage('active') // Set to show active booking view
                     setActiveTab('journey') // Switch to journey tab
                   }}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   <Calendar className="w-4 h-4" />
                   {t('buttons.trackBooking')}
@@ -525,7 +525,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 <div className="flex gap-3">
                   <button
                     onClick={onClose}
-                    className="flex-1 bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+                    className="flex-1 bg-ui-surface-tertiary hover:bg-ui-surface-primary text-ui-text-primary py-2 px-4 rounded-lg transition-colors text-sm"
                   >
                     {t('buttons.close')}
                   </button>
@@ -537,7 +537,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                         // Could open payment details modal or navigate to payment view
                         toast.success(t('toastNotifications.paymentDetails', { paymentId: bookingResult.payment_intent_id }))
                       }}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+                      className="flex-1 bg-status-success hover:bg-status-success text-ui-text-primary py-2 px-4 rounded-lg transition-colors text-sm"
                     >
                       {t('buttons.viewPaymentDetails')}
                     </button>
@@ -547,7 +547,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     href={`https://wa.me/68987269065?text=Hi! I just booked ${tour.tour_name} (${bookingResult.booking_reference}).${hasPaymentData ? ' Payment is secured.' : ''}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors text-sm text-center"
+                    className="flex-1 bg-status-success hover:bg-status-success text-ui-text-primary py-2 px-4 rounded-lg transition-colors text-sm text-center"
                   >
                     {t('buttons.whatsapp')}
                   </a>
@@ -562,27 +562,27 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   // MAIN BOOKING FORM
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-800 rounded-2xl max-w-lg w-full max-h-[calc(100vh-120px)] overflow-y-auto border border-slate-700">
+      <div className="bg-ui-surface-secondary rounded-2xl max-w-lg w-full max-h-[calc(100vh-120px)] overflow-y-auto border border-ui-border-primary">
         {/* Header */}
-        <div className="sticky top-0 bg-slate-800 p-6 border-b border-slate-700 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-white">{t('bookingModal.header')}</h2>
+        <div className="sticky top-0 bg-ui-surface-secondary p-6 border-b border-ui-border-primary flex items-center justify-between">
+          <h2 className="text-xl font-bold text-ui-text-primary">{t('bookingModal.header')}</h2>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white transition-colors"
+            className="p-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tour Summary */}
-        <div className="p-6 border-b border-slate-700">
+        <div className="p-6 border-b border-ui-border-primary">
           <div className="flex items-start gap-3">
             <div className="text-2xl">
               {TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-white mb-1">{tour.tour_name}</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm text-slate-300">
+              <h3 className="text-lg font-semibold text-ui-text-primary mb-1">{tour.tour_name}</h3>
+              <div className="grid grid-cols-2 gap-2 text-sm text-ui-text-muted">
                 <div className="flex items-center gap-1">
                   <Clock className="w-3 h-3" />
                   {formatDate(tour.tour_date)} {formatTime(tour.time_slot)}
@@ -598,7 +598,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                     : t('bookingModal.spotsLeftPlural', { count: tour.available_spots })
                   }
                 </div>
-                <div className="text-green-400 font-medium">
+                <div className="text-status-success-light font-medium">
                   {formatPrice(tour.discount_price_adult)}
                 </div>
               </div>
@@ -613,15 +613,15 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             // Payment Step
             <Elements stripe={stripePromise}>
               <div className="space-y-6">
-                <div className="flex items-center gap-2 text-sm text-slate-400">
-                  <button 
+                <div className="flex items-center gap-2 text-sm text-ui-text-secondary">
+                  <button
                     onClick={() => setShowPaymentStep(false)}
-                    className="text-blue-400 hover:text-blue-300"
+                    className="text-interactive-primary-light hover:text-interactive-primary"
                   >
                     {t('paymentFlow.backToDetails')}
                   </button>
-                  <span>→</span>
-                  <span className="text-white">{t('paymentFlow.step2')}</span>
+                  <span className="text-ui-text-secondary">→</span>
+                  <span className="text-ui-text-primary">{t('paymentFlow.step2')}</span>
                 </div>
 
                 <StripePaymentForm
@@ -637,7 +637,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <>
           {/* Quick Booking Section */}
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-white mb-4">
+            <h4 className="text-lg font-semibold text-ui-text-primary mb-4">
               {t('bookingModal.quickBooking')}
             </h4>
             
@@ -645,92 +645,92 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               <div className="grid grid-cols-2 gap-4">
                 {/* First Name */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.firstName')}
                   </label>
                   <input
                     type="text"
                     value={formData.customer_first_name}
                     onChange={(e) => handleInputChange('customer_first_name', e.target.value)}
-                    className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
-                      errors.customer_first_name ? 'border-red-500' : 'border-slate-600'
+                    className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
+                      errors.customer_first_name ? 'border-status-error' : 'border-ui-border-secondary'
                     }`}
                     placeholder={t('placeholders.firstName')}
                   />
                   {errors.customer_first_name && (
-                    <p className="text-red-400 text-sm mt-1">{errors.customer_first_name}</p>
+                    <p className="text-status-error-light text-sm mt-1">{errors.customer_first_name}</p>
                   )}
                 </div>
 
                 {/* Last Name */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.lastName')}
                   </label>
                   <input
                     type="text"
                     value={formData.customer_last_name}
                     onChange={(e) => handleInputChange('customer_last_name', e.target.value)}
-                    className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
-                      errors.customer_last_name ? 'border-red-500' : 'border-slate-600'
+                    className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
+                      errors.customer_last_name ? 'border-status-error' : 'border-ui-border-secondary'
                     }`}
                     placeholder={t('placeholders.lastName')}
                   />
                   {errors.customer_last_name && (
-                    <p className="text-red-400 text-sm mt-1">{errors.customer_last_name}</p>
+                    <p className="text-status-error-light text-sm mt-1">{errors.customer_last_name}</p>
                   )}
                 </div>
               </div>
 
               {/* WhatsApp */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
+                <label className="block text-sm font-medium text-ui-text-muted mb-1">
                   {t('form.whatsappNumber')}
                 </label>
                 <input
                   type="tel"
                   value={formData.customer_whatsapp}
                   onChange={(e) => handleInputChange('customer_whatsapp', e.target.value)}
-                  className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
-                    errors.customer_whatsapp ? 'border-red-500' : 'border-slate-600'
+                  className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
+                    errors.customer_whatsapp ? 'border-status-error' : 'border-ui-border-secondary'
                   }`}
                   placeholder={t('placeholders.whatsapp')}
                 />
                 {errors.customer_whatsapp && (
-                  <p className="text-red-400 text-sm mt-1">{errors.customer_whatsapp}</p>
+                  <p className="text-status-error-light text-sm mt-1">{errors.customer_whatsapp}</p>
                 )}
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
+                <label className="block text-sm font-medium text-ui-text-muted mb-1">
                   {t('form.emailAddress')}
                 </label>
                 <input
                   type="email"
                   value={formData.customer_email}
                   onChange={(e) => handleInputChange('customer_email', e.target.value)}
-                  className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
-                    errors.customer_email ? 'border-red-500' : 'border-slate-600'
+                  className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
+                    errors.customer_email ? 'border-status-error' : 'border-ui-border-secondary'
                   }`}
                   placeholder={t('placeholders.email')}
                 />
                 {errors.customer_email && (
-                  <p className="text-red-400 text-sm mt-1">{errors.customer_email}</p>
+                  <p className="text-status-error-light text-sm mt-1">{errors.customer_email}</p>
                 )}
-                <p className="text-xs text-slate-400 mt-1">For booking confirmations and updates</p>
+                <p className="text-xs text-ui-text-secondary mt-1">For booking confirmations and updates</p>
               </div>
 
               {/* Participants */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.adults')}
                   </label>
                   <select
                     value={formData.num_adults}
                     onChange={(e) => handleInputChange('num_adults', parseInt(e.target.value))}
-                    className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus"
                   >
                     {Array.from({length: Math.min(tour.available_spots, 8)}, (_, i) => (
                       <option key={i + 1} value={i + 1}>{i + 1}</option>
@@ -738,13 +738,13 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.children')}
                   </label>
                   <select
                     value={formData.num_children}
                     onChange={(e) => handleInputChange('num_children', parseInt(e.target.value))}
-                    className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus"
                   >
                     {Array.from({length: Math.min(tour.available_spots, 6)}, (_, i) => (
                       <option key={i} value={i}>{i}</option>
@@ -754,7 +754,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               </div>
               
               {errors.num_adults && (
-                <p className="text-red-400 text-sm">{errors.num_adults}</p>
+                <p className="text-status-error-light text-sm">{errors.num_adults}</p>
               )}
             </div>
           </div>
@@ -763,78 +763,78 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           <div className="mb-6">
             <button
               onClick={() => setShowOptional(!showOptional)}
-              className="flex items-center justify-between w-full p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
+              className="flex items-center justify-between w-full p-3 bg-ui-surface-primary hover:bg-ui-surface-tertiary rounded-lg transition-colors"
             >
-              <span className="text-white font-medium">
+              <span className="text-ui-text-primary font-medium">
                 {t('bookingModal.optionalDetails')}
               </span>
               {showOptional ? (
-                <ChevronUp className="w-5 h-5 text-slate-400" />
+                <ChevronUp className="w-5 h-5 text-ui-text-secondary" />
               ) : (
-                <ChevronDown className="w-5 h-5 text-slate-400" />
+                <ChevronDown className="w-5 h-5 text-ui-text-secondary" />
               )}
             </button>
 
             {showOptional && (
-              <div className="mt-4 space-y-4 p-4 bg-slate-900 rounded-lg">
+              <div className="mt-4 space-y-4 p-4 bg-ui-surface-secondary rounded-lg">
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.phoneNumber')}
                   </label>
                   <input
                     type="tel"
                     value={formData.customer_phone}
                     onChange={(e) => handleInputChange('customer_phone', e.target.value)}
-                    className={`w-full p-3 bg-slate-700 border rounded-lg text-white focus:ring-2 focus:ring-blue-500 ${
-                      errors.customer_phone ? 'border-red-500' : 'border-slate-600'
+                    className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
+                      errors.customer_phone ? 'border-status-error' : 'border-ui-border-secondary'
                     }`}
                     placeholder={t('placeholders.phone')}
                   />
                   {errors.customer_phone && (
-                    <p className="text-red-400 text-sm mt-1">{errors.customer_phone}</p>
+                    <p className="text-status-error-light text-sm mt-1">{errors.customer_phone}</p>
                   )}
-                  <p className="text-xs text-slate-400 mt-1">{t('placeholders.backupContact')}</p>
+                  <p className="text-xs text-ui-text-secondary mt-1">{t('placeholders.backupContact')}</p>
                 </div>
 
                 {/* Special Requirements */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.specialRequirements')}
                   </label>
                   <textarea
                     value={formData.special_requirements}
                     onChange={(e) => handleInputChange('special_requirements', e.target.value)}
                     rows={2}
-                    className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus"
                     placeholder={t('placeholders.specialRequests')}
                   />
                 </div>
 
                 {/* Dietary Restrictions */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.dietaryRestrictions')}
                   </label>
                   <input
                     type="text"
                     value={formData.dietary_restrictions}
                     onChange={(e) => handleInputChange('dietary_restrictions', e.target.value)}
-                    className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus"
                     placeholder={t('placeholders.dietary')}
                   />
                 </div>
 
                 {/* Accessibility */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">
+                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.accessibilityNeeds')}
                   </label>
                   <input
                     type="text"
                     value={formData.accessibility_needs}
                     onChange={(e) => handleInputChange('accessibility_needs', e.target.value)}
-                    className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus"
                     placeholder={t('placeholders.accessibility')}
                   />
                 </div>
@@ -843,8 +843,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           </div>
 
           {/* Pricing Summary  */}
-          <div className="bg-slate-900 rounded-xl p-4 mb-6">
-            <h4 className="font-semibold text-white mb-3">{t('bookingModal.pricingSummary')}</h4>
+          <div className="bg-ui-surface-secondary rounded-xl p-4 mb-6">
+            <h4 className="font-semibold text-ui-text-primary mb-3">{t('bookingModal.pricingSummary')}</h4>
             <div className="space-y-2 text-sm">
               {/* Multi-currency booking breakdown */}
               <BookingPriceBreakdown
@@ -857,7 +857,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 showCurrencySelector={false}
                 className="space-y-2"
               />
-              <p className="text-xs text-slate-400 mt-2">
+              <p className="text-xs text-ui-text-secondary mt-2">
                 {t('bookingModal.paymentNote')}
               </p>
             </div>
@@ -867,7 +867,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           <button
             onClick={handleQuickBooking}
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-interactive-primary hover:bg-interactive-primary-hover disabled:bg-ui-surface-tertiary text-ui-text-primary font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -882,7 +882,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             )}
           </button>
 
-          <p className="text-xs text-slate-400 text-center mt-3">
+          <p className="text-xs text-ui-text-secondary text-center mt-3">
             {t('bookingModal.termsNote')}
           </p>
         </>

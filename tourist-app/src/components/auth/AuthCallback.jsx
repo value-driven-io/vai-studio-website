@@ -114,22 +114,22 @@ const AuthCallback = () => {
   }, [])
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center px-4">
+    <div className="min-h-screen vai-surface-primary text-ui-text-primary flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
-        <div className="bg-slate-800 rounded-xl p-8 border border-slate-700">
+        <div className="vai-surface-elevated rounded-xl p-8 border border-ui-border-primary">
           {/* Status Icon */}
           <div className="mb-6">
             {status === 'processing' && (
-              <div className="animate-spin w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
+              <div className="animate-spin w-12 h-12 border-4 border-interactive-primary border-t-transparent rounded-full mx-auto"></div>
             )}
             {status === 'success' && (
-              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-white text-2xl">✓</span>
+              <div className="w-12 h-12 bg-status-success rounded-full flex items-center justify-center mx-auto">
+                <span className="text-ui-text-primary text-2xl">✓</span>
               </div>
             )}
             {status === 'error' && (
-              <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-white text-2xl">✗</span>
+              <div className="w-12 h-12 bg-status-error rounded-full flex items-center justify-center mx-auto">
+                <span className="text-ui-text-primary text-2xl">✗</span>
               </div>
             )}
           </div>
@@ -141,14 +141,14 @@ const AuthCallback = () => {
             {status === 'error' && t('authCallback.error.title')}
           </h2>
 
-          <p className="text-slate-400 mb-6">
+          <p className="vai-text-secondary mb-6">
             {message}
           </p>
 
           {/* Progress indicator for processing */}
           {status === 'processing' && (
-            <div className="w-full bg-slate-700 rounded-full h-2">
-              <div className="bg-blue-500 h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+            <div className="w-full bg-ui-surface-tertiary rounded-full h-2">
+              <div className="bg-interactive-primary h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
             </div>
           )}
 
@@ -157,13 +157,13 @@ const AuthCallback = () => {
             <div className="space-y-3 mt-6">
               <a 
                 href="https://app.vai.studio/"
-                className="block w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors"
+                className="block w-full vai-button-primary py-2 px-4 rounded-lg transition-colors"
               >
                 {t('authCallback.error.goToVaiTickets')}
               </a>
               <a 
                 href="https://vai-operator-dashboard.onrender.com/"
-                className="block w-full bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 rounded-lg transition-colors"
+                className="block w-full vai-button-secondary py-2 px-4 rounded-lg transition-colors"
               >
                 {t('authCallback.error.goToVaiOperator')}
               </a>

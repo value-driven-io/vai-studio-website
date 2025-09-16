@@ -9,10 +9,10 @@ export const MOOD_CATEGORIES = [
     description: 'Thrilling experiences that challenge your limits',
     tourTypes: ['Adrenalin', 'Hike', 'Diving'],
     colors: {
-      bg: 'bg-orange-500',
-      hover: 'hover:bg-orange-600',
-      text: 'text-orange-100',
-      border: 'border-orange-400'
+      bg: 'bg-mood-adventure',
+      hover: 'hover:bg-mood-adventure',
+      text: 'text-white',
+      border: 'border-mood-adventure'
     }
   },
   {
@@ -23,10 +23,10 @@ export const MOOD_CATEGORIES = [
     description: 'Peaceful experiences to restore your energy',
     tourTypes: ['Mindfulness', 'Lagoon Tour', 'Cultural'],
     colors: {
-      bg: 'bg-blue-500',
-      hover: 'hover:bg-blue-600', 
-      text: 'text-blue-100',
-      border: 'border-blue-400'
+      bg: 'bg-mood-relax',
+      hover: 'hover:bg-mood-relax',
+      text: 'text-white',
+      border: 'border-mood-relax'
     }
   },
   {
@@ -37,10 +37,10 @@ export const MOOD_CATEGORIES = [
     description: 'Authentic local experiences and heritage',
     tourTypes: ['Cultural'],
     colors: {
-      bg: 'bg-purple-500',
-      hover: 'hover:bg-purple-600',
-      text: 'text-purple-100', 
-      border: 'border-purple-400'
+      bg: 'bg-mood-culture',
+      hover: 'hover:bg-mood-culture',
+      text: 'text-white',
+      border: 'border-mood-culture'
     }
   },
   {
@@ -51,10 +51,10 @@ export const MOOD_CATEGORIES = [
     description: 'Explore the incredible underwater world',
     tourTypes: ['Diving', 'Snorkeling', 'Whale Watching', 'Lagoon Tour'],
     colors: {
-      bg: 'bg-cyan-500',
-      hover: 'hover:bg-cyan-600',
-      text: 'text-cyan-100',
-      border: 'border-cyan-400'
+      bg: 'bg-mood-ocean',
+      hover: 'hover:bg-mood-ocean',
+      text: 'text-white',
+      border: 'border-mood-ocean'
     }
   }
 ]

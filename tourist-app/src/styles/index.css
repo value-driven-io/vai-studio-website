@@ -5,6 +5,118 @@
 @tailwind utilities;
 
 @layer base {
+  /* ==================== THEME SYSTEM CSS CUSTOM PROPERTIES ==================== */
+
+  /* Dark Theme (Default) */
+  :root {
+    /* UI Surface Colors */
+    --color-surface-primary: #334155;      /* replaces bg-slate-700 */
+    --color-surface-secondary: #1e293b;    /* replaces bg-slate-800 */
+    --color-surface-tertiary: #475569;     /* replaces bg-slate-600 */
+    --color-surface-elevated: #475569;     /* for cards/modals */
+    --color-surface-overlay: #0f172a;      /* for backdrops */
+
+    /* UI Border Colors */
+    --color-border-primary: #334155;       /* replaces border-slate-700 */
+    --color-border-secondary: #475569;     /* replaces border-slate-600 */
+    --color-border-muted: #64748b;         /* lighter borders */
+    --color-border-focus: #3b82f6;         /* focus states */
+
+    /* UI Text Colors */
+    --color-text-primary: #f8fafc;         /* main text */
+    --color-text-secondary: #94a3b8;       /* replaces text-slate-400 */
+    --color-text-muted: #cbd5e1;          /* replaces text-slate-300 */
+    --color-text-disabled: #64748b;        /* replaces text-slate-500 */
+    --color-text-inverse: #0f172a;         /* for light backgrounds */
+
+    /* Interactive Elements */
+    --color-interactive-primary: #2563eb;         /* replaces bg-blue-600 */
+    --color-interactive-primary-hover: #1d4ed8;   /* hover states */
+    --color-interactive-primary-light: #3b82f6;   /* bg-blue-500 */
+    --color-interactive-secondary: #475569;       /* secondary buttons */
+    --color-interactive-secondary-hover: #64748b;
+    --color-interactive-focus: #3b82f6;           /* focus rings */
+    --color-interactive-disabled: #64748b;        /* disabled states */
+
+    /* Status Colors */
+    --color-status-success: #22c55e;       /* replaces bg-green-500 */
+    --color-status-success-light: #4ade80; /* text-green-400 */
+    --color-status-success-bg: #0f1419;    /* success backgrounds */
+    --color-status-error: #ef4444;         /* replaces bg-red-500 */
+    --color-status-error-light: #f87171;   /* text-red-400 */
+    --color-status-error-bg: #1f1416;      /* error backgrounds */
+    --color-status-warning: #f97316;       /* replaces bg-orange-500 */
+    --color-status-warning-light: #fb923c; /* text-orange-400 */
+    --color-status-warning-bg: #1f1611;    /* warning backgrounds */
+    --color-status-caution: #eab308;       /* replaces bg-yellow-500 */
+    --color-status-caution-light: #facc15; /* text-yellow-400 */
+    --color-status-caution-bg: #1f1e0f;    /* caution backgrounds */
+    --color-status-info: #3b82f6;          /* info states */
+    --color-status-info-light: #60a5fa;
+    --color-status-info-bg: #0f1419;
+
+    /* Mood Colors - Polynesian Paradise */
+    --color-mood-adventure: #fb923c;       /* Sunset orange */
+    --color-mood-adventure-light: #fed7aa;
+    --color-mood-relax: #67e8f9;          /* Lagoon cyan */
+    --color-mood-relax-light: #a5f3fc;
+    --color-mood-culture: #c084fc;        /* Hibiscus purple */
+    --color-mood-culture-light: #7d3dc2;
+    --color-mood-ocean: #22d3ee;          /* Crystal ocean blue */
+    --color-mood-ocean-light: #7dd3fc;
+    --color-mood-luxury: #f472b6;         /* Tropical pink */
+    --color-mood-luxury-light: #fbb6ce;
+  }
+
+  /* Light Theme - Clean & Minimal */
+  [data-theme="light"] {
+    /* UI Surface Colors - Clean White Base */
+    --color-surface-primary: #ffffff;      /* Pure white background */
+    --color-surface-secondary: #f8fafc;    /* Very light gray */
+    --color-surface-tertiary: #f1f5f9;     /* Light gray hover */
+    --color-surface-elevated: #ffffff;     /* Elevated white */
+    --color-surface-overlay: #f8fafc;      /* Light backdrop */
+
+    /* UI Border Colors - Subtle Gray Tones */
+    --color-border-primary: #e2e8f0;       /* Light slate border */
+    --color-border-secondary: #cbd5e1;     /* Medium slate border */
+    --color-border-muted: #94a3b8;         /* Muted slate */
+    --color-border-focus: #3b82f6;         /* Clean blue focus */
+
+    /* UI Text Colors - Clean & Readable */
+    --color-text-primary: #0f172a;         /* Dark slate */
+    --color-text-secondary: #334155;       /* Medium slate */
+    --color-text-muted: #64748b;          /* Light slate */
+    --color-text-disabled: #94a3b8;        /* Disabled gray */
+    --color-text-inverse: #ffffff;         /* White text for dark backgrounds */
+
+    /* Interactive Elements - Accent Colors Only */
+    --color-interactive-primary: #11e3ff;         /* Clean blue for primary actions */
+    --color-interactive-primary-hover: #0cc7d8;   /* Deeper blue hover */
+    --color-interactive-primary-light: #1e97af;   /* Dark blue for active states */
+    --color-interactive-secondary: #f1f5f9;       /* Light gray secondary */
+    --color-interactive-secondary-hover: #e2e8f0;
+    --color-interactive-focus: #3b82f6;           /* Blue focus rings */
+    --color-interactive-disabled: #94a3b8;        /* Disabled gray */
+
+    /* Status Colors - Refined & Subtle */
+    --color-status-success: #10b981;       /* Clean emerald */
+    --color-status-success-light: #059669; /* Dark emerald text */
+    --color-status-success-bg: #f0fdf4;    /* Very light green bg */
+    --color-status-error: #ef4444;         /* Clean red */
+    --color-status-error-light: #dc2626;   /* Dark red text */
+    --color-status-error-bg: #fef2f2;      /* Very light red bg */
+    --color-status-warning: #f59e0b;       /* Clean amber */
+    --color-status-warning-light: #d97706; /* Dark amber text */
+    --color-status-warning-bg: #fffbeb;    /* Very light yellow bg */
+    --color-status-caution: #f97316;       /* Clean orange */
+    --color-status-caution-light: #ea580c; /* Dark orange text */
+    --color-status-caution-bg: #fff7ed;    /* Very light orange bg */
+    --color-status-info: #06b6d4;          /* Clean cyan */
+    --color-status-info-light: #0891b2;    /* Dark cyan text */
+    --color-status-info-bg: #f0fdfa;       /* Very light cyan bg */
+  }
+
   * {
     /*@apply border-border;*/
   }
@@ -15,20 +127,166 @@
 }
 
 @layer components {
-  .vai-glassmorphism {
-    @apply bg-vai-lagoon/50 backdrop-blur-vai border border-slate-700;
+  /* ==================== THEME-AWARE COMPONENT CLASSES ==================== */
+
+  /* Surface Components */
+  .vai-surface {
+    @apply bg-ui-surface-primary border-ui-border-primary;
   }
-  
+
+  .vai-surface-secondary {
+    @apply bg-ui-surface-secondary border-ui-border-secondary;
+  }
+
+  .vai-surface-elevated {
+    @apply bg-ui-surface-elevated border-ui-border-primary shadow-lg;
+  }
+
+  /* Card Components */
   .vai-card {
-    @apply bg-gradient-to-br from-vai-deep-ocean to-vai-lagoon rounded-2xl border border-slate-700 hover:border-slate-600 transition-all duration-300;
+    @apply bg-ui-surface-elevated rounded-2xl border-ui-border-primary hover:border-ui-border-secondary transition-all duration-300;
   }
-  
+
+  .vai-card-interactive {
+    @apply vai-card hover:bg-ui-surface-tertiary cursor-pointer;
+  }
+
+  /* Button Components */
   .vai-button-primary {
-    @apply bg-vai-coral hover:shadow-vai-glow text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105;
+    @apply bg-interactive-primary hover:bg-interactive-primary-hover font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-interactive-focus focus:ring-offset-2;
+    color: white; /* Always white text on colored background */
   }
-  
+
+  .vai-button-secondary {
+    @apply bg-interactive-secondary hover:bg-interactive-secondary-hover text-ui-text-primary font-medium py-3 px-6 rounded-xl transition-all duration-300 border border-ui-border-primary;
+  }
+
+  .vai-button-ghost {
+    @apply bg-transparent hover:bg-ui-surface-tertiary text-ui-text-primary font-medium py-3 px-6 rounded-xl transition-all duration-300;
+  }
+
+  /* Status Button Variants */
+  .vai-button-success {
+    @apply bg-status-success hover:bg-status-success font-medium py-3 px-6 rounded-xl transition-all duration-300;
+    color: white; /* Always white text on colored background */
+  }
+
+  .vai-button-error {
+    @apply bg-status-error hover:bg-status-error font-medium py-3 px-6 rounded-xl transition-all duration-300;
+    color: white; /* Always white text on colored background */
+  }
+
+  .vai-button-warning {
+    @apply bg-status-warning hover:bg-status-warning font-medium py-3 px-6 rounded-xl transition-all duration-300;
+    color: white; /* Always white text on colored background */
+  }
+
+  /* Input Components */
   .vai-input {
-    @apply w-full border border-slate-600 bg-slate-800/50 text-vai-pearl rounded-lg px-3 py-2 focus:border-vai-coral focus:ring-1 focus:ring-vai-coral transition-colors;
+    @apply w-full border-ui-border-secondary bg-ui-surface-secondary text-ui-text-primary rounded-lg px-3 py-2 focus:border-ui-border-focus focus:ring-1 focus:ring-ui-border-focus transition-colors placeholder:text-ui-text-disabled;
+  }
+
+  .vai-input-error {
+    @apply vai-input border-status-error focus:border-status-error focus:ring-status-error;
+  }
+
+  .vai-input-success {
+    @apply vai-input border-status-success focus:border-status-success focus:ring-status-success;
+  }
+
+  /* Text Components */
+  .vai-text-primary {
+    @apply text-ui-text-primary;
+  }
+
+  .vai-text-secondary {
+    @apply text-ui-text-secondary;
+  }
+
+  .vai-text-muted {
+    @apply text-ui-text-muted;
+  }
+
+  .vai-text-disabled {
+    @apply text-ui-text-disabled;
+  }
+
+  /* Status Text Components */
+  .vai-text-success {
+    @apply text-status-success-light;
+  }
+
+  .vai-text-error {
+    @apply text-status-error-light;
+  }
+
+  .vai-text-warning {
+    @apply text-status-warning-light;
+  }
+
+  .vai-text-caution {
+    @apply text-status-caution-light;
+  }
+
+  /* Badge/Chip Components */
+  .vai-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ui-surface-tertiary text-ui-text-primary border border-ui-border-primary;
+  }
+
+  .vai-badge-success {
+    @apply vai-badge bg-status-success-bg text-status-success-light border-status-success;
+  }
+
+  .vai-badge-error {
+    @apply vai-badge bg-status-error-bg text-status-error-light border-status-error;
+  }
+
+  .vai-badge-warning {
+    @apply vai-badge bg-status-warning-bg text-status-warning-light border-status-warning;
+  }
+
+  .vai-badge-info {
+    @apply vai-badge bg-status-info-bg text-status-info-light border-status-info;
+  }
+
+  /* Modal/Overlay Components */
+  .vai-modal-backdrop {
+    @apply fixed inset-0 bg-ui-surface-overlay/50 backdrop-blur-sm z-50;
+  }
+
+  .vai-modal {
+    @apply vai-surface-elevated rounded-2xl shadow-2xl max-w-lg w-full mx-auto;
+  }
+
+  /* Form Components */
+  .vai-form-group {
+    @apply space-y-2;
+  }
+
+  .vai-form-label {
+    @apply block text-sm font-medium vai-text-primary;
+  }
+
+  .vai-form-error {
+    @apply text-sm vai-text-error mt-1;
+  }
+
+  .vai-form-help {
+    @apply text-sm vai-text-muted mt-1;
+  }
+
+  /* Navigation Components */
+  .vai-nav-item {
+    @apply flex items-center px-3 py-2 rounded-lg text-ui-text-secondary hover:text-ui-text-primary hover:bg-ui-surface-tertiary transition-colors;
+  }
+
+  .vai-nav-item-active {
+    @apply vai-nav-item bg-interactive-primary text-ui-text-primary border border-interactive-focus;
+  }
+
+  /* Legacy Components (keeping existing ones that don't conflict) */
+  .vai-glassmorphism {
+    @apply bg-vai-lagoon/50 backdrop-blur-vai border-ui-border-primary;
   }
 }
 
@@ -38,15 +296,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-800;
+  @apply bg-ui-surface-secondary;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-600 rounded-full;
+  @apply bg-ui-surface-tertiary rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-500;
+  @apply bg-ui-border-secondary;
 }
 
 /* Loading animations */
@@ -60,7 +318,7 @@
 }
 
 .shimmer {
-  background: linear-gradient(90deg, #1e293b 0px, #334155 100px, #1e293b 200px);
+  background: linear-gradient(90deg, rgb(var(--color-ui-surface-secondary)) 0px, rgb(var(--color-ui-surface-tertiary)) 100px, rgb(var(--color-ui-surface-secondary)) 200px);
   background-size: 200px 100%;
   animation: shimmer 1.5s infinite;
 }

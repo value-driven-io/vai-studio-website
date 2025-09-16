@@ -156,16 +156,16 @@ const StripePaymentForm = ({
     style: {
       base: {
         fontSize: '16px',
-        color: '#f1f5f9', // text-slate-100
+        color: 'rgb(var(--color-ui-text-primary))',
         fontFamily: 'system-ui, sans-serif',
         '::placeholder': {
-          color: '#94a3b8', // text-slate-400
+          color: 'rgb(var(--color-ui-text-tertiary))',
         },
-        iconColor: '#94a3b8',
+        iconColor: 'rgb(var(--color-ui-text-tertiary))',
       },
       invalid: {
-        color: '#ef4444', // text-red-500
-        iconColor: '#ef4444',
+        color: 'rgb(var(--color-status-error))',
+        iconColor: 'rgb(var(--color-status-error))',
       },
     },
   }
@@ -173,20 +173,20 @@ const StripePaymentForm = ({
   return (
     <div className="space-y-6">
       {/* Payment Amount Summary */}
-      <div className="bg-slate-800 rounded-lg p-4 border border-slate-600">
+      <div className="vai-surface-elevated rounded-lg p-4">
         <div className="flex items-center gap-2 mb-2">
-          <CreditCard className="w-5 h-5 text-blue-400" />
-          <span className="font-medium text-white">{t('payment.securePayment')}</span>
+          <CreditCard className="w-5 h-5 text-status-info-light" />
+          <span className="font-medium text-ui-text-primary">{t('payment.securePayment')}</span>
         </div>
         
         <div className="space-y-1 text-sm">
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between vai-text-secondary">
             <span>{t('payment.displayedAs', { 
               amount: formatPrice(totalXPF, selectedCurrency), 
               currency: selectedCurrency 
             })}</span>
           </div>
-          <div className="flex justify-between text-white font-medium">
+          <div className="flex justify-between text-ui-text-primary font-medium">
             <span>{t('payment.chargingIn', { 
               amount: `$${(usdAmount / 100).toFixed(2)}` 
             })}</span>
@@ -197,40 +197,40 @@ const StripePaymentForm = ({
       {/* Payment Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
-          <label className="block text-sm font-medium text-slate-300">
+          <label className="vai-form-label block text-sm font-medium">
             {t('payment.cardInformation')}
           </label>
           
-          <div className="bg-slate-800 border border-slate-600 rounded-lg p-4 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
+          <div className="vai-surface-secondary rounded-lg p-4 focus-within:ring-2 focus-within:ring-status-info focus-within:border-status-info">
             <CardElement options={cardElementOptions} />
           </div>
         </div>
 
         {/* Security Notice */}
-        <div className="flex items-center gap-2 text-sm text-blue-400">
+        <div className="flex items-center gap-2 text-sm text-status-info-light">
           <Lock className="w-4 h-4" />
           <span>{t('payment.securedByStripe')}</span>
         </div>
 
         {/* Payment Info */}
-        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+        <div className="bg-status-info-bg border border-status-info rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+            <CheckCircle className="w-5 h-5 text-status-info-light mt-0.5 flex-shrink-0" />
             <div className="space-y-2 text-sm">
-              <p className="text-blue-300 font-medium">{t('payment.noChargeUntilConfirmed')}</p>
-              <p className="text-blue-200">{t('payment.automaticRefund')}</p>
+              <p className="text-status-info-light font-medium">{t('payment.noChargeUntilConfirmed')}</p>
+              <p className="text-status-info-light">{t('payment.automaticRefund')}</p>
             </div>
           </div>
         </div>
 
         {/* Error Display */}
         {paymentError && (
-          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+          <div className="bg-status-error-bg border border-status-error rounded-lg p-4">
             <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+              <AlertCircle className="w-5 h-5 text-status-error-light mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-red-300 font-medium">{t('payment.paymentError')}</p>
-                <p className="text-red-200 text-sm mt-1">{paymentError}</p>
+                <p className="text-status-error-light font-medium">{t('payment.paymentError')}</p>
+                <p className="text-status-error-light text-sm mt-1">{paymentError}</p>
               </div>
             </div>
           </div>
@@ -240,11 +240,11 @@ const StripePaymentForm = ({
         <button
           type="submit"
           disabled={!stripe || isProcessing}
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full vai-button-success disabled:vai-button-secondary font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           {isProcessing ? (
             <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-ui-text-primary border-t-transparent rounded-full animate-spin" />
               {t('payment.authorizingPayment')}
             </>
           ) : (

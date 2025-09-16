@@ -501,12 +501,12 @@ export const tourUtils = {
   },
 
   getUrgencyColor: (hoursLeft) => {
-    if (!hoursLeft) return 'text-slate-400 bg-slate-700/50'
-    
-    if (hoursLeft <= 2) return 'text-red-100 bg-red-500 border-red-400'
-    if (hoursLeft <= 4) return 'text-orange-100 bg-orange-500 border-orange-400'
-    if (hoursLeft <= 8) return 'text-yellow-100 bg-yellow-500 border-yellow-400'
-    return 'text-green-100 bg-green-500 border-green-400'
+    if (!hoursLeft) return 'text-ui-text-disabled bg-ui-surface-tertiary'
+
+    if (hoursLeft <= 2) return 'text-white bg-status-error border-status-error'
+    if (hoursLeft <= 4) return 'text-white bg-status-warning border-status-warning'
+    if (hoursLeft <= 8) return 'text-white bg-status-caution border-status-caution'
+    return 'text-white bg-status-success border-status-success'
   },
 
   getDurationText: (hours) => {
@@ -519,8 +519,8 @@ export const tourUtils = {
   getCapacityStatus: (available, max) => {
     const percentage = (available / max) * 100
     
-    if (percentage <= 20) return { text: 'Almost full', color: 'text-red-400' }
-    if (percentage <= 50) return { text: 'Filling up', color: 'text-orange-400' }
-    return { text: 'Available', color: 'text-green-400' }
+    if (percentage <= 20) return { text: 'Almost full', color: 'text-status-error-light' }
+    if (percentage <= 50) return { text: 'Filling up', color: 'text-status-warning-light' }
+    return { text: 'Available', color: 'text-status-success-light' }
   }
 }
