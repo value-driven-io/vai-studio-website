@@ -1,23 +1,60 @@
 // src/services/supabase.js
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+let supabaseInstance = null
 
-// Add fallback check
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase environment variables')
-  throw new Error('Supabase configuration missing')
+function createSupabaseClient() {
+  if (supabaseInstance) {
+    return supabaseInstance
+  }
+
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+  // Add fallback check with better error handling
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Missing Supabase environment variables:', {
+      url: !!supabaseUrl,
+      key: !!supabaseAnonKey
+    })
+
+    // In production staging, return a mock client to prevent crashes
+    if (import.meta.env.PROD) {
+      console.warn('🚨 Creating mock Supabase client for staging environment')
+      return {
+        auth: {
+          getSession: () => Promise.resolve({ data: { session: null } }),
+          getUser: () => Promise.resolve({ data: { user: null } }),
+          onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+        },
+        from: () => ({
+          select: () => ({ eq: () => ({ data: [], error: null }) })
+        })
+      }
+    }
+
+    throw new Error('Supabase configuration missing')
+  }
+
+  supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: true,        // ← Enable for auth
+      persistSession: true,          // ← Enable for auth
+      detectSessionInUrl: true       // ← Enable for email links
+    },
+    realtime: {
+      disabled: false // Pro Plan Supabase
+    }
+  })
+
+  return supabaseInstance
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,        // ← Enable for auth
-    persistSession: true,          // ← Enable for auth
-    detectSessionInUrl: true       // ← Enable for email links
-  },
-  realtime: {
-    disabled: false // Pro Plan Supabase
+// Export lazy-initialized client
+export const supabase = new Proxy({}, {
+  get(target, prop) {
+    const client = createSupabaseClient()
+    return client[prop]
   }
 })
 
