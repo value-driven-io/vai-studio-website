@@ -11,31 +11,92 @@ function createSupabaseClient() {
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
   const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
+  console.log('🔧 Supabase environment check:', {
+    url: !!supabaseUrl,
+    key: !!supabaseAnonKey,
+    urlValue: supabaseUrl ? 'SET' : 'MISSING',
+    keyValue: supabaseAnonKey ? 'SET' : 'MISSING'
+  })
+
   // Add fallback check with better error handling
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.error('Missing Supabase environment variables:', {
-      url: !!supabaseUrl,
-      key: !!supabaseAnonKey
-    })
+    console.error('❌ Missing Supabase environment variables - creating mock client')
 
-    // In production staging, return a mock client to prevent crashes
-    if (import.meta.env.PROD) {
-      console.warn('🚨 Creating mock Supabase client for staging environment')
-      return {
-        auth: {
-          getSession: () => Promise.resolve({ data: { session: null } }),
-          getUser: () => Promise.resolve({ data: { user: null } }),
-          onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+    // Create comprehensive mock client for staging/production
+    const mockClient = {
+      auth: {
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+        onAuthStateChange: (callback) => {
+          // Call callback immediately with signed out state
+          setTimeout(() => callback('SIGNED_OUT', null), 0)
+          return { data: { subscription: { unsubscribe: () => {} } } }
         },
-        from: () => ({
-          select: () => ({ eq: () => ({ data: [], error: null }) })
+        signInWithPassword: () => Promise.resolve({ data: { user: null, session: null }, error: { message: 'Mock mode - authentication disabled' } }),
+        signUp: () => Promise.resolve({ data: { user: null, session: null }, error: { message: 'Mock mode - authentication disabled' } }),
+        signOut: () => Promise.resolve({ error: null })
+      },
+      from: (table) => ({
+        select: (columns = '*') => ({
+          eq: (column, value) => ({
+            order: (orderColumn, options) => ({
+              gte: () => ({ data: [], error: null }),
+              lte: () => ({ data: [], error: null }),
+              gt: () => ({ data: [], error: null }),
+              lt: () => ({ data: [], error: null }),
+              in: () => ({ data: [], error: null }),
+              or: () => ({ data: [], error: null })
+            }),
+            gte: () => ({ data: [], error: null }),
+            lte: () => ({ data: [], error: null }),
+            gt: () => ({ data: [], error: null }),
+            lt: () => ({ data: [], error: null }),
+            single: () => ({ data: null, error: { message: 'Mock mode - no data available' } }),
+            data: [],
+            error: null
+          }),
+          order: (column, options) => ({
+            eq: () => ({ data: [], error: null }),
+            gte: () => ({ data: [], error: null }),
+            lte: () => ({ data: [], error: null }),
+            gt: () => ({ data: [], error: null }),
+            lt: () => ({ data: [], error: null }),
+            data: [],
+            error: null
+          }),
+          gte: () => ({ data: [], error: null }),
+          lte: () => ({ data: [], error: null }),
+          gt: () => ({ data: [], error: null }),
+          lt: () => ({ data: [], error: null }),
+          data: [],
+          error: null
+        }),
+        insert: () => ({
+          select: () => ({
+            single: () => ({ data: null, error: { message: 'Mock mode - inserts disabled' } })
+          })
+        }),
+        update: () => ({
+          eq: () => ({
+            select: () => ({
+              single: () => ({ data: null, error: { message: 'Mock mode - updates disabled' } })
+            })
+          })
         })
-      }
+      }),
+      channel: (name) => ({
+        on: () => ({ subscribe: () => ({ unsubscribe: () => {} }) })
+      }),
+      rpc: () => Promise.resolve({ data: null, error: { message: 'Mock mode - RPC disabled' } })
     }
 
-    throw new Error('Supabase configuration missing')
+    console.warn('🚨 Using mock Supabase client - app will run in offline mode')
+    supabaseInstance = mockClient
+    return supabaseInstance
   }
 
+  // Only create real client if we have valid environment variables
+  console.log('✅ Creating real Supabase client with valid environment variables')
   supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: true,        // ← Enable for auth
