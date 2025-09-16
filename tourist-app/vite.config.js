@@ -117,6 +117,13 @@ export default defineConfig({
     'process.env': process.env
   },
 
+  // --- Optimize dependencies ---
+  optimizeDeps: {
+    include: ['@supabase/supabase-js']
+  },
+
+  // --- Build configuration for production ---
+
   // --- Development Server Settings ---
   server: {
     host: '0.0.0.0', // Accessible on your local network
@@ -125,6 +132,13 @@ export default defineConfig({
 
   // --- Production Build Settings ---
   build: {
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          supabase: ['@supabase/supabase-js']
+        }
+      }
+    }
   }
 });

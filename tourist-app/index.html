@@ -8,6 +8,42 @@
     <title>VAI - Unlock French Polynesia - One App. Every Island. Instant Access.</title>
     <link rel="apple-touch-icon" href="/tourist-app/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
+
+    <!-- Global polyfill for Supabase compatibility -->
+    <script>
+      // Ensure global is available before any modules load
+      if (typeof global === 'undefined') {
+        var global = globalThis || window || self || {};
+      }
+      if (typeof globalThis === 'undefined') {
+        window.globalThis = window;
+      }
+
+      // Critical fix: Ensure global has the required properties for Supabase
+      if (typeof global !== 'undefined') {
+        // Make sure global has access to browser APIs that Supabase needs
+        global.Headers = global.Headers || Headers;
+        global.Request = global.Request || Request;
+        global.Response = global.Response || Response;
+        global.fetch = global.fetch || fetch;
+
+        // Ensure headers property exists on global (this is what c.global.headers refers to)
+        if (!global.headers && typeof Headers !== 'undefined') {
+          global.headers = Headers;
+        }
+      }
+
+      // Debug: Log what's available
+      console.log('Polyfill check:', {
+        global: typeof global,
+        globalThis: typeof globalThis,
+        fetch: typeof fetch,
+        Headers: typeof Headers,
+        Request: typeof Request,
+        Response: typeof Response,
+        'global.headers': typeof (global && global.headers)
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
