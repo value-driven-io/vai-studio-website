@@ -97,18 +97,73 @@ function createSupabaseClient() {
 
   // Only create real client if we have valid environment variables
   console.log('✅ Creating real Supabase client with valid environment variables')
-  supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      autoRefreshToken: true,        // ← Enable for auth
-      persistSession: true,          // ← Enable for auth
-      detectSessionInUrl: true       // ← Enable for email links
-    },
-    realtime: {
-      disabled: false // Pro Plan Supabase
-    }
-  })
+  console.log('🔧 Environment values:', { supabaseUrl, supabaseAnonKey: supabaseAnonKey?.substring(0, 20) + '...' })
 
-  return supabaseInstance
+  try {
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,        // ← Enable for auth
+        persistSession: true,          // ← Enable for auth
+        detectSessionInUrl: true       // ← Enable for email links
+      },
+      realtime: {
+        disabled: false // Pro Plan Supabase
+      }
+    })
+
+    console.log('✅ Supabase client created successfully')
+    return supabaseInstance
+  } catch (error) {
+    console.error('❌ Failed to create Supabase client:', error)
+    console.log('🚨 Falling back to mock client due to creation error')
+
+    // If client creation fails, use mock client
+    const mockClient = {
+      auth: {
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+        onAuthStateChange: (callback) => {
+          setTimeout(() => callback('SIGNED_OUT', null), 0)
+          return { data: { subscription: { unsubscribe: () => {} } } }
+        },
+        signInWithPassword: () => Promise.resolve({ data: { user: null, session: null }, error: { message: 'Mock mode - authentication disabled' } }),
+        signUp: () => Promise.resolve({ data: { user: null, session: null }, error: { message: 'Mock mode - authentication disabled' } }),
+        signOut: () => Promise.resolve({ error: null })
+      },
+      from: (table) => ({
+        select: (columns = '*') => ({
+          eq: (column, value) => ({ data: [], error: null }),
+          order: (orderColumn, options) => ({ data: [], error: null }),
+          gte: () => ({ data: [], error: null }),
+          lte: () => ({ data: [], error: null }),
+          gt: () => ({ data: [], error: null }),
+          lt: () => ({ data: [], error: null }),
+          single: () => ({ data: null, error: { message: 'Mock mode - no data available' } }),
+          data: [],
+          error: null
+        }),
+        insert: () => ({
+          select: () => ({
+            single: () => ({ data: null, error: { message: 'Mock mode - inserts disabled' } })
+          })
+        }),
+        update: () => ({
+          eq: () => ({
+            select: () => ({
+              single: () => ({ data: null, error: { message: 'Mock mode - updates disabled' } })
+            })
+          })
+        })
+      }),
+      channel: (name) => ({
+        on: () => ({ subscribe: () => ({ unsubscribe: () => {} }) })
+      }),
+      rpc: () => Promise.resolve({ data: null, error: { message: 'Mock mode - RPC disabled' } })
+    }
+
+    supabaseInstance = mockClient
+    return supabaseInstance
+  }
 }
 
 // Export lazy-initialized client
