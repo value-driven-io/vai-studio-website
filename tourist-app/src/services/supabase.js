@@ -48,43 +48,41 @@ try {
       }),
       signOut: () => Promise.resolve({ error: null })
     },
-    from: (table) => ({
-      select: (columns = '*') => ({
-        eq: (column, value) => ({
-          order: (orderColumn, options) => Promise.resolve({ data: [], error: null }),
-          gte: (column, value) => Promise.resolve({ data: [], error: null }),
-          lte: (column, value) => Promise.resolve({ data: [], error: null }),
-          gt: (column, value) => Promise.resolve({ data: [], error: null }),
-          lt: (column, value) => Promise.resolve({ data: [], error: null }),
-          in: (column, values) => Promise.resolve({ data: [], error: null }),
-          or: (filter) => Promise.resolve({ data: [], error: null }),
-          single: () => Promise.resolve({ data: null, error: { message: 'No data available - database connection failed' } })
-        }),
-        order: (column, options) => ({
-          eq: (column, value) => Promise.resolve({ data: [], error: null }),
-          gte: (column, value) => Promise.resolve({ data: [], error: null }),
-          lte: (column, value) => Promise.resolve({ data: [], error: null }),
-          gt: (column, value) => Promise.resolve({ data: [], error: null }),
-          lt: (column, value) => Promise.resolve({ data: [], error: null })
-        }),
-        gte: (column, value) => Promise.resolve({ data: [], error: null }),
-        lte: (column, value) => Promise.resolve({ data: [], error: null }),
-        gt: (column, value) => Promise.resolve({ data: [], error: null }),
-        lt: (column, value) => Promise.resolve({ data: [], error: null })
-      }),
-      insert: (data) => ({
-        select: (columns) => ({
-          single: () => Promise.resolve({ data: null, error: { message: 'Database operations unavailable - connection failed' } })
-        })
-      }),
-      update: (data) => ({
-        eq: (column, value) => ({
-          select: (columns) => ({
+    from: (table) => {
+      // Create a chainable query builder that always returns empty data
+      const createChainableQuery = () => {
+        const chainMethods = {
+          select: () => chainMethods,
+          eq: () => chainMethods,
+          gt: () => chainMethods,
+          gte: () => chainMethods,
+          lt: () => chainMethods,
+          lte: () => chainMethods,
+          in: () => chainMethods,
+          or: () => chainMethods,
+          order: () => chainMethods,
+          single: () => Promise.resolve({ data: null, error: { message: 'No data available - database connection failed' } }),
+          then: (resolve) => resolve({ data: [], error: null }) // Make it awaitable
+        }
+        return chainMethods
+      }
+
+      return {
+        select: () => createChainableQuery(),
+        insert: () => ({
+          select: () => ({
             single: () => Promise.resolve({ data: null, error: { message: 'Database operations unavailable - connection failed' } })
           })
+        }),
+        update: () => ({
+          eq: () => ({
+            select: () => ({
+              single: () => Promise.resolve({ data: null, error: { message: 'Database operations unavailable - connection failed' } })
+            })
+          })
         })
-      })
-    }),
+      }
+    },
     channel: (name) => ({
       on: (event, options, callback) => ({
         subscribe: () => ({ unsubscribe: () => {} })
