@@ -4,10 +4,21 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-// Add fallback check
+// Enhanced debugging for deployment issues
+console.log('🔧 Supabase Configuration Check:')
+console.log('- Environment:', import.meta.env.MODE)
+console.log('- URL present:', !!supabaseUrl)
+console.log('- Key present:', !!supabaseAnonKey)
+console.log('- URL value:', supabaseUrl ? `${supabaseUrl.substring(0, 20)}...` : 'MISSING')
+console.log('- All env vars:', Object.keys(import.meta.env).filter(key => key.startsWith('VITE_')))
+
+// Add fallback check with detailed error info
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase environment variables')
-  throw new Error('Supabase configuration missing')
+  console.error('❌ Missing Supabase environment variables:')
+  console.error('- VITE_SUPABASE_URL:', supabaseUrl || 'MISSING')
+  console.error('- VITE_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'Present' : 'MISSING')
+  console.error('- Available env vars:', Object.keys(import.meta.env))
+  throw new Error('Supabase configuration missing - check environment variables in deployment settings')
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
