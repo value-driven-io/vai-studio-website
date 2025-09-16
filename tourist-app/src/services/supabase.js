@@ -21,16 +21,39 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase configuration missing - check environment variables in deployment settings')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,        // ← Enable for auth
-    persistSession: true,          // ← Enable for auth
-    detectSessionInUrl: true       // ← Enable for email links
-  },
-  realtime: {
-    disabled: false // Pro Plan Supabase
-  }
+// Create Supabase client with minimal config to avoid headers issue
+console.log('📡 Initializing Supabase client...')
+console.log('📊 Client parameters:', {
+  url: supabaseUrl ? 'Present' : 'Missing',
+  key: supabaseAnonKey ? 'Present' : 'Missing',
+  urlLength: supabaseUrl?.length,
+  keyLength: supabaseAnonKey?.length
 })
+
+// Try minimal configuration first
+let supabase
+try {
+  supabase = createClient(supabaseUrl, supabaseAnonKey)
+  console.log('✅ Supabase client created successfully (minimal config)')
+} catch (error) {
+  console.error('❌ Failed to create Supabase client:', error)
+  console.log('🔄 Trying with explicit config...')
+  try {
+    supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+      }
+    })
+    console.log('✅ Supabase client created successfully (with config)')
+  } catch (secondError) {
+    console.error('❌ Second attempt failed:', secondError)
+    throw secondError
+  }
+}
+
+export { supabase }
 
 // Tour Discovery Service
 export const tourService = {
