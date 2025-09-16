@@ -10,16 +10,44 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase configuration missing')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,        // ← Enable for auth
-    persistSession: true,          // ← Enable for auth
-    detectSessionInUrl: true       // ← Enable for email links
-  },
-  realtime: {
-    disabled: false // Pro Plan Supabase
+// Wrap createClient in try-catch to handle staging environment issues
+let supabase
+try {
+  supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: true,        // ← Enable for auth
+      persistSession: true,          // ← Enable for auth
+      detectSessionInUrl: true       // ← Enable for email links
+    },
+    realtime: {
+      disabled: false // Pro Plan Supabase
+    }
+  })
+  console.log('✅ Supabase client created successfully')
+} catch (error) {
+  console.error('❌ Supabase client creation failed:', error)
+  console.log('🚨 App will not function without database connection')
+
+  // Create a minimal error client that throws meaningful errors
+  supabase = {
+    auth: {
+      getSession: () => {
+        throw new Error('Database connection failed - Supabase client could not be initialized')
+      },
+      getUser: () => {
+        throw new Error('Database connection failed - Supabase client could not be initialized')
+      },
+      onAuthStateChange: () => {
+        throw new Error('Database connection failed - Supabase client could not be initialized')
+      }
+    },
+    from: () => {
+      throw new Error('Database connection failed - Supabase client could not be initialized')
+    }
   }
-})
+}
+
+export { supabase }
 
 // Tour Discovery Service
 export const tourService = {
