@@ -6,7 +6,7 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^3.9.0",
     "@stripe/stripe-js": "^7.8.0",
-    "@supabase/supabase-js": "^2.38.0",
+    "@supabase/supabase-js": "^2.57.4",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.0",
     "i18next": "^25.3.2",
