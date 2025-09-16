@@ -54,11 +54,11 @@ export const SinglePriceDisplay = ({
       
       {/* Price */}
       <div className="flex items-center gap-2">
-        <span className={`${priceSize} font-bold text-white`}>
+        <span className={`${priceSize} font-bold text-ui-text-primary`}>
           {formatPrice(xpfAmount, selectedCurrency)}
         </span>
         {label && (
-          <span className="text-slate-400 text-sm">
+          <span className="vai-text-secondary text-sm">
             {label}
           </span>
         )}
@@ -66,7 +66,7 @@ export const SinglePriceDisplay = ({
       
       {/* Conversion Note */}
       {conversionNote && (
-        <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
+        <div className="flex items-center gap-1 mt-1 text-xs vai-text-disabled">
           <Info className="w-3 h-3" />
           <span>{conversionNote}</span>
         </div>
@@ -113,7 +113,7 @@ export const BookingPriceBreakdown = ({
       <div className="space-y-2">
         {/* Adults */}
         {numAdults > 0 && (
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between vai-text-secondary">
             <span>{numAdults} adult{numAdults > 1 ? 's' : ''}</span>
             <span>{totals.formatted.adultTotal}</span>
           </div>
@@ -121,17 +121,17 @@ export const BookingPriceBreakdown = ({
         
         {/* Children */}
         {numChildren > 0 && childPrice > 0 && (
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between vai-text-secondary">
             <span>{numChildren} child{numChildren > 1 ? 'ren' : ''}</span>
             <span>{totals.formatted.childTotal}</span>
           </div>
         )}
         
         {/* Total */}
-        <div className="border-t border-slate-600 pt-2">
+        <div className="border-t border-ui-border-secondary pt-2">
           <div className="flex justify-between items-center">
-            <span className="text-white font-medium">Total</span>
-            <span className="text-xl font-bold text-white">
+            <span className="text-ui-text-primary font-medium">Total</span>
+            <span className="text-xl font-bold text-ui-text-primary">
               {totals.formatted.total}
             </span>
           </div>
@@ -140,9 +140,9 @@ export const BookingPriceBreakdown = ({
       
       {/* Conversion Note */}
       {totals.conversionNote && (
-        <div className="flex items-center gap-1 mt-3 p-2 bg-blue-900/20 rounded-lg border border-blue-700/30">
-          <Info className="w-4 h-4 text-blue-400 flex-shrink-0" />
-          <span className="text-xs text-blue-300">{totals.conversionNote}</span>
+        <div className="flex items-center gap-1 mt-3 p-2 bg-status-info-bg rounded-lg border border-status-info">
+          <Info className="w-4 h-4 text-status-info-light flex-shrink-0" />
+          <span className="text-xs text-status-info-light">{totals.conversionNote}</span>
         </div>
       )}
     </div>
@@ -180,13 +180,13 @@ export const TourCardPrice = ({
       {/* Price Display */}
       <div className="flex items-center gap-2 flex-wrap">
         {/* Current Price */}
-        <span className="text-xl font-bold text-white">
+        <span className="text-xl font-bold text-ui-text-primary">
           {formatPrice(discountPrice, selectedCurrency)}
         </span>
         
         {/* Original Price */}
         {hasDiscount && (
-          <span className="text-orange-400 line-through text-sm">
+          <span className="text-status-warning-light line-through text-sm">
             {formatPrice(originalPrice, selectedCurrency)}
           </span>
         )}
@@ -194,7 +194,7 @@ export const TourCardPrice = ({
         {/* Savings Badge */}
         {/*
          {savings > 0 && (
-          <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+          <span className="bg-status-success text-white text-xs px-2 py-1 rounded-full font-semibold">
             Save {savings}%
           </span>
         )}
@@ -203,14 +203,14 @@ export const TourCardPrice = ({
       
       {/* Per Adult Label >> already shown in TourCardPrice component */}
       {/* 
-      <div className="text-xs text-slate-400 mt-1">per adult</div>
+      <div className="text-xs vai-text-disabled mt-1">per adult</div>
       */}
       
       {/* Conversion Note */}
       {conversionNote && (
         <div className="flex items-center gap-1 mt-1">
-          <Info className="w-3 h-3 text-slate-400" />
-          <span className="text-xs text-slate-400">{conversionNote}</span>
+          <Info className="w-3 h-3 vai-text-disabled" />
+          <span className="text-xs vai-text-disabled">{conversionNote}</span>
         </div>
       )}
     </div>
@@ -231,14 +231,14 @@ export const CompactPriceDisplay = ({
   
   return (
     <div className={`compact-price ${className}`}>
-      <span className="font-semibold text-white">
+      <span className="font-semibold text-ui-text-primary">
         {selectedCurrency === 'USD' || selectedCurrency === 'EUR' 
           ? `${currencySymbol}${convertedAmount}`
           : `${convertedAmount} ${currencySymbol}`
         }
       </span>
       {showCurrency && selectedCurrency !== 'XPF' && (
-        <span className="text-xs text-slate-400 ml-1">{selectedCurrency}</span>
+        <span className="text-xs vai-text-disabled ml-1">{selectedCurrency}</span>
       )}
     </div>
   )

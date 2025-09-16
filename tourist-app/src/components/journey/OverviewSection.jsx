@@ -26,32 +26,32 @@ const OverviewSection = ({
       label: t('overviewSection.stats.activeBookings'),
       value: userBookings.active.length,
       icon: Timer,
-      color: 'text-orange-400',
-      bgColor: 'bg-orange-500/20',
+      color: 'text-status-warning-light',
+      bgColor: 'bg-status-warning-bg',
       section: 'active'
     },
     {
       label: t('overviewSection.stats.upcomingTours'),
       value: userBookings.upcoming.length,
       icon: Calendar,
-      color: 'text-blue-400',
-      bgColor: 'bg-blue-500/20',
+      color: 'text-interactive-primary',
+      bgColor: 'bg-interactive-primary/10',
       section: 'upcoming'
     },
     {
       label: t('overviewSection.stats.completed'),
       value: userBookings.past.length,
       icon: Award,
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/20',
+      color: 'text-status-success-light',
+      bgColor: 'bg-status-success-bg',
       section: 'past'
     },
     {
       label: t('overviewSection.stats.savedTours'),
       value: favorites.length,
       icon: Heart,
-      color: 'text-pink-400',
-      bgColor: 'bg-pink-500/20',
+      color: 'text-mood-culture',
+      bgColor: 'bg-mood-culture/10',
       section: 'favorites'
     }
   ]
@@ -59,11 +59,11 @@ const OverviewSection = ({
   return (
     <div className="space-y-6">
       {/* Welcome Message */}
-      <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-xl p-6">
-        <h2 className="text-xl font-bold text-white mb-2">
+      <div className="bg-gradient-to-r from-interactive-primary/20 to-mood-culture/20 border border-interactive-primary/30 rounded-xl p-6">
+        <h2 className="text-xl font-bold text-ui-text-primary mb-2">
           {t('overviewSection.welcome.title')}
         </h2>
-        <p className="text-slate-300">
+        <p className="text-ui-text-secondary">
           {totalBookings > 0 
             ? t('overviewSection.welcome.withBookings', { count: totalBookings, plural: totalBookings !== 1 ? 's' : '' })
             : t('overviewSection.welcome.noBookings')
@@ -71,59 +71,35 @@ const OverviewSection = ({
         </p>
       </div>
 
-      {/* Quick Stats Deactivated */}
-      {/*<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon
-          return (
-            <button
-              key={stat.label}
-              onClick={() => setActiveSection(stat.section)}
-              className={`p-4 rounded-xl border transition-all hover:scale-105 ${
-                stat.bgColor
-              } border-slate-600 hover:border-slate-500 stats-card`}
-            >
-              <div className="flex items-center gap-3">
-                <Icon className={`w-5 h-5 ${stat.color}`} />
-                <div className="text-left">
-                  <div className="text-2xl font-bold text-white">{stat.value}</div>
-                  <div className="text-xs text-slate-400">{stat.label}</div>
-                </div>
-              </div>
-            </button>
-          )
-        })}
-      </div> */}
-
       {/* Next Upcoming Tour */}
       {nextTour && (
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
+        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Calendar className="w-5 h-5 text-blue-400" />
-            <h3 className="text-lg font-semibold text-white">{t('overviewSection.nextAdventure.title')}</h3>
+            <Calendar className="w-5 h-5 text-interactive-primary" />
+            <h3 className="text-lg font-semibold text-ui-text-primary">{t('overviewSection.nextAdventure.title')}</h3>
           </div>
           
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">
+                <h4 className="font-medium text-ui-text-primary">
                   {nextTour.tours?.tour_name || 'Tour'}
                 </h4>
-                <p className="text-slate-400 text-sm">
+                <p className="text-ui-text-tertiary text-sm">
                   {t('overviewSection.nextAdventure.with', { operator: nextTour.operators?.company_name || 'Operator' })}
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-white font-medium">
+                <div className="text-ui-text-primary font-medium">
                   {formatDate(nextTour.tours?.tour_date)}
                 </div>
-                <div className="text-slate-400 text-sm">
+                <div className="text-ui-text-tertiary text-sm">
                   {formatTime(nextTour.tours?.time_slot)}
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center gap-4 text-sm text-slate-400">
+            <div className="flex items-center gap-4 text-sm text-ui-text-tertiary">
               <div className="flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
                 {nextTour.tours?.meeting_point || t('overviewSection.nextAdventure.tbd')}
@@ -134,10 +110,10 @@ const OverviewSection = ({
               </div>
             </div>
             
-            <div className="pt-3 border-t border-slate-700">
+            <div className="pt-3 border-t border-ui-border-primary">
               <div className="flex items-center justify-between">
-                <span className="text-slate-400">{t('overviewSection.nextAdventure.totalPaid')}</span>
-                <span className="text-white font-medium">
+                <span className="text-ui-text-tertiary">{t('overviewSection.nextAdventure.totalPaid')}</span>
+                <span className="text-ui-text-primary font-medium">
                   {formatPrice(nextTour.total_amount)}
                 </span>
               </div>
@@ -148,26 +124,26 @@ const OverviewSection = ({
 
       {/* Recent Activity */}
       {userBookings.active.length > 0 && (
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
+        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <AlertCircle className="w-5 h-5 text-orange-400" />
-            <h3 className="text-lg font-semibold text-white">{t('overviewSection.awaitingConfirmation.title')}</h3>
+            <AlertCircle className="w-5 h-5 text-status-warning" />
+            <h3 className="text-lg font-semibold text-ui-text-primary">{t('overviewSection.awaitingConfirmation.title')}</h3>
           </div>
           
           <div className="space-y-3">
             {userBookings.active.slice(0, 2).map((booking) => (
-              <div key={booking.id} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+              <div key={booking.id} className="flex items-center justify-between p-3 bg-ui-surface-secondary/50 rounded-lg">
                 <div>
-                  <div className="font-medium text-white">
+                  <div className="font-medium text-ui-text-primary">
                     {booking.tours?.tour_name || 'Tour'}
                   </div>
-                  <div className="text-sm text-slate-400">
+                  <div className="text-sm text-ui-text-tertiary">
                     {booking.booking_reference}
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-orange-400 text-sm font-medium">{t('overviewSection.awaitingConfirmation.pending')}</div>
-                  <div className="text-xs text-slate-400">
+                  <div className="text-status-warning text-sm font-medium">{t('overviewSection.awaitingConfirmation.pending')}</div>
+                  <div className="text-xs text-ui-text-tertiary">
                     {t('overviewSection.awaitingConfirmation.responseTime')}
                   </div>
                 </div>
@@ -177,7 +153,7 @@ const OverviewSection = ({
             {userBookings.active.length > 2 && (
               <button
                 onClick={() => setActiveSection('active')}
-                className="w-full text-center text-blue-400 text-sm hover:text-blue-300 transition-colors"
+                className="w-full text-center text-interactive-primary text-sm hover:text-interactive-secondary transition-colors"
               >
                 {t('overviewSection.awaitingConfirmation.viewAll', { count: userBookings.active.length })}
               </button>
@@ -190,16 +166,16 @@ const OverviewSection = ({
       {/* Empty State */}
       {totalBookings === 0 && (
         <div className="text-center py-8">
-          <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-            <TrendingUp className="w-8 h-8 text-slate-400" />
+          <div className="w-16 h-16 bg-ui-surface-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+            <TrendingUp className="w-8 h-8 text-ui-text-tertiary" />
           </div>
-          <h3 className="text-lg font-semibold text-slate-400 mb-2">{t('overviewSection.emptyState.title')}</h3>
-          <p className="text-slate-500 mb-6 max-w-md mx-auto">
+          <h3 className="text-lg font-semibold text-ui-text-tertiary mb-2">{t('overviewSection.emptyState.title')}</h3>
+          <p className="text-ui-text-disabled mb-6 max-w-md mx-auto">
             {t('overviewSection.emptyState.message')}
           </p>
           <button
             onClick={() => setActiveTab('discover')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+            className="bg-interactive-primary hover:bg-interactive-secondary text-ui-text-primary px-6 py-3 rounded-lg transition-colors"
           >
             {t('overviewSection.emptyState.exploreTours')}
           </button>

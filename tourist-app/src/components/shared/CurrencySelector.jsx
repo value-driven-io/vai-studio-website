@@ -24,7 +24,7 @@ const CurrencySelector = ({
 
   return (
     <div className={`currency-selector ${className}`}>
-      <div className="flex bg-slate-800 rounded-lg border border-slate-600 overflow-hidden">
+      <div className="flex vai-surface-elevated rounded-lg border border-ui-border-primary overflow-hidden">
         {currencies.map((currency) => {
           const isSelected = currency === selectedCurrency
           const currencyInfo = getCurrencyInfo(currency)
@@ -36,10 +36,10 @@ const CurrencySelector = ({
               className={`
                 ${buttonSize}
                 font-medium transition-all duration-200
-                border-r border-slate-600 last:border-r-0
+                border-r border-ui-border-primary last:border-r-0
                 ${isSelected 
-                  ? 'bg-blue-600 text-white shadow-md' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-700'
+                  ? 'vai-button-primary shadow-md'
+                  : 'vai-text-secondary hover:text-ui-text-primary hover:vai-surface-secondary'
                 }
               `}
               title={currencyInfo.name}

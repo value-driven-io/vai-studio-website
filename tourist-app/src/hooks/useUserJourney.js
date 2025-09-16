@@ -408,16 +408,16 @@ export const useUserJourney = () => {
   const getBookingStatusColor = useCallback((status) => {
     switch (status) {
       case 'pending':
-        return 'bg-orange-500/20 text-orange-400 border-orange-500/30'
+        return 'bg-status-warning-bg text-status-warning-light border-status-warning'
       case 'confirmed':
-        return 'bg-green-500/20 text-green-400 border-green-500/30'
+        return 'bg-status-success-bg text-status-success-light border-status-success'
       case 'completed':
-        return 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+        return 'bg-status-info-bg text-status-info-light border-status-info'
       case 'declined':
       case 'cancelled':
-        return 'bg-red-500/20 text-red-400 border-red-500/30'
+        return 'bg-status-error-bg text-status-error-light border-status-error'
       default:
-        return 'bg-slate-500/20 text-slate-400 border-slate-500/30'
+        return 'bg-ui-surface-tertiary text-ui-text-disabled border-ui-border-secondary'
     }
   }, [])
 

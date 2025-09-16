@@ -30,8 +30,8 @@
     "greeting": "Ia ora na, {{name}}!"
   },
   "navigation": {
-    "discover": "Entdecke",
-    "explore": "Erkunde",
+    "discover": "Entdecken",
+    "explore": "Suchen",
     "journey": "Buchungen",
     "messages": "Chat",
     "profile": "Support"
@@ -1046,13 +1046,13 @@
     },
     "howItWorks": {
       "title": "❓ So geht's: VAI Tickets",
-      "step1": "1. Durchsuche Aktivitäten für alle Inseln 🔎",
-      "step2": "2. Sende eine Buchungsanfrage sofort mit der App 🔥",
-      "step3": "3. Erhalte eine Buchungsbestätigung 😎",
-      "step4": "4. Verbinde dich mit dem Veranstalter 🗣️",
-      "step5": "5. Kläre Details wie Abholort oder Treffpunkt 💸",
-      "step6": "6. Genieße deine Aktivität 🏝️",
-      "step7": "7. Wiederholen! 🤙"
+      "step1": "1. Durchsuche Aktivitäten für alle Inseln",
+      "step2": "2. Sende eine Buchungsanfrage sofort mit der App",
+      "step3": "3. Erhalte eine Buchungsbestätigung",
+      "step4": "4. Verbinde dich mit dem Veranstalter",
+      "step5": "5. Kläre Details wie Abholort oder Treffpunkt",
+      "step6": "6. Genieße deine Aktivität",
+      "step7": "7. Repeat! 🤙"
     },
     "footer": "VAI Studio © 2025 Alle Rechte vorbehalten<br></br>From French Polynesia with ❤️"
   },

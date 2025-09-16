@@ -141,8 +141,8 @@ const TourPage = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="flex items-center gap-3 text-slate-400">
+      <div className="min-h-screen bg-ui-surface-overlay flex items-center justify-center">
+        <div className="flex items-center gap-3 text-ui-text-secondary">
           <RefreshCw className="w-8 h-8 animate-spin" />
           <span className="text-lg">{t('common.loading')}</span>
         </div>
@@ -153,13 +153,13 @@ const TourPage = () => {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-ui-surface-overlay flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">{t('errors.activityNotAvailable', 'Activity Not Available')}</h1>
-          <p className="text-slate-400 mb-6">{error}</p>
+          <h1 className="text-2xl font-bold text-ui-text-primary mb-4">{t('errors.activityNotAvailable', 'Activity Not Available')}</h1>
+          <p className="text-ui-text-secondary mb-6">{error}</p>
           <button
             onClick={() => navigate('/')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+            className="vai-button-primary px-6 py-3 rounded-lg transition-colors"
           >
             {t('discovery.browseAllTours')}
           </button>
@@ -170,7 +170,7 @@ const TourPage = () => {
 
   // Render existing TourDetailModal in full-screen mode
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-ui-surface-overlay">
       {tour && (
         <TourDetailModal
           tour={tour}

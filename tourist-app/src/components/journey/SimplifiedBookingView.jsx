@@ -67,20 +67,20 @@ const SimplifiedBookingView = ({
     <div className="space-y-6">
       
       {/* Header */}
-      <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700/50">
+      <div className="vai-surface-elevated rounded-xl p-6 border border-ui-border-primary">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <span className="text-3xl">{config.icon}</span>
             <div>
-              <h2 className="text-xl font-semibold text-white">{config.title}</h2>
-              <p className="text-sm text-slate-400">{config.subtitle}</p>
+              <h2 className="text-xl font-semibold text-ui-text-primary">{config.title}</h2>
+              <p className="text-sm vai-text-secondary">{config.subtitle}</p>
             </div>
           </div>
           
           {/* Summary */}
           <div className="text-right">
-            <div className="text-2xl font-bold text-white">{filteredBookings.length}</div>
-            <div className="text-sm text-slate-400">
+            <div className="text-2xl font-bold text-ui-text-primary">{filteredBookings.length}</div>
+            <div className="text-sm vai-text-secondary">
               {filteredBookings.length === 1 ? 'booking' : 'bookings'}
             </div>
           </div>
@@ -89,18 +89,18 @@ const SimplifiedBookingView = ({
         {/* Search and Actions */}
         <div className="flex gap-3">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 vai-text-secondary" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('simplifiedView.searchPlaceholder', { default: 'Search bookings...' })}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2.5 vai-surface-secondary border border-ui-border-primary rounded-lg text-ui-text-primary placeholder-ui-text-disabled focus:border-interactive-primary focus:ring-1 focus:ring-interactive-primary"
             />
           </div>
           <button
             onClick={onRefresh}
-            className="flex items-center gap-2 px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 vai-surface-secondary hover:vai-surface-tertiary text-ui-text-primary rounded-lg transition-colors"
             disabled={loading}
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -110,7 +110,7 @@ const SimplifiedBookingView = ({
 
         {/* Search Results Summary */}
         {searchQuery && (
-          <div className="mt-3 text-sm text-slate-400">
+          <div className="mt-3 text-sm vai-text-secondary">
             {t('simplifiedView.searchResults', { 
               count: filteredBookings.length, 
               total: bookings.length,
@@ -124,7 +124,7 @@ const SimplifiedBookingView = ({
       {loading && (
         <div className="space-y-4">
           {[1, 2, 3].map(i => (
-            <div key={i} className="bg-slate-800/50 rounded-xl h-48 animate-pulse border border-slate-700/50"></div>
+            <div key={i} className="vai-surface-elevated rounded-xl h-48 animate-pulse border border-ui-border-primary"></div>
           ))}
         </div>
       )}
@@ -133,12 +133,12 @@ const SimplifiedBookingView = ({
       {!loading && (
         <div className="space-y-4">
           {filteredBookings.length === 0 ? (
-            <div className="text-center py-12 bg-slate-800/30 rounded-xl border border-slate-700/50">
+            <div className="text-center py-12 vai-surface-secondary rounded-xl border border-ui-border-primary">
               <div className="text-6xl mb-4">{config.icon}</div>
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <h3 className="text-xl font-semibold text-ui-text-primary mb-2">
                 {searchQuery ? t('simplifiedView.noMatches', { default: 'No matching bookings' }) : config.emptyTitle}
               </h3>
-              <p className="text-slate-400 mb-6 max-w-md mx-auto">
+              <p className="vai-text-secondary mb-6 max-w-md mx-auto">
                 {searchQuery 
                   ? t('simplifiedView.tryDifferentSearch', { default: 'Try a different search term or clear the search.' })
                   : config.emptyMessage
@@ -149,14 +149,14 @@ const SimplifiedBookingView = ({
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="bg-slate-600 hover:bg-slate-500 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="vai-button-secondary text-ui-text-primary px-4 py-2 rounded-lg transition-colors"
                   >
                     {t('simplifiedView.clearSearch', { default: 'Clear Search' })}
                   </button>
                 )}
                 <button
                   onClick={onExplore}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  className="bg-interactive-primary hover:bg-interactive-secondary text-ui-text-primary px-6 py-3 rounded-lg font-medium transition-colors"
                 >
                   {t('simplifiedView.exploreMore', { default: 'Explore More Tours' })}
                 </button>
@@ -185,8 +185,8 @@ const SimplifiedBookingView = ({
 
       {/* Summary Footer */}
       {!loading && filteredBookings.length > 0 && (
-        <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-700/50">
-          <div className="text-center text-sm text-slate-400">
+        <div className="vai-surface-secondary rounded-xl p-4 border border-ui-border-primary">
+          <div className="text-center text-sm vai-text-secondary">
             {viewType === 'active' && (
               <div className="flex items-center justify-center gap-4">
                 <div className="flex items-center gap-2">

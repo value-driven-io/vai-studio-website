@@ -8,7 +8,6 @@ import { useAppStore } from '../../stores/bookingStore'
 import BookingModal from '../booking/BookingModal'
 import BookingLookup from './BookingLookup'
 import SimplifiedBookingView from './SimplifiedBookingView'
-import BookingStatsCard from './BookingStatsCard'
 import NextTourCard from './NextTourCard'
 import toast from 'react-hot-toast'
 
@@ -182,15 +181,15 @@ const JourneyTab = () => {
     <div className="min-h-screen">
       
       {/* Simplified Header */}
-      <div className="backdrop-blur-md border-b border-slate-700">
+      <div className="backdrop-blur-md border-b border-ui-border-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div>
-                <h1 className="text-xl font-bold text-white">
+                <h1 className="text-xl font-bold text-ui-text-primary">
                   {t('journeyTab.header.yourBookings', { default: 'Your Bookings' })}
                 </h1>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-ui-text-tertiary">
                   {userStats.totalBookings > 0 
                     ? t('journeyTab.header.bookingsCount', { 
                         count: userStats.totalBookings, 
@@ -205,9 +204,9 @@ const JourneyTab = () => {
             <div className="flex items-center gap-3">
               {/* Pending Actions Indicator */}
               {userStats.pendingActions > 0 && (
-                <div className="flex items-center gap-2 bg-orange-500/20 px-3 py-1.5 rounded-full">
-                  <AlertCircle className="w-4 h-4 text-orange-400" />
-                  <span className="text-sm text-orange-400 font-medium">
+                <div className="flex items-center gap-2 bg-status-warning-subtle px-3 py-1.5 rounded-full">
+                  <AlertCircle className="w-4 h-4 text-status-warning" />
+                  <span className="text-sm text-status-warning font-medium">
                     {userStats.pendingActions} {t('journeyTab.header.actionNeeded', { default: 'action needed' })}
                   </span>
                 </div>
@@ -216,7 +215,7 @@ const JourneyTab = () => {
               {/* Find Bookings */}
               <button
                 onClick={() => setShowLookupModal(true)}
-                className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg transition-colors text-sm"
+                className="flex items-center gap-2 bg-ui-surface-secondary hover:bg-ui-surface-tertiary text-ui-text-primary px-3 py-2 rounded-lg transition-colors text-sm"
               >
                 <Search className="w-4 h-4" />
                 <span className="hidden sm:inline">{t('journeyTab.navigation.findBookings', { default: 'Find Bookings' })}</span>
@@ -225,17 +224,17 @@ const JourneyTab = () => {
               {/* Refresh */}
               <button
                 onClick={refreshBookings}
-                className="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
+                className="p-2 bg-ui-surface-secondary hover:bg-ui-surface-tertiary rounded-lg transition-colors"
                 disabled={loading}
               >
-                <RefreshCw className={`w-4 h-4 text-white ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-4 h-4 text-ui-text-primary ${loading ? 'animate-spin' : ''}`} />
               </button>
             </div>
           </div>
         </div>
 
         {/* Optimized Mobile-First Navigation */}
-        <div className="px-4 sm:px-6 py-4 border-t border-slate-700/30">
+        <div className="px-4 sm:px-6 py-4 border-t border-ui-border-primary">
           <div className="grid grid-cols-3 gap-3">
             {journeyViews.map((view) => {
               const isActive = activeView === view.id
@@ -248,20 +247,20 @@ const JourneyTab = () => {
                   onClick={() => setActiveView(view.id)}
                   className={`relative flex flex-col items-center justify-center gap-2 px-3 py-4 rounded-xl transition-all duration-200 ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-lg transform scale-105'
+                      ? 'bg-interactive-primary text-ui-text-primary shadow-lg transform scale-105'
                       : hasUrgent
-                      ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
-                      : 'bg-slate-700/40 text-slate-300'
+                      ? 'bg-status-warning-subtle text-status-warning border border-status-warning/30'
+                      : 'bg-ui-surface-secondary/40 text-ui-text-secondary'
                   } journey-stage-button`}
                   title={view.description}
                 >
                   {/* Icon with urgent indicator */}
                   <div className="relative">
                     <IconComponent className={`w-6 h-6 ${
-                      isActive ? 'text-white' : hasUrgent ? 'text-orange-400' : 'text-slate-400'
+                      isActive ? 'text-ui-text-primary' : hasUrgent ? 'text-status-warning' : 'text-ui-text-tertiary'
                     }`} />
                     {hasUrgent && !isActive && (
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-status-warning rounded-full animate-pulse"></div>
                     )}
                   </div>
                   
@@ -276,7 +275,7 @@ const JourneyTab = () => {
                     {/* Count badge */}
                     {view.count !== undefined && view.count > 0 && (
                       <div className={`text-xs mt-1 ${
-                        isActive ? 'text-blue-200' : hasUrgent ? 'text-orange-200' : 'text-slate-400'
+                        isActive ? 'text-interactive-secondary' : hasUrgent ? 'text-status-warning/80' : 'text-ui-text-tertiary'
                       }`}>
                         {view.count}
                       </div>
@@ -285,7 +284,7 @@ const JourneyTab = () => {
                   
                   {/* Active indicator */}
                   {isActive && (
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-white rounded-t-full"></div>
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-ui-text-primary rounded-t-full"></div>
                   )}
                 </button>
               )
@@ -299,7 +298,7 @@ const JourneyTab = () => {
         {loading ? (
           <div className="space-y-4">
             {[1, 2, 3].map(i => (
-              <div key={i} className="bg-slate-800/50 rounded-xl h-32 animate-pulse"></div>
+              <div key={i} className="bg-ui-surface-primary/50 rounded-xl h-32 animate-pulse"></div>
             ))}
           </div>
         ) : (
@@ -307,14 +306,6 @@ const JourneyTab = () => {
             {/* Dashboard View */}
             {activeView === 'dashboard' && (
               <div className="space-y-6">
-                {/* Stats Overview */}
-                <BookingStatsCard 
-                  userStats={userStats}
-                  safeUserBookings={safeUserBookings}
-                  onViewChange={setActiveView}
-                  formatPrice={formatPrice}
-                  t={t}
-                />
 
                 {/* Next Tour Card */}
                 {nextTour && (
@@ -328,47 +319,26 @@ const JourneyTab = () => {
                   />
                 )}
 
-                {/* Quick Actions */}
-                <div className="bg-slate-800/50 rounded-xl p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">
-                        {t('journeyTab.quickActions.title', { default: 'Need Help?' })}
-                      </h3>
-                      <p className="text-sm text-slate-400">
-                        {t('journeyTab.quickActions.subtitle', { default: 'Find your bookings or get support' })}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setShowLookupModal(true)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
-                    >
-                      <Search className="w-4 h-4" />
-                      {t('journeyTab.navigation.findBookings', { default: 'Find Bookings' })}
-                    </button>
-                  </div>
-                </div>
-
                 {/* Empty State for Dashboard */}
                 {getTotalBookings() === 0 && (
                   <div className="text-center py-12">
                     <div className="text-6xl mb-4">🌴</div>
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                    <h3 className="text-xl font-semibold text-ui-text-primary mb-2">
                       {t('journeyTab.welcome.title', { default: 'Welcome to Your Journey!' })}
                     </h3>
-                    <p className="text-slate-400 mb-6">
+                    <p className="text-ui-text-tertiary mb-6">
                       {t('journeyTab.welcome.subtitle', { default: 'Start exploring French Polynesia' })}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                       <button
                         onClick={() => setActiveTab && setActiveTab('explore')}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                        className="bg-interactive-primary hover:bg-interactive-secondary text-ui-text-primary px-6 py-3 rounded-lg font-medium transition-colors"
                       >
                         {t('journeyTab.welcome.exploreTours', { default: 'Explore Tours' })}
                       </button>
                       <button
                         onClick={() => setShowLookupModal(true)}
-                        className="bg-slate-700 hover:bg-slate-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                        className="bg-ui-surface-secondary hover:bg-ui-surface-tertiary text-ui-text-primary px-6 py-3 rounded-lg font-medium transition-colors"
                       >
                         {t('journeyTab.welcome.findMyBookings', { default: 'Find My Bookings' })}
                       </button>
@@ -408,7 +378,7 @@ const JourneyTab = () => {
         <div className="fixed bottom-20 right-6 z-50">
           <button
             onClick={() => setActiveTab && setActiveTab('explore')}
-            className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center gap-2 group floating-button"
+            className="bg-interactive-primary hover:bg-interactive-secondary text-ui-text-primary p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center gap-2 group floating-button"
           >
             <Plus className="w-6 h-6" />
             <span className="hidden group-hover:block text-sm font-medium pr-2">

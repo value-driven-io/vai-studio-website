@@ -1,7 +1,7 @@
 {
   "common": {
-    "discover": "Descubre",
-    "explore": "Explora",
+    "discover": "Descubrir",
+    "explore": "Explorar",
     "journey": "Reservas",
     "messages": "Chat",
     "loading": "Cargando...",
@@ -30,8 +30,8 @@
     "greeting": "Ia ora na, {{name}}!"
   },
   "navigation": {
-    "discover": "Descubre",
-    "explore": "Explora",
+    "discover": "Descubrir",
+    "explore": "Explorar",
     "journey": "Reservas",
     "messages": "Chat",
     "profile": "Soporte"
@@ -1046,12 +1046,12 @@
     },
     "howItWorks": {
       "title": "❓ Cómo funciona: VAI Tickets",
-      "step1": "1. Busca actividades en todas las islas 🔎",
-      "step2": "2. Envía la solicitud de reserva al instante con la app 🔥",
-      "step3": "3. Recibe la confirmación de la reserva 😎",
-      "step4": "4. Conecta con el operador 🗣️",
-      "step5": "5. Acuerda detalles como el punto de recogida o encuentro 💸",
-      "step6": "6. Disfruta de tu actividad 🏝️",
+      "step1": "1. Busca actividades en todas las islas",
+      "step2": "2. Envía la solicitud de reserva al instante con la app",
+      "step3": "3. Recibe la confirmación de la reserva",
+      "step4": "4. Conecta con el operador",
+      "step5": "5. Acuerda detalles como el punto de recogida o encuentro",
+      "step6": "6. Disfruta de tu actividad",
       "step7": "7. ¡Repetir! 🤙"
     },
     "footer": "VAI Studio © 2025 Todos los derechos reservados<br></br>Desde la Polinesia Francesa con ❤️"

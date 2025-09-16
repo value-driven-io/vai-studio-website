@@ -42,9 +42,9 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
         toast.success(t('auth.messages.accountCreated'), {
           duration: 6000, // Show longer for important message
           style: {
-            background: '#1e293b',
-            color: '#f1f5f9',
-            border: '1px solid #059669'
+            background: 'var(--color-ui-surface-secondary)',
+            color: 'var(--color-ui-text-primary)',
+            border: '1px solid var(--color-status-success)'
           }
         })
         
@@ -113,7 +113,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
     
     {/* Modal container - forced to center */}
     <div 
-      className="relative bg-slate-800 rounded-2xl max-w-md w-full mx-auto border border-slate-700 shadow-2xl"
+      className="relative bg-ui-surface-secondary rounded-2xl max-w-md w-full mx-auto border border-ui-border-primary shadow-2xl"
       style={{
         position: 'relative',
         zIndex: 100000,
@@ -126,12 +126,12 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
       <div className="p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-white">
+          <h2 className="text-xl font-bold text-ui-text-primary">
             {mode === 'login' ? t('auth.modal.welcomeBack') : t('auth.modal.createAccount')}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-700"
+            className="p-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors rounded-lg hover:bg-ui-surface-primary"
           >
             <X className="w-5 h-5" />
           </button>
@@ -142,17 +142,17 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
           {/* First Name (Register only) */}
           {mode === 'register' && (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-ui-text-muted mb-2">
                 {t('auth.modal.firstName')}
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-ui-text-secondary" />
                 <input
                   type="text"
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary placeholder-ui-text-secondary focus:ring-2 focus:ring-interactive-focus focus:border-transparent"
                   placeholder={t('auth.placeholders.firstName')}
                 />
               </div>
@@ -161,18 +161,18 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-ui-text-muted mb-2">
               {t('auth.modal.emailAddress')}
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-ui-text-secondary" />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full pl-10 pr-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary placeholder-ui-text-secondary focus:ring-2 focus:ring-interactive-focus focus:border-transparent"
                 placeholder={t('auth.placeholders.email')}
               />
             </div>
@@ -180,11 +180,11 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-ui-text-muted mb-2">
               {t('auth.modal.password')}
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-ui-text-secondary" />
               <input
                 type="password"
                 name="password"
@@ -192,7 +192,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
                 onChange={handleChange}
                 required
                 minLength={6}
-                className="w-full pl-10 pr-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary placeholder-ui-text-secondary focus:ring-2 focus:ring-interactive-focus focus:border-transparent"
                 placeholder={t('auth.placeholders.password')}
               />
             </div>
@@ -220,7 +220,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
                     toast.error(t('auth.messages.resetEmailFailed', { error: error.message }))
                   }
                 }}
-                className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                className="text-interactive-primary-light hover:text-interactive-primary text-sm transition-colors"
               >
                 {t('auth.modal.forgotPassword')}
               </button>
@@ -230,17 +230,17 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
           {/* WhatsApp (Register only) */}
           {mode === 'register' && (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-ui-text-muted mb-2">
                 {t('auth.modal.whatsappOptional')}
               </label>
               <div className="relative">
-                <MessageCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <MessageCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-ui-text-secondary" />
                 <input
                   type="tel"
                   name="whatsapp"
                   value={formData.whatsapp}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary placeholder-ui-text-secondary focus:ring-2 focus:ring-interactive-focus focus:border-transparent"
                   placeholder={t('auth.placeholders.whatsapp')}
                 />
               </div>
@@ -251,7 +251,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-interactive-primary hover:bg-interactive-primary-hover disabled:bg-interactive-primary/50 text-ui-text-primary font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? t('auth.modal.processing') : (mode === 'login' ? t('auth.modal.signIn') : t('auth.modal.createAccountBtn'))}
           </button>
@@ -270,7 +270,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
                 whatsapp: ''
               })
             }}
-            className="text-blue-400 hover:text-blue-300 text-sm transition-colors"
+            className="text-interactive-primary-light hover:text-interactive-primary text-sm transition-colors"
           >
             {mode === 'login' 
               ? t('auth.modal.switchToRegister') 
@@ -282,18 +282,18 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
         {/* Benefits (Register mode) */}
         {mode === 'register' && (
           <div className="space-y-3 mt-4">
-            <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-              <h4 className="text-blue-400 text-sm font-medium mb-2">{t('auth.benefits.title')}</h4>
-              <ul className="text-blue-300 text-xs space-y-1">
+            <div className="p-3 bg-interactive-primary/10 border border-interactive-primary/20 rounded-lg">
+              <h4 className="text-interactive-primary-light text-sm font-medium mb-2">{t('auth.benefits.title')}</h4>
+              <ul className="text-interactive-primary text-xs space-y-1">
                 <li>{t('auth.benefits.trackBookings')}</li>
                 <li>{t('auth.benefits.syncFavorites')}</li>
                 <li>{t('auth.benefits.fasterRebooking')}</li>
               </ul>
             </div>
             
-            <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-              <h4 className="text-yellow-400 text-sm font-medium mb-1">{t('auth.emailConfirmation.title')}</h4>
-              <p className="text-yellow-300 text-xs">
+            <div className="p-3 bg-status-warning/10 border border-status-warning/20 rounded-lg">
+              <h4 className="text-status-warning-light text-sm font-medium mb-1">{t('auth.emailConfirmation.title')}</h4>
+              <p className="text-status-warning text-xs">
                 {t('auth.emailConfirmation.message')}
               </p>
             </div>

@@ -163,16 +163,16 @@ const DiscoverTab = () => {
   }
 
   return (
-    <div className="min-h-0 mobile:min-h-0 bg-slate-900">
+    <div className="min-h-0 mobile:min-h-0 bg-ui-surface-overlay">
       {/* Header with progress */}
-      <div className="border-b border-slate-700">
+      <div className="border-b border-ui-border-primary">
         <div className="max-w-4xl mx-auto px-4 py-4 xs:py-6">
           {/* Back button - always reserve space to prevent layout jump */}
           <div className="mb-4" style={{ minHeight: '2rem' }}>
             {currentStep !== STEPS.LOCATION && (
               <button
                 onClick={goBack}
-                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>{t('common.back')}</span>
@@ -191,9 +191,9 @@ const DiscoverTab = () => {
               onClick={() => setCurrentStep(STEPS.LOCATION)}
               clickable={true}
             />
-            <div className="flex-1 h-0.5 bg-slate-700 mx-1 xs:mx-2 mobile:mx-4">
-              <div 
-                className={`h-full bg-blue-500 transition-all duration-300 ${
+            <div className="flex-1 h-0.5 bg-ui-border-primary mx-1 xs:mx-2 mobile:mx-4">
+              <div
+                className={`h-full bg-interactive-primary-light transition-all duration-300 ${
                   selectedLocation ? 'w-full' : 'w-0'
                 }`}
               />
@@ -207,9 +207,9 @@ const DiscoverTab = () => {
               onClick={() => selectedLocation && setCurrentStep(STEPS.MOOD)}
               clickable={selectedLocation !== null}
             />
-            <div className="flex-1 h-0.5 bg-slate-700 mx-1 xs:mx-2 mobile:mx-4">
-              <div 
-                className={`h-full bg-blue-500 transition-all duration-300 ${
+            <div className="flex-1 h-0.5 bg-ui-border-primary mx-1 xs:mx-2 mobile:mx-4">
+              <div
+                className={`h-full bg-interactive-primary-light transition-all duration-300 ${
                   selectedMood ? 'w-full' : 'w-0'
                 }`}
               />
@@ -227,13 +227,13 @@ const DiscoverTab = () => {
 
           {/* Current step title */}
           <div className="text-center">
-            <h1 className="text-mobile-xl xs:text-mobile-2xl mobile:text-mobile-3xl font-bold text-white">
+            <h1 className="text-mobile-xl xs:text-mobile-2xl mobile:text-mobile-3xl font-bold text-ui-text-primary">
               {currentStep === STEPS.LOCATION && t('discovery.chooseIsland')}
               {currentStep === STEPS.MOOD && t('discovery.moodQuestion')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.personalizeExperience')}
               {currentStep === STEPS.RESULTS && t('discovery.yourPerfectActivity')}
             </h1>
-            <p className="text-slate-400 mt-1 text-mobile-sm xs:text-mobile-base px-2 leading-mobile-relaxed">
+            <p className="text-ui-text-secondary mt-1 text-mobile-sm xs:text-mobile-base px-2 leading-mobile-relaxed">
               {currentStep === STEPS.LOCATION && t('discovery.selectIslandDescription')}
               {currentStep === STEPS.MOOD && t('discovery.pickTypeDescription')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.addFiltersDescription')}
@@ -254,14 +254,13 @@ const DiscoverTab = () => {
         )}
         
         {currentStep === STEPS.PERSONALIZE && (
-          <PersonalizeStep 
+          <PersonalizeStep
             selectedLocation={selectedLocation}
             selectedMood={selectedMood}
             filters={filters}
             onFiltersChange={setFilters}
             onShowResults={showResults}
             onReset={resetFlow}
-            tourCount={filteredTours.length}
           />
         )}
         
@@ -311,18 +310,18 @@ const StepIndicator = ({ step, label, isActive, isCompleted, onClick, clickable 
     } ${clickable ? 'hover:opacity-80' : ''}`}
   >
     <div className={`w-6 h-6 xs:w-8 xs:h-8 rounded-full flex items-center justify-center text-xs xs:text-sm font-medium transition-all duration-200 ${
-      isCompleted 
-        ? 'bg-green-600 text-white shadow-lg shadow-green-600/25' 
-        : isActive 
-        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+      isCompleted
+        ? 'bg-status-success text-ui-text-primary shadow-lg shadow-green-600/25'
+        : isActive
+        ? 'bg-interactive-primary text-ui-text-primary shadow-lg shadow-blue-600/25'
         : clickable
-        ? 'bg-slate-600 text-slate-300 hover:bg-slate-500'
-        : 'bg-slate-700 text-slate-400'
+        ? 'bg-ui-surface-tertiary text-ui-text-muted hover:bg-ui-surface-secondary'
+        : 'bg-ui-surface-primary text-ui-text-secondary'
     }`}>
       {isCompleted ? '✓' : step}
     </div>
     <span className={`hidden sm:inline text-mobile-xs xs:text-mobile-sm font-medium transition-colors ${
-      isActive ? 'text-white' : isCompleted ? 'text-green-400' : clickable ? 'text-slate-300' : 'text-slate-400'
+      isActive ? 'text-ui-text-primary' : isCompleted ? 'text-status-success-light' : clickable ? 'text-ui-text-muted' : 'text-ui-text-secondary'
     }`}>
       {label}
     </span>
@@ -370,11 +369,11 @@ const LocationStep = ({ onSelect, selectedLocation }) => {
         <div className="text-center">
           <button
             onClick={() => setShowAllIslands(true)}
-            className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg 
+            className="px-6 py-3 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-lg
                      transition-all duration-200 flex items-center gap-2 mx-auto"
           >
             <span>{t('discovery.moreIslands')}</span>
-            <span className="text-slate-400">({otherIslands.length})</span>
+            <span className="text-ui-text-secondary">({otherIslands.length})</span>
           </button>
         </div>
       )}
@@ -388,8 +387,8 @@ const IslandCard = ({ island, onClick, isSelected = false }) => (
     onClick={() => onClick(island)}
     className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 flex flex-col justify-between h-full ${
       isSelected 
-        ? 'border-blue-500 bg-blue-500/20 shadow-lg shadow-blue-500/25' 
-        : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
+        ? 'border-interactive-focus bg-interactive-primary/20 shadow-lg shadow-blue-500/25'
+        : 'border-ui-border-primary bg-ui-surface-secondary active:scale-95 active:bg-ui-surface-primary'
     }`}
   >
     <div className="flex-1 flex flex-col justify-center">
@@ -399,18 +398,18 @@ const IslandCard = ({ island, onClick, isSelected = false }) => (
         </span>
       </div>
       <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${
-        isSelected ? 'text-blue-300' : 'text-white group-hover:text-blue-300'
+        isSelected ? 'text-interactive-primary-light' : 'text-ui-text-primary group-hover:text-interactive-primary-light'
       }`}>
         {island.name}
       </h3>
     </div>
-    <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">{island.description}</p>
+    <p className="text-ui-text-secondary text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">{island.description}</p>
     
     {/* Subtle glow effect - only show on hover when not selected */}
     <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
       isSelected 
-        ? 'bg-blue-500/10 opacity-100' 
-        : 'bg-blue-500/5 opacity-0'
+        ? 'bg-interactive-primary/10 opacity-100'
+        : 'bg-interactive-primary/5 opacity-0'
     }`} />
   </button>
 )
@@ -424,31 +423,31 @@ const MoodCard = ({ mood, onClick, isSelected = false }) => {
       onClick={() => onClick(mood)}
       className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 flex flex-col justify-between h-full ${
         isSelected 
-          ? 'border-purple-500 bg-purple-500/20 shadow-lg shadow-purple-500/25' 
-          : 'border-slate-700 bg-slate-800 active:scale-95 active:bg-slate-700'
+          ? 'border-mood-culture bg-mood-culture/20 shadow-lg shadow-purple-500/25'
+          : 'border-ui-border-primary bg-ui-surface-secondary active:scale-95 active:bg-ui-surface-primary'
       }`}
     >
       <div className="flex-1 flex flex-col justify-center">
         <div className="flex items-center justify-center gap-2 xs:gap-3 mb-2 xs:mb-3">
           <div className="transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
             <IconComponent className={`w-6 h-6 xs:w-8 xs:h-8 ${
-              isSelected ? 'text-purple-300' : 'text-slate-300 group-hover:text-purple-300'
+              isSelected ? 'text-mood-culture-light' : 'text-ui-text-muted group-hover:text-mood-culture-light'
             }`} />
           </div>
         </div>
         <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${
-          isSelected ? 'text-purple-300' : 'text-white group-hover:text-purple-300'
+          isSelected ? 'text-mood-culture-light' : 'text-ui-text-primary group-hover:text-mood-culture-light'
         }`}>
           {mood.name}
         </h3>
       </div>
-      <p className="text-slate-400 text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">{mood.description}</p>
+      <p className="text-ui-text-secondary text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">{mood.description}</p>
       
       {/* Subtle glow effect - only show on hover when not selected */}
       <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
         isSelected 
-          ? 'bg-purple-500/10 opacity-100' 
-          : 'bg-purple-500/5 opacity-0'
+          ? 'bg-mood-culture/10 opacity-100'
+          : 'bg-mood-culture/5 opacity-0'
       }`} />
     </button>
   )
@@ -467,9 +466,9 @@ const MoodStep = ({ onSelect, selectedLocation, selectedMood }) => {
   return (
     <div className="space-y-6">
       {/* Selected location reminder */}
-      <div className="text-center p-3 xs:p-4 bg-slate-800 rounded-lg border border-slate-700">
-        <p className="text-slate-300 text-xs xs:text-sm">
-          {t('discovery.exploring')} <span className="text-blue-400">{selectedLocation?.emoji} {selectedLocation?.name}</span>
+      <div className="text-center p-3 xs:p-4 bg-ui-surface-secondary rounded-lg border border-ui-border-primary">
+        <p className="text-ui-text-muted text-xs xs:text-sm">
+          {t('discovery.exploring')} <span className="text-interactive-primary-light">{selectedLocation?.emoji} {selectedLocation?.name}</span>
         </p>
       </div>
 
@@ -488,28 +487,27 @@ const MoodStep = ({ onSelect, selectedLocation, selectedMood }) => {
 }
 
 // Step 3: Personalization filters
-const PersonalizeStep = ({ 
-  selectedLocation, 
-  selectedMood, 
+const PersonalizeStep = ({
+  selectedLocation,
+  selectedMood,
   filters,
   onFiltersChange,
   onShowResults,
-  onReset,
-  tourCount 
+  onReset
 }) => {
   const { t } = useTranslation()
 
   return (
     <div className="space-y-8">
       {/* Selection summary */}
-      <div className="p-6 bg-slate-800 rounded-xl border border-slate-700">
-        <h3 className="font-semibold text-white mb-4">{t('discovery.yourSelection')}:</h3>
+      <div className="p-6 bg-ui-surface-secondary rounded-xl border border-ui-border-primary">
+        <h3 className="font-semibold text-ui-text-primary mb-4">{t('discovery.yourSelection')}:</h3>
         <div className="flex flex-wrap gap-4">
-          <div className="flex items-center gap-2 px-3 py-1 bg-blue-600 rounded-full text-sm">
+          <div className="flex items-center gap-2 px-3 py-1 bg-interactive-primary rounded-full text-sm">
             <span>{selectedLocation?.emoji}</span>
             <span>{selectedLocation?.name}</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1 bg-purple-600 rounded-full text-sm">
+          <div className="flex items-center gap-2 px-3 py-1 bg-mood-culture rounded-full text-sm">
             {selectedMood?.icon && <selectedMood.icon className="w-4 h-4" />}
             <span>{selectedMood?.name}</span>
           </div>
@@ -520,11 +518,11 @@ const PersonalizeStep = ({
       <div className="grid grid-cols-1 mobile:grid-cols-2 md:grid-cols-3 gap-4 mobile:gap-6">
         {/* Duration filter */}
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-white">{t('explore.filterLabels.duration')}</label>
+          <label className="block text-sm font-medium text-ui-text-primary">{t('explore.filterLabels.duration')}</label>
           <select 
             value={filters.duration} 
             onChange={(e) => onFiltersChange({...filters, duration: e.target.value})}
-            className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 bg-ui-surface-secondary border border-ui-border-primary rounded-lg text-ui-text-primary focus:ring-2 focus:border-interactive-focus focus:border-transparent"
           >
             <option value="any">{t('explore.filterOptions.anyDuration')}</option>
             <option value="short">{t('discovery.filters.halfDay')}</option>
@@ -535,11 +533,11 @@ const PersonalizeStep = ({
 
         {/* Difficulty filter */}
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-white">{t('discovery.filters.difficultyLabel')}</label>
+          <label className="block text-sm font-medium text-ui-text-primary">{t('discovery.filters.difficultyLabel')}</label>
           <select 
             value={filters.difficulty} 
             onChange={(e) => onFiltersChange({...filters, difficulty: e.target.value})}
-            className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 bg-ui-surface-secondary border border-ui-border-primary rounded-lg text-ui-text-primary focus:ring-2 focus:border-interactive-focus focus:border-transparent"
           >
             <option value="any">{t('discovery.filters.anyLevel')}</option>
             <option value="easy">{t('tourDetail.fitness.easy')}</option>
@@ -550,11 +548,11 @@ const PersonalizeStep = ({
 
         {/* Budget filter */}
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-white">{t('discovery.budget')}</label>
+          <label className="block text-sm font-medium text-ui-text-primary">{t('discovery.budget')}</label>
           <select 
             value={filters.budget} 
             onChange={(e) => onFiltersChange({...filters, budget: e.target.value})}
-            className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-3 bg-ui-surface-secondary border border-ui-border-primary rounded-lg text-ui-text-primary focus:ring-2 focus:border-interactive-focus focus:border-transparent"
           >
             <option value="any">{t('discovery.filters.anyBudget')}</option>
             <option value="budget">{t('discovery.filters.budgetFriendly')}</option>
@@ -568,13 +566,13 @@ const PersonalizeStep = ({
       <div className="flex flex-col mobile:flex-row gap-3 mobile:gap-4 justify-center pt-6">
         <button
           onClick={onReset}
-          className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-mobile-lg transition-touch min-h-48 w-full mobile:w-auto"
+          className="px-6 py-3 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-mobile-lg transition-touch min-h-48 w-full mobile:w-auto"
         >
           {t('discovery.startOver')}
         </button>
         <button
           onClick={onShowResults}
-          className="px-6 mobile:px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-mobile-lg font-medium transition-touch flex items-center justify-center gap-2 min-h-48 w-full mobile:w-auto"
+          className="px-6 mobile:px-8 py-3 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-mobile-lg font-medium transition-touch flex items-center justify-center gap-2 min-h-48 w-full mobile:w-auto"
         >
           <Sparkles className="w-5 h-5" />
           <span className="truncate">{t('discovery.findActivities')}</span>
@@ -607,35 +605,35 @@ const ResultsStep = ({
 
   if (loading) {
     return <div className="text-center py-12">
-      <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
-      <p className="text-slate-400 mt-4">{t('discovery.loadingActivities')}</p>
+      <div className="animate-spin w-8 h-8 border-4 border-interactive-primary border-t-transparent rounded-full mx-auto"></div>
+      <p className="text-ui-text-secondary mt-4">{t('discovery.loadingActivities')}</p>
     </div>
   }
 
   if (tours.length === 0) {
     return (
-      <div className="text-center py-12 bg-slate-800/50 rounded-xl border border-slate-700">
-        <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="text-center py-12 bg-ui-surface-secondary/50 rounded-xl border border-ui-border-primary">
+        <div className="w-16 h-16 bg-ui-surface-primary rounded-full flex items-center justify-center mx-auto mb-4">
           <span className="text-2xl">🌴</span>
         </div>
-        <h3 className="text-lg font-semibold text-slate-300 mb-2">
+        <h3 className="text-lg font-semibold text-ui-text-muted mb-2">
           {t('discovery.noActivitiesFound')}
         </h3>
-        <p className="text-slate-500 mb-6 max-w-md mx-auto">
+        <p className="text-ui-text-disabled mb-6 max-w-md mx-auto">
           {t('discovery.tryAdjustingFilters')}
         </p>
         <button
           onClick={onReset}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors mb-4"
+          className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-6 py-3 rounded-lg transition-colors mb-4"
         >
           {t('discovery.startOver')}
         </button>
         
         {/* Explore hint */}
-        <div className="text-center pt-4 border-t border-slate-700">
+        <div className="text-center pt-4 border-t border-ui-border-primary">
           <button
             onClick={() => setActiveTab('explore')}
-            className="text-blue-400 hover:text-blue-300 text-sm none transition-colors"
+            className="text-interactive-primary-light hover:text-interactive-primary-light text-sm none transition-colors"
           >
             {t('discovery.tryExploreTab')}
           </button>
@@ -647,21 +645,21 @@ const ResultsStep = ({
   return (
     <div className="space-y-6">
       {/* Results summary */}
-      <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700">
+      <div className="bg-ui-surface-secondary/50 rounded-xl p-6 border border-ui-border-primary">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-white mb-2">{t('discovery.yourSelection')}</h3>
+            <h3 className="text-lg font-semibold text-ui-text-primary mb-2">{t('discovery.yourSelection')}</h3>
             <div className="flex flex-wrap gap-2">
-              <div className="flex items-center gap-2 px-3 py-1 bg-blue-600 rounded-full text-sm">
+              <div className="flex items-center gap-2 px-3 py-1 bg-interactive-primary rounded-full text-sm">
                 <span>{selectedLocation?.emoji}</span>
                 <span>{selectedLocation?.name}</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1 bg-purple-600 rounded-full text-sm">
+              <div className="flex items-center gap-2 px-3 py-1 bg-mood-culture rounded-full text-sm">
                 {selectedMood?.icon && <selectedMood.icon className="w-4 h-4" />}
                 <span>{selectedMood?.name}</span>
               </div>
               {activeFilterCount > 0 && (
-                <div className="flex items-center gap-2 px-3 py-1 bg-orange-600 rounded-full text-sm">
+                <div className="flex items-center gap-2 px-3 py-1 bg-status-warning rounded-full text-sm">
                   <Filter className="w-3 h-3" />
                   <span>{t('discovery.filtersCount', { count: activeFilterCount })}</span>
                 </div>
@@ -670,14 +668,14 @@ const ResultsStep = ({
           </div>
           <button
             onClick={onReset}
-            className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors text-sm"
+            className="px-4 py-2 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-lg transition-colors text-sm"
           >
             {t('discovery.startOver')}
           </button>
         </div>
         
-        <div className="text-slate-400 text-sm">
-          Found <span className="text-white font-medium">{tours.length}</span> {t('discovery.perfectMatchesForYou')}
+        <div className="text-ui-text-secondary text-sm">
+          Found <span className="text-ui-text-primary font-medium">{tours.length}</span> {t('discovery.perfectMatchesForYou')}
         </div>
       </div>
 
@@ -702,13 +700,13 @@ const ResultsStep = ({
       </div>
 
       {/* Footer actions */}
-      <div className="text-center pt-6 border-t border-slate-700">
-        <p className="text-slate-400 text-sm mb-4">
+      <div className="text-center pt-6 border-t border-ui-border-primary">
+        <p className="text-ui-text-secondary text-sm mb-4">
           {t('discovery.didntFindQuestion')}
         </p>
         <button
           onClick={onReset}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="px-6 py-3 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors"
         >
           {t('discovery.tryDifferentPreferences')}
         </button>

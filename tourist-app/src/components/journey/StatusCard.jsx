@@ -30,10 +30,10 @@ const StatusCard = ({
       case 'pending':
       case 'awaiting_confirmation':
         return {
-          color: 'bg-yellow-500',
-          textColor: 'text-yellow-400',
-          bgColor: 'bg-yellow-500/10',
-          borderColor: 'border-yellow-500/20',
+          color: 'bg-status-caution',
+          textColor: 'text-status-caution-light',
+          bgColor: 'bg-status-caution-bg',
+          borderColor: 'border-status-caution',
           icon: Timer,
           label: t('statusCard.status.pending'),
           description: t('statusCard.status.pendingDesc'),
@@ -41,10 +41,10 @@ const StatusCard = ({
         }
       case 'confirmed':
         return {
-          color: 'bg-green-500',
-          textColor: 'text-green-400',
-          bgColor: 'bg-green-500/10',
-          borderColor: 'border-green-500/20',
+          color: 'bg-status-success',
+          textColor: 'text-status-success-light',
+          bgColor: 'bg-status-success-bg',
+          borderColor: 'border-status-success',
           icon: CheckCircle,
           label: t('statusCard.status.confirmed'),
           description: t('statusCard.status.confirmedDesc'),
@@ -52,10 +52,10 @@ const StatusCard = ({
         }
       case 'completed':
         return {
-          color: 'bg-blue-500',
-          textColor: 'text-blue-400',
-          bgColor: 'bg-blue-500/10',
-          borderColor: 'border-blue-500/20',
+          color: 'bg-status-info',
+          textColor: 'text-status-info-light',
+          bgColor: 'bg-status-info-bg',
+          borderColor: 'border-status-info',
           icon: Award,
           label: t('statusCard.status.complete'),
           description: t('statusCard.status.completeDesc'),
@@ -64,10 +64,10 @@ const StatusCard = ({
       case 'declined':
       case 'cancelled':
         return {
-          color: 'bg-red-500',
-          textColor: 'text-red-400',
-          bgColor: 'bg-red-500/10',
-          borderColor: 'border-red-500/20',
+          color: 'bg-status-error',
+          textColor: 'text-status-error-light',
+          bgColor: 'bg-status-error-bg',
+          borderColor: 'border-status-error',
           icon: XCircle,
           label: status === 'declined' ? t('statusCard.status.declined') : t('statusCard.status.cancelled'),
           description: status === 'declined' ? t('statusCard.status.declinedDesc') : t('statusCard.status.cancelledDesc'),
@@ -75,10 +75,10 @@ const StatusCard = ({
         }
       default:
         return {
-          color: 'bg-slate-500',
-          textColor: 'text-slate-400',
-          bgColor: 'bg-slate-500/10',
-          borderColor: 'border-slate-500/20',
+          color: 'bg-ui-surface-tertiary',
+          textColor: 'text-ui-text-disabled',
+          bgColor: 'bg-ui-surface-tertiary',
+          borderColor: 'border-ui-border-secondary',
           icon: AlertCircle,
           label: t('statusCard.status.unknown'),
           description: t('statusCard.status.unknownDesc'),
@@ -103,7 +103,7 @@ const StatusCard = ({
     <div className={`relative rounded-xl backdrop-blur-sm border transition-all duration-300 hover:scale-[1.02] ${statusConfig.bgColor} ${statusConfig.borderColor}`}>
       
       {/* Status Progress Bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-slate-700 rounded-t-xl overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-1 bg-ui-surface-tertiary rounded-t-xl overflow-hidden">
         <div 
           className={`h-full transition-all duration-1000 ease-out ${statusConfig.color}`}
           style={{ width: `${statusConfig.progress}%` }}
@@ -125,10 +125,10 @@ const StatusCard = ({
 
           {/* Tour Date */}
           <div className="text-right">
-            <div className="text-xs text-slate-400">
+            <div className="text-xs vai-text-disabled">
               {formatDate(booking.tours?.tour_date)}
             </div>
-            <div className="text-xs text-slate-300 font-medium">
+            <div className="text-xs vai-text-secondary font-medium">
               {formatTime(booking.tours?.time_slot)}
             </div>
           </div>
@@ -140,10 +140,10 @@ const StatusCard = ({
             {tourEmoji}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-white font-semibold truncate">
+            <h3 className="text-ui-text-primary font-semibold truncate">
               {booking.tours?.tour_name || t('statusCard.tourInfo.tourNotAvailable')}
             </h3>
-            <div className="flex items-center gap-2 text-xs text-slate-400">
+            <div className="flex items-center gap-2 text-xs vai-text-disabled">
               <MapPin className="w-3 h-3" />
               <span>{booking.operators?.island || t('statusCard.tourInfo.locationTBD')}</span>
               <span>•</span>
@@ -155,31 +155,31 @@ const StatusCard = ({
         {/* Details Row */}
         <div className="grid grid-cols-3 gap-3 mb-4 text-xs">
           <div className="text-center">
-            <Users className="w-4 h-4 text-slate-400 mx-auto mb-1" />
-            <div className="text-slate-300 font-medium">
+            <Users className="w-4 h-4 vai-text-disabled mx-auto mb-1" />
+            <div className="vai-text-secondary font-medium">
               {booking.num_adults + (booking.num_children || 0)}
             </div>
-            <div className="text-slate-500">{t('statusCard.details.participants')}</div>
+            <div className="vai-text-disabled">{t('statusCard.details.participants')}</div>
           </div>
           
           <div className="text-center">
-            <span className="text-slate-400 text-lg font-mono">▼</span>
-            <div className="text-slate-300 font-medium">
+            <span className="vai-text-disabled text-lg font-mono">▼</span>
+            <div className="vai-text-secondary font-medium">
               {formatPrice(booking.total_amount || booking.subtotal)}
             </div>
-            <div className="text-slate-500">{t('statusCard.details.total')}</div>
+            <div className="vai-text-disabled">{t('statusCard.details.total')}</div>
           </div>
           
           <div className="text-center">
-            <Copy className="w-4 h-4 text-slate-400 mx-auto mb-1" />
+            <Copy className="w-4 h-4 vai-text-disabled mx-auto mb-1" />
             <button 
               onClick={copyBookingReference}
-              className="text-slate-300 font-medium hover:text-blue-400 transition-colors font-mono text-[10px]"
+              className="vai-text-secondary font-medium hover:text-status-info-light transition-colors font-mono text-[10px]"
               title="Click to copy"
             >
               {booking.booking_reference?.slice(-6) || 'N/A'}
             </button>
-            <div className="text-slate-500">{t('statusCard.details.reference')}</div>
+            <div className="vai-text-disabled">{t('statusCard.details.reference')}</div>
           </div>
         </div>
 
@@ -188,7 +188,7 @@ const StatusCard = ({
           {/* More Details Button (Primary) */}
           <button
             onClick={() => onShowDetails?.(booking)}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1.5"
+            className="flex-1 vai-button-primary text-sm font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1.5"
           >
             <span>{t('statusCard.actions.moreDetails')}</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -200,7 +200,7 @@ const StatusCard = ({
             {canContactOperator(booking) && (
               <button
                 onClick={() => onContactOperator?.(booking)}
-                className="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-lg transition-colors flex items-center justify-center"
+                className="vai-button-secondary p-2 rounded-lg transition-colors flex items-center justify-center"
                 title={t('statusCard.actions.contactOperator')}
               >
                 {booking.operators?.whatsapp_number ? (
@@ -215,7 +215,7 @@ const StatusCard = ({
             {canRebook(booking) && (
               <button
                 onClick={() => onRebook?.(booking)}
-                className="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-lg transition-colors flex items-center justify-center"
+                className="vai-button-secondary p-2 rounded-lg transition-colors flex items-center justify-center"
                 title={t('statusCard.actions.bookAgain')}
               >
                 <RotateCcw className="w-4 h-4" />
@@ -225,7 +225,7 @@ const StatusCard = ({
             {/* Support Button */}
             <button
               onClick={() => onGetSupport?.(booking)}
-              className="bg-slate-600 hover:bg-slate-700 text-white p-2 rounded-lg transition-colors flex items-center justify-center"
+              className="bg-slate-600 hover:bg-slate-700 text-ui-text-primary p-2 rounded-lg transition-colors flex items-center justify-center"
               title={t('statusCard.actions.getSupport')}
             >
               <ExternalLink className="w-4 h-4" />
@@ -235,16 +235,16 @@ const StatusCard = ({
 
         {/* Status-specific Additional Info */}
         {booking.booking_status === 'pending' && (
-          <div className="mt-3 p-2 bg-yellow-500/5 border border-yellow-500/10 rounded-lg">
-            <p className="text-xs text-yellow-300/80">
+          <div className="mt-3 p-2 bg-status-caution-bg border border-status-caution rounded-lg">
+            <p className="text-xs text-status-caution-light">
               {t('statusCard.messages.pendingInfo', { statusDesc: statusConfig.description })}
             </p>
           </div>
         )}
 
         {booking.booking_status === 'confirmed' && booking.tours?.meeting_point && (
-          <div className="mt-3 p-2 bg-green-500/5 border border-green-500/10 rounded-lg">
-            <p className="text-xs text-green-300/80">
+          <div className="mt-3 p-2 bg-status-success-bg border border-status-success rounded-lg">
+            <p className="text-xs text-status-success-light">
               {t('statusCard.messages.meetingPoint', { location: booking.tours.meeting_point })}
             </p>
           </div>

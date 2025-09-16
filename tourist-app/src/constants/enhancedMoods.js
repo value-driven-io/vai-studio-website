@@ -10,10 +10,10 @@ export const ENHANCED_MOOD_CATEGORIES = [
     descriptionKey: 'moods.adventure.description',
     tourTypes: ['Adrenalin', 'Hike', 'Diving'],
     colors: {
-      bg: 'bg-orange-500',
-      hover: 'hover:bg-orange-600',
-      text: 'text-orange-100',
-      border: 'border-orange-400'
+      bg: 'bg-mood-adventure',
+      hover: 'hover:bg-mood-adventure',
+      text: 'text-white',
+      border: 'border-mood-adventure'
     },
     smartFilters: {
       preferredFitnessLevels: ['moderate', 'challenging', 'expert'],
@@ -33,10 +33,10 @@ export const ENHANCED_MOOD_CATEGORIES = [
     descriptionKey: 'moods.relax.description', 
     tourTypes: ['Mindfulness', 'Lagoon Tour', 'Cultural'],
     colors: {
-      bg: 'bg-blue-500',
-      hover: 'hover:bg-blue-600',
-      text: 'text-blue-100',
-      border: 'border-blue-400'
+      bg: 'bg-mood-relax',
+      hover: 'hover:bg-mood-relax',
+      text: 'text-white',
+      border: 'border-mood-relax'
     },
     smartFilters: {
       preferredFitnessLevels: ['easy'],
@@ -57,10 +57,10 @@ export const ENHANCED_MOOD_CATEGORIES = [
     // ENHANCED: Now includes culinary experiences
     tourTypes: ['Cultural', 'Culinary Experience'],
     colors: {
-      bg: 'bg-purple-500',
-      hover: 'hover:bg-purple-600',
-      text: 'text-purple-100',
-      border: 'border-purple-400'
+      bg: 'bg-mood-culture',
+      hover: 'hover:bg-mood-culture',
+      text: 'text-white',
+      border: 'border-mood-culture'
     },
     smartFilters: {
       scoreBoosts: {
@@ -79,10 +79,10 @@ export const ENHANCED_MOOD_CATEGORIES = [
     descriptionKey: 'moods.ocean.description',
     tourTypes: ['Diving', 'Snorkeling', 'Whale Watching', 'Lagoon Tour'],
     colors: {
-      bg: 'bg-cyan-500',
-      hover: 'hover:bg-cyan-600',
-      text: 'text-cyan-100',
-      border: 'border-cyan-400'
+      bg: 'bg-mood-ocean',
+      hover: 'hover:bg-mood-ocean',
+      text: 'text-white',
+      border: 'border-mood-ocean'
     },
     smartFilters: {
       scoreBoosts: {

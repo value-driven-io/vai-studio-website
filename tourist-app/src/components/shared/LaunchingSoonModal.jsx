@@ -99,7 +99,7 @@ const LaunchingSoonModal = () => {
           </h1>
         </div>
         
-        <p className="text-slate-300 mb-8 text-mobile-base sm:text-base">
+        <p className="vai-text-secondary mb-8 text-mobile-base sm:text-base">
           {t('launchingSoon.message', 'Ia Orana! We are preparing an unforgettable experience for you in French Polynesia. Be the first to know when we go live.')}
         </p>
 
@@ -111,13 +111,13 @@ const LaunchingSoonModal = () => {
         ) : (
           <form onSubmit={handleEmailSubmit} className="space-y-4">
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 vai-text-disabled" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('launchingSoon.form.placeholder', 'Enter your email')}
-                className="w-full bg-vai-deep-ocean border border-slate-600 rounded-lg py-3 pl-10 pr-4 text-white placeholder-slate-400 focus:ring-2 focus:ring-vai-coral focus:border-vai-coral transition"
+                className="vai-input w-full py-3 pl-10 pr-4 rounded-lg text-ui-text-primary focus:ring-2 focus:ring-vai-coral focus:border-vai-coral transition"
                 required
               />
             </div>
@@ -128,14 +128,14 @@ const LaunchingSoonModal = () => {
                 type="button"
                 onClick={() => setAgreed(!agreed)}
                 className={`flex-shrink-0 w-5 h-5 rounded border-2 transition-colors ${
-                  agreed ? 'bg-vai-coral border-vai-coral' : 'bg-transparent border-slate-500'
+                  agreed ? 'bg-vai-coral border-vai-coral' : 'bg-transparent border-ui-border-secondary'
                 }`}
               >
-                {agreed && <Check className="w-4 h-4 text-white" />}
+                {agreed && <Check className="w-4 h-4 text-ui-text-primary" />}
               </button>
               <label 
                 onClick={() => setAgreed(!agreed)} 
-                className="text-xs text-slate-400 cursor-pointer"
+                className="text-xs vai-text-disabled cursor-pointer"
               >
                 {t('launchingSoon.form.consent')}
               </label>
@@ -144,7 +144,7 @@ const LaunchingSoonModal = () => {
             <button
               type="submit"
               disabled={loading || !agreed}
-              className="w-full flex items-center justify-center gap-2 bg-vai-coral hover:bg-opacity-90 text-white font-bold py-3 px-4 rounded-lg transition-all transform active:scale-95 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 bg-vai-coral hover:bg-opacity-90 text-ui-text-primary font-bold py-3 px-4 rounded-lg transition-all transform active:scale-95 disabled:bg-ui-surface-tertiary disabled:text-ui-text-disabled disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>{t('launchingSoon.form.submitting', 'Submitting...')}</>
@@ -155,22 +155,22 @@ const LaunchingSoonModal = () => {
                 </>
               )}
             </button>
-            {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+            {error && <p className="text-status-error-light text-sm mt-2">{error}</p>}
           </form>
         )}
 
-        <p className="text-xs text-slate-500 mt-6">
+        <p className="text-xs vai-text-disabled mt-6">
           {t('launchingSoon.footer')}
         </p>
         {/* more info  */}
         <div className="mt-6 text-center">
-            <p className="text-slate-500 text-xs">
+            <p className="vai-text-disabled text-xs">
             {t('login.moreInfo')}{' '}
             <a 
               href="https://vai.studio/app/welcome" 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-yellow-400 hover:text-yellow-300 transition-colors"
+              className="text-status-caution-light hover:text-status-caution transition-colors"
             >
               VAI Tickets
             </a>
@@ -183,7 +183,7 @@ const LaunchingSoonModal = () => {
         href="https://vai-operator-dashboard.onrender.com/?welcome=utm_source=vai-tickets-launchscreen" 
         target="_blank"
         rel="noopener noreferrer"
-        className="text-slate-400 hover:text-slate-300 transition-colors text-xs flex items-center gap-2"
+        className="vai-text-disabled hover:vai-text-secondary transition-colors text-xs flex items-center gap-2"
       >
         {t('login.foroperator')}
       </a>

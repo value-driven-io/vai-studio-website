@@ -956,12 +956,12 @@
     },
     "howItWorks": {
       "title": "❓ Comment faire : VAI Tickets",
-      "step1": "1. Parcours les offres de dernière minute 🔎",
-      "step2": "2. Envoie ta demande de réservation instantanément avec l'app 🔥", 
-      "step3": "3. Reçois ta confirmation de réservation 😎",
-      "step4": "4. Connecte-toi avec l'Opérateur 🗣️",
-      "step5": "5. Paye directement avec l'Opérateur 💸",
-      "step6": "6. Profite de ton Activité 🏝️",
+      "step1": "1. Parcours les offres de dernière minute",
+      "step2": "2. Envoie ta demande de réservation instantanément avec l'app", 
+      "step3": "3. Reçois ta confirmation de réservation",
+      "step4": "4. Connecte-toi avec l'Opérateur",
+      "step5": "5. Paye directement avec l'Opérateur",
+      "step6": "6. Profite de ton Activité",
       "step7": "7. Recommence ! 🤙"
     },
     "footer": "VAI.studio © 2025 Tous droits réservés<br></br>De la Polynésie Française avec ❤️"

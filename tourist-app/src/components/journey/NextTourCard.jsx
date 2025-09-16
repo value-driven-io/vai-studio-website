@@ -35,8 +35,8 @@ const NextTourCard = ({
   return (
     <div className={`rounded-xl p-6 border transition-all ${
       isConfirmed 
-        ? 'bg-green-500/10 border-green-500/30' 
-        : 'bg-orange-500/10 border-orange-500/30'
+        ? 'bg-status-success-bg border-status-success'
+        : 'bg-status-warning-bg border-status-warning'
     }`}>
       
       {/* Header */}
@@ -44,11 +44,11 @@ const NextTourCard = ({
         <div className="flex items-center gap-3">
           <span className="text-3xl">{tourEmoji}</span>
           <div>
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-ui-text-primary">
               {t('nextTour.title', { default: 'Next Adventure' })}
             </h3>
             <div className={`text-sm font-medium ${
-              isConfirmed ? 'text-green-400' : 'text-orange-400'
+              isConfirmed ? 'text-status-success-light' : 'text-status-warning-light'
             }`}>
               {isConfirmed 
                 ? t('nextTour.confirmed', { default: '✅ Confirmed & Ready' })
@@ -62,8 +62,8 @@ const NextTourCard = ({
         {getTimeUntilTour() && (
           <div className={`text-right px-3 py-1.5 rounded-full border ${
             isConfirmed 
-              ? 'bg-green-500/20 text-green-300 border-green-500/30' 
-              : 'bg-orange-500/20 text-orange-300 border-orange-500/30'
+              ? 'bg-status-success-bg text-status-success border-status-success'
+              : 'bg-status-warning-bg text-status-warning border-status-warning'
           }`}>
             <div className="text-sm font-medium">{getTimeUntilTour()}</div>
           </div>
@@ -72,54 +72,54 @@ const NextTourCard = ({
 
       {/* Tour Details */}
       <div className="space-y-4">
-        <h4 className="text-xl font-bold text-white">
+        <h4 className="text-xl font-bold text-ui-text-primary">
           {tour.tours?.tour_name || t('nextTour.tourName', { default: 'Your Tour' })}
         </h4>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-          <div className="flex items-center gap-2 text-slate-300">
-            <Calendar className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-2 text-ui-text-secondary">
+            <Calendar className="w-4 h-4 vai-text-disabled" />
             <div>
               <div className="font-medium">
                 {formatDate(tour.tours?.tour_date)}
               </div>
-              <div className="text-slate-500">
+              <div className="vai-text-disabled">
                 {formatTime(tour.tours?.time_slot)}
               </div>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-slate-300">
-            <MapPin className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-2 text-ui-text-secondary">
+            <MapPin className="w-4 h-4 vai-text-disabled" />
             <div>
               <div className="font-medium">
                 {tour.operators?.island || t('nextTour.location', { default: 'Location TBD' })}
               </div>
-              <div className="text-slate-500">
+              <div className="vai-text-disabled">
                 {tour.operators?.company_name || t('nextTour.operator', { default: 'Tour Operator' })}
               </div>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-slate-300">
-            <Users className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-2 text-ui-text-secondary">
+            <Users className="w-4 h-4 vai-text-disabled" />
             <div>
               <div className="font-medium">
                 {tour.num_adults + (tour.num_children || 0)} {t('nextTour.people', { default: 'people' })}
               </div>
-              <div className="text-slate-500">
+              <div className="vai-text-disabled">
                 {tour.num_adults} adults{tour.num_children > 0 && `, ${tour.num_children} children`}
               </div>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-slate-300">
-            <span className="w-4 h-4 text-slate-400 text-center">💰</span>
+          <div className="flex items-center gap-2 text-ui-text-secondary">
+            <span className="w-4 h-4 vai-text-disabled text-center">💰</span>
             <div>
               <div className="font-medium">
                 {formatPrice(tour.total_amount)}
               </div>
-              <div className="text-slate-500">
+              <div className="vai-text-disabled">
                 {t('nextTour.totalPaid', { default: 'Total paid' })}
               </div>
             </div>
@@ -129,14 +129,14 @@ const NextTourCard = ({
 
       {/* Meeting Point (if confirmed) */}
       {isConfirmed && tour.tours?.meeting_point && (
-        <div className="mt-4 p-3 bg-green-500/5 border border-green-500/20 rounded-lg">
+        <div className="mt-4 p-3 bg-status-success-bg border border-status-success rounded-lg">
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-green-400" />
+            <MapPin className="w-4 h-4 text-status-success-light" />
             <div>
-              <div className="text-sm font-medium text-green-300">
+              <div className="text-sm font-medium text-status-success">
                 {t('nextTour.meetingPoint', { default: 'Meeting Point' })}
               </div>
-              <div className="text-sm text-slate-300">
+              <div className="text-sm text-ui-text-secondary">
                 {tour.tours.meeting_point}
               </div>
             </div>
@@ -146,7 +146,7 @@ const NextTourCard = ({
 
       {/* Action Button */}
       <div className="mt-6 flex justify-between items-center">
-        <div className="text-xs text-slate-400">
+        <div className="text-xs vai-text-disabled">
           {t('nextTour.reference', { default: 'Reference' })}: {tour.booking_reference}
         </div>
         
@@ -154,8 +154,8 @@ const NextTourCard = ({
           onClick={() => onContact(tour)}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
             isConfirmed
-              ? 'bg-green-600 hover:bg-green-700 text-white'
-              : 'bg-orange-600 hover:bg-orange-700 text-white'
+              ? 'vai-button-success'
+              : 'vai-button-warning'
           }`}
         >
           {tour.operators?.whatsapp_number ? (

@@ -37,11 +37,11 @@ const DatePickerModal = ({ isOpen, onClose, onDateSelect, currentDateRange }) =>
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-800 rounded-xl border border-slate-700 w-full max-w-sm mx-4">
+      <div className="bg-ui-surface-secondary rounded-xl border border-ui-border-primary w-full max-w-sm mx-4">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-slate-700">
-          <h3 className="text-lg font-semibold text-white">{t('explore.datePicker.selectDates')}</h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-white">
+        <div className="flex items-center justify-between p-4 border-b border-ui-border-primary">
+          <h3 className="text-lg font-semibold text-ui-text-primary">{t('explore.datePicker.selectDates')}</h3>
+          <button onClick={onClose} className="text-ui-text-secondary hover:text-ui-text-primary">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -49,36 +49,36 @@ const DatePickerModal = ({ isOpen, onClose, onDateSelect, currentDateRange }) =>
         {/* Date Inputs */}
         <div className="p-4 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">From Date</label>
+            <label className="block text-sm font-medium text-ui-text-muted mb-2">From Date</label>
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 focus:border-blue-500"
+              className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 focus:border-interactive-focus"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">To Date</label>
+            <label className="block text-sm font-medium text-ui-text-muted mb-2">To Date</label>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 focus:border-blue-500"
+              className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 focus:border-interactive-focus"
             />
           </div>
         </div>
         
         {/* Actions */}
-        <div className="flex items-center justify-between p-4 border-t border-slate-700">
+        <div className="flex items-center justify-between p-4 border-t border-ui-border-primary">
           <button
             onClick={handleClear}
-            className="px-4 py-2 text-slate-400 hover:text-white transition-colors"
+            className="px-4 py-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
           >
             Clear
           </button>
           <button
             onClick={handleApply}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+            className="px-6 py-2 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors"
           >
             Apply
           </button>
@@ -207,7 +207,7 @@ const getDateRangeLabel = () => {
       {
         duration: 2000,
         style: {
-          background: isFavorite ? '#dc2626' : '#16a34a',
+          background: isFavorite ? 'rgb(239 68 68)' : 'rgb(34 197 94)',
           color: 'white'
         }
       }
@@ -216,11 +216,11 @@ const getDateRangeLabel = () => {
 
   // FilterChip Component
   const FilterChip = ({ label, onRemove }) => (
-    <span className="inline-flex items-center gap-1.5 bg-blue-600/20 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg text-xs font-medium filter-chip">
+    <span className="inline-flex items-center gap-1.5 bg-interactive-primary/20 text-interactive-primary-light border border-interactive-primary/30 px-2.5 py-1 rounded-lg text-xs font-medium filter-chip">
       {label}
       <button
         onClick={onRemove}
-        className="hover:text-white transition-colors"
+        className="hover:text-ui-text-primary transition-colors"
       >
         <X className="w-3 h-3" />
       </button>
@@ -228,24 +228,24 @@ const getDateRangeLabel = () => {
   )
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-ui-surface-overlay text-ui-text-primary">
       
       {/* Header */}
 
       {/* Mobile-First 3-Lane Header */}
-      <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-2 border border-slate-700 mt-2">
+      <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-2 border border-ui-border-primary mt-2">
         <div className="max-w-7xl mx-auto">
           
           {/* LANE 1: Title + subtitle + counter + refresh button */}
-          <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-700/50">
+          <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-ui-border-primary">
             <div className="flex-1 min-w-0"> {/* min-w-0 prevents flex overflow */}
-              <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 mb-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-ui-text-primary flex items-center gap-2 mb-1">
                 {t('explore.title')}
               </h1>
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="text-sm text-slate-400">{t('explore.subtitle')}</p>
+                <p className="text-sm text-ui-text-secondary">{t('explore.subtitle')}</p>
                 {tours.length > 0 && (
-                  <span className="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full">
+                  <span className="bg-ui-surface-primary text-ui-text-muted text-xs px-2 py-1 rounded-full">
                     {tours.length} {t('explore.available')}
                   </span>
                 )}
@@ -255,7 +255,7 @@ const getDateRangeLabel = () => {
             {/* Refresh Button */}
             <button
               onClick={refreshTours}
-              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg transition-colors min-h-44 ml-4 flex-shrink-0"
+              className="flex items-center gap-2 bg-ui-surface-primary hover:bg-ui-surface-tertiary text-ui-text-primary px-3 py-2 rounded-lg transition-colors min-h-44 ml-4 flex-shrink-0"
               disabled={loading}
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -264,7 +264,7 @@ const getDateRangeLabel = () => {
           </div>
 
           {/* LANE 2: Date filters + Sort dropdown */}
-          <div className="px-3 sm:px-4 md:px-6 py-3 border-b border-slate-700/50">
+          <div className="px-3 sm:px-4 md:px-6 py-3 border-b border-ui-border-primary">
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                   {/* Quick Date Filters - Mobile Responsive */}
                       <div className="flex gap-2 flex-wrap overflow-x-auto">
@@ -280,8 +280,8 @@ const getDateRangeLabel = () => {
                             }}
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 flex-shrink-0 ${
                               filters.timeframe === timeOption.id
-                                ? 'bg-blue-600 text-white shadow-lg'
-                                : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                                ? 'bg-interactive-primary text-ui-text-primary shadow-lg'
+                                : 'bg-ui-surface-primary text-ui-text-muted hover:bg-ui-surface-tertiary hover:text-ui-text-primary'
                             }`}
                           >
                             <span className="text-base">{timeOption.icon}</span>
@@ -299,8 +299,8 @@ const getDateRangeLabel = () => {
                           onClick={() => setShowDatePicker(true)}
                           className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all min-h-44 flex-shrink-0 ${
                             filters.dateRange
-                              ? 'bg-purple-600 text-white shadow-lg'
-                              : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                              ? 'bg-mood-culture text-ui-text-primary shadow-lg'
+                              : 'bg-ui-surface-primary text-ui-text-muted hover:bg-ui-surface-tertiary hover:text-ui-text-primary'
                           }`}
                         >
                           <Calendar className="w-4 h-4" />
@@ -315,18 +315,18 @@ const getDateRangeLabel = () => {
             <div className="flex items-center gap-3">
               {/* Search Field */}
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-ui-text-secondary" />
                 <input
                   type="text"
                   value={localSearch}
                   onChange={(e) => setLocalSearch(e.target.value)}
                   placeholder={t('explore.searchPlaceholder')}
-                  className="w-full pl-12 pr-4 py-2.5 sm:py-3 bg-slate-700 border border-slate-600 rounded-xl text-base text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  className="w-full pl-12 pr-4 py-2.5 sm:py-3 bg-ui-surface-primary border border-ui-border-secondary rounded-xl text-base text-ui-text-primary placeholder-ui-text-secondary focus:border-interactive-focus focus:ring-2 focus:ring-interactive-focus/20 transition-all"
                 />
                 {localSearch && (
                   <button
                     onClick={() => setLocalSearch('')}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 hover:text-white"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-ui-text-secondary hover:text-ui-text-primary"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -337,7 +337,7 @@ const getDateRangeLabel = () => {
               <select
                 value={filters.sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-700 border border-slate-600 text-white rounded-lg px-2 py-2 text-sm focus:border-blue-500 min-h-44 ml-auto flex-shrink-0"
+                className="bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-2 py-2 text-sm focus:border-interactive-focus min-h-44 ml-auto flex-shrink-0"
               >
                 <option value="date">{t('explore.sortOptions.date')}</option>
                 <option value="price">{t('explore.sortOptions.price')}</option>
@@ -351,13 +351,13 @@ const getDateRangeLabel = () => {
                   onClick={() => setShowFilters(!showFilters)}
                   className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-all min-h-44 ${
                     showFilters || getActiveFiltersCount() > 0
-                      ? 'bg-blue-600 text-white shadow-lg'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white'
+                      ? 'bg-interactive-primary text-ui-text-primary shadow-lg'
+                      : 'bg-ui-surface-primary text-ui-text-muted hover:bg-ui-surface-tertiary hover:text-ui-text-primary'
                   }`}
                 >
                   <SlidersHorizontal className="w-4 h-4" />
                   {getActiveFiltersCount() > 0 && (
-                    <span className="bg-white text-blue-600 text-xs px-2 py-0.5 rounded-full font-bold">
+                    <span className="bg-white text-interactive-primary text-xs px-2 py-0.5 rounded-full font-bold">
                       {getActiveFiltersCount()}
                     </span>
                   )}
@@ -369,7 +369,7 @@ const getDateRangeLabel = () => {
                 {getActiveFiltersCount() > 0 && (
                   <button
                     onClick={clearFilters}
-                    className="flex items-center gap-1.5 px-3 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all min-h-44"
+                    className="flex items-center gap-1.5 px-3 py-2.5 bg-status-error hover:bg-status-error text-ui-text-primary rounded-lg text-sm font-medium transition-all min-h-44"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -379,7 +379,7 @@ const getDateRangeLabel = () => {
 
             {/* Active Filters Display  */}
             {getActiveFiltersCount() > 0 && (
-              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-700/50">
+              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-ui-border-primary">
                 {filters.island !== 'all' && (
                   <FilterChip
                     label={`📍 ${filters.island}`}
@@ -410,16 +410,16 @@ const getDateRangeLabel = () => {
 
           {/* ADVANCED FILTER PANEL */}
           {showFilters && (
-            <div className="border-t border-slate-700 bg-slate-800/95 backdrop-blur-sm">
+            <div className="border-t border-ui-border-primary bg-ui-surface-secondary/95 backdrop-blur-sm">
               <div className="px-3 sm:px-4 md:px-6 py-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {/* Island Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.island')}</label>
+                    <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.island')}</label>
                     <select
                       value={filters.island}
                       onChange={(e) => updateFilter('island', e.target.value)}
-                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                      className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
                     >
                       <option value="all">{t('explore.filterOptions.allIslands')}</option>
                       {availableIslands.map(island => (
@@ -430,11 +430,11 @@ const getDateRangeLabel = () => {
 
                   {/* Tour Type Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.activityType')}</label>
+                    <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.activityType')}</label>
                     <select
                       value={filters.tourType}
                       onChange={(e) => updateFilter('tourType', e.target.value)}
-                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                      className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
                     >
                       <option value="all">{t('explore.filterOptions.allTypes')}</option>
                       {availableTourTypes.map(type => (
@@ -445,11 +445,11 @@ const getDateRangeLabel = () => {
 
                   {/* Duration Filter */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.duration')}</label>
+                    <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.duration')}</label>
                     <select
                       value={filters.duration}
                       onChange={(e) => updateFilter('duration', e.target.value)}
-                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                      className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
                     >
                       <option value="all">{t('explore.filterOptions.anyDuration')}</option>
                       <option value="short">{t('explore.filterOptions.under3Hours')}</option>
@@ -461,12 +461,12 @@ const getDateRangeLabel = () => {
 
                 {/* Price Range - Full width section */}
                 <div className="mt-4">
-                  <label className="block text-sm font-medium text-slate-300 mb-2">{t('explore.filterLabels.priceRange')}</label>
+                  <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.priceRange')}</label>
                   <div className="grid grid-cols-2 gap-3 max-w-md">
                     <input
                       type="number"
                       placeholder={t('explore.placeholders.minPrice')}
-                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                      className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
                       value={filters.priceRange?.min || ''}
                       onChange={(e) => {
                         const min = e.target.value ? parseInt(e.target.value) : null
@@ -480,7 +480,7 @@ const getDateRangeLabel = () => {
                     <input
                       type="number"
                       placeholder={t('explore.placeholders.maxPrice')}
-                      className="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-3 py-2.5 text-sm focus:border-blue-500"
+                      className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
                       value={filters.priceRange?.max || ''}
                       onChange={(e) => {
                         const max = e.target.value ? parseInt(e.target.value) : null
@@ -495,13 +495,13 @@ const getDateRangeLabel = () => {
                 </div>
 
                 {/* Filter Actions */}
-                <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-700">
-                  <div className="text-sm text-slate-400">
+                <div className="flex items-center justify-between mt-6 pt-4 border-t border-ui-border-primary">
+                  <div className="text-sm text-ui-text-secondary">
                     {loading ? t('explore.loading') : `${tours.length} ${t('explore.toursFound')}`}
                   </div>
                   <button
                     onClick={() => setShowFilters(false)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                   >
                     {t('explore.applyFilters')}
                   </button>
@@ -521,19 +521,19 @@ const getDateRangeLabel = () => {
               : 'grid-cols-1'
           }`}>
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-slate-800 rounded-xl h-80 animate-pulse"></div>
+              <div key={i} className="bg-ui-surface-secondary rounded-xl h-80 animate-pulse"></div>
             ))}
           </div>
         ) : tours.length === 0 ? (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-8 h-8 text-slate-400" />
+            <div className="w-16 h-16 bg-ui-surface-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-ui-text-secondary" />
             </div>
-            <h3 className="text-xl font-semibold text-slate-400 mb-2">{t('explore.noToursFound')}</h3>
-            <p className="text-slate-500 mb-4">{t('explore.noToursFoundDesc')}</p>
+            <h3 className="text-xl font-semibold text-ui-text-secondary mb-2">{t('explore.noToursFound')}</h3>
+            <p className="text-ui-text-tertiary mb-4">{t('explore.noToursFoundDesc')}</p>
             <button
               onClick={clearFilters}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+              className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-4 py-2 rounded-lg transition-colors"
             >
               {t('explore.clearAllFilters')}
             </button>
@@ -555,7 +555,7 @@ const getDateRangeLabel = () => {
                   toggleFavorite(tourId)
                   toast.success(
                     isFavorite ? t('explore.favorites.removed') : t('explore.favorites.added'),
-                    { duration: 2000, style: { background: isFavorite ? '#dc2626' : '#16a34a', color: 'white' }}
+                    { duration: 2000, style: { background: isFavorite ? 'rgb(239 68 68)' : 'rgb(34 197 94)', color: 'white' }}
                   )
                 }}
                 isFavorite={favorites.includes(tour.id)}
