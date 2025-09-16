@@ -484,8 +484,8 @@
 
   
   "launchingSoon": {
-    "title": "Lancement imminent !",
-    "message": "Ia ora na ! Nous te préparons une expérience inoubliable en Polynésie française. Sois le premier informé de notre lancement.",
+    "title": "À venir!",
+    "message": "Ia ora na, nous te préparons une expérience inoubliable en Polynésie française. Sois le premier informé de notre lancement.",
     "form": {
       "placeholder": "Saisis ton e-mail",
       "button": "Préviens-moi",
