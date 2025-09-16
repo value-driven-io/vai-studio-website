@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Rocket, Mail, Send, Check } from 'lucide-react';
-import { supabase } from '../../services/supabase';
 import LanguageDropdown from './LanguageDropdown';
 
 const VAILogo = () => (
@@ -25,12 +24,15 @@ const LaunchingSoonModal = () => {
     setError('');
 
     try {
-        // 1. Insert into waitlist (current behavior)
+        // 1. Dynamically import supabase to avoid initialization errors
+        const { supabase } = await import('../../services/supabase');
+
+        // 2. Insert into waitlist (current behavior)
         const { error: supabaseError } = await supabase
         .from('waitlist')
-        .insert({ 
-            email, 
-            agreed_to_marketing: agreed 
+        .insert({
+            email,
+            agreed_to_marketing: agreed
         });
 
         if (supabaseError) {
