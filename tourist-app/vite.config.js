@@ -114,15 +114,11 @@ export default defineConfig({
   // --- Polyfill for libraries that use 'global' ---
   define: {
     global: 'globalThis',
+  },
+
+  define: {
     'process.env': process.env
   },
-
-  // --- Optimize dependencies ---
-  optimizeDeps: {
-    include: ['@supabase/supabase-js']
-  },
-
-  // --- Build configuration for production ---
 
   // --- Development Server Settings ---
   server: {
