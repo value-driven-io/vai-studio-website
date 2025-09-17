@@ -58,9 +58,13 @@ const TourCard = ({
     onFavoriteToggle?.(tour.id)
   }
 
-  // Card click opens modal directly
+  // Card click - route templates to template detail, others to modal
   const handleCardClick = () => {
-    setShowFullScreen(true)
+    if (tour.is_template && tour.template_id && onBookingClick) {
+      onBookingClick(tour)
+    } else {
+      setShowFullScreen(true)
+    }
   }
 
   // Proper handleBookingClick function
@@ -231,7 +235,11 @@ const TourCard = ({
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  setShowFullScreen(true)
+                  if (tour.is_template && tour.template_id && onBookingClick) {
+                    onBookingClick(tour)
+                  } else {
+                    setShowFullScreen(true)
+                  }
                 }}
                 className={`px-4 py-3 bg-ui-surface-tertiary/80 hover:bg-ui-surface-primary/80 text-ui-text-muted hover:text-ui-text-primary
                         rounded-lg transition-all duration-200 border border-mood-culture/30 flex items-center justify-center gap-2 ${

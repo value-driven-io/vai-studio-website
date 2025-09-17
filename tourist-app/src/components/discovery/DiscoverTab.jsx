@@ -1,24 +1,28 @@
 // Clean DiscoverTab - 3 Step Flow: Location → Mood → Personalize
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette } from 'lucide-react'
+import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
+import { templateService } from '../../services/templateService'
 import { useAppStore } from '../../stores/bookingStore'
 import TourCard from '../shared/TourCard'
 import BookingModal from '../booking/BookingModal'
+import TemplateDetailPage from '../templates/TemplateDetailPage'
 import toast from 'react-hot-toast'
 
 // Simple step enum
 const STEPS = {
+  DUAL_PATH: 'dualPath',
   LOCATION: 'location',
-  MOOD: 'mood', 
+  MOOD: 'mood',
   PERSONALIZE: 'personalize',
   RESULTS: 'results'
 }
 
 const DiscoverTab = () => {
   const { t } = useTranslation()
-  const [currentStep, setCurrentStep] = useState(STEPS.LOCATION)
+  const [currentStep, setCurrentStep] = useState(STEPS.DUAL_PATH)
+  const [selectedPath, setSelectedPath] = useState(null)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [selectedMood, setSelectedMood] = useState(null)
   const [filters, setFilters] = useState({
@@ -30,6 +34,15 @@ const DiscoverTab = () => {
   // Tour data and modals
   const [selectedTour, setSelectedTour] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
+
+  // Template discovery state
+  const [templates, setTemplates] = useState([])
+  const [templatesLoading, setTemplatesLoading] = useState(false)
+  const [templatesError, setTemplatesError] = useState(null)
+
+  // Template detail view state
+  const [selectedTemplate, setSelectedTemplate] = useState(null)
+  const [showTemplateDetail, setShowTemplateDetail] = useState(false)
   
   // Hooks
   const { 
@@ -44,61 +57,65 @@ const DiscoverTab = () => {
   
   const { favorites, toggleFavorite, setActiveTab } = useAppStore()
 
-  // Filter tours based on selections
-  const filteredTours = useMemo(() => {
-    if (!selectedLocation || !selectedMood) return []
-    
-    
-    let filtered = discoverTours.filter(tour => {
-      // Location filter - check both location and operator_island fields
-      const tourLocation = tour.location || tour.operator_island
-      if (tourLocation !== selectedLocation.id) return false
-      
-      // Mood filter (basic mapping to tour types)
+  // Fetch templates based on location, mood, and filters
+  const fetchTemplates = useCallback(async () => {
+    if (!selectedLocation || !selectedMood) {
+      setTemplates([])
+      return
+    }
+
+    setTemplatesLoading(true)
+    setTemplatesError(null)
+
+    try {
+      // Map mood to tour types
       const moodToTypes = {
         ocean: ['Diving', 'Snorkeling', 'Whale Watching', 'Lagoon Tour'],
         adventure: ['Adrenalin', 'Hike', 'Hiking', 'Diving'],
         relax: ['Mindfulness', 'Lagoon Tour', 'Cultural', 'Relax'],
         culture: ['Cultural', 'Culinary Experience']
       }
-      
+
+      const templateFilters = {
+        location: selectedLocation.id,
+        // Don't filter by tour type in the service - we'll filter client-side for all allowed types
+        tourType: null,
+        duration: filters.duration,
+        difficulty: filters.difficulty,
+        priceRange: filters.budget !== 'any' ? {
+          min: filters.budget === 'budget' ? 0 : filters.budget === 'mid' ? 10000 : 25000,
+          max: filters.budget === 'budget' ? 9999 : filters.budget === 'mid' ? 24999 : null
+        } : null
+      }
+
+      const templatesData = await templateService.getDiscoveryTemplates(templateFilters)
+
+      // Additional client-side filtering for mood compatibility
       const allowedTypes = moodToTypes[selectedMood.id] || []
-      if (!allowedTypes.includes(tour.tour_type)) return false
-      
-      return true
-    })
+      const filteredTemplates = templatesData.filter(template =>
+        allowedTypes.includes(template.tour_type)
+      )
 
-    // Apply additional filters
-    if (filters.duration !== 'any') {
-      filtered = filtered.filter(tour => {
-        const hours = tour.duration_hours || 0
-        switch (filters.duration) {
-          case 'short': return hours >= 2 && hours <= 4
-          case 'medium': return hours > 4 && hours <= 8
-          case 'long': return hours > 8
-          default: return true
-        }
-      })
+      setTemplates(filteredTemplates)
+    } catch (error) {
+      console.error('Error fetching templates:', error)
+      setTemplatesError(error.message)
+      setTemplates([])
+      toast.error('Failed to load activities')
+    } finally {
+      setTemplatesLoading(false)
     }
+  }, [selectedLocation, selectedMood, filters])
 
-    if (filters.difficulty !== 'any') {
-      filtered = filtered.filter(tour => tour.fitness_level === filters.difficulty)
+  // Use templates instead of filtered tours
+  const filteredTours = templates
+
+  // Fetch templates when location, mood, or filters change
+  useEffect(() => {
+    if (selectedLocation && selectedMood) {
+      fetchTemplates()
     }
-
-    if (filters.budget !== 'any') {
-      filtered = filtered.filter(tour => {
-        const price = tour.discount_price_adult || 0
-        switch (filters.budget) {
-          case 'budget': return price < 10000
-          case 'mid': return price >= 10000 && price <= 25000
-          case 'luxury': return price > 25000
-          default: return true
-        }
-      })
-    }
-
-    return filtered
-  }, [discoverTours, selectedLocation, selectedMood, filters])
+  }, [selectedLocation, selectedMood, filters, fetchTemplates])
 
   // Reset flow
   const resetFlow = () => {
@@ -133,7 +150,9 @@ const DiscoverTab = () => {
   }
 
   const goBack = () => {
-    if (currentStep === STEPS.MOOD) {
+    if (currentStep === STEPS.LOCATION) {
+      setCurrentStep(STEPS.DUAL_PATH)
+    } else if (currentStep === STEPS.MOOD) {
       setCurrentStep(STEPS.LOCATION)
     } else if (currentStep === STEPS.PERSONALIZE) {
       setCurrentStep(STEPS.MOOD)
@@ -144,13 +163,62 @@ const DiscoverTab = () => {
 
   // Tour interaction handlers
   const handleBookTour = (tour) => {
-    setSelectedTour(tour)
-    setShowBookingModal(true)
+    // Check if this is a template (from template discovery)
+    if (tour.is_template && tour.template_id) {
+      // Open template detail page instead of direct booking
+      handleTemplateClick(tour)
+    } else {
+      // Direct booking for regular tour instances
+      setSelectedTour(tour)
+      setShowBookingModal(true)
+    }
   }
 
   const handleCloseBookingModal = () => {
     setShowBookingModal(false)
     setSelectedTour(null)
+  }
+
+  // Template-specific handlers
+  const handleTemplateClick = (template) => {
+    setSelectedTemplate(template)
+    setShowTemplateDetail(true)
+  }
+
+  const handleInstanceSelect = (instance) => {
+    // Convert instance to tour format for existing booking modal
+    const tourForBooking = {
+      ...instance,
+      // Ensure compatibility with booking modal
+      id: instance.id,
+      tour_name: selectedTemplate?.tour_name || instance.tour_name,
+      description: selectedTemplate?.description || instance.description,
+
+      // Fix pricing field mapping for BookingModal compatibility
+      discount_price_adult: instance.effective_discount_price_adult || instance.discount_price_adult || 0,
+      discount_price_child: instance.effective_discount_price_child || selectedTemplate?.discount_price_child || 0,
+      original_price_adult: instance.original_price_adult || instance.effective_discount_price_adult || 0,
+      // Use discount_price_child as original_price_child (simplified child pricing)
+      original_price_child: instance.effective_discount_price_child || selectedTemplate?.discount_price_child || 0,
+
+      // Additional fields that BookingModal might need
+      tour_type: selectedTemplate?.tour_type || instance.tour_type,
+      location: selectedTemplate?.location || instance.location,
+      duration_hours: instance.duration_hours || selectedTemplate?.duration_hours,
+      operator_name: instance.company_name || selectedTemplate?.operator_name,
+
+      // Ensure all required fields are present
+      available_spots: instance.available_spots || 0,
+      max_capacity: instance.max_capacity || 0
+    }
+    setSelectedTour(tourForBooking)
+    setShowBookingModal(true)
+    setShowTemplateDetail(false)
+  }
+
+  const handleBackFromTemplate = () => {
+    setShowTemplateDetail(false)
+    setSelectedTemplate(null)
   }
 
   const handleFavoriteToggle = (tourId) => {
@@ -162,6 +230,17 @@ const DiscoverTab = () => {
     )
   }
 
+  // If showing template detail, render it as a full-screen standalone page
+  if (showTemplateDetail && selectedTemplate) {
+    return (
+      <TemplateDetailPage
+        template={selectedTemplate}
+        onBack={handleBackFromTemplate}
+        onInstanceSelect={handleInstanceSelect}
+      />
+    )
+  }
+
   return (
     <div className="min-h-0 mobile:min-h-0 bg-ui-surface-overlay">
       {/* Header with progress */}
@@ -169,7 +248,7 @@ const DiscoverTab = () => {
         <div className="max-w-4xl mx-auto px-4 py-4 xs:py-6">
           {/* Back button - always reserve space to prevent layout jump */}
           <div className="mb-4" style={{ minHeight: '2rem' }}>
-            {currentStep !== STEPS.LOCATION && (
+            {currentStep !== STEPS.DUAL_PATH && (
               <button
                 onClick={goBack}
                 className="flex items-center gap-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
@@ -180,8 +259,9 @@ const DiscoverTab = () => {
             )}
           </div>
 
-          {/* Progress indicator */}
-          <div className="flex items-center justify-between mb-4">
+          {/* Progress indicator - hidden on dual path step */}
+          {currentStep !== STEPS.DUAL_PATH && (
+            <div className="flex items-center justify-between mb-4">
             <StepIndicator
               step={1}
               label={t('discovery.steps.location')}
@@ -224,16 +304,19 @@ const DiscoverTab = () => {
               clickable={selectedLocation !== null && selectedMood !== null}
             />
           </div>
+          )}
 
           {/* Current step title */}
           <div className="text-center">
             <h1 className="text-mobile-xl xs:text-mobile-2xl mobile:text-mobile-3xl font-bold text-ui-text-primary">
+              {currentStep === STEPS.DUAL_PATH && t('discovery.dualPath.title')}
               {currentStep === STEPS.LOCATION && t('discovery.chooseIsland')}
               {currentStep === STEPS.MOOD && t('discovery.moodQuestion')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.personalizeExperience')}
               {currentStep === STEPS.RESULTS && t('discovery.yourPerfectActivity')}
             </h1>
             <p className="text-ui-text-secondary mt-1 text-mobile-sm xs:text-mobile-base px-2 leading-mobile-relaxed">
+              {currentStep === STEPS.DUAL_PATH && t('discovery.dualPath.subtitle')}
               {currentStep === STEPS.LOCATION && t('discovery.selectIslandDescription')}
               {currentStep === STEPS.MOOD && t('discovery.pickTypeDescription')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.addFiltersDescription')}
@@ -245,14 +328,26 @@ const DiscoverTab = () => {
 
       {/* Step content */}
       <div className="max-w-4xl mx-auto px-0 md:px-8 py-6 sm:py-8">
-        {currentStep === STEPS.LOCATION && (
-          <LocationStep onSelect={goToMood} selectedLocation={selectedLocation} />
+        {currentStep === STEPS.DUAL_PATH && (
+          <DualPathStep onPathSelect={(path) => {
+            setSelectedPath(path)
+            if (path === 'inspiration') {
+              setCurrentStep(STEPS.LOCATION)
+            } else {
+              // For opportunity hunters, skip directly to exploration tab
+              setActiveTab('explore')
+            }
+          }} />
         )}
-        
+
+        {currentStep === STEPS.LOCATION && (
+          <LocationStep onSelect={goToMood} selectedLocation={selectedLocation} onBack={() => setCurrentStep(STEPS.DUAL_PATH)} />
+        )}
+
         {currentStep === STEPS.MOOD && (
           <MoodStep onSelect={goToPersonalize} selectedLocation={selectedLocation} selectedMood={selectedMood} />
         )}
-        
+
         {currentStep === STEPS.PERSONALIZE && (
           <PersonalizeStep
             selectedLocation={selectedLocation}
@@ -263,14 +358,14 @@ const DiscoverTab = () => {
             onReset={resetFlow}
           />
         )}
-        
+
         {currentStep === STEPS.RESULTS && (
           <ResultsStep
             tours={filteredTours}
             selectedLocation={selectedLocation}
             selectedMood={selectedMood}
             filters={filters}
-            loading={loading}
+            loading={templatesLoading}
             onBookTour={handleBookTour}
             onFavoriteToggle={handleFavoriteToggle}
             favorites={favorites}
@@ -328,8 +423,59 @@ const StepIndicator = ({ step, label, isActive, isCompleted, onClick, clickable 
   </button>
 )
 
+// Step 0: Dual Path Selection - Redesigned
+const DualPathStep = ({ onPathSelect }) => {
+  const { t } = useTranslation()
+
+  return (
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        {/* Guided Discovery Path */}
+        <button
+          onClick={() => onPathSelect('inspiration')}
+          className="group relative bg-gradient-to-br from-interactive-primary/5 to-interactive-primary/10 hover:from-interactive-primary/10 hover:to-interactive-primary/20 border-2 border-interactive-primary/20 hover:border-interactive-primary/40 rounded-2xl p-8 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-interactive-primary/10"
+        >
+          <div className="w-16 h-16 bg-interactive-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-interactive-primary/30 transition-colors">
+            <Sparkles className="w-8 h-8 text-interactive-primary" />
+          </div>
+          <h3 className="text-xl font-bold text-ui-text-primary mb-3">
+            {t('discovery.dualPath.guided.title', 'Guided Discovery')}
+          </h3>
+          <p className="text-ui-text-secondary leading-relaxed mb-6">
+            {t('discovery.dualPath.guided.description', 'Let us help you find the perfect activity based on your location and mood')}
+          </p>
+          <div className="inline-flex items-center gap-2 text-interactive-primary font-semibold group-hover:text-interactive-primary-light transition-colors">
+            <span>{t('discovery.dualPath.guided.cta', 'Start Discovery')}</span>
+            <ArrowRight className="w-4 h-4" />
+          </div>
+        </button>
+
+        {/* Direct Search Path */}
+        <button
+          onClick={() => onPathSelect('opportunity')}
+          className="group relative bg-gradient-to-br from-mood-adventure/5 to-mood-adventure/10 hover:from-mood-adventure/10 hover:to-mood-adventure/20 border-2 border-mood-adventure/20 hover:border-mood-adventure/40 rounded-2xl p-8 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-mood-adventure/10"
+        >
+          <div className="w-16 h-16 bg-mood-adventure/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-mood-adventure/30 transition-colors">
+            <Mountain className="w-8 h-8 text-mood-adventure" />
+          </div>
+          <h3 className="text-xl font-bold text-ui-text-primary mb-3">
+            {t('discovery.dualPath.direct.title', 'Browse All')}
+          </h3>
+          <p className="text-ui-text-secondary leading-relaxed mb-6">
+            {t('discovery.dualPath.direct.description', 'Search and filter through all available activities directly')}
+          </p>
+          <div className="inline-flex items-center gap-2 text-mood-adventure font-semibold group-hover:text-mood-adventure-light transition-colors">
+            <span>{t('discovery.dualPath.direct.cta', 'Browse Now')}</span>
+            <ArrowRight className="w-4 h-4" />
+          </div>
+        </button>
+      </div>
+    </div>
+  )
+}
+
 // Step 1: Location selection
-const LocationStep = ({ onSelect, selectedLocation }) => {
+const LocationStep = ({ onSelect, selectedLocation, onBack }) => {
   const { t } = useTranslation()
   const [showAllIslands, setShowAllIslands] = useState(false)
   
@@ -414,38 +560,36 @@ const IslandCard = ({ island, onClick, isSelected = false }) => (
   </button>
 )
 
-// Reusable Mood Card Component  
+// Reusable Mood Card Component
 const MoodCard = ({ mood, onClick, isSelected = false }) => {
   const IconComponent = mood.icon
-  
+
   return (
     <button
       onClick={() => onClick(mood)}
-      className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 flex flex-col justify-between h-full ${
-        isSelected 
+      className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 flex flex-col justify-center h-full ${
+        isSelected
           ? 'border-mood-culture bg-mood-culture/20 shadow-lg shadow-purple-500/25'
           : 'border-ui-border-primary bg-ui-surface-secondary active:scale-95 active:bg-ui-surface-primary'
       }`}
     >
-      <div className="flex-1 flex flex-col justify-center">
-        <div className="flex items-center justify-center gap-2 xs:gap-3 mb-2 xs:mb-3">
-          <div className="transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
-            <IconComponent className={`w-6 h-6 xs:w-8 xs:h-8 ${
-              isSelected ? 'text-mood-culture-light' : 'text-ui-text-muted group-hover:text-mood-culture-light'
-            }`} />
-          </div>
+      <div className="flex items-center justify-center gap-2 xs:gap-3 mb-4">
+        <div className="w-12 h-12 bg-ui-surface-primary rounded-xl flex items-center justify-center transition-all duration-200 group-hover:scale-110 group-active:scale-95">
+          <IconComponent className={`w-6 h-6 ${
+            isSelected ? 'text-mood-culture-light' : 'text-ui-text-muted group-hover:text-mood-culture-light'
+          }`} />
         </div>
-        <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${
-          isSelected ? 'text-mood-culture-light' : 'text-ui-text-primary group-hover:text-mood-culture-light'
-        }`}>
-          {mood.name}
-        </h3>
       </div>
-      <p className="text-ui-text-secondary text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">{mood.description}</p>
-      
+      <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center leading-snug mb-2 ${
+        isSelected ? 'text-mood-culture-light' : 'text-ui-text-primary group-hover:text-mood-culture-light'
+      }`}>
+        {mood.name}
+      </h3>
+      <p className="text-ui-text-secondary text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center">{mood.description}</p>
+
       {/* Subtle glow effect - only show on hover when not selected */}
       <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
-        isSelected 
+        isSelected
           ? 'bg-mood-culture/10 opacity-100'
           : 'bg-mood-culture/5 opacity-0'
       }`} />

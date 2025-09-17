@@ -1148,6 +1148,37 @@
     "pendingCount": "{{count}} en attente",
     "confirmedCount": "{{count}} confirmé(es)",
     "completedSummary": "{{count}} aventures incroyables terminées !"
+  },
+
+  "calendar": {
+    "selectDate": "Sélectionnez une Date",
+    "selectTime": "Choisissez votre horaire préféré",
+    "spotsAvailable": "{count} places disponibles",
+    "spotsLeft": "places restantes",
+    "perAdult": "par adulte",
+    "selectDateFirst": "Sélectionnez une Date",
+    "selectDateDescription": "Choisissez une date disponible pour voir les options d'horaires",
+    "availableDates": "Dates disponibles",
+    "dates": "dates"
+  },
+
+  "templates": {
+    "loadError": "Échec du chargement des détails de l'activité",
+    "notFound": "Activité non trouvée",
+    "aboutActivity": "À Propos de Cette Activité",
+    "noDescription": "La description sera fournie lors de la réservation.",
+    "duration": "expérience",
+    "allLevels": "Tous niveaux",
+    "rating": "note",
+    "fromPrice": "à partir de",
+    "available": "Disponible",
+    "totalSpots": "Places totales",
+    "nextDate": "Prochaine disponibilité",
+    "viewAvailability": "Voir les Disponibilités",
+    "whatsIncluded": "Ce qui est Inclus",
+    "equipment": "Équipement Professionnel",
+    "food": "Nourriture et Rafraîchissements",
+    "pickup": "Prise en Charge à l'Hôtel"
   }
 
 }

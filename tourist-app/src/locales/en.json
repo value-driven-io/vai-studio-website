@@ -59,6 +59,22 @@
     "didntFindQuestion": "Didn't find what you're looking for?",
     "tours": "activity",
     "toursPlural": "activities",
+    "dualPath": {
+      "title": "Choose your Style",
+      "subtitle": "How would you like to explore?",
+      "inspirationSeekers": {
+        "title": "Inspiration Seekers",
+        "subtitle": "Browse & discover",
+        "description": "Take your time to explore different islands, moods, and experiences. Perfect for planning ahead.",
+        "cta": "Browse Activities"
+      },
+      "opportunityHunters": {
+        "title": "Opportunity Hunters",
+        "subtitle": "Quick finds & deals",
+        "description": "Find last-minute availability and great deals for immediate booking. Perfect for spontaneous adventures.",
+        "cta": "Find Quick Deals"
+      }
+    },
     "chooseIsland": "Choose your island",
     "islandFirst": "Where's your activity?",
     "personalize": "Personalize:",
@@ -1137,5 +1153,36 @@
     "bookingAdded": "Booking added to your journey! 🌴",
     "bookingConfirmed": "Booking {{ref}} confirmed! 🎉",
     "bookingCancelled": "Booking {{ref}} was cancelled"
+  },
+
+  "calendar": {
+    "selectDate": "Select Date",
+    "selectTime": "Choose your preferred time",
+    "spotsAvailable": "{count} spots available",
+    "spotsLeft": "spots left",
+    "perAdult": "per adult",
+    "selectDateFirst": "Select a Date",
+    "selectDateDescription": "Choose an available date to see time options",
+    "availableDates": "Available dates",
+    "dates": "dates"
+  },
+
+  "templates": {
+    "loadError": "Failed to load activity details",
+    "notFound": "Activity not found",
+    "aboutActivity": "About This Activity",
+    "noDescription": "Description will be provided upon booking.",
+    "duration": "experience",
+    "allLevels": "All levels",
+    "rating": "rating",
+    "fromPrice": "from",
+    "available": "Available",
+    "totalSpots": "Total spots",
+    "nextDate": "Next available",
+    "viewAvailability": "View Availability",
+    "whatsIncluded": "What's Included",
+    "equipment": "Professional Equipment",
+    "food": "Food & Refreshments",
+    "pickup": "Hotel Pickup"
   }
 }
