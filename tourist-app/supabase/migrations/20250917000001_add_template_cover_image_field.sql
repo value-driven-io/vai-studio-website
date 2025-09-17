@@ -2,12 +2,12 @@
 -- Date: 2025-09-17
 -- Purpose: Add cover image support for activity templates
 
--- Add template_cover_image field to tours table
+-- Add template_cover_image field to tours table (safe: nullable field, no defaults)
 ALTER TABLE tours
 ADD COLUMN template_cover_image TEXT;
 
 -- Add comment for documentation
-COMMENT ON COLUMN tours.template_cover_image IS 'URL to cover image for activity templates. Used for template visual display in tourist app.';
+COMMENT ON COLUMN tours.template_cover_image IS 'Supabase Storage path/URL to cover image for activity templates. Uploaded by operators, displayed in tourist app. Format: bucket-name/path/image.jpg or full Storage URL.';
 
 -- Update activity_templates_view to include the new field
 CREATE OR REPLACE VIEW activity_templates_view AS

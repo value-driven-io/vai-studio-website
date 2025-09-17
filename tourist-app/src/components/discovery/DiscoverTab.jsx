@@ -101,7 +101,7 @@ const DiscoverTab = () => {
       console.error('Error fetching templates:', error)
       setTemplatesError(error.message)
       setTemplates([])
-      toast.error('Failed to load activities')
+      toast.error(t('tourCard.loadFailed', 'Failed to load activities'))
     } finally {
       setTemplatesLoading(false)
     }

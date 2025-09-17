@@ -22,7 +22,9 @@
     "notAvailable": "N/A",
     "people": "people",
     "adults": "adults",
-    "children": "children"
+    "children": "children",
+    "showAll": "Show all",
+    "showLess": "Show less"
   },
 
   "header": {
@@ -62,6 +64,16 @@
     "dualPath": {
       "title": "Choose your Style",
       "subtitle": "How would you like to explore?",
+      "guided": {
+        "title": "Guided Discovery",
+        "description": "Let us help you find the perfect activity based on your location and mood",
+        "cta": "Start Discovery"
+      },
+      "direct": {
+        "title": "Browse All",
+        "description": "Search and filter through all available activities directly",
+        "cta": "Browse Now"
+      },
       "inspirationSeekers": {
         "title": "Inspiration Seekers",
         "subtitle": "Browse & discover",
@@ -479,10 +491,12 @@
     
     "details": {
       "dateTime": "Date & Time",
-      "availability": "Availability", 
+      "availability": "Availability",
       "duration": "Duration",
       "fitnessLevel": "Fitness Level",
+      "languages": "Languages",
       "spotsLeft": "spots left",
+      "spotsTotal": "total spots",
       "ofMax": "of {{max}} max",
       "hoursExperience": "{{hours}}h experience",
       "fullAdventure": "Full adventure",
@@ -1164,7 +1178,30 @@
     "selectDateFirst": "Select a Date",
     "selectDateDescription": "Choose an available date to see time options",
     "availableDates": "Available dates",
-    "dates": "dates"
+    "dates": "dates",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "days": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    }
   },
 
   "templates": {
@@ -1183,6 +1220,27 @@
     "whatsIncluded": "What's Included",
     "equipment": "Professional Equipment",
     "food": "Food & Refreshments",
-    "pickup": "Hotel Pickup"
+    "pickup": "Hotel Pickup",
+    "multiLanguage": "Multi-language",
+    "operatorInfo": "Operator Information",
+    "premiumOperator": "Premium Operator",
+    "premiumLocalOperator": "Premium Local Operator",
+    "licensedOperator": "Licensed Tour Operator",
+    "shareActivity": "Share this activity",
+    "addToFavorites": "Add to favorites",
+    "dates": "dates",
+    "experience": "experience",
+    "importantInfo": "Important Information",
+    "requirements": "Requirements",
+    "restrictions": "Restrictions",
+    "weatherPolicy": "Weather Policy",
+    "weatherDependent": "This activity is weather dependent.",
+    "specialNotes": "Special Notes",
+    "pickupLocations": "Pickup Locations",
+    "meetingPoint": "Meeting Point",
+    "openInMaps": "Open in Maps",
+    "whaleRegulation": "Whale Watching Certified",
+    "whaleCompliant": "This operator follows official whale watching regulations for your safety and marine conservation.",
+    "maxWhaleGroup": "Maximum group size for whale encounters"
   }
 }

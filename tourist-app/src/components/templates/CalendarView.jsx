@@ -65,8 +65,18 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
   }, [currentDate, instancesByDate])
 
   const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    t('calendar.months.january'),
+    t('calendar.months.february'),
+    t('calendar.months.march'),
+    t('calendar.months.april'),
+    t('calendar.months.may'),
+    t('calendar.months.june'),
+    t('calendar.months.july'),
+    t('calendar.months.august'),
+    t('calendar.months.september'),
+    t('calendar.months.october'),
+    t('calendar.months.november'),
+    t('calendar.months.december')
   ]
 
   const goToPreviousMonth = () => {
@@ -137,7 +147,7 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
             {/* Calendar Grid */}
             <div className="grid grid-cols-7 gap-1">
               {/* Day Headers */}
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+              {[t('calendar.days.sun'), t('calendar.days.mon'), t('calendar.days.tue'), t('calendar.days.wed'), t('calendar.days.thu'), t('calendar.days.fri'), t('calendar.days.sat')].map(day => (
                 <div key={day} className="p-2 text-center text-xs font-medium text-ui-text-muted">
                   {day}
                 </div>

@@ -22,7 +22,9 @@
     "notAvailable": "N/D",
     "people": "personnes",
     "adults": "adultes",
-    "children": "enfants"
+    "children": "enfants",
+    "showAll": "Tout afficher",
+    "showLess": "Afficher moins"
   },
 
   "header": {
@@ -59,6 +61,20 @@
     "didntFindQuestion": "Tu n'as pas trouvé ce que tu cherches ?",
     "tours": "tour",
     "toursPlural": "tours",
+    "dualPath": {
+      "title": "Choisis ton Style",
+      "subtitle": "Comment veux-tu explorer ?",
+      "guided": {
+        "title": "Découverte Guidée",
+        "description": "Laisse-nous t'aider à trouver l'activité parfaite selon ta localisation et ton humeur",
+        "cta": "Commencer la Découverte"
+      },
+      "direct": {
+        "title": "Parcourir Tout",
+        "description": "Recherche et filtre directement parmi toutes les activités disponibles",
+        "cta": "Parcourir Maintenant"
+      }
+    },
     "chooseIsland": "Choisis ton île",
     "islandFirst": "Où veux-tu partir ?",
     "personalize": "Personnalise :",
@@ -428,9 +444,11 @@
     "details": {
       "dateTime": "Date & Heure",
       "availability": "Disponibilité",
-      "duration": "Durée", 
+      "duration": "Durée",
       "fitnessLevel": "Niveau physique",
+      "languages": "Langues",
       "spotsLeft": "places restantes",
+      "spotsTotal": "places totales",
       "ofMax": "sur {{max}} max",
       "hoursExperience": "{{hours}}h d'expérience",
       "fullAdventure": "Aventure complète",
@@ -1159,7 +1177,30 @@
     "selectDateFirst": "Sélectionnez une Date",
     "selectDateDescription": "Choisissez une date disponible pour voir les options d'horaires",
     "availableDates": "Dates disponibles",
-    "dates": "dates"
+    "dates": "dates",
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    },
+    "days": {
+      "sun": "Dim",
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Mer",
+      "thu": "Jeu",
+      "fri": "Ven",
+      "sat": "Sam"
+    }
   },
 
   "templates": {
@@ -1178,7 +1219,28 @@
     "whatsIncluded": "Ce qui est Inclus",
     "equipment": "Équipement Professionnel",
     "food": "Nourriture et Rafraîchissements",
-    "pickup": "Prise en Charge à l'Hôtel"
+    "pickup": "Prise en Charge à l'Hôtel",
+    "multiLanguage": "Multi-langues",
+    "operatorInfo": "Informations Opérateur",
+    "premiumOperator": "Opérateur Premium",
+    "premiumLocalOperator": "Opérateur Local Premium",
+    "licensedOperator": "Opérateur de Tours Agréé",
+    "shareActivity": "Partager cette activité",
+    "addToFavorites": "Ajouter aux favoris",
+    "dates": "dates",
+    "experience": "expérience",
+    "importantInfo": "Informations Importantes",
+    "requirements": "Exigences",
+    "restrictions": "Restrictions",
+    "weatherPolicy": "Politique Météo",
+    "weatherDependent": "Cette activité dépend de la météo.",
+    "specialNotes": "Notes Spéciales",
+    "pickupLocations": "Lieux de Prise en Charge",
+    "meetingPoint": "Point de Rendez-vous",
+    "openInMaps": "Ouvrir dans Maps",
+    "whaleRegulation": "Observation de Baleines Certifiée",
+    "whaleCompliant": "Cet opérateur suit les réglementations officielles d'observation des baleines pour votre sécurité et la conservation marine.",
+    "maxWhaleGroup": "Taille maximale du groupe pour les rencontres avec les baleines"
   }
 
 }

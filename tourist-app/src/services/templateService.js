@@ -29,6 +29,7 @@ export const templateService = {
           max_age,
           whale_regulation_compliant,
           weather_dependent,
+          template_cover_image,
           created_at
         `)
 
@@ -108,6 +109,8 @@ export const templateService = {
         discount_price_child: template.discount_price_child,
         // Use discount_price_child as original_price_child (no original child pricing in templates)
         original_price_child: template.discount_price_child,
+        // Cover image support
+        template_cover_image: template.template_cover_image,
 
         // Calculate savings
         savings_amount: template.original_price_adult - template.discount_price_adult,

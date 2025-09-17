@@ -1,7 +1,7 @@
 // src/components/templates/TemplateDetailPage.jsx
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Clock, Users, MapPin, Star, Calendar, Heart, Share2, Globe, Shield, Coffee, Car, Activity } from 'lucide-react'
+import { ArrowLeft, Clock, Users, MapPin, Star, Calendar, Heart, Share2, Globe, Shield, Coffee, Car, Activity, ChevronDown, ChevronUp, Info } from 'lucide-react'
 import { templateService } from '../../services/templateService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import CalendarView from './CalendarView'
@@ -13,10 +13,11 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
   const [loading, setLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState(null)
   const [showCalendar, setShowCalendar] = useState(false)
+  const [expandedLanguages, setExpandedLanguages] = useState(false)
 
   // Helper functions from TourDetailModal
-  const formatLanguages = (languages) => {
-    if (!languages || !Array.isArray(languages)) return t('tourDetail.languages.tbd')
+  const getFormattedLanguages = (languages) => {
+    if (!languages || !Array.isArray(languages)) return []
     const languageMap = {
       'English': '🇬🇧 English',
       'French': '🇫🇷 French',
@@ -24,26 +25,27 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
       'German': '🇩🇪 German',
       'Spanish': '🇪🇸 Spanish',
       'Chinese': '🇨🇳 Chinese',
+      'Italian': '🇮🇹 Italian',
+      'Japanese': '🇯🇵 Japanese',
       // Handle language codes
       'en': '🇬🇧 English',
       'fr': '🇫🇷 French',
       'de': '🇩🇪 German',
       'es': '🇪🇸 Spanish',
       'zh': '🇨🇳 Chinese',
-      'ta': '🇵🇫 Tahitian'
+      'ta': '🇵🇫 Tahitian',
+      'it': '🇮🇹 Italian',
+      'ja': '🇯🇵 Japanese',
+      'ty': '🇵🇫 Tahitian'
     }
 
     // Filter out duplicates and format
     const uniqueLanguages = [...new Set(languages.map(lang => {
       const mappedLang = languageMap[lang]
-      return mappedLang ? mappedLang.split(' ')[1] : lang // Extract just the name part
+      return mappedLang || `🗣️ ${lang}` // Fallback for unmapped languages
     }))]
 
-    return uniqueLanguages.slice(0, 3).map(lang => {
-      // Re-add flags for display
-      const entry = Object.entries(languageMap).find(([, value]) => value.includes(lang))
-      return entry ? entry[1] : `🗣️ ${lang}`
-    }).join(', ') + (uniqueLanguages.length > 3 ? ` +${uniqueLanguages.length - 3}` : '')
+    return uniqueLanguages
   }
 
   const formatAgeRequirements = (minAge, maxAge) => {
@@ -166,8 +168,19 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
     <div className="min-h-screen bg-ui-surface-overlay">
       {/* Cover Image */}
       <div className="relative h-48 sm:h-64 bg-gradient-to-br from-interactive-primary/20 to-mood-luxury/20 border-b border-ui-border-primary overflow-hidden">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-interactive-primary/20 to-mood-luxury/20"></div>
+        {/* Cover Image with Fallback */}
+        <img
+          src={templateDetails.template_cover_image || '/images/VAI Banner Cover_Placeholder1.png'}
+          alt={templateDetails.tour_name}
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback to placeholder image if custom image fails to load
+            if (e.target.src !== '/images/VAI Banner Cover_Placeholder1.png') {
+              e.target.src = '/images/VAI Banner Cover_Placeholder1.png'
+            }
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
         <div className="absolute top-4 left-4">
           <button
             onClick={onBack}
@@ -180,13 +193,13 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
           <button
             onClick={handleShare}
             className="p-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors"
-            title="Share this activity"
+            title={t('templates.shareActivity')}
           >
             <Share2 className="w-5 h-5 text-white" />
           </button>
           <button
             className="p-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-lg transition-colors"
-            title="Add to favorites"
+            title={t('templates.addToFavorites')}
           >
             <Heart className="w-5 h-5 text-white" />
           </button>
@@ -201,7 +214,7 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
                 {templateDetails.tour_name}
               </h1>
               <p className="text-white/80 text-sm">
-                {templateDetails.operator_name || 'Premium Operator'} • 📍 {templateDetails.location}
+                {templateDetails.operator_name || t('templates.premiumOperator')} • 📍 {templateDetails.location}
               </p>
               <div className="flex items-center gap-3 mt-1">
                 {templateDetails.average_rating && (
@@ -240,10 +253,52 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
             <div className="text-ui-text-secondary">{formatAgeRequirements(templateDetails.min_age, templateDetails.max_age)}</div>
           </DetailCard>
 
-          <DetailCard icon={Globe} label={t('tourDetail.details.languages')}>
-            <div className="font-semibold text-sm">{formatLanguages(templateDetails.languages)}</div>
-            <div className="text-ui-text-secondary">Multi-language</div>
-          </DetailCard>
+          {/* Languages Card - Expandable */}
+          <div className="bg-ui-surface-secondary/50 rounded-lg p-4 border border-ui-border-primary hover:border-interactive-primary/30 transition-all duration-200">
+            <div className="flex items-center gap-2 mb-2">
+              <Globe className="w-4 h-4 text-ui-text-muted" />
+              <span className="text-xs font-medium text-ui-text-secondary uppercase tracking-wide">
+                {t('tourDetail.details.languages')}
+              </span>
+            </div>
+            <div className="space-y-1">
+              {(() => {
+                const allLanguages = getFormattedLanguages(templateDetails.languages)
+                const displayLanguages = expandedLanguages ? allLanguages : allLanguages.slice(0, 2)
+                const hasMore = allLanguages.length > 2
+
+                return (
+                  <>
+                    <div className="font-semibold text-sm">
+                      {displayLanguages.length > 0 ? displayLanguages.join(', ') : t('tourDetail.languages.tbd')}
+                      {!expandedLanguages && hasMore && (
+                        <span className="text-ui-text-muted"> +{allLanguages.length - 2}</span>
+                      )}
+                    </div>
+                    {hasMore && (
+                      <button
+                        onClick={() => setExpandedLanguages(!expandedLanguages)}
+                        className="flex items-center gap-1 text-xs text-interactive-primary hover:text-interactive-primary-hover transition-colors"
+                      >
+                        {expandedLanguages ? (
+                          <>
+                            <ChevronUp className="w-3 h-3" />
+                            {t('common.showLess', 'Show less')}
+                          </>
+                        ) : (
+                          <>
+                            <ChevronDown className="w-3 h-3" />
+                            {t('common.showAll', 'Show all')}
+                          </>
+                        )}
+                      </button>
+                    )}
+                    <div className="text-ui-text-secondary text-xs">{t('templates.multiLanguage')}</div>
+                  </>
+                )
+              })()}
+            </div>
+          </div>
         </div>
 
         {/* Template Overview */}
@@ -272,8 +327,8 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
                       <span className="text-sm font-bold">{(templateDetails.operator_name || 'OP').substring(0, 2).toUpperCase()}</span>
                     </div>
                     <div>
-                      <div className="font-medium text-ui-text-primary">{templateDetails.operator_name || 'Premium Local Operator'}</div>
-                      <div className="text-sm text-ui-text-secondary">Licensed Tour Operator</div>
+                      <div className="font-medium text-ui-text-primary">{templateDetails.operator_name || t('templates.premiumLocalOperator')}</div>
+                      <div className="text-sm text-ui-text-secondary">{t('templates.licensedOperator')}</div>
                     </div>
                   </div>
                   {templateDetails.operator_total_tours_completed && (
@@ -364,6 +419,99 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Important Information */}
+        {(templateDetails.requirements || templateDetails.restrictions || templateDetails.special_notes || templateDetails.weather_dependent) && (
+          <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
+            <h3 className="text-lg font-semibold text-ui-text-primary mb-4 flex items-center gap-2">
+              <Info className="w-5 h-5" />
+              {t('templates.importantInfo', 'Important Information')}
+            </h3>
+            <div className="space-y-4">
+              {templateDetails.requirements && (
+                <div>
+                  <h4 className="font-medium text-ui-text-primary mb-2">{t('templates.requirements', 'Requirements')}</h4>
+                  <p className="text-ui-text-secondary text-sm">{templateDetails.requirements}</p>
+                </div>
+              )}
+              {templateDetails.restrictions && (
+                <div>
+                  <h4 className="font-medium text-ui-text-primary mb-2">{t('templates.restrictions', 'Restrictions')}</h4>
+                  <p className="text-ui-text-secondary text-sm">{templateDetails.restrictions}</p>
+                </div>
+              )}
+              {templateDetails.weather_dependent && templateDetails.backup_plan && (
+                <div>
+                  <h4 className="font-medium text-ui-text-primary mb-2">{t('templates.weatherPolicy', 'Weather Policy')}</h4>
+                  <p className="text-ui-text-secondary text-sm">
+                    {t('templates.weatherDependent', 'This activity is weather dependent.')} {templateDetails.backup_plan}
+                  </p>
+                </div>
+              )}
+              {templateDetails.special_notes && (
+                <div>
+                  <h4 className="font-medium text-ui-text-primary mb-2">{t('templates.specialNotes', 'Special Notes')}</h4>
+                  <p className="text-ui-text-secondary text-sm">{templateDetails.special_notes}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Pickup Information */}
+        {templateDetails.pickup_available && templateDetails.pickup_locations && templateDetails.pickup_locations.length > 0 && (
+          <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
+            <h3 className="text-lg font-semibold text-ui-text-primary mb-4 flex items-center gap-2">
+              <Car className="w-5 h-5" />
+              {t('templates.pickupLocations', 'Pickup Locations')}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {templateDetails.pickup_locations.map((location, index) => (
+                <div key={index} className="flex items-center gap-2 text-sm text-ui-text-secondary">
+                  <MapPin className="w-4 h-4 text-ui-text-muted" />
+                  {location}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Meeting Point */}
+        {templateDetails.meeting_point && (
+          <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
+            <h3 className="text-lg font-semibold text-ui-text-primary mb-4 flex items-center gap-2">
+              <MapPin className="w-5 h-5" />
+              {t('templates.meetingPoint', 'Meeting Point')}
+            </h3>
+            <p className="text-ui-text-secondary">{templateDetails.meeting_point}</p>
+            {templateDetails.meeting_point_gps && (
+              <button
+                onClick={() => window.open(`https://maps.google.com/?q=${templateDetails.meeting_point_gps}`, '_blank')}
+                className="mt-2 text-interactive-primary hover:text-interactive-primary-hover text-sm transition-colors"
+              >
+                {t('templates.openInMaps', 'Open in Maps')}
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Special Whale Watching Info */}
+        {templateDetails.whale_regulation_compliant && (
+          <div className="bg-status-success/10 rounded-xl p-4 sm:p-6 border border-status-success/20">
+            <h3 className="text-lg font-semibold text-status-success mb-4 flex items-center gap-2">
+              <Shield className="w-5 h-5" />
+              {t('templates.whaleRegulation', 'Whale Watching Certified')}
+            </h3>
+            <p className="text-status-success-light text-sm mb-2">
+              {t('templates.whaleCompliant', 'This operator follows official whale watching regulations for your safety and marine conservation.')}
+            </p>
+            {templateDetails.max_whale_group_size && (
+              <p className="text-status-success-light text-sm">
+                {t('templates.maxWhaleGroup', 'Maximum group size for whale encounters')}: {templateDetails.max_whale_group_size} {t('common.people', 'people')}
+              </p>
+            )}
           </div>
         )}
       </div>
