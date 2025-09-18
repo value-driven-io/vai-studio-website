@@ -197,7 +197,13 @@ function AppContent() {
         try {
           // Dynamic import to avoid static loading issues
           const { supabase } = await import('./services/supabase')
-          const { data: tourData, error } = await supabase
+
+          // Try both tours table (old system) and active_tours_with_operators (new template system)
+          let tourData = null
+          let error = null
+
+          // First try the tours table for backward compatibility
+          const { data: toursData, error: toursError } = await supabase
             .from('tours')
             .select(`
               *,
@@ -214,7 +220,42 @@ function AppContent() {
             .eq('status', 'active')
             .single()
 
-          if (error) {
+          if (toursData && !toursError) {
+            tourData = toursData
+          } else {
+            // If not found in tours, try active_tours_with_operators (template instances)
+            const { data: instanceData, error: instanceError } = await supabase
+              .from('active_tours_with_operators')
+              .select(`
+                *,
+                operators (
+                  id,
+                  company_name,
+                  island,
+                  whatsapp_number,
+                  phone,
+                  contact_person
+                )
+              `)
+              .eq('id', bookTourId)
+              .single()
+
+            if (instanceData && !instanceError) {
+              // Transform instance data to match expected tour structure for booking modal
+              tourData = {
+                ...instanceData,
+                // Map instance fields to tour fields for compatibility
+                discount_price_adult: instanceData.effective_discount_price_adult,
+                discount_price_child: instanceData.effective_discount_price_child,
+                original_price_adult: instanceData.original_price_adult,
+                status: 'active' // instances from this view are always active
+              }
+            } else {
+              error = instanceError || toursError
+            }
+          }
+
+          if (error && !tourData) {
             console.error('Error fetching tour for booking:', error)
             toast.error(t('app.notifications.tourNotFound'))
             return

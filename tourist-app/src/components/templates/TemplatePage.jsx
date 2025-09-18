@@ -15,7 +15,7 @@ const TemplatePage = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const [template, setTemplate] = useState(null)
+  const [templateWithAvailability, setTemplateWithAvailability] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -39,7 +39,7 @@ const TemplatePage = () => {
           return
         }
 
-        setTemplate(templateData.template)
+        setTemplateWithAvailability(templateData)
 
         // Update page title for SEO
         document.title = `${templateData.template.tour_name} - VAI Tickets`
@@ -101,9 +101,14 @@ const TemplatePage = () => {
   // Render TemplateDetailPage in full-screen mode
   return (
     <div className="min-h-screen bg-ui-surface-overlay">
-      {template && (
+      {templateWithAvailability && (
         <TemplateDetailPage
-          template={{ ...template, is_template: true, template_id: templateId }}
+          template={{
+            ...templateWithAvailability.template,
+            is_template: true,
+            template_id: templateId
+          }}
+          templateWithAvailability={templateWithAvailability}
           onBack={handleBack}
           onInstanceSelect={handleInstanceSelect}
         />

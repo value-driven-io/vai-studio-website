@@ -9,7 +9,7 @@ import toast from 'react-hot-toast'
 import { useCurrencyContext } from '../../hooks/useCurrency'
 import { SinglePriceDisplay } from '../shared/PriceDisplay'
 
-const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
+const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTemplateWithAvailability, onBack, onInstanceSelect }) => {
   const { t } = useTranslation()
   const { selectedCurrency, changeCurrency } = useCurrencyContext()
   const [templateWithAvailability, setTemplateWithAvailability] = useState(null)
@@ -125,6 +125,13 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
     const loadActivityDetails = async () => {
       if (!template) return
 
+      // Use preloaded data if available (from TemplatePage)
+      if (preloadedTemplateWithAvailability) {
+        setTemplateWithAvailability(preloadedTemplateWithAvailability)
+        setLoading(false)
+        return
+      }
+
       setLoading(true)
       try {
         if (template.is_template && template.template_id) {
@@ -154,7 +161,7 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
     }
 
     loadActivityDetails()
-  }, [template, t])
+  }, [template, preloadedTemplateWithAvailability, t])
 
   if (loading) {
     return (
@@ -330,7 +337,7 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
               <div className="bg-ui-surface-primary rounded-lg p-4">
                 <div className="text-center">
                   <SinglePriceDisplay
-                    xpfAmount={template.is_template ? (template.price_from || 0) : (templateDetails.discount_price_adult || templateDetails.original_price_adult || 0)}
+                    xpfAmount={template.is_template ? (availability?.price_range?.min || templateDetails.discount_price_adult || templateDetails.original_price_adult || 0) : (templateDetails.discount_price_adult || templateDetails.original_price_adult || 0)}
                     label={template.is_template ? `${t('templates.fromPrice', 'from')} / ${t('common.adults', 'adult')}` : `${t('common.adults', 'adult')}`}
                     selectedCurrency={selectedCurrency}
                     onCurrencyChange={changeCurrency}
