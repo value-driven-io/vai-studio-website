@@ -22,6 +22,7 @@ const STEPS = {
 const DiscoverTab = () => {
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(STEPS.DUAL_PATH)
+  const [selectedPath, setSelectedPath] = useState(null)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [selectedMood, setSelectedMood] = useState(null)
   const [filters, setFilters] = useState({
