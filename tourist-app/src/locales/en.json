@@ -130,15 +130,30 @@
     "exploreHint": "Or browse all available activities with detailed search options:",
     "tryExploreTab": "Or explore all activities →",
     "filters": {
-      "halfDay": "Half day (2-4 hours)",
-      "fullDay": "Full day (4-8 hours)",
-      "multiDay": "Multi-day",
+      "short": "Short (max. 3 hours)",
+      "halfDay": "Half Day (3-8 hours)",
+      "fullDay": "Full Day (8+ hours)",
+      "multiDay": "Multi-Day",
       "difficultyLabel": "Difficulty",
       "anyLevel": "Any level",
       "anyBudget": "Any budget",
+      "under10k": "under 10000 F",
+      "10kTo30k": "10000 - 30000 F",
+      "30kPlus": "30000 F +",
       "budgetFriendly": "Budget friendly (under 10000 XPF)",
       "midRange": "Mid-range (10000-25000 XPF)",
-      "luxury": "Luxury (25000+ XPF)"
+      "luxury": "Luxury (25000+ XPF)",
+      "budgetDescription": "Set your preferred spending range",
+      "anyBudgetDesc": "No limit",
+      "under10kDesc": "Budget-friendly",
+      "10kTo30kDesc": "Good value",
+      "30kPlusDesc": "Premium experience",
+      "durationDescription": "How much time do you have?",
+      "anyDurationDesc": "All lengths",
+      "shortDesc": "Quick activity",
+      "halfDayDesc": "Morning or afternoon",
+      "fullDayDesc": "Full adventure",
+      "multiDayDesc": "Extended trip"
     }
   },
 
@@ -1241,6 +1256,8 @@
     "openInMaps": "Open in Maps",
     "whaleRegulation": "Whale Watching Certified",
     "whaleCompliant": "This operator follows official whale watching regulations for your safety and marine conservation.",
-    "maxWhaleGroup": "Maximum group size for whale encounters"
+    "maxWhaleGroup": "Maximum group size for whale encounters",
+    "noDatesAvailable": "No dates available",
+    "checkBackSoon": "Check back soon"
   }
 }

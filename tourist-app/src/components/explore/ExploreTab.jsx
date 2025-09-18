@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 // Date Picker
 const DatePickerModal = ({ isOpen, onClose, onDateSelect, currentDateRange }) => {
+  const { t } = useTranslation()
   const [startDate, setStartDate] = useState(currentDateRange?.start || '')
   const [endDate, setEndDate] = useState(currentDateRange?.end || '')
 

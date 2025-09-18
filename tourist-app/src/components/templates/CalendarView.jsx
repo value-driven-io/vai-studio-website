@@ -3,9 +3,12 @@ import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { X, ChevronLeft, ChevronRight, Clock, Users } from 'lucide-react'
 import { getTodayInFP, isTodayInFP, getCurrentDateInFP, formatDateFP } from '../../lib/timezone'
+import { useCurrencyContext } from '../../hooks/useCurrency'
+import { formatPrice } from '../../utils/currency'
 
 const CalendarView = ({ template, instances, availability, isOpen, onClose, onInstanceSelect }) => {
   const { t } = useTranslation()
+  const { selectedCurrency } = useCurrencyContext()
   const [currentDate, setCurrentDate] = useState(getCurrentDateInFP())
   const [selectedInstance, setSelectedInstance] = useState(null)
 
@@ -175,7 +178,7 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
                   <span className="font-medium">{day.day}</span>
                   {day.hasInstances && !day.isPast && (
                     <span className="text-xs text-interactive-primary font-medium leading-tight">
-                      {Math.round(day.minPrice / 1000)}k XPF
+                      {formatPrice(day.minPrice, selectedCurrency, true)}
                     </span>
                   )}
                 </button>
@@ -226,7 +229,7 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
                         </div>
                         <div className="text-right">
                           <div className="font-bold text-ui-text-primary text-sm">
-                            {Math.round(instance.effective_discount_price_adult / 1000)}k XPF
+                            {formatPrice(instance.effective_discount_price_adult, selectedCurrency, true)}
                           </div>
                           <div className="text-xs text-ui-text-secondary">
                             {t('calendar.perAdult', 'per adult')}

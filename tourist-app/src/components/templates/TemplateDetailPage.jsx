@@ -1,17 +1,19 @@
 // src/components/templates/TemplateDetailPage.jsx
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Clock, Users, MapPin, Star, Calendar, Heart, Share2, Globe, Shield, Coffee, Car, Activity, ChevronDown, ChevronUp, Info } from 'lucide-react'
+import { ArrowLeft, Clock, Users, MapPin, Star, Calendar, Heart, Share2, Globe, Shield, Car, ChevronDown, ChevronUp, Info } from 'lucide-react'
 import { templateService } from '../../services/templateService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import CalendarView from './CalendarView'
 import toast from 'react-hot-toast'
+import { useCurrencyContext } from '../../hooks/useCurrency'
+import { SinglePriceDisplay } from '../shared/PriceDisplay'
 
 const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
   const { t } = useTranslation()
+  const { selectedCurrency, changeCurrency } = useCurrencyContext()
   const [templateWithAvailability, setTemplateWithAvailability] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [selectedDate, setSelectedDate] = useState(null)
   const [showCalendar, setShowCalendar] = useState(false)
   const [expandedLanguages, setExpandedLanguages] = useState(false)
 
@@ -206,15 +208,34 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
         </div>
         <div className="absolute bottom-4 left-4 right-4">
           <div className="flex items-center gap-3">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
-              <Activity className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20 overflow-hidden">
+              {templateDetails.operator_logo ? (
+                <img
+                  src={templateDetails.operator_logo}
+                  alt={templateDetails.operator_name || templateDetails.company_name || 'Operator logo'}
+                  className="w-full h-full object-cover rounded-xl"
+                  onError={(e) => {
+                    // Fallback to tour emoji if operator logo fails to load
+                    e.target.style.display = 'none'
+                    e.target.nextSibling.style.display = 'flex'
+                  }}
+                />
+              ) : null}
+              <div
+                className={`w-full h-full flex items-center justify-center ${templateDetails.operator_logo ? 'hidden' : 'flex'}`}
+                style={{ display: templateDetails.operator_logo ? 'none' : 'flex' }}
+              >
+                <span className="text-3xl" role="img" aria-label={templateDetails.tour_type}>
+                  {tourEmoji}
+                </span>
+              </div>
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight">
                 {templateDetails.tour_name}
               </h1>
               <p className="text-white/80 text-sm">
-                {templateDetails.operator_name || t('templates.premiumOperator')} • 📍 {templateDetails.location}
+                {templateDetails.operator_name || templateDetails.company_name || t('templates.premiumOperator')} • 📍 {templateDetails.location}, {templateDetails.meeting_point}
               </p>
               <div className="flex items-center gap-3 mt-1">
                 {templateDetails.average_rating && (
@@ -234,6 +255,108 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-4 sm:py-6 space-y-6 sm:space-y-8">
+
+        {/* Template Overview */}
+        <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            {/* Main Info */}
+            <div className="md:col-span-2 space-y-4">
+              <div>
+                <h2 className="text-lg font-semibold text-ui-text-primary mb-2">
+                  {t('tourDetail.sections.aboutExperience', 'About This Experience')}
+                </h2>
+                <p className="text-ui-text-secondary leading-relaxed">
+                  {templateDetails.description || t('templates.noDescription', 'This amazing activity offers an authentic French Polynesian experience. Description will be provided upon booking confirmation.')}
+                </p>
+              </div>
+
+              {/* Operator Section */}
+              <div className="bg-ui-surface-primary/50 rounded-lg p-4 border border-ui-border-primary">
+                <h3 className="text-md font-semibold text-ui-text-primary mb-3 flex items-center gap-2">
+                  <Shield className="w-4 h-4" />
+                  {t('templates.operatorInfo', 'Operator Information')}
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-interactive-primary/20 rounded-lg flex items-center justify-center">
+                      <span className="text-sm font-bold">{(templateDetails.operator_name || templateDetails.company_name || 'OP').substring(0, 2).toUpperCase()}</span>
+                    </div>
+                    <div>
+                      <div className="font-medium text-ui-text-primary">{templateDetails.operator_name || templateDetails.company_name || t('templates.premiumLocalOperator')}</div>
+                      <div className="text-sm text-ui-text-secondary">{t('templates.licensedOperator')}</div>
+                    </div>
+                  </div>
+                  {templateDetails.operator_total_tours_completed && (
+                    <div className="text-sm text-ui-text-secondary">
+                      {templateDetails.operator_total_tours_completed} {t('tourDetail.details.toursCompleted')}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Pricing & Availability */}
+            <div className="space-y-4">
+              <div className="bg-ui-surface-primary rounded-lg p-4">
+                <div className="text-center">
+                  <SinglePriceDisplay
+                    xpfAmount={template.price_from || 0}
+                    label={`${t('templates.fromPrice', 'from')} / ${t('common.adults', 'adult')}`}
+                    selectedCurrency={selectedCurrency}
+                    onCurrencyChange={changeCurrency}
+                    showCurrencySelector={true}
+                    size="large"
+                    className="justify-center"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-ui-text-secondary">{t('templates.available', 'Available')}</span>
+                  <span className="text-ui-text-primary font-medium">
+                    {availability.instance_count} {t('templates.dates', 'dates')}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-ui-text-secondary">{t('templates.totalSpots', 'Total spots')}</span>
+                  <span className="text-ui-text-primary font-medium">
+                    {availability.total_spots}
+                  </span>
+                </div>
+                {availability.next_available && (
+                  <div className="flex justify-between">
+                    <span className="text-ui-text-secondary">{t('templates.nextDate', 'Next available')}</span>
+                    <span className="text-ui-text-primary font-medium">
+                      {new Date(availability.next_available).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => setShowCalendar(true)}
+                className={`w-full font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 touch-manipulation active:scale-[0.98] ${
+                  availability.instance_count > 0
+                    ? 'bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary'
+                    : 'bg-ui-surface-tertiary hover:bg-ui-surface-primary text-ui-text-secondary border border-ui-border-primary'
+                }`}
+              >
+                <Calendar className="w-5 h-5" />
+                {availability.instance_count > 0
+                  ? t('templates.viewAvailability', 'View Availability')
+                  : t('templates.noDatesAvailable', 'No dates available')
+                }
+                {availability.instance_count === 0 && (
+                  <span className="text-xs bg-status-warning/20 text-status-warning px-2 py-1 rounded-full ml-2">
+                    {t('templates.checkBackSoon', 'Check back soon')}
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Key Details Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <DetailCard icon={Clock} label={t('tourDetail.details.duration')}>
@@ -301,91 +424,43 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
           </div>
         </div>
 
-        {/* Template Overview */}
-        <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            {/* Main Info */}
-            <div className="md:col-span-2 space-y-4">
-              <div>
-                <h2 className="text-lg font-semibold text-ui-text-primary mb-2">
-                  {t('tourDetail.sections.aboutExperience', 'About This Experience')}
-                </h2>
-                <p className="text-ui-text-secondary leading-relaxed">
-                  {templateDetails.description || t('templates.noDescription', 'This amazing activity offers an authentic French Polynesian experience. Description will be provided upon booking confirmation.')}
-                </p>
-              </div>
-
-              {/* Operator Section */}
-              <div className="bg-ui-surface-primary/50 rounded-lg p-4 border border-ui-border-primary">
-                <h3 className="text-md font-semibold text-ui-text-primary mb-3 flex items-center gap-2">
-                  <Shield className="w-4 h-4" />
-                  {t('templates.operatorInfo', 'Operator Information')}
-                </h3>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-interactive-primary/20 rounded-lg flex items-center justify-center">
-                      <span className="text-sm font-bold">{(templateDetails.operator_name || 'OP').substring(0, 2).toUpperCase()}</span>
-                    </div>
-                    <div>
-                      <div className="font-medium text-ui-text-primary">{templateDetails.operator_name || t('templates.premiumLocalOperator')}</div>
-                      <div className="text-sm text-ui-text-secondary">{t('templates.licensedOperator')}</div>
-                    </div>
-                  </div>
-                  {templateDetails.operator_total_tours_completed && (
-                    <div className="text-sm text-ui-text-secondary">
-                      {templateDetails.operator_total_tours_completed} {t('tourDetail.details.toursCompleted')}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Pricing & Availability */}
-            <div className="space-y-4">
-              <div className="bg-ui-surface-primary rounded-lg p-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-ui-text-primary">
-                    {template.price_from?.toLocaleString()} XPF
-                  </div>
-                  <div className="text-sm text-ui-text-secondary">
-                    {t('templates.fromPrice', 'from')} / {t('common.adults', 'adult')}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-ui-text-secondary">{t('templates.available', 'Available')}</span>
-                  <span className="text-ui-text-primary font-medium">
-                    {availability.instance_count} {t('templates.dates', 'dates')}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-ui-text-secondary">{t('templates.totalSpots', 'Total spots')}</span>
-                  <span className="text-ui-text-primary font-medium">
-                    {availability.total_spots}
-                  </span>
-                </div>
-                {availability.next_available && (
-                  <div className="flex justify-between">
-                    <span className="text-ui-text-secondary">{t('templates.nextDate', 'Next available')}</span>
-                    <span className="text-ui-text-primary font-medium">
-                      {new Date(availability.next_available).toLocaleDateString()}
-                    </span>
-                  </div>
-                )}
-              </div>
-
+        {/* Meeting Point */}
+        {templateDetails.meeting_point && (
+          <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
+            <h3 className="text-lg font-semibold text-ui-text-primary mb-4 flex items-center gap-2">
+              <MapPin className="w-5 h-5" />
+              {t('templates.meetingPoint', 'Meeting Point')}
+            </h3>
+            <p className="text-ui-text-secondary">{templateDetails.location}, {templateDetails.meeting_point}
+              </p>
+            {templateDetails.meeting_point_gps && (
               <button
-                onClick={() => setShowCalendar(true)}
-                className="w-full bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 touch-manipulation active:scale-[0.98]"
+                onClick={() => window.open(`https://maps.google.com/?q=${templateDetails.meeting_point_gps}`, '_blank')}
+                className="mt-2 text-interactive-primary hover:text-interactive-primary-hover text-sm transition-colors"
               >
-                <Calendar className="w-5 h-5" />
-                {t('templates.viewAvailability', 'View Availability')}
+                {t('templates.openInMaps', 'Open in Maps')}
               </button>
+            )}
+          </div>
+        )}
+
+        {/* Pickup Information */}
+        {templateDetails.pickup_available && templateDetails.pickup_locations && templateDetails.pickup_locations.length > 0 && (
+          <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
+            <h3 className="text-lg font-semibold text-ui-text-primary mb-4 flex items-center gap-2">
+              <Car className="w-5 h-5" />
+              {t('templates.pickupLocations', 'Pickup Locations')}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {templateDetails.pickup_locations.map((location, index) => (
+                <div key={index} className="flex items-center gap-2 text-sm text-ui-text-secondary">
+                  <MapPin className="w-4 h-4 text-ui-text-muted" />
+                  {location}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        )}
 
         {/* Features */}
         {(templateDetails.equipment_included || templateDetails.food_included || templateDetails.pickup_available) && (
@@ -457,43 +532,6 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
                 </div>
               )}
             </div>
-          </div>
-        )}
-
-        {/* Pickup Information */}
-        {templateDetails.pickup_available && templateDetails.pickup_locations && templateDetails.pickup_locations.length > 0 && (
-          <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
-            <h3 className="text-lg font-semibold text-ui-text-primary mb-4 flex items-center gap-2">
-              <Car className="w-5 h-5" />
-              {t('templates.pickupLocations', 'Pickup Locations')}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {templateDetails.pickup_locations.map((location, index) => (
-                <div key={index} className="flex items-center gap-2 text-sm text-ui-text-secondary">
-                  <MapPin className="w-4 h-4 text-ui-text-muted" />
-                  {location}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Meeting Point */}
-        {templateDetails.meeting_point && (
-          <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">
-            <h3 className="text-lg font-semibold text-ui-text-primary mb-4 flex items-center gap-2">
-              <MapPin className="w-5 h-5" />
-              {t('templates.meetingPoint', 'Meeting Point')}
-            </h3>
-            <p className="text-ui-text-secondary">{templateDetails.meeting_point}</p>
-            {templateDetails.meeting_point_gps && (
-              <button
-                onClick={() => window.open(`https://maps.google.com/?q=${templateDetails.meeting_point_gps}`, '_blank')}
-                className="mt-2 text-interactive-primary hover:text-interactive-primary-hover text-sm transition-colors"
-              >
-                {t('templates.openInMaps', 'Open in Maps')}
-              </button>
-            )}
           </div>
         )}
 

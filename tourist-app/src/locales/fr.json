@@ -118,15 +118,30 @@
     "exploreHint": "Ou parcours tous les tours disponibles avec des options de recherche détaillées :",
     "tryExploreTab": "Découvrir toutes les activités →",
     "filters": {
-      "halfDay": "Demi-journée (2-4 heures)",
-      "fullDay": "Journée complète (4-8 heures)",
+      "short": "Court (max. 3 heures)",
+      "halfDay": "Demi-journée (3-8 heures)",
+      "fullDay": "Journée complète (8+ heures)",
       "multiDay": "Plusieurs jours",
       "difficultyLabel": "Difficulté",
       "anyLevel": "Tous niveaux",
       "anyBudget": "Tout budget",
+      "under10k": "moins de 10000 F",
+      "10kTo30k": "10000 - 30000 F",
+      "30kPlus": "30000 F +",
       "budgetFriendly": "Budget serré (moins de 10000 XPF)",
       "midRange": "Gamme moyenne (10000-25000 XPF)",
-      "luxury": "Luxe (25000+ XPF)"
+      "luxury": "Luxe (25000+ XPF)",
+      "budgetDescription": "Définissez votre gamme de prix préférée",
+      "anyBudgetDesc": "Sans limite",
+      "under10kDesc": "Économique",
+      "10kTo30kDesc": "Bon rapport qualité-prix",
+      "30kPlusDesc": "Expérience premium",
+      "durationDescription": "Combien de temps avez-vous ?",
+      "anyDurationDesc": "Toutes durées",
+      "shortDesc": "Activité rapide",
+      "halfDayDesc": "Matin ou après-midi",
+      "fullDayDesc": "Aventure complète",
+      "multiDayDesc": "Voyage prolongé"
     }
   },
 
@@ -1240,7 +1255,9 @@
     "openInMaps": "Ouvrir dans Maps",
     "whaleRegulation": "Observation de Baleines Certifiée",
     "whaleCompliant": "Cet opérateur suit les réglementations officielles d'observation des baleines pour votre sécurité et la conservation marine.",
-    "maxWhaleGroup": "Taille maximale du groupe pour les rencontres avec les baleines"
+    "maxWhaleGroup": "Taille maximale du groupe pour les rencontres avec les baleines",
+    "noDatesAvailable": "Aucune date disponible",
+    "checkBackSoon": "Revenez bientôt"
   }
 
 }

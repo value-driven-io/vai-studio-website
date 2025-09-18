@@ -1,7 +1,7 @@
 // Clean DiscoverTab - 3 Step Flow: Location → Mood → Personalize
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight } from 'lucide-react'
+import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight, SlidersHorizontal, X, DollarSign, Clock, Search, Trash2 } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { templateService } from '../../services/templateService'
 import { useAppStore } from '../../stores/bookingStore'
@@ -27,8 +27,17 @@ const DiscoverTab = () => {
   const [selectedMood, setSelectedMood] = useState(null)
   const [filters, setFilters] = useState({
     duration: 'any',
-    difficulty: 'any', 
     budget: 'any'
+  })
+
+  // Additional filters for results screen
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [additionalFilters, setAdditionalFilters] = useState({
+    island: 'all',
+    tourType: 'all',
+    duration: 'all',
+    priceRange: null
   })
   
   // Tour data and modals
@@ -57,6 +66,17 @@ const DiscoverTab = () => {
   
   const { favorites, toggleFavorite, setActiveTab } = useAppStore()
 
+  // Full options for filters (not just database values)
+  const allIslands = [
+    'Tahiti', 'Bora Bora', 'Moorea', 'Huahine', 'Raiatea', 'Taha\'a',
+    'Maupiti', 'Tikehau', 'Rangiroa', 'Fakarava', 'Nuku Hiva', 'Other'
+  ]
+
+  const allTourTypes = [
+    'Diving', 'Snorkeling', 'Whale Watching', 'Lagoon Tour', 'Adrenalin',
+    'Hike', 'Hiking', 'Mindfulness', 'Cultural', 'Culinary Experience', 'Relax'
+  ]
+
   // Fetch templates based on location, mood, and filters
   const fetchTemplates = useCallback(async () => {
     if (!selectedLocation || !selectedMood) {
@@ -81,10 +101,9 @@ const DiscoverTab = () => {
         // Don't filter by tour type in the service - we'll filter client-side for all allowed types
         tourType: null,
         duration: filters.duration,
-        difficulty: filters.difficulty,
         priceRange: filters.budget !== 'any' ? {
-          min: filters.budget === 'budget' ? 0 : filters.budget === 'mid' ? 10000 : 25000,
-          max: filters.budget === 'budget' ? 9999 : filters.budget === 'mid' ? 24999 : null
+          min: filters.budget === 'budget' ? 0 : filters.budget === 'mid' ? 10000 : 30000,
+          max: filters.budget === 'budget' ? 9999 : filters.budget === 'mid' ? 29999 : null
         } : null
       }
 
@@ -107,8 +126,45 @@ const DiscoverTab = () => {
     }
   }, [selectedLocation, selectedMood, filters])
 
-  // Use templates instead of filtered tours
-  const filteredTours = templates
+  // Apply additional filters to templates
+  const filteredTours = useMemo(() => {
+    if (!templates || templates.length === 0) return []
+
+    return templates.filter(template => {
+      // Search filter
+      if (searchQuery && !template.tour_name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+          !template.description?.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false
+      }
+
+      // Island filter
+      if (additionalFilters.island !== 'all' && template.location !== additionalFilters.island) {
+        return false
+      }
+
+      // Tour type filter
+      if (additionalFilters.tourType !== 'all' && template.tour_type !== additionalFilters.tourType) {
+        return false
+      }
+
+      // Duration filter
+      if (additionalFilters.duration !== 'all') {
+        const hours = template.duration_hours || 0
+        if (additionalFilters.duration === 'short' && hours >= 3) return false
+        if (additionalFilters.duration === 'medium' && (hours < 3 || hours > 6)) return false
+        if (additionalFilters.duration === 'long' && hours <= 6) return false
+      }
+
+      // Price range filter
+      if (additionalFilters.priceRange) {
+        const price = template.discount_price_adult || 0
+        if (additionalFilters.priceRange.min && price < additionalFilters.priceRange.min) return false
+        if (additionalFilters.priceRange.max && price > additionalFilters.priceRange.max) return false
+      }
+
+      return true
+    })
+  }, [templates, searchQuery, additionalFilters])
 
   // Fetch templates when location, mood, or filters change
   useEffect(() => {
@@ -122,7 +178,7 @@ const DiscoverTab = () => {
     setCurrentStep(STEPS.LOCATION)
     setSelectedLocation(null)
     setSelectedMood(null)
-    setFilters({ duration: 'any', difficulty: 'any', budget: 'any' })
+    setFilters({ duration: 'any', budget: 'any' })
   }
 
   // Step navigation with smooth transitions
@@ -376,6 +432,16 @@ const DiscoverTab = () => {
             getUrgencyColor={getUrgencyColor}
             onReset={resetFlow}
             setActiveTab={setActiveTab}
+            // Additional filter props
+            showAdvancedFilters={showAdvancedFilters}
+            setShowAdvancedFilters={setShowAdvancedFilters}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            additionalFilters={additionalFilters}
+            setAdditionalFilters={setAdditionalFilters}
+            allIslands={allIslands}
+            allTourTypes={allTourTypes}
+            totalTemplates={templates?.length || 0}
           />
         )}
       </div>
@@ -641,82 +707,81 @@ const PersonalizeStep = ({
 }) => {
   const { t } = useTranslation()
 
+  const budgetOptions = [
+    {
+      key: 'any',
+      label: t('discovery.filters.anyBudget'),
+      emoji: '💫',
+      description: t('discovery.filters.anyBudgetDesc', 'No budget limit')
+    },
+    {
+      key: 'budget',
+      label: t('discovery.filters.under10k'),
+      emoji: '💰',
+      description: t('discovery.filters.under10kDesc', 'Budget-friendly options')
+    },
+    {
+      key: 'mid',
+      label: t('discovery.filters.10kTo30k'),
+      emoji: '💎',
+      description: t('discovery.filters.10kTo30kDesc', 'Great value experiences')
+    },
+    {
+      key: 'luxury',
+      label: t('discovery.filters.30kPlus'),
+      emoji: '👑',
+      description: t('discovery.filters.30kPlusDesc', 'Premium adventures')
+    }
+  ]
+
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Selection summary */}
-      <div className="p-6 bg-ui-surface-secondary rounded-xl border border-ui-border-primary">
-        <h3 className="font-semibold text-ui-text-primary mb-4">{t('discovery.yourSelection')}:</h3>
-        <div className="flex flex-wrap gap-4">
-          <div className="flex items-center gap-2 px-3 py-1 bg-interactive-primary rounded-full text-sm">
-            <span>{selectedLocation?.emoji}</span>
-            <span>{selectedLocation?.name}</span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-1 bg-mood-culture rounded-full text-sm">
-            {selectedMood?.icon && <selectedMood.icon className="w-4 h-4" />}
-            <span>{selectedMood?.name}</span>
-          </div>
+      <div className="text-center p-3 xs:p-4 bg-ui-surface-secondary rounded-lg border border-ui-border-primary">
+        <p className="text-ui-text-muted text-xs xs:text-sm mb-2">
+          {t('discovery.exploring')} <span className="text-interactive-primary-light">{selectedLocation?.emoji} {selectedLocation?.name}</span>
+        </p>
+        <div className="flex items-center justify-center gap-2">
+          <span className="text-ui-text-muted">•</span>
+          <span className="text-ui-text-primary text-sm">{selectedMood?.name}</span>
         </div>
       </div>
 
-      {/* Filter options */}
-      <div className="grid grid-cols-1 mobile:grid-cols-2 md:grid-cols-3 gap-4 mobile:gap-6">
-        {/* Duration filter */}
-        <div className="space-y-3">
-          <label className="block text-sm font-medium text-ui-text-primary">{t('explore.filterLabels.duration')}</label>
-          <select 
-            value={filters.duration} 
-            onChange={(e) => onFiltersChange({...filters, duration: e.target.value})}
-            className="w-full p-3 bg-ui-surface-secondary border border-ui-border-primary rounded-lg text-ui-text-primary focus:ring-2 focus:border-interactive-focus focus:border-transparent"
-          >
-            <option value="any">{t('explore.filterOptions.anyDuration')}</option>
-            <option value="short">{t('discovery.filters.halfDay')}</option>
-            <option value="medium">{t('discovery.filters.fullDay')}</option>
-            <option value="long">{t('discovery.filters.multiDay')}</option>
-          </select>
-        </div>
+      {/* Budget selection - matching Step 1 & 2 pattern */}
+      <div className="space-y-4">
+        <h3 className="text-mobile-lg xs:text-mobile-xl font-semibold text-ui-text-primary text-center">
+          {t('discovery.budget')}
+        </h3>
+        <p className="text-ui-text-secondary text-mobile-sm xs:text-mobile-base text-center px-2 leading-mobile-relaxed">
+          {t('discovery.filters.budgetDescription', 'What\'s your preferred spending range?')}
+        </p>
 
-        {/* Difficulty filter */}
-        <div className="space-y-3">
-          <label className="block text-sm font-medium text-ui-text-primary">{t('discovery.filters.difficultyLabel')}</label>
-          <select 
-            value={filters.difficulty} 
-            onChange={(e) => onFiltersChange({...filters, difficulty: e.target.value})}
-            className="w-full p-3 bg-ui-surface-secondary border border-ui-border-primary rounded-lg text-ui-text-primary focus:ring-2 focus:border-interactive-focus focus:border-transparent"
-          >
-            <option value="any">{t('discovery.filters.anyLevel')}</option>
-            <option value="easy">{t('tourDetail.fitness.easy')}</option>
-            <option value="moderate">{t('tourDetail.fitness.moderate')}</option>
-            <option value="challenging">{t('tourDetail.fitness.challenging')}</option>
-          </select>
-        </div>
-
-        {/* Budget filter */}
-        <div className="space-y-3">
-          <label className="block text-sm font-medium text-ui-text-primary">{t('discovery.budget')}</label>
-          <select 
-            value={filters.budget} 
-            onChange={(e) => onFiltersChange({...filters, budget: e.target.value})}
-            className="w-full p-3 bg-ui-surface-secondary border border-ui-border-primary rounded-lg text-ui-text-primary focus:ring-2 focus:border-interactive-focus focus:border-transparent"
-          >
-            <option value="any">{t('discovery.filters.anyBudget')}</option>
-            <option value="budget">{t('discovery.filters.budgetFriendly')}</option>
-            <option value="mid">{t('discovery.filters.midRange')}</option>
-            <option value="luxury">{t('discovery.filters.luxury')}</option>
-          </select>
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 auto-rows-fr">
+          {budgetOptions.map((option) => (
+            <FilterCard
+              key={option.key}
+              option={option}
+              isSelected={filters.budget === option.key}
+              onClick={() => onFiltersChange({...filters, budget: option.key})}
+              colorScheme="budget"
+            />
+          ))}
         </div>
       </div>
 
-      {/* Action buttons */}
+
+      {/* Action buttons - mobile-first design */}
       <div className="flex flex-col mobile:flex-row gap-3 mobile:gap-4 justify-center pt-6">
         <button
           onClick={onReset}
-          className="px-6 py-3 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-mobile-lg transition-touch min-h-48 w-full mobile:w-auto"
+          className="px-6 py-3 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-mobile-lg transition-touch min-h-[3rem] w-full mobile:w-auto"
         >
           {t('discovery.startOver')}
         </button>
         <button
           onClick={onShowResults}
-          className="px-6 mobile:px-8 py-3 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-mobile-lg font-medium transition-touch flex items-center justify-center gap-2 min-h-48 w-full mobile:w-auto"
+          className="px-6 mobile:px-8 py-3 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-mobile-lg font-medium transition-touch flex items-center justify-center gap-2 min-h-[3rem] w-full mobile:w-auto"
         >
           <Sparkles className="w-5 h-5" />
           <span className="truncate">{t('discovery.findActivities')}</span>
@@ -726,7 +791,60 @@ const PersonalizeStep = ({
   )
 }
 
-// Step 4: Results showing filtered tours
+// Reusable Filter Card Component - matching Island and Mood card patterns
+const FilterCard = ({ option, onClick, isSelected = false, colorScheme = 'default', className = '' }) => {
+  const getColorClasses = (scheme, selected) => {
+    if (scheme === 'budget') {
+      return selected
+        ? 'border-status-success bg-status-success/20 shadow-lg shadow-green-500/25'
+        : 'border-ui-border-primary bg-ui-surface-secondary active:scale-95 active:bg-ui-surface-primary'
+    }
+    if (scheme === 'duration') {
+      return selected
+        ? 'border-interactive-primary bg-interactive-primary/20 shadow-lg shadow-blue-500/25'
+        : 'border-ui-border-primary bg-ui-surface-secondary active:scale-95 active:bg-ui-surface-primary'
+    }
+    return selected
+      ? 'border-interactive-focus bg-interactive-primary/20 shadow-lg shadow-blue-500/25'
+      : 'border-ui-border-primary bg-ui-surface-secondary active:scale-95 active:bg-ui-surface-primary'
+  }
+
+  const getTextColor = (scheme, selected) => {
+    if (scheme === 'budget' && selected) return 'text-status-success-light'
+    if (scheme === 'duration' && selected) return 'text-interactive-primary-light'
+    return selected ? 'text-interactive-primary-light' : 'text-ui-text-primary group-hover:text-interactive-primary-light'
+  }
+
+  return (
+    <button
+      onClick={() => onClick(option)}
+      className={`group relative p-4 xs:p-6 rounded-mobile xs:rounded-mobile-xl border-2 text-left transition-touch transform min-h-48 flex flex-col justify-center h-full ${getColorClasses(colorScheme, isSelected)} ${className}`}
+    >
+      <div className="flex-1 flex flex-col justify-center">
+        <div className="flex items-center justify-center gap-2 xs:gap-3 mb-2 xs:mb-3">
+          <span className="text-2xl xs:text-3xl transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
+            {option.emoji}
+          </span>
+        </div>
+        <h3 className={`text-mobile-base xs:text-mobile-lg font-semibold transition-colors duration-200 text-center hyphens-none overflow-wrap-anywhere leading-snug mb-2 xs:mb-3 ${getTextColor(colorScheme, isSelected)}`}>
+          {option.label}
+        </h3>
+      </div>
+      <p className="text-ui-text-secondary text-mobile-xs xs:text-mobile-sm leading-mobile-relaxed text-center mt-auto">
+        {option.description}
+      </p>
+
+      {/* Subtle glow effect - only show on hover when not selected */}
+      <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 pointer-events-none ${
+        isSelected
+          ? `${colorScheme === 'budget' ? 'bg-status-success/10' : 'bg-interactive-primary/10'} opacity-100`
+          : `${colorScheme === 'budget' ? 'bg-status-success/5' : 'bg-interactive-primary/5'} opacity-0`
+      }`} />
+    </button>
+  )
+}
+
+// Step 4: Results showing filtered tours with advanced filters
 const ResultsStep = ({
   tours,
   selectedLocation,
@@ -742,10 +860,50 @@ const ResultsStep = ({
   calculateSavings,
   getUrgencyColor,
   onReset,
-  setActiveTab
+  setActiveTab,
+  // New props for advanced filtering
+  showAdvancedFilters,
+  setShowAdvancedFilters,
+  searchQuery,
+  setSearchQuery,
+  additionalFilters,
+  setAdditionalFilters,
+  allIslands,
+  allTourTypes,
+  totalTemplates
 }) => {
   const { t } = useTranslation()
   const activeFilterCount = Object.values(filters).filter(v => v !== 'any').length
+
+  // Count additional active filters
+  const additionalActiveFilters = [
+    additionalFilters.island !== 'all',
+    additionalFilters.tourType !== 'all',
+    additionalFilters.duration !== 'all',
+    additionalFilters.priceRange !== null,
+    searchQuery.length > 0
+  ].filter(Boolean).length
+
+  // Clear additional filters
+  const clearAdditionalFilters = () => {
+    setAdditionalFilters({
+      island: 'all',
+      tourType: 'all',
+      duration: 'all',
+      priceRange: null
+    })
+    setSearchQuery('')
+  }
+
+  // FilterChip Component for additional filters
+  const FilterChip = ({ label, onRemove }) => (
+    <span className="inline-flex items-center gap-1.5 bg-interactive-primary/20 text-interactive-primary-light border border-interactive-primary/30 px-2.5 py-1 rounded-lg text-xs font-medium">
+      {label}
+      <button onClick={onRemove} className="hover:text-ui-text-primary transition-colors">
+        <X className="w-3 h-3" />
+      </button>
+    </span>
+  )
 
   if (loading) {
     return <div className="text-center py-12">
@@ -754,37 +912,6 @@ const ResultsStep = ({
     </div>
   }
 
-  if (tours.length === 0) {
-    return (
-      <div className="text-center py-12 bg-ui-surface-secondary/50 rounded-xl border border-ui-border-primary">
-        <div className="w-16 h-16 bg-ui-surface-primary rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">🌴</span>
-        </div>
-        <h3 className="text-lg font-semibold text-ui-text-muted mb-2">
-          {t('discovery.noActivitiesFound')}
-        </h3>
-        <p className="text-ui-text-disabled mb-6 max-w-md mx-auto">
-          {t('discovery.tryAdjustingFilters')}
-        </p>
-        <button
-          onClick={onReset}
-          className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-6 py-3 rounded-lg transition-colors mb-4"
-        >
-          {t('discovery.startOver')}
-        </button>
-        
-        {/* Explore hint */}
-        <div className="text-center pt-4 border-t border-ui-border-primary">
-          <button
-            onClick={() => setActiveTab('explore')}
-            className="text-interactive-primary-light hover:text-interactive-primary-light text-sm none transition-colors"
-          >
-            {t('discovery.tryExploreTab')}
-          </button>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-6">
@@ -817,15 +944,241 @@ const ResultsStep = ({
             {t('discovery.startOver')}
           </button>
         </div>
-        
+
         <div className="text-ui-text-secondary text-sm">
-          Found <span className="text-ui-text-primary font-medium">{tours.length}</span> {t('discovery.perfectMatchesForYou')}
+          Found <span className="text-ui-text-primary font-medium">{tours.length}</span> of <span className="text-ui-text-primary font-medium">{totalTemplates}</span> {t('discovery.perfectMatchesForYou')}
         </div>
       </div>
 
+      {/* Advanced Filters Section */}
+      <div className="bg-ui-surface-secondary/50 rounded-xl border border-ui-border-primary">
+        {/* Filter Header */}
+        <div className="flex items-center justify-between p-4 border-b border-ui-border-primary">
+          <div className="flex items-center gap-3">
+            <Search className="w-5 h-5 text-ui-text-secondary" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t('explore.searchPlaceholder')}
+              className="flex-1 bg-ui-surface-primary border border-ui-border-secondary rounded-lg px-3 py-2 text-ui-text-primary placeholder-ui-text-secondary focus:border-interactive-focus min-w-0"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 ml-4">
+            <button
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                showAdvancedFilters || additionalActiveFilters > 0
+                  ? 'bg-interactive-primary text-ui-text-primary shadow-lg'
+                  : 'bg-ui-surface-primary text-ui-text-muted hover:bg-ui-surface-tertiary'
+              }`}
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              {additionalActiveFilters > 0 && (
+                <span className="bg-white text-interactive-primary text-xs px-2 py-0.5 rounded-full font-bold">
+                  {additionalActiveFilters}
+                </span>
+              )}
+            </button>
+
+            {additionalActiveFilters > 0 && (
+              <button
+                onClick={clearAdditionalFilters}
+                className="flex items-center gap-1.5 px-3 py-2 bg-status-error hover:bg-status-error-hover text-ui-text-primary rounded-lg text-sm font-medium transition-all"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Active Additional Filters Display */}
+        {additionalActiveFilters > 0 && (
+          <div className="flex flex-wrap gap-2 p-4 border-b border-ui-border-primary">
+            {searchQuery && (
+              <FilterChip
+                label={`🔍 "${searchQuery}"`}
+                onRemove={() => setSearchQuery('')}
+              />
+            )}
+            {additionalFilters.island !== 'all' && (
+              <FilterChip
+                label={`📍 ${additionalFilters.island}`}
+                onRemove={() => setAdditionalFilters({...additionalFilters, island: 'all'})}
+              />
+            )}
+            {additionalFilters.tourType !== 'all' && (
+              <FilterChip
+                label={`🎯 ${additionalFilters.tourType}`}
+                onRemove={() => setAdditionalFilters({...additionalFilters, tourType: 'all'})}
+              />
+            )}
+            {additionalFilters.duration !== 'all' && (
+              <FilterChip
+                label={`⏱️ ${additionalFilters.duration}`}
+                onRemove={() => setAdditionalFilters({...additionalFilters, duration: 'all'})}
+              />
+            )}
+            {additionalFilters.priceRange && (
+              <FilterChip
+                label={`💰 ${additionalFilters.priceRange.min || 0}-${additionalFilters.priceRange.max || '∞'} XPF`}
+                onRemove={() => setAdditionalFilters({...additionalFilters, priceRange: null})}
+              />
+            )}
+          </div>
+        )}
+
+        {/* Advanced Filter Panel */}
+        {showAdvancedFilters && (
+          <div className="p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Island Filter */}
+              <div>
+                <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.island')}</label>
+                <select
+                  value={additionalFilters.island}
+                  onChange={(e) => setAdditionalFilters({...additionalFilters, island: e.target.value})}
+                  className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
+                >
+                  <option value="all">{t('explore.filterOptions.allIslands')}</option>
+                  {allIslands.map(island => (
+                    <option key={island} value={island}>{island}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Tour Type Filter */}
+              <div>
+                <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.activityType')}</label>
+                <select
+                  value={additionalFilters.tourType}
+                  onChange={(e) => setAdditionalFilters({...additionalFilters, tourType: e.target.value})}
+                  className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
+                >
+                  <option value="all">{t('explore.filterOptions.allTypes')}</option>
+                  {allTourTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Duration Filter */}
+              <div>
+                <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.duration')}</label>
+                <select
+                  value={additionalFilters.duration}
+                  onChange={(e) => setAdditionalFilters({...additionalFilters, duration: e.target.value})}
+                  className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
+                >
+                  <option value="all">{t('explore.filterOptions.anyDuration')}</option>
+                  <option value="short">{t('explore.filterOptions.under3Hours')}</option>
+                  <option value="medium">{t('explore.filterOptions.3to6Hours')}</option>
+                  <option value="long">{t('explore.filterOptions.over6Hours')}</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Price Range - Full width section */}
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-ui-text-muted mb-2">{t('explore.filterLabels.priceRange')}</label>
+              <div className="grid grid-cols-2 gap-3 max-w-md">
+                <input
+                  type="number"
+                  placeholder={t('explore.placeholders.minPrice')}
+                  className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
+                  value={additionalFilters.priceRange?.min || ''}
+                  onChange={(e) => {
+                    const min = e.target.value ? parseInt(e.target.value) : null
+                    setAdditionalFilters({
+                      ...additionalFilters,
+                      priceRange: {
+                        ...additionalFilters.priceRange,
+                        min: min,
+                        max: additionalFilters.priceRange?.max || null
+                      }
+                    })
+                  }}
+                />
+                <input
+                  type="number"
+                  placeholder={t('explore.placeholders.maxPrice')}
+                  className="w-full bg-ui-surface-primary border border-ui-border-secondary text-ui-text-primary rounded-lg px-3 py-2.5 text-sm focus:border-interactive-focus"
+                  value={additionalFilters.priceRange?.max || ''}
+                  onChange={(e) => {
+                    const max = e.target.value ? parseInt(e.target.value) : null
+                    setAdditionalFilters({
+                      ...additionalFilters,
+                      priceRange: {
+                        ...additionalFilters.priceRange,
+                        min: additionalFilters.priceRange?.min || null,
+                        max: max
+                      }
+                    })
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Filter Actions */}
+            <div className="flex items-center justify-between mt-6 pt-4 border-t border-ui-border-primary">
+              <div className="text-sm text-ui-text-secondary">
+                {tours.length} of {totalTemplates} templates match your criteria
+              </div>
+              <button
+                onClick={() => setShowAdvancedFilters(false)}
+                className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                {t('explore.applyFilters')}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Tour results */}
-      <div className="space-y-4">
-        {tours.map((tour, index) => (
+      {tours.length === 0 ? (
+        <div className="text-center py-12 bg-ui-surface-secondary/50 rounded-xl border border-ui-border-primary">
+          <div className="w-16 h-16 bg-ui-surface-primary rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl">🌴</span>
+          </div>
+          <h3 className="text-lg font-semibold text-ui-text-muted mb-2">
+            {t('discovery.noActivitiesFound')}
+          </h3>
+          <p className="text-ui-text-disabled mb-6 max-w-md mx-auto">
+            {additionalActiveFilters > 0
+              ? t('discovery.tryAdjustingFilters')
+              : t('discovery.noTemplatesInSelection')}
+          </p>
+
+          {additionalActiveFilters > 0 && (
+            <button
+              onClick={clearAdditionalFilters}
+              className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-6 py-3 rounded-lg transition-colors mb-4"
+            >
+              {t('discovery.clearFilters')}
+            </button>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={onReset}
+              className="bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary px-6 py-3 rounded-lg transition-colors"
+            >
+              {t('discovery.startOver')}
+            </button>
+
+            <button
+              onClick={() => setActiveTab('explore')}
+              className="text-interactive-primary-light hover:text-interactive-primary border border-interactive-primary-light hover:bg-interactive-primary-light hover:text-ui-text-primary px-6 py-3 rounded-lg transition-colors"
+            >
+              {t('discovery.tryExploreTab')}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {tours.map((tour, index) => (
           <TourCard
             key={tour.id}
             tour={tour}
@@ -841,7 +1194,8 @@ const ResultsStep = ({
             style={{ animationDelay: `${index * 100}ms` }}
           />
         ))}
-      </div>
+        </div>
+      )}
 
       {/* Footer actions */}
       <div className="text-center pt-6 border-t border-ui-border-primary">

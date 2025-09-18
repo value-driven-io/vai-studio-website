@@ -24,7 +24,7 @@ const CurrencySelector = ({
 
   return (
     <div className={`currency-selector ${className}`}>
-      <div className="flex vai-surface-elevated rounded-lg border border-ui-border-primary overflow-hidden">
+      <div className="flex rounded-lg border border-ui-border-primary overflow-hidden">
         {currencies.map((currency) => {
           const isSelected = currency === selectedCurrency
           const currencyInfo = getCurrencyInfo(currency)
