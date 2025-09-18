@@ -246,21 +246,27 @@
   "form": {
     "firstName": "Prénom *",
     "lastName": "Nom *",
-    "whatsappNumber": "Numéro WhatsApp *", 
+    "whatsappNumber": "Numéro WhatsApp",
     "emailAddress": "Adresse email *",
+    "confirmEmailAddress": "Confirmer l'adresse email *",
+    "optional": "optionnel",
     "adults": "Adultes *",
     "children": "Enfants",
     "phoneNumber": "Numéro de téléphone",
     "specialRequirements": "Demandes spéciales",
     "dietaryRestrictions": "Restrictions alimentaires",
-    "accessibilityNeeds": "Besoins d'accessibilité"
+    "accessibilityNeeds": "Besoins d'accessibilité",
+    "emailHelp": "Pour les confirmations et mises à jour de réservation",
+    "emailConfirmHelp": "Veuillez confirmer votre adresse email",
+    "whatsappHelp": "Pour les mises à jour rapides de votre tour (optionnel)"
   },
   
   "placeholders": {
     "firstName": "Ton prénom",
     "lastName": "Ton nom",
     "whatsapp": "+689 12 34 56 78",
-    "email": "ton@email.com", 
+    "email": "ton@email.com",
+    "confirmEmail": "Confirme ton adresse email",
     "phone": "+689 12 34 56 78",
     "specialRequests": "Des demandes particulières ou questions...",
     "dietary": "Végétarien, allergies, etc.",
@@ -273,8 +279,10 @@
     "lastNameRequired": "Le nom est obligatoire",
     "whatsappRequired": "Le numéro WhatsApp est obligatoire",
     "whatsappInvalid": "Merci d'entrer un numéro de téléphone valide",
-    "emailRequired": "L'email est obligatoire", 
+    "emailRequired": "L'email est obligatoire",
     "emailInvalid": "Merci d'entrer une adresse email valide",
+    "emailConfirmRequired": "La confirmation d'email est obligatoire",
+    "emailConfirmMismatch": "Les adresses email ne correspondent pas",
     "phoneInvalid": "Merci d'entrer un numéro de téléphone valide",
     "adultsRequired": "Au moins 1 adulte est requis",
     "spotsExceeded": "Seulement {{count}} places disponibles"

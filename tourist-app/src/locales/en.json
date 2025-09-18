@@ -257,22 +257,28 @@
   
   "form": {
     "firstName": "First Name *",
-    "lastName": "Last Name *", 
-    "whatsappNumber": "WhatsApp Number *",
+    "lastName": "Last Name *",
+    "whatsappNumber": "WhatsApp Number",
     "emailAddress": "Email Address *",
+    "confirmEmailAddress": "Confirm Email Address *",
+    "optional": "optional",
     "adults": "Adults *",
     "children": "Children",
     "phoneNumber": "Phone Number",
     "specialRequirements": "Special Requirements",
     "dietaryRestrictions": "Dietary Restrictions",
-    "accessibilityNeeds": "Accessibility Needs"
+    "accessibilityNeeds": "Accessibility Needs",
+    "emailHelp": "For booking confirmations and updates",
+    "emailConfirmHelp": "Please confirm your email address",
+    "whatsappHelp": "For quick updates about your tour (optional)"
   },
   
   "placeholders": {
     "firstName": "Your first name",
-    "lastName": "Your last name", 
+    "lastName": "Your last name",
     "whatsapp": "+689 12 34 56 78",
     "email": "your@email.com",
+    "confirmEmail": "Confirm your email address",
     "phone": "+689 12 34 56 78",
     "specialRequests": "Any special requests or questions...",
     "dietary": "Vegetarian, allergies, etc.",
@@ -283,10 +289,12 @@
   "validation": {
     "firstNameRequired": "First name is required",
     "lastNameRequired": "Last name is required",
-    "whatsappRequired": "WhatsApp number is required", 
+    "whatsappRequired": "WhatsApp number is required",
     "whatsappInvalid": "Please enter a valid phone number",
     "emailRequired": "Email is required",
     "emailInvalid": "Please enter a valid email address",
+    "emailConfirmRequired": "Email confirmation is required",
+    "emailConfirmMismatch": "Email addresses do not match",
     "phoneInvalid": "Please enter a valid phone number",
     "adultsRequired": "At least 1 adult is required",
     "spotsExceeded": "Only {{count}} spots available"

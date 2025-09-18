@@ -105,10 +105,10 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-ui-surface-secondary rounded-xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 pb-20 sm:pb-4">
+      <div className="bg-ui-surface-secondary rounded-none sm:rounded-xl w-full max-w-4xl h-full sm:h-auto sm:max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-ui-border-primary">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-ui-border-primary flex-shrink-0">
           <div className="flex-1 min-w-0">
             <h2 className="text-lg sm:text-xl font-bold text-ui-text-primary">
               {t('calendar.selectDate', 'Select Date')}
@@ -125,9 +125,9 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
           </button>
         </div>
 
-        <div className="flex flex-col lg:grid lg:grid-cols-3 h-full">
+        <div className="flex-1 flex flex-col lg:grid lg:grid-cols-3 min-h-0">
           {/* Calendar */}
-          <div className="lg:col-span-2 p-4 sm:p-6 flex-1 min-h-0 overflow-auto">
+          <div className="lg:col-span-2 p-4 sm:p-6 flex-1 overflow-auto">
             {/* Month Navigation */}
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <button
@@ -187,7 +187,7 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
           </div>
 
           {/* Instance Details Sidebar */}
-          <div className="lg:col-span-1 lg:border-l border-t lg:border-t-0 border-ui-border-primary p-4 sm:p-6 bg-ui-surface-primary/30 lg:min-h-0 lg:overflow-auto">
+          <div className="lg:col-span-1 lg:border-l border-t lg:border-t-0 border-ui-border-primary p-4 sm:p-6 bg-ui-surface-primary/30 flex-shrink-0 lg:flex-shrink lg:overflow-auto">
             {selectedInstance ? (
               <div className="space-y-6">
                 <div>
@@ -257,7 +257,7 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
         </div>
 
         {/* Footer */}
-        <div className="border-t border-ui-border-primary p-4 sm:p-6">
+        <div className="border-t border-ui-border-primary p-4 sm:p-6 flex-shrink-0 mb-0 sm:mb-0">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:justify-between">
             <div className="text-sm text-ui-text-secondary text-center sm:text-left">
               {t('calendar.availableDates', 'Available dates')} • {availability.instance_count} {t('calendar.dates', 'dates')}

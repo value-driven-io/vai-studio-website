@@ -144,25 +144,39 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
         // Get operator_id - if missing from tour object, fetch from database
         let operatorId = tour.operator_id
-        
+
         if (!operatorId) {
           console.log('⚠️ operator_id missing from tour, fetching from database...')
-          
-          // Fetch operator_id from tours table directly
-          const { data: tourData, error: tourError } = await supabase
+
+          // Try tours table first (for traditional tours)
+          let { data: tourData, error: tourError } = await supabase
             .from('tours')
             .select('operator_id')
             .eq('id', tour.id)
             .single()
-            
-          if (tourError) {
-            console.error('❌ Failed to fetch operator_id:', tourError)
-            toast.error(t('toastNotifications.operatorInfoFailed'))
-            return
+
+          if (tourData && !tourError) {
+            operatorId = tourData.operator_id
+            console.log('✅ Fetched operator_id from tours table:', operatorId)
+          } else {
+            // If not found in tours table, try active_tours_with_operators (for template instances)
+            console.log('⚠️ Tour not found in tours table, trying active_tours_with_operators...')
+
+            const { data: instanceData, error: instanceError } = await supabase
+              .from('active_tours_with_operators')
+              .select('operator_id')
+              .eq('id', tour.id)
+              .single()
+
+            if (instanceData && !instanceError) {
+              operatorId = instanceData.operator_id
+              console.log('✅ Fetched operator_id from active_tours_with_operators:', operatorId)
+            } else {
+              console.error('❌ Failed to fetch operator_id from both tables:', { tourError, instanceError })
+              toast.error(t('toastNotifications.operatorInfoFailed'))
+              return
+            }
           }
-          
-          operatorId = tourData.operator_id
-          console.log('✅ Fetched operator_id:', operatorId)
         }
 
         if (!operatorId) {
@@ -281,8 +295,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
       
       return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-ui-surface-secondary rounded-2xl max-w-md w-full border border-ui-border-primary max-h-[calc(100vh-120px)] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 pb-20 sm:pb-4">
+          <div className="bg-ui-surface-secondary rounded-none sm:rounded-2xl max-w-md w-full border-0 sm:border border-ui-border-primary h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto flex flex-col">
             <div className="p-6">
               {/* Header with Success Icon */}
               <div className="text-center mb-6">
@@ -561,10 +575,10 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
   // MAIN BOOKING FORM
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-ui-surface-secondary rounded-2xl max-w-lg w-full max-h-[calc(100vh-120px)] overflow-y-auto border border-ui-border-primary">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 pb-20 sm:pb-4">
+      <div className="bg-ui-surface-secondary rounded-none sm:rounded-2xl max-w-lg w-full h-full sm:h-auto sm:max-h-[90vh] border-0 sm:border border-ui-border-primary flex flex-col">
         {/* Header */}
-        <div className="sticky top-0 bg-ui-surface-secondary p-6 border-b border-ui-border-primary flex items-center justify-between">
+        <div className="flex-shrink-0 bg-ui-surface-secondary p-6 border-b border-ui-border-primary flex items-center justify-between">
           <h2 className="text-xl font-bold text-ui-text-primary">{t('bookingModal.header')}</h2>
           <button
             onClick={onClose}
@@ -574,6 +588,8 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           </button>
         </div>
 
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto">
         {/* Tour Summary */}
         <div className="p-6 border-b border-ui-border-primary">
           <div className="flex items-start gap-3">
@@ -902,10 +918,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
           </p>
         </>
       )}
-        </div>  
-      </div>     
-    </div>       
-  )             
-}               
+      </div> 
+      </div> 
+    </div> 
+    </div>
+  )
+}
 
 export default BookingModal
