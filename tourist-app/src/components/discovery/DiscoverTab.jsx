@@ -95,7 +95,6 @@ const DiscoverTab = () => {
     }
 
     setTemplatesLoading(true)
-    setTemplatesError(null)
 
     try {
       // Map mood to tour types
@@ -449,6 +448,7 @@ const DiscoverTab = () => {
             allIslands={allIslands}
             allTourTypes={allTourTypes}
             totalTemplates={templates?.length || 0}
+            setFilters={setFilters}
           />
         )}
       </div>
@@ -877,7 +877,8 @@ const ResultsStep = ({
   setAdditionalFilters,
   allIslands,
   allTourTypes,
-  totalTemplates
+  totalTemplates,
+  setFilters
 }) => {
   const { t } = useTranslation()
   const activeFilterCount = Object.values(filters).filter(v => v !== 'any').length
