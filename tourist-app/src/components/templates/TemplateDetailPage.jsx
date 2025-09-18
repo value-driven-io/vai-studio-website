@@ -79,14 +79,20 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
       url: shareUrl
     }
 
+    // Detect if device is mobile/touch device
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
+
     try {
-      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      // On mobile: prefer native share, fallback to copy
+      if (isMobile && navigator.share && navigator.canShare && navigator.canShare(shareData)) {
         await navigator.share(shareData)
       } else {
+        // On desktop or mobile fallback: always copy to clipboard
         if (navigator.clipboard && window.isSecureContext) {
           await navigator.clipboard.writeText(shareUrl)
-          toast.success('Activity link copied to clipboard!')
+          toast.success(t('templates.linkCopied', 'Activity link copied to clipboard!'))
         } else {
+          // Fallback for insecure contexts
           const textArea = document.createElement('textarea')
           textArea.value = shareUrl
           textArea.style.position = 'fixed'
@@ -97,12 +103,20 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
           textArea.select()
           document.execCommand('copy')
           document.body.removeChild(textArea)
-          toast.success(t('tourCard.share.copylink'))
+          toast.success(t('templates.linkCopied', 'Activity link copied to clipboard!'))
         }
       }
     } catch (error) {
       console.error('Error sharing:', error)
-      toast.success(t('tourCard.share.copylink'))
+      // Always try clipboard copy as final fallback
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(shareUrl)
+          toast.success(t('templates.linkCopied', 'Activity link copied to clipboard!'))
+        }
+      } catch (clipboardError) {
+        toast.error(t('templates.shareFailed', 'Failed to share activity'))
+      }
     }
   }
 

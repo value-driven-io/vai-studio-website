@@ -33,6 +33,7 @@ import ThemeToggle from './components/shared/ThemeToggle'
 
 import { useAppStore } from './stores/bookingStore'
 import TourPage from './components/tours/TourPage'
+import TemplatePage from './components/templates/TemplatePage'
 
 // 2. CHECK THE ENVIRONMENT VARIABLE
 // This variable will control whether the app is "live" or shows the "coming soon" screen.
@@ -142,7 +143,8 @@ const AppHeader = () => {
               ) : (
                 <button
                   onClick={() => setShowAuthModal(true)}
-                  className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer relative z-10"
+                  style={{ pointerEvents: 'auto' }}
                 >
                   {t('common.login')}
                 </button>
@@ -330,6 +332,15 @@ function AppRouter() {
           <CurrencyProvider>
             <div className="bg-ui-surface-overlay min-h-screen text-ui-text-primary">
               <TourPage />
+            </div>
+          </CurrencyProvider>
+        } />
+
+        {/* Template Deep Link */}
+        <Route path="/template/:templateId" element={
+          <CurrencyProvider>
+            <div className="bg-ui-surface-overlay min-h-screen text-ui-text-primary">
+              <TemplatePage />
             </div>
           </CurrencyProvider>
         } />

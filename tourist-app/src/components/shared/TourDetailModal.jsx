@@ -89,17 +89,20 @@ const TourDetailModal = ({
       url: shareUrl
     }
 
+    // Detect if device is mobile/touch device
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
+
     try {
-      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-        // Use native sharing if available and supported
+      // On mobile: prefer native share, fallback to copy
+      if (isMobile && navigator.share && navigator.canShare && navigator.canShare(shareData)) {
         await navigator.share(shareData)
       } else {
-        // Fallback: copy to clipboard with better error handling
+        // On desktop or mobile fallback: always copy to clipboard
         if (navigator.clipboard && window.isSecureContext) {
           await navigator.clipboard.writeText(shareUrl)
-          toast.success('Activity link copied to clipboard!')
+          toast.success(t('tourDetail.share.linkCopied', 'Activity link copied to clipboard!'))
         } else {
-          // Fallback for older browsers or non-HTTPS
+          // Fallback for insecure contexts
           const textArea = document.createElement('textarea')
           textArea.value = shareUrl
           textArea.style.position = 'fixed'
@@ -110,23 +113,20 @@ const TourDetailModal = ({
           textArea.select()
           document.execCommand('copy')
           document.body.removeChild(textArea)
-          toast.success(t('tourCard.share.copylink'))
+          toast.success(t('tourDetail.share.linkCopied', 'Activity link copied to clipboard!'))
         }
       }
     } catch (error) {
       console.error('Error sharing:', error)
-      // Final fallback: manual copy with better positioning
-      const textArea = document.createElement('textarea')
-      textArea.value = shareUrl
-      textArea.style.position = 'fixed'
-      textArea.style.left = '-999999px'
-      textArea.style.top = '-999999px'
-      document.body.appendChild(textArea)
-      textArea.focus()
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
-      toast.success(t('tourCard.share.copylink'))
+      // Always try clipboard copy as final fallback
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(shareUrl)
+          toast.success(t('tourDetail.share.linkCopied', 'Activity link copied to clipboard!'))
+        }
+      } catch (clipboardError) {
+        toast.error(t('tourDetail.share.shareFailed', 'Failed to share activity'))
+      }
     }
   }
 
