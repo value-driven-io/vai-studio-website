@@ -231,9 +231,9 @@ export default {
         'short': { 'raw': '(max-height: 640px)' },
         'x-short': { 'raw': '(max-height: 500px)' },
         
-        // Hover capability detection
-        'hover': { 'raw': '(hover: hover)' },
-        'no-hover': { 'raw': '(hover: none)' },
+        // Hover capability detection - REMOVED to fix hover state issues
+        // 'hover': { 'raw': '(hover: hover)' },
+        // 'no-hover': { 'raw': '(hover: none)' },
         
         // High DPI screens
         'retina': { 'raw': '(-webkit-min-device-pixel-ratio: 2)' },
