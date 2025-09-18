@@ -51,8 +51,30 @@ const AppHeader = () => {
     <>
       {/* Sticky container with spacing */}
       <div className="top-0 z-40 px-4 pt-4">
-        <header className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-4 border border-ui-border-primary mx-auto max-w-7xl">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <header className="relative bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-4 border border-ui-border-primary mx-auto max-w-7xl overflow-hidden">
+          {/* Background Pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.08] dark:opacity-[0.12] pointer-events-none transform rotate-180 scale-110 md:scale-125"
+            style={{
+              backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+              backgroundSize: 'auto 120%',
+              backgroundPosition: 'center top',
+              backgroundRepeat: 'no-repeat',
+              filter: 'brightness(0) saturate(100%) invert(27%) sepia(76%) saturate(1654%) hue-rotate(186deg) brightness(96%) contrast(97%)',
+            }}
+          ></div>
+          {/* Dark mode pattern overlay */}
+          <div
+            className="absolute inset-0 opacity-0 dark:opacity-[0.15] pointer-events-none transform rotate-180 scale-110 md:scale-125"
+            style={{
+              backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+              backgroundSize: 'auto 120%',
+              backgroundPosition: 'center top',
+              backgroundRepeat: 'no-repeat',
+              filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(327deg) brightness(108%) contrast(108%)',
+            }}
+          ></div>
+          <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             
             {/* Left side - Branding */}
             <div className="flex items-center gap-4">
