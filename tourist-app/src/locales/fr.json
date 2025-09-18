@@ -412,7 +412,20 @@
     
     "actions": {
       "bookNow": "Réserver",
-      "details": "Détails"
+      "details": "Détails",
+      "viewDetails": "Voir Détails"
+    },
+
+    "badges": {
+      "template": "Modèle",
+      "scheduled": "Programmé",
+      "detached": "Spécial",
+      "lastMinute": "Dernière Minute"
+    },
+
+    "date": {
+      "multipleOptions": "Dates multiples",
+      "availableOptions": "Options disponibles"
     },
     
     "accessibility": {
@@ -1259,7 +1272,12 @@
     "whaleCompliant": "Cet opérateur suit les réglementations officielles d'observation des baleines pour votre sécurité et la conservation marine.",
     "maxWhaleGroup": "Taille maximale du groupe pour les rencontres avec les baleines",
     "noDatesAvailable": "Aucune date disponible",
-    "checkBackSoon": "Revenez bientôt"
+    "checkBackSoon": "Revenez bientôt",
+    "scheduledFor": "Programmé pour",
+    "availableSpots": "Places disponibles",
+    "startTime": "Heure de début",
+    "bookThisActivity": "Réserver cette Activité",
+    "soldOut": "Complet"
   }
 
 }

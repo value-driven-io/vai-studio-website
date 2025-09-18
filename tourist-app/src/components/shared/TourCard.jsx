@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { 
+import {
   Heart, Clock, Users, MapPin, Star, ArrowRight, Calendar,
   Zap, Shield, Coffee, Car, Globe, AlertTriangle, ChevronDown,
-  ChevronUp, X, Cloud
+  ChevronUp, X, Cloud, Crown, Clock3, Pin
 } from 'lucide-react'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import TourDetailModalNew from './TourDetailModal'
@@ -23,7 +23,6 @@ const TourCard = ({
   formatTime,
   calculateSavings,
   getUrgencyColor,
-  hideBookButton = false, //  Hide book button for journey bookings
   className = ""
 }) => {
   // 🌍 Add translation hook
@@ -36,7 +35,6 @@ const TourCard = ({
   
   if (!tour) return null
 
-  const tourEmoji = TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'
   const savings = calculateSavings?.(tour.original_price_adult, tour.discount_price_adult)
   const urgencyInfo = getUrgencyColor?.(tour.hours_until_deadline)
   
@@ -52,37 +50,61 @@ const TourCard = ({
 
   const urgency = getUrgencyLevel()
 
+  // Badge system - only show valuable information to users
+  const getActivityBadge = () => {
+    // Last-minute detection (< 48 hours before tour start)
+    const isLastMinute = tour.tour_date && new Date(tour.tour_date).getTime() - Date.now() < 48 * 60 * 60 * 1000
+
+    if (isLastMinute) {
+      return {
+        text: t('tourCard.badges.lastMinute'),
+        color: 'bg-status-warning text-ui-text-primary',
+        icon: Clock3,
+        show: true
+      }
+    }
+
+    if (tour.is_detached) {
+      return {
+        text: t('tourCard.badges.detached'),
+        color: 'bg-mood-luxury/20 text-mood-luxury border border-mood-luxury/30',
+        icon: Crown,
+        show: true
+      }
+    }
+
+    // Don't show badges for regular templates/instances - no user value
+    return { show: false }
+  }
+
+  const activityBadge = getActivityBadge()
+
   // ALL ORIGINAL HANDLERS PRESERVED:
   const handleFavoriteClick = (e) => {
     e.stopPropagation()
     onFavoriteToggle?.(tour.id)
   }
 
-  // Card click - route templates to template detail, others to modal
+  // Unified card click - always route to template detail page
   const handleCardClick = () => {
-    if (tour.is_template && tour.template_id && onBookingClick) {
+    if (onBookingClick) {
       onBookingClick(tour)
     } else {
       setShowFullScreen(true)
     }
   }
 
-  // Proper handleBookingClick function
-  const handleBookingClick = (e) => {
-    e.stopPropagation()
-    if (onBookingClick && !hideBookButton) {
-      onBookingClick(tour)
-    }
-  }
 
   return (
     <>
       {/* Main Card - ALL STYLING AND STRUCTURE PRESERVED */}
-      <div 
+      <div
         className={`bg-ui-surface-secondary rounded-xl border border-ui-border-primary hover:border-ui-border-secondary
-            transition-all duration-300 overflow-hidden cursor-pointer tour-card ${className}`}
+            transition-all duration-300 cursor-pointer tour-card relative ${className}`}
         onClick={handleCardClick}
+        style={{ marginTop: activityBadge.show ? '8px' : '0' }}
       >
+
         {/* Compact View */}
         <div className="relative">
           {/* Urgency Banner - ALL LOGIC PRESERVED */}
@@ -108,17 +130,37 @@ const TourCard = ({
               <div className="flex-1 min-w-0">
                 {/* Prominent Emoji Container */}
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-interactive-primary-light/20 to-purple-500/20 rounded-xl flex items-center justify-center border border-interactive-primary-light/20">
-                    <span className="text-2xl" role="img" aria-label={tour.tour_type}>
-                      {tourEmoji}
-                    </span>
+                  <div className="w-12 h-12 bg-gradient-to-br from-interactive-primary-light/20 to-purple-500/20 rounded-xl flex items-center justify-center border border-interactive-primary-light/20 overflow-hidden">
+                    {tour.operator_logo ? (
+                      <img
+                        src={tour.operator_logo}
+                        alt={tour.company_name || 'Operator logo'}
+                        className="w-full h-full object-cover rounded-xl"
+                        onError={(e) => {
+                          // Fallback to tour type emoji if operator logo fails to load
+                          e.target.style.display = 'none'
+                          e.target.nextSibling.style.display = 'flex'
+                        }}
+                      />
+                    ) : null}
+                    <div
+                      className={`w-full h-full flex items-center justify-center ${tour.operator_logo ? 'hidden' : 'flex'}`}
+                      style={{ display: tour.operator_logo ? 'none' : 'flex' }}
+                    >
+                      <span className="text-2xl" role="img" aria-label={tour.tour_type}>
+                        {TOUR_TYPE_EMOJIS[tour.tour_type] || '🌴'}
+                      </span>
+                    </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-ui-text-primary truncate leading-tight">
+                    <h3 className="text-lg font-semibold text-ui-text-primary leading-tight mb-1">
                       {tour.tour_name}
                     </h3>
-                    <p className="text-ui-text-secondary text-sm mt-0.5">
-                      {tour.company_name} • 📍 {tour.location || tour.operator_island}
+                    <p className="text-ui-text-secondary text-sm flex items-center gap-1">
+                      <span>{tour.company_name}</span>
+                      <span>•</span>
+                      <Pin className="w-3 h-3" />
+                      <span>{tour.location || tour.operator_island}</span>
                     </p>
                   </div>
                 </div>
@@ -146,10 +188,29 @@ const TourCard = ({
               <div className="flex items-center gap-2 text-ui-text-muted">
                 <Calendar className="w-4 h-4 text-ui-text-secondary" />
                 <div>
-                  <div className="font-medium">{formatDate?.(tour.tour_date) || tour.tour_date}</div>
-                  <div className="text-xs text-ui-text-secondary">
-                    {formatTime?.(tour.time_slot) || tour.time_slot}
-                  </div>
+                  {tour.is_template ? (
+                    // Template: Show date range
+                    <>
+                      <div className="font-medium">
+                        {tour.date_range_start && tour.date_range_end ? (
+                          `${formatDate?.(tour.date_range_start) || tour.date_range_start} - ${formatDate?.(tour.date_range_end) || tour.date_range_end}`
+                        ) : (
+                          t('tourCard.date.multipleOptions', 'Multiple dates')
+                        )}
+                      </div>
+                      <div className="text-xs text-ui-text-secondary">
+                        {t('tourCard.date.availableOptions', 'Available options')}
+                      </div>
+                    </>
+                  ) : (
+                    // Instance: Show specific date and time
+                    <>
+                      <div className="font-medium">{formatDate?.(tour.tour_date) || tour.tour_date}</div>
+                      <div className="text-xs text-ui-text-secondary">
+                        {formatTime?.(tour.time_slot) || tour.time_slot}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -164,6 +225,8 @@ const TourCard = ({
 
             {/* Pricing Card */}
             <div className="bg-gradient-to-r from-ui-surface-primary/30 to-ui-surface-tertiary/20 border border-ui-surface-primary rounded-lg p-4 mb-4">
+              
+
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
@@ -185,12 +248,20 @@ const TourCard = ({
                   <div className="text-xs text-ui-text-secondary mt-1">{t('tourCard.pricing.perAdult')}</div>
                 </div>
                 
-                {savings && (
-                  <div className="hidden sm:flex bg-status-success text-ui-text-primary text-sm px-3 py-1.5 rounded-full font-semibold text-center">
+                {savings && savings > 0 && (
+                  <div className="sm:flex bg-status-success text-ui-text-primary text-sm px-3 py-1.5 rounded-full font-semibold text-center">
                     {t('tourCard.pricing.save')} {savings}%
                   </div>
                 )}
               </div>
+
+              {/* Activity Badge - Pinned to top center */}
+                {activityBadge.show && (
+                  <div className={`-top-2 justify-center z-10 mt-2 text-xs px-3 py-1 rounded-full flex items-center gap-1.5 ${activityBadge.color} shadow-lg`}>
+                    <activityBadge.icon className="w-3 h-3" />
+                    <span className="font-medium">{activityBadge.text}</span>
+                  </div>
+                )}
               
               {/* Quick Inclusions - ALL CONDITIONAL LOGIC PRESERVED */}
               <div className="flex gap-2 mt-3">
@@ -215,49 +286,25 @@ const TourCard = ({
               </div>
             </div>
 
-            {/* 🎨 ENHANCED: Action Buttons - ALL CONDITIONAL LOGIC PRESERVED */}
-            <div className="flex gap-2">
-              {/* Conditional Book Button with Gradient */}
-              {!hideBookButton && (
-                <button
-                  onClick={handleBookingClick}
-                  className="flex-1 bg-gradient-to-br from-interactive-primary-light/20 to-purple-500/20
-                              hover:from-interactive-primary/40 hover:to-purple-600/40
-                              text-ui-text-primary py-3 px-4 rounded-lg font-semibold transition-all duration-200
-                              flex items-center justify-center gap-2 shadow-lg shadow-ui-surface-tertiary/25 border border-ui-surface-primary"
-                >
-                  {t('tourCard.actions.bookNow')}
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              )}
-              
-              
+            {/* Single Action Button */}
+            <div className="flex">
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  if (tour.is_template && tour.template_id && onBookingClick) {
+                  if (onBookingClick) {
                     onBookingClick(tour)
                   } else {
                     setShowFullScreen(true)
                   }
                 }}
-                className={`px-4 py-3 bg-ui-surface-tertiary/80 hover:bg-ui-surface-primary/80 text-ui-text-muted hover:text-ui-text-primary
-                        rounded-lg transition-all duration-200 border border-mood-culture/30 flex items-center justify-center gap-2 ${
-                          hideBookButton ? 'flex-1' : ''
-                        }`}
+                className="w-full bg-gradient-to-br from-interactive-primary-light/20 to-purple-500/20
+                          hover:from-interactive-primary/40 hover:to-purple-600/40
+                          text-ui-text-primary py-3 px-4 rounded-lg font-semibold transition-all duration-200
+                          flex items-center justify-center gap-2 shadow-lg shadow-ui-surface-tertiary/25 border border-ui-surface-primary"
                 aria-label={t('tourCard.accessibility.viewDetails')}
               >
-                {hideBookButton ? (
-                  <>
-                    <span>{t('tourCard.actions.details')}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                ) : (
-                  <>
-                    <span>{t('tourCard.actions.details')}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
+                <span>{t('tourCard.actions.viewDetails')}</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -272,14 +319,13 @@ const TourCard = ({
               tour={tour}
               isOpen={showFullScreen}
               onClose={() => setShowFullScreen(false)}
-              onBookingClick={hideBookButton ? null : onBookingClick}
+              onBookingClick={onBookingClick}
               onFavoriteToggle={onFavoriteToggle}
               isFavorite={isFavorite}
               formatPrice={formatPrice}
               formatDate={formatDate}
               formatTime={formatTime}
               calculateSavings={calculateSavings}
-              hideBookButton={hideBookButton}
             />
           )}
     </>

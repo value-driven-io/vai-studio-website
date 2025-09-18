@@ -458,7 +458,20 @@
     
     "actions": {
       "bookNow": "Book Now",
-      "details": "Details"
+      "details": "Details",
+      "viewDetails": "View Details"
+    },
+
+    "badges": {
+      "template": "Template",
+      "scheduled": "Scheduled",
+      "detached": "Special",
+      "lastMinute": "Last Minute"
+    },
+
+    "date": {
+      "multipleOptions": "Multiple dates",
+      "availableOptions": "Available options"
     },
     
     "accessibility": {
@@ -1260,6 +1273,11 @@
     "whaleCompliant": "This operator follows official whale watching regulations for your safety and marine conservation.",
     "maxWhaleGroup": "Maximum group size for whale encounters",
     "noDatesAvailable": "No dates available",
-    "checkBackSoon": "Check back soon"
+    "checkBackSoon": "Check back soon",
+    "scheduledFor": "Scheduled for",
+    "availableSpots": "Available spots",
+    "startTime": "Start time",
+    "bookThisActivity": "Book This Activity",
+    "soldOut": "Sold Out"
   }
 }

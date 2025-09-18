@@ -9,6 +9,7 @@ import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
 import { TOUR_TYPE_EMOJIS, ISLAND_EMOJIS } from '../../constants/moods'
 import BookingModal from '../booking/BookingModal'
+import TemplateDetailPage from '../templates/TemplateDetailPage'
 import toast from 'react-hot-toast'
 import TourCard from '../shared/TourCard'
 import VAILogo from '../shared/VAILogo'
@@ -121,6 +122,8 @@ const ExploreTab = () => {
   const [showFilters, setShowFilters] = useState(false)
   const [selectedTour, setSelectedTour] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState(null)
+  const [showTemplateDetail, setShowTemplateDetail] = useState(false)
   const [localSearch, setLocalSearch] = useState(filters.search || '')
   const [showDatePicker, setShowDatePicker] = useState(false)
 
@@ -158,15 +161,29 @@ const ExploreTab = () => {
     }
   }, [tours])
 
-  // HANDLERS 
+  // HANDLERS - Unified routing for all activities
   const handleBookTour = (tour) => {
-    setSelectedTour(tour)
-    setShowBookingModal(true)
+    // Always route to TemplateDetailPage for consistent UX
+    setSelectedTemplate(tour)
+    setShowTemplateDetail(true)
   }
 
   const handleCloseBookingModal = () => {
     setShowBookingModal(false)
     setSelectedTour(null)
+  }
+
+  // Template Detail handlers
+  const handleCloseTemplateDetail = () => {
+    setShowTemplateDetail(false)
+    setSelectedTemplate(null)
+  }
+
+  const handleInstanceSelect = (instance) => {
+    // Route from template detail to booking modal
+    setSelectedTour(instance)
+    setShowBookingModal(true)
+    setShowTemplateDetail(false)
   }
 
   // Date Picker Handler
@@ -227,6 +244,17 @@ const getDateRangeLabel = () => {
       </button>
     </span>
   )
+
+  // If showing template detail, render it as a full-screen standalone page
+  if (showTemplateDetail && selectedTemplate) {
+    return (
+      <TemplateDetailPage
+        template={selectedTemplate}
+        onBack={handleCloseTemplateDetail}
+        onInstanceSelect={handleInstanceSelect}
+      />
+    )
+  }
 
   return (
     <div className="min-h-screen bg-ui-surface-overlay text-ui-text-primary">
@@ -585,6 +613,7 @@ const getDateRangeLabel = () => {
         onDateSelect={handleDateSelect}
         currentDateRange={filters.dateRange}
       />
+
     </div>
   )
 }

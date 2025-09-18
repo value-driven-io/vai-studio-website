@@ -183,7 +183,6 @@ const TourPage = () => {
           formatDate={formatDate}
           formatTime={formatTime}
           calculateSavings={calculateSavings}
-          hideBookButton={false}
         />
       )}
     </div>

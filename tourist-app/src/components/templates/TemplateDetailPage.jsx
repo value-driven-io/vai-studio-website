@@ -106,25 +106,41 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
     }
   }
 
-  // Load template details with availability
+  // Load template or instance details
   useEffect(() => {
-    const loadTemplateDetails = async () => {
-      if (!template?.template_id) return
+    const loadActivityDetails = async () => {
+      if (!template) return
 
       setLoading(true)
       try {
-        const data = await templateService.getTemplateWithAvailability(template.template_id)
-        setTemplateWithAvailability(data)
+        if (template.is_template && template.template_id) {
+          // Load template with availability
+          const data = await templateService.getTemplateWithAvailability(template.template_id)
+          setTemplateWithAvailability(data)
+        } else {
+          // For instances, create a structure compatible with existing UI
+          // Instance already contains all template data needed for display
+          const instanceData = {
+            template: template, // The instance contains template data
+            instances: [template], // Single instance in array
+            availability: {
+              instance_count: 1,
+              total_spots: template.available_spots || template.max_capacity || 0,
+              next_available: template.tour_date
+            }
+          }
+          setTemplateWithAvailability(instanceData)
+        }
       } catch (error) {
-        console.error('Error loading template details:', error)
+        console.error('Error loading activity details:', error)
         toast.error(t('templates.loadError', 'Failed to load activity details'))
       } finally {
         setLoading(false)
       }
     }
 
-    loadTemplateDetails()
-  }, [template?.template_id, t])
+    loadActivityDetails()
+  }, [template, t])
 
   if (loading) {
     return (
@@ -300,8 +316,8 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
               <div className="bg-ui-surface-primary rounded-lg p-4">
                 <div className="text-center">
                   <SinglePriceDisplay
-                    xpfAmount={template.price_from || 0}
-                    label={`${t('templates.fromPrice', 'from')} / ${t('common.adults', 'adult')}`}
+                    xpfAmount={template.is_template ? (template.price_from || 0) : (templateDetails.discount_price_adult || templateDetails.original_price_adult || 0)}
+                    label={template.is_template ? `${t('templates.fromPrice', 'from')} / ${t('common.adults', 'adult')}` : `${t('common.adults', 'adult')}`}
                     selectedCurrency={selectedCurrency}
                     onCurrencyChange={changeCurrency}
                     showCurrencySelector={true}
@@ -312,47 +328,92 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
               </div>
 
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-ui-text-secondary">{t('templates.available', 'Available')}</span>
-                  <span className="text-ui-text-primary font-medium">
-                    {availability.instance_count} {t('templates.dates', 'dates')}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-ui-text-secondary">{t('templates.totalSpots', 'Total spots')}</span>
-                  <span className="text-ui-text-primary font-medium">
-                    {availability.total_spots}
-                  </span>
-                </div>
-                {availability.next_available && (
-                  <div className="flex justify-between">
-                    <span className="text-ui-text-secondary">{t('templates.nextDate', 'Next available')}</span>
-                    <span className="text-ui-text-primary font-medium">
-                      {new Date(availability.next_available).toLocaleDateString()}
-                    </span>
-                  </div>
+                {template.is_template ? (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-ui-text-secondary">{t('templates.available', 'Available')}</span>
+                      <span className="text-ui-text-primary font-medium">
+                        {availability.instance_count} {t('templates.dates', 'dates')}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-ui-text-secondary">{t('templates.totalSpots', 'Total spots')}</span>
+                      <span className="text-ui-text-primary font-medium">
+                        {availability.total_spots}
+                      </span>
+                    </div>
+                    {availability.next_available && (
+                      <div className="flex justify-between">
+                        <span className="text-ui-text-secondary">{t('templates.nextDate', 'Next available')}</span>
+                        <span className="text-ui-text-primary font-medium">
+                          {new Date(availability.next_available).toLocaleDateString()}
+                        </span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-ui-text-secondary">{t('templates.scheduledFor', 'Scheduled for')}</span>
+                      <span className="text-ui-text-primary font-medium">
+                        {new Date(templateDetails.tour_date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-ui-text-secondary">{t('templates.availableSpots', 'Available spots')}</span>
+                      <span className="text-ui-text-primary font-medium">
+                        {templateDetails.available_spots} / {templateDetails.max_capacity}
+                      </span>
+                    </div>
+                    {templateDetails.time_slot && (
+                      <div className="flex justify-between">
+                        <span className="text-ui-text-secondary">{t('templates.startTime', 'Start time')}</span>
+                        <span className="text-ui-text-primary font-medium">
+                          {templateDetails.time_slot}
+                        </span>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
 
-              <button
-                onClick={() => setShowCalendar(true)}
-                className={`w-full font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 touch-manipulation active:scale-[0.98] ${
-                  availability.instance_count > 0
-                    ? 'bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary'
-                    : 'bg-ui-surface-tertiary hover:bg-ui-surface-primary text-ui-text-secondary border border-ui-border-primary'
-                }`}
-              >
-                <Calendar className="w-5 h-5" />
-                {availability.instance_count > 0
-                  ? t('templates.viewAvailability', 'View Availability')
-                  : t('templates.noDatesAvailable', 'No dates available')
-                }
-                {availability.instance_count === 0 && (
-                  <span className="text-xs bg-status-warning/20 text-status-warning px-2 py-1 rounded-full ml-2">
-                    {t('templates.checkBackSoon', 'Check back soon')}
-                  </span>
-                )}
-              </button>
+              {template.is_template ? (
+                <button
+                  onClick={() => setShowCalendar(true)}
+                  className={`w-full font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 touch-manipulation active:scale-[0.98] ${
+                    availability.instance_count > 0
+                      ? 'bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary'
+                      : 'bg-ui-surface-tertiary hover:bg-ui-surface-primary text-ui-text-secondary border border-ui-border-primary'
+                  }`}
+                >
+                  <Calendar className="w-5 h-5" />
+                  {availability.instance_count > 0
+                    ? t('templates.viewAvailability', 'View Availability')
+                    : t('templates.noDatesAvailable', 'No dates available')
+                  }
+                  {availability.instance_count === 0 && (
+                    <span className="text-xs bg-status-warning/20 text-status-warning px-2 py-1 rounded-full ml-2">
+                      {t('templates.checkBackSoon', 'Check back soon')}
+                    </span>
+                  )}
+                </button>
+              ) : (
+                <button
+                  onClick={() => onInstanceSelect && onInstanceSelect(templateDetails)}
+                  className={`w-full font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 touch-manipulation active:scale-[0.98] ${
+                    templateDetails.available_spots > 0
+                      ? 'bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary'
+                      : 'bg-ui-surface-tertiary hover:bg-ui-surface-primary text-ui-text-secondary border border-ui-border-primary'
+                  }`}
+                  disabled={templateDetails.available_spots === 0}
+                >
+                  <Calendar className="w-5 h-5" />
+                  {templateDetails.available_spots > 0
+                    ? t('templates.bookThisActivity', 'Book This Activity')
+                    : t('templates.soldOut', 'Sold Out')
+                  }
+                </button>
+              )}
             </div>
           </div>
         </div>
