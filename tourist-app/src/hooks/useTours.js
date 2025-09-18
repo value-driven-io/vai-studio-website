@@ -80,7 +80,7 @@ export const useTours = () => {
       setTours(enrichedData)
       
       if (showToast) {
-        console.log(`Fetched ${enrichedData.length} tours with current filters:`, filters)
+        // Tours fetched and enriched successfully
       }
     } catch (err) {
       console.error('Error fetching tours:', err)

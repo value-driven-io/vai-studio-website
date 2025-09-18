@@ -541,6 +541,7 @@
       "successTitle": "Māuruuru !",
       "successMessage": "Tu es bien sur la liste. Nous te préviendrons lors du lancement.",
       "error": "Une erreur est survenue. Essaye à nouveau.",
+      "duplicate": "Cet e-mail est déjà enregistré. Nous te préviendrons lors du lancement !",
       "consent": "En t'inscrivant, tu acceptes de recevoir des informations sur le lancement de VAI Tickets."
     },
     "footer": "VAI Tickets - Ta clé du paradis"

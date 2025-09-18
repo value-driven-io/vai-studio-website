@@ -101,7 +101,7 @@ const Navigation = () => {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-ui-surface-secondary border-t border-ui-border-primary z-50 pb-safe">
+    <nav id="navigation" className="fixed bottom-0 left-0 right-0 bg-ui-surface-secondary border-t border-ui-border-primary z-50 pb-safe">
       <div className="grid grid-cols-5 h-16">
         {tabs.map((tab) => {
           const Icon = tab.icon

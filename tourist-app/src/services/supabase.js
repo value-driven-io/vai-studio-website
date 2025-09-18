@@ -10,7 +10,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase configuration missing')
 }
 
-console.log('🔧 Creating Supabase client')
+// Supabase client created
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Booking Service
@@ -90,6 +90,8 @@ export const bookingService = {
 
         if (tourError) {
           console.warn('Failed to fetch tour for spots update:', tourError)
+          // Log tour_id for debugging data consistency issues
+          console.warn('Tour ID that failed:', bookingData.tour_id)
         } else if (tourData) {
           // Calculate new available spots
           const newAvailableSpots = Math.max(0, tourData.available_spots - totalParticipants)
@@ -104,7 +106,7 @@ export const bookingService = {
             console.warn('Failed to update available spots:', spotsError)
             // Don't throw error - booking was successful, spots update is secondary
           } else {
-            console.log(`✅ Updated available spots: ${tourData.available_spots} → ${newAvailableSpots}`)
+            // Available spots updated successfully
           }
         }
       } catch (spotsError) {
@@ -126,14 +128,14 @@ export const journeyService = {
   // Lightweight query for Journey tab (67% faster)
   async getUserBookings(email, whatsapp) {
     try {
-      console.log('🔍 getUserBookings called with:', { email, whatsapp })
+      // getUserBookings called
 
       // Clean inputs
       const cleanEmail = email?.trim()
       const cleanWhatsApp = whatsapp?.trim()
 
       if (!cleanEmail && !cleanWhatsApp) {
-        console.log('No email or WhatsApp provided')
+        // No contact info provided
         return []
       }
 
@@ -181,7 +183,7 @@ export const journeyService = {
           console.error('Error fetching bookings by email:', emailError)
         } else {
           emailBookings = emailData || []
-          console.log(`Found ${emailBookings.length} bookings by email`)
+          // Email bookings retrieved
         }
       }
 
@@ -197,7 +199,7 @@ export const journeyService = {
           console.error('Error fetching bookings by WhatsApp:', whatsappError)
         } else {
           whatsappBookings = whatsappData || []
-          console.log(`Found ${whatsappBookings.length} bookings by WhatsApp`)
+          // WhatsApp bookings retrieved
         }
       }
 
@@ -211,7 +213,7 @@ export const journeyService = {
         new Date(b.created_at) - new Date(a.created_at)
       )
 
-      console.log(`✅ Total unique bookings found: ${sortedBookings.length}`)
+      // Bookings successfully retrieved and deduplicated
       return sortedBookings
 
     } catch (error) {
@@ -254,7 +256,7 @@ export const journeyService = {
         return []
       }
 
-      console.log(`📊 Status updates found: ${data?.length || 0}`)
+      // Status updates retrieved
       return data || []
 
     } catch (error) {

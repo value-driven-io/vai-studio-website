@@ -588,6 +588,7 @@
       "successTitle": "Māuruuru!",
       "successMessage": "You're on the list. We will notify you at launch.",
       "error": "An error occurred. Please try again.",
+      "duplicate": "This email is already registered. We'll notify you at launch!",
       "consent": "By registering, you agree to receive updates about the launch of VAI Tickets."
       
     },

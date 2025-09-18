@@ -222,11 +222,25 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-ui-surface-overlay text-ui-text-primary">
+      {/* Skip Links for Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
+      >
+        Skip to main content
+      </a>
+      <a
+        href="#navigation"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-32 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
+      >
+        Skip to navigation
+      </a>
+
       {/* Header with Login */}
       <AppHeader />
 
       {/* Main Content Area */}
-      <main className="pb-20 px-4"> {/* pb-20 keeps space for bottom navigation */}
+      <main id="main-content" className="pb-20 px-4"> {/* pb-20 keeps space for bottom navigation */}
         <div style={{ display: activeTab === 'discover' ? 'block' : 'none' }}>
           <DiscoverTab />
         </div>
@@ -256,11 +270,16 @@ function AppContent() {
         />
       )}
 
-      {/* Toast Notifications */}
+      {/* Toast Notifications with ARIA Live Region */}
       <Toaster
         position="top-center"
         toastOptions={{
           duration: 4000,
+          ariaProps: {
+            role: 'status',
+            'aria-live': 'polite',
+            'aria-atomic': 'true'
+          },
           style: {
             background: 'var(--color-surface-secondary)',
             color: 'var(--color-text-primary)',

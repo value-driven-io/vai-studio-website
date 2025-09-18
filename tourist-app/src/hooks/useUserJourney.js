@@ -38,14 +38,14 @@ export const useUserJourney = () => {
     
     start(operation) {
       this.startTime = performance.now()
-      console.log(`⏱️ Starting ${operation}`)
+      // Performance tracking started
     },
     
     end(operation) {
       if (this.startTime) {
         const duration = performance.now() - this.startTime
         const status = duration < 100 ? '🚀 ULTRA-FAST' : duration < 200 ? '⚡ FAST' : duration < 500 ? '🟡 GOOD' : '🐌 SLOW'
-        console.log(`${status} ${operation} completed in ${duration.toFixed(2)}ms`)
+        // Performance tracking completed
         this.startTime = null
         return duration
       }
@@ -158,7 +158,7 @@ export const useUserJourney = () => {
     const cleanWhatsApp = whatsapp?.trim()
   
     if (!cleanEmail && !cleanWhatsApp) {
-      console.log('No email or WhatsApp provided for booking lookup')
+      // No contact information provided
       return
     }
 
@@ -169,7 +169,7 @@ export const useUserJourney = () => {
     const isRecentCall = (now - lastFetch.timestamp) < 1000 // 1 second debounce
 
     if (isSameParams && isRecentCall) {
-      console.log('🚫 Skipping duplicate fetchUserBookings call')
+      // Skipping duplicate fetch call
       return
     }
 
@@ -181,11 +181,11 @@ export const useUserJourney = () => {
 
     try {
       performanceTracker.current.start('fetchUserBookings')
-      console.log('🔄 fetchUserBookings called with:', { email: cleanEmail, whatsapp: cleanWhatsApp, silent })
-      console.log('Fetching bookings for:', { email: cleanEmail, whatsapp: cleanWhatsApp })
+      // Fetching user bookings
+      // Initiating booking query
       
       const bookings = await journeyService.getUserBookings(cleanEmail, cleanWhatsApp)
-      console.log('Fetched bookings:', bookings)
+      // Bookings retrieved successfully
       performanceTracker.current.end('fetchUserBookings')
       
       // Save contact info if bookings found
@@ -198,7 +198,7 @@ export const useUserJourney = () => {
       setUserBookings(categorized)
       
       // DISABLED: Setup real-time subscription
-      console.log('Realtime subscriptions disabled - using manual refresh only')
+      // Using manual refresh mode
       
       return bookings
     } catch (error) {
@@ -215,14 +215,14 @@ export const useUserJourney = () => {
   // Setup real-time subscription for booking updates (DISABLED)
   const setupBookingSubscription = useCallback((email, whatsapp) => {
     // DISABLED: Realtime subscriptions disabled to prevent WebSocket errors
-    console.log('Realtime subscriptions disabled - using manual refresh only')
+    // Realtime subscriptions disabled
     
     // Cleanup existing subscription
     if (subscription) {
       try {
         subscription.unsubscribe()
       } catch (error) {
-        console.log('No subscription to cleanup')
+        // No subscription cleanup needed
       }
     }
     
@@ -232,12 +232,12 @@ export const useUserJourney = () => {
 
   // Remove fetchUserBookings dependency to prevent infinite loop
   useEffect(() => {
-    console.log('🔄 Auto-fetch useEffect triggered')
+    // Auto-fetch effect triggered
     const contactInfo = getUserContactInfo()
-    console.log('📞 Contact info:', contactInfo)
+    // Contact info available
     
     if (contactInfo.email || contactInfo.whatsapp) {
-      console.log('📞 Calling fetchUserBookings from useEffect')
+      // Fetching bookings from useEffect
       fetchUserBookings(contactInfo.email, contactInfo.whatsapp)
     }
   }, []) // 🔧 FIXED: Removed all dependencies
@@ -255,7 +255,7 @@ export const useUserJourney = () => {
       const whatsapp = latestBooking.customer_whatsapp
       
       if (email || whatsapp) {
-        console.log('Auto-discovering bookings after new booking:', latestBooking.booking_reference)
+        // Auto-discovering bookings after new booking
         await fetchUserBookings(email, whatsapp, true)
         
         // Show success message
@@ -273,7 +273,7 @@ export const useUserJourney = () => {
         try {
           subscription.unsubscribe()
         } catch (error) {
-          console.log('No subscription to cleanup on unmount')
+          // No subscription cleanup on unmount
         }
       }
     }
@@ -298,11 +298,11 @@ export const useUserJourney = () => {
     
     // Only poll if user has contact info (meaning they have bookings to check)
     if (!contactInfo.email && !contactInfo.whatsapp) {
-      console.log('❌ No contact info - skipping smart polling')
+      // No contact info - skipping smart polling
       return null
     }
 
-    console.log('🚀 Starting smart polling for booking updates')
+    // Starting smart polling for updates
     
     // Track last update timestamp to only fetch changes
     let lastUpdateTimestamp = new Date().toISOString()
@@ -313,7 +313,7 @@ export const useUserJourney = () => {
         const { activeTab } = useAppStore.getState()
         
         if (activeTab !== 'journey') {
-          console.log('📍 User left Journey tab - smart polling paused')
+          // Smart polling paused - user left tab
           return
         }
         
@@ -327,7 +327,7 @@ export const useUserJourney = () => {
         performanceTracker.current.end('Smart Polling Status Check')
         
         if (statusUpdates && statusUpdates.length > 0) {
-          console.log(`📊 ${statusUpdates.length} booking status changes detected`)
+          // Booking status changes detected
           
           // 🚀 STEP 2: Only fetch full data if there are actual changes
           await fetchUserBookings(contactInfo.email, contactInfo.whatsapp, true)
@@ -344,7 +344,7 @@ export const useUserJourney = () => {
             }
           })
         } else {
-          console.log('📊 Smart polling: No updates (ultra-fast check)')
+          // Smart polling: No updates found
         }
         
       } catch (error) {
@@ -370,7 +370,7 @@ export const useUserJourney = () => {
     return () => {
       if (pollInterval) {
         clearInterval(pollInterval)
-        console.log('🔄 Smart polling stopped')
+        // Smart polling stopped
       }
     }
   }, [setupSmartPolling])

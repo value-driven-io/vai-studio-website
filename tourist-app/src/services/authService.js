@@ -85,7 +85,7 @@ export const authService = {
         .single()
 
       if (existingTourist && !existingError) {
-        console.log('✅ Existing tourist user found, using existing record')
+        // Existing tourist user found
         return {
           success: true,
           tourist_user_id: existingTourist.id,
@@ -97,7 +97,7 @@ export const authService = {
       }
 
       // If no existing tourist record, proceed with creation
-      console.log('ℹ️ No existing tourist record found, creating new account')
+      // Creating new tourist account
 
       // Generate secure password with provided email
       // This will be changed after email verification
@@ -115,20 +115,20 @@ export const authService = {
           last_name: lastName
         })
         authUserId = authResult.user.id
-        console.log('✅ Auth user created:', email.trim())
+        // Auth user created successfully
       } catch (authError) {
         // If auth user already exists, try to get their ID from existing auth
         if (authError.message?.includes('User already registered') || 
             authError.message?.includes('already been registered')) {
-          console.log('ℹ️ Auth user already exists, attempting to get existing user ID')
+          // Auth user already exists, retrieving ID
           
           // Try to sign in to get the existing user's ID
           try {
             const signInResult = await this.signIn(email.trim(), tempPassword)
             authUserId = signInResult.user.id
-            console.log('✅ Retrieved existing auth user ID:', authUserId)
+            // Auth user ID retrieved successfully
           } catch (signInError) {
-            console.log('⚠️ Could not retrieve existing auth user ID, will create tourist record without linkage')
+            // Could not retrieve auth user ID, proceeding without linkage
             authUserId = null
           }
         } else {
@@ -139,7 +139,7 @@ export const authService = {
 
       // Only create tourist_users record if we have a valid auth_user_id
       if (!authUserId) {
-        console.log('❌ No valid auth_user_id available, cannot create properly linked tourist record')
+        // No auth_user_id available for tourist record linkage
         return {
           success: false,
           error: 'Failed to create or link authentication user'
@@ -174,7 +174,7 @@ export const authService = {
             .single()
           
           if (existing) {
-            console.log('✅ Using existing tourist record after insert failure')
+            // Using existing tourist record
             return {
               success: true,
               tourist_user_id: existing.id,
@@ -188,7 +188,7 @@ export const authService = {
         throw touristError
       }
 
-      console.log('✅ Tourist record created/updated:', email.trim())
+      // Tourist record successfully processed
       return {
         success: true,
         tourist_user_id: touristData.id,

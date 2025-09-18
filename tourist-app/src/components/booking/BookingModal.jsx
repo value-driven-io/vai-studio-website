@@ -645,78 +645,90 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               <div className="grid grid-cols-2 gap-4">
                 {/* First Name */}
                 <div>
-                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
+                  <label htmlFor="customer_first_name" className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.firstName')}
                   </label>
                   <input
+                    id="customer_first_name"
                     type="text"
                     value={formData.customer_first_name}
                     onChange={(e) => handleInputChange('customer_first_name', e.target.value)}
+                    aria-required="true"
+                    aria-describedby={errors.customer_first_name ? "firstName-error" : undefined}
                     className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
                       errors.customer_first_name ? 'border-status-error' : 'border-ui-border-secondary'
                     }`}
                     placeholder={t('placeholders.firstName')}
                   />
                   {errors.customer_first_name && (
-                    <p className="text-status-error-light text-sm mt-1">{errors.customer_first_name}</p>
+                    <p id="firstName-error" role="alert" className="text-status-error-light text-sm mt-1">{errors.customer_first_name}</p>
                   )}
                 </div>
 
                 {/* Last Name */}
                 <div>
-                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
+                  <label htmlFor="customer_last_name" className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.lastName')}
                   </label>
                   <input
+                    id="customer_last_name"
                     type="text"
                     value={formData.customer_last_name}
                     onChange={(e) => handleInputChange('customer_last_name', e.target.value)}
+                    aria-required="true"
+                    aria-describedby={errors.customer_last_name ? "lastName-error" : undefined}
                     className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
                       errors.customer_last_name ? 'border-status-error' : 'border-ui-border-secondary'
                     }`}
                     placeholder={t('placeholders.lastName')}
                   />
                   {errors.customer_last_name && (
-                    <p className="text-status-error-light text-sm mt-1">{errors.customer_last_name}</p>
+                    <p id="lastName-error" role="alert" className="text-status-error-light text-sm mt-1">{errors.customer_last_name}</p>
                   )}
                 </div>
               </div>
 
               {/* WhatsApp */}
               <div>
-                <label className="block text-sm font-medium text-ui-text-muted mb-1">
+                <label htmlFor="customer_whatsapp" className="block text-sm font-medium text-ui-text-muted mb-1">
                   {t('form.whatsappNumber')}
                 </label>
                 <input
+                  id="customer_whatsapp"
                   type="tel"
                   value={formData.customer_whatsapp}
                   onChange={(e) => handleInputChange('customer_whatsapp', e.target.value)}
+                  aria-required="true"
+                  aria-describedby={errors.customer_whatsapp ? "whatsapp-error" : undefined}
                   className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
                     errors.customer_whatsapp ? 'border-status-error' : 'border-ui-border-secondary'
                   }`}
                   placeholder={t('placeholders.whatsapp')}
                 />
                 {errors.customer_whatsapp && (
-                  <p className="text-status-error-light text-sm mt-1">{errors.customer_whatsapp}</p>
+                  <p id="whatsapp-error" role="alert" className="text-status-error-light text-sm mt-1">{errors.customer_whatsapp}</p>
                 )}
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-ui-text-muted mb-1">
+                <label htmlFor="customer_email" className="block text-sm font-medium text-ui-text-muted mb-1">
                   {t('form.emailAddress')}
                 </label>
                 <input
+                  id="customer_email"
                   type="email"
                   value={formData.customer_email}
                   onChange={(e) => handleInputChange('customer_email', e.target.value)}
+                  aria-required="true"
+                  aria-describedby={errors.customer_email ? "email-error" : undefined}
                   className={`w-full p-3 bg-ui-surface-primary border rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus ${
                     errors.customer_email ? 'border-status-error' : 'border-ui-border-secondary'
                   }`}
                   placeholder={t('placeholders.email')}
                 />
                 {errors.customer_email && (
-                  <p className="text-status-error-light text-sm mt-1">{errors.customer_email}</p>
+                  <p id="email-error" role="alert" className="text-status-error-light text-sm mt-1">{errors.customer_email}</p>
                 )}
                 <p className="text-xs text-ui-text-secondary mt-1">For booking confirmations and updates</p>
               </div>
@@ -724,12 +736,14 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               {/* Participants */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
+                  <label htmlFor="num_adults" className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.adults')}
                   </label>
                   <select
+                    id="num_adults"
                     value={formData.num_adults}
                     onChange={(e) => handleInputChange('num_adults', parseInt(e.target.value))}
+                    aria-required="true"
                     className="w-full p-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus"
                   >
                     {Array.from({length: Math.min(tour.available_spots, 8)}, (_, i) => (
@@ -738,10 +752,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-ui-text-muted mb-1">
+                  <label htmlFor="num_children" className="block text-sm font-medium text-ui-text-muted mb-1">
                     {t('form.children')}
                   </label>
                   <select
+                    id="num_children"
                     value={formData.num_children}
                     onChange={(e) => handleInputChange('num_children', parseInt(e.target.value))}
                     className="w-full p-3 bg-ui-surface-primary border border-ui-border-secondary rounded-lg text-ui-text-primary focus:ring-2 focus:ring-interactive-focus"
@@ -754,7 +769,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               </div>
               
               {errors.num_adults && (
-                <p className="text-status-error-light text-sm">{errors.num_adults}</p>
+                <p id="adults-error" role="alert" className="text-status-error-light text-sm">{errors.num_adults}</p>
               )}
             </div>
           </div>
