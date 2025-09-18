@@ -254,7 +254,7 @@ const TemplateDetailPage = ({ template, onBack, onInstanceSelect }) => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-4 sm:py-6 space-y-6 sm:space-y-8">
+      <div className="max-w-4xl mx-auto py-4 sm:py-6 space-y-6 sm:space-y-8">
 
         {/* Template Overview */}
         <div className="bg-ui-surface-secondary/50 rounded-xl p-4 sm:p-6 border border-ui-border-primary">

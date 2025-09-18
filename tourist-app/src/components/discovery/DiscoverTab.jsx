@@ -1,7 +1,7 @@
 // Clean DiscoverTab - 3 Step Flow: Location → Mood → Personalize
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight, SlidersHorizontal, X, DollarSign, Clock, Search, Trash2, RotateCcw } from 'lucide-react'
+import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight, SlidersHorizontal, X, Search, Trash2, RotateCcw } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { templateService } from '../../services/templateService'
 import { useAppStore } from '../../stores/bookingStore'
@@ -22,7 +22,6 @@ const STEPS = {
 const DiscoverTab = () => {
   const { t } = useTranslation()
   const [currentStep, setCurrentStep] = useState(STEPS.DUAL_PATH)
-  const [selectedPath, setSelectedPath] = useState(null)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [selectedMood, setSelectedMood] = useState(null)
   const [filters, setFilters] = useState({
@@ -39,6 +38,19 @@ const DiscoverTab = () => {
     duration: 'all',
     priceRange: null
   })
+
+  // Initialize additional filters with Step 3 budget when moving to results
+  useEffect(() => {
+    if (currentStep === STEPS.RESULTS && filters.budget !== 'any') {
+      setAdditionalFilters(prev => ({
+        ...prev,
+        priceRange: prev.priceRange || {
+          min: filters.budget === 'budget' ? 0 : filters.budget === 'mid' ? 10000 : 30000,
+          max: filters.budget === 'budget' ? 9999 : filters.budget === 'mid' ? 29999 : null
+        }
+      }))
+    }
+  }, [currentStep, filters.budget])
   
   // Tour data and modals
   const [selectedTour, setSelectedTour] = useState(null)
@@ -47,21 +59,18 @@ const DiscoverTab = () => {
   // Template discovery state
   const [templates, setTemplates] = useState([])
   const [templatesLoading, setTemplatesLoading] = useState(false)
-  const [templatesError, setTemplatesError] = useState(null)
 
   // Template detail view state
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [showTemplateDetail, setShowTemplateDetail] = useState(false)
   
   // Hooks
-  const { 
-    discoverTours = [], 
-    loading, 
-    formatPrice, 
-    formatDate, 
+  const {
+    formatPrice,
+    formatDate,
     formatTime,
     getUrgencyColor,
-    calculateSavings 
+    calculateSavings
   } = useTours()
   
   const { favorites, toggleFavorite, setActiveTab } = useAppStore()
@@ -100,11 +109,9 @@ const DiscoverTab = () => {
         location: selectedLocation.id,
         // Don't filter by tour type in the service - we'll filter client-side for all allowed types
         tourType: null,
-        duration: filters.duration,
-        priceRange: filters.budget !== 'any' ? {
-          min: filters.budget === 'budget' ? 0 : filters.budget === 'mid' ? 10000 : 30000,
-          max: filters.budget === 'budget' ? 9999 : filters.budget === 'mid' ? 29999 : null
-        } : null
+        // Don't apply Step 3 filters server-side - handle all filtering client-side in results
+        duration: null,
+        priceRange: null
       }
 
       const templatesData = await templateService.getDiscoveryTemplates(templateFilters)
@@ -118,7 +125,6 @@ const DiscoverTab = () => {
       setTemplates(filteredTemplates)
     } catch (error) {
       console.error('Error fetching templates:', error)
-      setTemplatesError(error.message)
       setTemplates([])
       toast.error(t('tourCard.loadFailed', 'Failed to load activities'))
     } finally {
@@ -147,7 +153,7 @@ const DiscoverTab = () => {
         return false
       }
 
-      // Duration filter
+      // Duration filter (on results screen, use additionalFilters, not Step 3 filters)
       if (additionalFilters.duration !== 'all') {
         const hours = template.duration_hours || 0
         if (additionalFilters.duration === 'short' && hours >= 3) return false
@@ -155,7 +161,7 @@ const DiscoverTab = () => {
         if (additionalFilters.duration === 'long' && hours <= 6) return false
       }
 
-      // Price range filter
+      // Price range filter (overrides Step 3 budget filter)
       if (additionalFilters.priceRange) {
         const price = template.discount_price_adult || 0
         if (additionalFilters.priceRange.min && price < additionalFilters.priceRange.min) return false
@@ -397,7 +403,7 @@ const DiscoverTab = () => {
         )}
 
         {currentStep === STEPS.LOCATION && (
-          <LocationStep onSelect={goToMood} selectedLocation={selectedLocation} onBack={() => setCurrentStep(STEPS.DUAL_PATH)} />
+          <LocationStep onSelect={goToMood} selectedLocation={selectedLocation} />
         )}
 
         {currentStep === STEPS.MOOD && (
@@ -541,7 +547,7 @@ const DualPathStep = ({ onPathSelect }) => {
 }
 
 // Step 1: Location selection
-const LocationStep = ({ onSelect, selectedLocation, onBack }) => {
+const LocationStep = ({ onSelect, selectedLocation }) => {
   const { t } = useTranslation()
   const [showAllIslands, setShowAllIslands] = useState(false)
   
@@ -875,7 +881,7 @@ const ResultsStep = ({
   const { t } = useTranslation()
   const activeFilterCount = Object.values(filters).filter(v => v !== 'any').length
 
-  // Count additional active filters
+  // Count additional active filters (including Step 3 budget if carried over)
   const additionalActiveFilters = [
     additionalFilters.island !== 'all',
     additionalFilters.tourType !== 'all',
@@ -893,6 +899,8 @@ const ResultsStep = ({
       priceRange: null
     })
     setSearchQuery('')
+    // Also reset Step 3 budget filter to avoid confusion
+    setFilters(prev => ({...prev, budget: 'any'}))
   }
 
   // FilterChip Component for additional filters
@@ -1176,20 +1184,7 @@ const ResultsStep = ({
               </button>
             </div>
           </div>
-
-          {/* Alternative Action Outside Card */}
-          <div className="text-center">
-            <p className="text-ui-text-secondary text-sm mb-4">
-              {t('discovery.didntFindQuestion')}
-            </p>
-            <button
-              onClick={() => setActiveTab('explore')}
-              className="inline-flex items-center gap-2 text-interactive-primary-light hover:text-interactive-primary border border-interactive-primary-light hover:bg-interactive-primary-light hover:text-ui-text-primary px-6 py-3 rounded-lg transition-colors font-medium"
-            >
-              <Search className="w-4 h-4" />
-              {t('discovery.exploreAllActivities')}
-            </button>
-          </div>
+          
         </div>
       ) : (
         <div className="space-y-4">
@@ -1218,10 +1213,11 @@ const ResultsStep = ({
           {t('discovery.didntFindQuestion')}
         </p>
         <button
-          onClick={onReset}
-          className="px-6 py-3 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors"
-        >
-          {t('discovery.tryDifferentPreferences')}
+              onClick={() => setActiveTab('explore')}
+              className="inline-flex items-center gap-2 text-interactive-primary-light hover:text-interactive-primary border border-interactive-primary-light hover:bg-interactive-primary-light hover:text-ui-text-primary px-6 py-3 rounded-lg transition-colors font-medium"
+            >
+              <Search className="w-4 h-4" />
+              {t('discovery.exploreAllActivities')}
         </button>
       </div>
     </div>
