@@ -1,7 +1,7 @@
 // Clean DiscoverTab - 3 Step Flow: Location → Mood → Personalize
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight, SlidersHorizontal, X, DollarSign, Clock, Search, Trash2 } from 'lucide-react'
+import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight, SlidersHorizontal, X, DollarSign, Clock, Search, Trash2, RotateCcw } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { templateService } from '../../services/templateService'
 import { useAppStore } from '../../stores/bookingStore'
@@ -743,7 +743,7 @@ const PersonalizeStep = ({
           {t('discovery.exploring')} <span className="text-interactive-primary-light">{selectedLocation?.emoji} {selectedLocation?.name}</span>
         </p>
         <div className="flex items-center justify-center gap-2">
-          <span className="text-ui-text-muted">•</span>
+          {selectedMood?.icon && <selectedMood.icon className="w-4 h-4 text-ui-text-primary" />}
           <span className="text-ui-text-primary text-sm">{selectedMood?.name}</span>
         </div>
       </div>
@@ -939,9 +939,10 @@ const ResultsStep = ({
           </div>
           <button
             onClick={onReset}
-            className="px-4 py-2 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-lg transition-colors text-sm"
+            className="flex items-center gap-2 px-3 py-2 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-muted hover:text-ui-text-primary rounded-lg transition-colors text-sm"
           >
-            {t('discovery.startOver')}
+            <RotateCcw className="w-4 h-4" />
+            <span className="hidden sm:inline">{t('discovery.startOver')}</span>
           </button>
         </div>
 
@@ -953,9 +954,9 @@ const ResultsStep = ({
       {/* Advanced Filters Section */}
       <div className="bg-ui-surface-secondary/50 rounded-xl border border-ui-border-primary">
         {/* Filter Header */}
-        <div className="flex items-center justify-between p-4 border-b border-ui-border-primary">
-          <div className="flex items-center gap-3">
-            <Search className="w-5 h-5 text-ui-text-secondary" />
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 border-b border-ui-border-primary">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <Search className="w-5 h-5 text-ui-text-secondary flex-shrink-0" />
             <input
               type="text"
               value={searchQuery}
@@ -965,10 +966,10 @@ const ResultsStep = ({
             />
           </div>
 
-          <div className="flex items-center gap-2 ml-4">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all flex-shrink-0 ${
                 showAdvancedFilters || additionalActiveFilters > 0
                   ? 'bg-interactive-primary text-ui-text-primary shadow-lg'
                   : 'bg-ui-surface-primary text-ui-text-muted hover:bg-ui-surface-tertiary'
@@ -976,7 +977,7 @@ const ResultsStep = ({
             >
               <SlidersHorizontal className="w-4 h-4" />
               {additionalActiveFilters > 0 && (
-                <span className="bg-white text-interactive-primary text-xs px-2 py-0.5 rounded-full font-bold">
+                <span className="bg-white text-interactive-primary text-xs px-1.5 py-0.5 rounded-full font-bold min-w-[1.25rem] text-center">
                   {additionalActiveFilters}
                 </span>
               )}
@@ -985,7 +986,8 @@ const ResultsStep = ({
             {additionalActiveFilters > 0 && (
               <button
                 onClick={clearAdditionalFilters}
-                className="flex items-center gap-1.5 px-3 py-2 bg-status-error hover:bg-status-error-hover text-ui-text-primary rounded-lg text-sm font-medium transition-all"
+                className="flex items-center justify-center w-10 h-10 bg-status-error hover:bg-status-error-hover text-ui-text-primary rounded-lg transition-all flex-shrink-0"
+                title={t('explore.clearAllFilters')}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -1138,41 +1140,54 @@ const ResultsStep = ({
 
       {/* Tour results */}
       {tours.length === 0 ? (
-        <div className="text-center py-12 bg-ui-surface-secondary/50 rounded-xl border border-ui-border-primary">
-          <div className="w-16 h-16 bg-ui-surface-primary rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-2xl">🌴</span>
+        <div className="space-y-6">
+          {/* No Results Card */}
+          <div className="text-center py-12 bg-ui-surface-secondary/50 rounded-xl border border-ui-border-primary">
+            <div className="w-16 h-16 bg-ui-surface-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">🌴</span>
+            </div>
+            <h3 className="text-lg font-semibold text-ui-text-muted mb-2">
+              {t('discovery.noActivitiesFound')}
+            </h3>
+            <p className="text-ui-text-disabled mb-6 max-w-md mx-auto">
+              {additionalActiveFilters > 0
+                ? t('discovery.tryAdjustingFilters')
+                : t('discovery.noTemplatesInSelection')}
+            </p>
+
+            {/* Primary Actions in Card */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">
+              {additionalActiveFilters > 0 && (
+                <button
+                  onClick={clearAdditionalFilters}
+                  className="flex items-center justify-center gap-2 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-6 py-3 rounded-lg transition-colors font-medium"
+                >
+                  <X className="w-4 h-4" />
+                  {t('discovery.clearFilters')}
+                </button>
+              )}
+
+              <button
+                onClick={onReset}
+                className="flex items-center justify-center gap-2 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary px-6 py-3 rounded-lg transition-colors"
+              >
+                <RotateCcw className="w-4 h-4" />
+                {t('discovery.startOver')}
+              </button>
+            </div>
           </div>
-          <h3 className="text-lg font-semibold text-ui-text-muted mb-2">
-            {t('discovery.noActivitiesFound')}
-          </h3>
-          <p className="text-ui-text-disabled mb-6 max-w-md mx-auto">
-            {additionalActiveFilters > 0
-              ? t('discovery.tryAdjustingFilters')
-              : t('discovery.noTemplatesInSelection')}
-          </p>
 
-          {additionalActiveFilters > 0 && (
-            <button
-              onClick={clearAdditionalFilters}
-              className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary px-6 py-3 rounded-lg transition-colors mb-4"
-            >
-              {t('discovery.clearFilters')}
-            </button>
-          )}
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button
-              onClick={onReset}
-              className="bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary px-6 py-3 rounded-lg transition-colors"
-            >
-              {t('discovery.startOver')}
-            </button>
-
+          {/* Alternative Action Outside Card */}
+          <div className="text-center">
+            <p className="text-ui-text-secondary text-sm mb-4">
+              {t('discovery.didntFindQuestion')}
+            </p>
             <button
               onClick={() => setActiveTab('explore')}
-              className="text-interactive-primary-light hover:text-interactive-primary border border-interactive-primary-light hover:bg-interactive-primary-light hover:text-ui-text-primary px-6 py-3 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 text-interactive-primary-light hover:text-interactive-primary border border-interactive-primary-light hover:bg-interactive-primary-light hover:text-ui-text-primary px-6 py-3 rounded-lg transition-colors font-medium"
             >
-              {t('discovery.tryExploreTab')}
+              <Search className="w-4 h-4" />
+              {t('discovery.exploreAllActivities')}
             </button>
           </div>
         </div>

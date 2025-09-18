@@ -117,6 +117,8 @@
     "tryDifferentPreferences": "Essaie d'Autres Préférences",
     "exploreHint": "Ou parcours tous les tours disponibles avec des options de recherche détaillées :",
     "tryExploreTab": "Découvrir toutes les activités →",
+    "exploreAllActivities": "Explorer Toutes les Activités",
+    "noTemplatesInSelection": "Aucune activité ne correspond à votre sélection d'île et d'humeur.",
     "filters": {
       "short": "Court (max. 3 heures)",
       "halfDay": "Demi-journée (3-8 heures)",

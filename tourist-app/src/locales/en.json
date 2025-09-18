@@ -129,6 +129,8 @@
     "tryDifferentPreferences": "Try Different Preferences",
     "exploreHint": "Or browse all available activities with detailed search options:",
     "tryExploreTab": "Or explore all activities →",
+    "exploreAllActivities": "Explore All Activities",
+    "noTemplatesInSelection": "No activities match your island and mood selection.",
     "filters": {
       "short": "Short (max. 3 hours)",
       "halfDay": "Half Day (3-8 hours)",
