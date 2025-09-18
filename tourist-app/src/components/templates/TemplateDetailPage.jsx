@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, Users, MapPin, Star, Calendar, Heart, Share2, Globe, 
 import { templateService } from '../../services/templateService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import CalendarView from './CalendarView'
+import BookingPage from '../booking/BookingPage'
 import toast from 'react-hot-toast'
 import { useCurrencyContext } from '../../hooks/useCurrency'
 import { SinglePriceDisplay } from '../shared/PriceDisplay'
@@ -14,7 +15,8 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
   const { selectedCurrency, changeCurrency } = useCurrencyContext()
   const [templateWithAvailability, setTemplateWithAvailability] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [showCalendar, setShowCalendar] = useState(false)
+  const [currentView, setCurrentView] = useState('template') // 'template', 'calendar', 'booking'
+  const [selectedInstance, setSelectedInstance] = useState(null)
   const [expandedLanguages, setExpandedLanguages] = useState(false)
 
   // Helper functions from TourDetailModal
@@ -203,6 +205,62 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
   const tourEmoji = TOUR_TYPE_EMOJIS[templateDetails.tour_type] || '🌴'
   const fitness = getFitnessDisplay(templateDetails.fitness_level)
 
+  // Navigation handlers
+  const handleCalendarBack = () => {
+    setCurrentView('template')
+  }
+
+  const handleInstanceSelect = (instance) => {
+    // Transform instance data to match expected tour structure for BookingPage
+    const transformedInstance = {
+      ...instance,
+      // Map instance fields to tour fields for compatibility
+      discount_price_adult: instance.effective_discount_price_adult || instance.discount_price_adult,
+      discount_price_child: instance.effective_discount_price_child || instance.discount_price_child,
+      original_price_adult: instance.original_price_adult,
+      status: 'active', // instances from this view are always active
+      // Ensure we have operator island data
+      operator_island: instance.operator_island || templateDetails.island
+    }
+    setSelectedInstance(transformedInstance)
+    setCurrentView('booking')
+  }
+
+  const handleBookingBack = () => {
+    setCurrentView('calendar')
+  }
+
+  const handleBookingComplete = () => {
+    // Call the original onInstanceSelect to navigate back to main app
+    if (onInstanceSelect && selectedInstance) {
+      onInstanceSelect(selectedInstance)
+    }
+  }
+
+  // Render different views based on currentView state
+  if (currentView === 'calendar') {
+    return (
+      <CalendarView
+        template={templateDetails}
+        instances={instances}
+        availability={availability}
+        onBack={handleCalendarBack}
+        onInstanceSelect={handleInstanceSelect}
+      />
+    )
+  }
+
+  if (currentView === 'booking' && selectedInstance) {
+    return (
+      <BookingPage
+        tour={selectedInstance}
+        onBack={handleBookingBack}
+        onComplete={handleBookingComplete}
+      />
+    )
+  }
+
+  // Main template detail view
   return (
     <div className="min-h-screen bg-ui-surface-overlay">
       {/* Cover Image */}
@@ -400,7 +458,7 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
 
               {template.is_template ? (
                 <button
-                  onClick={() => setShowCalendar(true)}
+                  onClick={() => setCurrentView('calendar')}
                   className={`w-full font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 touch-manipulation active:scale-[0.98] ${
                     availability.instance_count > 0
                       ? 'bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary'
@@ -636,17 +694,6 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
         )}
       </div>
 
-      {/* Calendar Modal */}
-      {showCalendar && (
-        <CalendarView
-          template={templateDetails}
-          instances={instances}
-          availability={availability}
-          isOpen={showCalendar}
-          onClose={() => setShowCalendar(false)}
-          onInstanceSelect={onInstanceSelect}
-        />
-      )}
     </div>
   )
 }

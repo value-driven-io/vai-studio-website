@@ -1,12 +1,12 @@
 // src/components/templates/CalendarView.jsx
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { X, ChevronLeft, ChevronRight, Clock, Users } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Clock, Users } from 'lucide-react'
 import { getTodayInFP, isTodayInFP, getCurrentDateInFP, formatDateFP } from '../../lib/timezone'
 import { useCurrencyContext } from '../../hooks/useCurrency'
 import { formatPrice } from '../../utils/currency'
 
-const CalendarView = ({ template, instances, availability, isOpen, onClose, onInstanceSelect }) => {
+const CalendarView = ({ template, instances, availability, onBack, onInstanceSelect }) => {
   const { t } = useTranslation()
   const { selectedCurrency } = useCurrencyContext()
   const [currentDate, setCurrentDate] = useState(getCurrentDateInFP())
@@ -99,16 +99,19 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
 
   const handleInstanceSelect = (instance) => {
     onInstanceSelect(instance)
-    onClose()
   }
 
-  if (!isOpen) return null
-
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 pb-20 sm:pb-4">
-      <div className="bg-ui-surface-secondary rounded-none sm:rounded-xl w-full max-w-4xl h-full sm:h-auto sm:max-h-[90vh] flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-ui-border-primary flex-shrink-0">
+    <div className="min-h-screen bg-ui-surface-overlay pb-20">
+      {/* Header */}
+      <div className="bg-ui-surface-secondary border-b border-ui-border-primary p-4 sm:p-6">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onBack}
+            className="p-2 hover:bg-ui-surface-primary rounded-lg transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 text-ui-text-primary" />
+          </button>
           <div className="flex-1 min-w-0">
             <h2 className="text-lg sm:text-xl font-bold text-ui-text-primary">
               {t('calendar.selectDate', 'Select Date')}
@@ -117,17 +120,12 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
               {template.tour_name}
             </p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-ui-surface-primary rounded-lg transition-colors ml-2"
-          >
-            <X className="w-5 h-5 text-ui-text-primary" />
-          </button>
         </div>
+      </div>
 
-        <div className="flex-1 flex flex-col lg:grid lg:grid-cols-3 min-h-0">
-          {/* Calendar */}
-          <div className="lg:col-span-2 p-4 sm:p-6 flex-1 overflow-auto">
+      <div className="flex flex-col lg:grid lg:grid-cols-3 min-h-0">
+        {/* Calendar */}
+        <div className="lg:col-span-2 p-4 sm:p-6">
             {/* Month Navigation */}
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <button
@@ -186,8 +184,8 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
             </div>
           </div>
 
-          {/* Instance Details Sidebar */}
-          <div className="lg:col-span-1 lg:border-l border-t lg:border-t-0 border-ui-border-primary p-4 sm:p-6 bg-ui-surface-primary/30 flex-shrink-0 lg:flex-shrink lg:overflow-auto">
+        {/* Instance Details Sidebar */}
+        <div className="lg:col-span-1 lg:border-l border-t lg:border-t-0 border-ui-border-primary p-4 sm:p-6 bg-ui-surface-primary/30">
             {selectedInstance ? (
               <div className="space-y-6">
                 <div>
@@ -256,22 +254,13 @@ const CalendarView = ({ template, instances, availability, isOpen, onClose, onIn
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-ui-border-primary p-4 sm:p-6 flex-shrink-0 mb-0 sm:mb-0">
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:justify-between">
-            <div className="text-sm text-ui-text-secondary text-center sm:text-left">
-              {t('calendar.availableDates', 'Available dates')} • {availability.instance_count} {t('calendar.dates', 'dates')}
-            </div>
-            <button
-              onClick={onClose}
-              className="px-4 py-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors w-full sm:w-auto"
-            >
-              {t('common.cancel', 'Cancel')}
-            </button>
-          </div>
+      {/* Footer */}
+      <div className="border-t border-ui-border-primary p-4 sm:p-6 bg-ui-surface-secondary">
+        <div className="text-sm text-ui-text-secondary text-center">
+          {t('calendar.availableDates', 'Available dates')} • {availability.instance_count} {t('calendar.dates', 'dates')}
         </div>
       </div>
-    </div>
+      </div>
   )
 }
 

@@ -8,7 +8,7 @@ import {
 import { useTours } from '../../hooks/useTours'
 import { useAppStore } from '../../stores/bookingStore'
 import { TOUR_TYPE_EMOJIS, ISLAND_EMOJIS } from '../../constants/moods'
-import BookingModal from '../booking/BookingModal'
+import BookingPage from '../booking/BookingPage'
 import TemplateDetailPage from '../templates/TemplateDetailPage'
 import toast from 'react-hot-toast'
 import TourCard from '../shared/TourCard'
@@ -117,13 +117,12 @@ const ExploreTab = () => {
     calculateSavings 
   } = useTours()
 
-  // Local state 
+  // Local state
   const [viewMode, setViewMode] = useState('grid') // 'grid' or 'list'
   const [showFilters, setShowFilters] = useState(false)
   const [selectedTour, setSelectedTour] = useState(null)
-  const [showBookingModal, setShowBookingModal] = useState(false)
   const [selectedTemplate, setSelectedTemplate] = useState(null)
-  const [showTemplateDetail, setShowTemplateDetail] = useState(false)
+  const [currentView, setCurrentView] = useState('explore') // 'explore', 'booking', 'template'
   const [localSearch, setLocalSearch] = useState(filters.search || '')
   const [showDatePicker, setShowDatePicker] = useState(false)
 
@@ -165,25 +164,25 @@ const ExploreTab = () => {
   const handleBookTour = (tour) => {
     // Always route to TemplateDetailPage for consistent UX
     setSelectedTemplate(tour)
-    setShowTemplateDetail(true)
+    setCurrentView('template')
   }
 
-  const handleCloseBookingModal = () => {
-    setShowBookingModal(false)
+  // Navigation handlers
+  const handleBackToExplore = () => {
+    setCurrentView('explore')
+    setSelectedTemplate(null)
     setSelectedTour(null)
   }
 
-  // Template Detail handlers
-  const handleCloseTemplateDetail = () => {
-    setShowTemplateDetail(false)
-    setSelectedTemplate(null)
+  const handleInstanceSelect = (instance) => {
+    // Route from template detail to booking page
+    setSelectedTour(instance)
+    setCurrentView('booking')
   }
 
-  const handleInstanceSelect = (instance) => {
-    // Route from template detail to booking modal
-    setSelectedTour(instance)
-    setShowBookingModal(true)
-    setShowTemplateDetail(false)
+  const handleBackToTemplate = () => {
+    setCurrentView('template')
+    setSelectedTour(null)
   }
 
   // Date Picker Handler
@@ -246,12 +245,22 @@ const getDateRangeLabel = () => {
   )
 
   // If showing template detail, render it as a full-screen standalone page
-  if (showTemplateDetail && selectedTemplate) {
+  // Handle navigation between views
+  if (currentView === 'template' && selectedTemplate) {
     return (
       <TemplateDetailPage
         template={selectedTemplate}
-        onBack={handleCloseTemplateDetail}
+        onBack={handleBackToExplore}
         onInstanceSelect={handleInstanceSelect}
+      />
+    )
+  }
+
+  if (currentView === 'booking' && selectedTour) {
+    return (
+      <BookingPage
+        tour={selectedTour}
+        onBack={handleBackToTemplate}
       />
     )
   }
@@ -599,12 +608,6 @@ const getDateRangeLabel = () => {
         )}
       </div>
 
-      {/* Booking Modal */}
-      <BookingModal 
-        tour={selectedTour}
-        isOpen={showBookingModal}
-        onClose={handleCloseBookingModal}
-      />
 
       {/* Date Picker Modal */}
       <DatePickerModal

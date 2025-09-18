@@ -6,7 +6,7 @@ import { useTours } from '../../hooks/useTours'
 import { templateService } from '../../services/templateService'
 import { useAppStore } from '../../stores/bookingStore'
 import TourCard from '../shared/TourCard'
-import BookingModal from '../booking/BookingModal'
+import BookingPage from '../booking/BookingPage'
 import TemplateDetailPage from '../templates/TemplateDetailPage'
 import toast from 'react-hot-toast'
 
@@ -53,9 +53,9 @@ const DiscoverTab = () => {
     }
   }, [currentStep, filters.budget])
   
-  // Tour data and modals
+  // Tour data and navigation
   const [selectedTour, setSelectedTour] = useState(null)
-  const [showBookingModal, setShowBookingModal] = useState(false)
+  const [currentView, setCurrentView] = useState('discover') // 'discover', 'template', 'booking'
 
   // Template discovery state
   const [templates, setTemplates] = useState([])
@@ -63,7 +63,6 @@ const DiscoverTab = () => {
 
   // Template detail view state
   const [selectedTemplate, setSelectedTemplate] = useState(null)
-  const [showTemplateDetail, setShowTemplateDetail] = useState(false)
   
   // Hooks
   const {
@@ -232,19 +231,20 @@ const DiscoverTab = () => {
     } else {
       // Direct booking for regular tour instances
       setSelectedTour(tour)
-      setShowBookingModal(true)
+      setCurrentView('booking')
     }
   }
 
-  const handleCloseBookingModal = () => {
-    setShowBookingModal(false)
+  const handleBackToDiscover = () => {
+    setCurrentView('discover')
+    setSelectedTemplate(null)
     setSelectedTour(null)
   }
 
   // Template-specific handlers
   const handleTemplateClick = (template) => {
     setSelectedTemplate(template)
-    setShowTemplateDetail(true)
+    setCurrentView('template')
   }
 
   const handleInstanceSelect = (instance) => {
@@ -263,9 +263,9 @@ const DiscoverTab = () => {
       // Use discount_price_child as original_price_child (simplified child pricing)
       original_price_child: instance.effective_discount_price_child || selectedTemplate?.discount_price_child || 0,
 
-      // Additional fields that BookingModal might need
+      // Additional fields that BookingPage might need
       tour_type: selectedTemplate?.tour_type || instance.tour_type,
-      location: selectedTemplate?.location || instance.location,
+      operator_island: selectedTemplate?.island || instance.island || selectedTemplate?.location,
       duration_hours: instance.duration_hours || selectedTemplate?.duration_hours,
       operator_name: instance.company_name || selectedTemplate?.operator_name,
 
@@ -274,13 +274,12 @@ const DiscoverTab = () => {
       max_capacity: instance.max_capacity || 0
     }
     setSelectedTour(tourForBooking)
-    setShowBookingModal(true)
-    setShowTemplateDetail(false)
+    setCurrentView('booking')
   }
 
-  const handleBackFromTemplate = () => {
-    setShowTemplateDetail(false)
-    setSelectedTemplate(null)
+  const handleBackToTemplate = () => {
+    setCurrentView('template')
+    setSelectedTour(null)
   }
 
   const handleFavoriteToggle = (tourId) => {
@@ -293,12 +292,22 @@ const DiscoverTab = () => {
   }
 
   // If showing template detail, render it as a full-screen standalone page
-  if (showTemplateDetail && selectedTemplate) {
+  // Handle navigation between views
+  if (currentView === 'template' && selectedTemplate) {
     return (
       <TemplateDetailPage
         template={selectedTemplate}
-        onBack={handleBackFromTemplate}
+        onBack={handleBackToDiscover}
         onInstanceSelect={handleInstanceSelect}
+      />
+    )
+  }
+
+  if (currentView === 'booking' && selectedTour) {
+    return (
+      <BookingPage
+        tour={selectedTour}
+        onBack={handleBackToTemplate}
       />
     )
   }
@@ -453,17 +462,6 @@ const DiscoverTab = () => {
         )}
       </div>
 
-      {/* Booking Modal */}
-      {selectedTour && (
-        <BookingModal
-          isOpen={showBookingModal}
-          onClose={handleCloseBookingModal}
-          tour={selectedTour}
-          formatPrice={formatPrice}
-          formatDate={formatDate}
-          formatTime={formatTime}
-        />
-      )}
     </div>
   )
 }
