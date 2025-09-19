@@ -114,6 +114,9 @@ export default defineConfig({
   // --- Polyfill for libraries that use 'global' ---
   define: {
     global: 'globalThis',
+  },
+
+  define: {
     'process.env': process.env
   },
 
