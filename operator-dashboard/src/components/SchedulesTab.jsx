@@ -115,7 +115,7 @@ const ScheduleCard = ({ schedule, formatPrice, onEdit, onDelete, onViewCalendar,
         {/* Schedule Pattern Line */}
         <div className="flex items-center gap-2 mb-2 text-slate-300">
           <Clock className="w-4 h-4" />
-          <span className="font-mono">{formatRecurrencePattern()} | {formatDateRange()}</span>
+          <span className="font">{formatRecurrencePattern()} | {formatDateRange()}</span>
         </div>
 
         {/* Capacity & Pricing Line */}

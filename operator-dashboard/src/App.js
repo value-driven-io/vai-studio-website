@@ -72,35 +72,31 @@ const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
 
   const lockBookingCommission = async (bookingId) => {
     try {
-      // First, check if commission is already locked
-      const checkResponse = await fetch(`${supabaseUrl}/rest/v1/bookings?select=commission_locked_at&id=eq.${bookingId}`, {
-        headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`
-        }
-      })
-      
-      const bookingData = await checkResponse.json()
+      // ✅ FIX: Check if commission is already locked using authenticated client
+      const { data: bookingData, error: checkError } = await supabase
+        .from('bookings')
+        .select('commission_locked_at')
+        .eq('id', bookingId)
+        .single()
+
+      if (checkError) {
+        throw checkError
+      }
       
       // Only lock if not already locked
-      if (!bookingData[0]?.commission_locked_at) {
+      if (!bookingData?.commission_locked_at) {
         const updateData = {
           commission_locked_at: new Date().toISOString()
         }
 
-        const response = await fetch(`${supabaseUrl}/rest/v1/bookings?id=eq.${bookingId}`, {
-          method: 'PATCH',
-          headers: {
-            'apikey': supabaseAnonKey,
-            'Authorization': `Bearer ${supabaseAnonKey}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify(updateData)
-        })
+        // ✅ FIX: Update commission lock using authenticated client
+        const { error: updateError } = await supabase
+          .from('bookings')
+          .update(updateData)
+          .eq('id', bookingId)
 
-        if (!response.ok) {
-          throw new Error('Failed to lock commission rate')
+        if (updateError) {
+          throw new Error(`Failed to lock commission rate: ${updateError.message}`)
         }
 
         console.log('✅ Commission rate locked for booking:', bookingId)
@@ -685,13 +681,15 @@ function AppContent() { // function App() { << before changes for the authcallba
     
     setLoading(true)
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/tours?operator_id=eq.${operator.id}&select=*`, {
-        headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`
-        }
-      })
-      const data = await response.json()
+      // ✅ FIX: Fetch tours using authenticated client
+      const { data, error } = await supabase
+        .from('tours')
+        .select('*')
+        .eq('operator_id', operator.id)
+
+      if (error) {
+        throw error
+      }
       setTours(data || [])
     } catch (error) {
       console.error('Error fetching tours:', error)
@@ -1064,57 +1062,63 @@ function AppContent() { // function App() { << before changes for the authcallba
         // Customer-initiated cancellation - no decline_reason needed
       }
 
-      const response = await fetch(`${supabaseUrl}/rest/v1/bookings?id=eq.${bookingId}`, {
-        method: 'PATCH',
-        headers: {
-          'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(updateData)
-      })
+      // ✅ FIX: Use authenticated Supabase client instead of fetch with anon key
+      const { data, error } = await supabase
+        .from('bookings')
+        .update(updateData)
+        .eq('id', bookingId)
+        .select()
+
+      if (error) {
+        console.error('❌ Booking update failed:', error)
+        toast.error(t('bookings.actions.updateError', { error: error.message }), {
+          duration: 8000,
+          style: {
+            background: '#dc2626',
+            color: 'white'
+          }
+        })
+        throw error
+      }
+
+      const response = { ok: true } // Maintain compatibility with existing if (response.ok) check
 
       if (response.ok) {
 
         // Restore spots when declining
       if (action === 'declined') {
         try {
-          // Get booking details to find participants count
-          const bookingResponse = await fetch(`${supabaseUrl}/rest/v1/bookings?id=eq.${bookingId}&select=tour_id,num_adults,num_children`, {
-            headers: {
-              'apikey': supabaseAnonKey,
-              'Authorization': `Bearer ${supabaseAnonKey}`
-            }
-          })
-          
-          if (bookingResponse.ok) {
-            const [booking] = await bookingResponse.json()
+          // ✅ FIX: Get booking details using authenticated client
+          const { data: bookingData, error: bookingError } = await supabase
+            .from('bookings')
+            .select('tour_id,num_adults,num_children')
+            .eq('id', bookingId)
+            .single()
+
+          if (!bookingError && bookingData) {
+            const booking = bookingData
             const totalParticipants = (booking.num_adults || 0) + (booking.num_children || 0)
             
-            // Get current tour spots
-            const tourResponse = await fetch(`${supabaseUrl}/rest/v1/tours?id=eq.${booking.tour_id}&select=available_spots`, {
-              headers: {
-                'apikey': supabaseAnonKey,
-                'Authorization': `Bearer ${supabaseAnonKey}`
-              }
-            })
-            
-            if (tourResponse.ok) {
-              const [tour] = await tourResponse.json()
+            // ✅ FIX: Get current tour spots using authenticated client
+            const { data: tourData, error: tourError } = await supabase
+              .from('tours')
+              .select('available_spots')
+              .eq('id', booking.tour_id)
+              .single()
+
+            if (!tourError && tourData) {
+              const tour = tourData
               const newAvailableSpots = tour.available_spots + totalParticipants
               
-              // Update tour spots
-              await fetch(`${supabaseUrl}/rest/v1/tours?id=eq.${booking.tour_id}`, {
-                method: 'PATCH',
-                headers: {
-                  'apikey': supabaseAnonKey,
-                  'Authorization': `Bearer ${supabaseAnonKey}`,
-                  'Content-Type': 'application/json',
-                  'Prefer': 'return=minimal'
-                },
-                body: JSON.stringify({ available_spots: newAvailableSpots })
-              })
+              // ✅ FIX: Update tour spots using authenticated client
+              const { error: updateError } = await supabase
+                .from('tours')
+                .update({ available_spots: newAvailableSpots })
+                .eq('id', booking.tour_id)
+
+              if (updateError) {
+                throw updateError
+              }
               
               console.log(`✅ Restored ${totalParticipants} spots to activity`)
             }

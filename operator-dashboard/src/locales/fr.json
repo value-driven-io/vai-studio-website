@@ -561,8 +561,11 @@
     "list": {
       "title": "Liste des Réservations",
       "noBookings": "Aucune réservation",
-      "createFirstTour": "Crée ta première activité pour recevoir des réservations",
+      "createFirstTour": "Commencez par créer un modèle d'activité pour recevoir des réservations",
       "createTour": "Créer une Activité",
+      "createTemplate": "Créer un Modèle",
+      "manageSchedules": "Gérer les Horaires",
+      "emptyStateExplanation": "Commencez par créer un modèle d'activité, puis configurez ses horaires",
       "sortedBy": "Trié par",
       "priority": "Priorité",
       "netEarnings": "Revenus Nets",
@@ -592,7 +595,18 @@
     "priority": {
       "critical": "Critique",
       "high": "Élevée",
-      "medium": "Moyenne"
+      "medium": "Moyenne",
+      "urgent": "Urgent"
+    },
+    "hierarchical": {
+      "description": "Vue organisée par activité, date et heure"
+    },
+    "view": {
+      "hierarchical": "Vue Hiérarchique",
+      "legacy": "Vue Simple",
+      "hierarchy": "Hiérarchie",
+      "flat": "Liste",
+      "toggleDescription": "bookings"
     },
 
     "detail": {
@@ -698,9 +712,10 @@
       "total": "Total",
       "pending": "En attente",
       "confirmed": "Confirmés",
-      "declined": "Refusés", 
+      "declined": "Refusés",
       "completed": "Terminés",
-      "active": "Actives"
+      "active": "Actives",
+      "revenue": "Revenus"
     },
     "filters": {
       "allTime": "Toutes dates",
@@ -715,14 +730,16 @@
       "clearSearch": "Effacer la recherche",
       "status": "Statut",
       "timePeriod": "Période",
-      "priority": "Priorité", 
+      "priority": "Priorité",
       "search": "Rechercher",
       "allBookings": "Toutes Réservations",
       "needsAction": "⚠️ Action Requise",
       "nextWeek": "Semaine Prochaine",
       "allPriorities": "Toutes Priorités",
       "critical": "🔥 Critique",
-      "allPending": "⚠️ Toutes en Attente"
+      "allPending": "⚠️ Toutes en Attente",
+      "activityType": "Type d'Activité",
+      "allTypes": "Tous Types"
     },
     "messages": {
       "loading": "Chargement des réservations...",
@@ -732,7 +749,7 @@
     "labels": {
       "ref": "Réf:",
       "participant": "participant",
-      "participants": "participants", 
+      "participants": "participants",
       "customerDetails": "Détails Client",
       "detailsUnlock": "🔒 Détails débloqués après confirmation",
       "name": "Nom:",
@@ -741,7 +758,7 @@
       "participantsLabel": "Participants:",
       "adult": "adulte",
       "adults": "adultes",
-      "child": "enfant", 
+      "child": "enfant",
       "children": "enfants",
       "specialRequirements": "Exigences spéciales:",
       "dietary": "Alimentaire:",
@@ -749,14 +766,21 @@
       "booked": "Réservé:",
       "declineReason": "Raison du refus:",
       "unknownTour": "Activité inconnue",
+      "unknownType": "Type inconnu",
       "timeTbd": "Heure à définir",
-      "locationTbd": "Lieu à définir"
+      "locationTbd": "Lieu à définir",
+      "anonymous": "Anonyme",
+      "customerProtected": "Client protégé",
+      "guest": "invité",
+      "guests": "invités",
+      "bookings": "réservations",
+      "full": "occupé"
     },
     "actions": {
       "confirmBooking": "CONFIRMER",
       "decline": "REFUSER",
       "whatsappCustomer": "WhatsApp Client",
-      "callCustomer": "Appeler Client", 
+      "callCustomer": "Appeler Client",
       "markComplete": "Marquer Terminé",
       "followUp": "Suivi",
       "requestReview": "Demander Avis",
@@ -765,10 +789,11 @@
       "completing": "Finalisation...",
       "confirmDecline": "Confirmer Refus",
       "complete": "Activité terminée",
-      "viewDetails": "Détails",
-      "chat": "Live Chat",
+      "viewDetails": "Voir Détails",
+      "chat": "Chat",
       "email": "Envoyer Email",
-      "confirm": "CONFIRMER"
+      "confirm": "CONFIRMER",
+      "copyReference": "Copier la référence"
     },
     "statusMessages": {
       "confirmed": {

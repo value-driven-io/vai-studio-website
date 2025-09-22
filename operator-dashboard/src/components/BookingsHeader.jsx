@@ -17,13 +17,15 @@ const BookingsHeader = ({
   setTimeFilter,
   searchTerm,
   setSearchTerm,
+  activityTypeFilter,
+  setActivityTypeFilter,
   fetchAllBookings,
   formatPrice,
   bookingsLoading
 }) => {
   const { t } = useTranslation()
 
-  // 📊 REVENUE CALCULATIONS (Net Focus)
+  // 📊 REVENUE CALCULATIONS (Net Focus) - IMPROVED with data validation
   const revenueStats = useMemo(() => {
     if (!allBookings || allBookings.length === 0) {
       return {
@@ -36,6 +38,13 @@ const BookingsHeader = ({
       }
     }
 
+    // Helper function to safely get net revenue from booking
+    const getNetRevenue = (booking) => {
+      const gross = booking.total_amount || booking.subtotal || 0
+      const commission = booking.commission_amount || 0
+      return Math.max(0, gross - commission) // Ensure non-negative
+    }
+
     const now = new Date()
     const today = now.toDateString()
     const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
@@ -45,13 +54,13 @@ const BookingsHeader = ({
       ['confirmed', 'completed'].includes(b.booking_status)
     )
 
-    // Today's net revenue (tours happening today)
+    // Today's net revenue (tours happening today) - FIXED: Now actually net
     const todayNet = revenueBookings
       .filter(b => {
         const tourDate = new Date(b.tours?.tour_date)
         return tourDate.toDateString() === today
       })
-      .reduce((sum, b) => sum + (b.subtotal || 0), 0)
+      .reduce((sum, b) => sum + getNetRevenue(b), 0)
 
     // This week's net revenue
     const weekNet = revenueBookings
@@ -59,12 +68,12 @@ const BookingsHeader = ({
         const tourDate = new Date(b.tours?.tour_date)
         return tourDate >= now && tourDate <= weekFromNow
       })
-      .reduce((sum, b) => sum + (b.subtotal || 0) - (b.commission_amount || 0), 0)
+      .reduce((sum, b) => sum + getNetRevenue(b), 0)
 
     // Pending net revenue at risk
     const pendingBookings = allBookings.filter(b => b.booking_status === 'pending')
     const pendingNet = pendingBookings
-      .reduce((sum, b) => sum + (b.subtotal || 0) - (b.commission_amount || 0), 0)
+      .reduce((sum, b) => sum + getNetRevenue(b), 0)
 
     // Critical priority count (pending + booking closes in 8h)
     const criticalCount = pendingBookings.filter(b => {
@@ -75,13 +84,13 @@ const BookingsHeader = ({
     }).length
 
     // Average net revenue per confirmed booking
-    const avgBooking = revenueBookings.length > 0 
-      ? revenueBookings.reduce((sum, b) => sum + (b.subtotal || 0) - (b.commission_amount || 0), 0) / revenueBookings.length
+    const avgBooking = revenueBookings.length > 0
+      ? revenueBookings.reduce((sum, b) => sum + getNetRevenue(b), 0) / revenueBookings.length
       : 0
 
     // Total net revenue (all time)
     const totalNet = revenueBookings
-      .reduce((sum, b) => sum + (b.subtotal || 0) - (b.commission_amount || 0), 0)
+      .reduce((sum, b) => sum + getNetRevenue(b), 0)
 
     return {
       todayNet,
@@ -138,18 +147,18 @@ const BookingsHeader = ({
     }
   }, [allBookings])
 
-  // 🎯 TOUR FILTER OPTIONS (Dynamic)
-  const tourOptions = useMemo(() => {
+  // 🎯 ACTIVITY TYPE FILTER OPTIONS (Dynamic)
+  const activityTypes = useMemo(() => {
     if (!allBookings || allBookings.length === 0) return []
-    
-    const tourCounts = allBookings.reduce((acc, booking) => {
-      const tourName = booking.tours?.tour_name || 'Unknown Activity/Tour'
-      acc[tourName] = (acc[tourName] || 0) + 1
+
+    const typeCounts = allBookings.reduce((acc, booking) => {
+      const activityType = booking.tours?.tour_type || 'Unknown Type'
+      acc[activityType] = (acc[activityType] || 0) + 1
       return acc
     }, {})
 
-    return Object.entries(tourCounts)
-      .map(([name, count]) => ({ name, count }))
+    return Object.entries(typeCounts)
+      .map(([type, count]) => ({ type, count }))
       .sort((a, b) => b.count - a.count) // Sort by booking count
   }, [allBookings])
 
@@ -167,6 +176,7 @@ const BookingsHeader = ({
     setBookingFilter('all')
     setTimeFilter('all')
     setSearchTerm('')
+    if (setActivityTypeFilter) setActivityTypeFilter('all')
   }
 
   return (
@@ -248,7 +258,7 @@ const BookingsHeader = ({
         </div>
 
         {/* Filter Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           {/* Status Filter */}
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -305,6 +315,25 @@ const BookingsHeader = ({
               <option value="all">{t('bookings.filters.allPriorities')}</option>
               <option value="critical">{t('bookings.filters.critical')} ({filterCounts.deadlineSoon})</option>
               <option value="pending">{t('bookings.filters.allPending')} ({filterCounts.needsAction})</option>
+            </select>
+          </div>
+
+          {/* Activity Type Filter */}
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              {t('bookings.filters.activityType')}
+            </label>
+            <select
+              value={activityTypeFilter || 'all'}
+              onChange={(e) => setActivityTypeFilter && setActivityTypeFilter(e.target.value)}
+              className="w-full bg-slate-700 text-white rounded-lg px-3 py-2 border border-slate-600 focus:outline-none focus:border-blue-500"
+            >
+              <option value="all">{t('bookings.filters.allTypes')}</option>
+              {activityTypes.map(({ type, count }) => (
+                <option key={type} value={type}>
+                  {type} ({count})
+                </option>
+              ))}
             </select>
           </div>
 

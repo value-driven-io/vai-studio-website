@@ -10,6 +10,7 @@ import {
 import OperatorChatModal from './OperatorChatModal' 
 import BookingsHeader from './BookingsHeader'
 import GroupedBookingsList from './GroupedBookingsList'
+import HierarchicalBookingsList from './HierarchicalBookingsList'
 import BookingDetailModal from './BookingDetailModal'
 
 const BookingsTab = forwardRef(({
@@ -43,6 +44,12 @@ const BookingsTab = forwardRef(({
   const [showChatModal, setShowChatModal] = useState(false)
   const [selectedDetailBooking, setSelectedDetailBooking] = useState(null)
   const [showDetailModal, setShowDetailModal] = useState(false)
+
+  // Toggle between hierarchical and legacy view
+  const [useHierarchicalView, setUseHierarchicalView] = useState(true)
+
+  // Activity type filter state (for BookingsHeader integration)
+  const [activityTypeFilter, setActivityTypeFilter] = useState('all')
 
   // Expose methods to parent component via ref
   useImperativeHandle(ref, () => ({
@@ -80,30 +87,76 @@ const BookingsTab = forwardRef(({
                   setTimeFilter={setTimeFilter}
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
+                  activityTypeFilter={activityTypeFilter}
+                  setActivityTypeFilter={setActivityTypeFilter}
                   fetchAllBookings={fetchAllBookings}
                   formatPrice={formatPrice}
                   bookingsLoading={bookingsLoading}
                 />
 
-                {/* Grouped Bookings by Activity */}
+                {/* Booking List - Hierarchical or Legacy View */}
                 <div className="mb-6">
-                  <GroupedBookingsList
-                    filteredBookings={filteredBookings}
-                    allBookings={allBookings}
-                    tours={tours}
-                    bookingsLoading={bookingsLoading}
-                    operator={operator}
-                    formatDate={formatDate}
-                    formatPrice={formatPrice}
-                    getTimeUntilDeadline={getTimeUntilDeadline}
-                    shouldShowCustomerDetails={shouldShowCustomerDetails}
-                    onBookingClick={handleBookingClick}
-                    onChatClick={(booking) => {
-                      setSelectedChatBooking(booking)
-                      setShowChatModal(true)
-                    }}
-                    setActiveTab={setActiveTab}
-                  />
+                  {/* View Toggle */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="text-sm text-slate-400">
+                      {useHierarchicalView ? t('bookings.view.hierarchical') : t('bookings.view.legacy')} • {filteredBookings.length} {t('bookings.view.toggleDescription')}
+                    </div>
+                    <div className="flex items-center bg-slate-700 rounded-lg p-1">
+                      <button
+                        onClick={() => setUseHierarchicalView(true)}
+                        className={`px-3 py-1 rounded text-sm transition-colors ${
+                          useHierarchicalView ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        {t('bookings.view.hierarchy')}
+                      </button>
+                      <button
+                        onClick={() => setUseHierarchicalView(false)}
+                        className={`px-3 py-1 rounded text-sm transition-colors ${
+                          !useHierarchicalView ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        {t('bookings.view.flat')}
+                      </button>
+                    </div>
+                  </div>
+
+                  {useHierarchicalView ? (
+                    <HierarchicalBookingsList
+                      filteredBookings={filteredBookings}
+                      tours={tours}
+                      bookingsLoading={bookingsLoading}
+                      operator={operator}
+                      formatDate={formatDate}
+                      formatPrice={formatPrice}
+                      getTimeUntilDeadline={getTimeUntilDeadline}
+                      shouldShowCustomerDetails={shouldShowCustomerDetails}
+                      onBookingClick={handleBookingClick}
+                      onChatClick={(booking) => {
+                        setSelectedChatBooking(booking)
+                        setShowChatModal(true)
+                      }}
+                      setActiveTab={setActiveTab}
+                    />
+                  ) : (
+                    <GroupedBookingsList
+                      filteredBookings={filteredBookings}
+                      allBookings={allBookings}
+                      tours={tours}
+                      bookingsLoading={bookingsLoading}
+                      operator={operator}
+                      formatDate={formatDate}
+                      formatPrice={formatPrice}
+                      getTimeUntilDeadline={getTimeUntilDeadline}
+                      shouldShowCustomerDetails={shouldShowCustomerDetails}
+                      onBookingClick={handleBookingClick}
+                      onChatClick={(booking) => {
+                        setSelectedChatBooking(booking)
+                        setShowChatModal(true)
+                      }}
+                      setActiveTab={setActiveTab}
+                    />
+                  )}
                 </div>
 
             {/* Enhanced Clickable Stats */}

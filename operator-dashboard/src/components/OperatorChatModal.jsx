@@ -207,7 +207,7 @@ const OperatorChatModal = ({ isOpen, onClose, booking, operator }) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[99999]">
       <div className="bg-slate-800 rounded-2xl w-full max-w-2xl max-h-[80vh] border border-slate-700 flex flex-col">
         {/* Header */}
         <div className="p-6 border-b border-slate-700 flex-shrink-0">

@@ -28,14 +28,10 @@ const GroupedBookingsList = ({
 
   // Group bookings by tour (REVERT TO ORIGINAL WORKING APPROACH)
   const groupedTours = useMemo(() => {
-    const bookingsToGroup = filteredBookings.length > 0 ? filteredBookings : allBookings
+    // Use filteredBookings directly - if empty due to filters, show empty results
+    const bookingsToGroup = filteredBookings
     
-    // DEBUG: Log initial data
-    console.log('=== GROUPING DEBUG ===')
-    console.log('filteredBookings:', filteredBookings)
-    console.log('allBookings:', allBookings)
-    console.log('bookingsToGroup:', bookingsToGroup)
-    console.log('tours:', tours)
+    // Group bookings by tour
     
     // Start with the original working logic - group bookings first
     const groups = bookingsToGroup.reduce((acc, booking) => {
@@ -47,7 +43,7 @@ const GroupedBookingsList = ({
       const tourId = matchingTour?.id || booking.tours?.id || 'unknown'
       const tourKey = `${tourId}-${tourName}`
       
-      console.log(`Processing booking ${booking.id}: tourId=${tourId}, tourName=${tourName}, matchingTour=${!!matchingTour}`, booking.tours)
+      // Processing booking for tour: ${tourName}
       
       if (!acc[tourKey]) {
         acc[tourKey] = {
@@ -111,7 +107,7 @@ const GroupedBookingsList = ({
         
         // Only add if this tour doesn't already exist in booking groups
         if (!groups[tourKey]) {
-          console.log(`Adding empty tour: ${tourKey}`)
+          // Adding empty tour slot
           groups[tourKey] = {
             tour: tour,
             bookings: [],
@@ -125,7 +121,7 @@ const GroupedBookingsList = ({
             spotsBooked: 0
           }
         } else {
-          console.log(`Tour already exists with bookings: ${tourKey}`)
+          // Tour already has bookings
         }
       })
     }
@@ -138,8 +134,7 @@ const GroupedBookingsList = ({
       }
     })
     
-    // DEBUG: Log final groups
-    console.log('Final groups before sorting:', groups)
+    // Sort groups for display
     
     // Sort by urgency and revenue
     const sortedEntries = Object.entries(groups).sort(([, a], [, b]) => {
@@ -148,9 +143,9 @@ const GroupedBookingsList = ({
       return b.totalRevenue - a.totalRevenue
     })
     
-    console.log('Final sorted entries:', sortedEntries)
+    // Entries sorted by priority
     return sortedEntries
-  }, [tours, filteredBookings, allBookings])
+  }, [tours, filteredBookings])
 
   // Get booking priority
   const getBookingPriority = (booking) => {
@@ -186,10 +181,7 @@ const GroupedBookingsList = ({
 
   // Handle tour toggle
   const handleTourToggle = (tourId) => {
-    console.log('Toggling tour:', tourId)
-    console.log('Current expanded:', expandedTour)
     const newExpanded = expandedTour === tourId ? null : tourId
-    console.log('New expanded:', newExpanded)
     setExpandedTour(newExpanded)
   }
 
@@ -258,7 +250,7 @@ const GroupedBookingsList = ({
           const totalBookings = group.bookings.length
           const hasUrgentBookings = group.urgentCount > 0
           
-          console.log(`Rendering tour ${tourId}: expanded=${isExpanded}, bookings count=${totalBookings}`, group)
+          // Rendering tour ${tourId}: expanded=${isExpanded}, bookings count=${totalBookings}
           
           return (
             <div key={tourId} className="bg-slate-800/20">
@@ -478,8 +470,7 @@ const GroupedBookingsList = ({
                     </div>
                   ) : (
                     <div className="divide-y divide-slate-700/30">
-                      {/* DEBUG: Log expanded bookings */}
-                      {console.log(`Rendering bookings for ${group.tour.tour_name}:`, group.bookings)}
+                      {/* Rendering bookings for ${group.tour.tour_name} */}
                       {group.bookings.map((booking) => {
                         const priority = getBookingPriority(booking)
                         const showDetails = shouldShowCustomerDetails(booking)

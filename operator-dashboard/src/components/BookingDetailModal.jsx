@@ -78,6 +78,53 @@ const BookingDetailModal = ({
   // Don't render if modal is closed or no booking
   if (!isOpen || !booking) return null
 
+  // Helper function to safely format dates
+  const safeFormatDate = (dateValue) => {
+    if (!dateValue) return t('bookings.modal.notSpecified')
+    try {
+      const date = new Date(dateValue)
+      if (isNaN(date.getTime())) return t('bookings.modal.notSpecified')
+      return formatDate(dateValue)
+    } catch (error) {
+      console.warn('Date formatting error:', error)
+      return t('bookings.modal.notSpecified')
+    }
+  }
+
+  // Helper function to safely get duration
+  const getDuration = () => {
+    const duration = booking.tours?.duration_hours
+    if (!duration || duration === null || duration === undefined) {
+      return t('bookings.modal.notSpecified')
+    }
+    return `${duration}h`
+  }
+
+  // Helper function to check if tour is completed (for Complete button logic)
+  const canCompleteBooking = () => {
+    if (booking.booking_status !== 'confirmed') return false
+
+    const tourDate = booking.tours?.tour_date
+    const timeSlot = booking.tours?.time_slot
+    const duration = booking.tours?.duration_hours || 0
+
+    if (!tourDate) return true // Allow if no date specified
+
+    const now = new Date()
+    const tourDateTime = new Date(tourDate)
+
+    if (timeSlot) {
+      const [hours, minutes] = timeSlot.split(':').map(Number)
+      tourDateTime.setHours(hours, minutes || 0, 0, 0)
+    }
+
+    // Add duration to get tour end time
+    const tourEndTime = new Date(tourDateTime.getTime() + (duration * 60 * 60 * 1000))
+
+    // Can complete if tour end time has passed
+    return now >= tourEndTime
+  }
+
   // 🎯 PRIORITY & STATUS CALCULATIONS
   const getBookingPriority = () => {
     if (booking.booking_status !== 'pending') {
@@ -115,10 +162,10 @@ const BookingDetailModal = ({
   ((booking.commission_amount || 0) / (booking.total_amount || 1)) * 100
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
         {/* Backdrop */}
-        <div 
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-md"
             onClick={onClose}
         />
         
@@ -241,7 +288,7 @@ const BookingDetailModal = ({
                       <div>
                         <span className="text-slate-400 text-sm">{t('bookings.modal.fields.duration')}</span>
                         <p className="text-white">
-                          {booking.tours?.duration_hours ? `${booking.tours.duration_hours}h` : t('bookings.modal.notSpecified')}
+                          {getDuration()}
                         </p>
                       </div>
                     </div>
@@ -266,7 +313,7 @@ const BookingDetailModal = ({
                       <div>
                         <span className="text-slate-400 text-sm">{t('bookings.detail.bookingDate')}</span>
                         <p className="text-white">
-                          {formatDate(booking.created_at)}
+                          {safeFormatDate(booking.created_at)}
                         </p>
                       </div>
                     </div>
@@ -391,15 +438,25 @@ const BookingDetailModal = ({
                       </h3>
                       
                       <div className="flex flex-wrap gap-3">
-                        {booking.booking_status === 'confirmed' && (
-                          <button
-                            onClick={() => onChatClick(booking)}
-                            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                          >
-                            <MessageCircle className="w-4 h-4" />
-                            {t('bookings.actions.chat')}
-                          </button>
-                        )}
+                        {/* Live Chat - Available for ALL booking statuses */}
+                        <button
+                          onClick={() => onChatClick(booking)}
+                          className={`
+                            relative flex items-center gap-2 px-4 py-2 rounded-lg transition-colors
+                            ${booking.has_messages
+                              ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                              : 'bg-slate-600 hover:bg-slate-500 text-white'
+                            }
+                          `}
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                          {t('bookings.actions.chat')}
+                          {booking.unread_messages && booking.unread_messages > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                              {booking.unread_messages > 99 ? '99+' : booking.unread_messages}
+                            </span>
+                          )}
+                        </button>
                         
                         {booking.customer_phone && (
                           <a
@@ -539,7 +596,7 @@ const BookingDetailModal = ({
                       {booking.payment_captured_at && (
                         <div className="md:col-span-2">
                           <span className="text-slate-400 text-sm">{t('payment.details.capturedAt')}</span>
-                          <p className="text-green-400">{formatDate(booking.payment_captured_at)}</p>
+                          <p className="text-green-400">{safeFormatDate(booking.payment_captured_at)}</p>
                         </div>
                       )}
                     </div>
@@ -567,7 +624,7 @@ const BookingDetailModal = ({
           <div className="p-6 border-t border-slate-700 bg-slate-700/30 sticky bottom-0 sm:static">
             <div className="flex items-center justify-between">
               <div className="text-sm text-slate-400">
-                {t('bookings.modal.lastUpdated')}: {formatDate(booking.updated_at || booking.created_at)}
+                {t('bookings.modal.lastUpdated')}: {safeFormatDate(booking.updated_at || booking.created_at)}
               </div>
               
               <div className="flex gap-3">
@@ -596,13 +653,34 @@ const BookingDetailModal = ({
                 {booking.booking_status === 'confirmed' && (
                   <button
                     onClick={handleCompleteBooking}
-                    disabled={processingBooking === booking.id}
-                    className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                    disabled={processingBooking === booking.id || !canCompleteBooking()}
+                    className={`
+                      flex items-center gap-2 px-6 py-3 rounded-lg transition-colors
+                      ${canCompleteBooking()
+                        ? 'bg-purple-600 hover:bg-purple-700 text-white'
+                        : 'bg-slate-600 text-slate-400 cursor-not-allowed'
+                      }
+                    `}
+                    title={!canCompleteBooking() ? 'Tour must be completed before marking as complete' : ''}
                   >
                     <Award className="w-4 h-4" />
                     {t('bookings.actions.complete')}
                   </button>
                 )}
+
+                {/* Support Button */}
+                <button
+                  onClick={() => {
+                    // Open support - you might want to integrate with your support system
+                    const subject = `Support Request - Booking ${booking.booking_reference || booking.id}`
+                    const body = `Hello VAI Support,\n\nI need assistance with booking:\n- Customer: ${booking.customer_name}\n- Tour: ${booking.tours?.tour_name}\n- Status: ${booking.booking_status}\n\nDetails:\n`
+                    window.open(`mailto:support@vai.tickets?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`)
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
+                >
+                  <AlertCircle className="w-4 h-4" />
+                  Support
+                </button>
                 
                 <button
                   onClick={onClose}

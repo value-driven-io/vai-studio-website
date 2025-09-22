@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import paymentService from '../services/paymentService'
 
-const PaymentStatusIndicator = ({ booking, compact = false }) => {
+const PaymentStatusIndicator = ({ booking, compact = false, size = 'md' }) => {
   const { t } = useTranslation()
   const paymentInfo = paymentService.formatPaymentInfo(booking)
 
@@ -57,7 +57,7 @@ const PaymentStatusIndicator = ({ booking, compact = false }) => {
     }
   }
 
-  if (compact) {
+  if (compact || size === 'sm') {
     return (
       <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium ${getBadgeColor()}`}>
         {getIcon()}
