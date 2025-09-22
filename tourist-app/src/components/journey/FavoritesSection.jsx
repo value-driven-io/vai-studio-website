@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { journeyService } from '../../services/supabase'
 import { useAppStore } from '../../stores/bookingStore'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
-import BookingModal from '../booking/BookingModal'
+import { BookingPage } from '../booking/BookingPage'
 import toast from 'react-hot-toast'
 
 const FavoritesSection = ({ 
@@ -157,11 +157,13 @@ const FavoritesSection = ({
       </div>
 
       {/* Booking Modal */}
-      <BookingModal 
-        tour={selectedTour}
-        isOpen={showBookingModal}
-        onClose={handleCloseBookingModal}
-      />
+      {showBookingModal && (
+        <BookingPage
+          tour={selectedTour}
+          mode="modal"
+          onClose={handleCloseBookingModal}
+        />
+      )}
     </div>
   )
 }

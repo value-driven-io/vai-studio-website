@@ -6,3 +6,6 @@
 .env.keys
 .env.local
 .env.*.local
+
+#supabase details
+SUPABASE_CLI_REFERENCE_FOR_LLM_ASSISTANTS.md

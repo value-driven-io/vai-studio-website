@@ -83,18 +83,29 @@ const OverviewSection = ({
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-medium text-ui-text-primary">
-                  {nextTour.tours?.tour_name || 'Tour'}
+                  {nextTour.active_tours_with_operators?.tour_name || 'Tour'}
                 </h4>
+                {nextTour.active_tours_with_operators?.template_name && nextTour.active_tours_with_operators?.tour_name !== nextTour.active_tours_with_operators?.template_name && (
+                  <div className="text-xs text-ui-text-tertiary">
+                    Part of: {nextTour.active_tours_with_operators.template_name}
+                  </div>
+                )}
+                {nextTour.schedule_id && (
+                  <div className="text-xs text-ui-text-tertiary flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    Recurring Schedule
+                  </div>
+                )}
                 <p className="text-ui-text-tertiary text-sm">
-                  {t('overviewSection.nextAdventure.with', { operator: nextTour.operators?.company_name || 'Operator' })}
+                  {t('overviewSection.nextAdventure.with', { operator: nextTour.active_tours_with_operators?.company_name || 'Operator' })}
                 </p>
               </div>
               <div className="text-right">
                 <div className="text-ui-text-primary font-medium">
-                  {formatDate(nextTour.tours?.tour_date)}
+                  {formatDate(nextTour.active_tours_with_operators?.tour_date)}
                 </div>
                 <div className="text-ui-text-tertiary text-sm">
-                  {formatTime(nextTour.tours?.time_slot)}
+                  {formatTime(nextTour.active_tours_with_operators?.time_slot)}
                 </div>
               </div>
             </div>
@@ -102,7 +113,7 @@ const OverviewSection = ({
             <div className="flex items-center gap-4 text-sm text-ui-text-tertiary">
               <div className="flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
-                {nextTour.tours?.meeting_point || t('overviewSection.nextAdventure.tbd')}
+                {nextTour.active_tours_with_operators?.effective_meeting_point || t('overviewSection.nextAdventure.tbd')}
               </div>
               <div className="flex items-center gap-1">
                 <Users className="w-4 h-4" />
@@ -135,8 +146,13 @@ const OverviewSection = ({
               <div key={booking.id} className="flex items-center justify-between p-3 bg-ui-surface-secondary/50 rounded-lg">
                 <div>
                   <div className="font-medium text-ui-text-primary">
-                    {booking.tours?.tour_name || 'Tour'}
+                    {booking.active_tours_with_operators?.tour_name || 'Tour'}
                   </div>
+                  {booking.active_tours_with_operators?.template_name && booking.active_tours_with_operators?.tour_name !== booking.active_tours_with_operators?.template_name && (
+                    <div className="text-xs text-ui-text-tertiary">
+                      Part of: {booking.active_tours_with_operators.template_name}
+                    </div>
+                  )}
                   <div className="text-sm text-ui-text-tertiary">
                     {booking.booking_reference}
                   </div>

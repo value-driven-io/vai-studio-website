@@ -1,7 +1,7 @@
 // src/hooks/useUserJourney.js 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { journeyService } from '../services/supabase'
+import { enhancedJourneyService } from '../services/enhancedJourneyService'
 import { useAppStore } from '../stores/bookingStore'
 import { useAuth } from '../contexts/AuthContext'  
 import { formatDate as formatDateUtil } from '../lib/utils'
@@ -184,7 +184,7 @@ export const useUserJourney = () => {
       // Fetching user bookings
       // Initiating booking query
       
-      const bookings = await journeyService.getUserBookings(cleanEmail, cleanWhatsApp)
+      const bookings = await enhancedJourneyService.getUserBookings(cleanEmail, cleanWhatsApp)
       // Bookings retrieved successfully
       performanceTracker.current.end('fetchUserBookings')
       

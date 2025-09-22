@@ -922,6 +922,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
       </div> 
     </div> 
     </div>
+    
   )
 }
 

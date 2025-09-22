@@ -141,8 +141,19 @@ const StatusCard = ({
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-ui-text-primary font-semibold truncate">
-              {booking.tours?.tour_name || t('statusCard.tourInfo.tourNotAvailable')}
+              {booking.active_tours_with_operators?.tour_name || booking.tours?.tour_name || t('statusCard.tourInfo.tourNotAvailable')}
             </h3>
+            {booking.active_tours_with_operators?.template_name && booking.active_tours_with_operators?.tour_name !== booking.active_tours_with_operators?.template_name && (
+              <div className="text-xs text-ui-text-tertiary">
+                Part of: {booking.active_tours_with_operators.template_name}
+              </div>
+            )}
+            {booking.schedule_id && (
+              <div className="text-xs text-ui-text-tertiary flex items-center gap-1">
+                <Calendar className="w-3 h-3" />
+                Recurring Schedule
+              </div>
+            )}
             <div className="flex items-center gap-2 text-xs vai-text-disabled">
               <MapPin className="w-3 h-3" />
               <span>{booking.operators?.island || t('statusCard.tourInfo.locationTBD')}</span>

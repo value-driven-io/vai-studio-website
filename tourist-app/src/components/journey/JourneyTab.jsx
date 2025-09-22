@@ -1,22 +1,26 @@
+// Modern JourneyTab - Industry gold standard UX/UI
 import { useState, useEffect } from 'react'
-import { 
-  RefreshCw, Search, Plus, AlertCircle, Home, Activity, Trophy
+import {
+  Calendar, MapPin, Users, Clock, ChevronRight, Plus, RefreshCw, Search,
+  Bookmark, MessageCircle, Phone, RotateCcw, ExternalLink, Filter,
+  CheckCircle, Timer, XCircle, Award, AlertTriangle, TrendingUp
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useUserJourney } from '../../hooks/useUserJourney'
 import { useAppStore } from '../../stores/bookingStore'
-import BookingModal from '../booking/BookingModal'
+import { BookingPage } from '../booking/BookingPage'
 import BookingLookup from './BookingLookup'
-import SimplifiedBookingView from './SimplifiedBookingView'
-import NextTourCard from './NextTourCard'
+import ModernBookingView from './ModernBookingView'
+import BookingDetailModal from './BookingDetailModal'
+import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import toast from 'react-hot-toast'
 
-const JourneyTab = () => {
+const ModernJourneyTab = () => {
   const { t } = useTranslation()
-  const { 
-    userBookings, 
-    loading, 
-    refreshBookings, 
+  const {
+    userBookings,
+    loading,
+    refreshBookings,
     fetchUserBookings,
     canContactOperator,
     canRebook,
@@ -27,147 +31,116 @@ const JourneyTab = () => {
     getNextUpcomingTour
   } = useUserJourney()
 
-  const { setActiveTab, journeyStage, setJourneyStage } = useAppStore()
-  
-  // Simplified state - only 3 main views
-  const [activeView, setActiveView] = useState(journeyStage || 'dashboard')
+  const { setActiveTab } = useAppStore()
+
+  // Modern state management
+  const [activeView, setActiveView] = useState('overview')
+  const [selectedBooking, setSelectedBooking] = useState(null)
+  const [showDetailModal, setShowDetailModal] = useState(false)
   const [showRebookModal, setShowRebookModal] = useState(false)
   const [rebookTour, setRebookTour] = useState(null)
   const [showLookupModal, setShowLookupModal] = useState(false)
-  
-  // Simplified stats - focus on practical information
-  const [userStats, setUserStats] = useState({
-    totalBookings: 0,
-    completedTours: 0,
-    upcomingTours: 0,
-    pendingActions: 0
-  })
-
-
-  // Respond to external navigation changes
-  useEffect(() => {
-    if (journeyStage && journeyStage !== activeView) {
-      setActiveView(journeyStage)
-      setJourneyStage(null)
-    }
-  }, [journeyStage, activeView, setJourneyStage])
+  const [searchQuery, setSearchQuery] = useState('')
 
   // Safe data access
-  const safeUserBookings = userBookings || { active: [], upcoming: [], past: [] }
+  const safeUserBookings = userBookings || { active: [], upcoming: [], past: [], cancelled: [] }
 
-  // Simplified 3-category system with Lucide icons
-  const journeyViews = [
+  // Calculate comprehensive stats
+  const stats = {
+    total: getTotalBookings(),
+    active: safeUserBookings.active.length,
+    upcoming: safeUserBookings.upcoming.length,
+    completed: safeUserBookings.past.length,
+    cancelled: safeUserBookings.cancelled?.length || 0,
+    nextTour: getNextUpcomingTour(),
+    pendingActions: safeUserBookings.active.filter(b => b.booking_status === 'pending').length
+  }
+
+  // Modern navigation with clear purpose
+  const navigationItems = [
     {
-      id: 'dashboard',
-      label: t('journeyTab.navigation.dashboard', { default: 'Dashboard' }),
-      shortLabel: t('journeyTab.navigation.dashboardShort', { default: 'Home' }),
-      icon: Home,
-      description: t('journeyTab.navigation.dashboardDesc', { default: 'Overview of your bookings' })
+      id: 'overview',
+      label: t('journey.nav.overview'),
+      icon: TrendingUp,
+      description: 'Dashboard overview',
+      badge: stats.pendingActions > 0 ? stats.pendingActions : null,
+      badgeColor: 'bg-status-warning'
     },
     {
       id: 'active',
-      label: t('journeyTab.navigation.active', { default: 'Active' }),
-      shortLabel: t('journeyTab.navigation.activeShort', { default: 'Active' }),
-      icon: Activity,
-      description: t('journeyTab.navigation.activeDesc', { default: 'Pending and upcoming tours' }),
-      count: safeUserBookings.active.length + safeUserBookings.upcoming.length,
-      urgent: safeUserBookings.active.length > 0
+      label: t('journey.nav.active'),
+      icon: Timer,
+      description: 'Pending & upcoming',
+      count: stats.active + stats.upcoming,
+      badge: stats.active > 0 ? stats.active : null,
+      badgeColor: 'bg-status-caution'
     },
     {
       id: 'completed',
-      label: t('journeyTab.navigation.completed', { default: 'Completed' }),
-      shortLabel: t('journeyTab.navigation.completedShort', { default: 'Done' }),
-      icon: Trophy,
-      description: t('journeyTab.navigation.completedDesc', { default: 'Your travel memories' }),
-      count: safeUserBookings.past.length
+      label: t('journey.nav.completed'),
+      icon: Award,
+      description: 'Your memories',
+      count: stats.completed
     }
   ]
 
-  // Calculate simplified user statistics
-  useEffect(() => {
-    if (!safeUserBookings) return
-
-    const pendingActions = safeUserBookings.active.filter(booking => 
-      booking?.booking_status === 'pending' || booking?.operator_response
-    ).length
-
-    setUserStats({
-      totalBookings: getTotalBookings(),
-      completedTours: safeUserBookings.past.length,
-      upcomingTours: safeUserBookings.upcoming.length,
-      pendingActions
-    })
-  }, [safeUserBookings, getTotalBookings])
-
-
-  // Get next tour for display
-  const nextTour = getNextUpcomingTour ? getNextUpcomingTour() : null
-
-  // Get bookings for current view
-  const getViewBookings = () => {
-    switch (activeView) {
-      case 'active':
-        return [...safeUserBookings.active, ...safeUserBookings.upcoming]
-      case 'completed':
-        return safeUserBookings.past
-      default:
-        return []
-    }
-  }
-
-  // Simplified contact operator handler
+  // Event handlers
   const handleContactOperator = (booking) => {
-    if (booking.booking_status === 'confirmed') {
-      setActiveTab('messages')
-      toast.success(t('journey.messages.openingChat', { 
-        operator: booking.operators?.company_name || 'operator',
-        default: 'Opening chat with {{operator}}'
-      }))
+    const operatorData = booking.active_tours_with_operators || booking.operators
+
+    if (operatorData?.operator_whatsapp_number || operatorData?.whatsapp_number) {
+      const whatsapp = operatorData.operator_whatsapp_number || operatorData.whatsapp_number
+      const message = `Hi! Regarding booking ${booking.booking_reference}. ${
+        booking.booking_status === 'confirmed'
+          ? 'Looking forward to the tour!'
+          : 'Could you please update the booking status?'
+      }`
+      const url = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`
+      window.open(url, '_blank')
+    } else if (operatorData?.phone) {
+      window.open(`tel:${operatorData.phone}`, '_self')
     } else {
-      if (booking.operators?.whatsapp_number) {
-        const message = `Hi! I have a booking request: ${booking.booking_reference}. When will you confirm?`
-        const url = `https://wa.me/${booking.operators.whatsapp_number}?text=${encodeURIComponent(message)}`
-        window.open(url, '_blank')
-      } else if (booking.operators?.phone) {
-        window.open(`tel:${booking.operators.phone}`, '_self')
-      }
+      toast.error(t('journey.errors.noContactInfo'))
     }
   }
 
   const handleRebook = (booking) => {
-    if (booking.tours) {
-      // Convert booking tour data to tour format for BookingModal
-      const tourData = {
-        ...booking.tours,
-        id: booking.tour_id,
+    const tourData = booking.active_tours_with_operators || booking.tours
+    if (tourData) {
+      // Convert booking to tour format
+      const rebookData = {
+        ...tourData,
+        id: booking.tour_id || tourData.id,
         operator_id: booking.operator_id,
-        company_name: booking.operators?.company_name,
-        operator_island: booking.operators?.island,
-        whatsapp_number: booking.operators?.whatsapp_number,
-        discount_price_adult: booking.adult_price,
-        discount_price_child: booking.child_price,
-        available_spots: 10, // Default since we don't have this data
+        discount_price_adult: booking.adult_price || tourData.effective_discount_price_adult,
+        discount_price_child: booking.child_price || tourData.effective_discount_price_child,
+        available_spots: 10, // Default for rebook
         max_capacity: 10
       }
-      
-      setRebookTour(tourData)
+
+      setRebookTour(rebookData)
       setShowRebookModal(true)
     }
   }
 
-
   const handleGetSupport = (booking) => {
-    const message = `Hi! I need help with my booking ${booking.booking_reference}. Please assist me.`
+    const message = `Hi! I need assistance with booking ${booking.booking_reference}. Please help.`
     const url = `https://wa.me/68987269065?text=${encodeURIComponent(message)}`
     window.open(url, '_blank')
+  }
+
+  const handleShowDetails = (booking) => {
+    setSelectedBooking(booking)
+    setShowDetailModal(true)
   }
 
   const handleLookupBookings = async (email, whatsapp) => {
     try {
       const bookings = await fetchUserBookings(email, whatsapp)
+      setShowLookupModal(false)
       if (bookings && bookings.length > 0) {
         toast.success(t('journey.messages.bookingsFound', { count: bookings.length }))
-        setActiveView('dashboard') // Switch to dashboard to show results
+        setActiveView('overview')
       } else {
         toast.error(t('journey.messages.noBookingsFound'))
       }
@@ -176,231 +149,412 @@ const JourneyTab = () => {
     }
   }
 
+  // Modern empty state component
+  const EmptyState = ({ type }) => {
+    const states = {
+      overview: {
+        icon: Calendar,
+        title: t('journey.empty.overview.title'),
+        description: t('journey.empty.overview.description'),
+        action: t('journey.empty.overview.action'),
+        actionIcon: Plus,
+        onAction: () => setActiveTab('discover')
+      },
+      active: {
+        icon: Timer,
+        title: t('journey.empty.active.title'),
+        description: t('journey.empty.active.description'),
+        action: t('journey.empty.active.action'),
+        actionIcon: Search,
+        onAction: () => setShowLookupModal(true)
+      },
+      completed: {
+        icon: Award,
+        title: t('journey.empty.completed.title'),
+        description: t('journey.empty.completed.description'),
+        action: t('journey.empty.completed.action'),
+        actionIcon: Plus,
+        onAction: () => setActiveTab('discover')
+      }
+    }
 
-  return (
-    <div className="min-h-screen">
-      
-      {/* Simplified Header */}
-      <div className="backdrop-blur-md border-b border-ui-border-primary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-xl font-bold text-ui-text-primary">
-                  {t('journeyTab.header.yourBookings', { default: 'Your Bookings' })}
-                </h1>
-                <p className="text-sm text-ui-text-tertiary">
-                  {userStats.totalBookings > 0 
-                    ? t('journeyTab.header.bookingsCount', { 
-                        count: userStats.totalBookings, 
-                        default: '{{count}} total bookings'
-                      })
-                    : t('journeyTab.header.noBookings', { default: 'No bookings yet' })
-                  }
-                </p>
-              </div>
+    const state = states[type] || states.overview
+    const Icon = state.icon
+    const ActionIcon = state.actionIcon
+
+    return (
+      <div className="text-center py-16 px-6">
+        <div className="w-20 h-20 bg-ui-surface-tertiary rounded-full flex items-center justify-center mx-auto mb-6">
+          <Icon className="w-10 h-10 text-ui-text-disabled" />
+        </div>
+        <h3 className="text-xl font-semibold text-ui-text-primary mb-3">{state.title}</h3>
+        <p className="text-ui-text-secondary mb-8 max-w-md mx-auto leading-relaxed">
+          {state.description}
+        </p>
+        <button
+          onClick={state.onAction}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary font-medium rounded-lg transition-colors"
+        >
+          <ActionIcon className="w-4 h-4" />
+          {state.action}
+        </button>
+      </div>
+    )
+  }
+
+  // Modern overview dashboard
+  const OverviewDashboard = () => (
+    <div className="space-y-6">
+      {/* Quick Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-interactive-primary/10 rounded-lg flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-interactive-primary" />
             </div>
-
-            <div className="flex items-center gap-3">
-              {/* Pending Actions Indicator */}
-              {userStats.pendingActions > 0 && (
-                <div className="flex items-center gap-2 bg-status-warning-subtle px-3 py-1.5 rounded-full">
-                  <AlertCircle className="w-4 h-4 text-status-warning" />
-                  <span className="text-sm text-status-warning font-medium">
-                    {userStats.pendingActions} {t('journeyTab.header.actionNeeded', { default: 'action needed' })}
-                  </span>
-                </div>
-              )}
-
-              {/* Find Bookings */}
-              <button
-                onClick={() => setShowLookupModal(true)}
-                className="flex items-center gap-2 bg-ui-surface-secondary hover:bg-ui-surface-tertiary text-ui-text-primary px-3 py-2 rounded-lg transition-colors text-sm"
-              >
-                <Search className="w-4 h-4" />
-                <span className="hidden sm:inline">{t('journeyTab.navigation.findBookings', { default: 'Find Bookings' })}</span>
-              </button>
-
-              {/* Refresh */}
-              <button
-                onClick={refreshBookings}
-                className="p-2 bg-ui-surface-secondary hover:bg-ui-surface-tertiary rounded-lg transition-colors"
-                disabled={loading}
-              >
-                <RefreshCw className={`w-4 h-4 text-ui-text-primary ${loading ? 'animate-spin' : ''}`} />
-              </button>
+            <div>
+              <div className="text-2xl font-bold text-ui-text-primary">{stats.total}</div>
+              <div className="text-sm text-ui-text-secondary">Total Bookings</div>
             </div>
           </div>
         </div>
 
-        {/* Optimized Mobile-First Navigation */}
-        <div className="px-4 sm:px-6 py-4 border-t border-ui-border-primary">
-          <div className="grid grid-cols-3 gap-3">
-            {journeyViews.map((view) => {
-              const isActive = activeView === view.id
-              const hasUrgent = view.urgent && view.count > 0
-              const IconComponent = view.icon
-              
-              return (
-                <button
-                  key={view.id}
-                  onClick={() => setActiveView(view.id)}
-                  className={`relative flex flex-col items-center justify-center gap-2 px-3 py-4 rounded-xl transition-all duration-200 ${
-                    isActive
-                      ? 'bg-interactive-primary text-ui-text-primary shadow-lg transform scale-105'
-                      : hasUrgent
-                      ? 'bg-status-warning-subtle text-status-warning border border-status-warning/30'
-                      : 'bg-ui-surface-secondary/40 text-ui-text-secondary'
-                  } journey-stage-button`}
-                  title={view.description}
-                >
-                  {/* Icon with urgent indicator */}
-                  <div className="relative">
-                    <IconComponent className={`w-6 h-6 ${
-                      isActive ? 'text-ui-text-primary' : hasUrgent ? 'text-status-warning' : 'text-ui-text-tertiary'
-                    }`} />
-                    {hasUrgent && !isActive && (
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-status-warning rounded-full animate-pulse"></div>
-                    )}
-                  </div>
-                  
-                  {/* Label - hidden on very small screens, shown on mobile+ */}
-                  <div className="text-center">
-                    <div className={`font-semibold text-xs sm:text-sm ${
-                      view.id === 'dashboard' ? 'hidden xs:block' : ''
-                    }`}>
-                      {view.label}
-                    </div>
-                    
-                    {/* Count badge */}
-                    {view.count !== undefined && view.count > 0 && (
-                      <div className={`text-xs mt-1 ${
-                        isActive ? 'text-interactive-secondary' : hasUrgent ? 'text-status-warning/80' : 'text-ui-text-tertiary'
-                      }`}>
-                        {view.count}
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Active indicator */}
-                  {isActive && (
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-ui-text-primary rounded-t-full"></div>
-                  )}
-                </button>
-              )
-            })}
+        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-status-caution/10 rounded-lg flex items-center justify-center">
+              <Timer className="w-5 h-5 text-status-caution" />
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-ui-text-primary">{stats.active}</div>
+              <div className="text-sm text-ui-text-secondary">Pending</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-status-success/10 rounded-lg flex items-center justify-center">
+              <CheckCircle className="w-5 h-5 text-status-success" />
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-ui-text-primary">{stats.upcoming}</div>
+              <div className="text-sm text-ui-text-secondary">Upcoming</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-status-info/10 rounded-lg flex items-center justify-center">
+              <Award className="w-5 h-5 text-status-info" />
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-ui-text-primary">{stats.completed}</div>
+              <div className="text-sm text-ui-text-secondary">Completed</div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-24">
-        {loading ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="bg-ui-surface-primary/50 rounded-xl h-32 animate-pulse"></div>
-            ))}
+      {/* Next Tour Highlight */}
+      {stats.nextTour && (
+        <div className="bg-gradient-to-r from-interactive-primary/5 to-mood-culture/5 border border-interactive-primary/20 rounded-xl p-6">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-ui-text-primary mb-1">Next Adventure</h3>
+              <p className="text-sm text-ui-text-secondary">Your upcoming confirmed tour</p>
+            </div>
+            <div className="text-3xl">
+              {TOUR_TYPE_EMOJIS[stats.nextTour.active_tours_with_operators?.tour_type] || '🌴'}
+            </div>
           </div>
-        ) : (
-          <>
-            {/* Dashboard View */}
-            {activeView === 'dashboard' && (
-              <div className="space-y-6">
 
-                {/* Next Tour Card */}
-                {nextTour && (
-                  <NextTourCard 
-                    tour={nextTour}
-                    formatDate={formatDate}
-                    formatTime={formatTime}
-                    formatPrice={formatPrice}
-                    onContact={handleContactOperator}
-                    t={t}
-                  />
-                )}
+          <div className="space-y-3">
+            <h4 className="font-medium text-ui-text-primary">
+              {stats.nextTour.active_tours_with_operators?.tour_name || 'Tour'}
+            </h4>
 
-                {/* Empty State for Dashboard */}
-                {getTotalBookings() === 0 && (
-                  <div className="text-center py-12">
-                    <div className="text-6xl mb-4">🌴</div>
-                    <h3 className="text-xl font-semibold text-ui-text-primary mb-2">
-                      {t('journeyTab.welcome.title', { default: 'Welcome to Your Journey!' })}
-                    </h3>
-                    <p className="text-ui-text-tertiary mb-6">
-                      {t('journeyTab.welcome.subtitle', { default: 'Start exploring French Polynesia' })}
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <button
-                        onClick={() => setActiveTab && setActiveTab('explore')}
-                        className="bg-interactive-primary hover:bg-interactive-secondary text-ui-text-primary px-6 py-3 rounded-lg font-medium transition-colors"
-                      >
-                        {t('journeyTab.welcome.exploreTours', { default: 'Explore Tours' })}
-                      </button>
-                      <button
-                        onClick={() => setShowLookupModal(true)}
-                        className="bg-ui-surface-secondary hover:bg-ui-surface-tertiary text-ui-text-primary px-6 py-3 rounded-lg font-medium transition-colors"
-                      >
-                        {t('journeyTab.welcome.findMyBookings', { default: 'Find My Bookings' })}
-                      </button>
-                    </div>
-                  </div>
-                )}
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-ui-text-disabled" />
+                <span className="text-ui-text-secondary">
+                  {formatDate(stats.nextTour.active_tours_with_operators?.tour_date)}
+                </span>
               </div>
-            )}
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-ui-text-disabled" />
+                <span className="text-ui-text-secondary">
+                  {formatTime(stats.nextTour.active_tours_with_operators?.time_slot)}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-ui-text-disabled" />
+                <span className="text-ui-text-secondary">
+                  {stats.nextTour.active_tours_with_operators?.operator_island || 'TBD'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-ui-text-disabled" />
+                <span className="text-ui-text-secondary">
+                  {stats.nextTour.num_adults + (stats.nextTour.num_children || 0)} people
+                </span>
+              </div>
+            </div>
 
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={() => handleContactOperator(stats.nextTour)}
+                className="flex items-center gap-2 px-4 py-2 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors text-sm font-medium"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Contact Operator
+              </button>
+              <button
+                onClick={() => handleShowDetails(stats.nextTour)}
+                className="flex items-center gap-2 px-4 py-2 bg-ui-surface-secondary hover:bg-ui-surface-tertiary text-ui-text-primary rounded-lg transition-colors text-sm font-medium"
+              >
+                View Details
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-            {/* Active and Completed Views */}
-            {(activeView === 'active' || activeView === 'completed') && (
-              <SimplifiedBookingView
-                viewType={activeView}
-                bookings={getViewBookings()}
-                loading={loading}
-                formatPrice={formatPrice}
-                formatDate={formatDate}
-                formatTime={formatTime}
-                onContactOperator={handleContactOperator}
-                onRebook={handleRebook}
-                onGetSupport={handleGetSupport}
-                canContactOperator={canContactOperator}
-                canRebook={canRebook}
-                onRefresh={refreshBookings}
-                onExplore={() => setActiveTab && setActiveTab('explore')}
-                t={t}
-              />
-            )}
-
-          </>
-        )}
-      </div>
-
-      {/* Simplified Floating Action Button - Only show when no bookings */}
-      {activeView === 'dashboard' && getTotalBookings() === 0 && (
-        <div className="fixed bottom-20 right-6 z-50">
+      {/* Pending Actions */}
+      {stats.pendingActions > 0 && (
+        <div className="bg-status-caution/5 border border-status-caution/20 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <AlertTriangle className="w-5 h-5 text-status-caution" />
+            <div>
+              <h3 className="font-semibold text-ui-text-primary">Action Required</h3>
+              <p className="text-sm text-ui-text-secondary">
+                {stats.pendingActions} booking{stats.pendingActions !== 1 ? 's' : ''} need your attention
+              </p>
+            </div>
+          </div>
           <button
-            onClick={() => setActiveTab && setActiveTab('explore')}
-            className="bg-interactive-primary hover:bg-interactive-secondary text-ui-text-primary p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center gap-2 group floating-button"
+            onClick={() => setActiveView('active')}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-status-caution hover:bg-status-caution-hover text-white rounded-lg transition-colors text-sm font-medium"
           >
-            <Plus className="w-6 h-6" />
-            <span className="hidden group-hover:block text-sm font-medium pr-2">
-              {t('journeyTab.bookTour', { default: 'Book Tour' })}
-            </span>
+            Review Bookings
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       )}
 
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <button
+          onClick={() => setActiveTab('discover')}
+          className="flex items-center gap-3 p-4 bg-ui-surface-primary border border-ui-border-primary rounded-xl hover:border-interactive-primary/30 transition-colors text-left"
+        >
+          <div className="w-10 h-10 bg-interactive-primary/10 rounded-lg flex items-center justify-center">
+            <Plus className="w-5 h-5 text-interactive-primary" />
+          </div>
+          <div>
+            <div className="font-medium text-ui-text-primary">Book New Tour</div>
+            <div className="text-sm text-ui-text-secondary">Discover amazing experiences</div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setShowLookupModal(true)}
+          className="flex items-center gap-3 p-4 bg-ui-surface-primary border border-ui-border-primary rounded-xl hover:border-interactive-primary/30 transition-colors text-left"
+        >
+          <div className="w-10 h-10 bg-mood-culture/10 rounded-lg flex items-center justify-center">
+            <Search className="w-5 h-5 text-mood-culture" />
+          </div>
+          <div>
+            <div className="font-medium text-ui-text-primary">Find Bookings</div>
+            <div className="text-sm text-ui-text-secondary">Search by email or phone</div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('favorites')}
+          className="flex items-center gap-3 p-4 bg-ui-surface-primary border border-ui-border-primary rounded-xl hover:border-interactive-primary/30 transition-colors text-left"
+        >
+          <div className="w-10 h-10 bg-mood-adventure/10 rounded-lg flex items-center justify-center">
+            <Bookmark className="w-5 h-5 text-mood-adventure" />
+          </div>
+          <div>
+            <div className="font-medium text-ui-text-primary">Saved Tours</div>
+            <div className="text-sm text-ui-text-secondary">Your favorite experiences</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="min-h-screen bg-ui-surface-overlay">
+      {/* Modern Header */}
+      <div className="bg-ui-surface-primary border-b border-ui-border-primary sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-ui-text-primary">Your Journey</h1>
+              <p className="text-sm text-ui-text-secondary">
+                {stats.total > 0
+                  ? `${stats.total} booking${stats.total !== 1 ? 's' : ''} • ${stats.completed} completed`
+                  : 'Start your adventure today'
+                }
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={refreshBookings}
+                disabled={loading}
+                className="p-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
+                title="Refresh bookings"
+              >
+                <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+              </button>
+            </div>
+          </div>
+
+          {/* Modern Navigation */}
+          <div className="mt-6">
+            <nav className="flex space-x-1 bg-ui-surface-secondary p-1 rounded-lg">
+              {navigationItems.map((item) => {
+                const Icon = item.icon
+                const isActive = activeView === item.id
+
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveView(item.id)}
+                    className={`relative flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors flex-1 justify-center ${
+                      isActive
+                        ? 'bg-ui-surface-primary text-ui-text-primary shadow-sm'
+                        : 'text-ui-text-secondary hover:text-ui-text-primary hover:bg-ui-surface-primary/50'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span className="hidden sm:inline">{item.label}</span>
+
+                    {item.badge && (
+                      <div className={`absolute -top-1 -right-1 w-5 h-5 ${item.badgeColor} text-white text-xs rounded-full flex items-center justify-center`}>
+                        {item.badge}
+                      </div>
+                    )}
+
+                    {item.count !== undefined && !item.badge && (
+                      <span className="text-xs text-ui-text-disabled">({item.count})</span>
+                    )}
+                  </button>
+                )
+              })}
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Area */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        {loading && stats.total === 0 ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-ui-surface-primary rounded-xl h-32 animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <>
+            {activeView === 'overview' && (
+              stats.total === 0 ? <EmptyState type="overview" /> : <OverviewDashboard />
+            )}
+
+            {activeView === 'active' && (
+              stats.active + stats.upcoming === 0 ? (
+                <EmptyState type="active" />
+              ) : (
+                <ModernBookingView
+                  userBookings={{
+                    active: safeUserBookings.active,
+                    upcoming: safeUserBookings.upcoming,
+                    past: []
+                  }}
+                  loading={loading}
+                  formatPrice={formatPrice}
+                  formatDate={formatDate}
+                  formatTime={formatTime}
+                  onContactOperator={handleContactOperator}
+                  onRebook={handleRebook}
+                  onGetSupport={handleGetSupport}
+                  canContactOperator={canContactOperator}
+                  canRebook={canRebook}
+                  onRefresh={refreshBookings}
+                />
+              )
+            )}
+
+            {activeView === 'completed' && (
+              stats.completed === 0 ? (
+                <EmptyState type="completed" />
+              ) : (
+                <ModernBookingView
+                  userBookings={{
+                    active: [],
+                    upcoming: [],
+                    past: safeUserBookings.past
+                  }}
+                  loading={loading}
+                  formatPrice={formatPrice}
+                  formatDate={formatDate}
+                  formatTime={formatTime}
+                  onContactOperator={handleContactOperator}
+                  onRebook={handleRebook}
+                  onGetSupport={handleGetSupport}
+                  canContactOperator={canContactOperator}
+                  canRebook={canRebook}
+                  onRefresh={refreshBookings}
+                />
+              )
+            )}
+          </>
+        )}
+      </div>
+
       {/* Modals */}
+      {showDetailModal && selectedBooking && (
+        <BookingDetailModal
+          booking={selectedBooking}
+          isOpen={showDetailModal}
+          onClose={() => {
+            setShowDetailModal(false)
+            setSelectedBooking(null)
+          }}
+          formatPrice={formatPrice}
+          formatDate={formatDate}
+          formatTime={formatTime}
+          onContactOperator={handleContactOperator}
+          onRebook={handleRebook}
+          onGetSupport={handleGetSupport}
+          canContactOperator={canContactOperator}
+          canRebook={canRebook}
+        />
+      )}
+
       {showRebookModal && rebookTour && (
-        <BookingModal 
+        <BookingPage
           tour={rebookTour}
-          isOpen={showRebookModal}
+          mode="modal"
           onClose={() => {
             setShowRebookModal(false)
             setRebookTour(null)
           }}
+          onSuccess={() => {
+            setShowRebookModal(false)
+            setRebookTour(null)
+            refreshBookings()
+            toast.success(t('journey.messages.rebookingSuccess'))
+          }}
         />
       )}
 
-      <BookingLookup 
+      <BookingLookup
         isOpen={showLookupModal}
         onClose={() => setShowLookupModal(false)}
         onSearch={handleLookupBookings}
@@ -409,4 +563,4 @@ const JourneyTab = () => {
   )
 }
 
-export default JourneyTab
+export default ModernJourneyTab

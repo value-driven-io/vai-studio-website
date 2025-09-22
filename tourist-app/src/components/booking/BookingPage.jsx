@@ -1,7 +1,7 @@
 // src/components/booking/BookingPage.jsx
 import React, { useState } from 'react'
-import { ArrowLeft, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle, Calendar, CreditCard, Timer, DollarSign, Shield, Award } from 'lucide-react'
-import { bookingService } from '../../services/supabase'
+import { ArrowLeft, Clock, MapPin, Users, ChevronDown, ChevronUp, CheckCircle, Calendar, CreditCard, Timer, DollarSign, Shield, Award, X } from 'lucide-react'
+import { enhancedBookingService } from '../../services/enhancedBookingService'
 import { supabase } from '../../services/supabase'
 import { useAppStore } from '../../stores/bookingStore'
 import { authService } from '../../services/authService'
@@ -19,7 +19,13 @@ import { useTranslation } from 'react-i18next'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
-const BookingPage = ({ tour, onBack }) => {
+const BookingPage = ({
+  tour,
+  onBack,
+  mode = 'page', // 'page' | 'modal'
+  onClose,       // For modal mode
+  onSuccess      // For both modes
+}) => {
   const { t } = useTranslation()
 
   const { addBooking, updateUserProfile, setActiveTab, setJourneyStage } = useAppStore()
@@ -241,8 +247,11 @@ const BookingPage = ({ tour, onBack }) => {
         platform_fee_cents: paymentData.platform_fee_cents || null
       }
 
-      // Create booking
-      const result = await bookingService.createBooking(finalBookingData)
+      // Create booking using enhanced service (includes atomic operations and schedule_id capture)
+      const result = await enhancedBookingService.createBooking({
+        ...finalBookingData,
+        tour_id: tour.id
+      })
 
       // Update with payment intent ID AND payment status
       await supabase
@@ -251,7 +260,7 @@ const BookingPage = ({ tour, onBack }) => {
           payment_intent_id: paymentData.payment_intent_id,
           payment_status: 'authorized'
         })
-        .eq('id', result.id)
+        .eq('id', result.booking_id)
 
       setBookingResult(result)
       addBooking(result)
@@ -285,16 +294,27 @@ const BookingPage = ({ tour, onBack }) => {
   if (step === 3 && bookingResult) {
     const hasPaymentData = !!bookingResult.payment_intent_id
 
-    return (
-      <div className="min-h-screen bg-ui-surface-overlay pb-20">
+    const successContent = (
+      <div className={`${mode === 'modal' ? 'bg-ui-surface-primary' : 'min-h-screen bg-ui-surface-overlay pb-20'}`}>
         {/* Header */}
-        <div className="bg-ui-surface-secondary border-b border-ui-border-primary p-4 sm:p-6">
+        {mode !== 'modal' && (
+          <div className="bg-ui-surface-secondary border-b border-ui-border-primary p-4 sm:p-6">
           <div className="flex items-center gap-4">
             <button
-              onClick={onBack}
+              onClick={() => {
+                if (mode === 'modal') {
+                  onClose?.()
+                } else {
+                  onBack?.()
+                }
+              }}
               className="p-2 hover:bg-ui-surface-primary rounded-lg transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-ui-text-primary" />
+              {mode === 'modal' ? (
+                <X className="w-5 h-5 text-ui-text-primary" />
+              ) : (
+                <ArrowLeft className="w-5 h-5 text-ui-text-primary" />
+              )}
             </button>
             <div className="flex-1">
               <h2 className="text-lg sm:text-xl font-bold text-ui-text-primary">
@@ -302,7 +322,8 @@ const BookingPage = ({ tour, onBack }) => {
               </h2>
             </div>
           </div>
-        </div>
+          </div>
+        )}
 
         <div className="p-4 sm:p-6">
           {/* Header with Success Icon */}
@@ -532,9 +553,14 @@ const BookingPage = ({ tour, onBack }) => {
             {/* Primary Action: Track Your Booking */}
             <button
               onClick={() => {
-                onBack()
-                setJourneyStage('active')
-                setActiveTab('journey')
+                if (mode === 'modal') {
+                  onSuccess?.(bookingResult)
+                  onClose?.()
+                } else {
+                  onBack?.()
+                  setJourneyStage('active')
+                  setActiveTab('journey')
+                }
               }}
               className="w-full bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
@@ -545,7 +571,13 @@ const BookingPage = ({ tour, onBack }) => {
             {/* Secondary Actions */}
             <div className="flex gap-3">
               <button
-                onClick={onBack}
+                onClick={() => {
+                  if (mode === 'modal') {
+                    onClose?.()
+                  } else {
+                    onBack?.()
+                  }
+                }}
                 className="flex-1 bg-ui-surface-tertiary hover:bg-ui-surface-primary text-ui-text-primary py-2 px-4 rounded-lg transition-colors text-sm"
               >
                 {t('buttons.close')}
@@ -577,19 +609,32 @@ const BookingPage = ({ tour, onBack }) => {
         </div>
       </div>
     )
+
+    return successContent
   }
 
   // MAIN BOOKING FORM
   return (
-    <div className="min-h-screen bg-ui-surface-overlay pb-20">
+    <div className={`${mode === 'modal' ? 'bg-ui-surface-primary' : 'min-h-screen bg-ui-surface-overlay pb-20'}`}>
       {/* Header */}
-      <div className="bg-ui-surface-secondary border-b border-ui-border-primary p-4 sm:p-6">
+      {mode !== 'modal' && (
+        <div className="bg-ui-surface-secondary border-b border-ui-border-primary p-4 sm:p-6">
         <div className="flex items-center gap-4">
           <button
-            onClick={onBack}
+            onClick={() => {
+              if (mode === 'modal') {
+                onClose?.()
+              } else {
+                onBack?.()
+              }
+            }}
             className="p-2 hover:bg-ui-surface-primary rounded-lg transition-colors"
           >
-            <ArrowLeft className="w-5 h-5 text-ui-text-primary" />
+            {mode === 'modal' ? (
+              <X className="w-5 h-5 text-ui-text-primary" />
+            ) : (
+              <ArrowLeft className="w-5 h-5 text-ui-text-primary" />
+            )}
           </button>
           <div className="flex-1">
             <h2 className="text-lg sm:text-xl font-bold text-ui-text-primary">
@@ -597,7 +642,8 @@ const BookingPage = ({ tour, onBack }) => {
             </h2>
           </div>
         </div>
-      </div>
+        </div>
+      )}
 
       <div className="p-4 sm:p-6">
         {/* Tour Summary */}
@@ -953,4 +999,38 @@ const BookingPage = ({ tour, onBack }) => {
   )
 }
 
-export default BookingPage
+// Wrap the component to support modal mode
+const BookingPageWrapper = (props) => {
+  const { mode = 'page', onClose, tour } = props
+
+  const content = <BookingPage {...props} />
+
+  // Modal wrapper for modal mode
+  if (mode === 'modal') {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-ui-surface-primary rounded-lg max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="flex justify-between items-center p-4 border-b border-ui-border-primary">
+            <h2 className="text-xl font-semibold text-ui-text-primary">
+              {tour?.tour_name || tour?.template_name || 'Book Your Adventure'}
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-ui-text-tertiary hover:text-ui-text-primary transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="max-h-[calc(90vh-80px)] overflow-y-auto">
+            {content}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return content
+}
+
+export default BookingPageWrapper
+export { BookingPage }

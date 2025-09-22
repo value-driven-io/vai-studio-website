@@ -24,7 +24,19 @@
     "adults": "adults",
     "children": "children",
     "showAll": "Show all",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "retry": "Try Again",
+    "refresh": "Refresh",
+    "browseOther": "Browse Other Tours",
+    "chooseOther": "Choose Another Tour",
+    "contactSupport": "Contact Support",
+    "tryLater": "Try Later",
+    "fixForm": "Fix Details",
+    "checkConnection": "Check Connection",
+    "reduceParticipants": "Reduce Participants",
+    "chooseOtherDate": "Choose Other Date",
+    "useDifferentEmail": "Use Different Email",
+    "wait": "Please Wait"
   },
 
   "header": {
@@ -240,6 +252,29 @@
     "processingBooking": "Processing your booking...",
     "bookingSuccess": "Booking successful! Mauruuru",
     "bookingError": "Booking error"
+  },
+
+  "bookingErrors": {
+    "tourNotFound": "Sorry, this tour is no longer available for booking.",
+    "tourInactive": "This tour is currently unavailable. Please try again later or contact support.",
+    "insufficientSpots": "Not enough spots available. Only {{available}} spots remaining for {{requested}} participants.",
+    "invalidParticipants": "Please check the number of participants.",
+    "invalidData": "Please check your booking details and try again.",
+    "paymentFailed": "Payment processing failed. Please try again or contact support.",
+    "networkError": "Connection problem. Please check your internet and try again.",
+    "serverError": "Server temporarily unavailable. Please try again in a few moments.",
+    "validationError": "Please correct the highlighted fields and try again.",
+    "unknownError": "An unexpected error occurred. Please contact support if this continues.",
+    "capacityExceeded": "This tour has reached maximum capacity. Please choose another date or tour.",
+    "bookingDeadlinePassed": "The booking deadline for this tour has passed.",
+    "touristUserCreationFailed": "Unable to create your user profile. Please try again.",
+    "emailAlreadyExists": "An account with this email already exists. Please use a different email or contact support.",
+    "phoneValidationFailed": "Please enter a valid phone number.",
+    "emailValidationFailed": "Please enter a valid email address.",
+    "commissionCalculationError": "Pricing calculation error. Please refresh and try again.",
+    "concurrentBookingDetected": "Someone else just booked the remaining spots. Please refresh and choose another tour.",
+    "rateLimit": "Too many booking attempts. Please wait a moment and try again.",
+    "maintenanceMode": "Booking system is temporarily under maintenance. Please try again later."
   },
 
   "bookingModal": {
@@ -917,12 +952,37 @@
   },
 
   "journey": {
+    "nav": {
+      "overview": "Overview",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "empty": {
+      "overview": {
+        "title": "Start Your Adventure",
+        "description": "Ready to explore French Polynesia? Discover amazing activities and start your journey today!",
+        "action": "Discover Activities"
+      },
+      "active": {
+        "title": "No Active Bookings",
+        "description": "You don't have any pending or upcoming activities. Time to plan your next adventure!",
+        "action": "Find My Bookings"
+      },
+      "completed": {
+        "title": "No Completed Activities Yet",
+        "description": "Your completed adventures will appear here after you've experienced them.",
+        "action": "Book Your First Adventure"
+      }
+    },
+    "errors": {
+      "noContactInfo": "No contact information available for this operator"
+    },
     "stages": {
       "overview": "Overview",
-      "allBookings": "All Bookings", 
+      "allBookings": "All Bookings",
       "favorites": "Favorites",
       "active": "Active",
-      "pending": "Pending", 
+      "pending": "Pending",
       "readyToGo": "Ready to Go",
       "memories": "Memories"
     },

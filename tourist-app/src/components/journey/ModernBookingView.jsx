@@ -52,9 +52,9 @@ const ModernBookingView = ({
 
   // Get unique filter options from bookings
   const filterOptions = useMemo(() => {
-    const tourTypes = [...new Set(allBookings.map(b => b.tours?.tour_type).filter(Boolean))]
-    const islands = [...new Set(allBookings.map(b => b.operators?.island).filter(Boolean))]
-    
+    const tourTypes = [...new Set(allBookings.map(b => b.active_tours_with_operators?.tour_type).filter(Boolean))]
+    const islands = [...new Set(allBookings.map(b => b.active_tours_with_operators?.operator_island).filter(Boolean))]
+
     return {
       tourTypes: tourTypes.sort(),
       islands: islands.sort()
@@ -81,12 +81,12 @@ const ModernBookingView = ({
     // Search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(booking => 
-        booking.tours?.tour_name?.toLowerCase().includes(query) ||
-        booking.operators?.company_name?.toLowerCase().includes(query) ||
+      filtered = filtered.filter(booking =>
+        booking.active_tours_with_operators?.tour_name?.toLowerCase().includes(query) ||
+        booking.active_tours_with_operators?.company_name?.toLowerCase().includes(query) ||
         booking.booking_reference?.toLowerCase().includes(query) ||
-        booking.operators?.island?.toLowerCase().includes(query) ||
-        booking.tours?.tour_type?.toLowerCase().includes(query)
+        booking.active_tours_with_operators?.operator_island?.toLowerCase().includes(query) ||
+        booking.active_tours_with_operators?.tour_type?.toLowerCase().includes(query)
       )
     }
 
@@ -133,7 +133,7 @@ const ModernBookingView = ({
 
       filtered = filtered.filter(booking => {
         const bookingDate = new Date(booking.created_at)
-        const tourDate = booking.tours?.tour_date ? new Date(booking.tours.tour_date) : null
+        const tourDate = booking.active_tours_with_operators?.tour_date ? new Date(booking.active_tours_with_operators.tour_date) : null
 
         switch (filters.dateRange) {
           case 'this_week': return bookingDate >= oneWeekAgo
@@ -146,12 +146,12 @@ const ModernBookingView = ({
 
     // Tour type filter
     if (filters.tourType !== 'all') {
-      filtered = filtered.filter(booking => booking.tours?.tour_type === filters.tourType)
+      filtered = filtered.filter(booking => booking.active_tours_with_operators?.tour_type === filters.tourType)
     }
 
     // Island filter
     if (filters.island !== 'all') {
-      filtered = filtered.filter(booking => booking.operators?.island === filters.island)
+      filtered = filtered.filter(booking => booking.active_tours_with_operators?.operator_island === filters.island)
     }
 
     // Sorting
@@ -161,8 +161,8 @@ const ModernBookingView = ({
           const statusDiff = getStatusPriority(a.booking_status) - getStatusPriority(b.booking_status)
           if (statusDiff !== 0) return statusDiff
           // Secondary sort by tour date (upcoming first)
-          const dateA = a.tours?.tour_date ? new Date(a.tours.tour_date) : new Date(0)
-          const dateB = b.tours?.tour_date ? new Date(b.tours.tour_date) : new Date(0)
+          const dateA = a.active_tours_with_operators?.tour_date ? new Date(a.active_tours_with_operators.tour_date) : new Date(0)
+          const dateB = b.active_tours_with_operators?.tour_date ? new Date(b.active_tours_with_operators.tour_date) : new Date(0)
           return dateA - dateB
 
         case 'date_newest':
@@ -172,13 +172,13 @@ const ModernBookingView = ({
           return new Date(a.created_at) - new Date(b.created_at)
 
         case 'tour_date':
-          const tourDateA = a.tours?.tour_date ? new Date(a.tours.tour_date) : new Date(0)
-          const tourDateB = b.tours?.tour_date ? new Date(b.tours.tour_date) : new Date(0)
+          const tourDateA = a.active_tours_with_operators?.tour_date ? new Date(a.active_tours_with_operators.tour_date) : new Date(0)
+          const tourDateB = b.active_tours_with_operators?.tour_date ? new Date(b.active_tours_with_operators.tour_date) : new Date(0)
           return tourDateA - tourDateB
 
         case 'alphabetical':
-          const nameA = a.tours?.tour_name || ''
-          const nameB = b.tours?.tour_name || ''
+          const nameA = a.active_tours_with_operators?.tour_name || ''
+          const nameB = b.active_tours_with_operators?.tour_name || ''
           return nameA.localeCompare(nameB)
 
         default:

@@ -68,7 +68,7 @@ const BookingSection = ({
 }
 
 // Individual Booking Card Component
-const BookingCard = ({ 
+const BookingCard = ({
   booking,
   handleContactOperator,
   handleRebook,
@@ -82,7 +82,7 @@ const BookingCard = ({
   getBookingStatusColor,
   getBookingStatusIcon
 }) => {
-  const tourEmoji = TOUR_TYPE_EMOJIS[booking.tours?.tour_type] || '🌴'
+  const tourEmoji = TOUR_TYPE_EMOJIS[booking.active_tours_with_operators?.tour_type] || '🌴'
   const statusColor = getBookingStatusColor(booking.booking_status)
   const statusIcon = getBookingStatusIcon(booking.booking_status)
 
@@ -94,12 +94,24 @@ const BookingCard = ({
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xl">{tourEmoji}</span>
             <h3 className="text-lg font-semibold text-ui-text-primary">
-              {booking.tours?.tour_name || t('journey.tourInfo.tourExperience')}
+              {booking.active_tours_with_operators?.tour_name || t('journey.tourInfo.tourExperience')}
             </h3>
           </div>
-          
+
+          {booking.active_tours_with_operators?.template_name && booking.active_tours_with_operators?.tour_name !== booking.active_tours_with_operators?.template_name && (
+            <div className="text-xs text-ui-text-tertiary mb-1">
+              Part of: {booking.active_tours_with_operators.template_name}
+            </div>
+          )}
+          {booking.schedule_id && (
+            <div className="text-xs text-ui-text-tertiary flex items-center gap-1 mb-1">
+              <Calendar className="w-3 h-3" />
+              Recurring Schedule
+            </div>
+          )}
+
           <div className="vai-text-disabled text-sm">
-            {t('journey.tourInfo.withOperator', { operator: booking.operators?.company_name || t('journey.tourInfo.tourOperator') })}
+            {t('journey.tourInfo.withOperator', { operator: booking.active_tours_with_operators?.company_name || t('journey.tourInfo.tourOperator') })}
           </div>
           
           <div className="flex items-center gap-2 mt-2">
@@ -131,10 +143,10 @@ const BookingCard = ({
           <Calendar className="w-4 h-4 vai-text-disabled" />
           <div>
             <div className="text-sm font-medium">
-              {formatDate(booking.tours?.tour_date)}
+              {formatDate(booking.active_tours_with_operators?.tour_date)}
             </div>
             <div className="text-xs vai-text-disabled">
-              {formatTime(booking.tours?.time_slot)}
+              {formatTime(booking.active_tours_with_operators?.time_slot)}
             </div>
           </div>
         </div>
@@ -143,7 +155,7 @@ const BookingCard = ({
           <MapPin className="w-4 h-4 vai-text-disabled" />
           <div>
             <div className="text-sm font-medium">
-              {booking.tours?.meeting_point || 'TBD'}
+              {booking.active_tours_with_operators?.effective_meeting_point || 'TBD'}
             </div>
             <div className="text-xs vai-text-disabled">Meeting Point</div>
           </div>
@@ -215,7 +227,7 @@ const BookingCard = ({
               onClick={() => handleContactOperator(booking)}
               className="flex items-center gap-1 px-3 py-2 vai-button-success text-ui-text-primary text-sm rounded-lg transition-colors"
             >
-              {booking.operators?.whatsapp_number ? (
+              {booking.active_tours_with_operators?.operator_whatsapp_number ? (
                 <MessageCircle className="w-4 h-4" />
               ) : (
                 <Phone className="w-4 h-4" />

@@ -164,7 +164,7 @@ const BookingDetailModal = ({
 
   const statusConfig = getStatusConfig(booking)
   const StatusIcon = statusConfig.icon
-  const tourEmoji = TOUR_TYPE_EMOJIS[booking.tours?.tour_type] || '🌴'
+  const tourEmoji = TOUR_TYPE_EMOJIS[booking.active_tours_with_operators?.tour_type] || '🌴'
 
   // Copy booking reference
   const copyBookingReference = () => {
@@ -192,7 +192,7 @@ const BookingDetailModal = ({
                 <div className="text-3xl">{tourEmoji}</div>
                 <div>
                   <h2 className="text-xl font-bold text-ui-text-primary">
-                    {booking.tours?.tour_name || t('bookingDetails.header.tourDetails', { default: 'Tour Details' })}
+                    {booking.active_tours_with_operators?.tour_name || t('bookingDetails.header.tourDetails', { default: 'Tour Details' })}
                   </h2>
                   <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${statusConfig.bgColor} ${statusConfig.borderColor} border`}>
                     <StatusIcon className={`w-4 h-4 ${statusConfig.textColor}`} />
@@ -314,38 +314,53 @@ const BookingDetailModal = ({
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="vai-text-secondary">{t('bookingDetails.fields.date', { default: 'Date' })}:</span>
-                      <span className="text-ui-text-primary">{formatDate(booking.tours?.tour_date)}</span>
+                      <span className="text-ui-text-primary">{formatDate(booking.active_tours_with_operators?.tour_date)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="vai-text-secondary">{t('bookingDetails.fields.time', { default: 'Time' })}:</span>
-                      <span className="text-ui-text-primary">{formatTime(booking.tours?.time_slot)}</span>
+                      <span className="text-ui-text-primary">{formatTime(booking.active_tours_with_operators?.time_slot)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="vai-text-secondary">{t('bookingDetails.fields.duration', { default: 'Duration' })}:</span>
-                      <span className="text-ui-text-primary">{booking.tours?.duration_hours || t('common.notAvailable', { default: 'N/A' })}h</span>
+                      <span className="text-ui-text-primary">{booking.active_tours_with_operators?.duration_hours || t('common.notAvailable', { default: 'N/A' })}h</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="vai-text-secondary">{t('bookingDetails.fields.type', { default: 'Type' })}:</span>
-                      <span className="text-ui-text-primary">{booking.tours?.tour_type || t('common.notAvailable', { default: 'N/A' })}</span>
+                      <span className="text-ui-text-primary">{booking.active_tours_with_operators?.tour_type || t('common.notAvailable', { default: 'N/A' })}</span>
                     </div>
-                    {booking.tours?.meeting_point && (
+                    {booking.active_tours_with_operators?.template_name && booking.active_tours_with_operators?.tour_name !== booking.active_tours_with_operators?.template_name && (
+                      <div className="flex justify-between">
+                        <span className="vai-text-secondary">{t('bookingDetails.fields.template', { default: 'Template' })}:</span>
+                        <span className="text-ui-text-primary">{booking.active_tours_with_operators.template_name}</span>
+                      </div>
+                    )}
+                    {booking.schedule_id && (
+                      <div className="flex justify-between">
+                        <span className="vai-text-secondary">{t('bookingDetails.fields.schedule', { default: 'Schedule' })}:</span>
+                        <span className="text-ui-text-primary flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          Recurring
+                        </span>
+                      </div>
+                    )}
+                    {booking.active_tours_with_operators?.effective_meeting_point && (
                       <div className="pt-2 border-t border-ui-border-primary">
                         <div className="vai-text-secondary mb-1">{t('bookingDetails.fields.meetingPoint', { default: 'Meeting Point' })}:</div>
                         <div className="text-ui-text-primary text-xs bg-status-success-bg border border-status-success rounded p-2 mt-1">
-                          {booking.tours.meeting_point}
+                          {booking.active_tours_with_operators.effective_meeting_point}
                         </div>
                       </div>
                     )}
-                    {booking.tours?.max_capacity && (
+                    {booking.active_tours_with_operators?.max_capacity && (
                       <div className="flex justify-between">
                         <span className="vai-text-secondary">{t('bookingDetails.fields.maxCapacity', { default: 'Max capacity' })}:</span>
-                        <span className="text-ui-text-primary">{booking.tours.max_capacity} {t('common.people', { default: 'people' })}</span>
+                        <span className="text-ui-text-primary">{booking.active_tours_with_operators.max_capacity} {t('common.people', { default: 'people' })}</span>
                       </div>
                     )}
-                    {booking.tours?.whats_included && (
+                    {booking.active_tours_with_operators?.whats_included && (
                       <div className="pt-2 border-t border-ui-border-primary">
                         <div className="vai-text-secondary mb-1">{t('bookingDetails.fields.whatsIncluded', { default: 'What\'s included' })}:</div>
-                        <div className="text-ui-text-primary text-xs">{booking.tours.whats_included}</div>
+                        <div className="text-ui-text-primary text-xs">{booking.active_tours_with_operators.whats_included}</div>
                       </div>
                     )}
                   </div>
@@ -554,11 +569,11 @@ const BookingDetailModal = ({
             )}
 
             {/* Tour Description */}
-            {booking.tours?.description && (
+            {booking.active_tours_with_operators?.description && (
               <div className="vai-surface-secondary rounded-lg p-4">
                 <h3 className="font-semibold text-ui-text-primary mb-3">{t('bookingDetails.sections.tourDescription', { default: 'Tour Description' })}</h3>
                 <p className="text-ui-text-secondary text-sm leading-relaxed">
-                  {booking.tours.description}
+                  {booking.active_tours_with_operators.description}
                 </p>
               </div>
             )}

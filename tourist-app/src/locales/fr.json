@@ -24,7 +24,19 @@
     "adults": "adultes",
     "children": "enfants",
     "showAll": "Tout afficher",
-    "showLess": "Afficher moins"
+    "showLess": "Afficher moins",
+    "retry": "Réessayer",
+    "refresh": "Actualiser",
+    "browseOther": "Parcourir d'autres tours",
+    "chooseOther": "Choisir un autre tour",
+    "contactSupport": "Contacter le support",
+    "tryLater": "Réessayer plus tard",
+    "fixForm": "Corriger les détails",
+    "checkConnection": "Vérifier la connexion",
+    "reduceParticipants": "Réduire les participants",
+    "chooseOtherDate": "Choisir une autre date",
+    "useDifferentEmail": "Utiliser un autre email",
+    "wait": "Veuillez patienter"
   },
 
   "header": {
@@ -228,6 +240,29 @@
     "processingBooking": "Traitement en cours...",
     "bookingSuccess": "Réservation réussie ! Mauruuru",
     "bookingError": "Erreur de réservation"
+  },
+
+  "bookingErrors": {
+    "tourNotFound": "Désolé, ce tour n'est plus disponible à la réservation.",
+    "tourInactive": "Ce tour est actuellement indisponible. Veuillez réessayer plus tard ou contacter le support.",
+    "insufficientSpots": "Pas assez de places disponibles. Seulement {{available}} places restantes pour {{requested}} participants.",
+    "invalidParticipants": "Veuillez vérifier le nombre de participants.",
+    "invalidData": "Veuillez vérifier vos détails de réservation et réessayer.",
+    "paymentFailed": "Le traitement du paiement a échoué. Veuillez réessayer ou contacter le support.",
+    "networkError": "Problème de connexion. Veuillez vérifier votre internet et réessayer.",
+    "serverError": "Serveur temporairement indisponible. Veuillez réessayer dans quelques instants.",
+    "validationError": "Veuillez corriger les champs en surbrillance et réessayer.",
+    "unknownError": "Une erreur inattendue s'est produite. Veuillez contacter le support si cela continue.",
+    "capacityExceeded": "Ce tour a atteint sa capacité maximale. Veuillez choisir une autre date ou un autre tour.",
+    "bookingDeadlinePassed": "La date limite de réservation pour ce tour est passée.",
+    "touristUserCreationFailed": "Impossible de créer votre profil utilisateur. Veuillez réessayer.",
+    "emailAlreadyExists": "Un compte avec cet email existe déjà. Veuillez utiliser un email différent ou contacter le support.",
+    "phoneValidationFailed": "Veuillez entrer un numéro de téléphone valide.",
+    "emailValidationFailed": "Veuillez entrer une adresse email valide.",
+    "commissionCalculationError": "Erreur de calcul de prix. Veuillez actualiser et réessayer.",
+    "concurrentBookingDetected": "Quelqu'un d'autre vient de réserver les places restantes. Veuillez actualiser et choisir un autre tour.",
+    "rateLimit": "Trop de tentatives de réservation. Veuillez attendre un moment et réessayer.",
+    "maintenanceMode": "Le système de réservation est temporairement en maintenance. Veuillez réessayer plus tard."
   },
 
   "bookingModal": {

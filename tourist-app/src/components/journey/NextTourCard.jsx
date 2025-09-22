@@ -10,14 +10,14 @@ const NextTourCard = ({
   onContact, 
   t 
 }) => {
-  const tourEmoji = TOUR_TYPE_EMOJIS[tour.tours?.tour_type] || '🌴'
+  const tourEmoji = TOUR_TYPE_EMOJIS[tour.active_tours_with_operators?.tour_type] || '🌴'
   const isConfirmed = tour.booking_status === 'confirmed'
-  
+
   // Calculate time until tour
   const getTimeUntilTour = () => {
-    if (!tour.tours?.tour_date) return null
-    
-    const tourDate = new Date(tour.tours.tour_date)
+    if (!tour.active_tours_with_operators?.tour_date) return null
+
+    const tourDate = new Date(tour.active_tours_with_operators.tour_date)
     const now = new Date()
     const diffMs = tourDate - now
     
@@ -73,30 +73,42 @@ const NextTourCard = ({
       {/* Tour Details */}
       <div className="space-y-4">
         <h4 className="text-xl font-bold text-ui-text-primary">
-          {tour.tours?.tour_name || t('nextTour.tourName', { default: 'Your Tour' })}
+          {tour.active_tours_with_operators?.tour_name || t('nextTour.tourName', { default: 'Your Tour' })}
         </h4>
+
+        {tour.active_tours_with_operators?.template_name && tour.active_tours_with_operators?.tour_name !== tour.active_tours_with_operators?.template_name && (
+          <div className="text-sm text-ui-text-tertiary mb-2">
+            Part of: {tour.active_tours_with_operators.template_name}
+          </div>
+        )}
+        {tour.schedule_id && (
+          <div className="text-sm text-ui-text-tertiary flex items-center gap-1 mb-2">
+            <Calendar className="w-3 h-3" />
+            Recurring Schedule
+          </div>
+        )}
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
           <div className="flex items-center gap-2 text-ui-text-secondary">
             <Calendar className="w-4 h-4 vai-text-disabled" />
             <div>
               <div className="font-medium">
-                {formatDate(tour.tours?.tour_date)}
+                {formatDate(tour.active_tours_with_operators?.tour_date)}
               </div>
               <div className="vai-text-disabled">
-                {formatTime(tour.tours?.time_slot)}
+                {formatTime(tour.active_tours_with_operators?.time_slot)}
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2 text-ui-text-secondary">
             <MapPin className="w-4 h-4 vai-text-disabled" />
             <div>
               <div className="font-medium">
-                {tour.operators?.island || t('nextTour.location', { default: 'Location TBD' })}
+                {tour.active_tours_with_operators?.operator_island || t('nextTour.location', { default: 'Location TBD' })}
               </div>
               <div className="vai-text-disabled">
-                {tour.operators?.company_name || t('nextTour.operator', { default: 'Tour Operator' })}
+                {tour.active_tours_with_operators?.company_name || t('nextTour.operator', { default: 'Tour Operator' })}
               </div>
             </div>
           </div>
@@ -128,7 +140,7 @@ const NextTourCard = ({
       </div>
 
       {/* Meeting Point (if confirmed) */}
-      {isConfirmed && tour.tours?.meeting_point && (
+      {isConfirmed && tour.active_tours_with_operators?.effective_meeting_point && (
         <div className="mt-4 p-3 bg-status-success-bg border border-status-success rounded-lg">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-status-success-light" />
@@ -137,7 +149,7 @@ const NextTourCard = ({
                 {t('nextTour.meetingPoint', { default: 'Meeting Point' })}
               </div>
               <div className="text-sm text-ui-text-secondary">
-                {tour.tours.meeting_point}
+                {tour.active_tours_with_operators.effective_meeting_point}
               </div>
             </div>
           </div>
@@ -158,7 +170,7 @@ const NextTourCard = ({
               : 'vai-button-warning'
           }`}
         >
-          {tour.operators?.whatsapp_number ? (
+          {tour.active_tours_with_operators?.operator_whatsapp_number ? (
             <MessageCircle className="w-4 h-4" />
           ) : (
             <Phone className="w-4 h-4" />

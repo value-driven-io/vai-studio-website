@@ -21,7 +21,7 @@ import ProfileTab from './components/profile/ProfileTab'
 import AuthModal from './components/auth/AuthModal'
 import LaunchingSoonModal from './components/shared/LaunchingSoonModal';
 import MessagesTab from './components/messages/MessagesTab'
-import BookingModal from './components/booking/BookingModal'
+import { BookingPage } from './components/booking/BookingPage'
 import { CurrencyProvider } from './hooks/useCurrency'
 import { useCurrencyContext } from './hooks/useCurrency'
 import CurrencySelector from './components/shared/CurrencySelector'
@@ -328,9 +328,9 @@ function AppContent() {
 
       {/* Deep-link Booking Modal */}
       {showBookingModal && selectedTourForBooking && (
-        <BookingModal 
+        <BookingPage
           tour={selectedTourForBooking}
-          isOpen={showBookingModal}
+          mode="modal"
           onClose={handleCloseBookingModal}
         />
       )}
