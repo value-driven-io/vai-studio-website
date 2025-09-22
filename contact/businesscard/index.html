@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr" data-current-lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin De Silva - VAI Studio | Digital Business Card</title>
+    <meta name="description" content="Kevin De Silva - Founder VAI Studio | Organisational Developer | AI Product Strategist | Digital Business Card">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../via-studio-images/logo/VAI Logo Square Multicolor.png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../../styles-global.css">
+
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background:
+                radial-gradient(circle at 30% 70%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 0, 110, 0.08) 0%, transparent 50%),
+                var(--primary-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating background elements */
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.03;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            top: 20%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            top: 70%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-secondary);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-delay: 4s;
+        }
+
+        .shape-3 {
+            bottom: 30%;
+            left: 20%;
+            width: 100px;
+            height: 40px;
+            background: var(--gradient-impact);
+            border-radius: 50px;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        /* Business Card Container */
+        .card {
+            width: 450px;
+            height: 280px;
+            border-radius: 20px;
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            transition: transform 600ms ease;
+            transform-style: preserve-3d;
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.25),
+                0 0 60px rgba(0, 212, 255, 0.1);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card.flipped .card-front {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            backface-visibility: hidden;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .card-back {
+            transform: rotateY(180deg) scaleX(1);
+        }
+
+        /* Card Background Effects */
+        .card-bg {
+            position: absolute;
+            top: -30px;
+            right: -100px;
+            width: 400px;
+            height: 200px;
+            background: linear-gradient(135deg,
+                rgba(0, 212, 255, 0.1) 0%,
+                rgba(255, 0, 110, 0.1) 100%);
+            border-top-left-radius: 100%;
+            transform: rotate(-15deg);
+        }
+
+        .card-bg::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            right: -60px;
+            width: 350px;
+            height: 180px;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0.02) 100%);
+            border-top-left-radius: 100%;
+        }
+
+        .card-glow {
+            position: absolute;
+            top: -80px;
+            left: -60px;
+            height: 160px;
+            width: 300px;
+            background: rgba(0, 212, 255, 0.1);
+            filter: blur(30px);
+            border-radius: 100%;
+            transform: skew(-15deg, -15deg);
+        }
+
+        /* Front Card Content */
+        .card-front {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.2rem 1.8rem;
+            position: relative;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .card-logo {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-primary);
+            /* REPLACE THIS URL WITH YOUR LOGO */
+            background-image: url('/via-studio-images/logo/VAI Logo Square Big Transparent Multicolor.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            box-shadow: 0px 1px 0px 1px rgba(106, 127, 132, 0.3);
+        }
+
+        .card-type {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                rgba(0, 212, 255, 0.2) 0%,
+                rgba(255, 0, 110, 0.2) 100%);
+            /* REPLACE THIS URL WITH YOUR PROFILE PHOTO */
+            background-image: url('/via-studio-images/founder/Kevin De Silva.jpeg');
+            background-size: contain;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-main {
+            text-align: left;
+        }
+
+        .card-name {
+            /*font-family: 'Playfair Display', serif;*/
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            /*background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;*/
+            background-clip: text;
+            letter-spacing: 0.04em;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 300;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding-top: 2rem;
+        }
+
+        /* QR Code Modal */
+        .qr-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .qr-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .qr-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-modal.active .qr-content {
+            transform: scale(1);
+        }
+
+        .qr-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .qr-code-container {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 12px;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .qr-code-image {
+            width: 180px;
+            height: 180px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .qr-subtitle {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .close-qr-btn {
+            background: var(--gradient-secondary);
+            border: none;
+            border-radius: 10px;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-qr-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.3);
+        }
+
+        .action-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-icon:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+        }
+
+        .action-icon.primary {
+            background: var(--gradient-primary);
+            border: none;
+        }
+
+        /* Back Card Content */
+        .card-back {
+            display: flex;
+            flex-direction: column;
+            padding: 1.8rem 2rem;
+            /*position: relative;*/
+            justify-content: space-between;
+            backface-visibility:hidden;
+        }
+
+        .card-back::before {
+            content: "";
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 200%;
+            height: 120%;
+            border-radius: 100%;
+            background: linear-gradient(135deg,
+                rgba(0, 212, 255, 0.05) 0%,
+                rgba(255, 0, 110, 0.05) 100%);
+            filter: blur(40px);
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.3rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .contact-text {
+            flex: 1;
+        }
+
+        .contact-label {
+            font-size: 0.65rem;
+            color: var(--text-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.1rem;
+        }
+
+        .contact-value {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .contact-value a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-value a:hover {
+            color: var(--accent-blue);
+        }
+
+        .card-footer {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            margin-top: 0.5rem;
+        }
+
+        .card-signature {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .card {
+                width: 350px;
+                height: 220px;
+            }
+
+            .card-front,
+            .card-back {
+                padding: 1.5rem 1.8rem;
+            }
+
+            .card-logo {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+
+            .profile-image {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+
+            .qr-placeholder {
+                width: 50px;
+                height: 50px;
+                font-size: 0.6rem;
+            }
+
+            .card-name {
+                font-size: 1.6rem;
+            }
+
+            .card-title {
+                font-size: 0.8rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+
+            .contact-item {
+                padding: 0.6rem;
+            }
+
+            .contact-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .action-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 320px;
+                height: 200px;
+            }
+
+            .card-front,
+            .card-back {
+                padding: 1.5rem;
+            }
+
+            .card-name {
+                font-size: 1.6rem;
+            }
+
+            .card-title {
+                font-size: 0.85rem;
+            }
+
+            .contact-title {
+                font-size: 1.2rem;
+            }
+
+            .contact-subtitle {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .card {
+                width: 500px;
+                height: 315px;
+            }
+
+            .card-front,
+            .card-back {
+                padding: 3rem;
+            }
+
+            .card-logo {
+                width: 80px;
+                height: 80px;
+                font-size: 1.6rem;
+            }
+
+            .profile-image {
+                width: 90px;
+                height: 90px;
+                font-size: 2.2rem;
+            }
+
+            .qr-placeholder {
+                width: 70px;
+                height: 70px;
+            }
+
+            .card-name {
+                font-size: 2.4rem;
+                padding-top: 2rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .contact-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Hint text */
+        .hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            font-style: normal;
+            z-index: 5;
+            text-align:center;
+        }
+
+        /* Action feedback */
+        .action-feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(46, 213, 115, 0.95);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            z-index: 1000;
+            animation: feedbackPulse 2s ease;
+        }
+
+        @keyframes feedbackPulse {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            15% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            85% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+    </style>
+</head>
+<body data-current-lang="fr">
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang-btn="fr" onclick="switchLanguage('fr')" title="Français">🇫🇷</button>
+        <button class="lang-btn" data-lang-btn="en" onclick="switchLanguage('en')" title="English">🇺🇸</button>
+    </div>
+
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Business Card -->
+    <div class="card" id="businessCard">
+        <div class="card-inner">
+            <!-- Front of Card -->
+            <div class="card-front">
+                <div class="card-bg"></div>
+                <div class="card-glow"></div>
+
+                <div class="card-header">
+                    <div class="logo-section">
+                        <div class="card-logo">
+                            <!-- Logo will show when URL is added -->
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <div class="profile-image">
+                            <!-- Profile image will show when URL is added -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-main">
+                    <div class="card-name">Kevin De Silva</div>
+                    <div class="card-title">
+                        <span data-lang="fr">Renforcer les entreprises en Polynésie française</span>
+                        <span data-lang="en" style="display: none;">Empowering Businesses in French Polynesia</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back of Card -->
+            <div class="card-back">
+                <div class="contact-header">
+                    <div class="contact-title">
+                        <span data-lang="fr">CONTACT</span>
+                        <span data-lang="en" style="display: none;">CONTACT</span>
+                    </div>
+                    <div class="contact-subtitle">
+                        <span data-lang="fr">Moorea, Polynésie Française - Opérant Globalement</span>
+                        <span data-lang="en" style="display: none;">Moorea, French Polynesia - Operating Globally</span>
+                    </div>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-value">
+                                <a href="mailto:hello@vai.studio">EMAIL</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-value">
+                                <a href="https://linkedin.com/in/kevin-desilva" target="_blank">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-value">
+                                <a href="https://app.vai.studio" target="_blank">VAI Tickets</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-value">
+                                <a href="https://operator.vai.studio" target="_blank">VAI Operator</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-value">
+                                <a href="https://vai.studio/app/welcome/" target="_blank">Website</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-value">
+                                <a href="https://vai.studio/presentation/partner_vaitickets" target="_blank">
+                                    <span data-lang="fr">Partenariat</span>
+                                    <span data-lang="en" style="display: none;">Partnership</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card-actions">
+                        <div class="action-icon primary" onclick="downloadVCard()" title="Download vCard">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="action-icon" onclick="copyEmail()" title="Copy Email">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="action-icon" onclick="showQRCode()" title="Show QR Code">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="action-icon" onclick="openWebsite()" title="Visit Website">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="action-icon" onclick="sharePage()" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                    </div>
+
+    </div>
+
+    <!-- Hint -->
+    <div class="hint">
+        <span data-lang="fr">Cliquez sur la carte pour la retourner</span>
+        <span data-lang="en" style="display: none;">Click the card to flip it</span>
+        <div class="card-footer">
+                    <div class="card-signature">VAI Studio, French Polynesia • Updated 2025</div>
+                </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="qr-modal" id="qrModal">
+        <div class="qr-content">
+            <div class="qr-title">
+                <span data-lang="fr">Scannez pour Accéder</span>
+                <span data-lang="en" style="display: none;">Scan to Access</span>
+            </div>
+            <div class="qr-code-container">
+                <div class="qr-code-image" id="qrCodeImage"></div>
+            </div>
+            <div class="qr-subtitle">
+                <span data-lang="fr">Scannez ce code QR pour accéder directement à cette carte de visite numérique</span>
+                <span data-lang="en" style="display: none;">Scan this QR code to access this digital business card directly</span>
+            </div>
+            <button class="close-qr-btn" onclick="closeQRModal()">
+                <span data-lang="fr">Fermer</span>
+                <span data-lang="en" style="display: none;">Close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../script.js"></script>
+    <script>
+        // Business card flip functionality
+        document.getElementById('businessCard').addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+
+        // Action functions
+        function downloadVCard() {
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Kevin De Silva
+ORG:VAI Studio
+TITLE:Founder VAI | Organisational Developer | AI Product Strategist
+EMAIL:hello@vai.studio
+URL:https://vai.studio
+URL:https://app.vai.studio
+URL:https://operator.vai.studio
+ADR:;;Moorea;French Polynesia;;;;
+NOTE:Partner Search French Polynesian Ecosystem - https://vai.studio/presentation/partner_vaitickets
+END:VCARD`;
+
+            const blob = new Blob([vCardData], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'kevin-desilva-vai-studio.vcf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+
+            showFeedback('vCard téléchargé!', 'vCard downloaded!');
+        }
+
+        function copyEmail() {
+            const email = 'hello@vai.studio';
+            navigator.clipboard.writeText(email).then(function() {
+                showFeedback('Email copié!', 'Email copied!');
+            }).catch(function() {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = email;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showFeedback('Email copié!', 'Email copied!');
+            });
+        }
+
+        function openWebsite() {
+            window.open('https://vai.studio', '_blank');
+        }
+
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Kevin De Silva - VAI Studio',
+                    text: 'Digital Business Card - Kevin De Silva, Founder VAI Studio',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support native sharing
+                navigator.clipboard.writeText(window.location.href).then(function() {
+                    showFeedback('Lien copié!', 'Link copied!');
+                }).catch(function() {
+                    showFeedback('Partage non supporté', 'Sharing not supported');
+                });
+            }
+        }
+
+        function showQRCode() {
+            // Generate QR code for this page URL
+            const currentURL = window.location.href;
+            const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentURL)}`;
+
+            // Set the QR code image
+            document.getElementById('qrCodeImage').style.backgroundImage = `url(${qrCodeURL})`;
+
+            // Show modal with animation
+            const modal = document.getElementById('qrModal');
+            modal.classList.add('active');
+
+            // Update language content
+            updateBusinessCardLanguage();
+        }
+
+        function closeQRModal() {
+            const modal = document.getElementById('qrModal');
+            modal.classList.remove('active');
+        }
+
+        // Close QR modal when clicking outside
+        document.getElementById('qrModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQRModal();
+            }
+        });
+
+        // Close QR modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeQRModal();
+            }
+        });
+
+        function showFeedback(frText, enText) {
+            const currentLang = document.body.getAttribute('data-current-lang');
+            const text = currentLang === 'fr' ? frText : enText;
+
+            const feedback = document.createElement('div');
+            feedback.className = 'action-feedback';
+            feedback.textContent = text;
+            document.body.appendChild(feedback);
+
+            setTimeout(() => {
+                document.body.removeChild(feedback);
+            }, 2000);
+        }
+
+        // Language switching for business card content
+        function updateBusinessCardLanguage() {
+            const currentLang = document.body.getAttribute('data-current-lang');
+
+            // Show/hide language-specific content
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                if (element.getAttribute('data-lang') === currentLang) {
+                    element.style.display = '';
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        // Override the global switchLanguage function to update business card content
+        const originalSwitchLanguage = window.switchLanguage;
+        window.switchLanguage = function(lang) {
+            originalSwitchLanguage(lang);
+            updateBusinessCardLanguage();
+        };
+
+        // Initialize language on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBusinessCardLanguage();
+        });
+    </script>
+</body>
+</html>
