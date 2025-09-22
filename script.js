@@ -121,12 +121,15 @@ function toggleMobileMenu() {
 window.addEventListener('load', () => {
     const loadingScreen = document.getElementById('loadingScreen');
     const body = document.body;
-    
-    // Minimum loading time of 1.5 seconds for better mobile performance
-    setTimeout(() => {
-        loadingScreen.classList.add('hidden');
-        body.classList.remove('loading');
-    }, 1500);
+
+    // Only run if loading screen exists on this page
+    if (loadingScreen) {
+        // Minimum loading time of 1.5 seconds for better mobile performance
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            body.classList.remove('loading');
+        }, 1500);
+    }
 });
 
 // Load saved language preference
