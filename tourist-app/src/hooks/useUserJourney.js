@@ -184,23 +184,28 @@ export const useUserJourney = () => {
       // Fetching user bookings
       // Initiating booking query
       
-      const bookings = await enhancedJourneyService.getUserBookings(cleanEmail, cleanWhatsApp)
+      const categorizedBookings = await enhancedJourneyService.getUserBookings(cleanEmail, cleanWhatsApp)
       // Bookings retrieved successfully
       performanceTracker.current.end('fetchUserBookings')
-      
+
+      // Check if any bookings found (check all categories)
+      const totalBookings = categorizedBookings.active.length +
+                           categorizedBookings.upcoming.length +
+                           categorizedBookings.past.length +
+                           categorizedBookings.cancelled.length
+
       // Save contact info if bookings found
-      if (bookings.length > 0) {
+      if (totalBookings > 0) {
         saveUserContactInfo(cleanEmail, cleanWhatsApp)
       }
-      
-      // Categorize bookings
-      const categorized = categorizeBookings(bookings)
-      setUserBookings(categorized)
+
+      // Set the already categorized bookings
+      setUserBookings(categorizedBookings)
       
       // DISABLED: Setup real-time subscription
       // Using manual refresh mode
       
-      return bookings
+      return categorizedBookings
     } catch (error) {
       performanceTracker.current.end('fetchUserBookings (with error)')
       console.error('Error fetching user bookings:', error)

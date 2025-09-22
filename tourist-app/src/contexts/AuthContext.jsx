@@ -51,22 +51,56 @@ export const AuthProvider = ({ children }) => {
         // Auto-link existing bookings when user signs in
         if (event === 'SIGNED_IN' && session?.user?.email) {
           console.log('🔗 Attempting to link bookings for:', session.user.email, 'User ID:', session.user.id)
-          
+
           try {
-              const { data, error } = await supabase.rpc('link_existing_bookings_to_user', {
-                user_email: session.user.email,
-                user_uuid: session.user.id
-              })
-              
-              console.log('🔗 Link result:', { data, error })
-              
-              if (error) {
-                console.error('❌ Error linking existing bookings:', error)
-              } else if (data > 0) {
-                console.log(`✅ Linked ${data} existing bookings to user`)
+            // First, ensure the user exists in tourist_users table
+            const { data: existingUser, error: userCheckError } = await supabase
+              .from('tourist_users')
+              .select('id')
+              .eq('auth_user_id', session.user.id)
+              .single()
+
+            if (!existingUser && userCheckError?.code === 'PGRST116') {
+              // PGRST116 = row not found, which is expected for new users
+              console.log('🆕 Creating tourist_user record for:', session.user.email)
+
+              const { data: newUser, error: createError } = await supabase
+                .from('tourist_users')
+                .insert([{
+                  auth_user_id: session.user.id,
+                  email: session.user.email,
+                  first_name: session.user.user_metadata?.first_name || '',
+                  last_name: session.user.user_metadata?.last_name || '',
+                  preferred_language: 'en'
+                }])
+                .select()
+                .single()
+
+              if (createError) {
+                console.error('❌ Error creating tourist_user:', createError)
+                return // Don't proceed with linking if user creation failed
               } else {
-                console.log('ℹ️ No bookings to link')
+                console.log('✅ Tourist user created successfully:', newUser.id)
               }
+            } else if (existingUser) {
+              console.log('✅ Tourist user already exists:', existingUser.id)
+            }
+
+            // Now try to link existing bookings
+            const { data, error } = await supabase.rpc('link_existing_bookings_to_user', {
+              user_email: session.user.email,
+              user_uuid: session.user.id
+            })
+
+            console.log('🔗 Link result:', { data, error })
+
+            if (error) {
+              console.error('❌ Error linking existing bookings:', error)
+            } else if (data > 0) {
+              console.log(`✅ Linked ${data} existing bookings to user`)
+            } else {
+              console.log('ℹ️ No bookings to link')
+            }
           } catch (error) {
               console.error('❌ Exception linking existing bookings:', error)
           }

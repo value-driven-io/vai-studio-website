@@ -405,6 +405,14 @@ const ModernJourneyTab = () => {
 
             <div className="flex items-center gap-3">
               <button
+                onClick={() => setShowLookupModal(true)}
+                className="flex items-center gap-2 px-3 py-2 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors text-sm font-medium"
+                title="Find my bookings"
+              >
+                <Search className="w-4 h-4" />
+                Find Bookings
+              </button>
+              <button
                 onClick={refreshBookings}
                 disabled={loading}
                 className="p-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
