@@ -49,57 +49,6 @@ export const operatorService = {
     return data
   },
 
-  // Create new tour
-    async createTour(tourData) {
-
-    // 🆕 SERVER-SIDE VALIDATION: Get operator role for validation
-  const { data: operatorData, error: operatorError } = await supabase
-    .from('operators')
-    .select('operator_role')
-    .eq('id', tourData.operator_id)
-    .single()
-  
-  if (operatorError || !operatorData) {
-    throw new Error('Operator not found')
-  }
-  
-  // 🆕 ROLE-BASED DATE VALIDATION
-  const { isDateAllowed } = await import('../config/adminSettings')
-  if (!isDateAllowed(tourData.tour_date, operatorData.operator_role)) {
-    throw new Error('Tour date not allowed for your account level. Please contact support.')
-  }
-
-    const { discount_percentage, ...cleanTourData } = tourData;
-    
-    const { data, error } = await supabase
-        .from('tours')
-        .insert([{
-        ...cleanTourData,
-        available_spots: cleanTourData.max_capacity,
-        status: 'active',
-        created_by_operator: true
-        }])
-        .select()
-        .single()
-    
-    if (error) throw error
-    return data
-  },
-
-  // Update tour
-  async updateTour(tourId, tourData) {
-    const { discount_percentage, ...cleanTourData } = tourData;
-    
-    const { data, error } = await supabase
-      .from('tours')
-      .update(cleanTourData)
-      .eq('id', tourId)
-      .select()
-      .single()
-    
-    if (error) throw error
-    return data
-  },
 
   // Delete tour (soft delete by setting status to 'cancelled')
   async deleteTour(tourId) {

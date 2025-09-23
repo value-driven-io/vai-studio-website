@@ -77,23 +77,6 @@
     "trending": "Māmā nei",
     "sunsetTrend": "Te mau tere ati rā e māmā nei i teie hepetoma"
   },
-  "createTab": {
-    "title": "Hāna'a e fa'aatura i te mau tere",
-    "subtitle": "Hāna'a i te mau tere hou pe fa'aatura i tā 'oe nei",
-    "startCreating": "Tīmā te hāna'ara'a tere",
-    "editTour": "Fa'aoti i te tere",
-    "createNewTour": "Hāna'a tere hou",
-    "updateExisting": "Fa'ahou i tō mau tere nei",
-    "setupNew": "Fa'atū i te tere hou nō te mau tā'ata tere",
-    "showPreview": "Fa'a'ite i te mata'ira'a",
-    "hidePreview": "Huna i te mata'ira'a",
-    "cancel": "Fa'a'ore",
-    "updateTour": "Fa'ahou i te tere",
-    "createTour": "Hāna'a tere",
-    "saving": "E fa'aora nei...",
-    "reset": "Fa'ahou",
-    "duplicate": "Fa'atāhi"
-  },
   "form": {
     "required": "Ti'a roa",
     "optional": "Hāpō roa",

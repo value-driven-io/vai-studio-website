@@ -509,7 +509,7 @@ const ProfileTab = ({ setActiveTab }) => {
             onClick={() => {
               setShowQuickActions(false)
               if (setActiveTab) {
-                setActiveTab('create')
+                setActiveTab('templates')
               }
             }}
             className="w-full flex items-center gap-3 p-3 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 rounded-lg transition-colors"

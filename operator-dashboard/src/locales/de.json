@@ -80,23 +80,6 @@
     "trending": "Im Trend",
     "sunsetTrend": "Sonnenuntergangstouren sind diese Woche sehr gefragt"
   },
-  "createTab": {
-    "title": "Touren erstellen & verwalten",
-    "subtitle": "Neue Touren erstellen oder bestehende verwalten",
-    "startCreating": "Activity-Erstellung beginnen",
-    "editTour": "Activity bearbeiten",
-    "createNewTour": "Neue Activity erstellen",
-    "updateExisting": "Bestehende Tourdetails aktualisieren",
-    "setupNew": "Neue Tourerfahrung für Reisende einrichten",
-    "showPreview": "Vorschau anzeigen",
-    "hidePreview": "Vorschau ausblenden",
-    "cancel": "Abbrechen",
-    "updateTour": "Activity aktualisieren",
-    "createTour": "Activity erstellen",
-    "saving": "Wird gespeichert...",
-    "reset": "Zurücksetzen",
-    "duplicate": "Duplizieren"
-  },
   "form": {
     "required": "Erforderlich",
     "optional": "Optional",

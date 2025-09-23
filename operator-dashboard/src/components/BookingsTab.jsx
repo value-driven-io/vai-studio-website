@@ -233,7 +233,7 @@ const BookingsTab = forwardRef(({
                         if (stats.activeTours > 0) {
                           setActiveTab('tours')
                         } else {
-                          setActiveTab('create')
+                          setActiveTab('templates')
                         }
                       }}
                       className="text-center p-3 rounded-lg bg-slate-700/30 border border-transparent hover:border-slate-600 transition-all hover:scale-105"

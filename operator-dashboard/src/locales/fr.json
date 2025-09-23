@@ -323,23 +323,6 @@
     "trending": "Tendance",
     "sunsetTrend": "Les tours coucher de soleil sont très demandés cette semaine"
   },
-  "createTab": {
-    "title": "Créer et Gérer les Activités",
-    "subtitle": "Crée de nouvelles activités ou gère celles existantes",
-    "startCreating": "Créer une activité",
-    "editTour": "Modifier l'Activité",
-    "createNewTour": "Créer Nouvelle Activité",
-    "updateExisting": "Mettre à jour les détails de ton activité existante",
-    "setupNew": "Configure une nouvelle expérience d'activité pour les voyageurs",
-    "showPreview": "Voir l'Aperçu",
-    "hidePreview": "Masquer l'Aperçu",
-    "cancel": "Annuler",
-    "updateTour": "Mettre à Jour l'Activité",
-    "createTour": "Créer l'Activité",
-    "saving": "Enregistrement...",
-    "reset": "Réinitialiser",
-    "duplicate": "Dupliquer"
-  },
   "form": {
     "required": "Obligatoire",
     "optional": "Optionnel",

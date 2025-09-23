@@ -80,23 +80,6 @@
     "trending": "趋势",
     "sunsetTrend": "日落之旅本周需求量很大"
   },
-  "createTab": {
-    "title": "创建和管理行程",
-    "subtitle": "创建新行程或管理现有行程",
-    "startCreating": "开始创建行程",
-    "editTour": "编辑行程",
-    "createNewTour": "创建新行程",
-    "updateExisting": "更新您现有的行程详情",
-    "setupNew": "为旅行者设置新的旅游体验",
-    "showPreview": "显示预览",
-    "hidePreview": "隐藏预览",
-    "cancel": "取消",
-    "updateTour": "更新行程",
-    "createTour": "创建行程",
-    "saving": "保存中...",
-    "reset": "重置",
-    "duplicate": "复制"
-  },
   "form": {
     "required": "必填",
     "optional": "可选",

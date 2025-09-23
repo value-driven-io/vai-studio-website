@@ -80,23 +80,6 @@
     "trending": "En Tendencia",
     "sunsetTrend": "Los tours de atardecer están muy demandados esta semana"
   },
-  "createTab": {
-    "title": "Crear y Gestionar Tours",
-    "subtitle": "Crea nuevos tours o gestiona los existentes",
-    "startCreating": "Comenzar Creación de Tour",
-    "editTour": "Editar Tour",
-    "createNewTour": "Crear Nuevo Tour",
-    "updateExisting": "Actualizar detalles de tu tour existente",
-    "setupNew": "Configurar nueva experiencia turística para viajeros",
-    "showPreview": "Mostrar Vista Previa",
-    "hidePreview": "Ocultar Vista Previa",
-    "cancel": "Cancelar",
-    "updateTour": "Actualizar Tour",
-    "createTour": "Crear Tour",
-    "saving": "Guardando...",
-    "reset": "Reiniciar",
-    "duplicate": "Duplicar"
-  },
   "form": {
     "required": "Obligatorio",
     "optional": "Opcional",

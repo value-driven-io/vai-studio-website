@@ -100,7 +100,7 @@ const DashboardTab = ({
                 </button>
                 <ContextualTooltip tooltipKey="dashboard.createButton" type="onboarding" placement="bottom">
                   <button
-                    onClick={() => setActiveTab('create')}
+                    onClick={() => setActiveTab('templates')}
                     className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all transform hover:scale-105"
                     data-tour="create-button"
                   >
@@ -390,7 +390,7 @@ const DashboardTab = ({
                             <Calendar className="w-12 h-12 text-slate-400 mx-auto mb-4" />
                             <p className="text-slate-400">{t('tours.noToursYet')}</p>
                             <button
-                              onClick={() => setActiveTab('create')}
+                              onClick={() => setActiveTab('templates')}
                               className="mt-4 text-blue-400 hover:text-blue-300 text-sm"
                             >
                               {t('tours.createFirstTour')} →

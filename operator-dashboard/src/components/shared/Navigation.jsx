@@ -27,13 +27,6 @@ const Navigation = ({ activeTab, setActiveTab, stats, showSetupTab = false }) =>
       label: 'Templates',
       badge: null
     },
-    //{
-      //id: 'activities',
-      //icon: Plus,
-      //label: 'Activities (Legacy)',
-      //badge: null
-    //},
-
     {
       id: 'schedules',
       icon: Calendar,

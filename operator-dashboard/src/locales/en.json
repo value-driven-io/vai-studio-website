@@ -89,23 +89,6 @@
     "trending": "Trending",
     "sunsetTrend": "Sunset tours are in high demand this week"
   },
-  "createTab": {
-    "title": "Create & Manage Activities",
-    "subtitle": "Create new activities or manage your existing ones",
-    "startCreating": "Create Activity",
-    "editTour": "Edit Tour",
-    "createNewTour": "Create New Activity",
-    "updateExisting": "Update your existing activity details",
-    "setupNew": "Set up a new experience for travelers",
-    "showPreview": "Show Preview",
-    "hidePreview": "Hide Preview",
-    "cancel": "Cancel",
-    "updateTour": "Update Activity",
-    "createTour": "Create Activity",
-    "saving": "Saving...",
-    "reset": "Reset",
-    "duplicate": "Duplicate"
-  },
   "form": {
     "required": "Required",
     "optional": "Optional",

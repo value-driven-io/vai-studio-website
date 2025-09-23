@@ -12,9 +12,7 @@ import Navigation from './components/shared/Navigation'
 import { operatorService } from './lib/supabase'
 import Header from './components/Header'
 import DashboardTab from './components/DashboardTab'
-import CreateTab from './components/CreateTab'
 import TemplatesTab from './components/TemplatesTab'
-// import ActivitiesTab from './components/ActivitiesTab' // Removed: Using CreateTab with template mode
 import BookingsTab from './components/BookingsTab'
 import SchedulesTab from './components/SchedulesTab'
 import ProfileTab from './components/ProfileTab'
@@ -1804,8 +1802,7 @@ function AppContent() { // function App() { << before changes for the authcallba
   }
 
   const handleNavigateToCreate = () => {
-    setActiveTab('create')
-    setShowForm(true)
+    setActiveTab('templates')
   }
 
   const handleOnboardingDismiss = () => {
@@ -2252,45 +2249,6 @@ function AppContent() { // function App() { << before changes for the authcallba
           />
         )}
 
-        {/* Activities Tab - Dual Creation Path (Legacy) */}
-        {activeTab === 'activities' && (
-          <CreateTab 
-            showForm={showForm}
-            setShowForm={setShowForm}
-            activityCreationMode={activityCreationMode}
-            setActivityCreationMode={setActivityCreationMode}
-            editingTour={editingTour}
-            setEditingTour={setEditingTour}
-            formData={formData}
-            setFormData={setFormData}
-            operator={operator}
-            handleSubmit={handleSubmit}
-            loading={loading}
-            handleDelete={handleDelete}
-            showPreview={showPreview}
-            setShowPreview={setShowPreview}
-            resetForm={resetForm}
-            toggleSection={toggleSection}
-            expandedSections={expandedSections}
-            handleInputChange={handleInputChange}
-            validationErrors={validationErrors}
-            tourTypes={tourTypes}
-            getQuickDates={getQuickDates}
-            timeSlots={timeSlots}
-            formatPrice={formatPrice}
-            handlePickupLocationAdd={handlePickupLocationAdd}
-            handlePickupLocationRemove={handlePickupLocationRemove}
-            availableLanguages={availableLanguages}
-            handleLanguageToggle={handleLanguageToggle}
-            handleDuplicate={handleDuplicate}
-            validateForm={validateForm}
-            tours={tours}
-            handleEdit={handleEdit}
-            getTodayInPolynesia={getTodayInPolynesia}
-            setActiveTab={setActiveTab}
-            onTemplateSuccess={handleTemplateSuccess}
-          />
-        )}
 
           
         {/* Schedules Tab */}
