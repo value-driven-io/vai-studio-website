@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import { Toaster } from 'react-hot-toast'
 import toast from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
@@ -34,6 +35,7 @@ import ThemeToggle from './components/shared/ThemeToggle'
 import { useAppStore } from './stores/bookingStore'
 import TourPage from './components/tours/TourPage'
 import TemplatePage from './components/templates/TemplatePage'
+import OperatorProfilePage from './components/operator/OperatorProfilePage'
 
 // 2. CHECK THE ENVIRONMENT VARIABLE
 // This variable will control whether the app is "live" or shows the "coming soon" screen.
@@ -386,6 +388,15 @@ function AppRouter() {
           </CurrencyProvider>
         } />
 
+        {/* Operator Profile Deep Link */}
+        <Route path="/profile/:operatorSlug" element={
+          <CurrencyProvider>
+            <div className="bg-ui-surface-overlay min-h-screen text-ui-text-primary">
+              <OperatorProfilePage />
+            </div>
+          </CurrencyProvider>
+        } />
+
         {/* Main App Route - All existing functionality */}
         <Route path="/*" element={
           <CurrencyProvider>
@@ -407,9 +418,10 @@ function AppRouter() {
 // Main App Component (UPDATED - Wrapped with Router)
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <AppRouter />
+    <HelmetProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRouter />
 
         {/* Global Toast Notifications */}
         <Toaster
@@ -427,8 +439,9 @@ function App() {
             zIndex: 100000
           }}
         />
-      </AuthProvider>
-    </ThemeProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   )
 }
 

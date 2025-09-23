@@ -1348,6 +1348,113 @@
     "availableSpots": "Available spots",
     "startTime": "Start time",
     "bookThisActivity": "Book This Activity",
-    "soldOut": "Sold Out"
+    "soldOut": "Sold Out",
+    "clickToViewProfile": "Click to view profile",
+    "operatorNotFound": "Operator information not available",
+    "operatorProfileUnavailable": "Operator profile not available",
+    "linkCopied": "Activity link copied to clipboard!",
+    "shareFailed": "Failed to share activity"
+  },
+
+  "operatorProfile": {
+    "pageTitle": "{{name}} - Tours in {{island}} | VAI Studio",
+    "shareTitle": "Tours in {{island}}",
+    "shareText": "Check out {{name}}, a professional tour operator in {{island}}!",
+    "ogTitle": "Professional Tours in {{island}}",
+    "defaultMetaDescription": "Book authentic experiences with {{name}}, a professional tour operator in {{island}}. {{tours}} tours completed.",
+    "notFound": "Operator Not Found",
+    "notFoundDescription": "Sorry, we couldn't find this operator profile. They may have moved or the link may be incorrect.",
+    "licensedOperator": "Licensed Tour Operator",
+    "newLocalExpert": "New Local Expert",
+    "toursCompleted": "{{count}} tours completed",
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "whatsappMessage": "Hi {{name}}, I'm interested in your tours. Can you help me?",
+    "shareProfile": "Share Profile",
+    "linkCopied": "Profile link copied!",
+    "shareFailed": "Failed to share profile",
+
+    "trust": {
+      "title": "Why Choose Us",
+      "licensed": "Licensed Operator",
+      "licensedDesc": "Officially licensed tour operator",
+      "insured": "Fully Insured",
+      "insuredDesc": "Complete insurance coverage for your safety",
+      "whaleCertified": "Whale Watching Certified",
+      "whaleCertifiedDesc": "Certified for safe whale watching experiences",
+      "experienced": "Experienced Guide",
+      "experiencedDesc": "{{count}} successfully completed tours",
+      "localExpert": "Local Island Expert",
+      "localExpertDesc": "Deep knowledge of {{island}} and its treasures",
+      "freshPerspective": "Fresh Perspective",
+      "freshPerspectiveDesc": "New energy and innovative tour experiences",
+      "newOperatorMessage": "New operators bring fresh energy and local passion to create unforgettable experiences!"
+    },
+
+    "stats": {
+      "title": "At a Glance",
+      "toursCompleted": "Tours Completed",
+      "toursCompletedDesc": "Successfully completed experiences",
+      "activitiesOffered": "Activities",
+      "activitiesOfferedDesc": "Different experiences available",
+      "availableSpots": "Available Spots",
+      "availableSpotsDesc": "Open bookings across all activities",
+      "languages": "Languages",
+      "tourTypes": "Specialties",
+      "yearsActive": "Years Active",
+      "yearsActiveDesc": "Years of experience in tourism",
+      "priceRange": "Price Range"
+    },
+
+    "about": {
+      "title": "About Us",
+      "contactPerson": "Contact Person",
+      "basedIn": "Based In",
+      "established": "Established",
+      "thisYear": "This year",
+      "yearsAgo": "{{years}} years ago",
+      "expertise": "Expertise",
+      "localExpert": "{{island}} Local Expert"
+    },
+
+    "services": {
+      "title": "Our Experiences",
+      "availableSpots": "{{count}} spots available",
+      "checkAvailability": "Check availability",
+      "soldOut": "Sold out",
+      "whaleCertified": "Whale certified",
+      "showMore": "Show {{count}} more",
+      "showLess": "Show less"
+    },
+
+    "contact": {
+      "title": "Get in Touch",
+      "directContact": "Direct Contact",
+      "whatsapp": "WhatsApp",
+      "phone": "Phone",
+      "preferred": "Preferred",
+      "whatsappDesc": "Quick response via WhatsApp",
+      "phoneDesc": "Call directly for immediate assistance",
+      "inquiry": "Send Inquiry",
+      "sendInquiry": "Send Message",
+      "inquiryDesc": "Get personalized tour recommendations",
+      "location": "Location",
+      "localOperator": "Local tour operator",
+      "tip": "WhatsApp is the preferred contact method in French Polynesia",
+      "whatsappMessage": "Hi {{name}}, I found your profile on VAI and I'm interested in your tours. Can you help me plan an experience?"
+    },
+
+    "share": {
+      "title": "Share This Profile",
+      "description": "Help others discover {{name}}'s amazing tours!",
+      "shareProfile": "Share Profile",
+      "shareVia": "Share Via",
+      "profileUrl": "Profile URL",
+      "copyUrl": "Copy URL",
+      "linkCopied": "Profile link copied!",
+      "copyFailed": "Failed to copy link",
+      "benefits": "Sharing helps local operators grow their business!",
+      "whatsappMessage": "Check out {{name}} in {{island}}! They offer amazing tours: {{url}}"
+    }
   }
 }

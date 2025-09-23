@@ -1322,7 +1322,113 @@
     "availableSpots": "Places disponibles",
     "startTime": "Heure de début",
     "bookThisActivity": "Réserver cette Activité",
-    "soldOut": "Complet"
-  }
+    "soldOut": "Complet",
+    "clickToViewProfile": "Cliquez pour voir le profil",
+    "operatorNotFound": "Informations opérateur non disponibles",
+    "operatorProfileUnavailable": "Profil opérateur non disponible",
+    "linkCopied": "Lien d'activité copié!",
+    "shareFailed": "Échec du partage de l'activité"
+  },
 
+  "operatorProfile": {
+    "pageTitle": "{{name}} - Tours à {{island}} | VAI Studio",
+    "shareTitle": "Tours à {{island}}",
+    "shareText": "Découvrez {{name}}, un opérateur touristique professionnel à {{island}}!",
+    "ogTitle": "Tours Professionnels à {{island}}",
+    "defaultMetaDescription": "Réservez des expériences authentiques avec {{name}}, un opérateur touristique professionnel à {{island}}. {{tours}} tours complétés.",
+    "notFound": "Opérateur Non Trouvé",
+    "notFoundDescription": "Désolé, nous n'avons pas trouvé ce profil d'opérateur. Il a peut-être déménagé ou le lien est incorrect.",
+    "licensedOperator": "Opérateur Touristique Licencié",
+    "newLocalExpert": "Nouvel Expert Local",
+    "toursCompleted": "{{count}} tours complétés",
+    "whatsapp": "WhatsApp",
+    "call": "Appeler",
+    "whatsappMessage": "Salut {{name}}, je suis intéressé par vos tours. Pouvez-vous m'aider?",
+    "shareProfile": "Partager le Profil",
+    "linkCopied": "Lien du profil copié!",
+    "shareFailed": "Échec du partage du profil",
+
+    "trust": {
+      "title": "Pourquoi Nous Choisir",
+      "licensed": "Opérateur Licencié",
+      "licensedDesc": "Opérateur touristique officiellement licencié",
+      "insured": "Entièrement Assuré",
+      "insuredDesc": "Couverture d'assurance complète pour votre sécurité",
+      "whaleCertified": "Observation de Baleines Certifiée",
+      "whaleCertifiedDesc": "Certifié pour des expériences d'observation de baleines sûres",
+      "experienced": "Guide Expérimenté",
+      "experiencedDesc": "{{count}} tours complétés avec succès",
+      "localExpert": "Expert Local de l'Île",
+      "localExpertDesc": "Connaissance approfondie de {{island}} et de ses trésors",
+      "freshPerspective": "Perspective Fraîche",
+      "freshPerspectiveDesc": "Nouvelle énergie et expériences touristiques innovantes",
+      "newOperatorMessage": "Les nouveaux opérateurs apportent une énergie fraîche et une passion locale pour créer des expériences inoubliables!"
+    },
+
+    "stats": {
+      "title": "En Un Coup d'Œil",
+      "toursCompleted": "Tours Complétés",
+      "toursCompletedDesc": "Expériences complétées avec succès",
+      "activitiesOffered": "Activités",
+      "activitiesOfferedDesc": "Différentes expériences disponibles",
+      "availableSpots": "Places Disponibles",
+      "availableSpotsDesc": "Réservations ouvertes pour toutes les activités",
+      "languages": "Langues",
+      "tourTypes": "Spécialités",
+      "yearsActive": "Années d'Activité",
+      "yearsActiveDesc": "Années d'expérience dans le tourisme",
+      "priceRange": "Gamme de Prix"
+    },
+
+    "about": {
+      "title": "À Propos de Nous",
+      "contactPerson": "Personne de Contact",
+      "basedIn": "Basé à",
+      "established": "Établi",
+      "thisYear": "Cette année",
+      "yearsAgo": "Il y a {{years}} ans",
+      "expertise": "Expertise",
+      "localExpert": "Expert Local de {{island}}"
+    },
+
+    "services": {
+      "title": "Nos Expériences",
+      "availableSpots": "{{count}} places disponibles",
+      "checkAvailability": "Vérifier la disponibilité",
+      "soldOut": "Complet",
+      "whaleCertified": "Baleines certifié",
+      "showMore": "Afficher {{count}} de plus",
+      "showLess": "Afficher moins"
+    },
+
+    "contact": {
+      "title": "Nous Contacter",
+      "directContact": "Contact Direct",
+      "whatsapp": "WhatsApp",
+      "phone": "Téléphone",
+      "preferred": "Préféré",
+      "whatsappDesc": "Réponse rapide via WhatsApp",
+      "phoneDesc": "Appelez directement pour une assistance immédiate",
+      "inquiry": "Envoyer une Demande",
+      "sendInquiry": "Envoyer un Message",
+      "inquiryDesc": "Obtenez des recommandations de tours personnalisées",
+      "location": "Localisation",
+      "localOperator": "Opérateur touristique local",
+      "tip": "WhatsApp est la méthode de contact préférée en Polynésie française",
+      "whatsappMessage": "Salut {{name}}, j'ai trouvé votre profil sur VAI et je suis intéressé par vos tours. Pouvez-vous m'aider à planifier une expérience?"
+    },
+
+    "share": {
+      "title": "Partager ce Profil",
+      "description": "Aidez les autres à découvrir les tours incroyables de {{name}}!",
+      "shareProfile": "Partager le Profil",
+      "shareVia": "Partager Via",
+      "profileUrl": "URL du Profil",
+      "copyUrl": "Copier l'URL",
+      "linkCopied": "Lien du profil copié!",
+      "copyFailed": "Échec de la copie du lien",
+      "benefits": "Le partage aide les opérateurs locaux à développer leur activité!",
+      "whatsappMessage": "Découvrez {{name}} à {{island}}! Ils offrent des tours incroyables: {{url}}"
+    }
+  }
 }

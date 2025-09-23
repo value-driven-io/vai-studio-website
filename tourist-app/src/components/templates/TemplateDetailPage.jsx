@@ -1,8 +1,10 @@
 // src/components/templates/TemplateDetailPage.jsx
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Clock, Users, MapPin, Star, Calendar, Heart, Share2, Globe, Shield, Car, ChevronDown, ChevronUp, Info } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { ArrowLeft, Clock, Users, MapPin, Star, Calendar, Heart, Share2, Globe, Shield, Car, ChevronDown, ChevronUp, Info, ExternalLink } from 'lucide-react'
 import { templateService } from '../../services/templateService'
+import { operatorService } from '../../services/operatorService'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
 import CalendarView from './CalendarView'
 import BookingPage from '../booking/BookingPage'
@@ -12,6 +14,7 @@ import { SinglePriceDisplay } from '../shared/PriceDisplay'
 
 const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTemplateWithAvailability, onBack, onInstanceSelect }) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { selectedCurrency, changeCurrency } = useCurrencyContext()
   const [templateWithAvailability, setTemplateWithAvailability] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -119,6 +122,26 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
       } catch (clipboardError) {
         toast.error(t('templates.shareFailed', 'Failed to share activity'))
       }
+    }
+  }
+
+  // Navigate to operator profile
+  const handleOperatorClick = () => {
+    const operatorName = templateDetails.operator_name || templateDetails.company_name
+    const operatorIsland = templateDetails.operator_island || templateDetails.island || templateDetails.location
+
+    if (!operatorName) {
+      toast.error(t('templates.operatorNotFound', 'Operator information not available'))
+      return
+    }
+
+    // Generate slug for navigation
+    const slug = operatorService.generateSlug(operatorName, operatorIsland)
+
+    if (slug) {
+      navigate(`/profile/${slug}`)
+    } else {
+      toast.error(t('templates.operatorProfileUnavailable', 'Operator profile not available'))
     }
   }
 
@@ -366,22 +389,30 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
               </div>
 
               {/* Operator Section */}
-              <div className="bg-ui-surface-primary/50 rounded-lg p-4 border border-ui-border-primary">
+              <div
+                onClick={handleOperatorClick}
+                className="bg-ui-surface-primary/50 rounded-lg p-4 border border-ui-border-primary hover:border-interactive-primary/50 hover:bg-ui-surface-primary/70 transition-all duration-200 cursor-pointer group"
+              >
                 <h3 className="text-md font-semibold text-ui-text-primary mb-3 flex items-center gap-2">
                   <Shield className="w-4 h-4" />
                   {t('templates.operatorInfo', 'Operator Information')}
+                  <ExternalLink className="w-3 h-3 text-ui-text-muted group-hover:text-interactive-primary transition-colors ml-auto" />
                 </h3>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-interactive-primary/20 rounded-lg flex items-center justify-center">
+                    <div className="w-8 h-8 bg-interactive-primary/20 rounded-lg flex items-center justify-center group-hover:bg-interactive-primary/30 transition-colors">
                       <span className="text-sm font-bold">{(templateDetails.operator_name || templateDetails.company_name || 'OP').substring(0, 2).toUpperCase()}</span>
                     </div>
-                    <div>
-                      <div className="font-medium text-ui-text-primary">{templateDetails.operator_name || templateDetails.company_name || t('templates.premiumLocalOperator')}</div>
-                      <div className="text-sm text-ui-text-secondary">{t('templates.licensedOperator')}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-ui-text-primary group-hover:text-interactive-primary transition-colors">
+                        {templateDetails.operator_name || templateDetails.company_name || t('templates.premiumLocalOperator')}
+                      </div>
+                      <div className="text-sm text-ui-text-secondary">
+                        {t('templates.licensedOperator')} • {t('templates.clickToViewProfile')}
+                      </div>
                     </div>
                   </div>
-                  {templateDetails.operator_total_tours_completed && (
+                  {templateDetails.operator_total_tours_completed && templateDetails.operator_total_tours_completed > 0 && (
                     <div className="text-sm text-ui-text-secondary">
                       {templateDetails.operator_total_tours_completed} {t('tourDetail.details.toursCompleted')}
                     </div>
