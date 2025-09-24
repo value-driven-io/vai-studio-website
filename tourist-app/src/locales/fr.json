@@ -40,6 +40,11 @@
     "wait": "Veuillez patienter"
   },
 
+  "welcome": {
+    "title": "Bienvenue sur VAI",
+    "subtitle": "La clé du paradis"
+  },
+
   "header": {
     "title": "VAI Tickets",
     "subtitle": "La clé du paradis",
@@ -49,8 +54,9 @@
   "navigation": {
     "discover": "Découvrir",
     "explore": "Explorer",
-    "journey": "Réservations", 
+    "journey": "Réservations",
     "messages": "Chat",
+    "learn": "Apprendre",
     "profile": "Support"
   },
 
@@ -1008,7 +1014,7 @@
       "startConversation": "Lance la conversation avec ton opérateur !"
     },
     "howItWorks": {
-      "title": "💡 Comment ça marche :",
+      "title": "Comment ça marche :",
       "step1": "Réserve un tour via l'app",
       "step2": "Attends la confirmation de l'opérateur", 
       "step3": "Commence à chatter une fois confirmé !"
@@ -1042,13 +1048,13 @@
 
   "profile": {
     "support": {
-      "title": "💬 Support",
-      "whatsappButton": "📱 Support WhatsApp",
-      "emailButton": "✉️ Support Email",
+      "title": "Support",
+      "whatsappButton": "Support WhatsApp",
+      "emailButton": "Support Email",
       "description": "Tu trouveras ici tout ce qu'il te faut savoir. En cas de problème, contacte-nous via WhatsApp."
     },
     "howItWorks": {
-      "title": "❓ Comment faire : VAI Tickets",
+      "title": "Comment faire : VAI Tickets",
       "step1": "1. Parcours les offres de dernière minute",
       "step2": "2. Envoie ta demande de réservation instantanément avec l'app", 
       "step3": "3. Reçois ta confirmation de réservation",
@@ -1328,6 +1334,38 @@
     "operatorProfileUnavailable": "Profil opérateur non disponible",
     "linkCopied": "Lien d'activité copié!",
     "shareFailed": "Échec du partage de l'activité"
+  },
+
+  "learn": {
+    "title": "Apprendre",
+    "subtitle": "Découvre la Polynésie Française",
+    "categories": {
+      "islands": "Îles",
+      "culture": "Culture",
+      "activities": "Activités",
+      "tips": "Conseils Voyage"
+    },
+    "sections": {
+      "featured": "Featured",
+      "islands": "Explorer les Îles",
+      "culture": "Culture Polynésienne",
+      "activities": "Guides d'Activités",
+      "tips": "Conseils Voyage & Étiquette"
+    },
+    "videoPlayer": {
+      "loading": "Chargement de la vidéo...",
+      "error": "Impossible de charger la vidéo",
+      "retry": "Réessayer"
+    },
+    "content": {
+      "watchTime": "{{duration}} min",
+      "newContent": "Nouveau",
+      "popular": "Populaire"
+    },
+    "empty": {
+      "title": "Bientôt Disponible",
+      "message": "Le contenu éducatif est en cours de préparation. Revenez bientôt pour des vidéos sur les îles, la culture et les conseils de voyage !"
+    }
   },
 
   "operatorProfile": {

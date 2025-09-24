@@ -266,16 +266,14 @@ const getDateRangeLabel = () => {
   }
 
   return (
-    <div className="min-h-screen bg-ui-surface-overlay text-ui-text-primary">
-      
-      {/* Header */}
+    <div className="min-h-screen bg-ui-surface-overlay text-ui-text-primary pt-4 pb-20">
 
-      {/* Mobile-First 3-Lane Header */}
-      <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-2 border border-ui-border-primary mt-2">
-        <div className="max-w-7xl mx-auto">
-          
+      {/* Header */}
+      <div className="mb-6">
+        <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-6 border border-ui-border-primary">
+
           {/* LANE 1: Title + subtitle + counter + refresh button */}
-          <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-ui-border-primary">
+          <div className="flex items-center justify-between py-3 sm:py-4 border-b border-ui-border-primary">
             <div className="flex-1 min-w-0"> {/* min-w-0 prevents flex overflow */}
               <h1 className="text-xl sm:text-2xl font-bold text-ui-text-primary flex items-center gap-2 mb-1">
                 {t('explore.title')}
@@ -302,7 +300,7 @@ const getDateRangeLabel = () => {
           </div>
 
           {/* LANE 2: Date filters + Sort dropdown */}
-          <div className="px-3 sm:px-4 md:px-6 py-3 border-b border-ui-border-primary">
+          <div className="py-3 border-b border-ui-border-primary">
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                   {/* Quick Date Filters - Mobile Responsive */}
                       <div className="flex gap-2 flex-wrap overflow-x-auto">
@@ -349,7 +347,7 @@ const getDateRangeLabel = () => {
           </div>
 
           {/* LANE 3: Search field (65%) + Advanced filter + Clear filter */}
-          <div className="px-3 sm:px-4 md:px-6 py-3">
+          <div className="py-3">
             <div className="flex items-center gap-3">
               {/* Search Field */}
               <div className="flex-1 relative">
@@ -449,7 +447,7 @@ const getDateRangeLabel = () => {
           {/* ADVANCED FILTER PANEL */}
           {showFilters && (
             <div className="border-t border-ui-border-primary bg-ui-surface-secondary/95 backdrop-blur-sm">
-              <div className="px-3 sm:px-4 md:px-6 py-4">
+              <div className="py-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {/* Island Filter */}
                   <div>
@@ -551,7 +549,7 @@ const getDateRangeLabel = () => {
       </div>
 
       {/* Tours Grid/List */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 pb-20">
+      <div>
         {loading ? (
           <div className={`grid gap-6 ${
             viewMode === 'grid' 

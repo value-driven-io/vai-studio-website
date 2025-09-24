@@ -24,6 +24,11 @@
     "adults": "adultos",
     "children": "niños"
   },
+  "welcome": {
+    "title": "Bienvenido a VAI",
+    "subtitle": "Tu llave al paraíso"
+  },
+
   "header": {
     "title": "VAI Tickets",
     "subtitle": "Tu llave al paraíso",
@@ -1007,7 +1012,7 @@
       "startConversation": "¡Inicia la conversación con tu operador!"
     },
     "howItWorks": {
-      "title": "💡 Cómo funciona:",
+      "title": "Cómo funciona:",
       "step1": "Reserva una actividad a través de la app",
       "step2": "Espera la confirmación del operador",
       "step3": "¡Empieza a chatear una vez confirmado!"
@@ -1039,13 +1044,13 @@
   },
   "profile": {
     "support": {
-      "title": "💬 Soporte",
-      "whatsappButton": "📱 Soporte por WhatsApp",
-      "emailButton": "✉️ Soporte por email",
+      "title": "Soporte",
+      "whatsappButton": "Soporte por WhatsApp",
+      "emailButton": "Soporte por email",
       "description": "Aquí encontrarás todo lo que necesitas saber. En caso de que tengas algún problema, contáctanos por WhatsApp."
     },
     "howItWorks": {
-      "title": "❓ Cómo funciona: VAI Tickets",
+      "title": "Cómo funciona: VAI Tickets",
       "step1": "1. Busca actividades en todas las islas",
       "step2": "2. Envía la solicitud de reserva al instante con la app",
       "step3": "3. Recibe la confirmación de la reserva",

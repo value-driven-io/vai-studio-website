@@ -287,7 +287,7 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
   return (
     <div className="min-h-screen bg-ui-surface-overlay">
       {/* Cover Image */}
-      <div className="relative h-48 sm:h-64 bg-gradient-to-br from-interactive-primary/20 to-mood-luxury/20 border-b border-ui-border-primary overflow-hidden">
+      <div className="relative h-48 sm:h-64 bg-gradient-to-br from-interactive-primary/20 to-mood-luxury/20 border-b rounded-xl mt-2 border-ui-border-primary overflow-hidden">
         {/* Cover Image with Fallback */}
         <img
           src={templateDetails.template_cover_image || '/images/VAI Banner Cover_Placeholder1.png'}

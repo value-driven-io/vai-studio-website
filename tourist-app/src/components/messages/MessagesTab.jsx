@@ -7,6 +7,8 @@ import {
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../contexts/AuthContext'
+import { useAppStore } from '../../stores/bookingStore'
+import { useUserJourney } from '../../hooks/useUserJourney'
 import chatService from '../../services/chatService'
 import { supabase } from '../../services/supabase'
 import { TOUR_TYPE_EMOJIS } from '../../constants/moods'
@@ -15,6 +17,8 @@ import toast from 'react-hot-toast'
 const MessagesTab = () => {
   const { t } = useTranslation()
   const { user } = useAuth()
+  const { setActiveTab } = useAppStore()
+  const { userBookings, getTotalBookings } = useUserJourney()
   const [conversations, setConversations] = useState([])
   const [selectedConversation, setSelectedConversation] = useState(null)
   const [messages, setMessages] = useState([])
@@ -305,14 +309,139 @@ const MessagesTab = () => {
     </div>
   )
 
-  // Auth check
-  if (!user) {
+  // Check if user has any bookings (regardless of auth status)
+  const totalBookings = getTotalBookings()
+  const hasBookings = totalBookings > 0
+
+  // If no bookings, show enhanced empty state with booking encouragement
+  if (!hasBookings) {
     return (
-      <div className="min-h-screen bg-ui-surface-overlay flex items-center justify-center p-4">
-        <div className="text-center">
-          <MessageCircle className="w-16 h-16 text-ui-text-disabled mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-ui-text-primary mb-2">{t('messages.auth.signInTitle')}</h2>
-          <p className="text-ui-text-secondary">{t('messages.auth.signInDescription')}</p>
+      <div className="min-h-screen bg-ui-surface-overlay pt-4 pb-20">
+        {/* Enhanced Header - Learn Tab Style */}
+        <div className="mb-6">
+          <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-6 border border-ui-border-primary relative overflow-hidden">
+            {/* Background Pattern */}
+            <div
+              className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+              style={{
+                backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+                backgroundSize: 'auto 100%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-interactive-primary/20 rounded-lg flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-interactive-primary" />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold text-ui-text-primary">
+                      {t('messages.interface.title', 'Messages')}
+                    </h1>
+                    <p className="text-ui-text-secondary">
+                      {t('messages.interface.subtitle', 'Chat with tour operators')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* No Bookings State */}
+        <div>
+          <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-6 border border-ui-border-primary relative overflow-hidden">
+            {/* Background Pattern */}
+            {/*
+            <div
+              className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+              style={{
+                backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+                backgroundSize: 'auto 100%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+             */}
+
+            <div className="relative z-10 text-center py-8">
+              {/* Modern Icon */}
+              <div className="w-20 h-20 bg-interactive-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <MessageCircle className="w-10 h-10 text-interactive-primary" />
+              </div>
+
+              {/* Title and Description */}
+              <h3 className="text-2xl font-bold text-ui-text-primary mb-3">
+                {t('messages.noBookings.title', 'Book a tour to start chatting')}
+              </h3>
+              <p className="text-ui-text-secondary mb-8 max-w-md mx-auto leading-relaxed">
+                {t('messages.noBookings.description', 'Once you book a tour, you\'ll be able to chat directly with operators for any questions or assistance.')}
+              </p>
+
+              {/* Call to Action Button */}
+              <button
+                onClick={() => setActiveTab('discover')}
+                className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary font-semibold py-3 px-6 rounded-lg transition-all hover:shadow-lg mb-8 inline-flex items-center gap-2"
+              >
+                <span>{t('messages.noBookings.exploreTours', 'Explore Tours')}</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+
+              {/* How it Works - Improved Layout */}
+              <div className="bg-gradient-to-r from-ui-surface-secondary/30 to-ui-surface-tertiary/30 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border border-ui-border-primary/30">
+                <h4 className="font-bold text-ui-text-primary mb-6 text-lg flex items-center justify-center gap-3">
+                  {t('messages.howItWorks.title', 'How messaging works')}
+                </h4>
+
+                <div className="grid gap-4 text-left">
+                  <div className="flex items-start gap-4 rounded-2xl bg-ui-surface-primary/50">
+                    <div className="w-8 h-8 bg-interactive-primary rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">
+                      1
+                    </div>
+                    <div>
+                      <h5 className="font-semibold text-ui-text-primary mb-1">
+                        {t('messages.howItWorks.step1Title', 'Book a Tour')}
+                      </h5>
+                      <p className="text-sm text-ui-text-secondary">
+                        {t('messages.howItWorks.step1', 'Choose from amazing tours across French Polynesia')}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 rounded-2xl bg-ui-surface-primary/50">
+                    <div className="w-8 h-8 bg-interactive-primary rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">
+                      2
+                    </div>
+                    <div>
+                      <h5 className="font-semibold text-ui-text-primary mb-1">
+                        {t('messages.howItWorks.step2Title', 'Get Confirmation')}
+                      </h5>
+                      <p className="text-sm text-ui-text-secondary">
+                        {t('messages.howItWorks.step2', 'Operators will confirm your booking and provide details')}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 rounded-2xl bg-ui-surface-primary/50">
+                    <div className="w-8 h-8 bg-interactive-primary rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">
+                      3
+                    </div>
+                    <div>
+                      <h5 className="font-semibold text-ui-text-primary mb-1">
+                        {t('messages.howItWorks.step3Title', 'Chat & Enjoy')}
+                      </h5>
+                      <p className="text-sm text-ui-text-secondary">
+                        {t('messages.howItWorks.step3', 'Message directly with tour operators for any questions')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -451,56 +580,102 @@ const MessagesTab = () => {
 
   // Enhanced Main conversations list view
   return (
-    <div className="min-h-screen bg-ui-surface-overlay">
-      {/* Enhanced Header */}
-      <div className="border-b border-ui-border-primary p-4 shadow-lg">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-semibold text-ui-text-primary">{t('messages.interface.title')}</h1>
-            <p className="text-ui-text-secondary text-sm">{t('messages.interface.subtitle')}</p>
+    <div className="min-h-screen bg-ui-surface-overlay pt-4 pb-20">
+      {/* Enhanced Header - Learn Tab Style */}
+      <div className="mb-6">
+        <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-6 border border-ui-border-primary relative overflow-hidden">
+          {/* Background Pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08] pointer-events-none"
+            style={{
+              backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+              backgroundSize: 'auto 100%',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-interactive-primary/20 rounded-lg flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5 text-interactive-primary" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-ui-text-primary">
+                    {t('messages.interface.title', 'Messages')}
+                  </h1>
+                  <p className="text-ui-text-secondary">
+                    {conversations.length > 0
+                      ? `${conversations.length} conversation${conversations.length !== 1 ? 's' : ''}${unreadCount > 0 ? ` • ${unreadCount} unread` : ''}`
+                      : t('messages.interface.subtitle', 'Chat with tour operators')
+                    }
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={loadConversations}
+                disabled={loading}
+                className="flex items-center gap-2 px-3 py-2 bg-ui-surface-primary/50 hover:bg-ui-surface-primary text-ui-text-secondary hover:text-ui-text-primary rounded-lg transition-colors"
+                title="Refresh conversations"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              </button>
+            </div>
           </div>
-          <button
-            onClick={loadConversations}
-            className="text-ui-text-secondary hover:text-ui-text-primary transition-colors p-2 hover:bg-ui-surface-primary rounded-lg"
-          >
-            <RefreshCw className="w-5 h-5" />
-          </button>
         </div>
       </div>
 
       {/* Enhanced Content */}
-      <div className="p-4">
+      <div className="px-4">
         {loading ? (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {[1, 2, 3].map(i => (
-              <ConversationSkeleton key={i} />
+              <div key={i} className="bg-ui-surface-secondary/30 backdrop-blur-sm rounded-xl h-20 animate-pulse border border-ui-border-primary" />
             ))}
           </div>
         ) : conversations.length === 0 ? (
-          <div className="text-center py-16">
-            {/* Modern Icon */}
-            <div className="w-24 h-24 bg-gradient-to-br from-interactive-primary/10 to-interactive-primary/5 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-sm">
-              <MessageCircle className="w-12 h-12 text-interactive-primary" />
-            </div>
+          <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-8 border border-ui-border-primary relative overflow-hidden">
+            {/* Background Pattern */}
+            {/*
+            <div
+              className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+              style={{
+                backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+                backgroundSize: 'auto 100%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+            */}
 
-            {/* Title and Description */}
-            <h3 className="text-2xl font-bold text-ui-text-primary mb-4">
-              {t('messages.interface.noConversations', { default: 'No conversations yet' })}
-            </h3>
-            <p className="text-ui-text-secondary mb-10 max-w-lg mx-auto text-lg leading-relaxed">
-              {t('messages.interface.startBooking', { default: 'Book a tour to start chatting with operators and get real-time assistance for your adventure.' })}
-            </p>
+            <div className="relative z-10 text-center py-12">
+              {/* Modern Icon */}
+              <div className="w-20 h-20 bg-interactive-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <MessageCircle className="w-10 h-10 text-interactive-primary" />
+              </div>
 
-            {/* Call to Action Button */}
-            <button
-              onClick={() => window.location.hash = '#explore'}
-              className="bg-interactive-primary hover:bg-interactive-primary-hover text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg mb-12"
-            >
-              {t('messages.interface.exploreTours', { default: 'Explore Tours' })}
-            </button>
+              {/* Title and Description */}
+              <h3 className="text-2xl font-bold text-ui-text-primary mb-3">
+                {t('messages.interface.noConversations', 'No conversations yet')}
+              </h3>
+              <p className="text-ui-text-secondary mb-8 max-w-md mx-auto leading-relaxed">
+                {t('messages.interface.startBooking', 'Book a tour to start chatting with operators and get real-time assistance for your adventure.')}
+              </p>
 
-            {/* How it Works - Improved Layout */}
-            <div className="bg-gradient-to-r from-ui-surface-secondary/30 to-ui-surface-tertiary/30 backdrop-blur-sm rounded-3xl p-8 max-w-2xl mx-auto border border-ui-border-primary/30">
+              {/* Call to Action Button */}
+              <button
+                onClick={() => setActiveTab('discover')}
+                className="bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary font-semibold py-3 px-6 rounded-lg transition-all hover:shadow-lg mb-8 inline-flex items-center gap-2"
+              >
+                <span>{t('messages.interface.exploreTours', 'Explore Tours')}</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+
+              {/* How it Works - Improved Layout */}
+              <div className="bg-gradient-to-r from-ui-surface-secondary/30 to-ui-surface-tertiary/30 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border border-ui-border-primary/30">
               <h4 className="font-bold text-ui-text-primary mb-6 text-lg flex items-center justify-center gap-3">
                 <div className="w-8 h-8 bg-interactive-primary/10 rounded-full flex items-center justify-center">
                   <span className="text-interactive-primary text-sm">💬</span>
@@ -509,7 +684,7 @@ const MessagesTab = () => {
               </h4>
 
               <div className="grid gap-4 text-left">
-                <div className="flex items-start gap-4 p-4 rounded-2xl bg-ui-surface-primary/50">
+                <div className="flex items-start gap-4 rounded-2xl bg-ui-surface-primary/50">
                   <div className="w-8 h-8 bg-interactive-primary rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">
                     1
                   </div>
@@ -523,7 +698,7 @@ const MessagesTab = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-4 rounded-2xl bg-ui-surface-primary/50">
+                <div className="flex items-start gap-4 rounded-2xl bg-ui-surface-primary/50">
                   <div className="w-8 h-8 bg-interactive-primary rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">
                     2
                   </div>
@@ -537,7 +712,7 @@ const MessagesTab = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-4 rounded-2xl bg-ui-surface-primary/50">
+                <div className="flex items-start gap-4 rounded-2xl bg-ui-surface-primary/50">
                   <div className="w-8 h-8 bg-interactive-primary rounded-full flex items-center justify-center text-white font-bold text-sm mt-1">
                     3
                   </div>
@@ -551,10 +726,11 @@ const MessagesTab = () => {
                   </div>
                 </div>
               </div>
+              </div>
             </div>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {conversations.map((conversation) => {
               const tourEmoji = TOUR_TYPE_EMOJIS[conversation.tours?.tour_type] || '🌴'
               
@@ -565,7 +741,7 @@ const MessagesTab = () => {
                     setSelectedConversation(conversation)
                     loadMessages(conversation.id)
                   }}
-                  className="w-full rounded-2xl p-5 text-left transition-all duration-200 border border-ui-border-primary/50 group"
+                  className="w-full bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-5 text-left transition-all duration-200 border border-ui-border-primary hover:border-interactive-primary/50 hover:bg-ui-surface-secondary/70 group"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">

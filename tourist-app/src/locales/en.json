@@ -40,6 +40,11 @@
     "wait": "Please Wait"
   },
 
+  "welcome": {
+    "title": "Welcome to VAI",
+    "subtitle": "Your Key to Paradise"
+  },
+
   "header": {
     "title": "VAI Tickets",
     "subtitle": "Your Key to Paradise",
@@ -49,8 +54,9 @@
   "navigation": {
     "discover": "Discover",
     "explore": "Explore",
-    "journey": "Bookings", 
+    "journey": "Bookings",
     "messages": "Chat",
+    "learn": "Learn",
     "profile": "Support"
   },
 
@@ -1201,7 +1207,7 @@
       "startConversation": "Start the conversation with your operator!"
     },
     "howItWorks": {
-      "title": "💡 How it works:",
+      "title": "How it works:",
       "step1": "Book a activity through the app",
       "step2": "Wait for operator confirmation", 
       "step3": "Start chatting once confirmed!"
@@ -1235,9 +1241,9 @@
 
   "profile": {
     "support": {
-      "title": "💬 Support",
-      "whatsappButton": "📱 WhatsApp Support",
-      "emailButton": "✉️ Email Support",
+      "title": "Support",
+      "whatsappButton": "WhatsApp Support",
+      "emailButton": "Email Support",
       "description": "Here you'll find everything else you need to know. In case you have some troubles contact us via WhatsApp."
     },
     "howItWorks": {
@@ -1354,6 +1360,38 @@
     "operatorProfileUnavailable": "Operator profile not available",
     "linkCopied": "Activity link copied to clipboard!",
     "shareFailed": "Failed to share activity"
+  },
+
+  "learn": {
+    "title": "Learn",
+    "subtitle": "Discover French Polynesia",
+    "categories": {
+      "islands": "Islands",
+      "culture": "Culture",
+      "activities": "Activities",
+      "tips": "Travel Tips"
+    },
+    "sections": {
+      "featured": "Featured Content",
+      "islands": "Explore the Islands",
+      "culture": "Polynesian Culture",
+      "activities": "Activity Guides",
+      "tips": "Travel Tips & Etiquette"
+    },
+    "videoPlayer": {
+      "loading": "Loading video...",
+      "error": "Unable to load video",
+      "retry": "Try again"
+    },
+    "content": {
+      "watchTime": "{{duration}} min",
+      "newContent": "New",
+      "popular": "Popular"
+    },
+    "empty": {
+      "title": "Coming Soon",
+      "message": "Educational content is being prepared. Check back soon for videos about the islands, culture, and travel tips!"
+    }
   },
 
   "operatorProfile": {

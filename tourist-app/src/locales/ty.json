@@ -24,9 +24,14 @@
     "adults": "ta‘ata pa‘ari",
     "children": "tamari‘i"
   },
+  "welcome": {
+    "title": "Maeva i VAI",
+    "subtitle": "Tō 'oe tāviri nō te paradaiso"
+  },
+
   "header": {
     "title": "VAI Tickets",
-    "subtitle": "Tō ‘oe tāviri nō te paradaiso",
+    "subtitle": "Tō 'oe tāviri nō te paradaiso",
     "greeting": "Ia ora na, {{name}}!"
   },
   "navigation": {

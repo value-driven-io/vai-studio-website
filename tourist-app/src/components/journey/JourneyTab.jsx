@@ -205,60 +205,10 @@ const ModernJourneyTab = () => {
   // Modern overview dashboard
   const OverviewDashboard = () => (
     <div className="space-y-6">
-      {/* Quick Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-interactive-primary/10 rounded-lg flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-interactive-primary" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-ui-text-primary">{stats.total}</div>
-              <div className="text-sm text-ui-text-secondary">Total Bookings</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-status-caution/10 rounded-lg flex items-center justify-center">
-              <Timer className="w-5 h-5 text-status-caution" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-ui-text-primary">{stats.active}</div>
-              <div className="text-sm text-ui-text-secondary">Pending</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-status-success/10 rounded-lg flex items-center justify-center">
-              <CheckCircle className="w-5 h-5 text-status-success" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-ui-text-primary">{stats.upcoming}</div>
-              <div className="text-sm text-ui-text-secondary">Upcoming</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-ui-surface-primary border border-ui-border-primary rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-status-info/10 rounded-lg flex items-center justify-center">
-              <Award className="w-5 h-5 text-status-info" />
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-ui-text-primary">{stats.completed}</div>
-              <div className="text-sm text-ui-text-secondary">Completed</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Next Tour Highlight */}
       {stats.nextTour && (
-        <div className="bg-gradient-to-r from-interactive-primary/5 to-mood-culture/5 border border-interactive-primary/20 rounded-xl p-6">
+        <div className="bg-gradient-to-r from-interactive-primary/5 to-mood-culture/5 border border-interactive-primary/20 rounded-xl py-6 px-4">
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-lg font-semibold text-ui-text-primary mb-1">Next Adventure</h3>
@@ -388,44 +338,69 @@ const ModernJourneyTab = () => {
   )
 
   return (
-    <div className="min-h-screen bg-ui-surface-overlay">
-      {/* Modern Header */}
-      <div className="bg-ui-surface-primary border-b border-ui-border-primary sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-ui-text-primary">Your Journey</h1>
-              <p className="text-sm text-ui-text-secondary">
-                {stats.total > 0
-                  ? `${stats.total} booking${stats.total !== 1 ? 's' : ''} • ${stats.completed} completed`
-                  : 'Start your adventure today'
-                }
-              </p>
-            </div>
+    <div className="min-h-screen bg-ui-surface-overlay pt-4 pb-20">
+      {/* Enhanced Header - Learn Tab Style */}
+      <div className="mb-6">
+        <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-6 border border-ui-border-primary relative overflow-hidden">
+          {/* Background Pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08] pointer-events-none"
+            style={{
+              backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+              backgroundSize: 'auto 100%',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
 
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setShowLookupModal(true)}
-                className="flex items-center gap-2 px-3 py-2 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors text-sm font-medium"
-                title="Find my bookings"
-              >
-                <Search className="w-4 h-4" />
-                Find Bookings
-              </button>
-              <button
-                onClick={refreshBookings}
-                disabled={loading}
-                className="p-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
-                title="Refresh bookings"
-              >
-                <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
-              </button>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-interactive-primary/20 rounded-lg flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-interactive-primary" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-ui-text-primary">
+                    {t('journey.title', 'Your Journey')}
+                  </h1>
+                  <p className="text-ui-text-secondary">
+                    {stats.total > 0
+                      ? `${stats.total} booking${stats.total !== 1 ? 's' : ''} • ${stats.completed} completed`
+                      : 'Start your adventure today'
+                    }
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowLookupModal(true)}
+                  className="flex items-center gap-2 px-3 py-2 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors text-sm font-medium"
+                  title="Find my bookings"
+                >
+                  <Search className="w-4 h-4" />
+                  <span className="hidden sm:inline">Find Bookings</span>
+                </button>
+
+                <button
+                  onClick={refreshBookings}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-3 py-2 bg-ui-surface-primary/50 hover:bg-ui-surface-primary text-ui-text-secondary hover:text-ui-text-primary rounded-lg transition-colors"
+                  title="Refresh bookings"
+                >
+                  <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                </button>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Modern Navigation */}
-          <div className="mt-6">
-            <nav className="flex space-x-1 bg-ui-surface-secondary p-1 rounded-lg">
+      {/* Modern Navigation */}
+      <div className="mb-6">
+        <div className="flex gap-2 overflow-x-auto pb-2">
+          <nav className="flex space-x-1 bg-ui-surface-secondary/50 p-1 rounded-lg backdrop-blur-sm border border-ui-border-primary">
               {navigationItems.map((item) => {
                 const Icon = item.icon
                 const isActive = activeView === item.id
@@ -455,13 +430,12 @@ const ModernJourneyTab = () => {
                   </button>
                 )
               })}
-            </nav>
-          </div>
+          </nav>
         </div>
       </div>
 
       {/* Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="px">
         {loading && stats.total === 0 ? (
           <div className="space-y-4">
             {[1, 2, 3].map(i => (

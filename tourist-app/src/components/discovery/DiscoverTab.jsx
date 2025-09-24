@@ -1,7 +1,7 @@
 // Clean DiscoverTab - 3 Step Flow: Location → Mood → Personalize
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, ArrowRight, SlidersHorizontal, X, Search, Trash2, RotateCcw } from 'lucide-react'
+import { ArrowLeft, MapPin, Heart, Filter, Sparkles, Mountain, HeartHandshake, Waves, Palette, SlidersHorizontal, X, Search, Trash2, RotateCcw } from 'lucide-react'
 import { useTours } from '../../hooks/useTours'
 import { templateService } from '../../services/templateService'
 import { useAppStore } from '../../stores/bookingStore'
@@ -12,7 +12,6 @@ import toast from 'react-hot-toast'
 
 // Simple step enum
 const STEPS = {
-  DUAL_PATH: 'dualPath',
   LOCATION: 'location',
   MOOD: 'mood',
   PERSONALIZE: 'personalize',
@@ -21,8 +20,7 @@ const STEPS = {
 
 const DiscoverTab = () => {
   const { t } = useTranslation()
-  const [currentStep, setCurrentStep] = useState(STEPS.DUAL_PATH)
-  const [selectedPath, setSelectedPath] = useState(null)
+  const [currentStep, setCurrentStep] = useState(STEPS.LOCATION)
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [selectedMood, setSelectedMood] = useState(null)
   const [filters, setFilters] = useState({
@@ -211,9 +209,7 @@ const DiscoverTab = () => {
   }
 
   const goBack = () => {
-    if (currentStep === STEPS.LOCATION) {
-      setCurrentStep(STEPS.DUAL_PATH)
-    } else if (currentStep === STEPS.MOOD) {
+    if (currentStep === STEPS.MOOD) {
       setCurrentStep(STEPS.LOCATION)
     } else if (currentStep === STEPS.PERSONALIZE) {
       setCurrentStep(STEPS.MOOD)
@@ -319,7 +315,7 @@ const DiscoverTab = () => {
         <div className="max-w-4xl mx-auto px-4 py-4 xs:py-6">
           {/* Back button - always reserve space to prevent layout jump */}
           <div className="mb-4" style={{ minHeight: '2rem' }}>
-            {currentStep !== STEPS.DUAL_PATH && (
+            {currentStep !== STEPS.LOCATION && (
               <button
                 onClick={goBack}
                 className="flex items-center gap-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
@@ -330,8 +326,8 @@ const DiscoverTab = () => {
             )}
           </div>
 
-          {/* Progress indicator - hidden on dual path step */}
-          {currentStep !== STEPS.DUAL_PATH && (
+          {/* Progress indicator */}
+          {(
             <div className="flex items-center justify-between mb-4">
             <StepIndicator
               step={1}
@@ -380,14 +376,12 @@ const DiscoverTab = () => {
           {/* Current step title */}
           <div className="text-center">
             <h1 className="text-mobile-xl xs:text-mobile-2xl mobile:text-mobile-3xl font-bold text-ui-text-primary">
-              {currentStep === STEPS.DUAL_PATH && t('discovery.dualPath.title')}
               {currentStep === STEPS.LOCATION && t('discovery.chooseIsland')}
               {currentStep === STEPS.MOOD && t('discovery.moodQuestion')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.personalizeExperience')}
               {currentStep === STEPS.RESULTS && t('discovery.yourPerfectActivity')}
             </h1>
             <p className="text-ui-text-secondary mt-1 text-mobile-sm xs:text-mobile-base px-2 leading-mobile-relaxed">
-              {currentStep === STEPS.DUAL_PATH && t('discovery.dualPath.subtitle')}
               {currentStep === STEPS.LOCATION && t('discovery.selectIslandDescription')}
               {currentStep === STEPS.MOOD && t('discovery.pickTypeDescription')}
               {currentStep === STEPS.PERSONALIZE && t('discovery.addFiltersDescription')}
@@ -399,18 +393,6 @@ const DiscoverTab = () => {
 
       {/* Step content */}
       <div className="max-w-4xl mx-auto px-0 md:px-8 py-6 sm:py-8">
-        {currentStep === STEPS.DUAL_PATH && (
-          <DualPathStep onPathSelect={(path) => {
-            setSelectedPath(path)
-            if (path === 'inspiration') {
-              setCurrentStep(STEPS.LOCATION)
-            } else {
-              // For opportunity hunters, skip directly to exploration tab
-              setActiveTab('explore')
-            }
-          }} />
-        )}
-
         {currentStep === STEPS.LOCATION && (
           <LocationStep onSelect={goToMood} selectedLocation={selectedLocation} />
         )}
@@ -424,8 +406,13 @@ const DiscoverTab = () => {
             selectedLocation={selectedLocation}
             selectedMood={selectedMood}
             filters={filters}
-            onFiltersChange={setFilters}
-            onShowResults={showResults}
+            onFiltersChange={(newFilters) => {
+              setFilters(newFilters)
+              // Auto-trigger results for any budget selection (including re-selecting the same one)
+              setTimeout(() => {
+                showResults()
+              }, 150) // Brief delay for visual feedback
+            }}
             onReset={resetFlow}
           />
         )}
@@ -494,56 +481,6 @@ const StepIndicator = ({ step, label, isActive, isCompleted, onClick, clickable 
   </button>
 )
 
-// Step 0: Dual Path Selection - Redesigned
-const DualPathStep = ({ onPathSelect }) => {
-  const { t } = useTranslation()
-
-  return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-        {/* Guided Discovery Path */}
-        <button
-          onClick={() => onPathSelect('inspiration')}
-          className="group relative bg-gradient-to-br from-interactive-primary/5 to-interactive-primary/10 hover:from-interactive-primary/10 hover:to-interactive-primary/20 border-2 border-interactive-primary/20 hover:border-interactive-primary/40 rounded-2xl p-8 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-interactive-primary/10"
-        >
-          <div className="w-16 h-16 bg-interactive-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-interactive-primary/30 transition-colors">
-            <Sparkles className="w-8 h-8 text-interactive-primary" />
-          </div>
-          <h3 className="text-xl font-bold text-ui-text-primary mb-3">
-            {t('discovery.dualPath.guided.title', 'Guided Discovery')}
-          </h3>
-          <p className="text-ui-text-secondary leading-relaxed mb-6">
-            {t('discovery.dualPath.guided.description', 'Let us help you find the perfect activity based on your location and mood')}
-          </p>
-          <div className="inline-flex items-center gap-2 text-interactive-primary font-semibold group-hover:text-interactive-primary-light transition-colors">
-            <span>{t('discovery.dualPath.guided.cta', 'Start Discovery')}</span>
-            <ArrowRight className="w-4 h-4" />
-          </div>
-        </button>
-
-        {/* Direct Search Path */}
-        <button
-          onClick={() => onPathSelect('opportunity')}
-          className="group relative bg-gradient-to-br from-mood-adventure/5 to-mood-adventure/10 hover:from-mood-adventure/10 hover:to-mood-adventure/20 border-2 border-mood-adventure/20 hover:border-mood-adventure/40 rounded-2xl p-8 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-mood-adventure/10"
-        >
-          <div className="w-16 h-16 bg-mood-adventure/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-mood-adventure/30 transition-colors">
-            <Mountain className="w-8 h-8 text-mood-adventure" />
-          </div>
-          <h3 className="text-xl font-bold text-ui-text-primary mb-3">
-            {t('discovery.dualPath.direct.title', 'Browse All')}
-          </h3>
-          <p className="text-ui-text-secondary leading-relaxed mb-6">
-            {t('discovery.dualPath.direct.description', 'Search and filter through all available activities directly')}
-          </p>
-          <div className="inline-flex items-center gap-2 text-mood-adventure font-semibold group-hover:text-mood-adventure-light transition-colors">
-            <span>{t('discovery.dualPath.direct.cta', 'Browse Now')}</span>
-            <ArrowRight className="w-4 h-4" />
-          </div>
-        </button>
-      </div>
-    </div>
-  )
-}
 
 // Step 1: Location selection
 const LocationStep = ({ onSelect, selectedLocation }) => {
@@ -707,7 +644,6 @@ const PersonalizeStep = ({
   selectedMood,
   filters,
   onFiltersChange,
-  onShowResults,
   onReset
 }) => {
   const { t } = useTranslation()
@@ -777,19 +713,12 @@ const PersonalizeStep = ({
 
 
       {/* Action buttons - mobile-first design */}
-      <div className="flex flex-col mobile:flex-row gap-3 mobile:gap-4 justify-center pt-6">
+      <div className="flex justify-center pt-6">
         <button
           onClick={onReset}
-          className="px-6 py-3 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-mobile-lg transition-touch min-h-[3rem] w-full mobile:w-auto"
+          className="px-6 py-3 bg-ui-surface-primary hover:bg-ui-surface-secondary text-ui-text-primary rounded-mobile-lg transition-touch min-h-[3rem]"
         >
           {t('discovery.startOver')}
-        </button>
-        <button
-          onClick={onShowResults}
-          className="px-6 mobile:px-8 py-3 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-mobile-lg font-medium transition-touch flex items-center justify-center gap-2 min-h-[3rem] w-full mobile:w-auto"
-        >
-          <Sparkles className="w-5 h-5" />
-          <span className="truncate">{t('discovery.findActivities')}</span>
         </button>
       </div>
     </div>
