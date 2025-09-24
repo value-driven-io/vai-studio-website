@@ -1012,7 +1012,7 @@
       "startConversation": "Beginne das Gespräch mit deinem Veranstalter!"
     },
     "howItWorks": {
-      "title": "💡 So funktioniert's:",
+      "title": "So funktioniert's:",
       "step1": "Buche eine Aktivität über die App",
       "step2": "Warte auf die Bestätigung des Veranstalters",
       "step3": "Beginne zu chatten, sobald bestätigt wurde!"
@@ -1044,9 +1044,9 @@
   },
   "profile": {
     "support": {
-      "title": "💬 Support",
-      "whatsappButton": "📱 WhatsApp Support",
-      "emailButton": "✉️ E-Mail Support",
+      "title": "Support",
+      "whatsappButton": "WhatsApp Support",
+      "emailButton": "E-Mail Support",
       "description": "Hier findest du alles, was du sonst noch wissen musst. Falls du Probleme hast, kontaktiere uns per WhatsApp."
     },
     "howItWorks": {

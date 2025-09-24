@@ -1207,7 +1207,7 @@
       "startConversation": "Start the conversation with your operator!"
     },
     "howItWorks": {
-      "title": "💡 How it works:",
+      "title": "How it works:",
       "step1": "Book a activity through the app",
       "step2": "Wait for operator confirmation", 
       "step3": "Start chatting once confirmed!"
@@ -1241,9 +1241,9 @@
 
   "profile": {
     "support": {
-      "title": "💬 Support",
-      "whatsappButton": "📱 WhatsApp Support",
-      "emailButton": "✉️ Email Support",
+      "title": "Support",
+      "whatsappButton": "WhatsApp Support",
+      "emailButton": "Email Support",
       "description": "Here you'll find everything else you need to know. In case you have some troubles contact us via WhatsApp."
     },
     "howItWorks": {

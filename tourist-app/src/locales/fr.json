@@ -1014,7 +1014,7 @@
       "startConversation": "Lance la conversation avec ton opérateur !"
     },
     "howItWorks": {
-      "title": "💡 Comment ça marche :",
+      "title": "Comment ça marche :",
       "step1": "Réserve un tour via l'app",
       "step2": "Attends la confirmation de l'opérateur", 
       "step3": "Commence à chatter une fois confirmé !"
@@ -1048,13 +1048,13 @@
 
   "profile": {
     "support": {
-      "title": "💬 Support",
-      "whatsappButton": "📱 Support WhatsApp",
-      "emailButton": "✉️ Support Email",
+      "title": "Support",
+      "whatsappButton": "Support WhatsApp",
+      "emailButton": "Support Email",
       "description": "Tu trouveras ici tout ce qu'il te faut savoir. En cas de problème, contacte-nous via WhatsApp."
     },
     "howItWorks": {
-      "title": "❓ Comment faire : VAI Tickets",
+      "title": "Comment faire : VAI Tickets",
       "step1": "1. Parcours les offres de dernière minute",
       "step2": "2. Envoie ta demande de réservation instantanément avec l'app", 
       "step3": "3. Reçois ta confirmation de réservation",

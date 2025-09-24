@@ -251,7 +251,7 @@ const ModernBookingView = ({
     <div className="space-y-4">
       
       {/* Header Controls */}
-      <div className="vai-surface-elevated backdrop-blur-sm rounded-xl p-4">
+      <div className="vai-surface-elevated backdrop-blur-sm rounded-xl py-4">
         
         {/* Search Bar */}
         <div className="flex gap-3 mb-4">
