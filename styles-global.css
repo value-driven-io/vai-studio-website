@@ -25,7 +25,7 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: system-ui, -apple-system, sans-serif;
     background: var(--primary-dark);
     color: var(--text-light);
     overflow-x: hidden;
@@ -493,12 +493,12 @@ body.loading .main-content {
 
 .hero-title {
     font-size: 4rem;
-    font-weight: 900;
+    font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    background: var(--gradient-primary);
+    /*background: var(--gradient-primary);*/
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /*-webkit-text-fill-color: transparent;*/
     background-clip: text;
 }
 
@@ -507,6 +507,7 @@ body.loading .main-content {
     color: var(--text-gray);
     margin-bottom: 3rem;
     line-height: 1.6;
+    font-weight:lighter;
 }
 
 .hero-buttons {

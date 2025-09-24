@@ -318,8 +318,9 @@
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 70% 30%, rgba(0, 212, 255, 0.04) 0%, transparent 50%),
-        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+        radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(255, 0, 110, 0.15) 0%, transparent 50%),
+        var(--primary-dark);
     z-index: 1;
 }
 
@@ -333,7 +334,7 @@
 
 /* Section Header */
 .core-solutions-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 3rem;
 }
 
@@ -343,17 +344,19 @@
     margin-bottom: 1rem;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /*-webkit-text-fill-color: transparent;*/
     background-clip: text;
     line-height: 1.2;
+    margin-top:1rem;
 }
 
 .core-solutions-subtitle {
     font-size: 1.1rem;
+    font-weight: lighter;;
     color: var(--text-gray);
     line-height: 1.6;
-    max-width: 700px;
-    margin: 0 auto;
+    /* max-width: 700px;
+    margin: 0 auto;*/
 }
 
 /* Services Grid - Clean Layout */
@@ -461,6 +464,7 @@
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
+    font-weight: lighter;
 }
 
 /* Feature Lists - Clean */
@@ -1950,4 +1954,813 @@
 .footer-social a:hover {
     transform: scale(1.1);
     opacity: 0.8;
+}
+
+/* Enhanced Service Package Styles */
+.solution-package-details {
+    margin: 1.5rem 0;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-green);
+}
+
+.package-title {
+    color: var(--accent-green);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.solution-features-core li {
+    margin: 0.75rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.solution-features-core li strong {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+/* External Costs Section */
+.solution-external-costs {
+    margin: 1.5rem 0;
+    background: rgba(255, 200, 87, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid #ffc857;
+}
+
+.external-costs-title {
+    color: #ffc857;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.external-costs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.external-costs-list li {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    opacity: 0.9;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.external-costs-list li::before {
+    content: "💳";
+    position: absolute;
+    left: 0;
+    font-size: 0.75rem;
+}
+
+/* Add-On Services in Expandable */
+.features-expandable .addon-title {
+    color: var(--accent-purple);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.solution-features-extra {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.solution-features-extra li {
+    margin: 0.75rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.solution-features-extra li::before {
+    content: "⚡";
+    position: absolute;
+    left: 0;
+    color: var(--accent-purple);
+    font-size: 0.75rem;
+}
+
+/* Enhanced Investment Section */
+.solution-investment {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.investment-price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.investment-starting {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+}
+
+.investment-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    text-align: center;
+}
+
+.investment-note {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.investment-timeline {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--accent-blue);
+    font-weight: 500;
+}
+
+/* Mobile Responsiveness for Enhanced Elements */
+@media (max-width: 768px) {
+    .solution-package-details,
+    .solution-external-costs {
+        padding: 0.75rem;
+        margin: 1rem 0;
+    }
+
+    .package-title,
+    .external-costs-title,
+    .features-expandable .addon-title {
+        font-size: 0.8rem;
+    }
+
+    .solution-features-core li,
+    .solution-features-extra li {
+        font-size: 0.85rem;
+        margin: 0.5rem 0;
+    }
+
+    .external-costs-list li {
+        font-size: 0.8rem;
+    }
+
+    .investment-amount {
+        font-size: 1.3rem;
+    }
+
+    .solution-investment {
+        padding: 1rem;
+    }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+    .solution-package-details {
+        padding: 1.5rem;
+    }
+
+    .solution-features-core li {
+        font-size: 0.95rem;
+    }
+
+    .investment-amount {
+        font-size: 1.6rem;
+    }
+}
+
+/* Add-On Services Section */
+.addon-services-section {
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(255, 0, 110, 0.05) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.addon-services-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.addon-services-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.addon-services-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text;
+    /*-webkit-text-fill-color: transparent;*/
+    background-clip: text;
+}
+
+.addon-services-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Add-On Services Grid */
+.addon-services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .addon-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .addon-services-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Add-On Service Cards */
+.addon-service-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.addon-service-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.15);
+}
+
+.addon-service-card.featured {
+    border-color: var(--accent-green);
+    background: rgba(0, 255, 127, 0.05);
+}
+
+.addon-service-card.featured:hover {
+    border-color: var(--accent-green);
+    box-shadow: 0 8px 32px rgba(0, 255, 127, 0.15);
+}
+
+.addon-service-badge {
+    position: absolute;
+    top: -8px;
+    right: 1rem;
+    background: var(--accent-green);
+    color: var(--primary-dark);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.addon-service-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.addon-service-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--accent-blue);
+}
+
+.addon-service-card.featured .addon-service-title {
+    color: var(--accent-green);
+}
+
+.addon-service-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.addon-service-list li {
+    margin: 0.75rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding-left: 1.2rem;
+    position: relative;
+    opacity: 0.9;
+}
+
+.addon-service-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent-green);
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+/* Add-On Services Footer */
+.addon-services-footer {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.addon-cta-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--accent-purple);
+}
+
+.addon-cta-subtitle {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+.addon-cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.addon-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 0, 110, 0.3);
+}
+
+/* Core Solutions Footer Section */
+.core-solutions-footer-section {
+    padding: 4rem 1rem;
+    background: var(--primary-dark);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.core-solutions-footer-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-cta-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent-green);
+}
+
+.footer-cta-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.footer-cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 255, 127, 0.3);
+}
+
+/* Service Modal System */
+.service-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: var(--primary-dark);
+    border-radius: 12px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+    color: var(--accent-green);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-section h4 {
+    color: var(--accent-blue);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.modal-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--accent-green);
+}
+
+.modal-item.external {
+    border-left-color: #ffc857;
+    background: rgba(255, 200, 87, 0.05);
+}
+
+.modal-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.modal-item-header strong {
+    color: var(--accent-blue);
+    font-size: 1rem;
+}
+
+.modal-price {
+    color: var(--accent-green);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.modal-item.external .modal-price {
+    color: #ffc857;
+}
+
+.modal-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.modal-warning {
+    background: rgba(255, 200, 87, 0.1);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 200, 87, 0.3);
+}
+
+.modal-warning p {
+    margin: 0;
+    color: #ffc857;
+    font-size: 0.9rem;
+}
+
+/* Professional Icon System */
+.solution-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--accent-blue);
+    stroke-width: 2;
+}
+
+.solution-card.featured .solution-icon svg {
+    color: var(--accent-green);
+}
+
+.solution-card.popular .solution-icon svg {
+    color: var(--accent-purple);
+}
+
+/* Add-on service icons */
+.addon-service-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+
+.addon-service-icon svg {
+    width: 100%;
+    height: 100%;
+    color: var(--accent-blue);
+}
+
+.addon-service-card.featured .addon-service-icon svg {
+    color: var(--accent-green);
+}
+
+/* Solution Overview System */
+.solution-overview {
+    margin: 1.5rem 0;
+}
+
+.overview-highlights {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .overview-highlights {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.highlight-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.highlight-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.highlight-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--accent-blue);
+    margin-bottom: 0.5rem;
+    stroke-width: 2;
+}
+
+.highlight-item span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Interactive Detail Buttons */
+.solution-details-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+@media (min-width: 768px) {
+    .solution-details-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.detail-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 300;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-button svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
+}
+
+.detail-button.primary {
+    background: rgba(87, 255, 104, 0.15);
+    color: white;
+    border: 2px solid rgba(87, 255, 104, 0.3);
+}
+
+.detail-button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 127, 0.3);
+}
+
+.detail-button.secondary {
+    background: rgba(255, 200, 87, 0.15);
+    color: white;
+    border: 2px solid rgba(255, 200, 87, 0.3);
+}
+
+.detail-button.secondary:hover {
+    background: rgba(255, 200, 87, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 200, 87, 0.2);
+}
+
+.detail-button.tertiary {
+    background: rgba(255, 0, 110, 0.15);
+    color: var(--accent-purple);
+    border: 2px solid rgba(255, 0, 110, 0.3);
+}
+
+.detail-button.tertiary:hover {
+    background: rgba(255, 0, 110, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 0, 110, 0.2);
+}
+
+/* Mobile responsiveness for modal and overview */
+@media (max-width: 768px) {
+    .service-modal {
+        padding: 0.5rem;
+    }
+
+    .modal-content {
+        max-height: 95vh;
+    }
+
+    .modal-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .modal-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-item {
+        padding: 1rem;
+    }
+
+    .modal-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .overview-highlights {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .highlight-item {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .highlight-item span {
+        font-size: 0.75rem;
+    }
+
+    .solution-details-buttons {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .detail-button {
+        padding: 0.875rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    /* Add-on services mobile */
+    .addon-services-section {
+        padding: 3rem 1rem;
+    }
+
+    .addon-services-title {
+        font-size: 1.5rem;
+    }
+
+    .addon-service-card {
+        padding: 1.25rem;
+    }
+
+    .addon-service-title {
+        font-size: 1rem;
+    }
+
+    .addon-service-list li {
+        font-size: 0.85rem;
+        margin: 0.5rem 0;
+    }
+
+    .addon-services-footer {
+        padding: 1.5rem;
+    }
+
+    .addon-cta-title {
+        font-size: 1.1rem;
+    }
+
+    .addon-cta-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .footer-cta-title {
+        font-size: 1.3rem;
+    }
+
+    .core-solutions-footer-section {
+        padding: 3rem 1rem;
+    }
 }
