@@ -31,6 +31,18 @@ const LearnTab = () => {
   const educationalContent = {
     featured: [
       {
+        id: 'tahiti-overview',
+        title: 'Welcome to French Polynesia',
+        titleFr: 'Bienvenue en Polynésie Française',
+        description: 'An introduction to the islands, culture, and what makes this destination special',
+        descriptionFr: 'Une introduction aux îles, à la culture et à ce qui rend cette destination spéciale',
+        videoId: 'Gy8xsnLUyNY', // Tahiti Tourism official video
+        duration: '1:30',
+        category: 'islands',
+        isNew: true
+      },
+      
+      {
         id: 'tahiti-inclusive-tourism',
         title: 'Inclusive and sustainable tourism',
         titleFr: 'Tourisme inclusif et durable',
@@ -41,39 +53,41 @@ const LearnTab = () => {
         category: 'culture',
         isNew: true
       },
-      
+
       {
-        id: 'tahiti-overview',
-        title: 'Welcome to French Polynesia',
-        titleFr: 'Bienvenue en Polynésie Française',
-        description: 'An introduction to the islands, culture, and what makes this destination special',
-        descriptionFr: 'Une introduction aux îles, à la culture et à ce qui rend cette destination spéciale',
-        videoId: 'fXJyTOOlzLQ', // Tahiti Tourism official video
-        duration: '3:45',
-        category: 'islands',
+        id: 'tahiti-sustainable-tourism',
+        title: 'Global Sustainable Tourism',
+        titleFr: 'Tourisme Durable Mondial',
+        description: 'Travel Redefined: Tourism for People and Planet.',
+        descriptionFr: 'Le voyage redéfini : le tourisme au service des personnes et de la planète.',
+        videoId: 'nCmYf-QPKp8', // Tahiti Sustainable Tourism
+        duration: '3:23',
+        category: 'culture',
         isNew: true
       },
+
       {
         id: 'tahitian-culture',
         title: 'Tahitian Culture & Traditions',
         titleFr: 'Culture et Traditions Tahitiennes',
         description: 'Learn about Polynesian culture, traditions, and way of life',
         descriptionFr: 'Découvrez la culture polynésienne, les traditions et le mode de vie',
-        videoId: 'QoYbHFoLZr8', // Cultural video
-        duration: '5:20',
+        videoId: 'yDgUC1vAIEc', // Cultural video
+        duration: '1:46',
         category: 'culture',
         isPopular: true
       }
     ],
     islands: [
+      
       {
         id: 'bora-bora-guide',
         title: 'Bora Bora: The Pearl of the Pacific',
         titleFr: 'Bora Bora : La Perle du Pacifique',
         description: 'Discover the most famous island of French Polynesia',
         descriptionFr: 'Découvrez l\'île la plus célèbre de Polynésie française',
-        videoId: 'aJQI-QfY_rE',
-        duration: '4:15',
+        videoId: '7c4Jg3D_oSE',
+        duration: '0:16',
         category: 'islands'
       },
       {
@@ -82,10 +96,30 @@ const LearnTab = () => {
         titleFr: 'Moorea : Île Sœur de Tahiti',
         description: 'Explore the magical landscapes of Moorea',
         descriptionFr: 'Explorez les paysages magiques de Moorea',
-        videoId: 'zxY2p5j2BSs',
-        duration: '3:30',
+        videoId: 'zT1Br9rObrQ',
+        duration: '0:15',
         category: 'islands'
-      }
+      },
+      {
+        id: 'huahine-life',
+        title: 'Huahine: Discover the life below',
+        titleFr: 'Huahine : Découvrez la vie en dessous',
+        description: 'Covered in a thick jungle, the island of Huahine is surrounded by the deepest of blue waters making it a very beautiful diving destination. ',
+        descriptionFr: 'Recouverte d\'une épaisse jungle, l\'île de Huahine est entourée des eaux les plus profondes, ce qui en fait une destination de plongée très belle.',
+        videoId: 'v5XkDf2jsBc',
+        duration: '0:15',
+        category: 'islands'
+      },
+      {
+        id: 'island-guide',
+        title: 'Discover The Islands of Tahiti',
+        titleFr: 'Découvrez Les Îles de Tahiti',
+        description: 'Explore The Islands of Tahiti : 5 archipelagos, 118 islands',
+        descriptionFr: 'Explorez Les Îles de Tahiti : 5 archipels, 118 îles',
+        videoId: 'bPPUMZekJe8',
+        duration: '3:07',
+        category: 'islands'
+      },
     ],
     culture: [
       {
@@ -94,17 +128,28 @@ const LearnTab = () => {
         titleFr: 'Danse Traditionnelle Tahitienne',
         description: 'The story and meaning behind Tahitian dance',
         descriptionFr: 'L\'histoire et la signification de la danse tahitienne',
-        videoId: 'kxLfGWn_YJY',
-        duration: '6:10',
+        videoId: 'zvFKm2gGl4w',
+        duration: '1:48',
         category: 'culture'
       },
+      {
+        id: 'polynesian-donations',
+        title: 'Support sustainable initiatives',
+        titleFr: 'Soutenir les initiatives durables',
+        description: 'This participatory tool directly funds four sustainable tourism projects, carefully selected to address the social, economic, cultural, and environmental challenges of our destination.',
+        descriptionFr: 'Cet outil participatif finance directement quatre projets de tourisme durable, soigneusement sélectionnés pour répondre aux enjeux sociaux, économiques, culturels et environnementaux de notre destination.',
+        videoId: 'B2Z1H_LT0UM',
+        duration: '1:00',
+        category: 'culture'
+      },
+
       {
         id: 'polynesian-legends',
         title: 'Polynesian Legends & Mythology',
         titleFr: 'Légendes et Mythologie Polynésiennes',
         description: 'Ancient stories and beliefs of the Polynesian people',
         descriptionFr: 'Histoires anciennes et croyances du peuple polynésien',
-        videoId: 'TUpvYpQFDJ0',
+        videoId: 'rVgD86zBRRM',
         duration: '4:45',
         category: 'culture'
       }
@@ -116,7 +161,7 @@ const LearnTab = () => {
         titleFr: 'Guide des Activités Lagonaires',
         description: 'Everything you need to know about water activities',
         descriptionFr: 'Tout ce que vous devez savoir sur les activités aquatiques',
-        videoId: 'G4o4Rz6j2gQ',
+        videoId: '9pYuEa2OkWs',
         duration: '5:30',
         category: 'activities'
       }
@@ -128,10 +173,11 @@ const LearnTab = () => {
         titleFr: 'Tourisme Respectueux en Polynésie Française',
         description: 'How to be a responsible and respectful visitor',
         descriptionFr: 'Comment être un visiteur responsable et respectueux',
-        videoId: 'pJ5N9ELnWP4',
-        duration: '3:55',
+        videoId: '1WZDlUpwkaM',
+        duration: '0:59',
         category: 'tips'
       },
+
       {
         id: 'packing-tips',
         title: 'What to Pack for French Polynesia',

@@ -97,13 +97,14 @@ const Navigation = () => {
       label: t('navigation.messages'),
       badge: unreadCount > 0 ? unreadCount : null
     },
-    { id: 'learn', icon: BookOpen, label: t('navigation.learn') },
-    { id: 'profile', icon: User, label: t('navigation.profile') }
+    { id: 'learn', icon: BookOpen, label: t('navigation.learn') }
+    //,
+    //{ id: 'profile', icon: User, label: t('navigation.profile') }
   ]
 
   return (
     <nav id="navigation" className="fixed bottom-0 left-0 right-0 bg-ui-surface-secondary border-t border-ui-border-primary z-50 pb-safe">
-      <div className="grid grid-cols-6 h-16">
+      <div className="grid grid-cols-5 h-16">
         {tabs.map((tab) => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
