@@ -49,8 +49,9 @@
   "navigation": {
     "discover": "Découvrir",
     "explore": "Explorer",
-    "journey": "Réservations", 
+    "journey": "Réservations",
     "messages": "Chat",
+    "learn": "Apprendre",
     "profile": "Support"
   },
 
@@ -1328,6 +1329,38 @@
     "operatorProfileUnavailable": "Profil opérateur non disponible",
     "linkCopied": "Lien d'activité copié!",
     "shareFailed": "Échec du partage de l'activité"
+  },
+
+  "learn": {
+    "title": "Apprendre",
+    "subtitle": "Découvre la Polynésie Française",
+    "categories": {
+      "islands": "Îles",
+      "culture": "Culture",
+      "activities": "Activités",
+      "tips": "Conseils Voyage"
+    },
+    "sections": {
+      "featured": "Featured",
+      "islands": "Explorer les Îles",
+      "culture": "Culture Polynésienne",
+      "activities": "Guides d'Activités",
+      "tips": "Conseils Voyage & Étiquette"
+    },
+    "videoPlayer": {
+      "loading": "Chargement de la vidéo...",
+      "error": "Impossible de charger la vidéo",
+      "retry": "Réessayer"
+    },
+    "content": {
+      "watchTime": "{{duration}} min",
+      "newContent": "Nouveau",
+      "popular": "Populaire"
+    },
+    "empty": {
+      "title": "Bientôt Disponible",
+      "message": "Le contenu éducatif est en cours de préparation. Revenez bientôt pour des vidéos sur les îles, la culture et les conseils de voyage !"
+    }
   },
 
   "operatorProfile": {

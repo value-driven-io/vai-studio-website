@@ -13,7 +13,7 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import './i18n/config'
 import { useTranslation } from 'react-i18next'
 
-// Import our main components 
+// Import our main components
 import Navigation from './components/shared/Navigation'
 import DiscoverTab from './components/discovery/DiscoverTab'
 import ExploreTab from './components/explore/ExploreTab'
@@ -22,6 +22,7 @@ import ProfileTab from './components/profile/ProfileTab'
 import AuthModal from './components/auth/AuthModal'
 import LaunchingSoonModal from './components/shared/LaunchingSoonModal';
 import MessagesTab from './components/messages/MessagesTab'
+import LearnTab from './components/learn/LearnTab'
 import { BookingPage } from './components/booking/BookingPage'
 import { CurrencyProvider } from './hooks/useCurrency'
 import { useCurrencyContext } from './hooks/useCurrency'
@@ -307,7 +308,7 @@ function AppContent() {
       <AppHeader />
 
       {/* Main Content Area */}
-      <main id="main-content" className="pb-20 px-4"> {/* pb-20 keeps space for bottom navigation */}
+      <main id="main-content" className={`pb-20 ${activeTab !== 'learn' ? 'px-4' : ''}`}> {/* pb-20 keeps space for bottom navigation */}
         <div style={{ display: activeTab === 'discover' ? 'block' : 'none' }}>
           <DiscoverTab />
         </div>
@@ -317,11 +318,14 @@ function AppContent() {
         <div style={{ display: activeTab === 'journey' ? 'block' : 'none' }}>
           <JourneyTab />
         </div>
-        <div style={{ display: activeTab === 'profile' ? 'block' : 'none' }}>
-          <ProfileTab />
-        </div>
         <div style={{ display: activeTab === 'messages' ? 'block' : 'none' }}>
           <MessagesTab />
+        </div>
+        <div style={{ display: activeTab === 'learn' ? 'block' : 'none' }}>
+          <LearnTab />
+        </div>
+        <div style={{ display: activeTab === 'profile' ? 'block' : 'none' }}>
+          <ProfileTab />
         </div>
       </main>
 

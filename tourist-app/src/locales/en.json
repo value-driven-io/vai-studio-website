@@ -49,8 +49,9 @@
   "navigation": {
     "discover": "Discover",
     "explore": "Explore",
-    "journey": "Bookings", 
+    "journey": "Bookings",
     "messages": "Chat",
+    "learn": "Learn",
     "profile": "Support"
   },
 
@@ -1354,6 +1355,38 @@
     "operatorProfileUnavailable": "Operator profile not available",
     "linkCopied": "Activity link copied to clipboard!",
     "shareFailed": "Failed to share activity"
+  },
+
+  "learn": {
+    "title": "Learn",
+    "subtitle": "Discover French Polynesia",
+    "categories": {
+      "islands": "Islands",
+      "culture": "Culture",
+      "activities": "Activities",
+      "tips": "Travel Tips"
+    },
+    "sections": {
+      "featured": "Featured Content",
+      "islands": "Explore the Islands",
+      "culture": "Polynesian Culture",
+      "activities": "Activity Guides",
+      "tips": "Travel Tips & Etiquette"
+    },
+    "videoPlayer": {
+      "loading": "Loading video...",
+      "error": "Unable to load video",
+      "retry": "Try again"
+    },
+    "content": {
+      "watchTime": "{{duration}} min",
+      "newContent": "New",
+      "popular": "Popular"
+    },
+    "empty": {
+      "title": "Coming Soon",
+      "message": "Educational content is being prepared. Check back soon for videos about the islands, culture, and travel tips!"
+    }
   },
 
   "operatorProfile": {
