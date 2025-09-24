@@ -24,6 +24,11 @@
     "adults": "adultos",
     "children": "niños"
   },
+  "welcome": {
+    "title": "Bienvenido a VAI",
+    "subtitle": "Tu llave al paraíso"
+  },
+
   "header": {
     "title": "VAI Tickets",
     "subtitle": "Tu llave al paraíso",

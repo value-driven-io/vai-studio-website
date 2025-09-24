@@ -40,6 +40,11 @@
     "wait": "Veuillez patienter"
   },
 
+  "welcome": {
+    "title": "Bienvenue sur VAI",
+    "subtitle": "La clé du paradis"
+  },
+
   "header": {
     "title": "VAI Tickets",
     "subtitle": "La clé du paradis",

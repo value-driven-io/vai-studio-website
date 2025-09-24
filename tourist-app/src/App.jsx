@@ -32,6 +32,7 @@ import AuthCallback from './components/auth/AuthCallback'
 import VAILogo from './components/shared/VAILogo'
 import LanguageDropdown from './components/shared/LanguageDropdown'
 import ThemeToggle from './components/shared/ThemeToggle'
+import WelcomeScreen from './components/shared/WelcomeScreen'
 
 import { useAppStore } from './stores/bookingStore'
 import TourPage from './components/tours/TourPage'
@@ -171,6 +172,7 @@ function AppContent() {
   const { activeTab } = useAppStore()
   const [selectedTourForBooking, setSelectedTourForBooking] = useState(null)
   const [showBookingModal, setShowBookingModal] = useState(false)
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true)
 
   const { t } = useTranslation()
 
@@ -288,8 +290,18 @@ function AppContent() {
     setSelectedTourForBooking(null)
   }
 
+  // Handle welcome screen completion
+  const handleWelcomeComplete = () => {
+    setShowWelcomeScreen(false)
+  }
+
   return (
     <div className="min-h-screen bg-ui-surface-overlay text-ui-text-primary">
+      {/* Welcome Screen */}
+      {showWelcomeScreen && (
+        <WelcomeScreen onComplete={handleWelcomeComplete} />
+      )}
+
       {/* Skip Links for Accessibility */}
       <a
         href="#main-content"

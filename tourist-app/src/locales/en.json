@@ -40,6 +40,11 @@
     "wait": "Please Wait"
   },
 
+  "welcome": {
+    "title": "Welcome to VAI",
+    "subtitle": "Your Key to Paradise"
+  },
+
   "header": {
     "title": "VAI Tickets",
     "subtitle": "Your Key to Paradise",
