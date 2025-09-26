@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caramel'in - Le Journal Gourmand de Moorea</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+</head>
+<body>
+    <div class="newspaper-wrapper">
+        <!-- Header/Masthead -->
+        <header class="newspaper-header">
+            <div class="masthead">
+                <div class="language-toggle">
+                    <button id="lang-fr" class="lang-btn active">FR</button>
+                    <button id="lang-en" class="lang-btn">EN</button>
+                </div>
+
+                <div class="logo-section">
+                    <div class="logo-placeholder">
+                        <!-- Logo will be inserted here -->
+                        <img src="/clients/caramelin/resources/media/logo_draft0_lecaramelin.png" alt="Caramel'in Logo" class="main-logo" />
+                    </div>
+                    <h1 class="newspaper-title" data-fr="Le Journal Gourmand" data-en="The Gourmet Journal">Le Journal Gourmand</h1>
+                    <div class="subtitle" data-fr="Moorea • Polynésie Française" data-en="Moorea • French Polynesia">Moorea • Polynésie Française</div>
+                </div>
+
+                <div class="date-weather">
+                    <div class="date" id="current-date"></div>
+                    <div class="weather-placeholder">
+                        <span data-fr="Ensoleillé 28°C" data-en="Sunny 28°C">Ensoleillé 28°C</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="newspaper-content">
+            <!-- Arrow Navigation -->
+            <div class="flipbook-navigation">
+                <button class="nav-arrow nav-prev" id="nav-prev" title="Previous Page">
+                    <div class="arrow-placeholder">←</div>
+                </button>
+                <div class="page-indicator">
+                    <span id="current-page">1</span> / <span id="total-pages">8</span>
+                </div>
+                <button class="nav-arrow nav-next" id="nav-next" title="Next Page">
+                    <div class="arrow-placeholder">→</div>
+                </button>
+            </div>
+
+            <!-- Menu Pages with Flip Book -->
+            <div class="flipbook-container">
+                <div id="flipbook" class="flipbook"></div>
+            </div>
+
+            <!-- Fallback Menu Pages (hidden) -->
+            <div class="menu-pages fallback-menu" style="display: none;">
+                <article class="menu-page active" id="page-drinks">
+                    <div class="page-header">
+                        <div class="page-illustration">
+                            <img src="/clients/caramelin/resources/media/drinks2_cafe.png" alt="Drinks Illustration" class="menu-illustration" />
+                        </div>
+                        <h2 class="page-title" data-fr="Les Boissons" data-en="Beverages">Les Boissons</h2>
+                        <p class="page-subtitle" data-fr="Toute la journée" data-en="All Day">Toute la journée</p>
+                    </div>
+
+                    <div class="menu-columns">
+                        <div class="menu-column">
+                            <h3 data-fr="Boissons Chaudes" data-en="Hot Beverages">Boissons Chaudes</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Espresso" data-en="Espresso">Espresso</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">300 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Americano" data-en="Americano">Americano</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">350 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Café au Lait / Cappuccino" data-en="Café au Lait / Cappuccino">Café au Lait / Cappuccino</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">500 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Sélection de Thés" data-en="Selection of Teas">Sélection de Thés</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">450 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Chocolat Chaud" data-en="Hot Chocolate">Chocolat Chaud</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">550 XPF</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-column">
+                            <h3 data-fr="Boissons Fraîches" data-en="Cold Beverages">Boissons Fraîches</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Sodas (Coca-Cola, etc.)" data-en="Sodas (Coca-Cola, etc.)">Sodas (Coca-Cola, etc.)</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">400 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Jus de fruits frais" data-en="Fresh Fruit Juices">Jus de fruits frais</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">650 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Café Glacé" data-en="Iced Coffee">Café Glacé</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">600 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Café Frappé" data-en="Blended Iced Coffee">Café Frappé</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">700 XPF</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 data-fr="Bières & Vins" data-en="Beers & Wines">Bières & Vins</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Bière pression (33cl)" data-en="Draft Beer (33cl)">Bière pression (33cl)</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">700 XPF</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <span class="item-name" data-fr="Verre de vin (15cl)" data-en="Glass of Wine (15cl)">Verre de vin (15cl)</span>
+                                        <span class="item-dots"></span>
+                                        <span class="item-price">900 XPF</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Espresso" data-en="Espresso">Espresso</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">300 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Americano" data-en="Americano">Americano</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">350 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Café au Lait / Cappuccino" data-en="Café au Lait / Cappuccino">Café au Lait / Cappuccino</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">500 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Sélection de Thés" data-en="Selection of Teas">Sélection de Thés</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">450 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Chocolat Chaud" data-en="Hot Chocolate">Chocolat Chaud</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">550 XPF</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-column">
+                            <h3 data-fr="Boissons Fraîches" data-en="Cold Beverages">Boissons Fraîches</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Sodas (Coca-Cola, etc.)" data-en="Sodas (Coca-Cola, etc.)">Sodas (Coca-Cola, etc.)</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">400 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Jus de fruits frais" data-en="Fresh Fruit Juices">Jus de fruits frais</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">650 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Café Glacé" data-en="Iced Coffee">Café Glacé</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">600 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Café Frappé" data-en="Blended Iced Coffee">Café Frappé</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">700 XPF</span>
+                                </div>
+                            </div>
+
+                            <h3 data-fr="Bières & Vins" data-en="Beers & Wines">Bières & Vins</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Bière pression (33cl)" data-en="Draft Beer (33cl)">Bière pression (33cl)</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">700 XPF</span>
+                                </div>
+                                <div class="menu-item">
+                                    <span class="item-name" data-fr="Verre de vin (15cl)" data-en="Glass of Wine (15cl)">Verre de vin (15cl)</span>
+                                    <span class="item-dots"></span>
+                                    <span class="item-price">900 XPF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                </article>
+                <article class="menu-page" id="page-breakfast"></article>
+                <article class="menu-page" id="page-lunch"></article>
+                <article class="menu-page" id="page-pastries"></article>
+                <article class="menu-page" id="page-tapas"></article>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="newspaper-footer">
+            <div class="footer-border"></div>
+            <div class="footer-content">
+                <div class="contact-info">
+                    <p data-fr="Maharepa, Moorea • Polynésie Française" data-en="Maharepa, Moorea • French Polynesia">Maharepa, Moorea • Polynésie Française</p>
+                    <p data-fr="Ouvert tous les jours • 6h30 - 18h00" data-en="Open daily • 6:30am - 6:00pm">Ouvert tous les jours • 6h30 - 18h00</p>
+                </div>
+                <div class="social-placeholder">
+                    <div class="social-icons">
+                        <div class="social-link" title="Add Facebook link">📘</div>
+                        <div class="social-link" title="Add Instagram link">📷</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
