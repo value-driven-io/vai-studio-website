@@ -56,7 +56,7 @@ const AppHeader = () => {
     <>
       {/* Sticky container with spacing */}
       <div className="top-0 z-40 px-4 pt-4">
-        <header className="relative bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-4 border border-ui-border-primary mx-auto max-w-7xl overflow-hidden">
+        <header className="relative bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-4 border border-ui-border-primary mx-auto overflow-hidden">
           {/* Background Pattern */}
           <div
             className="absolute inset-0 opacity-[0.08] dark:opacity-[0.12] pointer-events-none transform rotate-180 scale-110 md:scale-125"
@@ -188,7 +188,7 @@ function AppContent() {
       window.history.replaceState({}, '', window.location.pathname)
     }
     if (message === 'signin') {
-      toast.info('📧 Please sign in to continue.')
+      toast.info(t('app.notifications.pleaseSignIn'))
       window.history.replaceState({}, '', window.location.pathname)
     }
     if (message === 'reset') {
@@ -307,13 +307,13 @@ function AppContent() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
       >
-        Skip to main content
+        {t('accessibility.skipToMain')}
       </a>
       <a
         href="#navigation"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-32 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
       >
-        Skip to navigation
+        {t('accessibility.skipToNavigation')}
       </a>
 
       {/* Header with Login */}

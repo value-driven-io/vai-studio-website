@@ -86,7 +86,7 @@ const BookingLookup = ({ isOpen, onClose, onSearch }) => {
             {/* OR Divider */}
             <div className="flex items-center gap-4">
               <div className="flex-1 h-px bg-ui-border-secondary"></div>
-              <span className="text-ui-text-tertiary text-sm">OR</span>
+              <span className="text-ui-text-tertiary text-sm">{t('common.or')}</span>
               <div className="flex-1 h-px bg-ui-border-secondary"></div>
             </div>
 

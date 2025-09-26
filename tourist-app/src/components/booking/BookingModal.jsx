@@ -746,7 +746,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 {errors.customer_email && (
                   <p id="email-error" role="alert" className="text-status-error-light text-sm mt-1">{errors.customer_email}</p>
                 )}
-                <p className="text-xs text-ui-text-secondary mt-1">For booking confirmations and updates</p>
+                <p className="text-xs text-ui-text-secondary mt-1">{t('form.helpers.emailPurpose')}</p>
               </div>
 
               {/* Participants */}

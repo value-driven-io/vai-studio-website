@@ -22,7 +22,8 @@
     "notAvailable": "N/D",
     "people": "personas",
     "adults": "adultos",
-    "children": "niños"
+    "children": "niños",
+    "or": "O"
   },
   "welcome": {
     "title": "Bienvenido a VAI",
@@ -1061,6 +1062,60 @@
     },
     "footer": "VAI Studio © 2025 Todos los derechos reservados<br></br>Desde la Polinesia Francesa con ❤️"
   },
+  "app": {
+    "notifications": {
+      "emailConfirmed": "🎉 ¡Bienvenido! Tu email ha sido confirmado.",
+      "passwordResetSuccess": "🔑 ¡Restablecimiento de contraseña exitoso! Ya puedes iniciar sesión.",
+      "tourNotFound": "Actividad no encontrada o no disponible para reserva",
+      "tourLoadFailed": "Error al cargar la actividad para reserva",
+      "pleaseSignIn": "📧 Por favor, inicia sesión para continuar."
+    }
+  },
+
+  "accessibility": {
+    "skipToMain": "Ir al contenido principal",
+    "skipToNavigation": "Ir a la navegación"
+  },
+
+  "brand": {
+    "logoAlt": "Logo de VAI Tickets"
+  },
+
+  "defaults": {
+    "friendlyName": "Amigo"
+  },
+
+  "ui": {
+    "viewTitles": {
+      "listView": "Vista de Lista",
+      "gridView": "Vista de Cuadrícula"
+    },
+    "actions": {
+      "findMyBookings": "Encontrar mis reservas",
+      "refreshBookings": "Actualizar reservas",
+      "clickToCopy": "Clic para copiar",
+      "shareThisTour": "Compartir esta actividad",
+      "removeFromFavorites": "Quitar de favoritos"
+    }
+  },
+
+  "statusValues": {
+    "capacity": {
+      "almostFull": "Casi lleno",
+      "fillingUp": "Llenándose",
+      "available": "Disponible"
+    },
+    "experience": {
+      "experienced": "Experimentado"
+    }
+  },
+
+  "form": {
+    "helpers": {
+      "emailPurpose": "Para confirmaciones de reserva y actualizaciones"
+    }
+  },
+
   "toastNotifications": {
     "tourUpdated": "¡Actividades actualizadas!",
     "refreshFailed": "Error al actualizar las actividades",

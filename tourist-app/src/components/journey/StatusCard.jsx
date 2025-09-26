@@ -186,7 +186,7 @@ const StatusCard = ({
             <button 
               onClick={copyBookingReference}
               className="vai-text-secondary font-medium hover:text-status-info-light transition-colors font-mono text-[10px]"
-              title="Click to copy"
+              title={t('ui.actions.clickToCopy')}
             >
               {booking.booking_reference?.slice(-6) || 'N/A'}
             </button>

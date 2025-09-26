@@ -377,7 +377,7 @@ const ModernJourneyTab = () => {
                 <button
                   onClick={() => setShowLookupModal(true)}
                   className="flex items-center gap-2 px-3 py-2 bg-interactive-primary hover:bg-interactive-primary-hover text-ui-text-primary rounded-lg transition-colors text-sm font-medium"
-                  title="Find my bookings"
+                  title={t('ui.actions.findMyBookings')}
                 >
                   <Search className="w-4 h-4" />
                   <span className="hidden sm:inline">Find Bookings</span>
@@ -387,7 +387,7 @@ const ModernJourneyTab = () => {
                   onClick={refreshBookings}
                   disabled={loading}
                   className="flex items-center gap-2 px-3 py-2 bg-ui-surface-primary/50 hover:bg-ui-surface-primary text-ui-text-secondary hover:text-ui-text-primary rounded-lg transition-colors"
-                  title="Refresh bookings"
+                  title={t('ui.actions.refreshBookings')}
                 >
                   <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                 </button>

@@ -22,7 +22,8 @@
     "notAvailable": "N/D",
     "people": "persone",
     "adults": "adulti",
-    "children": "bambini"
+    "children": "bambini",
+    "or": "O"
   },
   "welcome": {
     "title": "Benvenuto su VAI",
@@ -618,9 +619,54 @@
   "app": {
     "notifications": {
       "emailConfirmed": "🎉 Benvenuto! La tua email è stata confermata.",
-      "passwordResetSuccess": "🔑 Reset della password riuscito! Ora puoi accedere.",
+      "passwordResetSuccess": "🔑 Reset password riuscito! Ora puoi accedere.",
       "tourNotFound": "Attività non trovata o non disponibile per la prenotazione",
-      "tourLoadFailed": "Impossibile caricare l'attività per la prenotazione"
+      "tourLoadFailed": "Impossibile caricare l'attività per la prenotazione",
+      "pleaseSignIn": "📧 Effettua l'accesso per continuare."
+    }
+  },
+
+  "accessibility": {
+    "skipToMain": "Vai al contenuto principale",
+    "skipToNavigation": "Vai alla navigazione"
+  },
+
+  "brand": {
+    "logoAlt": "Logo VAI Tickets"
+  },
+
+  "defaults": {
+    "friendlyName": "Amico"
+  },
+
+  "ui": {
+    "viewTitles": {
+      "listView": "Vista Elenco",
+      "gridView": "Vista Griglia"
+    },
+    "actions": {
+      "findMyBookings": "Trova le mie prenotazioni",
+      "refreshBookings": "Aggiorna prenotazioni",
+      "clickToCopy": "Clicca per copiare",
+      "shareThisTour": "Condividi questa attività",
+      "removeFromFavorites": "Rimuovi dai preferiti"
+    }
+  },
+
+  "statusValues": {
+    "capacity": {
+      "almostFull": "Quasi pieno",
+      "fillingUp": "Si sta riempiendo",
+      "available": "Disponibile"
+    },
+    "experience": {
+      "experienced": "Esperto"
+    }
+  },
+
+  "form": {
+    "helpers": {
+      "emailPurpose": "Per conferme di prenotazione e aggiornamenti"
     }
   },
   "authCallback": {

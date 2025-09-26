@@ -10,7 +10,7 @@ const LanguageSelector = ({ size = 'sm', showText = false }) => {
   const { user } = useAuth()
   const [isChanging, setIsChanging] = useState(false)
 
-  // Available languages for tourist app (starting with 2)
+  // Complete languages array with all supported languages
   const languages = [
     {
       code: 'fr',
@@ -19,38 +19,47 @@ const LanguageSelector = ({ size = 'sm', showText = false }) => {
       nativeName: 'Français'
     },
     {
-      code: 'en', 
+      code: 'en',
       name: 'English',
       flag: '🇺🇸',
       nativeName: 'English'
     },
-
     {
-      code: 'es', 
-      name: 'English',
+      code: 'es',
+      name: 'Spanish',
       flag: '🇪🇸',
       nativeName: 'Español'
     },
     {
-      code: 'de', 
+      code: 'de',
       name: 'German',
       flag: '🇩🇪',
       nativeName: 'Deutsch'
     },
     {
-      code: 'it', 
+      code: 'it',
       name: 'Italian',
       flag: '🇮🇹',
       nativeName: 'Italiano'
     },
-
+    {
+      code: 'zh',
+      name: 'Chinese',
+      flag: '🇨🇳',
+      nativeName: '中文'
+    },
+    {
+      code: 'ja',
+      name: 'Japanese',
+      flag: '🇯🇵',
+      nativeName: '日本語'
+    },
     {
       code:'ty',
       name: 'Tahitian',
       flag: '🇵🇫',
-        nativeName: 'Reo Tahiti'
+      nativeName: 'Reo Tahiti'
     }
-
   ]
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0]

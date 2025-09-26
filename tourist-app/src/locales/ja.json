@@ -1,0 +1,436 @@
+{
+  "common": {
+    "discover": "発見",
+    "explore": "探索",
+    "journey": "予約",
+    "messages": "チャット",
+    "loading": "読み込み中...",
+    "refresh": "更新",
+    "bookNow": "今すぐ予約",
+    "close": "閉じる",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "continue": "続行",
+    "back": "戻る",
+    "next": "次へ",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "signOut": "サインアウト",
+    "hi": "Ia ora na",
+    "welcome": "Maeva",
+    "thankYou": "Mauruuru",
+    "goodbye": "Nana",
+    "notAvailable": "該当なし",
+    "people": "人",
+    "adults": "大人",
+    "children": "子供",
+    "or": "または",
+    "showAll": "すべて表示",
+    "showLess": "簡略表示",
+    "retry": "再試行",
+    "browseOther": "他のアティビティを閲覧",
+    "chooseOther": "他のアティビティを選択",
+    "contactSupport": "サポートに連絡",
+    "tryLater": "後で再試行",
+    "fixForm": "詳細を修正",
+    "checkConnection": "接続を確認",
+    "reduceParticipants": "参加者数を減らす",
+    "chooseOtherDate": "他の日程を選択",
+    "useDifferentEmail": "別のメールを使用",
+    "wait": "お待ちください"
+  },
+
+  "welcome": {
+    "title": "VAIへようこそ",
+    "subtitle": "楽園への鍵"
+  },
+
+  "header": {
+    "title": "VAIチケット",
+    "subtitle": "楽園への鍵",
+    "greeting": "Ia ora na, {{name}}!"
+  },
+
+  "navigation": {
+    "discover": "発見",
+    "explore": "探索",
+    "journey": "予約",
+    "messages": "チャット",
+    "learn": "学ぶ",
+    "profile": "サポート"
+  },
+
+  "discovery": {
+    "title": "フランス領ポリネシアを発見",
+    "subtitle": "完璧なアクティビティを見つけよう",
+    "refreshTours": "アクティビティを更新",
+    "moodQuestion": "アクティビティのタイプを選択",
+    "clearMood": "タイプを変更",
+    "browseAllTours": "すべてのアクティビティを閲覧",
+    "lastMinuteDeals": "島の最後の瞬間の取引",
+    "urgent": "緊急",
+    "endingSoon": "まもなく終了",
+    "moreUrgentDeals": "{{count}}件の緊急取引をもっと見る",
+    "perfectForMood": "{{mood}}タイプに最適",
+    "availableAdventures": "🌴 利用可能な冒険",
+    "viewAll": "すべて表示",
+    "seeMoreTours": "{{count}}件のアクティビティをもっと見る",
+    "noToursFound": "このタイプのアクティビティが見つかりませんでした",
+    "tryDifferentMood": "別のタイプを試すか、後でもう一度確認してください",
+    "didntFindQuestion": "お探しのものが見つかりませんでしたか？",
+    "tours": "アクティビティ",
+    "toursPlural": "アクティビティ",
+    "chooseIsland": "島を選択",
+    "islandFirst": "アクティビティはどこですか？",
+    "personalize": "カスタマイズ：",
+    "quick": "クイック体験",
+    "budget": "予算",
+    "luxury": "ラグジュアリー",
+    "family": "家族",
+    "romantic": "ロマンチック",
+    "noToursAvailable": "利用可能なアクティビティはありません",
+    "seeAllOptions": "すべてのオプションを表示",
+    "islandSelectionHelp": "島を選択して利用可能なアクティビティを表示",
+    "moodSelectionHelp": "タイプを選択してパーソナライズされたアクティビティを表示",
+    "perfectMatches": "あなたにぴったりのマッチ",
+    "tryFewerFilters": "フィルターを減らすか、他のオプションを探してみてください",
+    "clearFilters": "フィルターをクリア",
+    "tryDifferentIsland": "別の島を試す",
+    "noToursForMood": "利用可能なアクティビティはありません"
+  },
+
+  "moods": {
+    "adventure": {
+      "title": "冒険",
+      "subtitle": "アドレナリンを高める",
+      "description": "心拍数を上げるスリリングな体験"
+    },
+    "relax": {
+      "title": "リラックス",
+      "subtitle": "内なる平和を見つける",
+      "description": "島の魂を回復する平和な雰囲気"
+    },
+    "culture": {
+      "title": "文化",
+      "subtitle": "伝統とつながる",
+      "description": "本格的な体験と島の伝統"
+    },
+    "ocean": {
+      "title": "海",
+      "subtitle": "楽園に飛び込む",
+      "description": "私たちのラグーンの信じられない水中世界を探索"
+    }
+  },
+
+  "islands": {
+    "all": "すべての島",
+    "tahiti": "タヒチ",
+    "moorea": "モーレア",
+    "boraBora": "ボラボラ",
+    "huahine": "フアヒネ",
+    "raiatea": "ライアテア",
+    "tahaa": "タハア",
+    "maupiti": "マウピティ",
+    "tikehau": "ティケハウ",
+    "rangiroa": "ランギロア",
+    "fakarava": "ファカラバ",
+    "nukuHiva": "ヌクヒバ",
+    "other": "その他",
+    "descriptions": {
+      "tahiti": "メインアイランド - 活気と文化",
+      "moorea": "姉妹島 - 山々とラグーン",
+      "boraBora": "ロマンティックな楽園 - ラグジュアリー体験",
+      "huahine": "ガーデンアイランド - 平和で本物の",
+      "raiatea": "聖神の島 - セーリングの伝統",
+      "tahaa": "バニラの島 - 料理体験",
+      "maupiti": "隠された宝石 - 未開の美",
+      "tikehau": "ピンクサンドの環礁 - ダイビングの楽園",
+      "rangiroa": "無限のラグーン - 世界クラスのダイビング",
+      "fakarava": "ユネスコ生物圏 - 原始の海域",
+      "nukuHiva": "マルケサスの冒険 - 野生で遠隔",
+      "other": "他の美しい目的地を探索"
+    }
+  },
+
+  "tours": {
+    "availableSpots": "利用可能なスポット",
+    "participants": "参加者",
+    "adults": "大人",
+    "children": "子供",
+    "totalAmount": "総額",
+    "bookingDeadline": "予約締切",
+    "meetingPoint": "集合場所",
+    "duration": "所要時間",
+    "inclusions": "含まれるもの",
+    "requirements": "要件",
+    "restrictions": "制限"
+  },
+
+  "booking": {
+    "bookTour": "冒険を予約",
+    "customerInfo": "あなたの詳細",
+    "fullName": "氏名",
+    "email": "メール",
+    "whatsapp": "WhatsApp",
+    "phone": "電話",
+    "participants": "参加者",
+    "specialRequirements": "特別な要件",
+    "totalCost": "総費用",
+    "confirmBooking": "予約を確認",
+    "processingBooking": "予約を処理中...",
+    "bookingSuccess": "予約成功！Mauruuru",
+    "bookingError": "予約エラー"
+  },
+
+  "form": {
+    "firstName": "名前 *",
+    "lastName": "姓 *",
+    "whatsappNumber": "WhatsApp番号 *",
+    "emailAddress": "メールアドレス *",
+    "adults": "大人 *",
+    "children": "子供",
+    "phoneNumber": "電話番号",
+    "specialRequirements": "特別な要件",
+    "dietaryRestrictions": "食事制限",
+    "accessibilityNeeds": "アクセシビリティのニーズ",
+    "helpers": {
+      "emailPurpose": "予約確認と更新のため"
+    }
+  },
+
+  "placeholders": {
+    "firstName": "あなたの名前",
+    "lastName": "あなたの姓",
+    "whatsapp": "+689 12 34 56 78",
+    "email": "your@email.com",
+    "phone": "+689 12 34 56 78",
+    "specialRequests": "特別なリクエストや質問...",
+    "dietary": "ベジタリアン、アレルギーなど",
+    "accessibility": "車椅子アクセス、移動支援など",
+    "backupContact": "オプション - バックアップ連絡用"
+  },
+
+  "validation": {
+    "firstNameRequired": "名前は必須です",
+    "lastNameRequired": "姓は必須です",
+    "whatsappRequired": "WhatsApp番号は必須です",
+    "whatsappInvalid": "有効な電話番号を入力してください",
+    "emailRequired": "メールは必須です",
+    "emailInvalid": "有効なメールアドレスを入力してください",
+    "phoneInvalid": "有効な電話番号を入力してください",
+    "adultsRequired": "最低1人の大人が必要です",
+    "spotsExceeded": "{{count}}スポットのみ利用可能です"
+  },
+
+  "buttons": {
+    "reserveSpot": "🎫 私のスポットを予約",
+    "creatingBooking": "予約作成中...",
+    "trackBooking": "予約を追跡",
+    "close": "閉じる",
+    "whatsapp": "WhatsApp",
+    "viewPaymentDetails": "支払い詳細を表示",
+    "checkRefundStatus": "返金状況を確認",
+    "contactSupport": "サポートに連絡"
+  },
+
+  "success": {
+    "bookingRequested": "予約リクエスト完了！🎉",
+    "adventureRequest": "あなたの冒険リクエストがオペレーターに送信されました！",
+    "bookingProgress": "予約進捗",
+    "paymentSecured": "支払い保証",
+    "paymentSecuredDesc": "お客様の支払いは承認され保護されています",
+    "operatorReview": "審査",
+    "operatorReviewDesc": "オペレーターが24時間以内に確認します。メールをチェック/このアプリを確認してください！",
+    "paymentCaptured": "支払い取得",
+    "paymentCapturedDesc": "確認後に最終支払いが処理されます",
+    "readyAdventure": "出発！",
+    "readyAdventureDesc": "あなたの体験が確認され準備完了。楽しむ時間です！",
+    "requested": "リクエスト済み",
+    "confirmed": "確認済み",
+    "complete": "完了",
+    "accountCreated": "アカウントが作成されました！",
+    "accountLinked": "アカウントがリンクされました！",
+    "accountCreatedDesc": "この予約は既存のVAIアカウントに追加されました。"
+  },
+
+  "status": {
+    "pending": "保留中",
+    "pendingPayment": "保留中（支払い保証）",
+    "pendingPaymentDesc": "支払いが承認され、オペレーターの確認を待っています",
+    "confirmed": "確認済み",
+    "confirmedPaid": "確認済み・支払い完了",
+    "confirmedPaidDesc": "予約確認済み、支払いが正常に取得されました",
+    "completed": "完了",
+    "declined": "拒否",
+    "declinedRefunded": "拒否（返金済み）",
+    "declinedRefundedDesc": "予約が拒否され、全額返金が処理されました",
+    "cancelled": "キャンセル",
+    "refunded": "返金済み"
+  },
+
+  "explore": {
+    "title": "🔍 アクティビティを探索",
+    "subtitle": "次の体験を見つける",
+    "available": "利用可能",
+    "loading": "読み込み中...",
+    "refresh": "更新",
+    "searchPlaceholder": "アクティビティ、島を検索...",
+    "filters": "フィルター",
+    "clear": "クリア",
+    "applyFilters": "フィルターを適用",
+    "clearAllFilters": "すべてのフィルターをクリア",
+    "toursFound": "アクティビティが見つかりました",
+    "noToursFound": "アクティビティが見つかりませんでした",
+    "noToursFoundDesc": "フィルターや検索語を調整してください"
+  },
+
+  "messages": {
+    "interface": {
+      "title": "メッセージ",
+      "subtitle": "アクティビティオペレーターとチャット",
+      "noConversations": "会話はまだありません",
+      "startBooking": "予約確認後にメッセージが表示されます",
+      "typeMessage": "メッセージを入力...",
+      "sendMessage": "メッセージを送信",
+      "tourChat": "アクティビティチャット",
+      "operator": "オペレーター",
+      "you": "あなた：",
+      "operatorLabel": "オペレーター：",
+      "today": "今日",
+      "yesterday": "昨日"
+    }
+  },
+
+  "profile": {
+    "support": {
+      "title": "サポート",
+      "whatsappButton": "WhatsAppサポート",
+      "emailButton": "メールサポート",
+      "description": "ここで必要な情報をすべて見つけることができます。問題がある場合は、WhatsAppでお問い合わせください。"
+    },
+    "howItWorks": {
+      "title": "使い方：VAIチケット",
+      "step1": "1. すべての島のアクティビティを閲覧",
+      "step2": "2. アプリで即座に予約リクエストを送信",
+      "step3": "3. 予約確認を受け取る",
+      "step4": "4. オペレーターと連絡",
+      "step5": "5. ピックアップポイントや集合場所などの詳細を合意",
+      "step6": "6. アクティビティを楽しむ",
+      "step7": "7. 繰り返し！🤙"
+    },
+    "footer": "VAI Studio © 2025 All rights reserved<br></br>フランス領ポリネシアから❤️で"
+  },
+
+  "app": {
+    "notifications": {
+      "emailConfirmed": "🎉 ようこそ！メールが確認されました。",
+      "passwordResetSuccess": "🔑 パスワードリセット成功！ログインできます。",
+      "tourNotFound": "アクティビティが見つからないか、予約できません",
+      "tourLoadFailed": "予約用のアクティビティの読み込みに失敗しました",
+      "pleaseSignIn": "📧 続行するにはサインインしてください。"
+    }
+  },
+
+  "accessibility": {
+    "skipToMain": "メインコンテンツにスキップ",
+    "skipToNavigation": "ナビゲーションにスキップ"
+  },
+
+  "brand": {
+    "logoAlt": "VAIチケットロゴ"
+  },
+
+  "defaults": {
+    "friendlyName": "友達"
+  },
+
+  "ui": {
+    "viewTitles": {
+      "listView": "リスト表示",
+      "gridView": "グリッド表示"
+    },
+    "actions": {
+      "findMyBookings": "私の予約を検索",
+      "refreshBookings": "予約を更新",
+      "clickToCopy": "クリックしてコピー",
+      "shareThisTour": "このアクティビティを共有",
+      "removeFromFavorites": "お気に入りから削除"
+    }
+  },
+
+  "statusValues": {
+    "capacity": {
+      "almostFull": "ほぼ満席",
+      "fillingUp": "満席になりつつあります",
+      "available": "利用可能"
+    },
+    "experience": {
+      "experienced": "経験豊富"
+    }
+  },
+
+  "bookingErrors": {
+    "tourNotFound": "申し訳ありません。このアクティビティは予約できなくなりました。",
+    "tourInactive": "このアクティビティは現在利用できません。後で再試行するか、サポートに連絡してください。",
+    "insufficientSpots": "充分な空きがありません。{{requested}}名の参加者に対して、残り{{available}}空きのみです。",
+    "invalidParticipants": "参加者数を確認してください。",
+    "invalidData": "予約詳細を確認して再試行してください。",
+    "paymentFailed": "支払い処理が失敗しました。再試行するか、サポートに連絡してください。",
+    "networkError": "接続の問題です。インターネットを確認して再試行してください。",
+    "serverError": "サーバーが一時的に利用できません。しばらくしてから再試行してください。",
+    "validationError": "ハイライトされたフィールドを修正して再試行してください。",
+    "unknownError": "予期しないエラーが発生しました。問題が続く場合は、サポートに連絡してください。",
+    "capacityExceeded": "このアクティビティは最大定員に達しました。他の日程またはアクティビティを選択してください。",
+    "bookingDeadlinePassed": "このアクティビティの予約締切が過ぎました。",
+    "touristUserCreationFailed": "ユーザープロフィールを作成できません。再試行してください。",
+    "emailAlreadyExists": "このメールアドレスのアカウントが既に存在します。別のメールを使用するか、サポートに連絡してください。",
+    "phoneValidationFailed": "有効な電話番号を入力してください。",
+    "emailValidationFailed": "有効なメールアドレスを入力してください。",
+    "commissionCalculationError": "価格計算エラー。リフレッシュして再試行してください。",
+    "concurrentBookingDetected": "他の方が残りの空きを予約しました。リフレッシュして他のアクティビティを選択してください。",
+    "rateLimit": "予約の試行回数が多すぎます。しばらくお待ちいただいてから再試行してください。",
+    "maintenanceMode": "予約システムが一時的にメンテナンス中です。後で再試行してください。"
+  },
+
+  "bookingModal": {
+    "header": "冲険を予約",
+    "tourSummary": "アクティビティ概要",
+    "quickBooking": "⚡ クイック予約",
+    "optionalDetails": "オプション詳細（電話、特別なリクエスト）",
+    "pricingSummary": "料金概要",
+    "estimatedTotal": "推定総額",
+    "paymentNote": "💡 VAIで直接お支払い！",
+    "termsNote": "予約することで、VAIプラットフォーム内で支払いが直接処理されることに同意します。",
+    "spotsLeft": "残り{{count}}空き",
+    "spotsLeftPlural": "残り{{count}}空き"
+  },
+
+  "payment": {
+    "securePayment": "セキュアペイメント",
+    "cardInformation": "カード情報",
+    "securedByStripe": "Stripeによるセキュリティ • カード詳細は保存されません",
+    "completePayment": "支払いを完了",
+    "processing": "処理中...",
+    "authorizingPayment": "支払い許可中...",
+    "paymentAuthorized": "支払いが保証されました！💳",
+    "paymentSecured": "お支払いが保証されています。オペレーターが24時間以内に予約を確認します。",
+    "noChargeUntilConfirmed": "💡 オペレーターが予約を確認するまで、カードに請求されません。",
+    "automaticRefund": "拒否された場合は、24時間以内に自動全額返金されます。",
+    "paymentSetupError": "支払い設定エラー：オペレーター情報がありません。再試行してください。",
+    "chargingIn": "米ドル{{amount}}で請求されます",
+    "displayedAs": "{{amount}} {{currency}}として表示",
+    "paymentError": "支払いが失敗しました。再試行するか、サポートに連絡してください。",
+    "paymentErrorDesc": "カード詳細を確認して再試行してください。",
+    "networkError": "接続エラー。再試行してください。",
+    "insufficientFunds": "残高不足。別のカードを使用してください。",
+    "cardDeclined": "カードが拒否されました。再試行するか、別のカードを使用してください。",
+    "expiredCard": "カードの有効期限が切れています。有効なカードを使用してください。",
+    "incorrectCvc": "セキュリティコードが間違っています。CVCを確認してください。",
+    "paymentSuccess": "支払いが保証されました！予約を処理中です。",
+    "paymentAuthorizedSuccess": "支払い許可成功！🎉",
+    "awaitingConfirmation": "オペレーターの確認を待って支払いを取得",
+    "chargeWillCaptureOn": "オペレーターが確認したときにカードに請求されます",
+    "noRefundNeeded": "返金不要 - 支払い許可のみ",
+    "captureIn24h": "確認後24時間以内に支払いが取得されます"
+  }
+}

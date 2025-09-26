@@ -1394,6 +1394,44 @@
     }
   },
 
+  "accessibility": {
+    "skipToMain": "Skip to main content",
+    "skipToNavigation": "Skip to navigation"
+  },
+
+  "brand": {
+    "logoAlt": "VAI Tickets Logo"
+  },
+
+  "defaults": {
+    "friendlyName": "Friend"
+  },
+
+  "ui": {
+    "viewTitles": {
+      "listView": "List View",
+      "gridView": "Grid View"
+    },
+    "actions": {
+      "findMyBookings": "Find my bookings",
+      "refreshBookings": "Refresh bookings",
+      "clickToCopy": "Click to copy",
+      "shareThisTour": "Share this tour",
+      "removeFromFavorites": "Remove from favorites"
+    }
+  },
+
+  "statusValues": {
+    "capacity": {
+      "almostFull": "Almost full",
+      "fillingUp": "Filling up",
+      "available": "Available"
+    },
+    "experience": {
+      "experienced": "Experienced"
+    }
+  },
+
   "operatorProfile": {
     "pageTitle": "{{name}} - Tours in {{island}} | VAI Studio",
     "shareTitle": "Tours in {{island}}",

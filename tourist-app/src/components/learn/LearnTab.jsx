@@ -300,7 +300,7 @@ const LearnTab = () => {
                       ? 'bg-interactive-primary text-ui-text-primary shadow-sm'
                       : 'text-ui-text-secondary hover:text-ui-text-primary'
                   }`}
-                  title="List View"
+                  title={t('ui.viewTitles.listView')}
                 >
                   <List size={18} />
                 </button>
@@ -311,7 +311,7 @@ const LearnTab = () => {
                       ? 'bg-interactive-primary text-ui-text-primary shadow-sm'
                       : 'text-ui-text-secondary hover:text-ui-text-primary'
                   }`}
-                  title="Grid View"
+                  title={t('ui.viewTitles.gridView')}
                 >
                   <Grid size={18} />
                 </button>

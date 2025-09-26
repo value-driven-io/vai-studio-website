@@ -1,0 +1,717 @@
+{
+  "common": {
+    "discover": "发现",
+    "explore": "探索",
+    "journey": "预订",
+    "messages": "聊天",
+    "loading": "加载中...",
+    "refresh": "刷新",
+    "bookNow": "立即预订",
+    "close": "关闭",
+    "save": "保存",
+    "cancel": "取消",
+    "continue": "继续",
+    "back": "返回",
+    "next": "下一步",
+    "login": "登录",
+    "logout": "注销",
+    "signOut": "退出",
+    "hi": "Ia ora na",
+    "welcome": "Maeva",
+    "thankYou": "Mauruuru",
+    "goodbye": "Nana",
+    "notAvailable": "不适用",
+    "people": "人",
+    "adults": "成人",
+    "children": "儿童",
+    "or": "或",
+    "showAll": "显示全部",
+    "showLess": "显示更少",
+    "retry": "重试",
+    "browseOther": "浏览其他活动",
+    "chooseOther": "选择其他活动",
+    "contactSupport": "联系支持",
+    "tryLater": "稍后再试",
+    "fixForm": "修正详细信息",
+    "checkConnection": "检查连接",
+    "reduceParticipants": "减少参与者",
+    "chooseOtherDate": "选择其他日期",
+    "useDifferentEmail": "使用其他邮箱",
+    "wait": "请稍候"
+  },
+
+  "welcome": {
+    "title": "欢迎来到VAI",
+    "subtitle": "您通往天堂的钥匙"
+  },
+
+  "header": {
+    "title": "VAI门票",
+    "subtitle": "您通往天堂的钥匙",
+    "greeting": "Ia ora na, {{name}}!"
+  },
+
+  "navigation": {
+    "discover": "发现",
+    "explore": "探索",
+    "journey": "预订",
+    "messages": "聊天",
+    "learn": "学习",
+    "profile": "支持"
+  },
+
+  "discovery": {
+    "title": "探索法属波利尼西亚",
+    "subtitle": "找到您完美的活动",
+    "refreshTours": "刷新活动",
+    "moodQuestion": "选择活动类型",
+    "clearMood": "更改类型",
+    "browseAllTours": "浏览所有活动",
+    "lastMinuteDeals": "海岛最后一分钟优惠",
+    "urgent": "紧急",
+    "endingSoon": "即将结束",
+    "moreUrgentDeals": "查看{{count}}个更多紧急优惠",
+    "perfectForMood": "非常适合{{mood}}类型",
+    "availableAdventures": "🌴 可用冒险",
+    "viewAll": "查看全部",
+    "seeMoreTours": "查看{{count}}个更多活动",
+    "noToursFound": "未找到此类型的活动",
+    "tryDifferentMood": "尝试不同的类型或稍后查看",
+    "didntFindQuestion": "没有找到您要找的吗？",
+    "tours": "活动",
+    "toursPlural": "活动",
+    "dualPath": {
+      "title": "选择您的风格",
+      "subtitle": "您希望如何探索？",
+      "guided": {
+        "title": "引导发现",
+        "description": "让我们根据您的位置和心情帮您找到完美的活动",
+        "cta": "开始发现"
+      },
+      "direct": {
+        "title": "浏览全部",
+        "description": "直接搜索和筛选所有可用活动",
+        "cta": "立即浏览"
+      },
+      "inspirationSeekers": {
+        "title": "灵感寻求者",
+        "subtitle": "浏览和发现",
+        "description": "慢慢探索不同的岛屿、心情和体验。非常适合提前规划。",
+        "cta": "浏览活动"
+      },
+      "opportunityHunters": {
+        "title": "机会猎人",
+        "subtitle": "快速发现和优惠",
+        "description": "寻找最后一分钟的可用性和即时预订的优惠。非常适合临时冒险。",
+        "cta": "寻找快速优惠"
+      }
+    },
+    "chooseIsland": "选择您的岛屿",
+    "islandFirst": "您的活动在哪里？",
+    "personalize": "个性化：",
+    "quick": "快速体验",
+    "budget": "经济",
+    "luxury": "奢华",
+    "family": "家庭",
+    "romantic": "浪漫",
+    "noToursAvailable": "无可用活动",
+    "seeAllOptions": "查看所有选项",
+    "islandSelectionHelp": "选择一个岛屿以查看可用活动",
+    "moodSelectionHelp": "选择您的类型以查看个性化活动",
+    "perfectMatches": "为您完美匹配",
+    "tryFewerFilters": "尝试移除一些筛选条件或探索其他选项",
+    "clearFilters": "清除筛选条件",
+    "tryDifferentIsland": "尝试不同的岛屿",
+    "noToursForMood": "无可用活动",
+    "steps": {
+      "location": "位置",
+      "mood": "类型",
+      "personalize": "个性化"
+    },
+    "personalizeExperience": "个性化您的体验",
+    "yourPerfectActivity": "您的完美活动",
+    "selectIslandDescription": "选择您想探索的岛屿",
+    "pickTypeDescription": "选择符合您心情的类型",
+    "addFiltersDescription": "添加筛选条件来找到您的活动",
+    "foundActivitiesDescription": "找到{{count}}个符合您偏好的活动",
+    "moreIslands": "更多岛屿",
+    "exploring": "探索中",
+    "yourSelection": "您的选择",
+    "startOver": "重新开始",
+    "findActivities": "查找活动",
+    "loadingActivities": "加载活动中...",
+    "noActivitiesFound": "未找到活动",
+    "tryAdjustingFilters": "尝试调整您的筛选条件或选择不同的岛屿/类型组合。",
+    "filtersCount": "{{count}}个筛选条件",
+    "foundPerfectMatches": "为您找到{{count}}个完美匹配",
+    "perfectMatchesForYou": "为您的完美匹配",
+    "tryDifferentPreferences": "尝试不同偏好",
+    "exploreHint": "或使用详细搜索选项浏览所有可用活动：",
+    "tryExploreTab": "或探索所有活动 →",
+    "exploreAllActivities": "探索所有活动",
+    "noTemplatesInSelection": "没有活动符合您的岛屿和心情选择。",
+    "filters": {
+      "short": "短期（最多3小时）",
+      "halfDay": "半天（3-8小时）",
+      "fullDay": "全天（8小时以上）",
+      "multiDay": "多天",
+      "difficultyLabel": "难度",
+      "anyLevel": "任何等级",
+      "anyBudget": "任何预算",
+      "under10k": "低于10000法郎",
+      "10kTo30k": "10000-30000法郎",
+      "30kPlus": "30000法郎以上",
+      "budgetFriendly": "经济实惠（低于10000太平洋法郎）",
+      "midRange": "中档（10000-25000太平洋法郎）",
+      "luxury": "奢华（25000太平洋法郎以上）",
+      "budgetDescription": "设置您偏好的消费范围",
+      "anyBudgetDesc": "无限制",
+      "under10kDesc": "经济实惠",
+      "10kTo30kDesc": "超值选择",
+      "30kPlusDesc": "高端体验",
+      "durationDescription": "您有多少时间？",
+      "anyDurationDesc": "所有时长",
+      "shortDesc": "快速活动",
+      "halfDayDesc": "上午或下午",
+      "fullDayDesc": "全程冒险",
+      "multiDayDesc": "延长行程"
+    }
+  },
+
+  "moods": {
+    "adventure": {
+      "title": "冒险",
+      "subtitle": "让您肾上腺素飙升",
+      "description": "令人兴奋的体验，让您心跳加速"
+    },
+    "relax": {
+      "title": "放松",
+      "subtitle": "找到您的内在平静",
+      "description": "平静的氛围，恢复您的海岛心灵"
+    },
+    "culture": {
+      "title": "文化",
+      "subtitle": "与传统连接",
+      "description": "正宗的体验和海岛传统"
+    },
+    "ocean": {
+      "title": "海洋",
+      "subtitle": "潜入天堂",
+      "description": "探索我们泻湖令人难以置信的水下世界"
+    }
+  },
+
+  "islands": {
+    "all": "所有岛屿",
+    "tahiti": "塔希提",
+    "moorea": "莫雷阿",
+    "boraBora": "博拉博拉",
+    "huahine": "华希恩",
+    "raiatea": "赖阿特阿",
+    "tahaa": "塔哈阿",
+    "maupiti": "毛皮提",
+    "tikehau": "蒂克豪",
+    "rangiroa": "朗吉罗阿",
+    "fakarava": "法卡拉瓦",
+    "nukuHiva": "努库希瓦",
+    "other": "其他",
+    "descriptions": {
+      "tahiti": "主岛 - 充满活力和文化",
+      "moorea": "姊妹岛 - 山峰和潟湖",
+      "boraBora": "浪漫天堂 - 奢华体验",
+      "huahine": "花园岛 - 宁静和真实",
+      "raiatea": "神圣岛 - 帆船传统",
+      "tahaa": "香草岛 - 美食体验",
+      "maupiti": "隐藏宝石 - 未触及的美丽",
+      "tikehau": "粉色沙滩环礁 - 潜水天堂",
+      "rangiroa": "无限潟湖 - 世界级潜水",
+      "fakarava": "联合国教科文组织生物圈 - 原始水域",
+      "nukuHiva": "马克萨斯冒险 - 狂野和偏远",
+      "other": "探索其他美丽目的地"
+    }
+  },
+
+  "tours": {
+    "availableSpots": "可用名额",
+    "participants": "参与者",
+    "adults": "成人",
+    "children": "儿童",
+    "totalAmount": "总金额",
+    "bookingDeadline": "预订截止日期",
+    "meetingPoint": "集合地点",
+    "duration": "持续时间",
+    "inclusions": "包含项目",
+    "requirements": "要求",
+    "restrictions": "限制"
+  },
+
+  "booking": {
+    "bookTour": "预订您的冒险",
+    "customerInfo": "您的详细信息",
+    "fullName": "您的全名",
+    "email": "电子邮件",
+    "whatsapp": "WhatsApp",
+    "phone": "电话",
+    "participants": "参与者",
+    "specialRequirements": "特殊要求",
+    "totalCost": "总费用",
+    "confirmBooking": "确认您的预订",
+    "processingBooking": "正在处理您的预订...",
+    "bookingSuccess": "预订成功！Mauruuru",
+    "bookingError": "预订错误"
+  },
+
+  "bookingErrors": {
+    "tourNotFound": "抱歉，此活动不再可以预订。",
+    "tourInactive": "此活动目前不可用。请稍后再试或联系支持。",
+    "insufficientSpots": "没有足够的名额。{{requested}}位参与者仅余{{available}}个名额。",
+    "invalidParticipants": "请检查参与者数量。",
+    "invalidData": "请检查您的预订详细信息并重试。",
+    "paymentFailed": "支付处理失败。请重试或联系支持。",
+    "networkError": "连接问题。请检查您的网络并重试。",
+    "serverError": "服务器暂时不可用。请稍后再试。",
+    "validationError": "请纠正高亮显示的字段并重试。",
+    "unknownError": "发生了意外错误。如果问题持续，请联系支持。",
+    "capacityExceeded": "此活动已达到最大容量。请选择其他日期或活动。",
+    "bookingDeadlinePassed": "此活动的预订截止日期已过。",
+    "touristUserCreationFailed": "无法创建您的用户资料。请重试。",
+    "emailAlreadyExists": "此邮箱已存在账户。请使用不同邮箱或联系支持。",
+    "phoneValidationFailed": "请输入有效的电话号码。",
+    "emailValidationFailed": "请输入有效的邮箱地址。",
+    "commissionCalculationError": "价格计算错误。请刷新并重试。",
+    "concurrentBookingDetected": "其他人刚刚预订了剩余的名额。请刷新并选择其他活动。",
+    "rateLimit": "预订尝试次数过多。请稍等片刻并重试。",
+    "maintenanceMode": "预订系统暂时维护中。请稍后再试。"
+  },
+
+  "bookingModal": {
+    "header": "预订您的冒险",
+    "tourSummary": "活动概述",
+    "quickBooking": "⚡ 快速预订",
+    "optionalDetails": "可选详情（电话、特殊要求）",
+    "pricingSummary": "价格概述",
+    "estimatedTotal": "预估总价",
+    "paymentNote": "💡 直接通过VAI支付！",
+    "termsNote": "通过预订，您同意支付将在VAI平台内直接处理。",
+    "spotsLeft": "剩余{{count}}个名额",
+    "spotsLeftPlural": "剩余{{count}}个名额"
+  },
+
+  "form": {
+    "firstName": "名字 *",
+    "lastName": "姓氏 *",
+    "whatsappNumber": "WhatsApp号码",
+    "emailAddress": "电子邮件地址 *",
+    "confirmEmailAddress": "确认邮箱地址 *",
+    "optional": "可选",
+    "adults": "成人 *",
+    "children": "儿童",
+    "phoneNumber": "电话号码",
+    "specialRequirements": "特殊要求",
+    "dietaryRestrictions": "饮食限制",
+    "accessibilityNeeds": "无障碍需求",
+    "emailHelp": "用于预订确认和更新",
+    "emailConfirmHelp": "请确认您的邮箱地址",
+    "whatsappHelp": "用于您活动的快速更新（可选）"
+  },
+
+  "placeholders": {
+    "firstName": "您的名字",
+    "lastName": "您的姓氏",
+    "whatsapp": "+689 12 34 56 78",
+    "email": "your@email.com",
+    "confirmEmail": "确认您的邮箱地址",
+    "phone": "+689 12 34 56 78",
+    "specialRequests": "任何特殊要求或问题...",
+    "dietary": "素食、过敏等",
+    "accessibility": "轮椅通道、移动协助等",
+    "backupContact": "可选 - 用于备用联系"
+  },
+
+  "validation": {
+    "firstNameRequired": "名字是必需的",
+    "lastNameRequired": "姓氏是必需的",
+    "whatsappRequired": "WhatsApp号码是必需的",
+    "whatsappInvalid": "请输入有效的电话号码",
+    "emailRequired": "电子邮件是必需的",
+    "emailInvalid": "请输入有效的电子邮件地址",
+    "emailConfirmRequired": "邮箱确认是必需的",
+    "emailConfirmMismatch": "邮箱地址不匹配",
+    "phoneInvalid": "请输入有效的电话号码",
+    "adultsRequired": "至少需要1个成人",
+    "spotsExceeded": "只有{{count}}个名额可用"
+  },
+
+  "buttons": {
+    "reserveSpot": "🎫 预订我的名额",
+    "creatingBooking": "正在创建预订...",
+    "trackBooking": "跟踪您的预订",
+    "close": "关闭",
+    "whatsapp": "WhatsApp",
+    "viewPaymentDetails": "查看付款详情",
+    "checkRefundStatus": "检查退款状态",
+    "contactSupport": "联系支持"
+  },
+
+  "success": {
+    "bookingRequested": "预订已请求！🎉",
+    "adventureRequest": "您的冒险请求正在发送给运营商！",
+    "bookingProgress": "预订进度",
+    "paymentSecured": "付款已保障",
+    "paymentSecuredDesc": "您的付款已获得授权和保护",
+    "operatorReview": "审核",
+    "operatorReviewDesc": "运营商将在24小时内确认。关注您的邮件/检查此应用！",
+    "paymentCaptured": "付款已捕获",
+    "paymentCapturedDesc": "确认后处理最终付款",
+    "readyAdventure": "出发！",
+    "readyAdventureDesc": "您的体验已确认并准备就绪。享受时光！",
+    "requested": "已请求",
+    "confirmed": "已确认",
+    "complete": "完成",
+    "accountCreated": "账户已创建！",
+    "accountLinked": "账户已链接！",
+    "accountCreatedDesc": "此预订已添加到您现有的VAI账户。"
+  },
+
+  "status": {
+    "pending": "待处理",
+    "pendingPayment": "待处理（付款已保障）",
+    "pendingPaymentDesc": "付款已授权，等待运营商确认",
+    "confirmed": "已确认",
+    "confirmedPaid": "已确认并付款",
+    "confirmedPaidDesc": "预订已确认，付款成功捕获",
+    "completed": "已完成",
+    "declined": "已拒绝",
+    "declinedRefunded": "已拒绝（已退款）",
+    "declinedRefundedDesc": "预订被拒绝，已处理全额退款",
+    "cancelled": "已取消",
+    "refunded": "已退款"
+  },
+
+  "explore": {
+    "title": "🔍 探索活动",
+    "subtitle": "找到您的下一次体验",
+    "available": "可用",
+    "loading": "加载中...",
+    "refresh": "刷新",
+    "searchPlaceholder": "搜索活动、岛屿...",
+    "filters": "筛选条件",
+    "clear": "清除",
+    "applyFilters": "应用筛选条件",
+    "clearAllFilters": "清除所有筛选条件",
+    "toursFound": "找到活动",
+    "noToursFound": "未找到活动",
+    "noToursFoundDesc": "尝试调整您的筛选条件或搜索词"
+  },
+
+  "messages": {
+    "interface": {
+      "title": "消息",
+      "subtitle": "与您的活动运营商聊天",
+      "noConversations": "暂无对话",
+      "startBooking": "确认预订后，消息将显示在这里",
+      "typeMessage": "输入消息...",
+      "sendMessage": "发送消息",
+      "tourChat": "活动聊天",
+      "operator": "运营商",
+      "you": "您：",
+      "operatorLabel": "运营商：",
+      "today": "今天",
+      "yesterday": "昨天"
+    }
+  },
+
+  "profile": {
+    "support": {
+      "title": "支持",
+      "whatsappButton": "WhatsApp支持",
+      "emailButton": "电子邮件支持",
+      "description": "在这里您可以找到您需要了解的一切。如果遇到问题，请通过WhatsApp联系我们。"
+    },
+    "howItWorks": {
+      "title": "如何使用：VAI门票",
+      "step1": "1. 浏览所有岛屿的活动",
+      "step2": "2. 使用应用立即发送预订请求",
+      "step3": "3. 获得预订确认",
+      "step4": "4. 与运营商联系",
+      "step5": "5. 商定接送地点或集合地点等细节",
+      "step6": "6. 享受您的活动",
+      "step7": "7. 重复！🤙"
+    },
+    "footer": "VAI Studio © 2025 保留所有权利<br></br>来自法属波利尼西亚，用❤️制作"
+  },
+
+  "app": {
+    "notifications": {
+      "emailConfirmed": "🎉 欢迎！您的电子邮件已确认。",
+      "passwordResetSuccess": "🔑 密码重置成功！您现在可以登录。",
+      "tourNotFound": "未找到活动或无法预订",
+      "tourLoadFailed": "无法为预订加载活动",
+      "pleaseSignIn": "📧 请登录以继续。"
+    }
+  },
+
+  "accessibility": {
+    "skipToMain": "跳到主要内容",
+    "skipToNavigation": "跳到导航"
+  },
+
+  "brand": {
+    "logoAlt": "VAI门票标志"
+  },
+
+  "defaults": {
+    "friendlyName": "朋友"
+  },
+
+  "ui": {
+    "viewTitles": {
+      "listView": "列表视图",
+      "gridView": "网格视图"
+    },
+    "actions": {
+      "findMyBookings": "查找我的预订",
+      "refreshBookings": "刷新预订",
+      "clickToCopy": "点击复制",
+      "shareThisTour": "分享此活动",
+      "removeFromFavorites": "从收藏夹中移除"
+    }
+  },
+
+  "statusValues": {
+    "capacity": {
+      "almostFull": "几乎满员",
+      "fillingUp": "正在填满",
+      "available": "可用"
+    },
+    "experience": {
+      "experienced": "有经验的"
+    }
+  },
+
+  "tourCard": {
+    "urgency": {
+      "bookingEndsSoon": "预订即将结束！",
+      "limitedTime": "有限时间",
+      "bookToday": "今天预订",
+      "minutesLeft": "分钟剩余",
+      "hoursLeft": "小时剩余"
+    },
+    "capacity": {
+      "spotsLeft": "名额剩余",
+      "max": "最大"
+    },
+    "pricing": {
+      "perAdult": "每位成人",
+      "save": "省钱"
+    },
+    "inclusions": {
+      "equipment": "设备",
+      "food": "食物",
+      "pickup": "接送"
+    },
+    "actions": {
+      "bookNow": "立即预订",
+      "details": "详情",
+      "viewDetails": "查看详情"
+    },
+    "badges": {
+      "template": "模板",
+      "scheduled": "已安排",
+      "detached": "特殊",
+      "lastMinute": "最后一分钟"
+    },
+    "date": {
+      "multipleOptions": "多个日期",
+      "availableOptions": "可用选项"
+    },
+    "accessibility": {
+      "addToFavorites": "添加到收藏夹",
+      "removeFromFavorites": "从收藏夹中移除",
+      "viewDetails": "查看详情"
+    },
+    "share": {
+      "copylink": "链接已复制到剪贴板！"
+    }
+  },
+
+  "tourDetail": {
+    "languages": {
+      "tbd": "语言待定",
+      "offered": "提供的语言"
+    },
+    "age": {
+      "ageRange": "{{min}}-{{max}}岁",
+      "minimumAge": "最低年龄：{{min}}岁",
+      "maximumAge": "最高年龄：{{max}}岁",
+      "suitableForAll": "适合所有年龄",
+      "ageRequirements": "此活动的年龄要求"
+    },
+    "fitness": {
+      "easy": "简单 - 所有人都可以",
+      "moderate": "中等 - 需要一些活动",
+      "challenging": "有挑战性 - 需要良好的体力",
+      "expert": "专家级 - 需要出色的体力",
+      "tbd": "体力等级待定",
+      "allLevels": "所有等级"
+    },
+    "sections": {
+      "aboutExperience": "关于此体验",
+      "whatsIncluded": "包含的项目",
+      "meetingPoint": "集合地点和位置",
+      "ageRequirements": "年龄和要求",
+      "weatherSafety": "天气和安全",
+      "specialNotes": "特殊注意事项"
+    },
+    "details": {
+      "dateTime": "日期和时间",
+      "availability": "可用性",
+      "duration": "持续时间",
+      "fitnessLevel": "体力等级",
+      "languages": "语言",
+      "spotsLeft": "名额剩余",
+      "spotsTotal": "总名额",
+      "ofMax": "最大{{max}}个",
+      "hoursExperience": "{{hours}}小时体验",
+      "fullAdventure": "完整冒险",
+      "toursCompleted": "已完成活动"
+    },
+    "inclusions": {
+      "professionalEquipment": "专业设备",
+      "equipmentDesc": "提供所有必要的装备",
+      "foodRefreshments": "食物和饮料",
+      "foodDesc": "活动期间的餐食和小食",
+      "beverages": "饮料",
+      "beveragesDesc": "提供水和饮料",
+      "hotelTransfer": "酒店接送",
+      "transferDesc": "便捷的接送服务"
+    },
+    "meetingPoint": {
+      "willBeConfirmed": "预订后将确认集合地点",
+      "detailsAfterBooking": "预订确认后提供准确位置详情和路线",
+      "pickupLocations": "可用接车地点："
+    },
+    "requirements": {
+      "importantRequirements": "重要要求"
+    },
+    "weather": {
+      "weatherDependent": "受天气影响的活动",
+      "alternativeArrangements": "在恶劣天气条件下将做出替代安排",
+      "regulationCompliant": "符合法规",
+      "certifiedMarine": "经认证的法属波利尼西亚海洋野生动物"
+    },
+    "pricing": {
+      "perAdult": "每位成人",
+      "children": "儿童：",
+      "save": "省钱",
+      "bookThisExperience": "预订此体验"
+    },
+    "trust": {
+      "socialImpact": "🌱 社会影响贡献",
+      "authenticExperience": "🔥 100%正宗体验"
+    },
+    "defaults": {
+      "experienceDescription": "体验法属波利尼西亚的美丽，我们精心设计的活动。预订时将提供详细信息。"
+    }
+  },
+
+  "launchingSoon": {
+    "title": "即将推出！",
+    "message": "Ia ora na！我们正在为您在法属波利尼西亚准备一次难忘的体验。成为第一个了解我们上线的人。",
+    "form": {
+      "placeholder": "输入您的邮箱",
+      "button": "通知我",
+      "submitting": "提交中...",
+      "successTitle": "Māuruuru！",
+      "successMessage": "您已在列表中。我们将在发布时通知您。",
+      "error": "发生了错误。请重试。",
+      "duplicate": "此邮箱已注册。我们将在发布时通知您！",
+      "consent": "通过注册，您同意接收有关VAI门票发布的更新。"
+    },
+    "footer": "VAI门票 - 您通往天堂的钒匙"
+  },
+
+  "login": {
+    "moreInfo": "更多信息关于",
+    "foroperator": "想成为VAI运营商？ → 点击这里！"
+  },
+
+  "payment": {
+    "securePayment": "安全支付",
+    "cardInformation": "银行卡信息",
+    "securedByStripe": "由Stripe保护 • 您的卡详细信息不会被存储",
+    "completePayment": "完成支付",
+    "processing": "处理中...",
+    "authorizingPayment": "授权支付中...",
+    "paymentAuthorized": "支付已保障！💳",
+    "paymentSecured": "您的支付已得到保障。运营商将24小时内确认您的预订。",
+    "noChargeUntilConfirmed": "💡 在运营商确认您的预订之前，您的卡不会被扣款。",
+    "automaticRefund": "如果被拒绝，您将24小时内收到自动全额退款。",
+    "paymentSetupError": "支付设置错误：缺少运营商信息。请重试。",
+    "chargingIn": "您将被收取{{amount}}美元",
+    "displayedAs": "显示为{{amount}} {{currency}}",
+    "paymentError": "支付失败。请重试或联系支持。",
+    "paymentErrorDesc": "请检查您的卡详细信息并重试。",
+    "networkError": "连接错误。请重试。",
+    "insufficientFunds": "余额不足。请使用不同的卡。",
+    "cardDeclined": "卡被拒绝。请重试或使用不同的卡。",
+    "expiredCard": "卡已过期。请使用有效的卡。",
+    "incorrectCvc": "安全码错误。请检查您的CVC。",
+    "paymentSuccess": "支付已保障！您的预订正在处理中。",
+    "paymentAuthorizedSuccess": "支付授权成功！🎉",
+    "awaitingConfirmation": "等待运营商确认以捕获支付",
+    "chargeWillCaptureOn": "当运营商确认时，您的卡将被扣款",
+    "noRefundNeeded": "无需退款 - 仅授权支付",
+    "captureIn24h": "支付将在确认后24小时内被捕获"
+  },
+
+  "errors": {
+    "activityNotAvailable": "活动不可用"
+  },
+
+  "paymentFlow": {
+    "step1": "输入详情",
+    "step2": "安全支付",
+    "step3": "确认",
+    "backToDetails": "返回详情",
+    "proceedToPayment": "继续支付"
+  },
+
+  "statusCard": {
+    "status": {
+      "pending": "待处理",
+      "pendingDesc": "等待确认",
+      "confirmed": "已确认！",
+      "confirmedDesc": "准备出发",
+      "complete": "完成",
+      "completeDesc": "冒险结束",
+      "declined": "已拒绝",
+      "declinedDesc": "不可用",
+      "cancelled": "已取消",
+      "cancelledDesc": "不可用",
+      "unknown": "未知",
+      "unknownDesc": "状态不明"
+    },
+    "details": {
+      "participants": "参与者",
+      "total": "总计",
+      "reference": "参考编号"
+    },
+    "actions": {
+      "moreDetails": "更多详情",
+      "contactOperator": "联系运营商",
+      "bookAgain": "再次预订",
+      "getSupport": "获取支持"
+    },
+    "messages": {
+      "referencesCopied": "预订参考编号已复制！",
+      "pendingInfo": "{{statusDesc}} - 留意您的邮件！",
+      "meetingPoint": "📍 集合地点：{{location}}"
+    },
+    "tourInfo": {
+      "tourNotAvailable": "活动名称不可用",
+      "locationTBD": "位置待定",
+      "operator": "运营商"
+    }
+  }
+}

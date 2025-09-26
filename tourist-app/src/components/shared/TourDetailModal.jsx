@@ -177,7 +177,7 @@ const TourDetailModal = ({
               <button
                 onClick={handleShare}
                 className="p-2 rounded-full bg-ui-surface-primary text-ui-text-secondary hover:bg-ui-surface-tertiary hover:text-interactive-primary-light transition-colors"
-                title="Share this tour"
+                title={t('ui.actions.shareThisTour')}
               >
                 <Share2 className="w-5 h-5" />
               </button>

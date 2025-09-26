@@ -22,7 +22,8 @@
     "notAvailable": "N/V",
     "people": "Leute",
     "adults": "Erwachsene",
-    "children": "Kinder"
+    "children": "Kinder",
+    "or": "ODER"
   },
   "welcome": {
     "title": "Willkommen bei VAI",
@@ -619,8 +620,53 @@
     "notifications": {
       "emailConfirmed": "🎉 Willkommen! Deine E-Mail wurde bestätigt.",
       "passwordResetSuccess": "🔑 Passwort erfolgreich zurückgesetzt! Du kannst dich jetzt anmelden.",
-      "tourNotFound": "Aktivität nicht gefunden oder nicht buchbar",
-      "tourLoadFailed": "Fehler beim Laden der Aktivität für die Buchung"
+      "tourNotFound": "Aktivität nicht gefunden oder nicht verfügbar für Buchung",
+      "tourLoadFailed": "Fehler beim Laden der Aktivität für Buchung",
+      "pleaseSignIn": "📧 Bitte melden Sie sich an, um fortzufahren."
+    }
+  },
+
+  "accessibility": {
+    "skipToMain": "Zum Hauptinhalt springen",
+    "skipToNavigation": "Zur Navigation springen"
+  },
+
+  "brand": {
+    "logoAlt": "VAI Tickets Logo"
+  },
+
+  "defaults": {
+    "friendlyName": "Freund"
+  },
+
+  "ui": {
+    "viewTitles": {
+      "listView": "Listenansicht",
+      "gridView": "Rasteransicht"
+    },
+    "actions": {
+      "findMyBookings": "Meine Buchungen finden",
+      "refreshBookings": "Buchungen aktualisieren",
+      "clickToCopy": "Klicken zum Kopieren",
+      "shareThisTour": "Diese Aktivität teilen",
+      "removeFromFavorites": "Aus Favoriten entfernen"
+    }
+  },
+
+  "statusValues": {
+    "capacity": {
+      "almostFull": "Fast voll",
+      "fillingUp": "Füllt sich",
+      "available": "Verfügbar"
+    },
+    "experience": {
+      "experienced": "Erfahren"
+    }
+  },
+
+  "form": {
+    "helpers": {
+      "emailPurpose": "Für Buchungsbestätigungen und Updates"
     }
   },
   "authCallback": {

@@ -5,9 +5,12 @@ import { Rocket, Mail, Send, Check } from 'lucide-react';
 import LanguageDropdown from './LanguageDropdown';
 import ThemeToggle from './ThemeToggle';
 
-const VAILogo = () => (
-  <img src="/logos/vai-logo-2025.png" alt="VAI Tickets Logo" className="h-12 w-auto" />
-);
+const VAILogo = () => {
+  const { t } = useTranslation();
+  return (
+    <img src="/logos/vai-logo-2025.png" alt={t('brand.logoAlt')} className="h-12 w-auto" />
+  );
+};
 
 const LaunchingSoonModal = () => {
   const { t } = useTranslation();
@@ -46,7 +49,7 @@ const LaunchingSoonModal = () => {
         user_type: "tourist", 
         user_id: crypto.randomUUID(), // Generate unique ID
         email: email,
-        first_name: "Friend", // Default since we don't collect name
+        first_name: t('defaults.friendlyName'), // Default since we don't collect name
         island: null,
         languages: ["english"], // Default
         marketing_emails: agreed,

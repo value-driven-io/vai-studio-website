@@ -14,7 +14,7 @@ const LanguageDropdown = () => {
   const dropdownRef = useRef(null)
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 })
 
-  // EXACT same languages array from your LanguageSelector
+  // Complete languages array with Chinese and Japanese
   const languages = [
     {
       code: 'fr',
@@ -23,28 +23,40 @@ const LanguageDropdown = () => {
       nativeName: 'Français'
     },
     {
-      code: 'en', 
+      code: 'en',
       name: 'English',
       flag: '🇺🇸',
       nativeName: 'English'
     },
     {
-      code: 'es', 
-      name: 'Spanish',  // Fixed the name from 'English' to 'Spanish'
+      code: 'es',
+      name: 'Spanish',
       flag: '🇪🇸',
       nativeName: 'Español'
     },
     {
-      code: 'de', 
+      code: 'de',
       name: 'German',
       flag: '🇩🇪',
       nativeName: 'Deutsch'
     },
     {
-      code: 'it', 
+      code: 'it',
       name: 'Italian',
       flag: '🇮🇹',
       nativeName: 'Italiano'
+    },
+    {
+      code: 'zh',
+      name: 'Chinese',
+      flag: '🇨🇳',
+      nativeName: '中文'
+    },
+    {
+      code: 'ja',
+      name: 'Japanese',
+      flag: '🇯🇵',
+      nativeName: '日本語'
     },
     {
       code:'ty',

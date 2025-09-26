@@ -214,7 +214,7 @@ const FavoriteTourCard = ({
         <button
           onClick={() => onRemoveFavorite(tour.id)}
           className="p-2 text-status-error hover:text-red-300 hover:bg-status-error-subtle rounded-lg transition-colors"
-          title="Remove from favorites"
+          title={t('ui.actions.removeFromFavorites')}
         >
           <Trash2 className="w-4 h-4" />
         </button>

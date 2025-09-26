@@ -24,6 +24,7 @@
     "people": "personnes",
     "adults": "adultes",
     "children": "enfants",
+    "or": "OU",
     "showAll": "Tout afficher",
     "showLess": "Afficher moins",
     "retry": "Réessayer",
@@ -300,7 +301,10 @@
     "accessibilityNeeds": "Besoins d'accessibilité",
     "emailHelp": "Pour les confirmations et mises à jour de réservation",
     "emailConfirmHelp": "Veuillez confirmer votre adresse email",
-    "whatsappHelp": "Pour les mises à jour rapides de votre tour (optionnel)"
+    "whatsappHelp": "Pour les mises à jour rapides de votre tour (optionnel)",
+    "helpers": {
+      "emailPurpose": "Pour les confirmations de réservation et les mises à jour"
+    }
   },
   
   "placeholders": {
@@ -1365,6 +1369,54 @@
     "empty": {
       "title": "Bientôt Disponible",
       "message": "Le contenu éducatif est en cours de préparation. Revenez bientôt pour des vidéos sur les îles, la culture et les conseils de voyage !"
+    }
+  },
+
+  "app": {
+    "notifications": {
+      "emailConfirmed": "🎉 Bienvenue ! Votre email a été confirmé.",
+      "passwordResetSuccess": "🔑 Réinitialisation de mot de passe réussie ! Vous pouvez maintenant vous connecter.",
+      "tourNotFound": "Activité non trouvée ou indisponible pour la réservation",
+      "tourLoadFailed": "Impossible de charger l'activité pour la réservation",
+      "pleaseSignIn": "📧 Veuillez vous connecter pour continuer."
+    }
+  },
+
+  "accessibility": {
+    "skipToMain": "Aller au contenu principal",
+    "skipToNavigation": "Aller à la navigation"
+  },
+
+  "brand": {
+    "logoAlt": "Logo VAI Tickets"
+  },
+
+  "defaults": {
+    "friendlyName": "Ami"
+  },
+
+  "ui": {
+    "viewTitles": {
+      "listView": "Vue Liste",
+      "gridView": "Vue Grille"
+    },
+    "actions": {
+      "findMyBookings": "Trouver mes réservations",
+      "refreshBookings": "Actualiser les réservations",
+      "clickToCopy": "Cliquer pour copier",
+      "shareThisTour": "Partager cette activité",
+      "removeFromFavorites": "Retirer des favoris"
+    }
+  },
+
+  "statusValues": {
+    "capacity": {
+      "almostFull": "Presque complet",
+      "fillingUp": "Se remplit",
+      "available": "Disponible"
+    },
+    "experience": {
+      "experienced": "Expérimenté"
     }
   },
 
