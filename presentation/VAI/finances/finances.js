@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const links = [
             { text: texts.businessPlan, href: "../businessplan/businessplan.html" },
             { text: texts.financials, href: "index.html" },
-            { text: texts.funding, href: "../funding-strategy/index.html" }
+            //{ text: texts.funding, href: "../funding-strategy/index.html" }
         ];
 
         links.forEach(linkInfo => {

@@ -292,11 +292,11 @@ document.addEventListener('DOMContentLoaded', () => {
         button1.textContent = 'Financial Projection';
         buttonContainer.appendChild(button1);
 
-        const button2 = document.createElement('a');
-        button2.href = '/presentation/VAI/funding-strategy/index.html';
-        button2.className = 'hero-button';
-        button2.textContent = 'Funding Strategy';
-        buttonContainer.appendChild(button2);
+        //const button2 = document.createElement('a');
+        //button2.href = '/presentation/VAI/funding-strategy/index.html';
+        //button2.className = 'hero-button';
+        //button2.textContent = 'Funding Strategy';
+        //buttonContainer.appendChild(button2);
 
         heroContent.appendChild(buttonContainer);
 
