@@ -5,7 +5,7 @@
     "journey": "Réservations",
     "messages": "Chat",
     "loading": "Chargement...",
-    "refresh": "Actualiser",
+    "refresh": "Refresh",
     "bookNow": "Réserver maintenant",
     "close": "Fermer",
     "save": "Sauvegarder",
@@ -18,8 +18,8 @@
     "signOut": "Déconnexion",
     "hi": "Ia ora na",
     "welcome": "Maeva",
-    "thankYou": "Mauruuru",
-    "goodbye": "Nana",
+    "thankYou": "Māuruuru",
+    "goodbye": "Nānā",
     "notAvailable": "N/D",
     "people": "personnes",
     "adults": "adultes",
@@ -28,7 +28,6 @@
     "showAll": "Tout afficher",
     "showLess": "Afficher moins",
     "retry": "Réessayer",
-    "refresh": "Actualiser",
     "browseOther": "Parcourir d'autres tours",
     "chooseOther": "Choisir un autre tour",
     "contactSupport": "Contacter le support",
@@ -38,11 +37,11 @@
     "reduceParticipants": "Réduire les participants",
     "chooseOtherDate": "Choisir une autre date",
     "useDifferentEmail": "Utiliser un autre email",
-    "wait": "Veuillez patienter"
+    "wait": "Patiente un instant"
   },
 
   "welcome": {
-    "title": "Bienvenue sur VAI",
+    "title": "Ia ora na sur VAI",
     "subtitle": "La clé du paradis"
   },
 
@@ -138,7 +137,7 @@
     "exploreHint": "Ou parcours tous les tours disponibles avec des options de recherche détaillées :",
     "tryExploreTab": "Découvrir toutes les activités →",
     "exploreAllActivities": "Explorer Toutes les Activités",
-    "noTemplatesInSelection": "Aucune activité ne correspond à votre sélection d'île et d'humeur.",
+    "noTemplatesInSelection": "Aucune activité ne correspond à ta sélection d'île et d'humeur.",
     "filters": {
       "short": "Court (max. 3 heures)",
       "halfDay": "Demi-journée (3-8 heures)",
@@ -153,12 +152,12 @@
       "budgetFriendly": "Budget serré (moins de 10000 XPF)",
       "midRange": "Gamme moyenne (10000-25000 XPF)",
       "luxury": "Luxe (25000+ XPF)",
-      "budgetDescription": "Définissez votre gamme de prix préférée",
+      "budgetDescription": "Définis ta gamme de prix préférée",
       "anyBudgetDesc": "Sans limite",
       "under10kDesc": "Économique",
       "10kTo30kDesc": "Bon rapport qualité-prix",
       "30kPlusDesc": "Expérience premium",
-      "durationDescription": "Combien de temps avez-vous ?",
+      "durationDescription": "Combien de temps as-tu ?",
       "anyDurationDesc": "Toutes durées",
       "shortDesc": "Activité rapide",
       "halfDayDesc": "Matin ou après-midi",
@@ -246,31 +245,31 @@
     "totalCost": "Coût total",
     "confirmBooking": "Confirmer ta réservation",
     "processingBooking": "Traitement en cours...",
-    "bookingSuccess": "Réservation réussie ! Mauruuru",
+    "bookingSuccess": "Réservation réussie ! Māuruuru roa",
     "bookingError": "Erreur de réservation"
   },
 
   "bookingErrors": {
     "tourNotFound": "Désolé, ce tour n'est plus disponible à la réservation.",
-    "tourInactive": "Ce tour est actuellement indisponible. Veuillez réessayer plus tard ou contacter le support.",
+    "tourInactive": "Ce tour est actuellement indisponible. Réessaie plus tard ou contacte le support.",
     "insufficientSpots": "Pas assez de places disponibles. Seulement {{available}} places restantes pour {{requested}} participants.",
-    "invalidParticipants": "Veuillez vérifier le nombre de participants.",
-    "invalidData": "Veuillez vérifier vos détails de réservation et réessayer.",
-    "paymentFailed": "Le traitement du paiement a échoué. Veuillez réessayer ou contacter le support.",
-    "networkError": "Problème de connexion. Veuillez vérifier votre internet et réessayer.",
-    "serverError": "Serveur temporairement indisponible. Veuillez réessayer dans quelques instants.",
-    "validationError": "Veuillez corriger les champs en surbrillance et réessayer.",
-    "unknownError": "Une erreur inattendue s'est produite. Veuillez contacter le support si cela continue.",
-    "capacityExceeded": "Ce tour a atteint sa capacité maximale. Veuillez choisir une autre date ou un autre tour.",
+    "invalidParticipants": "Vérifie le nombre de participants.",
+    "invalidData": "Vérifie tes détails de réservation et réessaie.",
+    "paymentFailed": "Le traitement du paiement a échoué. Réessaie ou contacte le support.",
+    "networkError": "Problème de connexion. Vérifie ton internet et réessaie.",
+    "serverError": "Serveur temporairement indisponible. Réessaie dans quelques instants.",
+    "validationError": "Corrige les champs en surbrillance et réessaie.",
+    "unknownError": "Une erreur inattendue s'est produite. Contacte le support si ça continue.",
+    "capacityExceeded": "Ce tour a atteint sa capacité maximale. Choisis une autre date ou un autre tour.",
     "bookingDeadlinePassed": "La date limite de réservation pour ce tour est passée.",
-    "touristUserCreationFailed": "Impossible de créer votre profil utilisateur. Veuillez réessayer.",
-    "emailAlreadyExists": "Un compte avec cet email existe déjà. Veuillez utiliser un email différent ou contacter le support.",
-    "phoneValidationFailed": "Veuillez entrer un numéro de téléphone valide.",
-    "emailValidationFailed": "Veuillez entrer une adresse email valide.",
-    "commissionCalculationError": "Erreur de calcul de prix. Veuillez actualiser et réessayer.",
-    "concurrentBookingDetected": "Quelqu'un d'autre vient de réserver les places restantes. Veuillez actualiser et choisir un autre tour.",
-    "rateLimit": "Trop de tentatives de réservation. Veuillez attendre un moment et réessayer.",
-    "maintenanceMode": "Le système de réservation est temporairement en maintenance. Veuillez réessayer plus tard."
+    "touristUserCreationFailed": "Impossible de créer ton profil utilisateur. Réessaie.",
+    "emailAlreadyExists": "Un compte avec cet email existe déjà. Utilise un email différent ou contacte le support.",
+    "phoneValidationFailed": "Entre un numéro de téléphone valide.",
+    "emailValidationFailed": "Entre une adresse email valide.",
+    "commissionCalculationError": "Erreur de calcul de prix. Actualise et réessaie.",
+    "concurrentBookingDetected": "Quelqu'un d'autre vient de réserver les places restantes. Actualise et choisis un autre tour.",
+    "rateLimit": "Trop de tentatives de réservation. Attends un moment et réessaie.",
+    "maintenanceMode": "Le système de réservation est temporairement en maintenance. Réessaie plus tard."
   },
 
   "bookingModal": {
@@ -299,11 +298,11 @@
     "specialRequirements": "Demandes spéciales",
     "dietaryRestrictions": "Restrictions alimentaires",
     "accessibilityNeeds": "Besoins d'accessibilité",
-    "emailHelp": "Pour les confirmations et mises à jour de réservation",
-    "emailConfirmHelp": "Veuillez confirmer votre adresse email",
-    "whatsappHelp": "Pour les mises à jour rapides de votre tour (optionnel)",
+    "emailHelp": "Pour les confirmations et mises à jour de ta réservation",
+    "emailConfirmHelp": "Confirme ton adresse email",
+    "whatsappHelp": "Pour les mises à jour rapides de ton tour (optionnel)",
     "helpers": {
-      "emailPurpose": "Pour les confirmations de réservation et les mises à jour"
+      "emailPurpose": "Pour les confirmations de réservation et tes mises à jour"
     }
   },
   
@@ -347,7 +346,7 @@
   
   "success": {
     "bookingRequested": "Réservation demandée ! 🎉",
-    "adventureRequest": "Ta demande d'aventure est en route vers l'opérateur !",
+    "adventureRequest": "Ia ora na ! Ta demande d'aventure est en route vers l'opérateur !",
     "bookingProgress": "PROGRESSION DE LA RÉSERVATION",
     "paymentSecured": "Paiement Sécurisé",
     "paymentSecuredDesc": "Ton paiement est autorisé et protégé",
@@ -381,11 +380,11 @@
   },
 
   "explore": {
-    "title": "🔍 Explore tes aventures", 
+    "title": "Explore tes aventures", 
     "subtitle": "Trouve ton expérience parfaite",
     "available": "disponibles",
     "loading": "Chargement...",
-    "refresh": "Actualiser",
+    "refresh": "Refresh",
     "searchPlaceholder": "Cherche tes tours, îles...",
     "filters": "Filtres", 
     "clear": "Effacer",
@@ -402,10 +401,10 @@
     },
     
     "filterLabels": {
-      "island": "📍 Île",
-      "activityType": "🎯 Type d'activité", 
-      "duration": "⏱️ Durée",
-      "priceRange": "💰 Gamme de prix (XPF)"
+      "island": "Île",
+      "activityType": "Type d'activité", 
+      "duration": "Durée",
+      "priceRange": "Gamme de prix (XPF)"
     },
     
     "filterOptions": {
@@ -435,7 +434,7 @@
     },
     
     "datePicker": {
-      "selectDates": "Sélectionner les Dates"
+      "selectDates": "Choisis tes Dates"
     }
   },
 
@@ -586,17 +585,17 @@
 
   
   "launchingSoon": {
-    "title": "À venir!",
-    "message": "Ia ora na, nous te préparons une expérience inoubliable en Polynésie française. Sois le premier informé de notre lancement.",
+    "title": "Ia ora na ! À venir !",
+    "message": "Ia ora na, on te prépare une expérience inoubliable en Polynésie française. Sois le premier informé de notre lancement.",
     "form": {
       "placeholder": "Saisis ton e-mail",
       "button": "Préviens-moi",
       "submitting": "Envoi en cours...",
-      "successTitle": "Māuruuru !",
-      "successMessage": "Tu es bien sur la liste. Nous te préviendrons lors du lancement.",
+      "successTitle": "Māuruuru roa !",
+      "successMessage": "Māuruuru ! Tu es bien sur la liste. On te préviendra lors du lancement.",
       "error": "Une erreur est survenue. Essaye à nouveau.",
-      "duplicate": "Cet e-mail est déjà enregistré. Nous te préviendrons lors du lancement !",
-      "consent": "En t'inscrivant, tu acceptes de recevoir des informations sur le lancement de VAI Tickets."
+      "duplicate": "Cet e-mail existe déjà. On te préviendra lors du lancement !",
+      "consent": "En t'inscrivant, tu acceptes de recevoir des infos sur le lancement de VAI Tickets."
     },
     "footer": "VAI Tickets - Ta clé du paradis"
   },
@@ -615,18 +614,18 @@
     "authorizingPayment": "Autorisation du paiement...",
     "paymentAuthorized": "Paiement Sécurisé ! 💳",
     "paymentSecured": "Ton paiement est sécurisé. L'opérateur confirmera ta réservation dans les 24 heures.",
-    "noChargeUntilConfirmed": "💡 Ta carte ne sera débitée qu'après confirmation de l'opérateur.",
-    "automaticRefund": "En cas de refus, tu recevras un remboursement automatique complet sous 24h.",
-    "paymentSetupError": "Erreur de configuration de paiement : Informations de l'opérateur manquantes. Réessaie.",
+    "noChargeUntilConfirmed": "💡 Ta carte sera débitée seulement après confirmation de l'opérateur.",
+    "automaticRefund": "Si refus, tu auras un remboursement auto complet sous 24h.",
+    "paymentSetupError": "Erreur de config de paiement : Infos de l'opérateur manquantes. Réessaie.",
     "chargingIn": "Tu seras débité de {{amount}} USD",
     "displayedAs": "Affiché comme {{amount}} {{currency}}",
-    "paymentError": "Échec du paiement. Veuillez réessayer ou contacter le support.",
-    "paymentErrorDesc": "Vérifie tes informations de carte et réessaie.",
+    "paymentError": "Échec du paiement. Réessaie ou contacte le support.",
+    "paymentErrorDesc": "Vérifie tes infos de carte et réessaie.",
     "networkError": "Erreur de connexion. Réessaie.",
     "insufficientFunds": "Fonds insuffisants. Utilise une autre carte.",
     "cardDeclined": "Carte refusée. Réessaie ou utilise une autre carte.",
     "expiredCard": "Carte expirée. Utilise une carte valide.",
-    "incorrectCvc": "Code de sécurité incorrect. Vérifie ton CVC.",
+    "incorrectCvc": "Code de sécurité pas bon. Vérifie ton CVC.",
     "paymentSuccess": "Paiement sécurisé ! Ta réservation est en cours de traitement.",
     "paymentAuthorizedSuccess": "Paiement Autorisé avec Succès ! 🎉",
     "awaitingConfirmation": "En attente de confirmation de l'opérateur pour capturer le paiement",
@@ -666,20 +665,6 @@
     "activityNotAvailable": "Activité Non Disponible"
   },
 
-  "bookingDetails": {
-    "paymentStatus": "Statut Paiement",
-    "paymentMethod": "Méthode Paiement", 
-    "authorizedAmount": "Montant Autorisé",
-    "capturedAmount": "Montant Capturé",
-    "refundedAmount": "Montant Remboursé",
-    "paymentProtected": "Ton paiement est protégé",
-    "stripeSecured": "Sécurisé par Stripe",
-    "noChargeYet": "Aucun débit jusqu'à confirmation",
-    "chargeOnConfirmation": "Débitera à la confirmation",
-    "refundProcessing": "Remboursement en cours...",
-    "refundComplete": "Remboursement terminé",
-    "chargedUSD": "charged"
-  },
 
   "statusCard": {
     "status": {
@@ -731,8 +716,8 @@
       "signIn": "Se Connecter",
       "createAccountBtn": "Créer un Compte",
       "processing": "Traitement...",
-      "switchToRegister": "Tu n'as pas de compte ? Inscris-toi",
-      "switchToLogin": "Tu as déjà un compte ? Connecte-toi"
+      "switchToRegister": "Pas encore de compte ? Inscris-toi",
+      "switchToLogin": "Déjà un compte ? Connecte-toi"
     },
     "placeholders": {
       "firstName": "Ton prénom",
@@ -742,36 +727,28 @@
     },
     "benefits": {
       "title": "Avantages du Compte :",
-      "trackBookings": "• Suis toutes tes réservations au même endroit",
-      "syncFavorites": "• Synchronise tes favoris sur tous tes appareils", 
-      "fasterRebooking": "• Réservations plus rapides avec tes préférences sauvées"
+      "trackBookings": "• Suis toutes tes résas au même endroit",
+      "syncFavorites": "• Sync tes favoris sur tous tes devices",
+      "fasterRebooking": "• Résas plus rapides avec tes préfs sauvées"
     },
     "emailConfirmation": {
       "title": "📧 Confirmation Email :",
-      "message": "Après ton inscription, vérifie ton email (y compris les spams) et clique sur le lien de confirmation pour activer ton compte."
+      "message": "Après ton inscription, check ton email (même les spams) et clique sur le lien de confirmation pour activer ton compte."
     },
     "messages": {
-      "accountCreated": "🎉 Compte créé ! Vérifie ton email pour valider ton compte.",
+      "accountCreated": "🎉 Compte créé ! Check ton email pour valider ton compte.",
       "welcomeBack": "Content de te revoir ! 🌴",
-      "checkEmailFormat": "Vérifie le format de ton email et réessaie.",
+      "checkEmailFormat": "Vérifie le format de ton email et retente.",
       "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères.",
-      "emailExists": "Cet email est déjà enregistré. Essaie de te connecter plutôt.",
-      "rateLimited": "Trop de tentatives. Attends un moment et réessaie.",
-      "authFailed": "Authentification échouée. Réessaie.",
-      "enterEmailFirst": "Entre ton adresse email d'abord",
-      "resetEmailSent": "Email de réinitialisation envoyé ! Vérifie ta boîte mail.",
-      "resetEmailFailed": "Échec de l'envoi de l'email de réinitialisation : {{error}}"
+      "emailExists": "Cet email existe déjà. Essaie de te connecter plutôt.",
+      "rateLimited": "Trop de tentatives. Patiente un peu et retente.",
+      "authFailed": "Authentification ratée. Retente.",
+      "enterEmailFirst": "Mets ton adresse email d'abord",
+      "resetEmailSent": "Email de réinit envoyé ! Check ta boîte mail.",
+      "resetEmailFailed": "Échec de l'envoi de l'email de réinit : {{error}}"
     }
   },
 
-  "app": {
-    "notifications": {
-      "emailConfirmed": "🎉 Bienvenue ! Ton email a été confirmé.",
-      "passwordResetSuccess": "🔑 Réinitialisation réussie ! Tu peux maintenant te connecter.",
-      "tourNotFound": "Tour introuvable ou indisponible pour la réservation",
-      "tourLoadFailed": "Échec du chargement du tour pour la réservation"
-    }
-  },
 
   "authCallback": {
     "processing": {
@@ -780,14 +757,14 @@
     },
     "success": {
       "title": "✅ Succès !",
-      "operatorWelcome": "Content de te revoir, {{companyName}} ! Redirection vers ton tableau de bord opérateur...",
-      "touristWelcome": "Bienvenue{{firstName}} ! Redirection vers VAI Tickets...",
-      "genericWelcome": "Bienvenue ! Redirection vers VAI Tickets..."
+      "operatorWelcome": "Content de te revoir, {{companyName}} ! Redirection vers ton dashboard opérateur...",
+      "touristWelcome": "Bienvenue {{firstName}} ! Direction VAI Tickets...",
+      "genericWelcome": "Bienvenue ! Direction VAI Tickets..."
     },
     "error": {
       "title": "❌ Erreur d'authentification",
-      "noSession": "Aucune session d'authentification valide trouvée.",
-      "authFailed": "Échec de l'authentification. Réessaie ou contacte le support.",
+      "noSession": "Pas de session d'authentification valide trouvée.",
+      "authFailed": "Échec de l'authentification. Retente ou contacte le support.",
       "goToVaiTickets": "Aller à VAI Tickets",
       "goToVaiOperator": "Aller à VAI Operator"
     }
@@ -796,7 +773,7 @@
   "modernBookingView": {
     "searchPlaceholder": "Rechercher réservations, tours, opérateurs...",
     "filters": "Filtres",
-    "refresh": "Actualiser",
+    "refresh": "Refresh",
     "status": "Statut",
     "all": "Toutes",
     "pending": "En Attente",
@@ -846,8 +823,8 @@
     },
     "welcome": {
       "title": "🌴 Ton Voyage en Polynésie Française",
-      "withBookings": "Suis tes {{count}} réservation{{plural}} et découvre d'autres aventures incroyables",
-      "noBookings": "Prêt à commencer ton aventure ? Découvre des tours fantastiques ci-dessous !"
+      "withBookings": "Suis tes {{count}} résa{{plural}} et découvre d'autres aventures de fou",
+      "noBookings": "Prêt à commencer ton aventure ? Découvre des tours de ouf ci-dessous !"
     },
     "nextAdventure": {
       "title": "Prochaine Aventure",
@@ -864,7 +841,7 @@
     },
     "emptyState": {
       "title": "Commence Ton Voyage",
-      "message": "Tu n'as pas encore fait de réservation. Découvre des tours incroyables et commence ton aventure avec VAI Tickets !",
+      "message": "Tu n'as pas encore fait de résa. Découvre des tours de fou et commence ton aventure avec VAI Tickets !",
       "exploreTours": "Explorer les Tours"
     }
   },
@@ -875,61 +852,14 @@
       "greatDeal": "Bonne Affaire"
     },
     "toasts": {
-      "loadFailed": "Échec du chargement des tours. Réessaie.",
-      "refreshSuccess": "Actualisé ! Trouvé {{urgentCount}} offres urgentes, {{totalCount}} tours au total{{moodInfo}}",
-      "refreshFailed": "Échec de l'actualisation des activités"
+      "loadFailed": "Impossible de charger les tours. Retente.",
+      "refreshSuccess": "Refreshé ! Trouvé {{urgentCount}} offres urgentes, {{totalCount}} tours au total{{moodInfo}}",
+      "refreshFailed": "Impossible de refresh les activités"
     }
   },
 
-  "journeyTab": {
-    "header": {
-      "title": "Mon Voyage",
-      "activitiesExplored": "activités explorées",
-      "findBookings": "Trouver Réservations",
-      "newBadge": "NOUVEAU"
-    },
-    "achievements": {
-      "firstAdventure": "Première Aventure",
-      "activityExplorer": "Explorateur d'Activités", 
-      "islandHopper": "Sauteur d'Îles",
-      "wishlistMaster": "Maître de la Liste de Souhaits",
-      "yourAchievements": "Tes Réussites"
-    },
-    "countdown": {
-      "untilNextAdventure": "jusqu'à la prochaine aventure"
-    },
-    "quickStats": {
-      "upcoming": "À Venir",
-      "completed": "Terminés", 
-      "favorites": "Favoris",
-      "achievements": "Réussites",
-      "clickToView": "Cliquez pour voir →",
-      "hideFavorites": "Masquer favoris ↑",
-      "showFavorites": "Afficher favoris ↓",
-      "viewAchievements": "Voir les réussites →"
-    },
-    "favorites": {
-      "yourFavorites": "Tes Favoris",
-      "manageAll": "Gérer Tous",
-      "favoritedTour": "Tour Favori",
-      "viewAllFavorites": "Voir tous les {{count}} favoris →"
-    },
-    "missingBookings": {
-      "title": "Réservations Manquantes ?",
-      "description": "Trouve tes réservations par email ou WhatsApp",
-      "find": "Trouver"
-    },
-    "welcome": {
-      "title": "Bienvenue dans Ton Voyage",
-      "subtitle": "Ton aventure en Polynésie française commence ici",
-      "exploreTours": "Explorer les Tours",
-      "findMyBookings": "Trouver Mes Réservations"
-    },
-    "refreshReminder": "Clique sur actualiser pour les dernières mises à jour de statut des réservations",
-    "bookTour": "Réserver un Tour"
-  },
-
   "journey": {
+    "title": "Mon Parcours",
     "stages": {
       "overview": "Aperçu",
       "allBookings": "Toutes les Réservations", 
@@ -953,8 +883,8 @@
       "bookingRefCopied": "Référence de réservation copiée !",
       "bookingsFound": "Trouvé {{count}} réservation{{count, plural, one {} other {s}}} !",
       "noBookingsFound": "Aucune réservation trouvée pour cet email/WhatsApp",
-      "bookingSearchFailed": "Échec de la recherche de réservations. Réessaie.",
-      "bookingsRefreshed": "Réservations actualisées",
+      "bookingSearchFailed": "Impossible de chercher les résas. Retente.",
+      "bookingsRefreshed": "Résas refreshées",
       "noContactInfo": "Aucune info de contact trouvée. Utilise d'abord \"Trouver mes Réservations\"."
     },
     "sections": {
@@ -999,7 +929,7 @@
       "title": "Messages",
       "subtitle": "Chatte avec tes opérateurs de tour",
       "noConversations": "Pas encore de conversations",
-      "startBooking": "Les messages apparaîtront ici après que tu aies des réservations confirmées",
+      "startBooking": "Les messages apparaîtront ici après que tu aies des résas confirmées",
       "typeMessage": "Tape un message...",
       "sendMessage": "Envoyer le message",
       "tourChat": "Chat Tour",
@@ -1019,21 +949,29 @@
     },
     "howItWorks": {
       "title": "Comment ça marche :",
-      "step1": "Réserve un tour via l'app",
-      "step2": "Attends la confirmation de l'opérateur", 
+      "step1Title": "Réserve ton aventure",
+      "step1": "Réserve une aventure via l'app",
+      "step2Title": "Confirmation rapide",
+      "step2": "Attends la confirmation de l'opérateur",
+      "step3Title": "Chat en direct",
       "step3": "Commence à chatter une fois confirmé !"
     },
+    "noBookings": {
+      "title": "Aucune réservation encore",
+      "description": "Tu n'as pas encore exploré nos aventures ! Découvre des expériences de fou qui t'attendent.",
+      "exploreTours": "Explorer les Tours"
+    },
     "notifications": {
-      "loadConversationsFailed": "Échec du chargement des conversations",
-      "loadMessagesFailed": "Échec du chargement des messages", 
-      "sendMessageFailed": "Échec de l'envoi du message",
+      "loadConversationsFailed": "Impossible de charger les conversations",
+      "loadMessagesFailed": "Impossible de charger les messages",
+      "sendMessageFailed": "Impossible d'envoyer le message",
       "messageSent": "Message envoyé !"
     }
   },
 
   "bookingLookup": {
     "title": "Trouve tes Réservations",
-    "info": "Entre l'email ou le numéro WhatsApp que tu as utilisé lors de la réservation pour voir tes réservations.",
+    "info": "Entre l'email ou le numéro WhatsApp que tu as utilisé pour ta résa pour voir toutes tes réservations.",
     "form": {
       "emailLabel": "Adresse Email",
       "whatsappLabel": "Numéro WhatsApp",
@@ -1044,7 +982,7 @@
       "whatsapp": "+689 12 34 56 78"
     },
     "validation": {
-      "provideContact": "Fournis soit un email soit un numéro WhatsApp",
+      "provideContact": "Donne soit un email soit un numéro WhatsApp",
       "validEmail": "Entre une adresse email valide",
       "validPhone": "Entre un numéro de téléphone valide"
     }
@@ -1055,19 +993,19 @@
       "title": "Support",
       "whatsappButton": "Support WhatsApp",
       "emailButton": "Support Email",
-      "description": "Tu trouveras ici tout ce qu'il te faut savoir. En cas de problème, contacte-nous via WhatsApp."
+      "description": "Tu trouveras ici tout ce qu'il faut savoir. S'il y a un souci, ping-nous via WhatsApp."
     },
     "howItWorks": {
       "title": "Comment faire : VAI Tickets",
-      "step1": "1. Parcours les offres de dernière minute",
-      "step2": "2. Envoie ta demande de réservation instantanément avec l'app", 
-      "step3": "3. Reçois ta confirmation de réservation",
-      "step4": "4. Connecte-toi avec l'Opérateur",
-      "step5": "5. Paye directement avec l'Opérateur",
-      "step6": "6. Profite de ton Activité",
-      "step7": "7. Recommence ! 🤙"
+      "step1": "1. Découvre les offres de dernière minute",
+      "step2": "2. Envoie ta demande de réservation instant avec l'app",
+      "step3": "3. Reçois ta confirmation de résa",
+      "step4": "4. Connecte avec l'Opérateur",
+      "step5": "5. Paie direct avec l'Opérateur",
+      "step6": "6. Kiffe ton Aventure",
+      "step7": "7. Et on recommence ! 🤙"
     },
-    "footer": "VAI.studio © 2025 Tous droits réservés<br></br>De la Polynésie Française avec ❤️"
+    "footer": "VAI Studio © 2025 Tous droits réservés<br></br>De la Polynésie Française avec ❤️"
   },
 
   "toastNotifications": {
@@ -1183,7 +1121,11 @@
       "yourBookings": "Tes Réservations",
       "bookingsCount": "{{count}} réservation(s) au total",
       "noBookings": "Aucune réservation pour l'instant",
-      "actionNeeded": "action requise"
+      "actionNeeded": "action requise",
+      "title": "Mon Voyage",
+      "activitiesExplored": "activités explorées",
+      "findBookings": "Trouver Réservations",
+      "newBadge": "NOUVEAU"
     },
     "quickActions": {
       "title": "Besoin d'Aide ?",
@@ -1195,7 +1137,40 @@
       "exploreTours": "Explorer les Activités",
       "findMyBookings": "Trouver Mes Réservations"
     },
-    "bookTour": "Réserver une Activité"
+    "bookTour": "Réserver une Activité",
+
+    "achievements": {
+      "firstAdventure": "Première Aventure",
+      "activityExplorer": "Explorateur d'Activités", 
+      "islandHopper": "Sauteur d'Îles",
+      "wishlistMaster": "Maître de la Liste de Souhaits",
+      "yourAchievements": "Tes Réussites"
+    },
+    "countdown": {
+      "untilNextAdventure": "jusqu'à la prochaine aventure"
+    },
+    "quickStats": {
+      "upcoming": "À Venir",
+      "completed": "Terminés", 
+      "favorites": "Favoris",
+      "achievements": "Réussites",
+      "clickToView": "Cliquez pour voir →",
+      "hideFavorites": "Masquer favoris ↑",
+      "showFavorites": "Afficher favoris ↓",
+      "viewAchievements": "Voir les réussites →"
+    },
+    "favorites": {
+      "yourFavorites": "Tes Favoris",
+      "manageAll": "Gérer Tous",
+      "favoritedTour": "Tour Favori",
+      "viewAllFavorites": "Voir tous les {{count}} favoris →"
+    },
+    "missingBookings": {
+      "title": "Réservations Manquantes ?",
+      "description": "Trouve tes réservations par email ou WhatsApp",
+      "find": "Trouver"
+    },
+    "refreshReminder": "Clique sur refresh pour les dernières maj de statut des résas"
   },
 
   "bookingStats": {
@@ -1242,7 +1217,7 @@
       "emptyMessage": "Tes activités terminées apparaîtront ici après tes aventures."
     },
     "searchPlaceholder": "Rechercher des réservations...",
-    "refresh": "Actualiser",
+    "refresh": "Refresh",
     "searchResults": "{{count}} sur {{total}} réservations affichées",
     "noMatches": "Aucune réservation correspondante",
     "tryDifferentSearch": "Essaie un terme de recherche différent ou vide la recherche.",
@@ -1254,14 +1229,14 @@
   },
 
   "calendar": {
-    "selectDate": "Sélectionnez une Date",
-    "selectTime": "Choisissez votre horaire préféré",
+    "selectDate": "Choisis une Date",
+    "selectTime": "Choisis ton horaire préféré",
     "spotsAvailable": "{count} places disponibles",
     "spotsLeft": "places restantes",
     "perAdult": "par adulte",
-    "selectDateFirst": "Sélectionnez une Date",
-    "selectDateDescription": "Choisissez une date disponible pour voir les options d'horaires",
-    "availableDates": "Dates disponibles",
+    "selectDateFirst": "Choisis une Date",
+    "selectDateDescription": "Choisis une date disponible pour voir les options d'horaires",
+    "availableDates": "Dates dispo",
     "dates": "dates",
     "months": {
       "january": "Janvier",
@@ -1324,10 +1299,10 @@
     "meetingPoint": "Point de Rendez-vous",
     "openInMaps": "Ouvrir dans Maps",
     "whaleRegulation": "Observation de Baleines Certifiée",
-    "whaleCompliant": "Cet opérateur suit les réglementations officielles d'observation des baleines pour votre sécurité et la conservation marine.",
+    "whaleCompliant": "Cet opérateur suit les réglementations officielles d'observation des baleines pour ta sécurité et la conservation marine.",
     "maxWhaleGroup": "Taille maximale du groupe pour les rencontres avec les baleines",
     "noDatesAvailable": "Aucune date disponible",
-    "checkBackSoon": "Revenez bientôt",
+    "checkBackSoon": "Reviens bientôt",
     "scheduledFor": "Programmé pour",
     "availableSpots": "Places disponibles",
     "startTime": "Heure de début",
@@ -1374,11 +1349,11 @@
 
   "app": {
     "notifications": {
-      "emailConfirmed": "🎉 Bienvenue ! Votre email a été confirmé.",
-      "passwordResetSuccess": "🔑 Réinitialisation de mot de passe réussie ! Vous pouvez maintenant vous connecter.",
-      "tourNotFound": "Activité non trouvée ou indisponible pour la réservation",
-      "tourLoadFailed": "Impossible de charger l'activité pour la réservation",
-      "pleaseSignIn": "📧 Veuillez vous connecter pour continuer."
+      "emailConfirmed": "🎉 Ia ora na ! Ton email a été confirmé.",
+      "passwordResetSuccess": "🔑 Réinitialisation réussie ! Tu peux maintenant te connecter.",
+      "tourNotFound": "Activité introuvable ou pas dispo pour la réservation",
+      "tourLoadFailed": "Impossible de charger l'activité pour ta réservation",
+      "pleaseSignIn": "📧 Connecte-toi pour continuer ton aventure."
     }
   },
 
@@ -1423,9 +1398,9 @@
   "operatorProfile": {
     "pageTitle": "{{name}} - Tours à {{island}} | VAI Studio",
     "shareTitle": "Tours à {{island}}",
-    "shareText": "Découvrez {{name}}, un opérateur touristique professionnel à {{island}}!",
+    "shareText": "Découvre {{name}}, un opérateur touristique pro à {{island}}!",
     "ogTitle": "Tours Professionnels à {{island}}",
-    "defaultMetaDescription": "Réservez des expériences authentiques avec {{name}}, un opérateur touristique professionnel à {{island}}. {{tours}} tours complétés.",
+    "defaultMetaDescription": "Réserve des expériences authentiques avec {{name}}, un opérateur touristique pro à {{island}}. {{tours}} tours complétés.",
     "notFound": "Opérateur Non Trouvé",
     "notFoundDescription": "Désolé, nous n'avons pas trouvé ce profil d'opérateur. Il a peut-être déménagé ou le lien est incorrect.",
     "licensedOperator": "Opérateur Touristique Licencié",
@@ -1433,7 +1408,7 @@
     "toursCompleted": "{{count}} tours complétés",
     "whatsapp": "WhatsApp",
     "call": "Appeler",
-    "whatsappMessage": "Salut {{name}}, je suis intéressé par vos tours. Pouvez-vous m'aider?",
+    "whatsappMessage": "Salut {{name}}, je suis intéressé par tes tours. Tu peux m'aider?",
     "shareProfile": "Partager le Profil",
     "linkCopied": "Lien du profil copié!",
     "shareFailed": "Échec du partage du profil",
@@ -1443,9 +1418,9 @@
       "licensed": "Opérateur Licencié",
       "licensedDesc": "Opérateur touristique officiellement licencié",
       "insured": "Entièrement Assuré",
-      "insuredDesc": "Couverture d'assurance complète pour votre sécurité",
+      "insuredDesc": "Couverture d'assurance complète pour ta sécurité",
       "whaleCertified": "Observation de Baleines Certifiée",
-      "whaleCertifiedDesc": "Certifié pour des expériences d'observation de baleines sûres",
+      "whaleCertifiedDesc": "Certifié pour des expériences d'observation de baleines safe",
       "experienced": "Guide Expérimenté",
       "experiencedDesc": "{{count}} tours complétés avec succès",
       "localExpert": "Expert Local de l'Île",
@@ -1484,7 +1459,7 @@
     "services": {
       "title": "Nos Expériences",
       "availableSpots": "{{count}} places disponibles",
-      "checkAvailability": "Vérifier la disponibilité",
+      "checkAvailability": "Voir les dispo",
       "soldOut": "Complet",
       "whaleCertified": "Baleines certifié",
       "showMore": "Afficher {{count}} de plus",
@@ -1498,27 +1473,27 @@
       "phone": "Téléphone",
       "preferred": "Préféré",
       "whatsappDesc": "Réponse rapide via WhatsApp",
-      "phoneDesc": "Appelez directement pour une assistance immédiate",
+      "phoneDesc": "Appelle direct pour une aide immédiate",
       "inquiry": "Envoyer une Demande",
       "sendInquiry": "Envoyer un Message",
-      "inquiryDesc": "Obtenez des recommandations de tours personnalisées",
+      "inquiryDesc": "Obtiens des recommandations de tours personnalisées",
       "location": "Localisation",
       "localOperator": "Opérateur touristique local",
       "tip": "WhatsApp est la méthode de contact préférée en Polynésie française",
-      "whatsappMessage": "Salut {{name}}, j'ai trouvé votre profil sur VAI et je suis intéressé par vos tours. Pouvez-vous m'aider à planifier une expérience?"
+      "whatsappMessage": "Salut {{name}}, j'ai trouvé ton profil sur VAI et je suis intéressé par tes tours. Tu peux m'aider à planifier une expérience?"
     },
 
     "share": {
       "title": "Partager ce Profil",
-      "description": "Aidez les autres à découvrir les tours incroyables de {{name}}!",
+      "description": "Aide les autres à découvrir les tours incroyables de {{name}}!",
       "shareProfile": "Partager le Profil",
       "shareVia": "Partager Via",
       "profileUrl": "URL du Profil",
       "copyUrl": "Copier l'URL",
       "linkCopied": "Lien du profil copié!",
       "copyFailed": "Échec de la copie du lien",
-      "benefits": "Le partage aide les opérateurs locaux à développer leur activité!",
-      "whatsappMessage": "Découvrez {{name}} à {{island}}! Ils offrent des tours incroyables: {{url}}"
+      "benefits": "Le partage aide les opérateurs locaux à développer leur business!",
+      "whatsappMessage": "Découvre {{name}} à {{island}}! Ils offrent des tours incroyables: {{url}}"
     }
   }
 }

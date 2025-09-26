@@ -18,8 +18,8 @@
     "signOut": "退出",
     "hi": "Ia ora na",
     "welcome": "Maeva",
-    "thankYou": "Mauruuru",
-    "goodbye": "Nana",
+    "thankYou": "Māuruuru",
+    "goodbye": "Nānā",
     "notAvailable": "不适用",
     "people": "人",
     "adults": "成人",
@@ -46,7 +46,7 @@
   },
 
   "header": {
-    "title": "VAI门票",
+    "title": "VAI Tickets",
     "subtitle": "您通往天堂的钥匙",
     "greeting": "Ia ora na, {{name}}!"
   },
@@ -66,7 +66,7 @@
     "refreshTours": "刷新活动",
     "moodQuestion": "选择活动类型",
     "clearMood": "更改类型",
-    "browseAllTours": "浏览所有活动",
+    "browseAllTours": "探索所有活动",
     "lastMinuteDeals": "海岛最后一分钟优惠",
     "urgent": "紧急",
     "endingSoon": "即将结束",
@@ -76,8 +76,8 @@
     "viewAll": "查看全部",
     "seeMoreTours": "查看{{count}}个更多活动",
     "noToursFound": "未找到此类型的活动",
-    "tryDifferentMood": "尝试不同的类型或稍后查看",
-    "didntFindQuestion": "没有找到您要找的吗？",
+    "tryDifferentMood": "试试其他类型或稍后再看！",
+    "didntFindQuestion": "没有找到心仪的活动？",
     "tours": "活动",
     "toursPlural": "活动",
     "dualPath": {
@@ -131,7 +131,7 @@
     "personalizeExperience": "个性化您的体验",
     "yourPerfectActivity": "您的完美活动",
     "selectIslandDescription": "选择您想探索的岛屿",
-    "pickTypeDescription": "选择符合您心情的类型",
+    "pickTypeDescription": "选择适合您喜好的活动类型",
     "addFiltersDescription": "添加筛选条件来找到您的活动",
     "foundActivitiesDescription": "找到{{count}}个符合您偏好的活动",
     "moreIslands": "更多岛屿",
@@ -187,7 +187,7 @@
     "relax": {
       "title": "放松",
       "subtitle": "找到您的内在平静",
-      "description": "平静的氛围，恢复您的海岛心灵"
+      "description": "宁静的氛围，让您的海岛心灵得到恢复"
     },
     "culture": {
       "title": "文化",
@@ -246,7 +246,7 @@
   },
 
   "booking": {
-    "bookTour": "预订您的冒险",
+    "bookTour": "预订您的冒险之旅",
     "customerInfo": "您的详细信息",
     "fullName": "您的全名",
     "email": "电子邮件",
@@ -256,8 +256,8 @@
     "specialRequirements": "特殊要求",
     "totalCost": "总费用",
     "confirmBooking": "确认您的预订",
-    "processingBooking": "正在处理您的预订...",
-    "bookingSuccess": "预订成功！Mauruuru",
+    "processingBooking": "正在为您准备预订...",
+    "bookingSuccess": "预订成功！Māuruuru",
     "bookingError": "预订错误"
   },
 
@@ -291,8 +291,8 @@
     "optionalDetails": "可选详情（电话、特殊要求）",
     "pricingSummary": "价格概述",
     "estimatedTotal": "预估总价",
-    "paymentNote": "💡 直接通过VAI支付！",
-    "termsNote": "通过预订，您同意支付将在VAI平台内直接处理。",
+    "paymentNote": "💡 VAI Tickets安全支付保障",
+    "termsNote": "通过预订，您同意支付将在VAI Tickets平台内直接处理。",
     "spotsLeft": "剩余{{count}}个名额",
     "spotsLeftPlural": "剩余{{count}}个名额"
   },
@@ -355,22 +355,22 @@
 
   "success": {
     "bookingRequested": "预订已请求！🎉",
-    "adventureRequest": "您的冒险请求正在发送给运营商！",
+    "adventureRequest": "Ia ora na! 您的冒险申请已发送给运营商！",
     "bookingProgress": "预订进度",
     "paymentSecured": "付款已保障",
     "paymentSecuredDesc": "您的付款已获得授权和保护",
     "operatorReview": "审核",
-    "operatorReviewDesc": "运营商将在24小时内确认。关注您的邮件/检查此应用！",
+    "operatorReviewDesc": "运营商将在24小时内确认。请留意您的邮箱和这个应用！",
     "paymentCaptured": "付款已捕获",
     "paymentCapturedDesc": "确认后处理最终付款",
     "readyAdventure": "出发！",
-    "readyAdventureDesc": "您的体验已确认并准备就绪。享受时光！",
+    "readyAdventureDesc": "您的体验已确认并准备就绪！尽情享受吧！",
     "requested": "已请求",
     "confirmed": "已确认",
     "complete": "完成",
     "accountCreated": "账户已创建！",
     "accountLinked": "账户已链接！",
-    "accountCreatedDesc": "此预订已添加到您现有的VAI账户。"
+    "accountCreatedDesc": "此预订已添加到您现有的VAI Tickets账户。"
   },
 
   "status": {
@@ -389,7 +389,7 @@
   },
 
   "explore": {
-    "title": "🔍 探索活动",
+    "title": "探索活动",
     "subtitle": "找到您的下一次体验",
     "available": "可用",
     "loading": "加载中...",
@@ -429,7 +429,7 @@
       "description": "在这里您可以找到您需要了解的一切。如果遇到问题，请通过WhatsApp联系我们。"
     },
     "howItWorks": {
-      "title": "如何使用：VAI门票",
+      "title": "如何使用：VAI Tickets",
       "step1": "1. 浏览所有岛屿的活动",
       "step2": "2. 使用应用立即发送预订请求",
       "step3": "3. 获得预订确认",
@@ -443,7 +443,7 @@
 
   "app": {
     "notifications": {
-      "emailConfirmed": "🎉 欢迎！您的电子邮件已确认。",
+      "emailConfirmed": "🎉 Ia ora na! 您的电子邮件已确认。",
       "passwordResetSuccess": "🔑 密码重置成功！您现在可以登录。",
       "tourNotFound": "未找到活动或无法预订",
       "tourLoadFailed": "无法为预订加载活动",
@@ -457,7 +457,7 @@
   },
 
   "brand": {
-    "logoAlt": "VAI门票标志"
+    "logoAlt": "VAI Tickets Logo"
   },
 
   "defaults": {
@@ -626,14 +626,14 @@
       "successMessage": "您已在列表中。我们将在发布时通知您。",
       "error": "发生了错误。请重试。",
       "duplicate": "此邮箱已注册。我们将在发布时通知您！",
-      "consent": "通过注册，您同意接收有关VAI门票发布的更新。"
+      "consent": "通过注册，您同意接收有关VAI Tickets发布的更新。"
     },
-    "footer": "VAI门票 - 您通往天堂的钒匙"
+    "footer": "VAI Tickets - 您通往天堂的钥匙"
   },
 
   "login": {
     "moreInfo": "更多信息关于",
-    "foroperator": "想成为VAI运营商？ → 点击这里！"
+    "foroperator": "想成为VAI Operator？ → 点击这里！"
   },
 
   "payment": {
@@ -645,21 +645,21 @@
     "authorizingPayment": "授权支付中...",
     "paymentAuthorized": "支付已保障！💳",
     "paymentSecured": "您的支付已得到保障。运营商将24小时内确认您的预订。",
-    "noChargeUntilConfirmed": "💡 在运营商确认您的预订之前，您的卡不会被扣款。",
+    "noChargeUntilConfirmed": "💡 运营商确认前不会扣款",
     "automaticRefund": "如果被拒绝，您将24小时内收到自动全额退款。",
     "paymentSetupError": "支付设置错误：缺少运营商信息。请重试。",
     "chargingIn": "您将被收取{{amount}}美元",
     "displayedAs": "显示为{{amount}} {{currency}}",
     "paymentError": "支付失败。请重试或联系支持。",
-    "paymentErrorDesc": "请检查您的卡详细信息并重试。",
+    "paymentErrorDesc": "请检查您的银行卡信息并重试",
     "networkError": "连接错误。请重试。",
     "insufficientFunds": "余额不足。请使用不同的卡。",
-    "cardDeclined": "卡被拒绝。请重试或使用不同的卡。",
+    "cardDeclined": "银行卡被拒绝，请重试或更换银行卡",
     "expiredCard": "卡已过期。请使用有效的卡。",
-    "incorrectCvc": "安全码错误。请检查您的CVC。",
+    "incorrectCvc": "安全码错误，请检查您的CVC",
     "paymentSuccess": "支付已保障！您的预订正在处理中。",
     "paymentAuthorizedSuccess": "支付授权成功！🎉",
-    "awaitingConfirmation": "等待运营商确认以捕获支付",
+    "awaitingConfirmation": "等待运营商确认以处理支付",
     "chargeWillCaptureOn": "当运营商确认时，您的卡将被扣款",
     "noRefundNeeded": "无需退款 - 仅授权支付",
     "captureIn24h": "支付将在确认后24小时内被捕获"

@@ -18,8 +18,8 @@
     "signOut": "サインアウト",
     "hi": "Ia ora na",
     "welcome": "Maeva",
-    "thankYou": "Mauruuru",
-    "goodbye": "Nana",
+    "thankYou": "Māuruuru",
+    "goodbye": "Nānā",
     "notAvailable": "該当なし",
     "people": "人",
     "adults": "大人",
@@ -46,7 +46,7 @@
   },
 
   "header": {
-    "title": "VAIチケット",
+    "title": "VAI Tickets",
     "subtitle": "楽園への鍵",
     "greeting": "Ia ora na, {{name}}!"
   },
@@ -66,7 +66,7 @@
     "refreshTours": "アクティビティを更新",
     "moodQuestion": "アクティビティのタイプを選択",
     "clearMood": "タイプを変更",
-    "browseAllTours": "すべてのアクティビティを閲覧",
+    "browseAllTours": "すべてのアクティビティを探す",
     "lastMinuteDeals": "島の最後の瞬間の取引",
     "urgent": "緊急",
     "endingSoon": "まもなく終了",
@@ -76,8 +76,8 @@
     "viewAll": "すべて表示",
     "seeMoreTours": "{{count}}件のアクティビティをもっと見る",
     "noToursFound": "このタイプのアクティビティが見つかりませんでした",
-    "tryDifferentMood": "別のタイプを試すか、後でもう一度確認してください",
-    "didntFindQuestion": "お探しのものが見つかりませんでしたか？",
+    "tryDifferentMood": "他のタイプを試したり、後でまた来てください！",
+    "didntFindQuestion": "お気に入りのアクティビティが見つかりませんでしたか？",
     "tours": "アクティビティ",
     "toursPlural": "アクティビティ",
     "chooseIsland": "島を選択",
@@ -167,7 +167,7 @@
   },
 
   "booking": {
-    "bookTour": "冒険を予約",
+    "bookTour": "あなたの冒険を予約しましょう！",
     "customerInfo": "あなたの詳細",
     "fullName": "氏名",
     "email": "メール",
@@ -177,8 +177,8 @@
     "specialRequirements": "特別な要件",
     "totalCost": "総費用",
     "confirmBooking": "予約を確認",
-    "processingBooking": "予約を処理中...",
-    "bookingSuccess": "予約成功！Mauruuru",
+    "processingBooking": "予約を準備中...",
+    "bookingSuccess": "予約成功！Māuruuru",
     "bookingError": "予約エラー"
   },
 
@@ -235,22 +235,22 @@
 
   "success": {
     "bookingRequested": "予約リクエスト完了！🎉",
-    "adventureRequest": "あなたの冒険リクエストがオペレーターに送信されました！",
+    "adventureRequest": "Ia ora na! あなたの冒険リクエストをオペレーターに送信しました！",
     "bookingProgress": "予約進捗",
     "paymentSecured": "支払い保証",
     "paymentSecuredDesc": "お客様の支払いは承認され保護されています",
     "operatorReview": "審査",
-    "operatorReviewDesc": "オペレーターが24時間以内に確認します。メールをチェック/このアプリを確認してください！",
+    "operatorReviewDesc": "オペレーターが24時間以内に確認します。メールとこのアプリをチェックしてください！",
     "paymentCaptured": "支払い取得",
     "paymentCapturedDesc": "確認後に最終支払いが処理されます",
     "readyAdventure": "出発！",
-    "readyAdventureDesc": "あなたの体験が確認され準備完了。楽しむ時間です！",
+    "readyAdventureDesc": "あなたの体験が確認され準備完了！さあ、楽しみましょう！",
     "requested": "リクエスト済み",
     "confirmed": "確認済み",
     "complete": "完了",
     "accountCreated": "アカウントが作成されました！",
     "accountLinked": "アカウントがリンクされました！",
-    "accountCreatedDesc": "この予約は既存のVAIアカウントに追加されました。"
+    "accountCreatedDesc": "この予約は既存のVAI Ticketsアカウントに追加されました。"
   },
 
   "status": {
@@ -269,7 +269,7 @@
   },
 
   "explore": {
-    "title": "🔍 アクティビティを探索",
+    "title": "アクティビティを探索",
     "subtitle": "次の体験を見つける",
     "available": "利用可能",
     "loading": "読み込み中...",
@@ -309,7 +309,7 @@
       "description": "ここで必要な情報をすべて見つけることができます。問題がある場合は、WhatsAppでお問い合わせください。"
     },
     "howItWorks": {
-      "title": "使い方：VAIチケット",
+      "title": "使い方：VAI Tickets",
       "step1": "1. すべての島のアクティビティを閲覧",
       "step2": "2. アプリで即座に予約リクエストを送信",
       "step3": "3. 予約確認を受け取る",
@@ -323,7 +323,7 @@
 
   "app": {
     "notifications": {
-      "emailConfirmed": "🎉 ようこそ！メールが確認されました。",
+      "emailConfirmed": "🎉 Ia ora na! メールが確認されました。",
       "passwordResetSuccess": "🔑 パスワードリセット成功！ログインできます。",
       "tourNotFound": "アクティビティが見つからないか、予約できません",
       "tourLoadFailed": "予約用のアクティビティの読み込みに失敗しました",
@@ -337,7 +337,7 @@
   },
 
   "brand": {
-    "logoAlt": "VAIチケットロゴ"
+    "logoAlt": "VAI Tickets Logo"
   },
 
   "defaults": {
@@ -399,8 +399,8 @@
     "optionalDetails": "オプション詳細（電話、特別なリクエスト）",
     "pricingSummary": "料金概要",
     "estimatedTotal": "推定総額",
-    "paymentNote": "💡 VAIで直接お支払い！",
-    "termsNote": "予約することで、VAIプラットフォーム内で支払いが直接処理されることに同意します。",
+    "paymentNote": "💡 VAI Ticketsで直接お支払い！",
+    "termsNote": "予約することで、VAI Ticketsプラットフォーム内で支払いが直接処理されることに同意します。",
     "spotsLeft": "残り{{count}}空き",
     "spotsLeftPlural": "残り{{count}}空き"
   },
@@ -414,21 +414,21 @@
     "authorizingPayment": "支払い許可中...",
     "paymentAuthorized": "支払いが保証されました！💳",
     "paymentSecured": "お支払いが保証されています。オペレーターが24時間以内に予約を確認します。",
-    "noChargeUntilConfirmed": "💡 オペレーターが予約を確認するまで、カードに請求されません。",
+    "noChargeUntilConfirmed": "💡 オペレーターの確認までは請求されません",
     "automaticRefund": "拒否された場合は、24時間以内に自動全額返金されます。",
     "paymentSetupError": "支払い設定エラー：オペレーター情報がありません。再試行してください。",
     "chargingIn": "米ドル{{amount}}で請求されます",
     "displayedAs": "{{amount}} {{currency}}として表示",
     "paymentError": "支払いが失敗しました。再試行するか、サポートに連絡してください。",
-    "paymentErrorDesc": "カード詳細を確認して再試行してください。",
+    "paymentErrorDesc": "カード情報を確認して再度お試しください",
     "networkError": "接続エラー。再試行してください。",
     "insufficientFunds": "残高不足。別のカードを使用してください。",
-    "cardDeclined": "カードが拒否されました。再試行するか、別のカードを使用してください。",
+    "cardDeclined": "カードが拒否されました。再度お試しいただくか、別のカードをご使用ください",
     "expiredCard": "カードの有効期限が切れています。有効なカードを使用してください。",
-    "incorrectCvc": "セキュリティコードが間違っています。CVCを確認してください。",
+    "incorrectCvc": "セキュリティコードが間違っています。CVCを確認してください",
     "paymentSuccess": "支払いが保証されました！予約を処理中です。",
     "paymentAuthorizedSuccess": "支払い許可成功！🎉",
-    "awaitingConfirmation": "オペレーターの確認を待って支払いを取得",
+    "awaitingConfirmation": "オペレーターの確認を待って支払いを処理",
     "chargeWillCaptureOn": "オペレーターが確認したときにカードに請求されます",
     "noRefundNeeded": "返金不要 - 支払い許可のみ",
     "captureIn24h": "確認後24時間以内に支払いが取得されます"

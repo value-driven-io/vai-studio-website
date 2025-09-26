@@ -270,21 +270,41 @@ const getDateRangeLabel = () => {
 
       {/* Header */}
       <div className="mb-6">
-        <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-6 border border-ui-border-primary">
+        <div className="bg-ui-surface-secondary/50 backdrop-blur-sm rounded-xl p-6 border border-ui-border-primary relative overflow-hidden">
 
           {/* LANE 1: Title + subtitle + counter + refresh button */}
           <div className="flex items-center justify-between py-3 sm:py-4 border-b border-ui-border-primary">
-            <div className="flex-1 min-w-0"> {/* min-w-0 prevents flex overflow */}
-              <h1 className="text-xl sm:text-2xl font-bold text-ui-text-primary flex items-center gap-2 mb-1">
-                {t('explore.title')}
-              </h1>
-              <div className="flex items-center gap-2 flex-wrap">
-                <p className="text-sm text-ui-text-secondary">{t('explore.subtitle')}</p>
-                {tours.length > 0 && (
-                  <span className="bg-ui-surface-primary text-ui-text-muted text-xs px-2 py-1 rounded-full">
-                    {tours.length} {t('explore.available')}
-                  </span>
-                )}
+            <div
+              className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+              style={{
+                backgroundImage: 'url(/images/pattern-3-tahiti-tourism.svg)',
+                backgroundSize: 'auto 100%',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+            <div className="flex-1 min-w-0 relative z-10"> {/* min-w-0 prevents flex overflow */}
+              <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+
+                    <div className="w-10 h-10 bg-interactive-primary/20 rounded-lg flex items-center justify-center">
+                      <Search className="w-5 h-5 text-interactive-primary" />
+                    </div>
+                      <div>
+
+                        <h1 className="text-xl sm:text-2xl font-bold text-ui-text-primary flex items-center gap-2 mb-1">
+                          {t('explore.title')}
+                        </h1>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="text-sm text-ui-text-secondary">{t('explore.subtitle')}</p>
+                            {tours.length > 0 && (
+                              <span className="bg-ui-surface-primary text-ui-text-muted text-xs px-2 py-1 rounded-full">
+                                {tours.length} {t('explore.available')}
+                              </span>
+                            )}
+                          </div>
+                      </div>
+                  </div>
               </div>
             </div>
             

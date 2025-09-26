@@ -17,8 +17,8 @@
     "signOut": "Abmelden",
     "hi": "Ia ora na",
     "welcome": "Maeva",
-    "thankYou": "Mauruuru",
-    "goodbye": "Nana",
+    "thankYou": "Māuruuru",
+    "goodbye": "Nānā",
     "notAvailable": "N/V",
     "people": "Leute",
     "adults": "Erwachsene",
@@ -77,7 +77,7 @@
     "perfectMatches": "Perfekte Treffer für dich",
     "tryFewerFilters": "Versuch, einige Filter zu entfernen oder andere Optionen zu erkunden",
     "clearFilters": "Filter löschen",
-    "tryDifferentIsland": "Andere Insel versuchen",
+    "tryDifferentIsland": "Andere Insel ausprobieren",
     "noToursForMood": "Keine Aktivitäten verfügbar",
     "steps": {
       "location": "Ort",
@@ -101,7 +101,7 @@
     "filtersCount": "{{count}} Filter",
     "foundPerfectMatches": "{{count}} perfekte Treffer für dich gefunden",
     "perfectMatchesForYou": "perfekte Treffer für dich",
-    "tryDifferentPreferences": "Andere Vorlieben versuchen",
+    "tryDifferentPreferences": "Andere Vorlieben ausprobieren",
     "exploreHint": "Oder durchsuche alle verfügbaren Aktivitäten mit detaillierten Suchoptionen:",
     "tryExploreTab": "Oder erkunde alle Aktivitäten →",
     "filters": {
@@ -190,9 +190,9 @@
     "participants": "Teilnehmer",
     "specialRequirements": "Sonderwünsche",
     "totalCost": "Gesamtkosten",
-    "confirmBooking": "Deine Buchung bestätigen",
+    "confirmBooking": "Buchung abschließen",
     "processingBooking": "Verarbeite deine Buchung...",
-    "bookingSuccess": "Buchung erfolgreich! Mauruuru",
+    "bookingSuccess": "Buchung erfolgreich! Māuruuru",
     "bookingError": "Buchungsfehler"
   },
   "bookingModal": {
@@ -202,7 +202,7 @@
     "optionalDetails": "Optionale Angaben (Telefon, Sonderwünsche)",
     "pricingSummary": "Preiszusammenfassung",
     "estimatedTotal": "Geschätzter Gesamtbetrag",
-    "paymentNote": "💡 Die Bezahlung erfolgt direkt bei VAI!",
+    "paymentNote": "💡 Du zahlst direkt bei VAI!",
     "termsNote": "Mit der Buchung stimmst du zu, dass die Zahlung direkt über die VAI-Plattform abgewickelt wird.",
     "spotsLeft": "{{count}} Platz frei",
     "spotsLeftPlural": "{{count}} Plätze frei"
@@ -234,16 +234,16 @@
     "firstNameRequired": "Vorname ist erforderlich",
     "lastNameRequired": "Nachname ist erforderlich",
     "whatsappRequired": "WhatsApp-Nummer ist erforderlich",
-    "whatsappInvalid": "Bitte gib eine gültige Telefonnummer ein",
+    "whatsappInvalid": "Gib bitte eine gültige Telefonnummer ein",
     "emailRequired": "E-Mail ist erforderlich",
-    "emailInvalid": "Bitte gib eine gültige E-Mail-Adresse ein",
-    "phoneInvalid": "Bitte gib eine gültige Telefonnummer ein",
+    "emailInvalid": "Gib bitte eine gültige E-Mail-Adresse ein",
+    "phoneInvalid": "Gib bitte eine gültige Telefonnummer ein",
     "adultsRequired": "Mindestens 1 Erwachsener ist erforderlich",
     "spotsExceeded": "Nur {{count}} Plätze verfügbar"
   },
   "buttons": {
     "reserveSpot": "🎫 Meinen Platz reservieren",
-    "creatingBooking": "Buchung wird erstellt...",
+    "creatingBooking": "Erstelle deine Buchung...",
     "trackBooking": "Deine Buchung verfolgen",
     "close": "Schließen",
     "whatsapp": "WhatsApp",
@@ -253,16 +253,16 @@
   },
   "success": {
     "bookingRequested": "Buchung angefragt! 🎉",
-    "adventureRequest": "Deine Abenteuer-Anfrage ist auf dem Weg zum Veranstalter!",
+    "adventureRequest": "Ia ora na! Deine Abenteuer-Anfrage ist auf dem Weg zum Veranstalter!",
     "bookingProgress": "BUCHUNGSFORTSCHRITT",
     "paymentSecured": "Zahlung gesichert",
     "paymentSecuredDesc": "Deine Zahlung ist autorisiert und geschützt",
     "operatorReview": "Überprüfung",
-    "operatorReviewDesc": "Der Veranstalter bestätigt innerhalb von 24 Stunden. Behalte deine Mails im Auge/check diese App!",
+    "operatorReviewDesc": "Der Veranstalter bestätigt innerhalb von 24 Stunden. Behalte deine E-Mails im Auge oder check diese App!",
     "paymentCaptured": "Zahlung erfasst",
     "paymentCapturedDesc": "Endgültige Zahlung nach Bestätigung verarbeitet",
     "readyAdventure": "Auf geht's!",
-    "readyAdventureDesc": "Dein Erlebnis ist bestätigt und startklar. Zeit zum Genießen!",
+    "readyAdventureDesc": "Dein Erlebnis ist bestätigt und startklar. Zeit zum Genießen! 🎉",
     "requested": "Angefragt",
     "confirmed": "Bestätigt",
     "complete": "Abgeschlossen",
@@ -279,11 +279,11 @@
     "confirmationChat": "Bestätigung & Chat",
     "confirmationChatDesc": "Der Nachrichten-Tab wird nach der Bestätigung freigeschaltet",
     "paymentProtection": "Zahlungsschutz",
-    "paymentProtectionDesc": "Deine Zahlung ist gesichert. Keine Belastung, bis der Veranstalter bestätigt.",
+    "paymentProtectionDesc": "Deine Zahlung ist gesichert. Keine Abbuchung, bis der Veranstalter bestätigt.",
     "operatorDecision": "Entscheidung des Veranstalters",
     "operatorDecisionDesc": "Veranstalter antworten so schnell wie möglich",
     "confirmationNotification": "Bestätigung & Benachrichtigung",
-    "confirmationNotificationDesc": "Du erhältst sofort eine Bestätigung, wenn sie angenommen wird"
+    "confirmationNotificationDesc": "Du kriegst sofort eine Bestätigung, wenn sie angenommen wird"
   },
   "status": {
     "pending": "Ausstehend",
@@ -291,7 +291,7 @@
     "pendingPaymentDesc": "Zahlung autorisiert, wartet auf Bestätigung des Veranstalters",
     "confirmed": "Bestätigt",
     "confirmedPaid": "Bestätigt & Bezahlt",
-    "confirmedPaidDesc": "Buchung bestätigt, Zahlung erfolgreich erfasst",
+    "confirmedPaidDesc": "Buchung bestätigt, Zahlung erfolgreich abgebucht",
     "completed": "Abgeschlossen",
     "declined": "Abgelehnt",
     "declinedRefunded": "Abgelehnt (Erstattet)",
@@ -303,22 +303,8 @@
     "paymentRefunded": "Zahlung erstattet",
     "awaitingCapture": "Wartet auf Zahlungserfassung"
   },
-  "bookingDetails": {
-    "paymentStatus": "Zahlungsstatus",
-    "paymentMethod": "Zahlungsmethode",
-    "authorizedAmount": "Autorisierter Betrag",
-    "capturedAmount": "Erfasster Betrag",
-    "refundedAmount": "Erstatteter Betrag",
-    "paymentProtected": "Deine Zahlung ist geschützt",
-    "stripeSecured": "Gesichert durch Stripe",
-    "noChargeYet": "Keine Belastung bis zur Bestätigung",
-    "chargeOnConfirmation": "Wird bei Bestätigung abgebucht",
-    "refundProcessing": "Rückerstattung wird bearbeitet...",
-    "refundComplete": "Rückerstattung abgeschlossen",
-    "chargedUSD": "abgebucht"
-  },
   "explore": {
-    "title": "🔍 Aktivitäten erkunden",
+    "title": "Aktivitäten erkunden",
     "subtitle": "Finde dein nächstes Erlebnis",
     "available": "verfügbar",
     "loading": "Lädt...",
@@ -337,10 +323,10 @@
       "thisWeek": "Woche"
     },
     "filterLabels": {
-      "island": "📍 Insel",
-      "activityType": "🎯 Aktivitätstyp",
-      "duration": "⏱️ Dauer",
-      "priceRange": "💰 Preisspanne (XPF)"
+      "island": "Insel",
+      "activityType": "Aktivitätstyp",
+      "duration": "Dauer",
+      "priceRange": "Preisspanne (XPF)"
     },
     "filterOptions": {
       "allIslands": "Alle Inseln",
@@ -443,17 +429,17 @@
     },
     "inclusions": {
       "professionalEquipment": "Professionelle Ausrüstung",
-      "equipmentDesc": "Alle notwendige Ausrüstung wird gestellt",
+      "equipmentDesc": "Alle notwendige Ausrüstung ist dabei",
       "foodRefreshments": "Essen & Erfrischungen",
       "foodDesc": "Mahlzeiten und Snacks während der Aktivität",
       "beverages": "Getränke",
-      "beveragesDesc": "Wasser und Getränke werden gestellt",
+      "beveragesDesc": "Wasser und Getränke sind dabei",
       "hotelTransfer": "Hoteltransfer",
       "transferDesc": "Bequemer Abholservice"
     },
     "meetingPoint": {
-      "willBeConfirmed": "Treffpunkt wird nach der Buchung bestätigt",
-      "detailsAfterBooking": "Genaue Standortdetails und Wegbeschreibung nach Buchungsbestätigung",
+      "willBeConfirmed": "Treffpunkt kommt nach der Buchung",
+      "detailsAfterBooking": "Genaue Standortdetails und Wegbeschreibung kriegst du nach der Buchungsbestätigung",
       "pickupLocations": "Verfügbare Abholorte:"
     },
     "requirements": {
@@ -461,7 +447,7 @@
     },
     "weather": {
       "weatherDependent": "Wetterabhängige Aktivität",
-      "alternativeArrangements": "Bei schlechtem Wetter werden alternative Arrangements getroffen",
+      "alternativeArrangements": "Bei schlechtem Wetter gibt's alternative Arrangements",
       "regulationCompliant": "Vorschriftskonform",
       "certifiedMarine": "Zertifiziert für die Meeresfauna von Französisch-Polynesien"
     },
@@ -476,7 +462,7 @@
       "authenticExperience": "🔥 100% authentisches Erlebnis"
     },
     "defaults": {
-      "experienceDescription": "Erlebe die Schönheit von Französisch-Polynesien mit unserer sorgfältig gestalteten Aktivität. Details werden nach der Buchung bereitgestellt."
+      "experienceDescription": "Erlebe die Schönheit von Französisch-Polynesien mit unserer sorgfältig gestalteten Aktivität. Details kriegst du nach der Buchung."
     }
   },
   "launchingSoon": {
@@ -488,8 +474,8 @@
       "submitting": "Wird gesendet...",
       "successTitle": "Māuruuru!",
       "successMessage": "Du stehst auf der Liste. Wir benachrichtigen dich zum Start.",
-      "error": "Ein Fehler ist aufgetreten. Bitte versuche es erneut.",
-      "consent": "Mit der Registrierung erklärst du dich einverstanden, Updates zum Start von VAI Tickets zu erhalten."
+      "error": "Ein Fehler ist aufgetreten. Bitte versuch es nochmal.",
+      "consent": "Mit der Registrierung erklärst du dich einverstanden, Updates zum Start von VAI Tickets zu bekommen."
     },
     "footer": "VAI Tickets - Dein Schlüssel zum Paradies"
   },
@@ -506,24 +492,24 @@
     "authorizingPayment": "Autorisiere Zahlung...",
     "paymentAuthorized": "Zahlung gesichert! 💳",
     "paymentSecured": "Deine Zahlung ist gesichert. Der Veranstalter wird deine Buchung innerhalb von 24 Stunden bestätigen.",
-    "noChargeUntilConfirmed": "💡 Deine Karte wird erst belastet, wenn der Veranstalter deine Buchung bestätigt.",
-    "automaticRefund": "Bei Ablehnung erhältst du automatisch eine volle Rückerstattung innerhalb von 24 Stunden.",
-    "paymentSetupError": "Fehler bei der Zahlungseinrichtung: Veranstalterinformationen fehlen. Bitte versuche es erneut.",
-    "chargingIn": "Dir werden {{amount}} USD berechnet",
+    "noChargeUntilConfirmed": "💡 Deine Karte wird erst abgebucht, wenn der Veranstalter deine Buchung bestätigt.",
+    "automaticRefund": "Bei Ablehnung kriegst du automatisch eine volle Rückerstattung innerhalb von 24 Stunden.",
+    "paymentSetupError": "Fehler bei der Zahlungseinrichtung: Veranstalterinformationen fehlen. Bitte versuch es nochmal.",
+    "chargingIn": "Du zahlst {{amount}} USD",
     "displayedAs": "Angezeigt als {{amount}} {{currency}}",
-    "paymentError": "Zahlung fehlgeschlagen. Bitte versuche es erneut oder kontaktiere den Support.",
-    "paymentErrorDesc": "Bitte überprüfe deine Kartendetails und versuche es erneut.",
-    "networkError": "Verbindungsfehler. Bitte versuche es erneut.",
+    "paymentError": "Zahlung fehlgeschlagen. Bitte versuch es nochmal oder meld dich beim Support.",
+    "paymentErrorDesc": "Bitte check deine Kartendetails und versuch es nochmal.",
+    "networkError": "Verbindungsfehler. Bitte versuch es nochmal.",
     "insufficientFunds": "Unzureichende Deckung. Bitte verwende eine andere Karte.",
-    "cardDeclined": "Karte abgelehnt. Bitte versuche es erneut oder verwende eine andere Karte.",
+    "cardDeclined": "Karte abgelehnt. Bitte versuch es nochmal oder verwende eine andere Karte.",
     "expiredCard": "Karte abgelaufen. Bitte verwende eine gültige Karte.",
-    "incorrectCvc": "Falscher Sicherheitscode. Bitte überprüfe deinen CVC.",
+    "incorrectCvc": "Falscher Sicherheitscode. Bitte check deinen CVC.",
     "paymentSuccess": "Zahlung gesichert! Deine Buchung wird bearbeitet.",
     "paymentAuthorizedSuccess": "Zahlung erfolgreich autorisiert! 🎉",
     "awaitingConfirmation": "Wartet auf Bestätigung des Veranstalters, um die Zahlung zu erfassen",
-    "chargeWillCaptureOn": "Deine Karte wird belastet, wenn der Veranstalter bestätigt",
+    "chargeWillCaptureOn": "Deine Karte wird abgebucht, wenn der Veranstalter bestätigt",
     "noRefundNeeded": "Keine Rückerstattung nötig - Zahlung nur autorisiert",
-    "captureIn24h": "Die Zahlung wird innerhalb von 24 Stunden nach Bestätigung erfasst"
+    "captureIn24h": "Die Zahlung wird innerhalb von 24 Stunden nach Bestätigung abgebucht"
   },
   "errors": {
     "activityNotAvailable": "Aktivität nicht verfügbar"
@@ -557,9 +543,9 @@
     },
     "actions": {
       "moreDetails": "Mehr Details",
-      "contactOperator": "Veranstalter kontaktieren",
+      "contactOperator": "Mit Veranstalter chatten",
       "bookAgain": "Erneut buchen",
-      "getSupport": "Support erhalten"
+      "getSupport": "Support holen"
     },
     "messages": {
       "referencesCopied": "Buchungsreferenz kopiert!",
@@ -601,28 +587,28 @@
     },
     "emailConfirmation": {
       "title": "📧 E-Mail-Bestätigung:",
-      "message": "Überprüfe nach der Anmeldung deine E-Mails (einschließlich Spam-Ordner) und klicke auf den Bestätigungslink, um dein Konto zu aktivieren."
+      "message": "Schau nach der Anmeldung in deine E-Mails (auch im Spam-Ordner) und klick auf den Bestätigungslink, um dein Konto zu aktivieren."
     },
     "messages": {
-      "accountCreated": "🎉 Konto erstellt! Bitte überprüfe deine E-Mails, um dein Konto zu verifizieren.",
+      "accountCreated": "🎉 Konto erstellt! Bitte schau in deine E-Mails, um dein Konto zu verifizieren.",
       "welcomeBack": "Willkommen zurück! 🌴",
-      "checkEmailFormat": "Bitte überprüfe dein E-Mail-Format und versuche es erneut.",
+      "checkEmailFormat": "Bitte check dein E-Mail-Format und versuch es nochmal.",
       "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein.",
-      "emailExists": "Diese E-Mail ist bereits registriert. Versuche stattdessen, dich anzumelden.",
-      "rateLimited": "Zu viele Versuche. Bitte warte einen Moment und versuche es erneut.",
-      "authFailed": "Authentifizierung fehlgeschlagen. Bitte versuche es erneut.",
-      "enterEmailFirst": "Bitte gib zuerst deine E-Mail-Adresse ein",
+      "emailExists": "Diese E-Mail ist bereits registriert. Versuch stattdessen, dich anzumelden.",
+      "rateLimited": "Zu viele Versuche. Bitte warte einen Moment und versuch es nochmal.",
+      "authFailed": "Authentifizierung fehlgeschlagen. Bitte versuch es nochmal.",
+      "enterEmailFirst": "Gib bitte zuerst deine E-Mail-Adresse ein",
       "resetEmailSent": "E-Mail zum Zurücksetzen des Passworts gesendet! Überprüfe deinen Posteingang.",
       "resetEmailFailed": "Fehler beim Senden der E-Mail zum Zurücksetzen: {{error}}"
     }
   },
   "app": {
     "notifications": {
-      "emailConfirmed": "🎉 Willkommen! Deine E-Mail wurde bestätigt.",
+      "emailConfirmed": "🎉 Ia ora na! Deine E-Mail wurde bestätigt.",
       "passwordResetSuccess": "🔑 Passwort erfolgreich zurückgesetzt! Du kannst dich jetzt anmelden.",
       "tourNotFound": "Aktivität nicht gefunden oder nicht verfügbar für Buchung",
       "tourLoadFailed": "Fehler beim Laden der Aktivität für Buchung",
-      "pleaseSignIn": "📧 Bitte melden Sie sich an, um fortzufahren."
+      "pleaseSignIn": "📧 Bitte melde dich an, um fortzufahren."
     }
   },
 
@@ -664,14 +650,9 @@
     }
   },
 
-  "form": {
-    "helpers": {
-      "emailPurpose": "Für Buchungsbestätigungen und Updates"
-    }
-  },
   "authCallback": {
     "processing": {
-      "title": "🔄 Authentifizierung wird verarbeitet",
+      "title": "🔄 Authentifizierung läuft",
       "message": "Verarbeite deine Authentifizierung..."
     },
     "success": {
@@ -683,7 +664,7 @@
     "error": {
       "title": "❌ Authentifizierungsfehler",
       "noSession": "Keine gültige Authentifizierungssitzung gefunden.",
-      "authFailed": "Authentifizierung fehlgeschlagen. Bitte versuche es erneut oder kontaktiere den Support.",
+      "authFailed": "Authentifizierung fehlgeschlagen. Bitte versuch es nochmal oder meld dich beim Support.",
       "goToVaiTickets": "Zu VAI Tickets gehen",
       "goToVaiOperator": "Zu VAI Operator gehen"
     }
@@ -726,8 +707,8 @@
     "emptyState": {
       "noMatches": "Keine Buchungen entsprechen deinen Filtern",
       "noBookings": "Keine Buchungen gefunden",
-      "adjustFilters": "Versuch, deine Such- oder Filterkriterien anzupassen",
-      "firstBooking": "Deine Buchungen werden hier erscheinen, sobald du deine erste Buchung getätigt hast",
+      "adjustFilters": "Versuch mal, deine Such- oder Filterkriterien anzupassen",
+      "firstBooking": "Deine Buchungen erscheinen hier, sobald du deine erste Buchung gemacht hast",
       "clearFilters": "Filter löschen"
     }
   },
@@ -768,7 +749,7 @@
       "greatDeal": "Super Angebot"
     },
     "toasts": {
-      "loadFailed": "Fehler beim Laden der Aktivitäten. Bitte versuche es erneut.",
+      "loadFailed": "Fehler beim Laden der Aktivitäten. Bitte versuch es nochmal.",
       "refreshSuccess": "Aktualisiert! {{urgentCount}} dringende Angebote, {{totalCount}} Aktivitäten insgesamt gefunden {{moodInfo}}",
       "refreshFailed": "Fehler beim Aktualisieren der Aktivitäten"
     }
@@ -863,7 +844,7 @@
       "bookingRefCopied": "Buchungsreferenz kopiert!",
       "bookingsFound": "{{count}} Buchung gefunden!",
       "noBookingsFound": "Keine Buchungen für diese E-Mail/WhatsApp gefunden",
-      "bookingSearchFailed": "Buchungen konnten nicht gefunden werden. Bitte versuche es erneut.",
+      "bookingSearchFailed": "Buchungen konnten nicht gefunden werden. Bitte versuch es nochmal.",
       "bookingsRefreshed": "Buchungen aktualisiert",
       "noContactInfo": "Keine Kontaktinformationen gefunden. Bitte benutze zuerst \"Meine Buchungen finden\"."
     },
@@ -987,7 +968,7 @@
       "completedTitle": "Danke für dein Abenteuer!",
       "cancelledTitle": "Buchungsstatus",
       "pending1": "Deine Buchung wird vom Veranstalter überprüft",
-      "pending2": "Du erhältst eine Bestätigung innerhalb von 24 Stunden",
+      "pending2": "Du kriegst eine Bestätigung innerhalb von 24 Stunden",
       "pending3": "Die Zahlung wird erst nach Bestätigung abgebucht",
       "pending4": "Kontaktiere den Veranstalter bei Fragen",
       "confirmed1": "Deine Aktivität ist bestätigt und gesichert",
@@ -1007,7 +988,7 @@
       "followUp": "Beim Veranstalter nachfragen",
       "contactOperator": "Mit Veranstalter chatten",
       "bookAgain": "Erneut buchen",
-      "getSupport": "Support erhalten"
+      "getSupport": "Support holen"
     }
   },
   "simplifiedView": {
@@ -1027,7 +1008,7 @@
     "refresh": "Aktualisieren",
     "searchResults": "{{count}} von {{total}} Buchungen angezeigt",
     "noMatches": "Keine passenden Buchungen",
-    "tryDifferentSearch": "Versuche einen anderen Suchbegriff oder lösche die Suche.",
+    "tryDifferentSearch": "Versuch einen anderen Suchbegriff oder lösch die Suche.",
     "clearSearch": "Suche löschen",
     "exploreMore": "Mehr Aktivitäten erkunden",
     "pendingCount": "{{count}} ausstehend",
@@ -1083,9 +1064,9 @@
       "whatsapp": "+689 12 34 56 78"
     },
     "validation": {
-      "provideContact": "Bitte gib entweder eine E-Mail-Adresse oder eine WhatsApp-Nummer an",
-      "validEmail": "Bitte gib eine gültige E-Mail-Adresse ein",
-      "validPhone": "Bitte gib eine gültige Telefonnummer ein"
+      "provideContact": "Gib bitte entweder eine E-Mail-Adresse oder eine WhatsApp-Nummer an",
+      "validEmail": "Gib bitte eine gültige E-Mail-Adresse ein",
+      "validPhone": "Gib bitte eine gültige Telefonnummer ein"
     }
   },
   "profile": {
@@ -1093,7 +1074,7 @@
       "title": "Support",
       "whatsappButton": "WhatsApp Support",
       "emailButton": "E-Mail Support",
-      "description": "Hier findest du alles, was du sonst noch wissen musst. Falls du Probleme hast, kontaktiere uns per WhatsApp."
+      "description": "Hier findest du alles, was du sonst noch wissen musst. Falls du Probleme hast, meld dich einfach per WhatsApp."
     },
     "howItWorks": {
       "title": "❓ So geht's: VAI Tickets",
@@ -1115,7 +1096,7 @@
     "linkCopied": "Aktivitätslink in die Zwischenablage kopiert!",
     "favoritesLoadFailed": "Fehler beim Laden der favorisierten Aktivitäten",
     "operatorInfoFailed": "Fehler beim Abrufen der Veranstalterinformationen",
-    "operatorInfoMissing": "Veranstalterinformationen fehlen. Bitte kontaktiere den Support.",
+    "operatorInfoMissing": "Veranstalterinformationen fehlen. Bitte meld dich beim Support.",
     "paymentDetails": "Zahlungsdetails: {{paymentId}}",
     "bookingsLoadFailed": "Fehler beim Laden deiner Buchungen",
     "bookingAdded": "Buchung zu deiner Reise hinzugefügt! 🌴",

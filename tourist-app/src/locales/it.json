@@ -6,7 +6,7 @@
     "messages": "Chat",
     "loading": "Caricamento...",
     "refresh": "Aggiorna",
-    "bookNow": "Prenota ora",
+    "bookNow": "Prenota ora!",
     "close": "Chiudi",
     "save": "Salva",
     "cancel": "Annulla",
@@ -17,8 +17,8 @@
     "signOut": "Esci",
     "hi": "Ia ora na",
     "welcome": "Maeva",
-    "thankYou": "Mauruuru",
-    "goodbye": "Nana",
+    "thankYou": "Māuruuru",
+    "goodbye": "Nānā",
     "notAvailable": "N/D",
     "people": "persone",
     "adults": "adulti",
@@ -43,13 +43,13 @@
     "profile": "Supporto"
   },
   "discovery": {
-    "title": "Scopri la Polinesia Francese",
-    "subtitle": "Trova la tua attività perfetta",
+    "title": "Scopri la tua Polinesia",
+    "subtitle": "Trova la tua avventura perfetta",
     "refreshTours": "Aggiorna attività",
     "moodQuestion": "Scegli il tipo di attività",
     "clearMood": "Cambia tipo",
-    "browseAllTours": "Sfoglia tutte le attività",
-    "lastMinuteDeals": "Offerte last-minute sull'isola",
+    "browseAllTours": "Esplora tutte le attività",
+    "lastMinuteDeals": "Offerte last-minute",
     "urgent": "URGENTE",
     "endingSoon": "termina presto",
     "moreUrgentDeals": "Vedi altre {{count}} offerte urgenti",
@@ -58,7 +58,7 @@
     "viewAll": "Vedi tutto",
     "seeMoreTours": "Vedi altre {{count}} attività",
     "noToursFound": "Nessuna attività trovata per questo tipo",
-    "tryDifferentMood": "Prova un tipo diverso o controlla più tardi",
+    "tryDifferentMood": "Prova un altro tipo o torna dopo, c'è sempre qualcosa di nuovo!",
     "didntFindQuestion": "Non hai trovato quello che cercavi?",
     "tours": "attività",
     "toursPlural": "attività",
@@ -87,7 +87,7 @@
     "personalizeExperience": "Personalizza la tua esperienza",
     "yourPerfectActivity": "La tua attività perfetta",
     "selectIslandDescription": "Seleziona quale isola vorresti esplorare",
-    "pickTypeDescription": "Scegli un tipo che si adatti al tuo vibe",
+    "pickTypeDescription": "Scegli un tipo che si adatti al tuo stile",
     "addFiltersDescription": "Aggiungi filtri per trovare la tua attività",
     "foundActivitiesDescription": "Trovate {{count}} attività che corrispondono alle tue preferenze",
     "moreIslands": "Altre isole",
@@ -125,7 +125,7 @@
     "relax": {
       "title": "Relax",
       "subtitle": "Trova la tua pace interiore",
-      "description": "Vibrazioni pacifiche per rigenerare la tua anima isolana"
+      "description": "Atmosfere tranquille per rigenerare il tuo spirito isolano"
     },
     "culture": {
       "title": "Cultura",
@@ -181,7 +181,7 @@
     "restrictions": "Restrizioni"
   },
   "booking": {
-    "bookTour": "Prenota la tua avventura",
+    "bookTour": "Prenota la tua avventura!",
     "customerInfo": "I tuoi dati",
     "fullName": "Il tuo nome completo",
     "email": "Email",
@@ -191,19 +191,19 @@
     "specialRequirements": "Richieste speciali",
     "totalCost": "Costo totale",
     "confirmBooking": "Conferma la tua prenotazione",
-    "processingBooking": "Elaborazione della prenotazione...",
-    "bookingSuccess": "Prenotazione riuscita! Mauruuru",
+    "processingBooking": "Stiamo preparando la tua prenotazione...",
+    "bookingSuccess": "Prenotazione riuscita! Māuruuru",
     "bookingError": "Errore di prenotazione"
   },
   "bookingModal": {
-    "header": "Prenota la tua avventura",
+    "header": "Prenota la tua avventura!",
     "tourSummary": "Riepilogo attività",
     "quickBooking": "⚡ Prenotazione rapida",
     "optionalDetails": "Dettagli opzionali (Telefono, Richieste speciali)",
     "pricingSummary": "Riepilogo prezzi",
     "estimatedTotal": "Totale stimato",
-    "paymentNote": "💡 Il pagamento viene effettuato direttamente con VAI!",
-    "termsNote": "Prenotando, accetti che il pagamento venga gestito direttamente all'interno della piattaforma VAI.",
+    "paymentNote": "💡 Il pagamento diretto con l'operatore - nessun costo anticipato!",
+    "termsNote": "Prenotando, accetti che il pagamento venga fatto direttamente con l'operatore del tour.",
     "spotsLeft": "{{count}} posto rimasto",
     "spotsLeftPlural": "{{count}} posti rimasti"
   },
@@ -217,7 +217,10 @@
     "phoneNumber": "Numero di telefono",
     "specialRequirements": "Requisiti speciali",
     "dietaryRestrictions": "Restrizioni alimentari",
-    "accessibilityNeeds": "Esigenze di accessibilità"
+    "accessibilityNeeds": "Esigenze di accessibilità",
+    "helpers": {
+      "emailPurpose": "Per conferme di prenotazione e aggiornamenti"
+    }
   },
   "placeholders": {
     "firstName": "Il tuo nome",
@@ -234,10 +237,10 @@
     "firstNameRequired": "Il nome è obbligatorio",
     "lastNameRequired": "Il cognome è obbligatorio",
     "whatsappRequired": "Il numero di WhatsApp è obbligatorio",
-    "whatsappInvalid": "Inserisci un numero di telefono valido",
+    "whatsappInvalid": "Metti un numero di telefono valido",
     "emailRequired": "L'email è obbligatoria",
-    "emailInvalid": "Inserisci un indirizzo email valido",
-    "phoneInvalid": "Inserisci un numero di telefono valido",
+    "emailInvalid": "Metti un indirizzo email valido",
+    "phoneInvalid": "Metti un numero di telefono valido",
     "adultsRequired": "È richiesto almeno 1 adulto",
     "spotsExceeded": "Sono disponibili solo {{count}} posti"
   },
@@ -253,7 +256,7 @@
   },
   "success": {
     "bookingRequested": "Richiesta di prenotazione inviata! 🎉",
-    "adventureRequest": "La tua richiesta di avventura è in viaggio verso l'operatore!",
+    "adventureRequest": "Ia ora na! La tua richiesta di avventura è in viaggio verso l'operatore!",
     "bookingProgress": "AVANZAMENTO PRENOTAZIONE",
     "paymentSecured": "Pagamento sicuro",
     "paymentSecuredDesc": "Il tuo pagamento è autorizzato e protetto",
@@ -262,7 +265,7 @@
     "paymentCaptured": "Pagamento acquisito",
     "paymentCapturedDesc": "Pagamento finale elaborato dopo la conferma",
     "readyAdventure": "Andiamo!",
-    "readyAdventureDesc": "La tua esperienza è confermata e pronta. È ora di divertirsi!",
+    "readyAdventureDesc": "La tua esperienza è confermata e pronta! È ora di divertirsi!",
     "requested": "Richiesto",
     "confirmed": "Confermato",
     "complete": "Completato",
@@ -279,9 +282,9 @@
     "confirmationChat": "Conferma e Chat",
     "confirmationChatDesc": "La scheda messaggi si sbloccherà dopo la conferma",
     "paymentProtection": "Protezione pagamento",
-    "paymentProtectionDesc": "Il tuo pagamento è sicuro. Nessun addebito fino alla conferma dell'operatore.",
+    "paymentProtectionDesc": "Il tuo pagamento è sicuro. Nessun addebito fino a conferma.",
     "operatorDecision": "Decisione dell'operatore",
-    "operatorDecisionDesc": "Gli operatori rispondono il prima possibile",
+    "operatorDecisionDesc": "Gli operatori di solito rispondono in 12-24 ore",
     "confirmationNotification": "Conferma e Notifica",
     "confirmationNotificationDesc": "Riceverai una conferma istantanea quando accettata"
   },
@@ -303,22 +306,9 @@
     "paymentRefunded": "Pagamento rimborsato",
     "awaitingCapture": "In attesa di acquisizione del pagamento"
   },
-  "bookingDetails": {
-    "paymentStatus": "Stato pagamento",
-    "paymentMethod": "Metodo di pagamento",
-    "authorizedAmount": "Importo autorizzato",
-    "capturedAmount": "Importo acquisito",
-    "refundedAmount": "Importo rimborsato",
-    "paymentProtected": "Il tuo pagamento è protetto",
-    "stripeSecured": "Protetto da Stripe",
-    "noChargeYet": "Nessun addebito fino alla conferma",
-    "chargeOnConfirmation": "Verrà addebitato alla conferma",
-    "refundProcessing": "Elaborazione rimborso...",
-    "refundComplete": "Rimborso completato",
-    "chargedUSD": "addebitato"
-  },
+
   "explore": {
-    "title": "🔍 Esplora attività",
+    "title": "Esplora attività",
     "subtitle": "Trova la tua prossima esperienza",
     "available": "disponibile",
     "loading": "Caricamento...",
@@ -390,7 +380,7 @@
       "pickup": "Trasporto"
     },
     "actions": {
-      "bookNow": "Prenota ora",
+      "bookNow": "Prenota ora!",
       "details": "Dettagli"
     },
     "accessibility": {
@@ -506,21 +496,21 @@
     "authorizingPayment": "Autorizzazione pagamento...",
     "paymentAuthorized": "Pagamento sicuro! 💳",
     "paymentSecured": "Il tuo pagamento è sicuro. L'operatore confermerà la tua prenotazione entro 24 ore.",
-    "noChargeUntilConfirmed": "💡 La tua carta non verrà addebitata finché l'operatore non conferma la prenotazione.",
-    "automaticRefund": "In caso di rifiuto, riceverai un rimborso completo automatico entro 24 ore.",
+    "noChargeUntilConfirmed": "💡 La tua carta sarà addebitata solo dopo la conferma dell'operatore.",
+    "automaticRefund": "Se rifiutato, hai un rimborso automatico completo in 24h.",
     "paymentSetupError": "Errore di configurazione del pagamento: informazioni dell'operatore mancanti. Per favore, riprova.",
     "chargingIn": "Ti verranno addebitati {{amount}} USD",
     "displayedAs": "Visualizzato come {{amount}} {{currency}}",
     "paymentError": "Pagamento non riuscito. Per favore, riprova o contatta il supporto.",
-    "paymentErrorDesc": "Controlla i dettagli della tua carta e riprova.",
+    "paymentErrorDesc": "Controlla i dati della tua carta e prova di nuovo.",
     "networkError": "Errore di connessione. Per favore, riprova.",
-    "insufficientFunds": "Fondi insufficienti. Per favore, usa una carta diversa.",
-    "cardDeclined": "Carta rifiutata. Per favore, riprova o usa una carta diversa.",
-    "expiredCard": "Carta scaduta. Per favore, usa una carta valida.",
-    "incorrectCvc": "Codice di sicurezza errato. Controlla il tuo CVC.",
+    "insufficientFunds": "Fondi insufficienti. Usa un'altra carta",
+    "cardDeclined": "Carta rifiutata. Riprova o usa una carta diversa",
+    "expiredCard": "Carta scaduta. Usa una carta valida",
+    "incorrectCvc": "Codice di sicurezza sbagliato. Controlla il tuo CVC.",
     "paymentSuccess": "Pagamento sicuro! La tua prenotazione è in fase di elaborazione.",
     "paymentAuthorizedSuccess": "Pagamento autorizzato con successo! 🎉",
-    "awaitingConfirmation": "In attesa della conferma dell'operatore per acquisire il pagamento",
+    "awaitingConfirmation": "In attesa della conferma dell'operatore per elaborare il pagamento",
     "chargeWillCaptureOn": "La tua carta verrà addebitata quando l'operatore confermerà",
     "noRefundNeeded": "Nessun rimborso necessario - pagamento solo autorizzato",
     "captureIn24h": "Il pagamento verrà acquisito entro 24 ore dalla conferma"
@@ -606,19 +596,19 @@
     "messages": {
       "accountCreated": "🎉 Account creato! Controlla la tua email per verificare il tuo account.",
       "welcomeBack": "Bentornato! 🌴",
-      "checkEmailFormat": "Controlla il formato della tua email e riprova.",
+      "checkEmailFormat": "Controlla il formato della tua email e prova di nuovo.",
       "passwordTooShort": "La password deve essere di almeno 6 caratteri.",
-      "emailExists": "Questa email è già registrata. Prova ad accedere.",
-      "rateLimited": "Troppi tentativi. Attendi un momento e riprova.",
-      "authFailed": "Autenticazione fallita. Per favore, riprova.",
-      "enterEmailFirst": "Inserisci prima il tuo indirizzo email",
+      "emailExists": "Questa email esiste già. Prova ad accedere invece.",
+      "rateLimited": "Troppi tentativi. Aspetta un momento e prova di nuovo.",
+      "authFailed": "Autenticazione fallita. Per favore, prova di nuovo.",
+      "enterEmailFirst": "Metti prima il tuo indirizzo email",
       "resetEmailSent": "Email per il ripristino della password inviata! Controlla la tua casella di posta.",
       "resetEmailFailed": "Impossibile inviare l'email di ripristino: {{error}}"
     }
   },
   "app": {
     "notifications": {
-      "emailConfirmed": "🎉 Benvenuto! La tua email è stata confermata.",
+      "emailConfirmed": "🎉 Ia ora na! La tua email è stata confermata.",
       "passwordResetSuccess": "🔑 Reset password riuscito! Ora puoi accedere.",
       "tourNotFound": "Attività non trovata o non disponibile per la prenotazione",
       "tourLoadFailed": "Impossibile caricare l'attività per la prenotazione",
@@ -664,11 +654,6 @@
     }
   },
 
-  "form": {
-    "helpers": {
-      "emailPurpose": "Per conferme di prenotazione e aggiornamenti"
-    }
-  },
   "authCallback": {
     "processing": {
       "title": "🔄 Elaborazione autenticazione",
@@ -758,7 +743,7 @@
     },
     "emptyState": {
       "title": "Inizia il tuo viaggio",
-      "message": "Non hai ancora effettuato nessuna prenotazione. Scopri fantastiche attività e inizia la tua avventura con VAI Tickets!",
+      "message": "Non hai ancora prenotazioni. Scopri attività fantastiche e inizia la tua avventura con VAI Tickets!",
       "exploreTours": "Esplora attività"
     }
   },
@@ -932,6 +917,19 @@
     "followUp": "Follow Up"
   },
   "bookingDetails": {
+    "paymentStatus": "Stato pagamento",
+    "paymentMethod": "Metodo di pagamento",
+    "authorizedAmount": "Importo autorizzato",
+    "capturedAmount": "Importo acquisito",
+    "refundedAmount": "Importo rimborsato",
+    "paymentProtected": "Il tuo pagamento è protetto",
+    "stripeSecured": "Protetto da Stripe",
+    "noChargeYet": "Nessun addebito fino alla conferma",
+    "chargeOnConfirmation": "Verrà addebitato alla conferma",
+    "refundProcessing": "Elaborazione rimborso...",
+    "refundComplete": "Rimborso completato",
+    "chargedUSD": "addebitato",
+    
     "header": {
       "tourDetails": "Dettagli attività"
     },
@@ -989,18 +987,18 @@
       "pending1": "La tua prenotazione è in fase di revisione da parte dell'operatore",
       "pending2": "Riceverai una conferma entro 24 ore",
       "pending3": "Il pagamento verrà addebitato solo dopo la conferma",
-      "pending4": "Non esitare a contattare l'operatore per domande",
+      "pending4": "Non esitare a contattare l'operatore se hai domande!",
       "confirmed1": "La tua attività è confermata e assicurata",
       "confirmed2": "Arriva puntuale al punto d'incontro",
       "confirmed3": "Porta con te eventuali articoli richiesti menzionati nei dettagli dell'attività",
-      "confirmed4": "Contatta l'operatore se hai domande",
-      "completed1": "Speriamo tu abbia avuto un'esperienza fantastica!",
+      "confirmed4": "Contatta l'operatore se hai domande!",
+      "completed1": "Speriamo tu abbia vissuto un'esperienza fantastica!",
       "completed2": "La tua prenotazione è ora completa",
       "completed3": "Sentiti libero di prenotare di nuovo la stessa attività",
       "completed4": "Contatta il supporto se hai bisogno di aiuto",
       "cancelled1": "Questa prenotazione non è più attiva",
       "cancelled2": "Eventuali pagamenti sono stati rimborsati",
-      "cancelled3": "Puoi prenotare un'attività simile in qualsiasi momento",
+      "cancelled3": "Puoi prenotare un'attività simile quando vuoi!",
       "cancelled4": "Contatta il supporto per assistenza"
     },
     "actions": {
@@ -1015,7 +1013,7 @@
       "title": "Prenotazioni attive",
       "subtitle": "Attività in attesa e imminenti",
       "emptyTitle": "Nessuna prenotazione attiva",
-      "emptyMessage": "Tutte le tue prenotazioni sono complete. È tempo di nuove avventure!"
+      "emptyMessage": "Tutte le tue prenotazioni sono complete. È ora di nuove avventure!"
     },
     "completed": {
       "title": "I tuoi ricordi di viaggio",
@@ -1039,7 +1037,7 @@
       "title": "Messaggi",
       "subtitle": "Chatta con gli operatori delle tue attività",
       "noConversations": "Ancora nessuna conversazione",
-      "startBooking": "I messaggi appariranno qui dopo che avrai confermato le prenotazioni",
+      "startBooking": "I messaggi appariranno qui quando avrai prenotazioni confermate",
       "typeMessage": "Scrivi un messaggio...",
       "sendMessage": "Invia messaggio",
       "tourChat": "Chat attività",
@@ -1093,17 +1091,17 @@
       "title": "Supporto",
       "whatsappButton": "Supporto WhatsApp",
       "emailButton": "Supporto Email",
-      "description": "Qui troverai tutto ciò che devi sapere. In caso di problemi, contattaci tramite WhatsApp."
+      "description": "Qui trovi tutto quello che devi sapere. Se hai problemi, scrivici su WhatsApp."
     },
     "howItWorks": {
-      "title": "Come funziona: VAI Tickets",
-      "step1": "1. Sfoglia le attività per tutte le isole",
-      "step2": "2. Invia una richiesta di prenotazione istantaneamente con l'app",
-      "step3": "3. Ricevi la conferma della prenotazione",
-      "step4": "4. Connettiti con l'operatore",
-      "step5": "5. Accordati sui dettagli come il punto di prelievo o d'incontro",
-      "step6": "6. Goditi la tua attività",
-      "step7": "7. Ripeti! 🤙"
+      "title": "❓ Come funziona: VAI Tickets",
+      "step1": "1. Scopri offerte dell'ultimo minuto",
+      "step2": "2. Invia la tua richiesta di prenotazione al volo con l'app",
+      "step3": "3. Ricevi la tua conferma di prenotazione",
+      "step4": "4. Connettiti con l'Operatore",
+      "step5": "5. Paga direttamente con l'Operatore",
+      "step6": "6. Goditi la tua Avventura",
+      "step7": "7. E si ricomincia! 🤙"
     },
     "footer": "VAI Studio © 2025 Tutti i diritti riservati<br></br>Dalla Polinesia Francese con ❤️"
   },

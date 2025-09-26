@@ -18,8 +18,8 @@
     "signOut": "Sign Out",
     "hi": "Ia ora na",
     "welcome": "Maeva",
-    "thankYou": "Mauruuru",
-    "goodbye": "Nana",
+    "thankYou": "Māuruuru",
+    "goodbye": "Nānā",
     "notAvailable": "N/A",
     "people": "people",
     "adults": "adults",
@@ -27,7 +27,6 @@
     "showAll": "Show all",
     "showLess": "Show less",
     "retry": "Try Again",
-    "refresh": "Refresh",
     "browseOther": "Browse Other Tours",
     "chooseOther": "Choose Another Tour",
     "contactSupport": "Contact Support",
@@ -257,7 +256,7 @@
     "totalCost": "Total Cost",
     "confirmBooking": "Confirm Your Booking",
     "processingBooking": "Processing your booking...",
-    "bookingSuccess": "Booking successful! Mauruuru",
+    "bookingSuccess": "Booking successful! Māuruuru",
     "bookingError": "Booking error"
   },
 
@@ -355,7 +354,7 @@
   
   "success": {
     "bookingRequested": "Booking Requested! 🎉",
-    "adventureRequest": "Your adventure request is on its way to the operator!",
+    "adventureRequest": "Ia ora na! Your adventure request is on its way to the operator!",
     "bookingProgress": "BOOKING PROGRESS",
     "paymentSecured": "Payment Secured",
     "paymentSecuredDesc": "Your payment is authorized and protected",
@@ -407,23 +406,8 @@
     "awaitingCapture": "Awaiting Payment Capture"
   },
 
-  "bookingDetails": {
-    "paymentStatus": "Payment Status",
-    "paymentMethod": "Payment Method", 
-    "authorizedAmount": "Authorized Amount",
-    "capturedAmount": "Captured Amount",
-    "refundedAmount": "Refunded Amount",
-    "paymentProtected": "Your payment is protected",
-    "stripeSecured": "Secured by Stripe",
-    "noChargeYet": "No charge until confirmed",
-    "chargeOnConfirmation": "Will charge on confirmation",
-    "refundProcessing": "Refund processing...",
-    "refundComplete": "Refund completed",
-    "chargedUSD": "charged"
-  },
-
   "explore": {
-    "title": "🔍 Explore Actvities",
+    "title": "Explore Activities",
     "subtitle": "Find your next experience", 
     "available": "available",
     "loading": "Loading...",
@@ -444,10 +428,10 @@
     },
     
     "filterLabels": {
-      "island": "📍 Island",
-      "activityType": "🎯 Activity Type",
-      "duration": "⏱️ Duration", 
-      "priceRange": "💰 Price Range (XPF)"
+      "island": "Island",
+      "activityType": "Activity Type",
+      "duration": "Duration", 
+      "priceRange": "Price Range (XPF)"
     },
     
     "filterOptions": {
@@ -776,7 +760,7 @@
 
   "app": {
     "notifications": {
-      "emailConfirmed": "🎉 Welcome! Your email has been confirmed.",
+      "emailConfirmed": "🎉 Ia ora na! Your email has been confirmed.",
       "passwordResetSuccess": "🔑 Password reset successful! You can now sign in.",
       "tourNotFound": "Activity not found or unavailable for booking",
       "tourLoadFailed": "Failed to load activity for booking"
@@ -1079,6 +1063,19 @@
   },
 
   "bookingDetails": {
+    "paymentStatus": "Payment Status",
+    "paymentMethod": "Payment Method", 
+    "authorizedAmount": "Authorized Amount",
+    "capturedAmount": "Captured Amount",
+    "refundedAmount": "Refunded Amount",
+    "paymentProtected": "Your payment is protected",
+    "stripeSecured": "Secured by Stripe",
+    "noChargeYet": "No charge until confirmed",
+    "chargeOnConfirmation": "Will charge on confirmation",
+    "refundProcessing": "Refund processing...",
+    "refundComplete": "Refund completed",
+    "chargedUSD": "charged",
+
     "header": {
       "tourDetails": "Activity Details"
     },
