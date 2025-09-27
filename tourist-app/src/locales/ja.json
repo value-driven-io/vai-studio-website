@@ -28,8 +28,8 @@
     "showAll": "すべて表示",
     "showLess": "簡略表示",
     "retry": "再試行",
-    "browseOther": "他のアティビティを閲覧",
-    "chooseOther": "他のアティビティを選択",
+    "browseOther": "他のアクティビティを閲覧",
+    "chooseOther": "他のアクティビティを選択",
     "contactSupport": "サポートに連絡",
     "tryLater": "後で再試行",
     "fixForm": "詳細を修正",
@@ -96,7 +96,86 @@
     "tryFewerFilters": "フィルターを減らすか、他のオプションを探してみてください",
     "clearFilters": "フィルターをクリア",
     "tryDifferentIsland": "別の島を試す",
-    "noToursForMood": "利用可能なアクティビティはありません"
+    "noToursForMood": "利用可能なアクティビティはありません",
+    "dualPath": {
+      "title": "スタイルを選択",
+      "subtitle": "どのように探索したいですか？",
+      "guided": {
+        "title": "ガイド付き発見",
+        "description": "あなたの場所とムードに基づいて、完璧なアクティビティを見つけるお手伝いをします",
+        "cta": "発見を開始"
+      },
+      "direct": {
+        "title": "すべて閲覧",
+        "description": "利用可能なすべてのアクティビティを直接検索・フィルタリング",
+        "cta": "今すぐ閲覧"
+      },
+      "inspirationSeekers": {
+        "title": "インスピレーション探求者",
+        "subtitle": "閲覧と発見",
+        "description": "時間をかけて異なる島、ムード、体験を探索できます。事前計画に最適です。",
+        "cta": "アクティビティを閲覧"
+      },
+      "opportunityHunters": {
+        "title": "チャンス・ハンター",
+        "subtitle": "素早い発見とお得情報",
+        "description": "直近の空きとお得な情報を見つけて即座に予約。自発的な冒険に最適です。",
+        "cta": "クイックディールを見つける"
+      }
+    },
+    "steps": {
+      "location": "ロケーション",
+      "mood": "タイプ",
+      "personalize": "パーソナライズ"
+    },
+    "personalizeExperience": "体験をパーソナライズ",
+    "yourPerfectActivity": "あなたの完璧なアクティビティ",
+    "selectIslandDescription": "探索したい島を選択してください",
+    "pickTypeDescription": "あなたの気分に合うタイプを選択",
+    "addFiltersDescription": "アクティビティを見つけるためのフィルタを追加",
+    "foundActivitiesDescription": "あなたの好みに合う{{count}}のアクティビティが見つかりました",
+    "moreIslands": "その他の島",
+    "exploring": "探索中",
+    "yourSelection": "あなたの選択",
+    "startOver": "やり直し",
+    "findActivities": "アクティビティを見つける",
+    "loadingActivities": "アクティビティを読み込み中...",
+    "noActivitiesFound": "アクティビティが見つかりませんでした",
+    "tryAdjustingFilters": "フィルタを調整するか、異なる島/タイプの組み合わせを選択してみてください。",
+    "filtersCount": "{{count}}フィルタ",
+    "foundPerfectMatches": "あなたにぴったりの{{count}}件の結果が見つかりました",
+    "perfectMatchesForYou": "あなたにぴったりの結果",
+    "tryDifferentPreferences": "異なる好みを試す",
+    "exploreHint": "または詳細な検索オプションで利用可能なすべてのアクティビティを閲覧：",
+    "tryExploreTab": "またはすべてのアクティビティを探索 →",
+    "exploreAllActivities": "すべてのアクティビティを探索",
+    "noTemplatesInSelection": "あなたの島とムードの選択に一致するアクティビティはありません。",
+    "filters": {
+      "short": "ショート（最大3時間）",
+      "halfDay": "半日（3-8時間）",
+      "fullDay": "終日（8時間以上）",
+      "multiDay": "複数日",
+      "difficultyLabel": "難易度",
+      "anyLevel": "すべてのレベル",
+      "anyBudget": "すべての予算",
+      "under10k": "10000 F未満",
+      "10kTo30k": "10000 - 30000 F",
+      "30kPlus": "30000 F以上",
+      "budgetFriendly": "予算に優しい（10000 XPF未満）",
+      "midRange": "ミッドレンジ（10000-25000 XPF）",
+      "luxury": "ラグジュアリー（25000 XPF以上）",
+      "budgetDescription": "希望の支出範囲を設定",
+      "anyBudgetDesc": "制限なし",
+      "under10kDesc": "予算に優しい",
+      "10kTo30kDesc": "良い価値",
+      "30kPlusDesc": "プレミアム体験",
+      "durationDescription": "どのくらいの時間がありますか？",
+      "anyDurationDesc": "すべての長さ",
+      "shortDesc": "クイックアクティビティ",
+      "halfDayDesc": "午前または午後",
+      "fullDayDesc": "フル冒険",
+      "multiDayDesc": "延長旅行"
+    }
   },
 
   "moods": {
@@ -185,17 +264,19 @@
   "form": {
     "firstName": "名前 *",
     "lastName": "姓 *",
-    "whatsappNumber": "WhatsApp番号 *",
+    "whatsappNumber": "WhatsApp番号",
     "emailAddress": "メールアドレス *",
+    "confirmEmailAddress": "メールアドレス確認 *",
+    "optional": "オプション",
     "adults": "大人 *",
     "children": "子供",
     "phoneNumber": "電話番号",
-    "specialRequirements": "特別な要件",
+    "specialRequirements": "特別なリクエスト",
     "dietaryRestrictions": "食事制限",
     "accessibilityNeeds": "アクセシビリティのニーズ",
-    "helpers": {
-      "emailPurpose": "予約確認と更新のため"
-    }
+    "emailHelp": "予約確認と更新のため",
+    "emailConfirmHelp": "メールアドレスを確認してください",
+    "whatsappHelp": "ツアーに関する迅速な更新のため（オプション）"
   },
 
   "placeholders": {
@@ -203,6 +284,7 @@
     "lastName": "あなたの姓",
     "whatsapp": "+689 12 34 56 78",
     "email": "your@email.com",
+    "confirmEmail": "メールアドレスを確認してください",
     "phone": "+689 12 34 56 78",
     "specialRequests": "特別なリクエストや質問...",
     "dietary": "ベジタリアン、アレルギーなど",
@@ -217,6 +299,8 @@
     "whatsappInvalid": "有効な電話番号を入力してください",
     "emailRequired": "メールは必須です",
     "emailInvalid": "有効なメールアドレスを入力してください",
+    "emailConfirmRequired": "メール確認は必須です",
+    "emailConfirmMismatch": "メールアドレスが一致しません",
     "phoneInvalid": "有効な電話番号を入力してください",
     "adultsRequired": "最低1人の大人が必要です",
     "spotsExceeded": "{{count}}スポットのみ利用可能です"
@@ -250,7 +334,22 @@
     "complete": "完了",
     "accountCreated": "アカウントが作成されました！",
     "accountLinked": "アカウントがリンクされました！",
-    "accountCreatedDesc": "この予約は既存のVAI Ticketsアカウントに追加されました。"
+    "accountCreatedDesc": "この予約は既存のVAIアカウントに追加されました。",
+    "bookingDetails": "予約詳細",
+    "reference": "参照番号：",
+    "activity": "アクティビティ：",
+    "date": "日付：",
+    "participants": "参加者：",
+    "total": "合計：",
+    "whatsNext": "次は何ですか？",
+    "confirmationChat": "確認とチャット",
+    "confirmationChatDesc": "確認後にメッセージタブがロック解除されます",
+    "paymentProtection": "支払い保護",
+    "paymentProtectionDesc": "お支払いは保護されています。オペレーターが確認するまで請求されません。",
+    "operatorDecision": "オペレーターの決定",
+    "operatorDecisionDesc": "オペレーターができるだけ早く返答します",
+    "confirmationNotification": "確認と通知",
+    "confirmationNotificationDesc": "承認されたら即座に確認を受け取ります"
   },
 
   "status": {
@@ -265,7 +364,11 @@
     "declinedRefunded": "拒否（返金済み）",
     "declinedRefundedDesc": "予約が拒否され、全額返金が処理されました",
     "cancelled": "キャンセル",
-    "refunded": "返金済み"
+    "refunded": "返金済み",
+    "paymentAuthorized": "支払い承認済み",
+    "paymentCaptured": "支払い取得済み",
+    "paymentRefunded": "支払い返金済み",
+    "awaitingCapture": "支払い取得待ち"
   },
 
   "explore": {
@@ -281,7 +384,50 @@
     "clearAllFilters": "すべてのフィルターをクリア",
     "toursFound": "アクティビティが見つかりました",
     "noToursFound": "アクティビティが見つかりませんでした",
-    "noToursFoundDesc": "フィルターや検索語を調整してください"
+    "noToursFoundDesc": "フィルターや検索語を調整してください",
+
+    "timeFilters": {
+      "today": "今日",
+      "tomorrow": "明日",
+      "thisWeek": "今週"
+    },
+
+    "filterLabels": {
+      "island": "島",
+      "activityType": "アクティビティタイプ",
+      "duration": "時間",
+      "priceRange": "価格帯 (XPF)"
+    },
+
+    "filterOptions": {
+      "allIslands": "すべての島",
+      "allTypes": "すべてのタイプ",
+      "anyDuration": "すべての時間",
+      "under3Hours": "3時間未満",
+      "3to6Hours": "3-6時間",
+      "over6Hours": "6時間以上"
+    },
+
+    "placeholders": {
+      "minPrice": "最低価格",
+      "maxPrice": "最高価格"
+    },
+
+    "favorites": {
+      "added": "❤️ お気に入りに追加しました",
+      "removed": "💔 お気に入りから削除しました"
+    },
+
+    "sortOptions": {
+      "date": "日付",
+      "price": "価格",
+      "availability": "空き",
+      "urgency": "緊急"
+    },
+
+    "datePicker": {
+      "selectDates": "日付を選択"
+    }
   },
 
   "messages": {
@@ -432,5 +578,130 @@
     "chargeWillCaptureOn": "オペレーターが確認したときにカードに請求されます",
     "noRefundNeeded": "返金不要 - 支払い許可のみ",
     "captureIn24h": "確認後24時間以内に支払いが取得されます"
+  },
+
+  "errors": {
+    "activityNotAvailable": "アクティビティは利用できません"
+  },
+
+  "paymentFlow": {
+    "step1": "詳細入力",
+    "step2": "セキュア決済",
+    "step3": "確認",
+    "backToDetails": "詳細に戻る",
+    "proceedToPayment": "決済に進む"
+  },
+
+  "tourCard": {
+    "urgency": {
+      "bookingEndsSoon": "予約終了間近！",
+      "limitedTime": "期間限定",
+      "bookToday": "今日予約",
+      "minutesLeft": "分残り",
+      "hoursLeft": "時間残り"
+    },
+
+    "capacity": {
+      "spotsLeft": "空き残り",
+      "max": "最大"
+    },
+
+    "pricing": {
+      "perAdult": "大人1人あたり",
+      "save": "節約"
+    },
+
+    "inclusions": {
+      "equipment": "機材",
+      "food": "食事",
+      "pickup": "送迎"
+    },
+
+    "actions": {
+      "bookNow": "今すぐ予約",
+      "details": "詳細",
+      "viewDetails": "詳細を見る"
+    },
+
+    "badges": {
+      "template": "テンプレート",
+      "scheduled": "スケジュール済み",
+      "detached": "特別",
+      "lastMinute": "ラストミニット"
+    },
+
+    "date": {
+      "multipleOptions": "複数の日程",
+      "availableOptions": "利用可能なオプション"
+    },
+
+    "accessibility": {
+      "addToFavorites": "お気に入りに追加",
+      "removeFromFavorites": "お気に入りから削除",
+      "viewDetails": "詳細を見る"
+    },
+
+    "share": {
+      "copylink": "リンクをクリップボードにコピーしました！"
+    }
+  },
+
+  "launchingSoon": {
+    "title": "Ia ora na！まもなく開始！",
+    "message": "Ia ora na！フランス領ポリネシアで忘れられない体験をご用意しています。最初にお知らせを受け取りましょう。",
+    "form": {
+      "placeholder": "メールアドレスを入力",
+      "button": "お知らせを受け取る",
+      "submitting": "送信中...",
+      "successTitle": "Māuruuru！",
+      "successMessage": "Māuruuru！リストに追加されました。開始時にお知らせします。",
+      "error": "エラーが発生しました。もう一度お試しください。",
+      "duplicate": "このメールは既に登録済みです。開始時にお知らせします！",
+      "consent": "登録することで、VAI Ticketsの開始に関する更新情報を受け取ることに同意します。"
+    },
+    "footer": "VAI Tickets - 楽園への鍵"
+  },
+
+  "login": {
+    "moreInfo": "詳細情報：",
+    "foroperator": "VAI Operatorになりたいですか？→ こちらをクリック！"
+  },
+
+  "tourDetail": {
+    "loading": "読み込み中...",
+    "notFound": "ツアーが見つかりません",
+    "bookNow": "今すぐ予約",
+    "addToWishlist": "ウィッシュリストに追加",
+    "removeFromWishlist": "ウィッシュリストから削除",
+    "shareActivity": "アクティビティを共有",
+    "viewOperator": "オペレーターを見る",
+    "contactOperator": "オペレーターに連絡",
+    "duration": "所要時間",
+    "maxParticipants": "最大参加者数",
+    "language": "言語",
+    "meetingPoint": "集合場所",
+    "difficulty": "難易度",
+    "included": "含まれるもの",
+    "excluded": "含まれないもの",
+    "requirements": "要件",
+    "restrictions": "制限",
+    "weatherPolicy": "天候ポリシー",
+    "weatherDependent": "このアクティビティは天候に依存します。",
+    "specialNotes": "特別な注意事項",
+    "pickupLocations": "送迎場所",
+    "openInMaps": "マップで開く",
+    "whaleRegulation": "認定ホエールウォッチング",
+    "whaleCompliant": "このオペレーターは安全性と海洋保護のため、公式のホエールウォッチング規則に従います。",
+    "maxWhaleGroup": "ホエールエンカウンターの最大グループサイズ",
+    "noDatesAvailable": "利用可能な日程がありません",
+    "checkBackSoon": "また後でチェックしてください",
+    "scheduledFor": "予定日時",
+    "availableSpots": "利用可能な席",
+    "startTime": "開始時間",
+    "bookThisActivity": "このアクティビティを予約",
+    "soldOut": "売り切れ",
+    "clickToViewProfile": "プロフィールを表示するにはクリック",
+    "operatorNotFound": "オペレーター情報が利用できません",
+    "operatorProfileUnavailable": "オペレータープロフィールが利用できません"
   }
 }

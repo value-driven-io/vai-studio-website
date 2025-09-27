@@ -23,7 +23,20 @@
     "people": "Leute",
     "adults": "Erwachsene",
     "children": "Kinder",
-    "or": "ODER"
+    "showAll": "Alle zeigen",
+    "showLess": "Weniger zeigen",
+    "retry": "Nochmal versuchen",
+    "browseOther": "Andere Aktivitäten durchsuchen",
+    "chooseOther": "Andere Aktivität wählen",
+    "contactSupport": "Support kontaktieren",
+    "tryLater": "Später versuchen",
+    "fixForm": "Details korrigieren",
+    "checkConnection": "Verbindung prüfen",
+    "reduceParticipants": "Teilnehmer reduzieren",
+    "chooseOtherDate": "Anderes Datum wählen",
+    "useDifferentEmail": "Andere E-Mail verwenden",
+    "wait": "Bitte warten",
+    "logout": "Abmelden"
   },
   "welcome": {
     "title": "Willkommen bei VAI",
@@ -40,6 +53,7 @@
     "explore": "Suchen",
     "journey": "Buchungen",
     "messages": "Chat",
+    "learn": "Lernen",
     "profile": "Support"
   },
   "discovery": {
@@ -104,16 +118,59 @@
     "tryDifferentPreferences": "Andere Vorlieben ausprobieren",
     "exploreHint": "Oder durchsuche alle verfügbaren Aktivitäten mit detaillierten Suchoptionen:",
     "tryExploreTab": "Oder erkunde alle Aktivitäten →",
+    "dualPath": {
+      "title": "Wähle deinen Stil",
+      "subtitle": "Wie möchtest du erkunden?",
+      "guided": {
+        "title": "Geführte Entdeckung",
+        "description": "Lass uns dir helfen, die perfekte Aktivität basierend auf deinem Standort und deiner Stimmung zu finden",
+        "cta": "Entdeckung starten"
+      },
+      "direct": {
+        "title": "Alle durchsuchen",
+        "description": "Suche und filtere direkt durch alle verfügbaren Aktivitäten",
+        "cta": "Jetzt durchsuchen"
+      },
+      "inspirationSeekers": {
+        "title": "Inspirationssucher",
+        "subtitle": "Durchsuchen & entdecken",
+        "description": "Nimm dir Zeit, verschiedene Inseln, Stimmungen und Erlebnisse zu erkunden. Perfekt für die Vorausplanung.",
+        "cta": "Aktivitäten durchsuchen"
+      },
+      "opportunityHunters": {
+        "title": "Schatzjäger",
+        "subtitle": "Schnelle Funde & Deals",
+        "description": "Finde Last-Minute-Verfügbarkeiten und tolle Angebote für sofortige Buchungen. Perfekt für spontane Abenteuer.",
+        "cta": "Aktuelle Deals finden"
+      }
+    },
+    "exploreAllActivities": "Alle Aktivitäten erkunden",
+    "noTemplatesInSelection": "Keine Aktivitäten entsprechen deiner Insel- und Stimmungsauswahl.",
     "filters": {
-      "halfDay": "Halber Tag (2-4 Stunden)",
-      "fullDay": "Ganzer Tag (4-8 Stunden)",
+      "short": "Kurz (max. 3 Stunden)",
+      "halfDay": "Halber Tag (3-8 Stunden)",
+      "fullDay": "Ganzer Tag (8+ Stunden)",
       "multiDay": "Mehrtägig",
       "difficultyLabel": "Schwierigkeit",
       "anyLevel": "Jedes Niveau",
       "anyBudget": "Jedes Budget",
+      "under10k": "unter 10.000 F",
+      "10kTo30k": "10.000 - 30.000 F",
+      "30kPlus": "30.000 F +",
       "budgetFriendly": "Budgetfreundlich (unter 10.000 XPF)",
       "midRange": "Mittelklasse (10.000-25.000 XPF)",
-      "luxury": "Luxus (25.000+ XPF)"
+      "luxury": "Luxus (25.000+ XPF)",
+      "budgetDescription": "Stelle dein bevorzugtes Budget ein",
+      "anyBudgetDesc": "Keine Begrenzung",
+      "under10kDesc": "Budgetfreundlich",
+      "10kTo30kDesc": "Gutes Preis-Leistungs-Verhältnis",
+      "30kPlusDesc": "Premium-Erlebnis",
+      "durationDescription": "Wie viel Zeit hast du?",
+      "anyDurationDesc": "Alle Längen",
+      "shortDesc": "Kurze Aktivität",
+      "halfDayDesc": "Vormittag oder Nachmittag",
+      "fullDayDesc": "Ganzer-Tag-Abenteuer",
+      "multiDayDesc": "Mehrtagesreise"
     }
   },
   "moods": {
@@ -195,6 +252,29 @@
     "bookingSuccess": "Buchung erfolgreich! Māuruuru",
     "bookingError": "Buchungsfehler"
   },
+
+  "bookingErrors": {
+    "tourNotFound": "Sorry, diese Aktivität ist nicht mehr für Buchungen verfügbar.",
+    "tourInactive": "Diese Aktivität ist momentan nicht verfügbar. Bitte versuch es später nochmal oder meld dich beim Support.",
+    "insufficientSpots": "Nicht genug Plätze verfügbar. Nur noch {{available}} Plätze für {{requested}} Teilnehmer.",
+    "invalidParticipants": "Bitte überprüf die Anzahl der Teilnehmer.",
+    "invalidData": "Bitte überprüf deine Buchungsdetails und versuch es nochmal.",
+    "paymentFailed": "Zahlungsverarbeitung fehlgeschlagen. Bitte versuch es nochmal oder meld dich beim Support.",
+    "networkError": "Verbindungsproblem. Bitte check dein Internet und versuch es nochmal.",
+    "serverError": "Server vorübergehend nicht verfügbar. Bitte versuch es in ein paar Momenten nochmal.",
+    "validationError": "Bitte korrigiere die markierten Felder und versuch es nochmal.",
+    "unknownError": "Ein unerwarteter Fehler ist aufgetreten. Bitte meld dich beim Support, wenn das weiterhin passiert.",
+    "capacityExceeded": "Diese Aktivität hat die maximale Kapazität erreicht. Bitte wähle ein anderes Datum oder eine andere Aktivität.",
+    "bookingDeadlinePassed": "Die Buchungsfrist für diese Aktivität ist abgelaufen.",
+    "touristUserCreationFailed": "Dein Benutzerprofil konnte nicht erstellt werden. Bitte versuch es nochmal.",
+    "emailAlreadyExists": "Ein Konto mit dieser E-Mail existiert bereits. Bitte verwende eine andere E-Mail oder meld dich beim Support.",
+    "phoneValidationFailed": "Bitte gib eine gültige Telefonnummer ein.",
+    "emailValidationFailed": "Bitte gib eine gültige E-Mail-Adresse ein.",
+    "commissionCalculationError": "Preisberechnungsfehler. Bitte aktualisiere und versuch es nochmal.",
+    "concurrentBookingDetected": "Jemand anderes hat gerade die letzten Plätze gebucht. Bitte aktualisiere und wähle eine andere Aktivität.",
+    "rateLimit": "Zu viele Buchungsversuche. Bitte warte einen Moment und versuch es nochmal.",
+    "maintenanceMode": "Das Buchungssystem ist vorübergehend in Wartung. Bitte versuch es später nochmal."
+  },
   "bookingModal": {
     "header": "Buche dein Abenteuer",
     "tourSummary": "Zusammenfassung der Aktivität",
@@ -210,11 +290,16 @@
   "form": {
     "firstName": "Vorname *",
     "lastName": "Nachname *",
-    "whatsappNumber": "WhatsApp-Nummer *",
+    "whatsappNumber": "WhatsApp-Nummer",
     "emailAddress": "E-Mail-Adresse *",
+    "confirmEmailAddress": "E-Mail-Adresse bestätigen *",
+    "optional": "optional",
     "adults": "Erwachsene *",
     "children": "Kinder",
     "phoneNumber": "Telefonnummer",
+    "emailHelp": "Für Buchungsbestätigungen und Updates",
+    "emailConfirmHelp": "Bitte bestätige deine E-Mail-Adresse",
+    "whatsappHelp": "Für schnelle Updates zu deiner Aktivität (optional)",
     "specialRequirements": "Sonderwünsche",
     "dietaryRestrictions": "Ernährungseinschränkungen",
     "accessibilityNeeds": "Bedürfnisse bei der Barrierefreiheit"
@@ -224,6 +309,7 @@
     "lastName": "Dein Nachname",
     "whatsapp": "+689 12 34 56 78",
     "email": "deine@email.com",
+    "confirmEmail": "Bestätige deine E-Mail-Adresse",
     "phone": "+689 12 34 56 78",
     "specialRequests": "Besondere Wünsche oder Fragen...",
     "dietary": "Vegetarisch, Allergien, etc.",
@@ -237,6 +323,8 @@
     "whatsappInvalid": "Gib bitte eine gültige Telefonnummer ein",
     "emailRequired": "E-Mail ist erforderlich",
     "emailInvalid": "Gib bitte eine gültige E-Mail-Adresse ein",
+    "emailConfirmRequired": "E-Mail-Bestätigung ist erforderlich",
+    "emailConfirmMismatch": "E-Mail-Adressen stimmen nicht überein",
     "phoneInvalid": "Gib bitte eine gültige Telefonnummer ein",
     "adultsRequired": "Mindestens 1 Erwachsener ist erforderlich",
     "spotsExceeded": "Nur {{count}} Plätze verfügbar"
@@ -377,7 +465,20 @@
     },
     "actions": {
       "bookNow": "Jetzt buchen",
-      "details": "Details"
+      "details": "Details",
+      "viewDetails": "Details ansehen"
+    },
+
+    "badges": {
+      "template": "Vorlage",
+      "scheduled": "Geplant",
+      "detached": "Speziell",
+      "lastMinute": "Last Minute"
+    },
+
+    "date": {
+      "multipleOptions": "Mehrere Termine",
+      "availableOptions": "Verfügbare Optionen"
     },
     "accessibility": {
       "addToFavorites": "Zu Favoriten hinzufügen",
@@ -421,7 +522,9 @@
       "availability": "Verfügbarkeit",
       "duration": "Dauer",
       "fitnessLevel": "Fitnesslevel",
+      "languages": "Sprachen",
       "spotsLeft": "Plätze frei",
+      "spotsTotal": "Plätze insgesamt",
       "ofMax": "von max. {{max}}",
       "hoursExperience": "{{hours}}h Erlebnis",
       "fullAdventure": "Volles Abenteuer",

@@ -713,5 +713,117 @@
       "locationTBD": "位置待定",
       "operator": "运营商"
     }
+  },
+
+  "auth": {
+    "title": "登录或注册",
+    "subtitle": "访问您的预订和保存的活动",
+    "signInTab": "登录",
+    "signUpTab": "注册",
+    "form": {
+      "firstName": "名字",
+      "emailAddress": "邮箱地址",
+      "password": "密码",
+      "whatsappOptional": "WhatsApp号码（可选）",
+      "forgotPassword": "忘记密码？",
+      "signIn": "登录",
+      "createAccountBtn": "创建账户",
+      "processing": "处理中...",
+      "switchToRegister": "还没有账户？注册",
+      "switchToLogin": "已有账户？登录"
+    },
+    "placeholders": {
+      "firstName": "您的名字",
+      "email": "您的邮箱",
+      "password": "密码（至少6个字符）",
+      "whatsapp": "+689 12 34 56 78"
+    },
+    "benefits": {
+      "title": "账户优势：",
+      "trackBookings": "• 在一个地方跟踪所有预订",
+      "syncFavorites": "• 在所有设备上同步收藏",
+      "fasterRebooking": "• 使用保存的偏好快速重新预订"
+    },
+    "emailConfirmation": {
+      "title": "📧 邮箱确认：",
+      "message": "注册后，请检查您的邮箱（包括垃圾邮件文件夹）并点击确认链接以激活您的账户。"
+    },
+    "messages": {
+      "accountCreated": "🎉 账户已创建！请检查您的邮箱以验证账户。",
+      "welcomeBack": "欢迎回来！🌴",
+      "checkEmailFormat": "请检查您的邮箱格式并重试。",
+      "passwordTooShort": "密码必须至少包含6个字符。",
+      "emailExists": "该邮箱已存在。请尝试登录。",
+      "rateLimited": "尝试次数过多。请稍等片刻再试。",
+      "authFailed": "认证失败。请重试。",
+      "enterEmailFirst": "请先输入您的邮箱地址",
+      "resetEmailSent": "密码重置邮件已发送！请检查您的收件箱。",
+      "resetEmailFailed": "发送重置邮件失败：{{error}}"
+    }
+  },
+
+  "authCallback": {
+    "processing": {
+      "title": "🔄 处理认证中",
+      "message": "正在处理您的认证..."
+    },
+    "success": {
+      "title": "✅ 成功！",
+      "operatorWelcome": "欢迎回来，{{companyName}}！正在重定向到您的运营商仪表板...",
+      "touristWelcome": "欢迎 {{firstName}}！前往VAI Tickets...",
+      "genericWelcome": "欢迎！前往VAI Tickets..."
+    },
+    "error": {
+      "title": "❌ 认证错误",
+      "noSession": "未找到有效的认证会话。",
+      "authFailed": "认证失败。请重试或联系支持。",
+      "goToVaiTickets": "前往VAI Tickets",
+      "goToVaiOperator": "前往VAI Operator"
+    }
+  },
+
+  "modernBookingView": {
+    "searchPlaceholder": "搜索预订、旅游、运营商...",
+    "filters": "筛选",
+    "refresh": "刷新",
+    "status": "状态",
+    "all": "全部",
+    "pending": "等待中",
+    "paidPending": "已付款等待中",
+    "confirmed": "已确认",
+    "completed": "已完成",
+    "cancelled": "已取消",
+    "refunded": "已退款"
+  },
+
+  "journey": {
+    "title": "我的行程",
+    "stages": {
+      "overview": "概览",
+      "allBookings": "所有预订",
+      "favorites": "收藏",
+      "active": "活动",
+      "pending": "等待中",
+      "readyToGo": "准备出发",
+      "memories": "回忆"
+    },
+    "descriptions": {
+      "overview": "一览您的行程",
+      "allBookings": "预订管理",
+      "favorites": "您保存的体验",
+      "active": "所有活动预订",
+      "pending": "需要确认",
+      "readyToGo": "已确认的冒险",
+      "memories": "已完成的体验"
+    },
+    "messages": {
+      "openingChat": "正在打开与{{operator}}的聊天",
+      "bookingRefCopied": "预订参考号已复制！",
+      "bookingsFound": "找到{{count}}个预订！",
+      "noBookingsFound": "该邮箱/WhatsApp未找到预订",
+      "bookingSearchFailed": "搜索预订失败。请重试。",
+      "bookingsRefreshed": "预订已刷新",
+      "noContactInfo": "未找到联系信息。请先使用\"查找我的预订\"。"
+    }
   }
 }
