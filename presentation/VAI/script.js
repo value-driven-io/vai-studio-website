@@ -429,6 +429,13 @@ document.addEventListener('DOMContentLoaded', () => {
         //button2.textContent = 'Funding Strategy';
         //buttonContainer.appendChild(button2);
 
+        const pitchButton = document.createElement('a');
+        pitchButton.href = '/presentation/VAI/pitch-enhanced.html';
+        pitchButton.className = 'hero-button';
+        pitchButton.setAttribute('data-translate', 'investor-pitch-button');
+        pitchButton.textContent = allData?.['investor-pitch-button'] || 'Investor Pitch';
+        buttonContainer.appendChild(pitchButton);
+
         heroContent.appendChild(buttonContainer);
 
         heroSection.appendChild(heroContent);
