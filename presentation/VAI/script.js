@@ -417,11 +417,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'hero-buttons-container';
 
-        const button1 = document.createElement('a');
-        button1.href = '/presentation/VAI/finances/index.html';
-        button1.className = 'hero-button';
-        button1.textContent = 'Financial Projection';
-        buttonContainer.appendChild(button1);
+        //const button1 = document.createElement('a');
+        //button1.href = '/presentation/VAI/finances/index.html';
+        //button1.className = 'hero-button';
+        //button1.textContent = 'Financial Projection';
+        //buttonContainer.appendChild(button1);
 
         //const button2 = document.createElement('a');
         //button2.href = '/presentation/VAI/funding-strategy/index.html';
