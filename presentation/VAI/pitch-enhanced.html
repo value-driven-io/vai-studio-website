@@ -1475,7 +1475,7 @@
             elements.forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
+                    element.innerHTML = translations[currentLanguage][key];
                 }
             });
         }
