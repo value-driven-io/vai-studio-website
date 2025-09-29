@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAI - Digital Sovereignty for Polynesian Tourism</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Professional Variables */
+        :root {
+            --background-primary: #ffffff;
+            --background-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --border-light: #e5e7eb;
+            --border-medium: #d1d5db;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--background-primary);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Professional Pitch Styles */
+        .pitch-slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 3rem;
+            position: relative;
+            background: var(--background-primary);
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .slide-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .slide-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .slide-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Professional Image Styles */
+        .presentation-image {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            margin: 3rem auto;
+            display: block;
+            border: 1px solid var(--border-light);
+        }
+
+        /* Professional Card Layouts */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .content-card {
+            background: var(--background-secondary);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .problem-list, .solution-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .problem-list li {
+            padding: 1rem;
+            border-left: 4px solid var(--accent-danger);
+            background: rgba(239, 68, 68, 0.05);
+            border-radius: 0 8px 8px 0;
+            margin: 0.75rem 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .solution-list li {
+            padding: 1rem;
+            border-left: 4px solid var(--accent-success);
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 0 8px 8px 0;
+            margin: 0.75rem 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Professional Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .metric-card {
+            text-align: center;
+            background: var(--background-secondary);
+            padding: 2.5rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Professional Navigation */
+        .slide-nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            background: var(--background-primary);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .nav-btn {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        #slide-counter {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Professional Controls */
+        .controls {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            background: var(--background-primary);
+            border: 1px solid var(--border-medium);
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .control-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* Theory of Change Flow */
+        .theory-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .theory-step {
+            flex: 1;
+            min-width: 220px;
+            text-align: center;
+            padding: 2rem;
+            background: var(--background-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theory-step::after {
+            content: '→';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .theory-step:last-child::after {
+            display: none;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .step-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Hero Diagnosis Section */
+        .diagnosis-hero {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+        }
+
+        .diagnosis-headline {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .diagnosis-subtext {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .key-insight {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05));
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .insight-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .insight-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 2.5rem;
+            }
+
+            .slide-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .theory-flow {
+                flex-direction: column;
+            }
+
+            .theory-step::after {
+                display: none;
+            }
+
+            .pitch-slide {
+                padding: 4rem 1.5rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Print Styles for PDF Export */
+        @media print {
+            .pitch-slide {
+                page-break-after: always;
+                min-height: 100vh;
+            }
+
+            .controls, .slide-nav {
+                display: none;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Color-coded frames for different sections */
+        .diagnosis-frame {
+            border-left: 6px solid var(--accent-danger);
+        }
+
+        .solution-frame {
+            border-left: 6px solid var(--accent-success);
+        }
+
+        .strategy-frame {
+            border-left: 6px solid var(--accent-primary);
+        }
+
+        .vision-frame {
+            border-left: 6px solid var(--accent-warning);
+        }
+    </style>
+</head>
+<body>
+    <!-- Controls -->
+    <div class="controls">
+        <button class="control-btn" onclick="toggleLanguage()">
+            <i class="fas fa-language"></i> <span data-translate="lang-toggle">FR</span>
+        </button>
+        <button class="control-btn" onclick="exportToPDF()">
+            <i class="fas fa-download"></i> <span data-translate="export-pdf">Export PDF</span>
+        </button>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="previousSlide()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <span id="slide-counter">1 / 15</span>
+        <button class="nav-btn" onclick="nextSlide()">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <section class="pitch-slide" id="slide-1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title" data-translate="title">VAI</h1>
+                <p class="slide-subtitle" data-translate="subtitle">Digital Sovereignty for Polynesian Tourism</p>
+                <p class="slide-description" data-translate="tagline">A Strategic Platform for Sustainable Growth and Economic Independence</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: The Diagnosis - Enhanced Hero -->
+    <section class="pitch-slide" id="slide-2">
+        <div class="slide-content">
+            <div class="diagnosis-hero">
+                <h2 class="diagnosis-headline" data-translate="diagnosis-headline">
+                    A Paradise at a Crossroads
+                </h2>
+                <p class="diagnosis-subtext" data-translate="diagnosis-subtext">
+                    French Polynesia's tourism generates 99 billion XPF annually and employs 1 in 5 workers.
+                    Yet beneath the pristine facade lies a system in crisis.
+                </p>
+
+                <div class="key-insight diagnosis-frame">
+                    <div class="insight-title" data-translate="insight-title">The Paradise Paradox</div>
+                    <div class="insight-text" data-translate="insight-text">
+                        While tourists pay premium prices for an "untouched paradise," local entrepreneurs surrender
+                        20-30% of their revenue to foreign platforms, communities face a 16% poverty rate,
+                        and the government lacks real-time data to manage this vital 99 billion XPF economy.
+                    </div>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">99B</div>
+                    <div class="metric-label" data-translate="metric-revenue">XPF Annual Tourism Revenue</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">18.1%</div>
+                    <div class="metric-label" data-translate="metric-employment">Total Employment Share</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">20-30%</div>
+                    <div class="metric-label" data-translate="metric-leakage">Revenue Lost to Foreign OTAs</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">16%</div>
+                    <div class="metric-label" data-translate="metric-poverty">Population Below Poverty Line</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Stakeholder Analysis Overview -->
+    <section class="pitch-slide" id="slide-3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="stakeholder-overview-title">Stakeholder Ecosystem</h2>
+                <p class="slide-subtitle" data-translate="stakeholder-overview-subtitle">Understanding the Complex Web of Interests</p>
+            </div>
+
+            <img src="../../via-studio-images/pitches/presentations/Une vision partagée - Tahiti Tourisme.png"
+                 alt="Stakeholder Analysis Visualization"
+                 class="presentation-image">
+
+            <div class="key-insight diagnosis-frame">
+                <div class="insight-title" data-translate="ecosystem-insight-title">Five Critical Tensions</div>
+                <div class="insight-text" data-translate="ecosystem-insight-text">
+                    Our analysis reveals five systemic tensions: the Myth vs Reality gap, land ownership paralysis,
+                    public-private labor competition, authenticity commodification, and inter-archipelago inequality.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Public Sector Stakeholders -->
+    <section class="pitch-slide" id="slide-4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="public-sector-title">Public Sector Stakeholders</h2>
+                <p class="slide-subtitle" data-translate="public-sector-subtitle">Government, Tahiti Tourisme, Service du Tourisme</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card diagnosis-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="card-title">Core Frustrations</h3>
+                    </div>
+                    <ul class="problem-list">
+                        <li><strong>The Data Black Hole:</strong> No real-time data for governing the 99B XPF industry effectively</li>
+                        <li><strong>Conflicting Strategies:</strong> FM27 sustainable growth (280k) vs. ambitious targets (600k tourists)</li>
+                        <li><strong>Digitalization Gap:</strong> 4,500+ small operators excluded from formal digital economy</li>
+                        <li><strong>Policy Implementation:</strong> Difficulty executing national strategies at local level</li>
+                    </ul>
+                </div>
+                <div class="content-card solution-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="card-title">Desired Outcomes</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Evidence-Based Governance:</strong> Real-time tourism satellite account for informed decisions</li>
+                        <li><strong>FM27 Success:</strong> Inclusive growth, experience diversification, workforce professionalization</li>
+                        <li><strong>Economic Self-Sufficiency:</strong> Reduced dependency on French financial transfers</li>
+                        <li><strong>Digital Sovereignty:</strong> Local control over tourism data and infrastructure</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Local Entrepreneurs -->
+    <section class="pitch-slide" id="slide-5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="entrepreneurs-title">Local Entrepreneurs</h2>
+                <p class="slide-subtitle" data-translate="entrepreneurs-subtitle">Activity Providers & Pension Owners - The Heart of Authenticity</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card diagnosis-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="card-title">The Margin Squeeze</h3>
+                    </div>
+                    <ul class="problem-list">
+                        <li><strong>Financial Disempowerment:</strong> 20-30% commission to Viator, GetYourGuide, Expedia</li>
+                        <li><strong>Payment Chaos:</strong> 30-60 day delays, USD/EUR volatility, currency conversion losses</li>
+                        <li><strong>Operational Burden:</strong> Multiple booking channels causing costly double-bookings</li>
+                        <li><strong>Digital Invisibility:</strong> Cannot compete with billion-dollar OTA advertising budgets</li>
+                    </ul>
+                </div>
+                <div class="content-card solution-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="card-title">Desired Liberation</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Direct Market Access:</strong> Profitable, sustainable businesses with fair commissions</li>
+                        <li><strong>Financial Stability:</strong> Fast XPF payouts, predictable cash flow</li>
+                        <li><strong>Operational Simplicity:</strong> Single calendar managing all booking channels</li>
+                        <li><strong>Level Playing Field:</strong> Compete on experience quality, not marketing budget</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Private Sector Stakeholders -->
+    <section class="pitch-slide" id="slide-6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="private-sector-title">Private Sector Stakeholders</h2>
+                <p class="slide-subtitle" data-translate="private-sector-subtitle">DMCs, International Hotels, Airlines</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card diagnosis-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="card-title">Growth Constraints</h3>
+                    </div>
+                    <ul class="problem-list">
+                        <li><strong>Supply Bottleneck:</strong> 74.5% hotel occupancy with limited room capacity expansion</li>
+                        <li><strong>Policy Uncertainty:</strong> Conflicting government strategies create investment risk</li>
+                        <li><strong>Disintermediation Threat:</strong> Direct booking platforms threaten DMC business models</li>
+                        <li><strong>Operational Inefficiency:</strong> Fragmented booking systems and poor data coordination</li>
+                    </ul>
+                </div>
+                <div class="content-card solution-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="card-title">Strategic Evolution</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Stable Investment Climate:</strong> Predictable policy environment for long-term planning</li>
+                        <li><strong>Value Chain Enhancement:</strong> DMCs evolve into high-value experience curators</li>
+                        <li><strong>Operational Excellence:</strong> Integrated systems reducing cancellations and inefficiencies</li>
+                        <li><strong>Data Partnership:</strong> Strategic collaboration through anonymized market insights</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Local Community -->
+    <section class="pitch-slide" id="slide-7">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="community-title">The Local Community</h2>
+                <p class="slide-subtitle" data-translate="community-subtitle">Workforce, Cultural Custodians, Residents - The Foundation</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card diagnosis-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="card-title">Social License Erosion</h3>
+                    </div>
+                    <ul class="problem-list">
+                        <li><strong>Economic Exclusion:</strong> Glass ceiling in tourism jobs, 16% poverty despite boom</li>
+                        <li><strong>Inequitable Burden:</strong> Communities bear tourism costs without proportional benefits</li>
+                        <li><strong>Cultural Commodification:</strong> Fear of authentic traditions becoming superficial performances</li>
+                        <li><strong>Decision Exclusion:</strong> Top-down planning without community voice in development</li>
+                    </ul>
+                </div>
+                <div class="content-card solution-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="card-title">Co-constructed Future</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Inclusive Prosperity:</strong> Quality jobs and entrepreneurial opportunities for Polynesians</li>
+                        <li><strong>Community Partnership:</strong> Genuine voice in tourism planning and governance</li>
+                        <li><strong>Cultural Preservation:</strong> Tourism that protects and celebrates authentic traditions</li>
+                        <li><strong>Tangible Benefits:</strong> Visible improvements in community well-being and infrastructure</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Theory of Change -->
+    <section class="pitch-slide" id="slide-8">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="theory-title">Theory of Change</h2>
+                <p class="slide-subtitle" data-translate="theory-subtitle">From Systemic Diagnosis to Sovereign Solution</p>
+            </div>
+
+            <img src="../../via-studio-images/pitches/presentations/intervention,output,resultat,impact.png"
+                 alt="Theory of Change Framework"
+                 class="presentation-image">
+
+            <div class="theory-flow">
+                <div class="theory-step">
+                    <div class="step-title">Intervention</div>
+                    <div class="step-description">VAI Operator, Tickets & Insights - comprehensive digital infrastructure</div>
+                </div>
+                <div class="theory-step">
+                    <div class="step-title">Outputs</div>
+                    <div class="step-description">11% commission, 7-day XPF payouts, real-time governance data</div>
+                </div>
+                <div class="theory-step">
+                    <div class="step-title">Outcomes</div>
+                    <div class="step-description">Increased profitability, reduced leakage, evidence-based policy</div>
+                </div>
+                <div class="theory-step">
+                    <div class="step-title">Impact</div>
+                    <div class="step-description">Economic & digital sovereignty for French Polynesia</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: The VAI Solution -->
+    <section class="pitch-slide" id="slide-9">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="solution-title">The VAI Ecosystem</h2>
+                <p class="slide-subtitle" data-translate="solution-subtitle">Digital Public-Interest Infrastructure</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card solution-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 class="card-title">VAI Operator</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Channel Manager:</strong> Single calendar synchronizing all sales channels</li>
+                        <li><strong>Secure Payments:</strong> International processing with 7-day XPF payouts</li>
+                        <li><strong>Free Websites:</strong> Professional, bookable sites for digital visibility</li>
+                        <li><strong>Fair Commission:</strong> 11% vs 20-30% charged by foreign OTAs</li>
+                    </ul>
+                </div>
+                <div class="content-card solution-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <h3 class="card-title">VAI Tickets</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Unified Gateway:</strong> Discover experiences across all 118 islands</li>
+                        <li><strong>Mood-Based Discovery:</strong> Search by feeling: Adventure, Culture, Relax</li>
+                        <li><strong>Multi-lingual Support:</strong> English, French, Tahitian, Chinese, Japanese</li>
+                        <li><strong>Real-time Availability:</strong> Instant booking confirmation and updates</li>
+                    </ul>
+                </div>
+                <div class="content-card solution-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title">VAI Insights</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Real-time Analytics:</strong> First-ever tourism satellite account</li>
+                        <li><strong>Evidence-based Policy:</strong> Data-driven governance and planning</li>
+                        <li><strong>National Data Sovereignty:</strong> French Polynesia owns all raw data</li>
+                        <li><strong>Strategic Intelligence:</strong> Anonymized insights for all stakeholders</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Value Retention Model -->
+    <section class="pitch-slide" id="slide-10">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="value-model-title">Value Retention Economics</h2>
+                <p class="slide-subtitle" data-translate="value-model-subtitle">Shared Prosperity Framework</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">11%</div>
+                    <div class="metric-label" data-translate="commission-label">Fair Commission vs 20-30% OTAs</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">7</div>
+                    <div class="metric-label" data-translate="payout-label">Days Payout in XPF</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">5%</div>
+                    <div class="metric-label" data-translate="impact-label">Social Impact Contribution</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">10-20%</div>
+                    <div class="metric-label" data-translate="retention-label">More Revenue Retained</div>
+                </div>
+            </div>
+
+            <div class="key-insight strategy-frame">
+                <div class="insight-title" data-translate="value-insight-title">The Repatriation Mechanism</div>
+                <div class="insight-text" data-translate="value-insight-text">
+                    Our 11% commission immediately returns 10-20% more revenue to local operators on every booking.
+                    The 5% social impact contribution creates a virtuous cycle where tourism growth directly funds
+                    the preservation of the cultural and environmental assets it depends on.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Policy Alignment -->
+    <section class="pitch-slide" id="slide-11">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="policy-title">Policy Alignment</h2>
+                <p class="slide-subtitle" data-translate="policy-subtitle">Supporting National & International Frameworks</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card strategy-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <h3 class="card-title">Fāri'ira'a Manihini 2027</h3>
+                    </div>
+                    <p>VAI provides the digital tools for diversification of experiences, professionalization of providers, and data-driven management required to achieve FM27's vision of inclusive and sustainable tourism.</p>
+                </div>
+                <div class="content-card strategy-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="card-title">Global Sustainable Tourism Council</h3>
+                    </div>
+                    <p>Our economic model, social impact contribution, and focus on cultural preservation are fully aligned with GSTC principles for sustainable destination management.</p>
+                </div>
+                <div class="content-card strategy-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-island-tropical"></i>
+                        </div>
+                        <h3 class="card-title">South Pacific Tourism Organisation</h3>
+                    </div>
+                    <p>By empowering local entrepreneurs and fostering community-based tourism, VAI directly supports the SPTO's Pacific Sustainable Tourism Policy Framework.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Partnership Doctrine -->
+    <section class="pitch-slide" id="slide-12">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="partnership-title">Partnership Doctrine</h2>
+                <p class="slide-subtitle" data-translate="partnership-subtitle">Responsible Public-Private Governance</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card strategy-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3 class="card-title">Governance Board</h3>
+                    </div>
+                    <p>Representatives from the Presidency, Ministry of Tourism, Tahiti Tourisme, Service du Tourisme, and VAI ensure strategic alignment and shared decision-making.</p>
+                </div>
+                <div class="content-card strategy-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="card-title">Data Sovereignty</h3>
+                    </div>
+                    <p>All raw tourism data remains the sovereign property of the Government of French Polynesia. VAI licenses anonymized, aggregated data while the core asset stays with the nation.</p>
+                </div>
+                <div class="content-card strategy-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="card-title">Operator Advisory Council</h3>
+                    </div>
+                    <p>Quarterly meetings with local entrepreneurs provide powerful community voice to guide platform evolution and ensure grassroots needs are met.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13: Financial Projections -->
+    <section class="pitch-slide" id="slide-13">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="projections-title">3-Year Financial Projections</h2>
+                <p class="slide-subtitle" data-translate="projections-subtitle">Sustainable Growth & Measurable Impact</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">525M</div>
+                    <div class="metric-label" data-translate="gmv-label">XPF Gross Merchandise Volume</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">57.8M</div>
+                    <div class="metric-label" data-translate="revenue-label">XPF VAI Net Revenue (@11%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2.9M</div>
+                    <div class="metric-label" data-translate="social-label">XPF Annual Social Impact (@5%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">4,500+</div>
+                    <div class="metric-label" data-translate="operators-label">SMEs in Digital Economy</div>
+                </div>
+            </div>
+
+            <div class="key-insight vision-frame">
+                <div class="insight-title" data-translate="projection-insight-title">Success Metrics Beyond Revenue</div>
+                <div class="insight-text" data-translate="projection-insight-text">
+                    Our primary KPIs measure economic sovereignty: % tourism revenue repatriated from foreign OTAs,
+                    number of local SMEs in the formal digital economy, growth in operator profitability,
+                    and XPF contributed to environmental and cultural preservation.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 14: Long-Term Vision -->
+    <section class="pitch-slide" id="slide-14">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="vision-title">Long-Term Vision</h2>
+                <p class="slide-subtitle" data-translate="vision-subtitle">Building a Diversified Digital Economy</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="card-title">VAI Skills</h3>
+                    </div>
+                    <p>Education hub co-created with public institutions offering digital marketing, sustainability, and financial literacy courses.</p>
+                </div>
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="card-title">VAI Homes</h3>
+                    </div>
+                    <p>Culturally-conscious alternative to Airbnb with 10-12% commission, partnering with existing "Maeva Hébergement" network.</p>
+                </div>
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="card-title">VAI Supply</h3>
+                    </div>
+                    <p>B2B marketplace connecting tourism operators with local farmers, artisans, and producers for circular economy.</p>
+                </div>
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="card-title">VAI Events</h3>
+                    </div>
+                    <p>Platform for festivals, retreats, and cultural experiences highlighting local artists and traditions.</p>
+                </div>
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="card-title">VAI Connect</h3>
+                    </div>
+                    <p>Social platform for community collaboration, volunteering, and networking - built by the community, for the community.</p>
+                </div>
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
+                        <h3 class="card-title">Pacific Expansion</h3>
+                    </div>
+                    <p>The VAI model as a template for other island nations facing similar challenges of economic leakage and digital dependency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 15: Investment Opportunity -->
+    <section class="pitch-slide" id="slide-15">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="investment-title">Investment Opportunity</h2>
+                <p class="slide-subtitle" data-translate="investment-subtitle">Building Digital Sovereignty Together</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="card-title">The Market Opportunity</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Market Size:</strong> 99B XPF economy with structural inefficiencies</li>
+                        <li><strong>First-Mover Advantage:</strong> Digital sovereignty infrastructure for island nations</li>
+                        <li><strong>Government Partnership:</strong> Potential official technology partner status</li>
+                        <li><strong>Local Legitimacy:</strong> Built in the Fenua, for the Fenua, with community trust</li>
+                    </ul>
+                </div>
+                <div class="content-card vision-frame">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title">Success Indicators</h3>
+                    </div>
+                    <ul class="solution-list">
+                        <li><strong>Economic Sovereignty:</strong> % tourism revenue repatriated from foreign OTAs</li>
+                        <li><strong>SME Empowerment:</strong> Number of local businesses in formal digital economy</li>
+                        <li><strong>Economic Resilience:</strong> Growth in operator profitability and business stability</li>
+                        <li><strong>Social Impact:</strong> XPF contributed to environmental and cultural preservation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-insight vision-frame" style="margin-top: 3rem;">
+                <div class="insight-title" data-translate="cta-title">Join the Digital Sovereignty Movement</div>
+                <div class="insight-text" data-translate="cta-description">
+                    This is more than an investment in a platform - it's an investment in the future of island economies.
+                    VAI represents a new model where digital sovereignty meets sustainable prosperity,
+                    creating lasting value for communities, investors, and the planet.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Language data
+        const translations = {
+            en: {
+                'title': 'VAI',
+                'subtitle': 'Digital Sovereignty for Polynesian Tourism',
+                'tagline': 'A Strategic Platform for Sustainable Growth and Economic Independence',
+                'diagnosis-headline': 'A Paradise at a Crossroads',
+                'diagnosis-subtext': 'French Polynesia\'s tourism generates 99 billion XPF annually and employs 1 in 5 workers. Yet beneath the pristine facade lies a system in crisis.',
+                'insight-title': 'The Paradise Paradox',
+                'insight-text': 'While tourists pay premium prices for an "untouched paradise," local entrepreneurs surrender 20-30% of their revenue to foreign platforms, communities face a 16% poverty rate, and the government lacks real-time data to manage this vital 99 billion XPF economy.',
+                'metric-revenue': 'XPF Annual Tourism Revenue',
+                'metric-employment': 'Total Employment Share',
+                'metric-leakage': 'Revenue Lost to Foreign OTAs',
+                'metric-poverty': 'Population Below Poverty Line',
+                'stakeholder-overview-title': 'Stakeholder Ecosystem',
+                'stakeholder-overview-subtitle': 'Understanding the Complex Web of Interests',
+                'ecosystem-insight-title': 'Five Critical Tensions',
+                'ecosystem-insight-text': 'Our analysis reveals five systemic tensions: the Myth vs Reality gap, land ownership paralysis, public-private labor competition, authenticity commodification, and inter-archipelago inequality.',
+                'public-sector-title': 'Public Sector Stakeholders',
+                'public-sector-subtitle': 'Government, Tahiti Tourisme, Service du Tourisme',
+                'entrepreneurs-title': 'Local Entrepreneurs',
+                'entrepreneurs-subtitle': 'Activity Providers & Pension Owners - The Heart of Authenticity',
+                'private-sector-title': 'Private Sector Stakeholders',
+                'private-sector-subtitle': 'DMCs, International Hotels, Airlines',
+                'community-title': 'The Local Community',
+                'community-subtitle': 'Workforce, Cultural Custodians, Residents - The Foundation',
+                'theory-title': 'Theory of Change',
+                'theory-subtitle': 'From Systemic Diagnosis to Sovereign Solution',
+                'solution-title': 'The VAI Ecosystem',
+                'solution-subtitle': 'Digital Public-Interest Infrastructure',
+                'value-model-title': 'Value Retention Economics',
+                'value-model-subtitle': 'Shared Prosperity Framework',
+                'commission-label': 'Fair Commission vs 20-30% OTAs',
+                'payout-label': 'Days Payout in XPF',
+                'impact-label': 'Social Impact Contribution',
+                'retention-label': 'More Revenue Retained',
+                'value-insight-title': 'The Repatriation Mechanism',
+                'value-insight-text': 'Our 11% commission immediately returns 10-20% more revenue to local operators on every booking. The 5% social impact contribution creates a virtuous cycle where tourism growth directly funds the preservation of the cultural and environmental assets it depends on.',
+                'policy-title': 'Policy Alignment',
+                'policy-subtitle': 'Supporting National & International Frameworks',
+                'partnership-title': 'Partnership Doctrine',
+                'partnership-subtitle': 'Responsible Public-Private Governance',
+                'projections-title': '3-Year Financial Projections',
+                'projections-subtitle': 'Sustainable Growth & Measurable Impact',
+                'gmv-label': 'XPF Gross Merchandise Volume',
+                'revenue-label': 'XPF VAI Net Revenue (@11%)',
+                'social-label': 'XPF Annual Social Impact (@5%)',
+                'operators-label': 'SMEs in Digital Economy',
+                'projection-insight-title': 'Success Metrics Beyond Revenue',
+                'projection-insight-text': 'Our primary KPIs measure economic sovereignty: % tourism revenue repatriated from foreign OTAs, number of local SMEs in the formal digital economy, growth in operator profitability, and XPF contributed to environmental and cultural preservation.',
+                'vision-title': 'Long-Term Vision',
+                'vision-subtitle': 'Building a Diversified Digital Economy',
+                'investment-title': 'Investment Opportunity',
+                'investment-subtitle': 'Building Digital Sovereignty Together',
+                'cta-title': 'Join the Digital Sovereignty Movement',
+                'cta-description': 'This is more than an investment in a platform - it\'s an investment in the future of island economies. VAI represents a new model where digital sovereignty meets sustainable prosperity, creating lasting value for communities, investors, and the planet.',
+                'lang-toggle': 'FR',
+                'export-pdf': 'Export PDF'
+            },
+            fr: {
+                'title': 'VAI',
+                'subtitle': 'Souveraineté Numérique pour le Tourisme Polynésien',
+                'tagline': 'Une Plateforme Stratégique pour la Croissance Durable et l\'Indépendance Économique',
+                'diagnosis-headline': 'Un Paradis à la Croisée des Chemins',
+                'diagnosis-subtext': 'Le tourisme en Polynésie française génère 99 milliards XPF annuellement et emploie 1 travailleur sur 5. Pourtant, sous la façade pristine se cache un système en crise.',
+                'insight-title': 'Le Paradoxe du Paradis',
+                'insight-text': 'Tandis que les touristes paient des prix premium pour un "paradis intact", les entrepreneurs locaux abandonnent 20-30% de leurs revenus aux plateformes étrangères, les communautés font face à un taux de pauvreté de 16%, et le gouvernement manque de données temps réel pour gérer cette économie vitale de 99 milliards XPF.',
+                'metric-revenue': 'Revenus Touristiques Annuels XPF',
+                'metric-employment': 'Part Totale de l\'Emploi',
+                'metric-leakage': 'Revenus Perdus vers OTAs Étrangères',
+                'metric-poverty': 'Population Sous le Seuil de Pauvreté',
+                'stakeholder-overview-title': 'Écosystème des Parties Prenantes',
+                'stakeholder-overview-subtitle': 'Comprendre le Réseau Complexe d\'Intérêts',
+                'ecosystem-insight-title': 'Cinq Tensions Critiques',
+                'ecosystem-insight-text': 'Notre analyse révèle cinq tensions systémiques : l\'écart Mythe vs Réalité, la paralysie de la propriété foncière, la concurrence travail public-privé, la marchandisation de l\'authenticité, et l\'inégalité inter-archipels.',
+                'public-sector-title': 'Acteurs du Secteur Public',
+                'public-sector-subtitle': 'Gouvernement, Tahiti Tourisme, Service du Tourisme',
+                'entrepreneurs-title': 'Entrepreneurs Locaux',
+                'entrepreneurs-subtitle': 'Prestataires d\'Activités & Propriétaires de Pensions - Le Cœur de l\'Authenticité',
+                'private-sector-title': 'Acteurs du Secteur Privé',
+                'private-sector-subtitle': 'DMCs, Hôtels Internationaux, Compagnies Aériennes',
+                'community-title': 'La Communauté Locale',
+                'community-subtitle': 'Main-d\'œuvre, Gardiens Culturels, Résidents - La Fondation',
+                'theory-title': 'Théorie du Changement',
+                'theory-subtitle': 'Du Diagnostic Systémique à la Solution Souveraine',
+                'solution-title': 'L\'Écosystème VAI',
+                'solution-subtitle': 'Infrastructure Numérique d\'Intérêt Public',
+                'value-model-title': 'Économie de Rétention de Valeur',
+                'value-model-subtitle': 'Cadre de Prospérité Partagée',
+                'commission-label': 'Commission Équitable vs 20-30% OTAs',
+                'payout-label': 'Jours de Paiement en XPF',
+                'impact-label': 'Contribution à l\'Impact Social',
+                'retention-label': 'Plus de Revenus Retenus',
+                'value-insight-title': 'Le Mécanisme de Rapatriement',
+                'value-insight-text': 'Notre commission de 11% retourne immédiatement 10-20% plus de revenus aux opérateurs locaux sur chaque réservation. La contribution de 5% à l\'impact social crée un cercle vertueux où la croissance touristique finance directement la préservation des actifs culturels et environnementaux dont elle dépend.',
+                'policy-title': 'Alignement des Politiques',
+                'policy-subtitle': 'Soutien aux Cadres Nationaux et Internationaux',
+                'partnership-title': 'Doctrine de Partenariat',
+                'partnership-subtitle': 'Gouvernance Public-Privé Responsable',
+                'projections-title': 'Projections Financières 3 Ans',
+                'projections-subtitle': 'Croissance Durable et Impact Mesurable',
+                'gmv-label': 'Volume Marchand Brut XPF',
+                'revenue-label': 'Revenus Nets VAI XPF (@11%)',
+                'social-label': 'Impact Social Annuel XPF (@5%)',
+                'operators-label': 'PME dans l\'Économie Numérique',
+                'projection-insight-title': 'Métriques de Succès Au-delà du Chiffre d\'Affaires',
+                'projection-insight-text': 'Nos KPI principaux mesurent la souveraineté économique : % des revenus touristiques rapatriés des OTAs étrangères, nombre de PME locales dans l\'économie numérique formelle, croissance de la rentabilité des opérateurs, et XPF contribués à la préservation environnementale et culturelle.',
+                'vision-title': 'Vision à Long Terme',
+                'vision-subtitle': 'Construire une Économie Numérique Diversifiée',
+                'investment-title': 'Opportunité d\'Investissement',
+                'investment-subtitle': 'Construire la Souveraineté Numérique Ensemble',
+                'cta-title': 'Rejoignez le Mouvement de Souveraineté Numérique',
+                'cta-description': 'C\'est plus qu\'un investissement dans une plateforme - c\'est un investissement dans l\'avenir des économies insulaires. VAI représente un nouveau modèle où la souveraineté numérique rencontre la prospérité durable, créant une valeur durable pour les communautés, les investisseurs et la planète.',
+                'lang-toggle': 'EN',
+                'export-pdf': 'Exporter PDF'
+            }
+        };
+
+        // Current state
+        let currentSlide = 1;
+        let currentLanguage = 'en';
+        const totalSlides = 15;
+
+        // Update slide counter
+        function updateSlideCounter() {
+            document.getElementById('slide-counter').textContent = `${currentSlide} / ${totalSlides}`;
+        }
+
+        // Navigation functions
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                scrollToSlide(currentSlide);
+                updateSlideCounter();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                scrollToSlide(currentSlide);
+                updateSlideCounter();
+            }
+        }
+
+        function scrollToSlide(slideNumber) {
+            const slide = document.getElementById(`slide-${slideNumber}`);
+            if (slide) {
+                slide.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Language toggle
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        // PDF Export
+        function exportToPDF() {
+            window.print();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowRight':
+                case ' ':
+                    event.preventDefault();
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                    event.preventDefault();
+                    previousSlide();
+                    break;
+                case 'Home':
+                    event.preventDefault();
+                    currentSlide = 1;
+                    scrollToSlide(currentSlide);
+                    updateSlideCounter();
+                    break;
+                case 'End':
+                    event.preventDefault();
+                    currentSlide = totalSlides;
+                    scrollToSlide(currentSlide);
+                    updateSlideCounter();
+                    break;
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLanguage();
+            updateSlideCounter();
+        });
+
+        // Intersection Observer for slide tracking
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const slideId = entry.target.id;
+                    const slideNumber = parseInt(slideId.split('-')[1]);
+                    if (slideNumber !== currentSlide) {
+                        currentSlide = slideNumber;
+                        updateSlideCounter();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all slides
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.pitch-slide');
+            slides.forEach(slide => observer.observe(slide));
+        });
+    </script>
+</body>
+</html>
