@@ -1,229 +1,204 @@
 {
-  "title": "Plateforme VAI : Plan d'Affaires",
-  "subtitle": "L'infrastructure numérique pour l'économie touristique de la Polynésie française",
+  "title": "VAI - Souveraineté Numérique pour le Tourisme Polynésien",
+  "subtitle": "Un Plan Stratégique pour la Croissance Durable et l'Indépendance Économique",
   "meta": {
-    "version": "1.0",
+    "version": "3.0",
     "date": "Septembre 2025",
-    "project": "L'écosystème numérique VAI",
+    "project": "VAI - Plateforme de Souveraineté Numérique",
     "founder": "Kevin De Silva (recherche un co-fondateur)",
-    "vision": "Construire l'infrastructure numérique du tourisme en Polynésie française, établir la souveraineté économique et autonomiser les communautés locales grâce à une technologie centrée sur l'humain."
+    "vision": "Établir la souveraineté numérique pour l'économie touristique de la Polynésie française, en autonomisant les communautés locales grâce à une technologie centrée sur l'humain et un développement durable."
   },
   "sections": [
     {
-      "title": "Partie I : Vision et Opportunité",
-      "icon": "fa-solid fa-lightbulb",
+      "title": "Partie I : Le Diagnostic",
+      "icon": "fa-solid fa-stethoscope",
       "subsections": [
         {
           "title": "1. Résumé Exécutif",
           "image_placeholder": "/via-studio-images/social/LinkedIn /VAI.studio LinkedIn Banner Private.png",
           "content": [
-            "VAI n'est pas seulement une plateforme de réservation ; c'est l'**infrastructure numérique fondamentale** pour le secteur économique le plus vital de la Polynésie française. Conçue et construite entièrement au Fenua, VAI est une place de marché sophistiquée à deux versants, conçue pour résoudre la déconnexion critique entre les touristes recherchant des expériences authentiques et les milliers d'opérateurs locaux qui les proposent.",
-            "Le Problème : Un marché fragmenté de plus de **4 500 petites entreprises touristiques** perd une estimation de **3 à 5 milliards de XPF annuellement** au profit de plateformes étrangères à forte commission, ce qui freine la croissance économique locale et crée un chaos opérationnel.",
-            "Notre Solution : Un écosystème intégré comprenant **VAI Operator** (un puissant tableau de bord de gestion d'entreprise) et **VAI Tickets** (une application touristique intuitive). Nous opérons sur un modèle économique disruptif : une commission équitable de **11%** et des paiements rapides en **7 jours**, maintenant la valeur au sein de l'économie locale.",
-            "Notre Avantage : Notre principal différenciateur est le **Channel Manager** intégré, qui transforme VAI d'un simple canal de vente en le système d'exploitation central pour l'activité d'un fournisseur, créant un avantage concurrentiel puissant que les acteurs mondiaux ne peuvent pas facilement reproduire.",
-            "L'Impact : VAI établira la **\"Souveraineté Numérique\"** pour le tourisme polynésien, formalisera l'économie informelle, créera des emplois locaux de haute qualité et contribuera directement à la préservation culturelle et environnementale grâce à un engagement d'impact social de **5%**.",
-            "Le Potentiel : Nous ciblons un **Marché Obtenable Serviable (MOS)** de plus de **500 millions de XPF** en volume de réservations annuel d'ici trois ans, avec une voie claire pour devenir une plateforme de plusieurs milliards de XPF et s'étendre à un écosystème complet de services.",
-            "**VAI est déjà prêt à être commercialisé.** Ce document présente la vision complète, la stratégie et le plan opérationnel de VAI — une entreprise bâtie sur une compréhension locale approfondie, une technologie de classe mondiale et un engagement inébranlable envers le développement durable."
+            "L'**économie touristique de 99 milliards de XPF** de la Polynésie française, pierre angulaire de la nation, est responsable de **18,1% de tous les emplois** et représente jusqu'à **14,7% du PIB**. Cependant, ce secteur vital fait face à des défis structurels critiques qui menacent sa durabilité à long terme, érodent sa licence sociale d'exploitation et entraînent une fuite économique significative vers des entités étrangères. Le paysage numérique actuel est fragmenté, inefficace et inéquitable, laissant les entrepreneurs locaux désemparés et les institutions publiques sans les données nécessaires à une gouvernance efficace.",
+            "VAI présente une intervention stratégique conçue localement pour aborder ces défis de front. Il ne s'agit pas simplement d'une entreprise commerciale, mais d'une pièce fondamentale de **l'Infrastructure Numérique d'Intérêt Public** conçue pour établir la souveraineté numérique, autonomiser des milliers d'entrepreneurs polynésiens et garantir que les vastes bénéfices économiques du tourisme soient retenus et réinvestis au sein du Fenua.",
+            "Ce document présente un plan stratégique pour VAI. Il détaille un diagnostic systémique de l'écosystème actuel, présente un cadre robuste d'intervention à travers la plateforme VAI et définit une doctrine claire pour un partenariat public-privé responsable. L'objectif est de construire une économie touristique plus résiliente, équitable et prospère pour les générations futures."
           ]
         },
         {
-          "title": "2. La Philosophie du Fondateur : Le \"Pourquoi\" derrière VAI",
+          "title": "2. Le Paradoxe du Paradis",
           "content": [
-            "VAI est née d'une conviction simple : la technologie doit améliorer les capacités humaines et lier le succès commercial à un impact positif et durable. Mon parcours en tant qu'ingénieur et stratège de la transformation a été motivé par une fascination pour les systèmes complexes et une passion pour la création d'environnements où les personnes et les entreprises peuvent prospérer.",
-            "Ce projet est l'aboutissement de mon expertise professionnelle et de mes valeurs personnelles. C'est une réponse à ce dont je crois que notre monde a besoin : une technologie bien conçue qui nous rapproche de la nature et de la culture, favorise une connexion humaine authentique et crée des opportunités égales. VAI ne vise pas seulement à optimiser les réservations ; il s'agit de construire une économie touristique plus résiliente, équitable et prospère pour la Polynésie française, de l'intérieur. Connecter les gens, comprendre les systèmes complexes et construire des outils qui autonomisent les autres — dans un endroit que j'appelle chez moi."
+            "Le **\"Mythe Tahitien\"** commercialisé mondialement d'un paradis vierge masque une réalité complexe et tendue. Basé sur des recherches approfondies alignées avec les études publiques et gouvernementales, nous avons identifié cinq tensions transversales et dominantes qui placent tout l'écosystème en danger :",
+            "**1. L'Écart \"Mythe vs. Réalité\" :** Une déconnexion croissante entre l'image commercialisée d'un paradis intact et la réalité vécue d'un coût de la vie élevé (**39% plus élevé que la France métropolitaine**), un **taux de pauvreté de 16%** et une infrastructure délabrée visible, qui frustre à la fois résidents et visiteurs.",
+            "**2. La Paralysie de la Propriété Foncière :** Les questions complexes et culturellement sensibles de propriété foncière ont conduit à un stock important de sites touristiques abandonnés (*friches touristiques*), créant des risques environnementaux, décourageant l'investissement et imposant une \"double pénalité\" à la communauté locale qui perd à la fois l'accès et la qualité environnementale.",
+            "**3. La Fuite de Main-d'Œuvre Secteur Public vs. Privé :** La difficulté de l'industrie touristique à offrir des salaires et une stabilité compétitifs avec le secteur public crée une barrière structurelle à la construction d'une main-d'œuvre locale qualifiée et à long terme.",
+            "**4. Le Paradoxe de l'\"Authenticité\" :** L'acte même de rechercher et vendre des expériences culturelles \"authentiques\" risque leur marchandisation, créant un conflit socio-culturel profond pour une communauté qui craint de perdre son intégrité culturelle.",
+            "**5. Le Déséquilibre Économique Inter-Archipels :** La concentration écrasante du tourisme dans les Îles de la Société exclut les quatre autres archipels du moteur économique principal du pays, créant une disparité régionale significative."
           ]
         },
         {
-          "title": "3. Le Paradoxe du Paradis : L'Opportunité de Marché",
+          "title": "3. Analyse des Parties Prenantes",
           "content": [
-            "L'industrie du tourisme en Polynésie française, pierre angulaire de son économie, est à un carrefour stratégique. Bien qu'elle génère **99 milliards de XPF annuellement**, elle fait face à des défis systémiques qui créent un **\"paradoxe du paradis\"** : une destination de classe mondiale entravée par un paysage numérique obsolète et fragmenté.",
-            "**Fuite Économique** : La **\"longue traîne\" de plus de 4 500 opérateurs** constitue l'âme de l'expérience visiteur. Pourtant, ils sont contraints de céder **20 à 30% de leurs revenus** à des OTA (Agences de Voyage en Ligne) comme **Viator** et **GetYourGuide**. Cela représente une fuite annuelle massive de capitaux de l'économie locale.",
-            "**Chaos Opérationnel** : Sans un système unifié, les opérateurs sont piégés dans un cycle à forte friction de gestion des réservations via WhatsApp, e-mail et plusieurs calendriers de plateforme. Cela entraîne des doubles réservations, des pertes de revenus dues à des places non pourvues et un épuisement administratif.",
-            "**Invisibilité Numérique** : Une partie significative des expériences locales les plus authentiques — d'une visite privée de ferme vanille à un atelier d'artisanat traditionnel — restent introuvables pour le voyageur moderne, qui s'attend à tout trouver et réserver en ligne.",
-            "**Friction Touristique** : Les visiteurs sont confrontés à un patchwork confus d'options de réservation, de barrières linguistiques et à l'absence d'une source unique et fiable pour découvrir et planifier des activités à travers les cinq archipels.",
-            "Ce paradoxe crée un besoin de marché clair et urgent pour une solution construite localement, fiable et technologiquement supérieure."
-          ]
-        },
-        {
-          "title": "4. L'Opportunité Financière : Dimensionner le Marché",
-          "content": [
-            "L'ampleur de l'opportunité pour VAI est substantielle et multi-couches.",
-            "**Marché Total Adressable (MTA)** : La valeur totale de toutes les excursions et activités en Polynésie française. Estimé de manière conservatrice à 15% des 99 milliards de XPF de l'économie touristique, le MTA est d'environ **15 milliards de XPF annuellement**.",
-            "**Marché Serviable Adressable (MSA)** : Le segment du marché que VAI peut cibler de manière réaliste. Il s'agit de la **\"longue traîne\" de plus de 4 500 opérateurs** qui ont le plus besoin de notre solution. Nous estimons la valeur de ce segment à **5-7 milliards de XPF annuellement**.",
-            "**Marché Obtenable Serviable (MOS)** : Notre objectif réaliste pour les trois premières années. Basé sur notre modèle financier, nous visons à capter plus de **525 millions de XPF** en volume de réservations annuel (GMV) d'ici la fin de l'année 3, représentant une part de marché d'environ **10% du MSA**."
-          ]
-        }
-      ]
-    },
-    {
-      "title": "Partie II : La Solution et la Stratégie",
-      "icon": "fa-solid fa-cogs",
-      "subsections": [
-        {
-          "title": "5. L'Écosystème VAI : Un Regard Détaillé sur le Produit et la Technologie",
-          "content": [
-            "VAI est un écosystème complet de niveau entreprise construit sur une pile technologique moderne et en temps réel (**React 19, n8n, Supabase**). C'est un actif existant, dont le risque a été réduit, avec une valeur technique validée de plus de **28 000 000 XPF +** (Source : Annexe A - Évaluation de la Plateforme).",
-            "➜ **VAI Operator** : Le Système Nerveux Central pour les Entreprises Locales",
-            "Ceci est bien plus qu'un simple service de référencement ; c'est une plateforme complète de gestion d'entreprise offerte gratuitement aux opérateurs locaux.",
-            "**Fonctionnalités Clés** : Une suite de plus de **75 fonctionnalités** permet aux opérateurs de gérer l'ensemble de leur activité :",
-            "- Gestion des Excursions et des Horaires : Créez des listes détaillées et définissez des horaires récurrents complexes.",
-            "- Gestion des Réservations en Temps Réel : Un tableau de bord central pour confirmer ou refuser instantanément les réservations.",
-            "- Paiements Internationaux Sécurisés : Stripe Connect intégré gère les paiements de plus de 25 pays.",
-            "- Communication Directe avec le Client : Un chat intégré et en temps réel débloque la post-confirmation.",
-            "Le Différenciateur Stratégique : Le **Channel Manager** : C'est la fonctionnalité phare de VAI. Il permet à un opérateur de gérer sa disponibilité sur tous ses canaux de vente (VAI, Viator, GetYourGuide, son propre site web) à partir d'un seul calendrier. Cela élimine le problème opérationnel n°1 — les doubles réservations — et positionne VAI comme le hub central indispensable pour leur activité. Cette fonctionnalité transforme les concurrents en sources de données et fait de VAI la plateforme la **\"plus adhérente\"** du marché.",
-            "Notre stratégie **n'est pas de concurrencer** Viator et d'autres sur Google Ads. Notre stratégie est de devenir si **essentiel** aux opérations quotidiennes des fournisseurs locaux que l'inscription sur VAI est la première étape la plus logique qu'ils entreprennent.",
-            "➜ **VAI Tickets** : La Clé du Paradis pour les Touristes",
-            "L'application web progressive (PWA) destinée aux touristes est conçue pour une découverte et une réservation fluides.",
-            "**Fonctionnalités Clés pour les Touristes** :",
-            "- Découverte Unifiée : Une seule application pour trouver et réserver des activités vérifiées sur les 118 îles.",
-            "- Correspondance Basée sur l'Humeur : Un moteur de découverte innovant qui permet aux utilisateurs de rechercher par sensation (par exemple, \"Aventure,\" \"Détente,\" \"Culture\"), faisant apparaître des expériences inattendues et parfaitement adaptées.",
-            "- Disponibilité en Temps Réel : Affiche les places disponibles en direct et réservables, parfait pour une planification spontanée de dernière minute.",
-            "- Confiance et Transparence : Tarification claire, un flux de réservation sécurisé et une communication directe avec les fournisseurs locaux.",
-            "➜ **VAI Market Insights** : La mine d'or des données touristiques",
-            "VAI Insights est conçu comme une plateforme **d'analyse de données** robuste qui fournit aux opérateurs et aux **autorités gouvernementales des informations** en temps réel sur les **activités touristiques**. Cela permet de prendre des décisions fondées sur des données, d'améliorer la planification économique et de gérer les destinations de manière proactive.",
-            "Ensemble, ces composants créent un écosystème intégré qui non seulement résout les problèmes actuels mais établit également une base solide pour une croissance et une innovation futures."
-          ]
-        },
-        {
-          "title": "6. Le Modèle Commercial : Un Cadre pour un Succès Durable et Partagé",
-          "content": [
-            "Notre modèle commercial est conçu pour le partenariat, pas pour l'extraction.",
-            "La **Commission de 11%** : Un taux juste, transparent et disruptif pour l'industrie. Ce facteur unique rapporte immédiatement **10 à 20% de revenus supplémentaires** à l'opérateur local sur chaque réservation.",
-            "Le **Paiement en 7 Jours** : Nous traitons les paiements dans la semaine suivant la fin de l'excursion, une amélioration spectaculaire par rapport aux cycles de 30 à 60 jours des concurrents. Cela fournit un flux de trésorerie vital pour les petites entreprises.",
-            "La **Contribution d'Impact Social de 5%** : Nous intégrons la responsabilité sociale dans notre compte de profits et pertes. **5% de nos revenus** sont dédiés à un fonds pour des projets locaux de préservation environnementale et culturelle, choisis en partenariat avec les leaders communautaires. Cela crée un cercle vertueux où la croissance du tourisme finance directement la protection des actifs dont il dépend."
-          ]
-        },
-        {
-          "title": "7. Plan Stratégique de Mise sur le Marché",
-          "content": [
-            "Bien que notre approche initiale axée sur l'humain soit cruciale, notre portée technologique n'est pas limitée.",
-            "**Jour 1 : Ouvert à Toutes les Îles**. La plateforme VAI sera techniquement capable d'intégrer des opérateurs des cinq archipels dès son lancement. Cela garantit que nous ne refuserons jamais un opérateur intéressé des Tuamotu ou des Marquises.",
-            "**Efforts d'Intégration Ciblés** : Nos efforts proactifs de soutien et de marketing seront concentrés sur les marchés à forte densité de **Moorea** et **Tahiti**. Cela permet une croissance à forte intensité de capital et la capacité de travailler en étroite collaboration avec nos **100 à 150 premiers opérateurs** pour perfectionner l'expérience utilisateur, soutenus par l'approbation de la Commune de Moorea.",
-            "**Expansion Organique** : À mesure que le réseau se développe et que le bouche-à-oreille se répand, nous verrons une adoption organique des îles extérieures, soutenue par une intégration numérique à distance.",
-            "**Consolidation de l'Archipel et Maturité du Réseau** : Nous déploierons systématiquement des campagnes aux Tuamotu, aux Marquises et dans d'autres archipels, établissant VAI comme l'infrastructure numérique incontestée pour l'ensemble de la destination."
-          ]
-        },
-        {
-          "title": "8. Le Plan de Croissance : Une Feuille de Route pour l'Équipe et l'Échelle de la Plateforme",
-          "content": [
-            "Notre croissance ne se limite pas aux chiffres ; il s'agit de renforcer les capacités et d'avoir des ambassadeurs pour développer la communauté VAI, conçue pour être impactante dès le départ et nous mener à la rentabilité.",
-            "Notre stratégie est basée sur la confiance et la valeur tangible, et non sur des campagnes publicitaires coûteuses.",
-            "**Acquisition d'Opérateurs (B2B)** :",
-            "- Mettre en avant le **Channel Manager VAI** : Notre argument de vente est simple : \"Utilisez VAI pour gérer tous vos calendriers en un seul endroit gratuitement, et obtenez toutes les réservations pour seulement 11%.\"",
-            "- Tirer parti des Partenariats Locaux : Nous travaillerons directement avec la **CCISM** et **Tahiti Tourisme** (premier contact établi) pour organiser des ateliers et des sessions d'information pour leurs membres.",
-            "- Bouche-à-oreille : Les opérateurs satisfaits avec \"plus d'argent et moins de stress\" seront notre canal de marketing le plus puissant.",
-            "**Acquisition de Touristes (B2B2C -> D2C)** :",
-            "- Phase Initiale (**B2B2C**) : Nous exploiterons la clientèle existante de nos opérateurs.",
-            "- Phase de Croissance (**D2C**) : Nous rechercherons des partenariats avec des hôtels, des compagnies aériennes et des DMC pour le co-marketing, et lancerons éventuellement des campagnes de marketing numérique ciblées destinées aux voyageurs entrants."
+            "Une analyse plus approfondie révèle les défis spécifiques et les résultats souhaités pour chaque groupe de parties prenantes clés. VAI est conçu comme une réponse directe à ces besoins spécifiques et bien documentés."
           ],
-          "table": {
-            "headers": ["Phase", "Chronologie", "Objectif Principal", "Recrutements Clés"],
-            "rows": [
-              ["Étape 1 : Fondation et Traction", "Mois 1-18", "Atteindre l'adéquation Produit-Marché et Intégrer les 250+ premiers Opérateurs", "Fondateur, Co-fondateur, Responsable Succès Opérateur, Responsable Marketing et Communauté, (Ambassadeurs et Influenceurs Sociaux)"],
-              ["Étape 2 : Échelle et Optimisation", "Mois 19-36", "Atteindre la rentabilité et Viser le Leadership du Marché", "Responsable des Partenariats (Hôtels/Compagnies Aériennes/Communautés)"],
-              ["Étape 3 : Dominance de l'Écosystème", "Concepts en cours d'élaboration", "Lancer de nouvelles verticales VAI et Préparer l'Expansion", "Analyste de Données (VAI Insights), Directeur Général, VAI Homes"]
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "title": "Partie III : Le Marché et l'Impact",
-      "icon": "fa-solid fa-chart-line",
-      "subsections": [
-        {
-          "title": "9. Approfondissement : Paysage Concurrentiel et Avantage Unique de VAI",
-          "content": [
-            "Notre concurrence n'est pas seulement d'autres plateformes ; c'est le statu quo du chaos opérationnel. Et VAI n'est pas simplement une autre OTA. Nous sommes un modèle commercial fondamentalement différent.",
-            "**L'Avantage Unique de VAI** : Nous sommes la seule plateforme qui combine la génération de demande d'une place de marché avec les puissants outils opérationnels d'un fournisseur **SaaS B2B** (via le **Channel Manager**), le tout livré avec un modèle commercial axé sur le local et à faible commission. Nous ne forçons pas les opérateurs à choisir entre un outil et un canal ; nous sommes les deux.",
-            "Ainsi, notre stratégie n'est pas de concurrencer Viator et d'autres sur Google Ads. Notre stratégie est de devenir si essentiel aux opérations quotidiennes des fournisseurs locaux que l'inscription sur VAI est la première étape la plus logique qu'ils entreprennent."
-          ],
-          "table": {
-            "headers": ["Concurrent", "Modèle Commercial", "Commission", "Caractéristique Clé / USP", "Faiblesse Exploitée par VAI"],
-            "rows": [
-              ["Viator / GetYourGuide", "Agrégateur Mondial", "20-30%", "Audience mondiale massive, reconnaissance de la marque.", "Coût élevé, paiements lents, pas de présence locale, expérience générique. Ce sont des canaux, pas des outils."],
-              ["FareHarbor / Bokun", "Logiciel de Réservation SaaS B2B", "Frais mensuels + frais de réservation", "Puissants outils de réservation et de planification backend.", "Pas une place de marché (pas de génération de demande), complexe, peut être coûteux pour les petits opérateurs."],
-              ["Statu Quo (WhatsApp/E-mail)", "Manuel / Direct", "0%", "Gratuit et simple pour un très faible volume.", "Non évolutif, sujet aux erreurs, pas de traitement des paiements, invisible pour les nouveaux touristes."]
-            ]
-          }
-        },
-        {
-          "title": "10. Analyse SWOT Détaillée",
-          "content": [],
           "lists": {
-            "Forces": [
-              "Modèle Commercial Disruptif (**11% de commission, paiement en 7 jours**)",
-              "Fossé Puissant : Le **Channel Manager** crée une forte \"rétention des opérateurs\"",
-              "Expertise locale approfondie et soutiens institutionnels (administration municipale de Moorea)",
-              "Actif technologique significatif et dont le risque a déjà été réduit"
+            "Parties Prenantes du Secteur Public": [
+              "**Le Trou Noir des Données :** Gouverner une industrie de 99 milliards de XPF souligne le besoin de données granulaires en temps réel pour des politiques et décisions efficaces, la planification d'infrastructures et la mesure du ROI marketing.",
+              "**Stratégies Conflictuelles :** Un conflit stratégique entre les objectifs de croissance durable et gérée de la stratégie *Fāri'ira'a Manihini 2027* (FM27) et l'ambition déclarée du nouveau gouvernement d'atteindre 600 000 touristes pour parvenir à l'autosuffisance économique.",
+              "**L'Écart de Numérisation :** Un défi majeur persistant pour amener la \"longue traîne\" de plus de 4 500 petits opérateurs locaux dans l'économie numérique formelle, entravant la professionnalisation et la diversification."
             ],
-            "Faiblesses": [
-              "Problème de \"démarrage à froid\" initial : nécessite une masse critique d'opérateurs pour attirer les touristes.",
-              "Dépendance à l'égard de la personne clé du fondateur dans la phase initiale, charge de travail élevée",
-              "Budget marketing limité par rapport aux géants mondiaux"
+            "Entrepreneurs Locaux et Prestataires d'Activités": [
+              "**Désautonomisation Financière (L'\"Étranglement des Marges\") :** Ils sont contraints de céder **20% à plus de 30%** de leurs revenus à des OTA étrangères à commission élevée comme **Viator, GetYourGuide et Expedia**. Ceci est aggravé par des **paiements internationaux retardés (30-60 jours) et volatils** en USD ou EUR, ce qui les force à absorber les pertes de change.",
+              "**Chaos Opérationnel :** Ils sont submergés par le fardeau administratif de gérer plusieurs canaux de réservation déconnectés (WhatsApp, email, multiples calendriers OTA), conduisant à des **doubles réservations** fréquentes et coûteuses et des pertes de revenus.",
+              "**Invisibilité Numérique :** Il leur manque le temps, les ressources et l'expertise pour construire des sites web professionnels réservables ou concurrencer avec les budgets publicitaires de plusieurs milliards de dollars des plateformes mondiales, les rendant indétectables par la majorité des voyageurs modernes."
             ],
-            "Opportunités": [
-              "Marché massif et mal desservi de **plus de 4 500 opérateurs**",
-              "Fort alignement avec les stratégies gouvernementales de l'économie numérique et de croissance du tourisme",
-              "Fort potentiel de monétisation des données et d'expansion de l'écosystème",
-              "Modèle évolutif pour d'autres nations insulaires du Pacifique"
-            ],
-            "Menaces": [
-              "Réduction agressive et ciblée des prix par un concurrent majeur",
-              "Un ralentissement significatif du tourisme mondial",
-              "Taux d'adoption initial lent retardant l'effet de réseau"
+            "Communauté Locale (Main-d'Œuvre et Gardiens Culturels)": [
+              "**Exclusion et Iniquité :** Un sentiment d'être exclu des bénéfices économiques du tourisme haut de gamme, avec un \"plafond de verre\" perçu pour les locaux dans la main-d'œuvre et **16% de la population vivant sous le seuil de pauvreté**.",
+              "**Érosion de la Licence Sociale :** Un sentiment que leurs communautés supportent les coûts du tourisme (services publics tendus, dégradation environnementale) tandis que les bénéfices sont concentrés ailleurs, et que les décisions sont prises à Papeete sans leur contribution.",
+              "**Marchandisation Culturelle :** Une peur profondément ancrée qu'un focus sur le tourisme de masse dilue et commercialise les traditions sacrées, transformant la culture authentique en performance superficielle."
             ]
           }
+        }
+      ]
+    },
+    {
+      "title": "Partie II : La Solution VAI",
+      "icon": "fa-solid fa-tools",
+      "subsections": [
+        {
+          "title": "4. Théorie du Changement",
+          "content": [
+            "VAI est conçu comme un moteur de changement positif. Notre Théorie du Changement est un chemin clair et logique de notre intervention vers notre impact à long terme visé, fournissant un cadre direct pour mesurer notre succès.",
+            "**Intervention :** VAI fournit une suite d'outils numériques gratuits et à faible commission (**VAI Operator**), une place de marché unifiée (**VAI Tickets**) et une plateforme de données (**VAI Insights**).",
+            "**Résultats :** Les opérateurs locaux obtiennent l'accès à un Channel Manager gratuit, un site web professionnel et un système de paiement sécurisé. Ils paient une **commission équitable de 11%** et reçoivent des paiements en **7 jours**. Les touristes ont une plateforme unique et fiable pour la découverte. Les organismes publics obtiennent l'accès à des données anonymisées en temps réel.",
+            "**Résultats :**",
+            "- **Économique :** La rentabilité des opérateurs augmente. Le flux de trésorerie se stabilise. La fuite économique vers les OTA étrangères est significativement réduite.",
+            "- **Opérationnel :** Les fardeaux administratifs et les erreurs coûteuses comme les doubles réservations sont éliminés.",
+            "- **Gouvernance :** Les institutions publiques peuvent maintenant s'engager dans l'élaboration de politiques basées sur des preuves.",
+            "**Impact à Long Terme :** La Polynésie française atteint une plus grande **souveraineté économique et numérique**. Le secteur des PME locales devient plus résilient et compétitif. Le modèle touristique devient plus durable, inclusif et équitable, renforçant la licence sociale d'exploitation."
+          ]
         },
         {
-          "title": "11. Impact Socio-Économique : Moteur du Développement Local",
+          "title": "5. L'Écosystème VAI",
           "content": [
-            "VAI est un moteur de développement positif, pleinement aligné sur la stratégie gouvernementale **\"Fāri’ira’a Manihini 2027\"**.",
-            "**Souveraineté Économique** : En rapatriant les commissions, VAI injectera des **millions de XPF** dans l'économie locale chaque année.",
-            "**Autonomisation des PME** : Nous fournissons des outils numériques gratuits et de classe mondiale aux plus petites entreprises.",
-            "**Formalisation du Marché** : Notre plateforme intègre les opérateurs \"invisibles\" dans l'économie formelle, créant des données traçables pour une meilleure planification économique et l'élaboration de politiques.",
-            "**Tourisme Durable** : Nos outils aident à gérer les flux touristiques, et notre **modèle de contribution de 5%** fournit une nouvelle source de financement durable pour la protection du Fenua."
+            "VAI est un actif technologique **existant** avec plus de 75 fonctionnalités, conçu comme un système holistique pour résoudre les défis centraux de l'écosystème.",
+            "**VAI Operator (Pour l'Autonomisation des Entreprises et la Formalisation Économique) :** Il s'agit du système nerveux central pour les entreprises locales. Ses fonctionnalités clés répondent directement à leurs douleurs les plus profondes :",
+            "- **Le Channel Manager :** Permet à un opérateur de gérer la disponibilité sur tous les canaux de vente (VAI, Viator, GetYourGuide, leur propre site web) à partir d'un seul calendrier, éliminant les doubles réservations. Cela fait de VAI un hub opérationnel indispensable sans coût supplémentaire.",
+            "- **Paiements Internationaux Sécurisés :** Stripe Connect intégré gère les paiements de plus de 25 pays avec des paiements rapides de 7 jours directement en XPF pour réduire la volatilité des flux de trésorerie et éliminer les frustrations de conversion de devises.",
+            "- **Canal Marketing Gratuit :** Sites web gratuits avec capacité de réservation fournis comme pages uniques sans coût, répondant à la \"fracture numérique\" et aux défis de visibilité.",
+            "**VAI Tickets (Pour Promouvoir un Tourisme Durable et Dispersé) :** L'Application Web Progressive (PWA) destinée aux touristes est une passerelle unifiée vers des expériences authentiques.",
+            "- **Découverte Unifiée :** Une seule app pour trouver et réserver des activités vérifiées sur les 118 îles.",
+            "- **Correspondance Basée sur l'Humeur :** Un moteur de découverte innovant qui permet aux utilisateurs de rechercher par sensation (par exemple, \"Aventure,\" \"Détente,\" \"Culture\", \"Océan\"), faisant apparaître des expériences inattendues et encourageant la dispersion.",
+            "- **Support Multilingue :** Anglais, français, tahitien, chinois, japonais, espagnol et plus, brisant les barrières de communication.",
+            "**VAI Insights (Pour une Politique et Gouvernance Basées sur les Preuves) :** La plateforme d'analyse de données qui comble le \"Trou Noir des Données,\" fournissant aux parties prenantes publiques et privées les données anonymisées en temps réel nécessaires à la planification stratégique, au marketing et à la gestion d'infrastructure."
+          ]
+        },
+        {
+          "title": "6. Modèle Économique",
+          "content": [
+            "Notre modèle économique est une réponse directe à la nature extractive du statu quo. Il est conçu comme un cadre de prospérité partagée.",
+            "**La Commission Équitable de 11% :** Il s'agit d'un mécanisme pour **rapatrier le capital**. Il retourne immédiatement **10-20% de revenus en plus** à l'opérateur local sur chaque réservation comparé aux taux de 20-30%+ des OTA étrangères, Systèmes de Paiement et de Réservation.",
+            "**Le Paiement en 7 Jours en XPF :** Il s'agit d'un outil pour **renforcer la résilience des petites entreprises**. Il élimine l'incertitude des flux de trésorerie et protège les opérateurs des pertes de change, fournissant une stabilité vitale.",
+            "**La Contribution d'Impact Social de 5% :** Il s'agit d'un mécanisme de **Réinvestissement Durable**. Nous intégrons la responsabilité sociale dans notre P&L en dédiant 5% de nos revenus à un fonds pour des projets environnementaux et culturels locaux, créant un cercle vertueux de croissance et de préservation."
           ]
         }
       ]
     },
     {
-      "title": "Partie IV : L'Avenir",
+      "title": "Partie III : Mise en Œuvre et Gouvernance",
+      "icon": "fa-solid fa-balance-scale",
+      "subsections": [
+        {
+          "title": "7. Alignement Politique",
+          "content": [
+            "VAI n'est pas un projet autonome ; c'est un facilitateur direct des cadres stratégiques existants. Nos objectifs sont explicitement conçus pour soutenir et accélérer les objectifs de :",
+            "**La Stratégie Fāri'ira'a Manihini 2027 (FM27) :** VAI fournit les outils pour la **diversification des expériences**, la **professionnalisation des prestataires** et la **gestion basée sur les données** requise pour réaliser la vision FM27 d'un tourisme inclusif et durable.",
+            "**Le Conseil Mondial du Tourisme Durable (GSTC) :** Notre modèle économique, contribution d'impact social et focus sur la préservation culturelle sont entièrement alignés avec les principes GSTC pour la gestion durable des destinations.",
+            "**L'Organisation du Tourisme du Pacifique Sud (SPTO) :** En autonomisant les entrepreneurs locaux et favorisant le tourisme communautaire, VAI soutient directement le Cadre Politique du Tourisme Durable Pacifique de la SPTO."
+          ]
+        },
+        {
+          "title": "8. Cadre de Partenariat",
+          "content": [
+            "Un projet de cette importance nationale nécessite un nouveau modèle de collaboration. VAI s'engage à un partenariat responsable construit sur la transparence, la gouvernance partagée et la confiance mutuelle. Nous avons proactivement identifié les risques de notre propre succès et proposons la structure de gouvernance suivante :",
+            "**Un Conseil de Gouvernance Public-Privé :** Pour assurer l'alignement stratégique, nous proposons un conseil dédié avec des représentants de la Présidence, du Ministère du Tourisme, de Tahiti Tourisme, du Service du Tourisme et de la direction VAI.",
+            "**Souveraineté Nationale des Données Garantie :** Le cadre légal établira sans équivoque que toutes les données touristiques brutes sont la **propriété souveraine du Gouvernement de la Polynésie française**. VAI se verra accorder une licence pour commercialiser les données *anonymisées et agrégées*, mais l'actif central reste avec la nation. Un dépôt de code source sera inclus pour mitiger le risque de \"point unique de défaillance\".",
+            "**Un Conseil Consultatif des Opérateurs :** Pour assurer que la communauté ait une voix puissante, nous établirons un conseil formel d'entrepreneurs locaux qui se réuniront trimestriellement avec le conseil de gouvernance pour guider l'évolution de la plateforme.",
+            "**Intégration Gérée dans l'Écosystème Mondial :** Nous poursuivrons une approche de **\"Co-opétition Stratégique\"** avec les OTA (encadrant VAI Operator comme un outil B2B qui les aide en réduisant les annulations) et un partenariat d'**\"Évolution de la Chaîne de Valeur\"** avec les DMC (leur fournissant des outils d'entreprise pour construire des itinéraires de plus haute valeur)."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Partie IV : La Vision",
       "icon": "fa-solid fa-rocket",
       "subsections": [
         {
-          "title": "12. L'Équipe et la Culture",
+          "title": "9. Position Stratégique et Viabilité",
           "content": [
-            "VAI sera construite par une équipe locale, pour la communauté locale.",
-            "**Fondateur : Kevin De Silva** assure le leadership stratégique et technique.",
-            "**Premiers Recrutements** : Nos deux premiers recrutements seront un **Responsable Succès Opérateur** (pour fournir un soutien pratique) et un **Responsable Marketing et Communauté**, tous deux basés en Polynésie française.",
-            "**Culture** : Notre culture sera une extension de notre philosophie : axée sur les valeurs, transparente et axée sur le développement du potentiel de nos partenaires et de notre équipe."
+            "L'avantage défendable de VAI n'est pas seulement la technologie ; c'est une stratégie que les acteurs mondiaux ne peuvent pas répliquer.",
+            "**Légitimité et Confiance Locales :** Construit dans le Fenua, pour le Fenua, avec des relations institutionnelles et communautaires profondes.",
+            "**Une Solution Holistique au Niveau Système :** Nous ne sommes pas une solution ponctuelle ; nous sommes un système intégré conçu pour les défis uniques de la Polynésie. Le Channel Manager est notre fossé concurrentiel.",
+            "**Un Modèle Durable et Autosuffisant :** Notre modèle est construit pour une valeur partagée à long terme, non pour une extraction à court terme. Bien que l'impact soit notre moteur principal, l'entreprise est conçue pour être rentable et autosuffisante."
+          ],
+          "table": {
+            "headers": ["Métrique", "Objectif 3 Ans", "Impact Annuel"],
+            "rows": [
+              ["**Volume Marchand Brut (GMV)**", "> 525 000 000 XPF", "Activité économique retenue localement"],
+              ["**Revenus Nets VAI (@11%)**", "> 57 750 000 XPF", "Durabilité de la plateforme"],
+              ["**Contribution Impact Social (@5%)**", "> 2 880 000 XPF", "Réinvestissement communautaire"]
+            ]
+          }
+        },
+        {
+          "title": "10. Métriques de Succès",
+          "content": [
+            "Notre succès sera mesuré non par la valorisation, mais par notre impact sur la nation. Nos KPI primaires sont :"
+          ],
+          "lists": {
+            "Métriques de Souveraineté Économique": [
+              "% des revenus d'activité touristique rapatriés des OTA étrangères",
+              "Croissance de la rentabilité des opérateurs et réduction des échecs d'entreprises liés aux flux de trésorerie",
+              "Nombre de PME locales amenées dans l'économie numérique formelle"
+            ],
+            "Métriques de Tourisme Durable": [
+              "XPF contribués au fonds d'impact social",
+              "Croissance des réservations hors saison/îles extérieures",
+              "Réduction de la concentration touristique sur les îles principales"
+            ],
+            "Métriques de Gouvernance": [
+              "Mise en œuvre réussie du Conseil de Gouvernance Public-Privé",
+              "Participation active au Conseil Consultatif des Opérateurs",
+              "Disponibilité de données touristiques en temps réel pour l'élaboration de politiques"
+            ]
+          }
+        },
+        {
+          "title": "11. Vision à Long Terme",
+          "content": [
+            "Les réservations ne sont que le début. La plateforme VAI est l'infrastructure fondamentale pour une économie numérique polynésienne prospère et diversifiée. Les extensions logiques de notre écosystème incluent des concepts potentiels :",
+            "**VAI Skills :** Un hub éducatif, co-créé avec les institutions publiques, offrant des cours en marketing numérique, pratiques durables et littératie financière. Au-delà d'un flux de revenus, cela renforce tout le réseau et étend notre impact dans l'éducation.",
+            "**VAI Maps :** Une carte interactive utilisable hors ligne présentant des sentiers curatés, sites culturels et entreprises locales. Conçue pour les visiteurs comme les locaux, elle améliore l'expérience tout en dirigeant le trafic vers des destinations sous-représentées.",
+            "**VAI Homes :** Une alternative culturellement consciente à Airbnb pour les locations locales et *pensions de famille*, opérant sur un modèle de commission plus équitable (10-12%) idéalement en partenariat avec le \"Maeva Hébergement\" existant.",
+            "**VAI Supply :** Une place de marché B2B connectant les opérateurs touristiques avec les fermiers, artisans et producteurs locaux pour renforcer les chaînes d'approvisionnement locales et promouvoir une économie circulaire.",
+            "**VAI Events :** Une plateforme de réservation pour festivals, retraites et expériences culturelles. Elle met en avant les artistes, musiciens et traditions locales, tout en offrant aux visiteurs des rencontres uniques et authentiques.",
+            "**VAI Connect :** Une plateforme sociale liant individus, communautés et organisations. À travers le bénévolat, les dons, le réseautage et les événements, elle favorise la collaboration et l'impact durable—construite par la communauté, pour la communauté.",
+            "**VAI Marketplace :** Une plateforme d'achat, vente et échange au sein de l'écosystème polynésien. Des kayaks d'occasion au transport partagé, elle encourage le partage de ressources et la durabilité.",
+            "**Expansion Pacifique :** Le modèle VAI est un template qui peut être répliqué dans d'autres nations insulaires faisant face à des défis similaires de fuite économique et dépendance numérique."
           ]
         },
         {
-          "title": "13. La Grande Vision : L'Écosystème VAI à Grande Échelle",
+          "title": "12. La Philosophie du Fondateur",
           "content": [
-            "Notre ambition est de devenir le **\"Système d’Exploitation du Tourisme Polynésien.\"** Les réservations touristiques ne sont que le point de départ. Une fois la place de marché principale établie, nous développerons un écosystème complet basé sur les besoins essentiels d’une économie polynésienne prospère :",
-            "**VAI Insights – La Mine d’Or de Données** : Des produits de données anonymisées et en temps réel destinés aux organismes publics (**Tahiti Tourisme, Ministère du Tourisme**) et aux grands groupes hôteliers. Les informations sur les tendances de réservation, les profils des touristes et les activités populaires permettront une **gestion de destination guidée par les données pour la première fois**.",
-            "**VAI Skills – Le Hub de Formation** : Des cours en ligne et des ateliers pour les entrepreneurs locaux, idéalement en partenariat avec les communes et les institutions publiques. Les thèmes incluent le marketing digital, les pratiques durables et la gestion financière. Au-delà d’une nouvelle source de revenus, cela renforce tout le réseau et élargit l’impact de VAI dans le secteur éducatif.",
-            "**VAI Homes – Une Alternative Équitable à Airbnb** : Une plateforme pour les locations locales, pensions de famille et séjours chez l’habitant. Avec des **commissions plus justes (10–12 % contre 15 %+),** des paiements rapides et des fonctionnalités favorisant l’échange culturel authentique, VAI Homes valorise la communauté et l’authenticité plutôt que la simple commercialisation.",
-            "**VAI Events – Valoriser la Culture Polynésienne** : Une plateforme dédiée à la découverte et à la réservation d’événements locaux, de festivals, de retraites et d’expériences culturelles. Elle met en avant la richesse du patrimoine polynésien, soutient les artistes, musiciens et traditions locales tout en offrant aux visiteurs des expériences uniques et authentiques.",
-            "**VAI Connect – Autonomiser les Communautés, Ensemble** : Une plateforme sociale reliant individus, communautés et organisations. À travers le bénévolat, les dons, le réseautage et les événements, elle favorise la collaboration et un impact durable—créée par la communauté, pour la communauté.",
-            "**VAI Maps – Explorer Autrement** : Une application interactive, utilisable hors ligne, présentant des points d’intérêt, des sentiers, des sites culturels et des entreprises locales. Conçue pour les visiteurs comme pour les habitants, elle enrichit l’exploration tout en renforçant la visibilité des destinations moins connues.",
-            "**VAI Marketplace – Commerce Local, Croissance Locale** : Une plateforme d’achat, de vente et d’échange de biens et services au sein de l’écosystème polynésien. Des kayaks de seconde main aux services de transport partagé, elle encourage **le partage des ressources et la durabilité**.",
-            "**VAI Supply – Renforcer les Chaînes d’Approvisionnement Locales** : Une place de marché B2B connectant les commerces avec les fournisseurs locaux afin de promouvoir une économie circulaire et réduire la dépendance aux importations.",
-            "**Expansion de l’Écosystème** : Nous tirerons parti de notre technologie centrale pour développer de nouveaux services, tels que les réservations de restaurants, les retraites bien-être et la location d’équipements.",
-            "**Expansion dans le Pacifique** : Le modèle VAI est un modèle réplicable dans d’autres nations insulaires confrontées aux mêmes défis, ouvrant la voie à une croissance régionale et mondiale.",
-            "Ensemble, ces services créent de puissants effets de réseau—chaque nouvelle couche renforce la valeur des autres. Notre objectif ultime est de bâtir une base résiliente pour un écosystème polynésien prospère."
+            "VAI est né d'une conviction simple : **la technologie doit améliorer les capacités humaines et lier le succès commercial à un impact positif et durable.** Mon parcours en tant qu'ingénieur et stratège de transformation a été motivé par une fascination pour les systèmes complexes et une passion pour créer des environnements où les personnes et les entreprises peuvent prospérer.",
+            "Ce projet est l'aboutissement de mon expertise professionnelle et de mes valeurs personnelles. C'est une réponse à ce dont je crois que notre monde a besoin : une technologie bien conçue qui nous rapproche de la nature et de la culture, favorise une connexion humaine authentique et crée des opportunités égales.",
+            "VAI ne vise pas seulement à optimiser les réservations ; il s'agit de construire une économie touristique plus résiliente, équitable et prospère pour la Polynésie française, de l'intérieur. **Connecter les gens, comprendre les systèmes complexes et construire des outils qui autonomisent les autres—dans un endroit que j'appelle chez moi.**"
           ]
         },
         {
-          "title": "14. Annexes",
+          "title": "13. Équipe et Mise en Œuvre",
           "content": [
-            "A. Évaluation de la Plateforme VAI et Valorisation des Actifs",
-            "B. Projections Financières sur 3 Ans (Modèle de Lancement Lean)",
-            "C. Curriculum Vitae du Fondateur",
-            "D. Lettres de Soutien (Commune de Moorea)"
+            "Ce projet est l'aboutissement de l'expertise professionnelle du fondateur Kevin De Silva dans les systèmes complexes et un engagement personnel à construire un foyer plus résilient et équitable. VAI sera construit par une équipe locale, pour la communauté locale. Nos premiers recrutements seront un Responsable Succès Opérateur et un Responsable Marketing et Communauté, tous deux basés en Polynésie française, assurant que notre croissance soit guidée par les personnes qu'elle est censée servir.",
+            "**Fondateur : Kevin De Silva** fournit le leadership stratégique et technique avec une expertise approfondie en pensée systémique, développement organisationnel et stratégie produit IA.",
+            "**Culture :** Notre culture sera une extension de notre philosophie : axée sur les valeurs, transparente et focalisée sur la réalisation du potentiel de nos partenaires et de notre équipe.",
+            "**Construction d'Équipe Locale :** Chaque rôle priorisera l'embauche locale et le développement des compétences, créant des emplois de haute qualité qui contribuent directement à l'autonomisation économique des professionnels polynésiens."
           ]
         }
       ]

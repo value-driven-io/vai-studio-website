@@ -539,7 +539,7 @@ body {
 
 .hero-title {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 7vw, 6rem);
+    font-size: clamp(3rem, 7vw, 4rem);
     line-height: 1;
     color: var(--text-primary);
     margin: 0 0 1rem;
@@ -710,6 +710,88 @@ body {
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
 }
 
+/* Stakeholder Analysis */
+.image-stakeholder-analysis {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.stakeholder-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+}
+
+.stakeholder-image:hover {
+    transform: scale(1.02);
+}
+
+/* Theory of Change */
+.image-theory-change {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.theory-change-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+    background: white;
+     border: 1px solid;
+}
+
+.theory-change-image:hover {
+    transform: scale(1.02);
+}
+
+/* Policy Alignment */
+.image-policy-alignment {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.policy-alignment-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+    background: white;
+    border: 1px solid var(--accent-border);
+}
+
+.policy-alignment-image:hover {
+    transform: scale(1.02);
+}
+
+/* Business Model */
+.image-business-model {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.business-model-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+    background: white;
+    border: 1px solid var(--accent-border);
+}
+
+.business-model-image:hover {
+    transform: scale(1.02);
+}
+
 /* Product Showcase */
 .image-product-showcase {
     margin: 3rem 0;
@@ -731,10 +813,9 @@ body {
 
 .device-mockup.tablet img {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     height: auto;
     border-radius: 12px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .device-mockup.phone img {
@@ -889,7 +970,7 @@ tr:last-child td {
 /* --- Lists (SWOT) --- */
 .list-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /*grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));*/
     gap: 2rem;
     margin-top: 2rem;
 }

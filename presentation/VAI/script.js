@@ -62,41 +62,31 @@ document.addEventListener('DOMContentLoaded', () => {
             0: {
                 "1. Executive Summary": {
                     containerClass: "image-hero",
-                    html: `<img src="/via-studio-images/social/LinkedIn /VAI.studio LinkedIn Banner Private.png" alt="VAI Platform Overview" class="hero-image" loading="lazy">`
+                    html: `<img src="/via-studio-images/pitches/presentations/Activities in French Polynesia.png" alt="VAI Platform Overview" class="hero-image" loading="lazy">`
                 },
                 "1. Résumé Exécutif": {
                     containerClass: "image-hero",
-                    html: `<img src="/via-studio-images/social/LinkedIn /VAI.studio LinkedIn Banner Private.png" alt="VAI Platform Overview" class="hero-image" loading="lazy">`
+                    html: `<img src="/via-studio-images/pitches/presentations/Activities in French Polynesia.png" alt="VAI Platform Overview" class="hero-image" loading="lazy">`
                 },
-                "2. The Founder's Philosophy: The \"Why\" Behind VAI": {
-                    containerClass: "image-founder",
-                    html: `<div class="founder-section">
-                        <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva, Founder" class="founder-image" loading="lazy">
-                        <div class="founder-quote">
-                            <p class="quote-text">\"Technology should enhance human capability and connect business success with positive, sustainable impact.\"</p>
-                            <p class="quote-author">— Kevin De Silva, Founder</p>
-                        </div>
-                    </div>`
-                },
-                "2. La Philosophie du Fondateur : Le \"Pourquoi\" derrière VAI": {
-                    containerClass: "image-founder",
-                    html: `<div class="founder-section">
-                        <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva, Fondateur" class="founder-image" loading="lazy">
-                        <div class="founder-quote">
-                            <p class="quote-text">\"La technologie doit améliorer les capacités humaines et lier le succès commercial à un impact positif et durable.\"</p>
-                            <p class="quote-author">— Kevin De Silva, Fondateur</p>
-                        </div>
-                    </div>`
-                },
-                "3. The Paradise Paradox: The Market Opportunity": {
+                "2. The Paradise Paradox": {
                     containerClass: "image-problem-illustration",
-                    html: `<img src="/via-studio-images/landingpage/Activity Overview - Operator xl.jpg" alt="Current Market Fragmentation" class="problem-image" loading="lazy">
+                    html: `<img src="/via-studio-images/pitches/presentations/Tourism_Broken_Ecosystem.jpg" alt="Current Market Fragmentation" class="problem-image" loading="lazy">
                     <p class="image-caption">Current fragmented landscape: 4,500+ operators struggling with multiple platforms</p>`
                 },
-                "3. Le Paradoxe du Paradis : L'Opportunité de Marché": {
+                "2. Le Paradoxe du Paradis": {
                     containerClass: "image-problem-illustration",
-                    html: `<img src="/via-studio-images/landingpage/Activity Overview - Operator xl.jpg" alt="Fragmentation Actuelle du Marché" class="problem-image" loading="lazy">
+                    html: `<img src="/via-studio-images/pitches/presentations/Tourism_Broken_Ecosystem.jpg" alt="Fragmentation Actuelle du Marché" class="problem-image" loading="lazy">
                     <p class="image-caption">Paysage fragmenté actuel : 4 500+ opérateurs en difficulté avec plusieurs plateformes</p>`
+                },
+                "3. Stakeholder Analysis": {
+                    containerClass: "image-stakeholder-analysis",
+                    html: `<img src="/via-studio-images/pitches/presentations/Une vision partagée - Tahiti Tourisme.png" alt="Stakeholder Analysis - Shared Vision with Tahiti Tourisme" class="stakeholder-image" loading="lazy">
+                    <p class="image-caption">A Shared Vision for the Development of Tourisme</p>`
+                },
+                "3. Analyse des Parties Prenantes": {
+                    containerClass: "image-stakeholder-analysis",
+                    html: `<img src="/via-studio-images/pitches/presentations/Une vision partagée - Tahiti Tourisme.png" alt="Analyse des Parties Prenantes - Vision Partagée avec Tahiti Tourisme" class="stakeholder-image" loading="lazy">
+                    <p class="image-caption">Une vision partagée pour le développement du tourisme</p>`
                 },
                 "4. The Financial Opportunity: Sizing the Market": {
                     containerClass: "image-placeholder market-size",
@@ -109,22 +99,43 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             // Part II - Solution
             1: {
-                "5. The VAI Ecosystem: A Detailed Look at the Product & Technology": {
+                "4. Theory of Change": {
+                    containerClass: "image-theory-change",
+                    html: `<img src="/via-studio-images/pitches/presentations/intervention,output,resultat,impact.png" alt="Theory of Change: Intervention → Output → Results → Impact" class="theory-change-image" loading="lazy">
+                    <p class="image-caption">VAI's Theory of Change: From intervention to sustainable impact</p>`
+                },
+                "4. Théorie du Changement": {
+                    containerClass: "image-theory-change",
+                    html: `<img src="/via-studio-images/pitches/presentations/intervention,output,resultat,impact.png" alt="Théorie du Changement : Intervention → Résultats → Impact" class="theory-change-image" loading="lazy">
+                    <p class="image-caption">Théorie du Changement de VAI : De l'intervention à l'impact durable</p>`
+                },
+                "5. The VAI Ecosystem": {
                     containerClass: "image-product-showcase",
                     html: `<div class="product-showcase">
                         <div class="device-mockup tablet">
-                            <img src="/via-studio-images/app-screens/VAI Operator Tablet and Phone Screen_learnmore.png" alt="VAI Tickets & VAI Operator" loading="lazy">
+                            <img src="/via-studio-images/pitches/presentations/VAI Tickets and VAI Operator_280925.png" alt="VAI Tickets & VAI Operator" loading="lazy">
                             <p class="device-label">VAI Tickets & VAI Operator</p>
                         </div>
                     </div>`
                 },
-                "6. The Business Model: A Framework for Sustainable, Shared Success": {
-                    containerClass: "image-placeholder business-model",
-                    html: `<div class="placeholder-box">
-                        <i class="fas fa-handshake placeholder-icon"></i>
-                        <p class="placeholder-text">Business Model Comparison</p>
-                        <p class="placeholder-note">💰 11% vs 20-30% | ⚡ 7-day vs 30-60 day payouts</p>
+                "5. L'Écosystème VAI": {
+                    containerClass: "image-product-showcase",
+                    html: `<div class="product-showcase">
+                        <div class="device-mockup tablet">
+                            <img src="/via-studio-images/pitches/presentations/VAI Tickets and VAI Operator_280925.png" alt="VAI Tickets & VAI Operator" loading="lazy">
+                            <p class="device-label">VAI Tickets & VAI Operator</p>
+                        </div>
                     </div>`
+                },
+                "6. Economic Model": {
+                    containerClass: "image-business-model",
+                    html: `<img src="/via-studio-images/pitches/presentations/Cooperative Business Modell.png" alt="Cooperative Business Model - VAI's Value Retention Framework" class="business-model-image" loading="lazy">
+                    <p class="image-caption">VAI's cooperative model: 11% commission vs 20-30% | 7-day vs 30-60 day payouts</p>`
+                },
+                "6. Modèle Économique": {
+                    containerClass: "image-business-model",
+                    html: `<img src="/via-studio-images/pitches/presentations/Cooperative Business Modell.png" alt="Modèle d'Affaires Coopératif - Cadre de Rétention de Valeur VAI" class="business-model-image" loading="lazy">
+                    <p class="image-caption">Modèle coopératif VAI : commission 11% vs 20-30% | paiements 7 jours vs 30-60 jours</p>`
                 },
                 "7. Strategic Go-to-Market Plan": {
                     containerClass: "image-placeholder strategy-map",
@@ -145,26 +156,138 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             // Part III - Impact
             2: {
-                "10. Detailed SWOT Analysis": {
-                    containerClass: "image-placeholder swot-matrix",
+                "7. Policy Alignment": {
+                    containerClass: "image-policy-alignment",
+                    html: `<img src="/via-studio-images/pitches/presentations/Policy Framework Alignment VAI.png" alt="Policy Framework Alignment - VAI Integration with National and International Strategies" class="policy-alignment-image" loading="lazy">
+                    <p class="image-caption">VAI's alignment with FM27, GSTC, and SPTO policy frameworks</p>`
+                },
+                "8. Partnership Framework": {
+                    containerClass: "image-placeholder partnership-framework",
                     html: `<div class="placeholder-box">
-                        <i class="fas fa-th-large placeholder-icon"></i>
-                        <p class="placeholder-text">SWOT Analysis Matrix</p>
-                        <p class="placeholder-note">🎯 Strengths, Weaknesses, Opportunities, Threats</p>
+                        <i class="fas fa-network-wired placeholder-icon"></i>
+                        <p class="placeholder-text">Public-Private Partnership Model</p>
+                        <p class="placeholder-note">🏛️ Governance Board | 📊 Data Sovereignty | 🤝 Advisory Council</p>
                     </div>`
                 },
-                "11. Socio-Economic Impact: Booster for Local Development": {
-                    containerClass: "image-placeholder impact-metrics",
+                "7. Alignement Politique": {
+                    containerClass: "image-policy-alignment",
+                    html: `<img src="/via-studio-images/pitches/presentations/Policy Framework Alignment VAI.png" alt="Alignement des Cadres Politiques - Intégration VAI avec les Stratégies Nationales et Internationales" class="policy-alignment-image" loading="lazy">
+                    <p class="image-caption">Alignement de VAI avec les cadres politiques FM27, GSTC et SPTO</p>`
+                },
+                "8. Cadre de Partenariat": {
+                    containerClass: "image-placeholder partnership-framework",
                     html: `<div class="placeholder-box">
-                        <i class="fas fa-seedling placeholder-icon"></i>
-                        <p class="placeholder-text">Local Impact Metrics</p>
-                        <p class="placeholder-note">🌱 Economic Sovereignty | 🏢 SME Empowerment | 📊 Market Formalization</p>
+                        <i class="fas fa-network-wired placeholder-icon"></i>
+                        <p class="placeholder-text">Modèle de Partenariat Public-Privé</p>
+                        <p class="placeholder-note">🏛️ Conseil de Gouvernance | 📊 Souveraineté des Données | 🤝 Conseil Consultatif</p>
                     </div>`
-                }
+                },
             },
             // Part IV - Future
             3: {
-                "12. The Team & The Culture": {
+                "9. Strategic Position & Viability": {
+                    containerClass: "image-placeholder strategic-position",
+                    html: `<div class="placeholder-box">
+                        <i class="fas fa-chess-king placeholder-icon"></i>
+                        <p class="placeholder-text">Strategic Competitive Position</p>
+                        <p class="placeholder-note">🏆 Local Legitimacy | 🔧 System Solution | 💚 Sustainable Model</p>
+                    </div>`
+                },
+                "10. Success Metrics": {
+                    containerClass: "image-placeholder success-metrics",
+                    html: `<div class="placeholder-box">
+                        <i class="fas fa-chart-line placeholder-icon"></i>
+                        <p class="placeholder-text">Success Measurement Framework</p>
+                        <p class="placeholder-note">📊 Economic Sovereignty | 🌱 Sustainable Tourism | 🏛️ Governance</p>
+                    </div>`
+                },
+                "11. Long-Term Vision": {
+                    containerClass: "image-future-vision",
+                    html: `<div class="vision-showcase">
+                        <img src="/via-studio-images/landingpage/VAI Skill Share - Educational Platform.png" alt="VAI Skills Platform" class="vision-image" loading="lazy">
+                        <p class="image-caption">VAI Skills: Educational platform for local entrepreneurs</p>
+                        <div class="ecosystem-grid">
+                            <div class="ecosystem-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>VAI Insights</span>
+                            </div>
+                            <div class="ecosystem-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>VAI Skills</span>
+                            </div>
+                            <div class="ecosystem-item">
+                                <i class="fas fa-home"></i>
+                                <span>VAI Homes</span>
+                            </div>
+                            <div class="ecosystem-item">
+                                <i class="fas fa-truck"></i>
+                                <span>VAI Supply</span>
+                            </div>
+                        </div>
+                    </div>`
+                },
+                "9. Position Stratégique et Viabilité": {
+                    containerClass: "image-placeholder strategic-position",
+                    html: `<div class="placeholder-box">
+                        <i class="fas fa-chess-king placeholder-icon"></i>
+                        <p class="placeholder-text">Position Concurrentielle Stratégique</p>
+                        <p class="placeholder-note">🏆 Légitimité Locale | 🔧 Solution Système | 💚 Modèle Durable</p>
+                    </div>`
+                },
+                "10. Métriques de Succès": {
+                    containerClass: "image-placeholder success-metrics",
+                    html: `<div class="placeholder-box">
+                        <i class="fas fa-chart-line placeholder-icon"></i>
+                        <p class="placeholder-text">Cadre de Mesure du Succès</p>
+                        <p class="placeholder-note">📊 Souveraineté Économique | 🌱 Tourisme Durable | 🏛️ Gouvernance</p>
+                    </div>`
+                },
+                "11. Vision à Long Terme": {
+                    containerClass: "image-future-vision",
+                    html: `<div class="vision-showcase">
+                        <img src="/via-studio-images/landingpage/VAI Skill Share - Educational Platform.png" alt="Plateforme VAI Skills" class="vision-image" loading="lazy">
+                        <p class="image-caption">VAI Skills : Plateforme éducative pour les entrepreneurs locaux</p>
+                        <div class="ecosystem-grid">
+                            <div class="ecosystem-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>VAI Insights</span>
+                            </div>
+                            <div class="ecosystem-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>VAI Skills</span>
+                            </div>
+                            <div class="ecosystem-item">
+                                <i class="fas fa-home"></i>
+                                <span>VAI Homes</span>
+                            </div>
+                            <div class="ecosystem-item">
+                                <i class="fas fa-truck"></i>
+                                <span>VAI Supply</span>
+                            </div>
+                        </div>
+                    </div>`
+                },
+                "12. The Founder's Philosophy": {
+                    containerClass: "image-founder",
+                    html: `<div class="founder-section">
+                        <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva, Founder" class="founder-image" loading="lazy">
+                        <div class="founder-quote">
+                            <p class="quote-text">"Technology should enhance human capability and connect business success with positive, sustainable impact."</p>
+                            <p class="quote-author">— Kevin De Silva, Founder</p>
+                        </div>
+                    </div>`
+                },
+                "12. La Philosophie du Fondateur": {
+                    containerClass: "image-founder",
+                    html: `<div class="founder-section">
+                        <img src="/via-studio-images/personal/kevin-polynesian.jpg" alt="Kevin De Silva, Fondateur" class="founder-image" loading="lazy">
+                        <div class="founder-quote">
+                            <p class="quote-text">"La technologie doit améliorer les capacités humaines et lier le succès commercial à un impact positif et durable."</p>
+                            <p class="quote-author">— Kevin De Silva, Fondateur</p>
+                        </div>
+                    </div>`
+                },
+                "13. Team & Implementation": {
                     containerClass: "image-placeholder team-culture",
                     html: `<div class="placeholder-box">
                         <i class="fas fa-users placeholder-icon"></i>
@@ -172,7 +295,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p class="placeholder-note">👥 Local team building the future of Polynesian tourism</p>
                     </div>`
                 },
-                "13. The Grand Vision: The VAI Ecosystem at Scale": {
+                "13. Équipe et Mise en Œuvre": {
+                    containerClass: "image-placeholder team-culture",
+                    html: `<div class="placeholder-box">
+                        <i class="fas fa-users placeholder-icon"></i>
+                        <p class="placeholder-text">Photo Équipe & Culture</p>
+                        <p class="placeholder-note">👥 Équipe locale construisant l'avenir du tourisme polynésien</p>
+                    </div>`
+                },
+                "11. Long-Term Vision": {
                     containerClass: "image-future-vision",
                     html: `<div class="vision-showcase">
                         <img src="/via-studio-images/landingpage/VAI Skill Share - Educational Platform.png" alt="VAI Skills Platform" class="vision-image" loading="lazy">
@@ -307,8 +438,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderContent() {
         // Populate navigation with meaningful keywords (multilingual)
         const sectionKeywords = {
-            'en': ['Opportunity', 'Solution', 'Impact', 'Future'],
-            'fr': ['Opportunité', 'Solution', 'Impact', 'Futur']
+            'en': ['Diagnosis', 'Solution', 'Implementation', 'Vision'],
+            'fr': ['Diagnostic', 'Solution', 'Mise en Œuvre', 'Vision']
         };
         
         const keywords = sectionKeywords[currentLang] || sectionKeywords['en'];
