@@ -192,9 +192,8 @@ body {
 }
 
 .main-logo {
-    max-height: 150px;
+    max-height: 250px;
     width: auto;
-    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
 }
 
 .newspaper-title {
@@ -988,6 +987,7 @@ body.use-fallback .menu-pages.fallback-menu {
 .flipbook-page .page-subtitle {
     font-size: 0.85rem;
     margin-bottom: var(--space-sm);
+    margin-top:var(--space-sm);
 }
 
 .flipbook-page .menu-columns {
@@ -1089,7 +1089,6 @@ body.use-fallback .menu-pages.fallback-menu {
 .menu-illustration {
     max-height: 120px;
     width: auto;
-    filter: sepia(20%) saturate(120%) hue-rotate(15deg);
 }
 
 .page-title {

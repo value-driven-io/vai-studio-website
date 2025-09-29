@@ -250,19 +250,17 @@ class CaramelinMenu {
         }
 
         const illustrations = {
-            drinks: { emoji: '☕', name: 'coffee' },
-            breakfast: { emoji: '🥐', name: 'croissant' },
-            lunch: { emoji: '🐟', name: 'fish' },
-            pastries: { emoji: '🧁', name: 'pastry' },
-            tapas: { emoji: '🍍', name: 'pineapple' }
+            drinks: { src: '/clients/caramelin/resources/media/illustrations_menu/drinks1.png', name: 'drinks' },
+            breakfast: { src: '/clients/caramelin/resources/media/illustrations_menu/breakfast1.png', name: 'breakfast' },
+            lunch: { src: '/clients/caramelin/resources/media/illustrations_menu/lunch1.png', name: 'lunch' },
+            pastries: { src: '/clients/caramelin/resources/media/illustrations_menu/sweets1.png', name: 'sweets' },
+            tapas: { src: '/clients/caramelin/resources/media/illustrations_menu/tapas1.png', name: 'tapas' }
         };
 
         return `
             <div class="page-header">
                 <div class="page-illustration">
-                    <div class="illustration-placeholder" data-name="${illustrations[page]?.name || 'image'}">
-                        ${illustrations[page]?.emoji || '🖼️'}
-                    </div>
+                    <img src="${illustrations[page]?.src || ''}" alt="${illustrations[page]?.name || 'menu'} illustration" class="menu-illustration" />
                 </div>
                 <h2 class="page-title">${pageData.title}</h2>
                 <p class="page-subtitle">${pageData.subtitle}</p>
@@ -285,9 +283,7 @@ class CaramelinMenu {
 
         return `
             <div class="welcome-page">
-                <div class="decorative-line"></div>
                 <h2 class="welcome-title">${title}</h2>
-                <div class="decorative-line"></div>
 
                 <div class="welcome-content">
                     <div class="welcome-image">
@@ -373,9 +369,7 @@ class CaramelinMenu {
 
         return `
             <div class="contents-page">
-                <div class="decorative-line"></div>
                 <h2 class="contents-main-title">${title}</h2>
-                <div class="decorative-line"></div>
 
                 <div class="contents-list">
                     ${contentsItems}
@@ -497,9 +491,7 @@ class CaramelinMenu {
 
         return `
             <div class="contact-page">
-                <div class="decorative-line"></div>
                 <h2 class="contact-title">${title}</h2>
-                <div class="decorative-line"></div>
 
                 <div class="contact-sections">
                     <section class="team-section">
