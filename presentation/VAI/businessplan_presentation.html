@@ -16,8 +16,8 @@
             --text-primary: #1a1a1a;
             --text-secondary: #6b7280;
             --text-muted: #9ca3af;
-            --accent-primary: #2563eb;
-            --accent-secondary: #3b82f6;
+            --accent-primary: #2b2c2e;
+            --accent-secondary: #4a494a;
             --accent-success: #10b981;
             --accent-warning: #f59e0b;
             --accent-danger: #ef4444;
@@ -95,12 +95,23 @@
         /* Professional Image Styles */
         .presentation-image {
             width: 100%;
-            max-width: 900px;
+            max-width: 500px;
             border-radius: 12px;
             box-shadow: var(--shadow-lg);
             margin: 3rem auto;
             display: block;
             border: 1px solid var(--border-light);
+        }
+
+        .logo-image {
+            height: 70px;
+            width: auto;
+            transition: transform 0.3s ease;
+            margin-bottom:5%;
+        }
+
+        .logo-image:hover {
+            transform: scale(1.05);
         }
 
         /* Professional Card Layouts */
@@ -112,7 +123,7 @@
         }
 
         .content-card {
-            background: var(--background-secondary);
+            /*background: var(--background-secondary);*/
             border-radius: 16px;
             padding: 2.5rem;
             border: 1px solid var(--border-light);
@@ -152,14 +163,14 @@
         }
 
         .problem-list, .solution-list {
-            list-style: none;
+            list-style: circle;
             margin: 1rem 0;
         }
 
         .problem-list li {
             padding: 1rem;
-            border-left: 4px solid var(--accent-danger);
-            background: rgba(239, 68, 68, 0.05);
+            /*border-left: 4px solid var(--accent-danger);
+            background: rgba(239, 68, 68, 0.05);*/
             border-radius: 0 8px 8px 0;
             margin: 0.75rem 0;
             font-size: 0.95rem;
@@ -168,8 +179,8 @@
 
         .solution-list li {
             padding: 1rem;
-            border-left: 4px solid var(--accent-success);
-            background: rgba(16, 185, 129, 0.05);
+            /* border-left: 4px solid var(--accent-success);
+            background: rgba(16, 185, 129, 0.05);*/
             border-radius: 0 8px 8px 0;
             margin: 0.75rem 0;
             font-size: 0.95rem;
@@ -359,7 +370,7 @@
         }
 
         .key-insight {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05));
+            /*background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05));*/
             border: 1px solid rgba(37, 99, 235, 0.2);
             border-radius: 16px;
             padding: 2rem;
@@ -386,8 +397,12 @@
                 font-size: 2.5rem;
             }
 
-            .slide-subtitle {
+            /*.slide-subtitle {
                 font-size: 1.2rem;
+            }*/
+
+            .logo-image {
+                height: 40px;
             }
 
             .content-grid {
@@ -444,6 +459,355 @@
         .vision-frame {
             border-left: 6px solid var(--accent-warning);
         }
+
+        /* Agenda Styles */
+        .agenda-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .agenda-card {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 3rem;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .agenda-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .agenda-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 0.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            background: var(--background-primary);
+        }
+
+        .agenda-item:hover {
+            background: var(--background-secondary);
+            border-color: var(--accent-primary);
+            transform: translateX(8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .agenda-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .agenda-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .platform-status {
+            background: linear-gradient(135deg, var(--accent-success), #059669);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        /* Contact Slide Styles */
+        .contact-container {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-header {
+            margin-bottom: 3rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .cta-section {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Contact Slide Styles */
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .founder-introduction {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .founder-profile {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .founder-image {
+            flex-shrink: 0;
+        }
+
+        .founder-image img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid rgb(148, 145, 145);
+            box-shadow: 0 8px 24px rgba(72, 72, 72, 0.3);
+            object-fit: cover;
+        }
+
+        .founder-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .founder-name {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .founder-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .founder-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .contact-btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .email-btn {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .linkedin-btn {
+            background: #0077B5;
+            color: white;
+        }
+
+        .commitment-card {
+            background: var(--background-light);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .commitment-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .commitment-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .commitment-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .commitment-list li:last-child {
+            border-bottom: none;
+        }
+
+        .next-steps-frame {
+            margin-top: 3rem;
+            background: var(--background-secondary);
+            border: 2px solid var(--accent-primary);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .next-steps-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .step-item {
+            background: var(--background-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .step-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem auto;
+        }
+
+        .step-text {
+            color: var(--text-secondary);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .founder-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .founder-info {
+                min-width: auto;
+            }
+
+            .contact-buttons {
+                justify-content: center;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -462,7 +826,7 @@
         <button class="nav-btn" onclick="previousSlide()">
             <i class="fas fa-chevron-left"></i>
         </button>
-        <span id="slide-counter">1 / 15</span>
+        <span id="slide-counter">1 / 17</span>
         <button class="nav-btn" onclick="nextSlide()">
             <i class="fas fa-chevron-right"></i>
         </button>
@@ -472,15 +836,67 @@
     <section class="pitch-slide" id="slide-1">
         <div class="slide-content">
             <div class="slide-header">
-                <h1 class="slide-title" data-translate="title">VAI</h1>
-                <p class="slide-subtitle" data-translate="subtitle">Digital Sovereignty for Polynesian Tourism</p>
+                    <img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="VAI Logo" class="logo-image">
+                <p class="slide-subtitle" data-translate="subtitle" style="color:var(--text-primary); font-weight: 500;">Digital Sovereignty for Polynesian Tourism</p>
                 <p class="slide-description" data-translate="tagline">A Strategic Platform for Sustainable Growth and Economic Independence</p>
             </div>
         </div>
     </section>
 
-    <!-- Slide 2: The Diagnosis - Enhanced Hero -->
+    <!-- Slide 2: Agenda -->
     <section class="pitch-slide" id="slide-2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="agenda-slide-title">Presentation Overview</h2>
+                <p class="slide-subtitle" data-translate="agenda-slide-subtitle">Your roadmap to understanding VAI's strategic position</p>
+            </div>
+
+            <div class="agenda-container">
+                <div class="platform-status" data-translate="platform-status">🚀 Platform Ready to Launch</div>
+
+                <div class="agenda-card">
+
+                    <div class="agenda-item" data-slide="3">
+                        <div class="agenda-number">1</div>
+                        <div class="agenda-text" data-translate="agenda-diagnosis">The Challenge: Paradise at a Crossroads</div>
+                    </div>
+
+                    <div class="agenda-item" data-slide="4">
+                        <div class="agenda-number">2</div>
+                        <div class="agenda-text" data-translate="agenda-stakeholders">Stakeholder Analysis & Market Reality</div>
+                    </div>
+
+                    <div class="agenda-item" data-slide="7">
+                        <div class="agenda-number">3</div>
+                        <div class="agenda-text" data-translate="agenda-theory">Theory of Change & Strategic Framework</div>
+                    </div>
+
+                    <div class="agenda-item" data-slide="9">
+                        <div class="agenda-number">4</div>
+                        <div class="agenda-text" data-translate="agenda-solution">VAI Ecosystem: Our Solution</div>
+                    </div>
+
+                    <div class="agenda-item" data-slide="12">
+                        <div class="agenda-number">5</div>
+                        <div class="agenda-text" data-translate="agenda-policy">Policy Alignment & Partnership</div>
+                    </div>
+
+                    <div class="agenda-item" data-slide="14">
+                        <div class="agenda-number">6</div>
+                        <div class="agenda-text" data-translate="agenda-vision">Future Vision & Investment</div>
+                    </div>
+
+                    <div class="agenda-item" data-slide="16">
+                        <div class="agenda-number">7</div>
+                        <div class="agenda-text" data-translate="agenda-contact">Partnership & Next Steps</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: The Diagnosis - Enhanced Hero -->
+    <section class="pitch-slide" id="slide-3">
         <div class="slide-content">
             <div class="diagnosis-hero">
                 <h2 class="diagnosis-headline" data-translate="diagnosis-headline">
@@ -490,6 +906,9 @@
                     French Polynesia's tourism generates 99 billion XPF annually and employs 1 in 5 workers.
                     Yet beneath the pristine facade lies a system in crisis.
                 </p>
+                <img src="/via-studio-images/pitches/presentations/Tourism_Broken_Ecosystem.jpg"
+                 alt="Stakeholder Analysis Visualization"
+                 class="presentation-image">
 
                 <div class="key-insight diagnosis-frame">
                     <div class="insight-title" data-translate="insight-title">The Paradise Paradox</div>
@@ -522,8 +941,8 @@
         </div>
     </section>
 
-    <!-- Slide 3: Stakeholder Analysis Overview -->
-    <section class="pitch-slide" id="slide-3">
+    <!-- Slide 4: Stakeholder Analysis Overview -->
+    <section class="pitch-slide" id="slide-4">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="stakeholder-overview-title">Stakeholder Ecosystem</h2>
@@ -544,8 +963,8 @@
         </div>
     </section>
 
-    <!-- Slide 4: Public Sector Stakeholders -->
-    <section class="pitch-slide" id="slide-4">
+    <!-- Slide 5: Public Sector Stakeholders -->
+    <section class="pitch-slide" id="slide-5">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="public-sector-title">Public Sector Stakeholders</h2>
@@ -585,8 +1004,8 @@
         </div>
     </section>
 
-    <!-- Slide 5: Local Entrepreneurs -->
-    <section class="pitch-slide" id="slide-5">
+    <!-- Slide 6: Local Entrepreneurs -->
+    <section class="pitch-slide" id="slide-6">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="entrepreneurs-title">Local Entrepreneurs</h2>
@@ -626,8 +1045,8 @@
         </div>
     </section>
 
-    <!-- Slide 6: Private Sector Stakeholders -->
-    <section class="pitch-slide" id="slide-6">
+    <!-- Slide 7: Private Sector Stakeholders -->
+    <section class="pitch-slide" id="slide-7">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="private-sector-title">Private Sector Stakeholders</h2>
@@ -667,8 +1086,8 @@
         </div>
     </section>
 
-    <!-- Slide 7: Local Community -->
-    <section class="pitch-slide" id="slide-7">
+    <!-- Slide 8: Local Community -->
+    <section class="pitch-slide" id="slide-8">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="community-title">The Local Community</h2>
@@ -708,8 +1127,8 @@
         </div>
     </section>
 
-    <!-- Slide 8: Theory of Change -->
-    <section class="pitch-slide" id="slide-8">
+    <!-- Slide 9: Theory of Change -->
+    <section class="pitch-slide" id="slide-9">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="theory-title">Theory of Change</h2>
@@ -718,7 +1137,7 @@
 
             <img src="../../via-studio-images/pitches/presentations/intervention,output,resultat,impact.png"
                  alt="Theory of Change Framework"
-                 class="presentation-image">
+                 class="presentation-image" style="max-width: 800px;">
 
             <div class="theory-flow">
                 <div class="theory-step">
@@ -741,8 +1160,8 @@
         </div>
     </section>
 
-    <!-- Slide 9: The VAI Solution -->
-    <section class="pitch-slide" id="slide-9">
+    <!-- Slide 10: The VAI Solution -->
+    <section class="pitch-slide" id="slide-10">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="solution-title">The VAI Ecosystem</h2>
@@ -752,9 +1171,6 @@
             <div class="content-grid">
                 <div class="content-card solution-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-cogs"></i>
-                        </div>
                         <h3 class="card-title" data-translate="vai-operator-title">VAI Operator</h3>
                     </div>
                     <ul class="solution-list">
@@ -766,9 +1182,6 @@
                 </div>
                 <div class="content-card solution-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-ticket-alt"></i>
-                        </div>
                         <h3 class="card-title" data-translate="vai-tickets-title">VAI Tickets</h3>
                     </div>
                     <ul class="solution-list">
@@ -780,9 +1193,6 @@
                 </div>
                 <div class="content-card solution-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
                         <h3 class="card-title" data-translate="vai-insights-title">VAI Insights</h3>
                     </div>
                     <ul class="solution-list">
@@ -796,8 +1206,8 @@
         </div>
     </section>
 
-    <!-- Slide 10: Value Retention Model -->
-    <section class="pitch-slide" id="slide-10">
+    <!-- Slide 11: Value Retention Model -->
+    <section class="pitch-slide" id="slide-11">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="value-model-title">Value Retention Economics</h2>
@@ -834,8 +1244,8 @@
         </div>
     </section>
 
-    <!-- Slide 11: Policy Alignment -->
-    <section class="pitch-slide" id="slide-11">
+    <!-- Slide 12: Policy Alignment -->
+    <section class="pitch-slide" id="slide-12">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="policy-title">Policy Alignment</h2>
@@ -845,27 +1255,18 @@
             <div class="content-grid">
                 <div class="content-card strategy-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-flag"></i>
-                        </div>
                         <h3 class="card-title" data-translate="policy-fm27-title">Fāri'ira'a Manihini 2027</h3>
                     </div>
                     <p data-translate="policy-fm27-description">VAI provides the digital tools for diversification of experiences, professionalization of providers, and data-driven management required to achieve FM27's vision of inclusive and sustainable tourism.</p>
                 </div>
                 <div class="content-card strategy-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
                         <h3 class="card-title" data-translate="policy-gstc-title">Global Sustainable Tourism Council</h3>
                     </div>
                     <p data-translate="policy-gstc-description">Our economic model, social impact contribution, and focus on cultural preservation are fully aligned with GSTC principles for sustainable destination management.</p>
                 </div>
                 <div class="content-card strategy-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-island-tropical"></i>
-                        </div>
                         <h3 class="card-title" data-translate="policy-spto-title">South Pacific Tourism Organisation</h3>
                     </div>
                     <p data-translate="policy-spto-description">By empowering local entrepreneurs and fostering community-based tourism, VAI directly supports the SPTO's Pacific Sustainable Tourism Policy Framework.</p>
@@ -874,8 +1275,8 @@
         </div>
     </section>
 
-    <!-- Slide 12: Partnership Doctrine -->
-    <section class="pitch-slide" id="slide-12">
+    <!-- Slide 13: Partnership Doctrine -->
+    <section class="pitch-slide" id="slide-13">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="partnership-title">Partnership Doctrine</h2>
@@ -914,8 +1315,8 @@
         </div>
     </section>
 
-    <!-- Slide 13: Financial Projections -->
-    <section class="pitch-slide" id="slide-13">
+    <!-- Slide 14: Financial Projections -->
+    <section class="pitch-slide" id="slide-14">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="projections-title">3-Year Financial Projections</h2>
@@ -952,8 +1353,8 @@
         </div>
     </section>
 
-    <!-- Slide 14: Long-Term Vision -->
-    <section class="pitch-slide" id="slide-14">
+    <!-- Slide 15: Long-Term Vision -->
+    <section class="pitch-slide" id="slide-15">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="vision-title">Long-Term Vision</h2>
@@ -1019,8 +1420,8 @@
         </div>
     </section>
 
-    <!-- Slide 15: Investment Opportunity -->
-    <section class="pitch-slide" id="slide-15">
+    <!-- Slide 16: Investment Opportunity -->
+    <section class="pitch-slide" id="slide-16">
         <div class="slide-content">
             <div class="slide-header">
                 <h2 class="slide-title" data-translate="investment-title">Investment Opportunity</h2>
@@ -1030,9 +1431,6 @@
             <div class="content-grid">
                 <div class="content-card vision-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-rocket"></i>
-                        </div>
                         <h3 class="card-title" data-translate="market-opportunity-title">The Market Opportunity</h3>
                     </div>
                     <ul class="solution-list">
@@ -1044,9 +1442,6 @@
                 </div>
                 <div class="content-card vision-frame">
                     <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
                         <h3 class="card-title" data-translate="success-indicators-title">Success Indicators</h3>
                     </div>
                     <ul class="solution-list">
@@ -1064,6 +1459,82 @@
                     This is more than an investment in a platform - it's an investment in the future of island economies.
                     VAI represents a new model where digital sovereignty meets sustainable prosperity,
                     creating lasting value for communities, investors, and the planet.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 17: Partnership & Contact -->
+    <section class="pitch-slide" id="slide-17">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title" data-translate="contact-title">Partnership & Next Steps</h2>
+                <p class="slide-subtitle" data-translate="contact-subtitle">Let's Build Digital Sovereignty Together</p>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-card">
+                    <div class="founder-introduction" data-translate="founder-intro">
+                        Ready to transform French Polynesia's tourism economy? Let's connect and discuss how VAI can become the digital sovereignty platform our islands need.
+                    </div>
+
+                    <div class="founder-profile">
+                        <div class="founder-image">
+                            <img src="/via-studio-images/founder/Kevin De Silva.jpeg" alt="Kevin De Silva" />
+                        </div>
+                        <div class="founder-info">
+                            <h3 class="founder-name">Kevin De Silva</h3>
+                            <p class="founder-title" data-translate="founder-role">Founder & CEO, VAI Platform</p>
+                            <p class="founder-description" data-translate="founder-description">AI-Powered Transformation | Human-Centric Systems | French Polynesia Tourism Innovation</p>
+
+                            <div class="contact-buttons">
+                                <!-- <a href="https://wa.me/68987269065" class="contact-btn whatsapp-btn">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span data-translate="whatsapp-btn">WhatsApp</span>
+                                </a> -->
+                                <a href="mailto:hello@kevindesilva.de" class="contact-btn email-btn">
+                                    <i class="fas fa-envelope"></i>
+                                    <span data-translate="email-btn">Email</span>
+                                </a>
+                                <a href="https://linkedin.com/in/kevindesilva" class="contact-btn linkedin-btn">
+                                    <i class="fab fa-linkedin"></i>
+                                    <span data-translate="linkedin-btn">LinkedIn</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="commitment-card">
+                    <div class="commitment-title" data-translate="commitment-title">Our Commitment</div>
+                    <ul class="commitment-list">
+                        <li data-translate="commitment-1"><strong>Transparency:</strong> Open dialogue throughout the partnership journey</li>
+                        <li data-translate="commitment-2"><strong>Local First:</strong> Every decision prioritizes Polynesian community benefit</li>
+                        <li data-translate="commitment-3"><strong>Sustainable Growth:</strong> Long-term value over short-term gains</li>
+                        <li data-translate="commitment-4"><strong>Cultural Respect:</strong> Technology that honors and preserves local heritage</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-steps-frame">
+                <div class="next-steps-title" data-translate="next-steps-title">What Happens Next?</div>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text" data-translate="step-1">Initial Discussion & Vision Alignment</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text" data-translate="step-2">Due Diligence & Technical Review</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text" data-translate="step-3">Partnership Framework Development</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-text" data-translate="step-4">Launch & Scale Together</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1247,6 +1718,37 @@
                 'vai-events-description': 'Platform for festivals, retreats, and cultural experiences highlighting local artists and traditions.',
                 'vai-connect-description': 'Social platform for community collaboration, volunteering, and networking - built by the community, for the community.',
                 'pacific-expansion-description': 'The VAI model as a template for other island nations facing similar challenges of economic leakage and digital dependency.',
+                // Agenda slide translations
+                'agenda-slide-title': 'Presentation Overview',
+                'agenda-slide-subtitle': 'Your roadmap to understanding VAI\'s strategic position',
+                'platform-status': '🚀 Platform Ready to Launch',
+                'agenda-title': 'What We\'ll Cover Today',
+                'agenda-diagnosis': 'The Challenge: Paradise at a Crossroads',
+                'agenda-stakeholders': 'Stakeholder Analysis & Market Reality',
+                'agenda-theory': 'Theory of Change & Strategic Framework',
+                'agenda-solution': 'VAI Ecosystem: Our Solution',
+                'agenda-policy': 'Policy Alignment & Partnership',
+                'agenda-vision': 'Future Vision & Investment',
+                'agenda-contact': 'Partnership & Next Steps',
+                // Contact slide translations
+                'contact-title': 'Partnership & Next Steps',
+                'contact-subtitle': 'Let\'s Build Digital Sovereignty Together',
+                'founder-intro': 'Ready to transform French Polynesia\'s tourism economy? Let\'s connect and discuss how VAI can become the digital sovereignty platform our islands need.',
+                'founder-role': 'Founder & CEO, VAI Platform',
+                'founder-description': 'AI-Powered Transformation | Human-Centric Systems | French Polynesia Tourism Innovation',
+                'whatsapp-btn': 'WhatsApp',
+                'email-btn': 'Email',
+                'linkedin-btn': 'LinkedIn',
+                'commitment-title': 'Our Commitment',
+                'commitment-1': '<strong>Transparency:</strong> Open dialogue throughout the partnership journey',
+                'commitment-2': '<strong>Local First:</strong> Every decision prioritizes Polynesian community benefit',
+                'commitment-3': '<strong>Sustainable Growth:</strong> Long-term value over short-term gains',
+                'commitment-4': '<strong>Cultural Respect:</strong> Technology that honors and preserves local heritage',
+                'next-steps-title': 'What Happens Next?',
+                'step-1': 'Initial Discussion & Vision Alignment',
+                'step-2': 'Due Diligence & Technical Review',
+                'step-3': 'Partnership Framework Development',
+                'step-4': 'Launch & Scale Together',
                 'lang-toggle': 'FR',
                 'export-pdf': 'Export PDF'
             },
@@ -1425,6 +1927,37 @@
                 'vai-events-description': 'Plateforme pour festivals, retraites et expériences culturelles mettant en valeur les artistes et traditions locales.',
                 'vai-connect-description': 'Plateforme sociale pour la collaboration communautaire, le bénévolat et le réseautage - construite par la communauté, pour la communauté.',
                 'pacific-expansion-description': 'Le modèle VAI comme modèle pour d\'autres nations insulaires confrontées à des défis similaires de fuite économique et de dépendance numérique.',
+                // Agenda slide translations
+                'agenda-slide-title': 'Aperçu de la Présentation',
+                'agenda-slide-subtitle': 'Votre feuille de route pour comprendre la position stratégique de VAI',
+                'platform-status': '🚀 Plateforme Prête au Lancement',
+                'agenda-title': 'Ce Que Nous Couvrirons Aujourd\'hui',
+                'agenda-diagnosis': 'Le Défi : Paradis à la Croisée des Chemins',
+                'agenda-stakeholders': 'Analyse des Parties Prenantes & Réalité du Marché',
+                'agenda-theory': 'Théorie du Changement & Cadre Stratégique',
+                'agenda-solution': 'Écosystème VAI : Notre Solution',
+                'agenda-policy': 'Alignement Politique & Partenariat',
+                'agenda-vision': 'Vision Future & Investissement',
+                'agenda-contact': 'Partenariat & Prochaines Étapes',
+                // Contact slide translations
+                'contact-title': 'Partenariat & Prochaines Étapes',
+                'contact-subtitle': 'Construisons Ensemble la Souveraineté Numérique',
+                'founder-intro': 'Prêt à transformer l\'économie touristique de la Polynésie française ? Connectons-nous et discutons de comment VAI peut devenir la plateforme de souveraineté numérique dont nos îles ont besoin.',
+                'founder-role': 'Fondateur & CEO, Plateforme VAI',
+                'founder-description': 'Ingénieur | Stratège Produit IA | Innovation Touristique Polynésie Française',
+                'whatsapp-btn': 'WhatsApp',
+                'email-btn': 'Email',
+                'linkedin-btn': 'LinkedIn',
+                'commitment-title': 'Notre Engagement',
+                'commitment-1': '<strong>Transparence :</strong> Dialogue ouvert tout au long du parcours de partenariat',
+                'commitment-2': '<strong>Local d\'Abord :</strong> Chaque décision privilégie le bénéfice de la communauté polynésienne',
+                'commitment-3': '<strong>Croissance Durable :</strong> Valeur à long terme plutôt que gains à court terme',
+                'commitment-4': '<strong>Respect Culturel :</strong> Technologie qui honore et préserve le patrimoine local',
+                'next-steps-title': 'Que Se Passe-t-il Ensuite ?',
+                'step-1': 'Discussion Initiale & Alignement de Vision',
+                'step-2': 'Diligence Raisonnable & Revue Technique',
+                'step-3': 'Développement du Cadre de Partenariat',
+                'step-4': 'Lancement & Croissance Ensemble',
                 'lang-toggle': 'EN',
                 'export-pdf': 'Exporter PDF'
             }
@@ -1433,7 +1966,7 @@
         // Current state
         let currentSlide = 1;
         let currentLanguage = 'en';
-        const totalSlides = 15;
+        const totalSlides = 17;
 
         // Update slide counter
         function updateSlideCounter() {
@@ -1461,6 +1994,15 @@
             const slide = document.getElementById(`slide-${slideNumber}`);
             if (slide) {
                 slide.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Go to specific slide (for agenda navigation)
+        function goToSlide(slideNumber) {
+            if (slideNumber >= 1 && slideNumber <= totalSlides) {
+                currentSlide = slideNumber;
+                scrollToSlide(currentSlide);
+                updateSlideCounter();
             }
         }
 
@@ -1538,10 +2080,20 @@
             });
         }, observerOptions);
 
-        // Observe all slides
+        // Observe all slides and initialize agenda navigation
         document.addEventListener('DOMContentLoaded', function() {
             const slides = document.querySelectorAll('.pitch-slide');
             slides.forEach(slide => observer.observe(slide));
+
+            // Add click listeners to agenda items
+            const agendaItems = document.querySelectorAll('.agenda-item[data-slide]');
+            agendaItems.forEach(item => {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', function() {
+                    const slideNumber = parseInt(this.getAttribute('data-slide'));
+                    goToSlide(slideNumber);
+                });
+            });
         });
     </script>
 </body>

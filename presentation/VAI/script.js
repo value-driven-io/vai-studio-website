@@ -430,10 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
         //buttonContainer.appendChild(button2);
 
         const pitchButton = document.createElement('a');
-        pitchButton.href = '/presentation/VAI/pitch-enhanced.html';
+        pitchButton.href = '/presentation/VAI/businessplan_presentation.html';
         pitchButton.className = 'hero-button';
         pitchButton.setAttribute('data-translate', 'investor-pitch-button');
-        pitchButton.textContent = allData?.['investor-pitch-button'] || 'Investor Pitch';
+        pitchButton.textContent = allData?.['investor-pitch-button'] || 'Business Presentation';
         buttonContainer.appendChild(pitchButton);
 
         heroContent.appendChild(buttonContainer);
@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ],
                 founder: {
                     name: 'Kevin De Silva',
-                    role: 'Founder VAI | Engineer | Organisational Developer | AI Product Strategist',
+                    role: 'Founder VAI | AI-Powered Transformation | Human-Centric System Innovation',
                     location: '📍 Moorea, French Polynesia - Operating Globally'
                 },
                 methods: [
