@@ -312,9 +312,7 @@
             min-width: 220px;
             text-align: center;
             padding: 2rem;
-            background: var(--background-secondary);
             border-radius: 16px;
-            border: 1px solid var(--border-light);
             position: relative;
             box-shadow: var(--shadow-sm);
         }
@@ -479,7 +477,7 @@
         }
 
         .agenda-title {
-            font-size: 2rem;
+            font-size: 1.7rem;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 2.5rem;
@@ -790,6 +788,44 @@
             line-height: 1.4;
         }
 
+        /* Title Slide Actions */
+        .title-slide-actions {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .detailed-plan-btn {
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            color: var(--accent-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+        }
+
+        .detailed-plan-btn:hover {
+            background: rgba(37, 99, 235, 0.15);
+            border-color: rgba(37, 99, 235, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
+            color: var(--accent-primary);
+        }
+
+        .detailed-plan-btn i {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
         @media (max-width: 768px) {
             .founder-profile {
                 flex-direction: column;
@@ -806,6 +842,15 @@
 
             .steps-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .title-slide-actions {
+                margin-top: 2rem;
+            }
+
+            .detailed-plan-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -837,8 +882,15 @@
         <div class="slide-content">
             <div class="slide-header">
                     <img src="/via-studio-images/logo/VAI - Logo Multicolor 2025.png" alt="VAI Logo" class="logo-image">
-                <p class="slide-subtitle" data-translate="subtitle" style="color:var(--text-primary); font-weight: 500;">Digital Sovereignty for Polynesian Tourism</p>
+                <p class="agenda-title" data-translate="subtitle">Digital Sovereignty for Polynesian Tourism</p>
                 <p class="slide-description" data-translate="tagline">A Strategic Platform for Sustainable Growth and Economic Independence</p>
+
+                <div class="title-slide-actions">
+                    <a href="businessplan/businessplan.html" class="detailed-plan-btn">
+                        <i class="fas fa-file-alt"></i>
+                        <span data-translate="detailed-plan-btn">Detailed Business Plan</span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -1749,6 +1801,8 @@
                 'step-2': 'Due Diligence & Technical Review',
                 'step-3': 'Partnership Framework Development',
                 'step-4': 'Launch & Scale Together',
+                // Title slide action button
+                'detailed-plan-btn': 'Detailed Business Plan',
                 'lang-toggle': 'FR',
                 'export-pdf': 'Export PDF'
             },
@@ -1958,6 +2012,8 @@
                 'step-2': 'Diligence Raisonnable & Revue Technique',
                 'step-3': 'Développement du Cadre de Partenariat',
                 'step-4': 'Lancement & Croissance Ensemble',
+                // Title slide action button
+                'detailed-plan-btn': 'Plan d\'Affaires Détaillé',
                 'lang-toggle': 'EN',
                 'export-pdf': 'Exporter PDF'
             }
