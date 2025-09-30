@@ -310,7 +310,7 @@ class CaramelinMenu {
                 titleEn: 'Beverages',
                 subtitleFr: 'Toute la journée',
                 subtitleEn: 'All Day',
-                emoji: '☕',
+                icon: '/clients/caramelin/resources/media/illustrations_menu/drinks1_front.png',
                 pageNum: 3
             },
             {
@@ -319,7 +319,7 @@ class CaramelinMenu {
                 titleEn: 'The Morning Edition',
                 subtitleFr: '6h30 - 11h00',
                 subtitleEn: '6:30am - 11:00am',
-                emoji: '🥐',
+                icon: '/clients/caramelin/resources/media/illustrations_menu/breakfast1_front.png',
                 pageNum: 4
             },
             {
@@ -328,7 +328,7 @@ class CaramelinMenu {
                 titleEn: 'Midday Specials',
                 subtitleFr: '11h00 - 15h00',
                 subtitleEn: '11:00am - 3:00pm',
-                emoji: '🐟',
+                icon: '/clients/caramelin/resources/media/illustrations_menu/lunch1_front.png',
                 pageNum: 5
             },
             {
@@ -337,7 +337,7 @@ class CaramelinMenu {
                 titleEn: 'The Sweet Section',
                 subtitleFr: 'Toute la journée',
                 subtitleEn: 'All Day',
-                emoji: '🧁',
+                icon: '/clients/caramelin/resources/media/illustrations_menu/sweets1_front.png',
                 pageNum: 6
             },
             {
@@ -346,7 +346,7 @@ class CaramelinMenu {
                 titleEn: 'Social Sunset',
                 subtitleFr: '15h00 - 18h00',
                 subtitleEn: '3:00pm - 6:00pm',
-                emoji: '🍍',
+                icon: '/clients/caramelin/resources/media/illustrations_menu/tapas1_front.png',
                 pageNum: 7
             }
         ];
@@ -356,7 +356,7 @@ class CaramelinMenu {
             const subtitle = isEnglish ? item.subtitleEn : item.subtitleFr;
             return `
                 <div class="contents-item" onclick="caramelinMenu.navigateToPageIndex(${item.pageNum - 1})">
-                    <div class="contents-icon">${item.emoji}</div>
+                    <div class="contents-icon"><img src="${item.icon}" alt="${item.page}" class="contents-icon-img" /></div>
                     <div class="contents-text">
                         <h4 class="contents-title">${title}</h4>
                         <p class="contents-subtitle">${subtitle}</p>

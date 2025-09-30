@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caramel'in - Le Journal Gourmand de Moorea</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="newspaper-wrapper">
+        <!-- Header/Masthead -->
+        <header class="newspaper-header">
+            <div class="masthead">
+                <div class="language-toggle">
+                    <button id="lang-fr" class="lang-btn active">FR</button>
+                    <button id="lang-en" class="lang-btn">EN</button>
+                </div>
+
+                <div class="logo-section">
+                    <div class="logo-placeholder">
+                        <img src="/clients/caramelin/resources/logo/Logo1_caramelin_main.png" alt="Caramel'in Logo" class="main-logo" />
+                    </div>
+                    <div class="subtitle" data-fr="Moorea • Polynésie Française" data-en="Moorea • French Polynesia">Moorea • Polynésie Française</div>
+                </div>
+
+                <div class="date-weather">
+                    <div class="date" id="current-date"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="newspaper-content">
+
+            <!-- Table of Contents (Collapsible on Mobile) -->
+            <section class="toc-section" id="toc-section">
+                <button class="toc-toggle" id="toc-toggle">
+                    <span class="toc-toggle-text" data-fr="Table des Matières" data-en="Table of Contents">Table des Matières</span>
+                    <span class="toc-toggle-icon">▼</span>
+                </button>
+                <div class="toc-content" id="toc-content">
+                    <h2 class="toc-title" data-fr="Table des Matières" data-en="Table of Contents">Table des Matières</h2>
+                    <nav class="toc-list">
+                        <button class="toc-item active" data-card="0">
+                            <div class="toc-item-icon">
+                                <img src="/clients/caramelin/resources/media/nicoleandjerome1.jpg" alt="Welcome" class="toc-icon-img" />
+                            </div>
+                            <div class="toc-item-text">
+                                <h4 class="toc-item-title" data-fr="Mot des Éditeurs" data-en="A Note from the Publishers">Mot des Éditeurs</h4>
+                                <p class="toc-item-subtitle" data-fr="Bienvenue" data-en="Welcome">Bienvenue</p>
+                            </div>
+                            <div class="toc-item-page">1</div>
+                        </button>
+
+                        <button class="toc-item" data-card="1">
+                            <div class="toc-item-icon">
+                                <img src="/clients/caramelin/resources/media/illustrations_menu/drinks1_front.png" alt="Drinks" class="toc-icon-img" />
+                            </div>
+                            <div class="toc-item-text">
+                                <h4 class="toc-item-title" data-fr="Les Boissons" data-en="Beverages">Les Boissons</h4>
+                                <p class="toc-item-subtitle" data-fr="Toute la journée" data-en="All Day">Toute la journée</p>
+                            </div>
+                            <div class="toc-item-page">2</div>
+                        </button>
+
+                        <button class="toc-item" data-card="2">
+                            <div class="toc-item-icon">
+                                <img src="/clients/caramelin/resources/media/illustrations_menu/breakfast1_front.png" alt="Breakfast" class="toc-icon-img" />
+                            </div>
+                            <div class="toc-item-text">
+                                <h4 class="toc-item-title" data-fr="L'Édition du Matin" data-en="The Morning Edition">L'Édition du Matin</h4>
+                                <p class="toc-item-subtitle" data-fr="6h30 - 11h00" data-en="6:30am - 11:00am">6h30 - 11h00</p>
+                            </div>
+                            <div class="toc-item-page">3</div>
+                        </button>
+
+                        <button class="toc-item" data-card="3">
+                            <div class="toc-item-icon">
+                                <img src="/clients/caramelin/resources/media/illustrations_menu/lunch1_front.png" alt="Lunch" class="toc-icon-img" />
+                            </div>
+                            <div class="toc-item-text">
+                                <h4 class="toc-item-title" data-fr="Spéciaux de Midi" data-en="Midday Specials">Spéciaux de Midi</h4>
+                                <p class="toc-item-subtitle" data-fr="11h00 - 15h00" data-en="11:00am - 3:00pm">11h00 - 15h00</p>
+                            </div>
+                            <div class="toc-item-page">4</div>
+                        </button>
+
+                        <button class="toc-item" data-card="4">
+                            <div class="toc-item-icon">
+                                <img src="/clients/caramelin/resources/media/illustrations_menu/sweets1_front.png" alt="Pastries" class="toc-icon-img" />
+                            </div>
+                            <div class="toc-item-text">
+                                <h4 class="toc-item-title" data-fr="La Section Sucrée" data-en="The Sweet Section">La Section Sucrée</h4>
+                                <p class="toc-item-subtitle" data-fr="Toute la journée" data-en="All Day">Toute la journée</p>
+                            </div>
+                            <div class="toc-item-page">5</div>
+                        </button>
+
+                        <button class="toc-item" data-card="5">
+                            <div class="toc-item-icon">
+                                <img src="/clients/caramelin/resources/media/illustrations_menu/tapas1_front.png" alt="Tapas" class="toc-icon-img" />
+                            </div>
+                            <div class="toc-item-text">
+                                <h4 class="toc-item-title" data-fr="Coucher de Soleil Social" data-en="Social Sunset">Coucher de Soleil Social</h4>
+                                <p class="toc-item-subtitle" data-fr="15h00 - 18h00" data-en="3:00pm - 6:00pm">15h00 - 18h00</p>
+                            </div>
+                            <div class="toc-item-page">6</div>
+                        </button>
+                    </nav>
+                </div>
+            </section>
+
+            <!-- Tab Navigation Bar -->
+            <nav class="tab-navigation" id="tab-navigation">
+                <div class="tab-scroll-wrapper">
+                    <button class="tab-item active" data-card="0" data-fr="Accueil" data-en="Welcome">Accueil</button>
+                    <button class="tab-item" data-card="1" data-fr="Boissons" data-en="Drinks">Boissons</button>
+                    <button class="tab-item" data-card="2" data-fr="Matin" data-en="Breakfast">Matin</button>
+                    <button class="tab-item" data-card="3" data-fr="Midi" data-en="Lunch">Midi</button>
+                    <button class="tab-item" data-card="4" data-fr="Pâtisserie" data-en="Pastries">Pâtisserie</button>
+                    <button class="tab-item" data-card="5" data-fr="Tapas" data-en="Tapas">Tapas</button>
+                </div>
+            </nav>
+
+            <!-- Card Navigation (Arrow + Page Indicator) -->
+            <div class="card-navigation initialized">
+                <button class="card-nav-arrow card-nav-prev" id="card-nav-prev">
+                    <span>←</span>
+                </button>
+                <div class="card-page-indicator" id="card-page-indicator">1 / 6</div>
+                <button class="card-nav-arrow card-nav-next" id="card-nav-next">
+                    <span>→</span>
+                </button>
+            </div>
+
+            <!-- Card-Based Menu Section -->
+            <section class="menu-cards-section initialized">
+                <div class="cards-wrapper">
+                    <div class="cards-container" id="cards-container">
+                        <!-- Cards will be dynamically generated -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="newspaper-footer">
+            <div class="footer-border"></div>
+            <div class="footer-content">
+                <div class="contact-info">
+                    <p data-fr="Maharepa, Moorea • Polynésie Française" data-en="Maharepa, Moorea • French Polynesia">Maharepa, Moorea • Polynésie Française</p>
+                    <p data-fr="Ouvert tous les jours • 6h30 - 18h00" data-en="Open daily • 6:30am - 6:00pm">Ouvert tous les jours • 6h30 - 18h00</p>
+                </div>
+                <div class="social-placeholder">
+                    <div class="social-icons">
+                        <div class="social-link" title="Facebook">
+                            <img src="/clients/caramelin/resources/media/Facebook_logo_(smallsquare).png" alt="Facebook" class="social-icon-img" />
+                        </div>
+                        <div class="social-link" title="Instagram">
+                            <img src="/clients/caramelin/resources/media/Instagram_icon.png" alt="Instagram" class="social-icon-img" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="menu-cards-standalone.js"></script>
+</body>
+</html>
