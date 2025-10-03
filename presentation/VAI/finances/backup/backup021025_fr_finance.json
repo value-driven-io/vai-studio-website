@@ -81,9 +81,6 @@
           ["Opérateurs acquis", "250"],
           ["GMV Total Année 1", "364 200 000 XPF"],
           ["Revenus Totaux (11%)", "40 062 000 XPF"],
-          ["Coût des Revenus", "20 089 120 XPF"],
-          ["Bénéfice Brut", "19 972 880 XPF"],
-          ["Marge Brute", "49,9%"],
           ["Revenus Mensuels Moyens", "3 338 500 XPF"],
           ["Revenus Fin d'Année (run rate)", "6 187 500 XPF/mois"]
         ]
@@ -171,21 +168,23 @@
       ]
     },
     {
-      "title": "Investissement Communautaire & Retours Projetés",
+      "title": "Investissement vs Retour",
       "investment": {
-        "title": "Objectif d'Investissement Communautaire",
-        "total": "Total : 47 000 000 XPF"
+        "title": "Investissement Public Demandé",
+        "items": [
+          "DAD : 4 000 000 XPF",
+          "AEPE : 3 000 000 XPF",
+          "PACE : 5 000 000 XPF"
+        ],
+        "total": "Total : 12 000 000 XPF"
       },
       "return": {
-        "title": "Retours Projetés pour les Investisseurs & Notre Communauté",
+        "title": "Retour sur Investissement",
         "items": [
-          "Intérêts Annuels pour les Investisseurs : 10% fixe = 4 700 000 XPF payés trimestriellement",
-          "Revenus Année 1 : 40 062 000 XPF",
-          "Bénéfice Brut Année 1 : 19 972 880 XPF (marge de 49,9%)",
-          "Chemin vers la Rentabilité : Point mort projeté au Mois 8",
-          "Emplois Créés : 3 postes à temps plein en Année 1",
-          "Impact Économique : 364M XPF de GMV facilité, gardant les revenus touristiques locaux",
-          "Retour Investisseur sur 5 ans : 23,5M XPF en intérêts + option de conversion en actions"
+          "ROI Année 1 : 334% (40M revenus / 12M investissement)",
+          "Délai de récupération : 4 mois",
+          "Emplois créés : 3 directs + 10 indirects",
+          "Impact économique : 364M XPF facilités"
         ]
       }
     },
@@ -230,12 +229,12 @@
     {
       "title": "Conclusion",
       "paragraphs": [
-        "Avec l'endorsement de la Commune de Moorea et le dialogue en cours avec Tahiti Tourisme, l'objectif de 250 opérateurs en 9 mois est non seulement atteignable mais conservateur.",
+        "Avec le support de la Commune de Moorea et l'engagement de Tahiti Tourisme & Service du Tourisme, l'objectif de 250 opérateurs en 9 mois est non seulement atteignable mais conservateur.",
         "La plateforme VAI, déjà opérationnelle et valorisée à 28-44 millions XPF, combinée à un modèle économique disruptif (11% vs 20-30%), créera une adoption rapide et massive du marché.",
-        "L'investissement communautaire de 47 millions XPF alimentera un plan opérationnel complet et réaliste, projeté pour générer 40 millions XPF de revenus dès la première année et établir l'infrastructure numérique touristique fondamentale de la Polynésie française.",
-        "Les investisseurs recevront un retour annuel de 10% payé trimestriellement, avec l'opportunité de convertir en actions et de participer à la croissance à long terme de VAI tout en soutenant la souveraineté économique locale."
+        "L'investissement public de 12 millions XPF (demande en cours) générera un retour de 40 millions XPF dès la première année, tout en établissant l'infrastructure numérique touristique de la Polynésie française."
       ],
-      "contact": "Contact : Kevin De Silva - Fondateur & CEO, VAI Platform | L'infrastructure numérique du tourisme polynésien, construite par des Polynésiens, pour les Polynésiens."
+      "footer": "Document préparé pour les demandes de financement DAD, AEPE et PACE",
+      "contact": "Contact : Kevin De Silva - Fondateur VAI Platform"
     }
   ]
 }

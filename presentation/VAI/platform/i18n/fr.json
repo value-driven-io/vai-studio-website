@@ -98,7 +98,7 @@
       },
       "payment": {
         "name": "Paiements & Virements",
-        "desc": "Virements 48h, transferts XPF, commission 11%, multidevise"
+        "desc": "Virements 7 jours, transferts XPF, commission 11%, multidevise"
       },
       "communication": {
         "name": "Communication & Notifications",
@@ -182,7 +182,7 @@
         "desc": "Flexible, verrouillée à la confirmation de réservation - tarification transparente"
       },
       "payout": {
-        "title": "Virements automatisés 48h",
+        "title": "Virements automatisés 7 jours",
         "desc": "vs standard industrie 30-60 jours - accès plus rapide au capital"
       },
       "xpf": {
@@ -459,7 +459,7 @@
         },
         "step9": {
           "title": "Protection litiges",
-          "desc": "Période protection litiges 48h"
+          "desc": "Période protection litiges 7 jours"
         },
         "step10": {
           "title": "Virement automatique",
@@ -503,7 +503,7 @@
         },
         "step9": {
           "title": "Période d'attente",
-          "desc": "Période d'attente 48h (protection litiges)"
+          "desc": "Période d'attente 7 jours (protection litiges)"
         },
         "step10": {
           "title": "Traiter virements",
@@ -655,7 +655,7 @@
         },
         "p2": {
           "problem": "Paiements retardés (30-60 jours)",
-          "solution": "Virements automatisés 48h",
+          "solution": "Virements automatisés 7 jours",
           "impact": "Accès plus rapide au capital"
         },
         "p3": {
@@ -793,7 +793,7 @@
         "vai_commission": "11% (flexible, verrouillée à confirmation)",
         "ota_commission": "20-30% (souvent plus avec extras)",
         "payout": "Vitesse virement",
-        "vai_payout": "48h post-activité",
+        "vai_payout": "7 jours post-activité",
         "ota_payout": "30-60 jours standard",
         "currency": "Devise",
         "vai_currency": "Opérateurs reçoivent XPF (local)",
@@ -888,7 +888,7 @@
         },
         "payout": {
           "title": "Accès capital rapide",
-          "desc": "48h vs 30-60j standard",
+          "desc": "7 jours vs 30-60j standard",
           "impact": "Amélioration trésorerie 93%"
         },
         "currency": {
@@ -1045,7 +1045,7 @@
       "payout_speed": {
         "title": "Vitesse virement",
         "industry": "30-60 jours (OTA typique)",
-        "vai": "48 heures (post-achèvement)"
+        "vai": "7 jours (post-achèvement)"
       },
       "setup_cost": {
         "title": "Coût configuration plateforme",

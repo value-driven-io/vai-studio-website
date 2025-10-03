@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const links = [
             { text: texts.businessPlan, href: "../businessplan/businessplan.html" },
             { text: texts.financials, href: "index.html" },
-            //{ text: texts.funding, href: "../funding-strategy/index.html" }
+            //{ text: texts.funding, href: "../funding-strategy/investments/index.html" }
         ];
 
         links.forEach(linkInfo => {
@@ -260,16 +260,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const investmentTitle = document.createElement('h4');
                 investmentTitle.textContent = sectionData.investment.title;
                 investmentList.appendChild(investmentTitle);
-                const i_ul = document.createElement('ul');
-                sectionData.investment.items.forEach(item => {
-                    const li = document.createElement('li');
-                    li.innerHTML = markdownToHtml(item);
-                    i_ul.appendChild(li);
-                });
-                investmentList.appendChild(i_ul);
-                const i_total = document.createElement('p');
-                i_total.innerHTML = `<strong>${sectionData.investment.total}</strong>`;
-                investmentList.appendChild(i_total);
+
+                // Only add items if they exist (old structure compatibility)
+                if (sectionData.investment.items) {
+                    const i_ul = document.createElement('ul');
+                    sectionData.investment.items.forEach(item => {
+                        const li = document.createElement('li');
+                        li.innerHTML = markdownToHtml(item);
+                        i_ul.appendChild(li);
+                    });
+                    investmentList.appendChild(i_ul);
+                }
+
+                // Add total if it exists
+                if (sectionData.investment.total) {
+                    const i_total = document.createElement('p');
+                    i_total.innerHTML = `<strong>${sectionData.investment.total}</strong>`;
+                    investmentList.appendChild(i_total);
+                }
 
                 const returnList = document.createElement('div');
                 returnList.className = 'list-card';

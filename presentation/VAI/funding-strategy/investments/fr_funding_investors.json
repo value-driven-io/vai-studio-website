@@ -1,0 +1,264 @@
+{
+  "title": "VAI Platform : Investir dans Notre Avenir Numérique",
+  "executive_summary": {
+    "title": "Investir dans l'Avenir Numérique du Fenua",
+    "description": "VAI Platform représente une opportunité unique pour les citoyens de la Polynésie française d'investir directement dans la souveraineté numérique de notre industrie la plus vitale. Le fondateur apporte une plateforme technologique entièrement opérationnelle valorisée à plus de 28 millions XPF, éliminant le risque technique. Nous recherchons 47 millions XPF pour financer un plan opérationnel réaliste et complet pour l'Année 1, conçu pour une croissance rapide et un impact local durable.",
+    "value_proposition": {
+      "title": "La Proposition de Valeur",
+      "items": [
+        "Apport du Fondateur : Une plateforme de 28-44 millions XPF (10+ mois de développement)",
+        "Objectif d'Investissement Communautaire : 47 000 000 XPF",
+        "Revenus Projetés Année 1 : 40 millions XPF",
+        "Délai jusqu'aux Premiers Revenus : 30 jours",
+        "Support Institutionnel : Endorsement confirmé par la Commune de Moorea. Dialogue en cours avec Tahiti Tourisme."
+      ]
+    },
+    "investment_offer": {
+      "title": "Notre Offre aux Investisseurs du Fenua",
+      "table": {
+        "headers": ["Élément", "Détails"],
+        "rows": [
+          ["Objectif de Financement", "47 000 000 XPF"],
+          ["Instrument d'Investissement", "Obligation Convertible (Convertible Bond)"],
+          ["Rendement Annuel", "10% d'intérêt fixe, payé trimestriellement"],
+          ["Durée", "5 ans"],
+          ["Potentiel de Valorisation", "En plus du rendement fixe de 10% annuel, cette obligation vous donne l'opportunité de devenir actionnaire du succès futur de VAI. Lors d'un événement qualifiant futur (par ex., un tour de financement plus important), vous aurez le droit de convertir votre investissement en actions de la société à un prix préférentiel."]
+        ]
+      }
+    }
+  },
+  "sections": [
+    {
+      "title": "L'Histoire d'une Réussite Annoncée",
+      "market_context": {
+        "title": "Le Contexte du Marché",
+        "description": "Le secteur touristique polynésien génère 99 milliards XPF annuellement, mais souffre d'une hémorragie économique massive : les 4 500+ opérateurs locaux perdent 20-30% de leurs revenus aux plateformes internationales (Viator, GetYourGuide). Cela représente une fuite annuelle de 3-5 milliards XPF."
+      },
+      "vai_solution": {
+        "title": "La Solution VAI : Souveraineté Numérique",
+        "description": "VAI n'est pas une simple plateforme de réservation. C'est l'infrastructure numérique du tourisme polynésien, construite localement, pour les locaux :",
+        "points": [
+          "Commission révolutionnaire : 11% (vs 20-30% des concurrents)",
+          "Paiements rapides : 7 jours (vs 30-60 jours)",
+          "Channel Manager intégré : Gestion centralisée de tous les canaux de vente",
+          "100% local : Profits réinvestis dans l'économie polynésienne"
+        ]
+      },
+      "technological_asset": {
+        "title": "L'Actif Technologique : Un Avantage Décisif",
+        "description": "Le fondateur a passé 10+ mois à développer une plateforme complète :",
+        "points": [
+          "27 636 lignes de code production",
+          "Architecture React 19 + Supabase (temps réel)",
+          "Stripe Connect intégré (paiements internationaux)",
+          "6 langues, dont le tahitien",
+          "Productivité exceptionnelle correspondant aux standards de l'industrie mondiale",
+          "Valeur marchande documentée : 28 000 000 - 44 000 000 XPF"
+        ]
+      }
+    },
+    {
+      "title": "Comment Nous Utiliserons Votre Investissement : Budget Transparent Année 1",
+      "cost_structure": {
+        "title": "Vos 47 Millions XPF au Travail",
+        "personnel": {
+          "title": "Votre Investissement au Travail : Construire Notre Équipe Locale",
+          "note": "Pour attirer les talents locaux autonomes de haute qualité requis pour exécuter notre stratégie d'acquisition ambitieuse, nous avons budgété des salaires compétitifs de 300 000 XPF/mois pour les rôles stratégiques. Cet investissement garantit que nous pouvons embaucher des professionnels expérimentés qui peuvent livrer des résultats dès le premier jour, réduisant significativement le risque de notre plan de mise sur le marché. Le fondateur assure tout le développement technique, économisant 4-6M XPF/an en coûts de développeurs.",
+          "table": {
+            "headers": ["Poste", "Coût Annuel", "Justification"],
+            "rows": [
+              ["Fondateur (CEO/CTO)", "3 600 000 XPF", "Salaire durable pour assurer une concentration à 100% et atténuer le risque d'épuisement"],
+              ["Operator Success Manager", "3 600 000 XPF", "Salaire compétitif (300k/mois) pour attirer un professionnel expérimenté pour le rôle critique d'acquisition B2B"],
+              ["Marketing & Community Lead", "3 600 000 XPF", "Salaire compétitif (300k/mois) pour attirer un professionnel expérimenté pour bâtir la confiance locale et la communauté"],
+              ["Charges Sociales (~28%)", "3 024 000 XPF", "Cotisations CPS/CST obligatoires sur les salaires totaux"]
+            ],
+            "footer": ["Total Personnel", "13 824 000 XPF", ""]
+          }
+        },
+        "transactional_costs": {
+          "title": "Coûts Transactionnels & de Traitement des Paiements",
+          "note": "Ce sont des coûts variables directement liés aux revenus, basés sur la projection Année 1 de traiter 364 200 000 XPF de Volume Brut de Marchandises (GMV) et d'exécuter 24 280 paiements d'opérateurs.",
+          "table": {
+            "headers": ["Service", "Coût Annuel", "Justification"],
+            "rows": [
+              ["Traitement des Paiements (Stripe Connect)", "6 552 000 XPF", "Frais de 1,8% sur 364,2M XPF GMV. Stripe Connect permet les paiements par carte internationaux, le support multi-devises et le règlement instantané—essentiel pour servir les touristes mondiaux."],
+              ["Plateforme de Paiement (Routable)", "5 200 000 XPF", "~214 XPF par paiement × 24 280 paiements annuels. Routable automatise les paiements aux opérateurs sous 7 jours en XPF, éliminant les virements bancaires manuels et assurant notre promesse de paiement compétitive."]
+            ],
+            "footer": ["Total Coûts Transactionnels", "11 752 000 XPF", ""]
+          }
+        },
+        "technology": {
+          "title": "Infrastructure Technologique",
+          "note": "Ce budget assure une infrastructure scalable et professionnelle avec redondance, monitoring et support de contingence pour atténuer les risques techniques.",
+          "table": {
+            "headers": ["Catégorie", "Coût Annuel", "Justification"],
+            "rows": [
+              ["Infrastructure Cloud Scalable", "720 000 XPF", "Supabase, Vercel, n8n. Ce budget permet des environnements de production et de staging dédiés, des sauvegardes quotidiennes automatisées, et la capacité de gérer le trafic de haute saison sans dégradation de performance, assurant une expérience fiable pour les opérateurs et les touristes."],
+              ["Support Technique Externe & Contingence", "600 000 XPF", "Fonds de contingence pour retenir un développeur freelance ou une agence à la demande pour les corrections de bugs d'urgence, les correctifs de sécurité et les tâches spécialisées, atténuant le 'risque personne-clé' et assurant la stabilité de la plateforme même lorsque le fondateur n'est pas disponible."],
+              ["Outils Pro Dev & Monitoring", "360 000 XPF", "GitHub, licences logicielles et services de monitoring essentiels pour le suivi d'erreurs en temps réel (ex: Sentry) et le monitoring de disponibilité, nous permettant d'identifier et résoudre proactivement les problèmes avant qu'ils n'impactent les utilisateurs."],
+              ["Télécommunications", "360 000 XPF", "Internet fibre et plans mobiles pour l'équipe"]
+            ],
+            "footer": ["Total Infrastructure Tech", "2 040 000 XPF", ""]
+          }
+        },
+        "marketing": {
+          "title": "Marketing & Développement Communautaire",
+          "note": "Un investissement significatif dans les événements de construction communautaire est prévu, car notre stratégie de mise sur le marché priorise l'établissement d'une confiance profonde et la création d'ambassadeurs de marque locaux, qui constituent notre avantage concurrentiel le plus défendable.",
+          "table": {
+            "headers": ["Initiative", "Coût Annuel", "ROI Attendu"],
+            "rows": [
+              ["Programme Ambassadeurs", "600 000 XPF", "30 opérateurs/ambassadeur"],
+              ["Marketing Digital Ciblé", "600 000 XPF", "5x ROAS"],
+              ["Événement de Lancement Officiel (Moorea & Papeete)", "300 000 XPF", "Buzz initial & couverture média"],
+              ["Workshops/Meetups Trimestriels Opérateurs", "800 000 XPF", "Confiance profonde & 150+ opérateurs formés"],
+              ["Production de Contenu", "650 000 XPF", "Assets marketing réutilisables"]
+            ],
+            "footer": ["Total Marketing", "2 950 000 XPF", ""]
+          }
+        },
+        "services": {
+          "title": "Services Professionnels (8% du budget)",
+          "table": {
+            "headers": ["Service", "Fréquence"],
+            "rows": [
+              ["Création SARL", "One-time"],
+              ["Comptabilité", "Mensuel"],
+              ["Conseil juridique", "Trimestriel"],
+              ["Assurances (RC Pro + Générale)", "Annuel"]
+            ],
+            "footer": ["Total Services", "1 430 000 XPF", ""]
+          }
+        },
+        "operations": {
+          "title": "Opérations & Espace de Travail",
+          "note": "Un véhicule d'entreprise dédié est critique pour notre stratégie d'acquisition d'opérateurs à fort contact humain sur le terrain, assurant que notre équipe peut mener efficacement des sessions d'onboarding quotidiennes, des ateliers et des visites de support à travers les îles.",
+          "table": {
+            "headers": ["Poste", "Coût Annuel", "Note"],
+            "rows": [
+              ["Co-working (3 postes)", "1 800 000 XPF", "150k/mois, espace de travail professionnel"],
+              ["Véhicule d'Entreprise (location)", "720 000 XPF", "60k/mois: transport fiable pour visites opérateurs sur site"],
+              ["Déplacements Inter-îles", "700 000 XPF", "Ferry Moorea-Tahiti et îles éloignées"],
+              ["Matériel Bureau", "180 000 XPF", "Fournitures et matériel de base"],
+              ["Divers Opérationnel", "120 000 XPF", "Buffer pour coûts imprévus"]
+            ],
+            "footer": ["Total Opérations", "3 520 000 XPF", ""]
+          }
+        },
+        "reserve": {
+          "title": "Réserve de Sécurité & Buffer Stratégique (24% du budget)",
+          "note": "Une réserve robuste assure que nous pouvons surmonter les défis imprévus et saisir les opportunités.",
+          "table": {
+            "headers": ["Type", "Montant", "Objectif"],
+            "rows": [
+              ["Fonds d'Urgence", "4 600 000 XPF", "Événements imprévus majeurs et risques opérationnels"],
+              ["Buffer Trésorerie", "3 400 000 XPF", "Délais de paiement et décalages temporels"],
+              ["Fonds Croissance Stratégique", "3 484 000 XPF", "Capture d'opportunités et initiatives de scaling rapide"]
+            ],
+            "footer": ["Total Réserve & Buffer", "11 484 000 XPF", ""]
+          }
+        },
+        "summary": {
+          "title": "Synthèse Budget Année 1: Où Va Votre Investissement",
+          "table": {
+            "headers": ["Catégorie", "Montant", "% Total"],
+            "rows": [
+              ["Personnel", "13 824 000 XPF", "29%"],
+              ["Transactionnel & Traitement Paiements", "11 752 000 XPF", "25%"],
+              ["Opérations & Véhicule", "3 520 000 XPF", "7%"],
+              ["Marketing & Communauté", "2 950 000 XPF", "6%"],
+              ["Infrastructure Technologique", "2 040 000 XPF", "4%"],
+              ["Services Professionnels", "1 430 000 XPF", "3%"],
+              ["Réserve de Sécurité & Buffer", "11 484 000 XPF", "24%"]
+            ],
+            "footer": ["INVESTISSEMENT TOTAL REQUIS", "47 000 000 XPF", "100%*"]
+          },
+          "note": "*Pourcentages arrondis au nombre entier le plus proche"
+        }
+      }
+    },
+    {
+      "title": "Projections de Revenus : 250 Opérateurs, 40M XPF",
+      "growth_trajectory": {
+        "title": "Trajectoire de Croissance Validée",
+        "institutional_support": {
+          "title": "Soutiens Institutionnels:",
+          "points": [
+            "✅ Commune de Moorea (Municipalité) - Confirmé",
+            "🔄 Tahiti Tourisme - Dialogue en cours",
+            "🔍 Recherche : Partenaire public pour la plateforme éducative 'VAI Skills'",
+            "→ Objectif : Accès immédiat à 700+ opérateurs qualifiés"
+          ]
+        },
+        "metrics": {
+          "title": "Métriques Clés Année 1:",
+          "table": {
+            "headers": ["Indicateur", "Valeur"],
+            "rows": [
+              ["Opérateurs fin Mois 9", "250"],
+              ["GMV Total", "364 200 000 XPF"],
+              ["Revenus (11%)", "40 062 000 XPF"],
+              ["Revenus mensuels fin d'année", "6 187 500 XPF"],
+              ["Point mort", "Mois 8"]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Facteurs Critiques de Succès",
+      "factors": [
+        "L'Actif Technologique (28-44M XPF) : Élimine le risque de développement et permet un démarrage immédiat.",
+        "Les Endorsements Institutionnels : Moorea : Accès à 200+ opérateurs, Tahiti Tourisme : Crédibilité nationale.",
+        "Le Modèle Économique Disruptif : 50% moins cher, paiements 4-8x plus rapides, et un Channel Manager gratuit.",
+        "L'Équipe Focalisée : Fondateur technique prouvé, un success manager pour l'acquisition, et un marketing lead pour la croissance.",
+        "La Stratégie d'Exécution : Déploiement phasé de Moorea (Mois 1-3) à Tahiti (Mois 4-6) et consolidation (Mois 7-9)."
+      ]
+    },
+    {
+      "title": "Rejoignez-Nous : Investir dans le Fenua, Obtenir de Solides Rendements",
+      "opening": "Ceci est plus qu'un investissement—c'est une déclaration d'indépendance économique pour la Polynésie française.",
+      "dual_benefit": {
+        "title": "Le Double Bénéfice de Votre Investissement",
+        "financial_return": {
+          "title": "1. Solides Rendements Financiers",
+          "items": [
+            "Intérêts annuels de 10% : Versés trimestriellement sur votre compte",
+            "Sécurité : Garantie par une plateforme valorisée à 28-44 millions XPF",
+            "Potentiel de hausse : Option de convertir en actions et participer à la croissance à long terme",
+            "Modèle éprouvé : Rendements alignés avec des projets réussis sur des plateformes similaires"
+          ]
+        },
+        "community_impact": {
+          "title": "2. Impact Communautaire Profond",
+          "items": [
+            "Garder les profits touristiques dans le Fenua : Stopper la fuite annuelle de 3-5 milliards XPF vers les plateformes étrangères",
+            "Soutenir 250+ opérateurs locaux : Aider nos petites entreprises à conserver plus de leurs gains",
+            "Créer des emplois locaux : Votre investissement finance 3 postes à temps plein en Année 1",
+            "Construire la souveraineté numérique : Posséder notre infrastructure touristique, tout comme nous devrions posséder notre avenir"
+          ]
+        }
+      },
+      "the_numbers": {
+        "title": "L'Équation pour Notre Communauté",
+        "items": [
+          "Votre investissement : 47 millions XPF (via obligation convertible)",
+          "Apport du fondateur : 28-44 millions XPF en actifs de plateforme (déjà construits)",
+          "Revenus projetés Année 1 : 40 millions XPF",
+          "Votre retour Année 1 : 4,7 millions XPF en intérêts (10% de votre investissement)",
+          "Point mort : Mois 8",
+          "Votre retour total sur 5 ans : 23,5 millions XPF en intérêts seuls—plus l'option de conversion pour devenir actionnaires"
+        ]
+      },
+      "why_now": {
+        "title": "Pourquoi Ce Moment Est Important",
+        "description": "Nous avons l'endorsement de la Commune de Moorea et sommes en dialogue ouvert avec Tahiti Tourisme. Nous avons une plateforme entièrement opérationnelle. Le marché a potentiellement 700+ opérateurs prêts à rejoindre dans quelques mois. Nous avons les premiers revenus projetés dans les 30 jours suivant le financement. Ce dont nous avons besoin maintenant, c'est vous—notre communauté—pour croire en ce que nous avons construit et investir dans notre avenir collectif."
+      },
+      "call_to_action": {
+        "title": "Votre Décision",
+        "description": "Vous pouvez gagner 10% annuellement tout en aidant à construire l'avenir économique de la Polynésie française. Vous pouvez arrêter de regarder notre argent partir à l'étranger et commencer à le voir travailler pour nous. Vous pouvez faire partie de la solution. Ceci est votre invitation à investir dans VAI—et dans le Fenua.",
+        "final_statement": "La plateforme est prête. Le marché attend. L'opportunité est maintenant. Nous rejoindrez-vous ?"
+      },
+      "contact": "Contact : Kevin De Silva - Fondateur & CEO, VAI Platform\nL'infrastructure numérique du tourisme polynésien, construite par des Polynésiens, pour les Polynésiens."
+    }
+  ]
+}

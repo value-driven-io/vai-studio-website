@@ -252,7 +252,7 @@
                 "Multiple Payment Methods (Cards, Apple Pay, Google Pay, Alipay, WeChat Pay)",
                 "Authorization-then-Capture Flow (secure for both parties)",
                 "11% Commission Rate (flexible, locked at confirmation)",
-                "48-Hour Automated Payouts (vs 30-60 day standard)",
+                "7 days Automated Payouts (vs 30-60 day standard)",
                 "XPF-Native Operator Payouts (no currency risk)",
                 "Automated Revenue Distribution (89% operator, 11% platform)",
                 "Refund Automation"
@@ -498,7 +498,7 @@
                 },
                 {
                   "number": 9,
-                  "title": "48-hour dispute protection period"
+                  "title": "7 days dispute protection period"
                 },
                 {
                   "number": 10,
@@ -665,7 +665,7 @@
                 },
                 {
                   "problem": "Delayed Payments (30-60 days)",
-                  "solution": "48-Hour Automated Payouts",
+                  "solution": "7 days Automated Payouts",
                   "impact": "Faster access to working capital"
                 },
                 {
@@ -821,7 +821,7 @@
             },
             {
               "feature": "Payout Speed",
-              "vai": "48 hours post-activity",
+              "vai": "7 days post-activity",
               "ota": "30-60 days standard",
               "advantage": "vai"
             },
@@ -978,8 +978,8 @@
                     },
                     {
                       "capability": "Fast Payout System",
-                      "comparison": "48h vs 30-60 days",
-                      "target": "85% reduction in cash flow cycle",
+                      "comparison": "7 days vs 30-60 days",
+                      "target": "75% reduction in cash flow cycle",
                       "icon": "fa-clock-rotate-left"
                     },
                     {
@@ -1236,7 +1236,7 @@
                   "metric": "Cash Flow Cycle",
                   "vai_target": "15%",
                   "industry": "100%",
-                  "improvement": "85% reduction (48h vs 30-60 days)",
+                  "improvement": "75% reduction (7 days vs 30-60 days)",
                   "direction": "down"
                 },
                 {
