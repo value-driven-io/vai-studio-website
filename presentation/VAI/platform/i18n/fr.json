@@ -1,0 +1,1263 @@
+{
+  "nav": {
+    "overview": "Vue d'ensemble",
+    "features": "Fonctionnalités",
+    "how": "Fonctionnement",
+    "value": "Valeur",
+    "impact": "Impact",
+    "technical": "Technique",
+    "involved": "Participer"
+  },
+  "meta": {
+    "title": "Plateforme VAI | Plateforme complète de gestion du tourisme"
+  },
+  "hero": {
+    "tagline": "Plateforme de gestion du tourisme pour le Fenua",
+    "subtitle": "De la découverte d'activités aux paiements automatiques - Autonomiser le tourisme en Polynésie française",
+    "stats": {
+      "features": "Fonctionnalités",
+      "languages": "Langues",
+      "islands": "Îles couvertes",
+      "status": "Pré-lancement"
+    },
+    "cta": {
+      "register": "VAI Operator",
+      "preregister": "VAI Tickets (Pré-inscription)",
+      "contact": "Contacter VAI"
+    }
+  },
+  "overview": {
+    "ecosystem": {
+      "title": "Trois applications interconnectées"
+    },
+    "operator": {
+      "name": "VAI Operator",
+      "description": "Gestion des réservations pour les opérateurs",
+      "features_title": "Fonctionnalités clés :",
+      "feature1": "Gestion complète des activités, réservations et canaux",
+      "feature2": "Système automatique de paiement et de virement",
+      "feature3": "Planification d'activités basée sur des modèles",
+      "feature4": "Centre de communication client",
+      "feature5": "Tableau de bord analytique en temps réel",
+      "target": "Utilisateurs cibles : Tour-opérateurs, prestataires d'activités, conciergeries d'hôtels"
+    },
+    "tickets": {
+      "name": "VAI Tickets",
+      "description": "Application Web pour les touristes",
+      "features_title": "Fonctionnalités clés :",
+      "feature1": "Découverte d'activités basée sur l'humeur (6 catégories émotionnelles)",
+      "feature2": "Interface de réservation en 8+ langues",
+      "feature3": "Paiements internationaux sécurisés (plusieurs devises)",
+      "feature4": "Centre éducatif Learn Hub",
+      "feature5": "Gestion du voyage personnel",
+      "target": "Utilisateurs cibles : Touristes internationaux, résidents locaux, passagers de croisière"
+    },
+    "insights": {
+      "name": "VAI Insights",
+      "description": "Plateforme d'analyse du tourisme",
+      "features_title": "Fonctionnalités prévues :",
+      "feature1": "Analyses touristiques en temps réel",
+      "feature2": "Suivi des revenus entre opérateurs",
+      "feature3": "Analyse des tendances de réservation",
+      "feature4": "Système de notification proactif",
+      "feature5": "Flux de données pour les politiques publiques (anonymisées)",
+      "target": "Utilisateurs cibles : Agences gouvernementales, offices de tourisme, décideurs politiques"
+    },
+    "tech": {
+      "title": "Fondation technologique"
+    },
+    "stats": {
+      "title": "Statistiques clés",
+      "features": "FONCTIONNALITÉS",
+      "languages": "LANGUES",
+      "islands": "ÎLES COUVERTES",
+      "dispute": "PROTECTION LITIGES"
+    }
+  },
+  "features": {
+    "meta": {
+      "title": "Fonctionnalités VAI | 145+ fonctionnalités dans 9 catégories"
+    },
+    "hero": {
+      "title": "Fonctionnalités & Capacités",
+      "subtitle": "145+ fonctionnalités dans 9 catégories - Autonomiser opérateurs et touristes",
+      "stats": {
+        "features": "Fonctionnalités totales",
+        "operator": "Fonctionnalités opérateur",
+        "tourist": "Fonctionnalités touriste",
+        "status": "135+ prêtes"
+      }
+    },
+    "categories": {
+      "title": "Catégories de fonctionnalités",
+      "intro": "Notre plateforme est organisée en 9 catégories complètes, chacune conçue pour résoudre des défis spécifiques dans la gestion du tourisme.",
+      "features": "fonctionnalités",
+      "discovery": {
+        "name": "Découverte & Réservation",
+        "desc": "Découverte basée sur l'humeur, filtres intelligents, disponibilité en temps réel, paiement invité"
+      },
+      "payment": {
+        "name": "Paiements & Virements",
+        "desc": "Virements 48h, transferts XPF, commission 11%, multidevise"
+      },
+      "communication": {
+        "name": "Communication & Notifications",
+        "desc": "Chat temps réel, intégration WhatsApp, notifications multilingues"
+      },
+      "language": {
+        "name": "Multilingue & Accessibilité",
+        "desc": "8+ langues dont le tahitien, mises à jour UI en temps réel, 55Ko+ de traductions"
+      },
+      "analytics": {
+        "name": "Analyses & Insights",
+        "desc": "Suivi des revenus, tendances de réservation, métriques de performance"
+      },
+      "automation": {
+        "name": "Automatisation & Planification",
+        "desc": "Architecture template-first, motifs récurrents, auto-génération"
+      },
+      "learn": {
+        "name": "Learn Hub & Éducation",
+        "desc": "Guides d'îles, éducation culturelle, conseils tourisme durable"
+      },
+      "onboarding": {
+        "name": "Intégration & Formation",
+        "desc": "Visites guidées, tutoriels interactifs, aide contextuelle"
+      },
+      "pwa": {
+        "name": "Application Web progressive",
+        "desc": "Mode hors ligne, installable, raccourcis app, pas besoin d'app store"
+      }
+    },
+    "capabilities": {
+      "title": "Capacités principales"
+    },
+    "discovery": {
+      "title": "Système de découverte & réservation",
+      "mood": {
+        "title": "Découverte basée sur l'humeur",
+        "desc": "6 catégories émotionnelles : Aventure, Détente, Culture, Océan, Romance, Famille"
+      },
+      "browse": {
+        "title": "Navigation traditionnelle & filtres intelligents",
+        "desc": "Filtrage avancé par île, date, type d'activité, budget avec profils de recherche préconfigurés"
+      },
+      "islands": {
+        "title": "Sélecteur d'îles",
+        "desc": "Couverture des 118 îles de Polynésie française"
+      },
+      "availability": {
+        "title": "Disponibilité en temps réel",
+        "desc": "Suivi de capacité en direct avec affichage d'urgence \"3 places restantes\""
+      },
+      "checkout": {
+        "title": "Paiement invité",
+        "desc": "Réserver sans créer de compte - aucun obstacle à la réservation"
+      },
+      "flow": {
+        "title": "Flux de réservation guidé en 5 étapes",
+        "desc": "Processus de réservation simple et intuitif avec indicateurs de progression clairs"
+      },
+      "currency": {
+        "title": "Support multidevise",
+        "desc": "XPF, USD, EUR avec calcul de prix en temps réel"
+      }
+    },
+    "payment": {
+      "title": "Système de paiement & virement",
+      "stripe": {
+        "title": "Intégration Stripe Connect",
+        "desc": "Sécurité bancaire, conforme PCI DSS Niveau 1"
+      },
+      "methods": {
+        "title": "Plusieurs méthodes de paiement",
+        "desc": "Cartes, Apple Pay, Google Pay, Alipay, WeChat Pay (possible)"
+      },
+      "flow": {
+        "title": "Flux autorisation-puis-capture",
+        "desc": "Sécurisé pour touristes et opérateurs - fonds retenus jusqu'à confirmation"
+      },
+      "commission": {
+        "title": "Commission équitable de 11%",
+        "desc": "Flexible, verrouillée à la confirmation de réservation - tarification transparente"
+      },
+      "payout": {
+        "title": "Virements automatisés 48h",
+        "desc": "vs standard industrie 30-60 jours - accès plus rapide au capital"
+      },
+      "xpf": {
+        "title": "Virements opérateurs en XPF",
+        "desc": "Pas de risque de conversion - recevez directement en devise locale"
+      },
+      "distribution": {
+        "title": "Distribution automatique des revenus",
+        "desc": "89% opérateur, 11% plateforme - calculé et transféré automatiquement"
+      },
+      "refund": {
+        "title": "Automatisation des remboursements",
+        "desc": "Traitement simple avec annulation automatique de commission"
+      }
+    },
+    "communication": {
+      "title": "Plateforme de communication",
+      "chat": {
+        "title": "Chat en temps réel",
+        "desc": "Messagerie instantanée entre opérateurs et touristes"
+      },
+      "threads": {
+        "title": "Fils de conversation par réservation",
+        "desc": "Conversations organisées liées à chaque réservation"
+      },
+      "requests": {
+        "title": "Gestion des demandes spéciales",
+        "desc": "Restrictions alimentaires, besoins d'accessibilité, préférences"
+      },
+      "fallback": {
+        "title": "WhatsApp/Email de secours",
+        "desc": "Intégration avec canaux de communication préférés"
+      },
+      "sync": {
+        "title": "Synchronisation notifications multi-appareils",
+        "desc": "Restez connecté sur téléphone, tablette ou ordinateur"
+      },
+      "multilang": {
+        "title": "Notifications multilingues",
+        "desc": "Notifications dans la langue préférée de l'utilisateur"
+      },
+      "receipts": {
+        "title": "Accusés de lecture",
+        "desc": "Sachez quand les messages ont été lus"
+      }
+    },
+    "automation": {
+      "title": "Système de modèles & automatisation",
+      "templates": {
+        "title": "Modèles d'activités réutilisables",
+        "desc": "Créer une fois, utiliser à l'infini - 90% d'économie de temps"
+      },
+      "schedule": {
+        "title": "Automatisation modèle-vers-planning",
+        "desc": "Génération automatique d'instances d'activités depuis les modèles"
+      },
+      "recurring": {
+        "title": "Motifs récurrents",
+        "desc": "Quotidien, hebdomadaire, motifs personnalisés - pas de répétition manuelle"
+      },
+      "exceptions": {
+        "title": "Gestion des exceptions",
+        "desc": "Gérer vacances, fermetures, événements spéciaux"
+      },
+      "generation": {
+        "title": "Instances d'activités auto-générées",
+        "desc": "Le système crée automatiquement les activités individuelles"
+      },
+      "bulk": {
+        "title": "Édition de planning en masse",
+        "desc": "Mettre à jour plusieurs activités à la fois"
+      }
+    },
+    "language": {
+      "title": "Accessibilité multilingue",
+      "count": {
+        "title": "Interface en 8+ langues",
+        "desc": "Anglais, Français, Espagnol, Allemand, Italien, Japonais, Chinois, Tahitien"
+      },
+      "persistent": {
+        "title": "Sélection de langue persistante",
+        "desc": "Votre préférence linguistique est mémorisée entre les sessions"
+      },
+      "realtime": {
+        "title": "Mises à jour UI en temps réel",
+        "desc": "Changez de langue instantanément sans recharger la page"
+      },
+      "files": {
+        "title": "55Ko+ de fichiers de traduction",
+        "desc": "Traductions complètes pour chaque élément UI"
+      },
+      "tahitian": {
+        "title": "Respect culturel - Langue tahitienne",
+        "desc": "Honorer la culture locale avec support langue native"
+      }
+    },
+    "learn": {
+      "title": "Learn Hub (Contenu éducatif)",
+      "islands": {
+        "title": "Guides d'îles",
+        "desc": "Guides complets pour Tahiti, Bora Bora, Moorea, Huahine, et les 118 îles"
+      },
+      "culture": {
+        "title": "Éducation culturelle",
+        "desc": "Danse traditionnelle, légendes, mythologie, coutumes"
+      },
+      "sustainable": {
+        "title": "Conseils tourisme durable",
+        "desc": "Pratiques de voyage respectueuses, sensibilisation environnementale"
+      },
+      "tips": {
+        "title": "Conseils de voyage",
+        "desc": "Guides de bagages, coutumes locales, conseils pratiques"
+      },
+      "youtube": {
+        "title": "Intégration vidéos YouTube",
+        "desc": "Vidéos éducatives intégrées et visites virtuelles"
+      },
+      "bilingual": {
+        "title": "Contenu bilingue",
+        "desc": "Contenu EN/FR s'étendant aux 8 langues"
+      },
+      "badges": {
+        "title": "Badges \"Nouveau\" et \"Populaire\"",
+        "desc": "Découvrez le contenu éducatif tendance et récent"
+      }
+    },
+    "pwa": {
+      "title": "Application Web Progressive (PWA)",
+      "installable": {
+        "title": "Installable sur tout appareil",
+        "desc": "iOS, Android, Desktop - fonctionne comme une app native"
+      },
+      "offline": {
+        "title": "Mode hors ligne",
+        "desc": "Mise en cache Service Worker - accédez aux réservations sans internet"
+      },
+      "works": {
+        "title": "Fonctionne sans internet",
+        "desc": "Parfait pour vols et îles éloignées"
+      },
+      "fast": {
+        "title": "Chargement rapide",
+        "desc": "<3s Largest Contentful Paint pour meilleur engagement utilisateur"
+      },
+      "shortcuts": {
+        "title": "Raccourcis d'application",
+        "desc": "Accès rapide aux fonctionnalités clés depuis l'écran d'accueil"
+      },
+      "standalone": {
+        "title": "Mode fenêtre autonome",
+        "desc": "S'ouvre en fenêtre dédiée, sans chrome navigateur"
+      },
+      "nostore": {
+        "title": "Pas besoin d'App Store",
+        "desc": "Économisez frais, réduisez friction - installez directement depuis site web"
+      }
+    }
+  },
+  "how": {
+    "meta": {
+      "title": "Comment fonctionne VAI | Workflows & écosystème d'intégrations"
+    },
+    "hero": {
+      "title": "Comment fonctionne VAI",
+      "subtitle": "Workflows visuels étape par étape & écosystème d'intégrations"
+    },
+    "workflows": {
+      "title": "Workflows principaux",
+      "intro": "De l'intégration des opérateurs aux paiements automatiques - découvrez comment la plateforme VAI simplifie chaque étape du processus de gestion touristique."
+    },
+    "workflow": {
+      "steps": "étapes",
+      "phases": "phases",
+      "onboarding": {
+        "title": "Workflow d'intégration opérateur",
+        "step1": {
+          "title": "Visite & Inscription",
+          "desc": "Visitez vai.studio → Cliquez \"Devenir Opérateur\""
+        },
+        "step2": {
+          "title": "Soumettre infos entreprise",
+          "desc": "Formulaire d'inscription → Soumettre informations entreprise"
+        },
+        "step3": {
+          "title": "En attente de révision",
+          "desc": "Écran d'attente d'approbation → Admin révise candidature"
+        },
+        "step4": {
+          "title": "Approbation accordée",
+          "desc": "Approbation accordée → Email de bienvenue + identifiants envoyés"
+        },
+        "step5": {
+          "title": "Première connexion",
+          "desc": "Première connexion → Visite d'intégration commence"
+        },
+        "step6": {
+          "title": "Compléter le profil",
+          "desc": "Compléter profil → Ajouter détails entreprise"
+        },
+        "step7": {
+          "title": "Connecter paiement",
+          "desc": "\"Connecter\" compte paiement → Configurer Stripe ou Routable"
+        },
+        "step8": {
+          "title": "Créer premier modèle",
+          "desc": "Créer premier modèle → Définir détails activité"
+        },
+        "step9": {
+          "title": "Publier planning",
+          "desc": "Publier premier planning → Définir disponibilité"
+        },
+        "step10": {
+          "title": "Opérateur actif",
+          "desc": "Opérateur actif → Prêt pour réservations !"
+        }
+      },
+      "template": {
+        "title": "Workflow modèle-vers-planning",
+        "step1": {
+          "title": "Créer modèle",
+          "desc": "Définir activité : nom, tarifs, capacité, images, règles"
+        },
+        "step2": {
+          "title": "Créer planning",
+          "desc": "Sélectionner modèle, définir récurrence, plage dates & créneaux horaires"
+        },
+        "step3": {
+          "title": "Automatisation système",
+          "desc": "Instances d'activités auto-générées, disponibilité synchronisée avec canaux (ex. GetYourGuide), réservations activées"
+        },
+        "step4": {
+          "title": "Gestion continue",
+          "desc": "Modifier modèle → affecte instances futures, suspendre/reprendre plannings, ajouter exceptions"
+        },
+        "step5": {
+          "title": "Personnaliser instances",
+          "desc": "Modifier instances d'activités individuelles pour réductions spéciales, horaires et plus"
+        }
+      },
+      "booking": {
+        "title": "Workflow cycle de vie réservation",
+        "step1": {
+          "title": "Touriste réserve activité",
+          "desc": "Touriste réserve activité sur VAI Tickets (app.vai.studio)"
+        },
+        "step2": {
+          "title": "Paiement autorisé",
+          "desc": "Paiement autorisé - fonds retenus sur carte, pas encore capturés"
+        },
+        "step3": {
+          "title": "Opérateur notifié",
+          "desc": "Opérateur reçoit notification dans tableau de bord"
+        },
+        "step4": {
+          "title": "Réviser détails",
+          "desc": "Opérateur révise détails réservation et demandes client"
+        },
+        "step5": {
+          "title": "Point de décision",
+          "desc": "CONFIRMER | REFUSER | PAS DE RÉPONSE (délai 24h)"
+        },
+        "step6": {
+          "title": "Paiement capturé",
+          "desc": "Si confirmé : paiement capturé, commission 11% verrouillée"
+        },
+        "step7": {
+          "title": "Date activité",
+          "desc": "Date activité arrive - touriste profite de l'expérience"
+        },
+        "step8": {
+          "title": "Marquer comme terminé",
+          "desc": "Opérateur marque activité comme terminée"
+        },
+        "step9": {
+          "title": "Protection litiges",
+          "desc": "Période protection litiges 48h"
+        },
+        "step10": {
+          "title": "Virement automatique",
+          "desc": "Virement automatique : Opérateur 89%, Plateforme VAI 11%"
+        }
+      },
+      "payment": {
+        "title": "Workflow traitement paiement",
+        "desc": "Flux de paiement détaillé montrant comment les fonds transitent du touriste à l'opérateur avec traitement sécurisé et distribution automatique.",
+        "step1": {
+          "title": "Entrer détails paiement",
+          "desc": "Touriste entre détails paiement via Stripe Connect"
+        },
+        "step2": {
+          "title": "Créer PaymentIntent",
+          "desc": "Stripe crée PaymentIntent (autorisation uniquement)"
+        },
+        "step3": {
+          "title": "Fonds retenus",
+          "desc": "Fonds retenus sur carte touriste (pas encore capturés)"
+        },
+        "step4": {
+          "title": "Opérateur confirme",
+          "desc": "Opérateur confirme réservation dans tableau de bord"
+        },
+        "step5": {
+          "title": "Edge Function appelée",
+          "desc": "Système appelle Edge Function : \"capture-payment\""
+        },
+        "step6": {
+          "title": "Paiement capturé",
+          "desc": "Paiement capturé de la carte touriste"
+        },
+        "step7": {
+          "title": "Transfert vers plateforme",
+          "desc": "Fonds transférés vers compte plateforme VAI"
+        },
+        "step8": {
+          "title": "Marquer comme terminé",
+          "desc": "Achèvement activité marqué par opérateur"
+        },
+        "step9": {
+          "title": "Période d'attente",
+          "desc": "Période d'attente 48h (protection litiges)"
+        },
+        "step10": {
+          "title": "Traiter virements",
+          "desc": "Système appelle Edge Function : process-activity-payouts"
+        },
+        "step11": {
+          "title": "Virement opérateur",
+          "desc": "Fournisseur virement transfère 89% à opérateur en devise préférée (incl. XPF)"
+        },
+        "step12": {
+          "title": "Commission plateforme",
+          "desc": "Plateforme VAI retient commission 11%"
+        }
+      },
+      "chat": {
+        "title": "Workflow chat temps réel",
+        "step1": {
+          "title": "Ouvrir chat",
+          "desc": "Touriste ou opérateur ouvre modal détail réservation"
+        },
+        "step2": {
+          "title": "Charger historique",
+          "desc": "Modal chat charge historique conversation"
+        },
+        "step3": {
+          "title": "Connexion temps réel",
+          "desc": "Abonnement temps réel établi (WebSocket)"
+        },
+        "step4": {
+          "title": "Taper message",
+          "desc": "Utilisateur tape message"
+        },
+        "step5": {
+          "title": "Envoyer & stocker",
+          "desc": "Message envoyé et stocké en base de données"
+        },
+        "step6": {
+          "title": "Déclencher mise à jour",
+          "desc": "Mise à jour temps réel se déclenche sur autre appareil"
+        },
+        "step7": {
+          "title": "Livraison instantanée",
+          "desc": "Message apparaît instantanément pour les deux parties"
+        },
+        "step8": {
+          "title": "Accusés de lecture",
+          "desc": "Accusés de lecture mis à jour"
+        },
+        "step9": {
+          "title": "Notification hors ligne",
+          "desc": "Notification envoyée si destinataire hors ligne"
+        },
+        "step10": {
+          "title": "Options de secours",
+          "desc": "WhatsApp/Email de secours disponible si préféré"
+        }
+      },
+      "journey": {
+        "title": "Workflow parcours touriste",
+        "phase1": {
+          "title": "Phase 1 : Découverte (Pré-voyage)",
+          "step1": "Visiter app.vai.studio (ou installer Web-App/PWA)",
+          "step2": "Sélectionner langue préférée",
+          "step3": "Choisir méthode découverte : Île & humeur (\"Je me sens aventureux\") OU Navigation avec filtres",
+          "step4": "Voir détails activité (description, tarifs, infos opérateur, disponibilité)",
+          "step5": "Sauvegarder favoris pour considération ultérieure"
+        },
+        "phase2": {
+          "title": "Phase 2 : Réservation",
+          "step1": "Sélectionner activité et cliquer \"Réserver maintenant\"",
+          "step2": "Choisir date et créneau horaire disponible",
+          "step3": "Entrer nombre participants (calcul prix auto)",
+          "step4": "Fournir informations contact (email, téléphone)",
+          "step5": "Sélectionner devise (XPF, USD, EUR) et payer en sécurité",
+          "step6": "Recevoir confirmation instantanée avec référence réservation",
+          "step7": "Ajouter activité au calendrier personnel"
+        },
+        "phase3": {
+          "title": "Phase 3 : Préparation pré-activité",
+          "step1": "Voir réservation dans \"Onglet Parcours\" (tableau de bord personnel)",
+          "step2": "Voir compte à rebours vers prochaine activité",
+          "step3": "Réviser liste préparation",
+          "step4": "Envoyer message opérateur avec demandes spéciales",
+          "step5": "Obtenir itinéraire vers point rencontre",
+          "step6": "Recevoir notification confirmation opérateur"
+        },
+        "phase4": {
+          "title": "Phase 4 : Pendant voyage",
+          "step1": "Accéder détails réservation hors ligne (PWA)",
+          "step2": "Suivre itinéraire vers point rencontre",
+          "step3": "Communiquer avec opérateur si nécessaire",
+          "step4": "Profiter expérience locale authentique"
+        },
+        "phase5": {
+          "title": "Phase 5 : Post-activité",
+          "step1": "Voir réservation terminée dans historique",
+          "step2": "Voir total réservations et statistiques dépenses",
+          "step3": "Laisser avis (fonctionnalité planifiée)",
+          "step4": "Découvrir plus d'activités pour prochaine visite",
+          "step5": "Partager expériences sur réseaux sociaux"
+        }
+      }
+    },
+    "integrations": {
+      "title": "Écosystème d'intégrations",
+      "intro": "La plateforme VAI se connecte aux fournisseurs leaders pour livrer traitement paiements, automatisation et communication fluides.",
+      "current": {
+        "title": "Intégrations actuelles",
+        "stripe": "Traitement revenus paiements",
+        "routable": "Virements rapides en XPF",
+        "supabase": "Base de données, auth, temps réel, stockage",
+        "n8n": "Automatisation workflows, notifications réservations",
+        "whatsapp": "Intégration chat de secours",
+        "share": "Partage natif sur mobile"
+      },
+      "dev": {
+        "title": "En développement",
+        "gyg": "Intégration Channel Manager",
+        "viator": "Intégration Channel Manager",
+        "expedia": "Intégration Channel Manager"
+      },
+      "planned": {
+        "title": "Intégrations planifiées",
+        "maps": "Découverte basée localisation",
+        "n8n": "Capacités automatisation supplémentaires",
+        "custom": "Besoin d'une intégration spécifique ?",
+        "request": "Demander intégration"
+      }
+    }
+  },
+  "value": {
+    "meta": {
+      "title": "Proposition de valeur VAI | Problèmes résolus & différentiateurs"
+    },
+    "hero": {
+      "title": "Proposition de valeur",
+      "subtitle": "Problèmes réels. Solutions pratiques. Avantages concurrentiels uniques."
+    },
+    "problems": {
+      "title": "Problèmes résolus",
+      "intro": "La plateforme VAI répond aux défis critiques rencontrés par opérateurs touristiques et touristes dans quatre domaines clés.",
+      "count": "problèmes",
+      "financial": {
+        "title": "Problèmes financiers",
+        "p1": {
+          "problem": "Commissions OTA élevées (20-30%)",
+          "solution": "Commission équitable 11%",
+          "impact": "10-20% revenus en plus par réservation pour opérateurs"
+        },
+        "p2": {
+          "problem": "Paiements retardés (30-60 jours)",
+          "solution": "Virements automatisés 48h",
+          "impact": "Accès plus rapide au capital"
+        },
+        "p3": {
+          "problem": "Pertes conversion devise",
+          "solution": "Virements opérateurs en XPF",
+          "impact": "Touristes paient en devise préférée (USD, EUR)"
+        },
+        "p4": {
+          "problem": "Changements tarifs imprévisibles",
+          "solution": "Verrouillage taux commission",
+          "impact": "Répartition revenus transparente, prévisible à la réservation"
+        },
+        "p5": {
+          "problem": "Coûts logiciel initial",
+          "solution": "Entrée sans coût",
+          "impact": "Élimine barrière 200K-1M XPF"
+        },
+        "p6": {
+          "problem": "Coûts développement site élevés",
+          "solution": "Pages réservation auto-générées gratuites",
+          "impact": "Présence en ligne professionnelle sans coût"
+        }
+      },
+      "operational": {
+        "title": "Problèmes opérationnels",
+        "p1": {
+          "problem": "Chaos double-réservations",
+          "solution": "Synchronisation disponibilité temps réel",
+          "impact": "Objectif : jusqu'à 0% double-réservations (vs 15-20% typique)"
+        },
+        "p2": {
+          "problem": "Création activités répétitive",
+          "solution": "Architecture template-first",
+          "impact": "90% économie temps (créer une fois, planifier à l'infini)"
+        },
+        "p3": {
+          "problem": "Coordination réservations manuelle",
+          "solution": "Tableau de bord centralisé",
+          "impact": "Toutes réservations en un lieu (vs canaux dispersés)"
+        },
+        "p4": {
+          "problem": "Planification chronophage",
+          "solution": "Génération instances automatique",
+          "impact": "Motifs récurrents remplacent répétition manuelle"
+        },
+        "p5": {
+          "problem": "Communications dispersées",
+          "solution": "Système chat unifié",
+          "impact": "Toutes conversations en une plateforme"
+        }
+      },
+      "visibility": {
+        "title": "Problèmes visibilité digitale",
+        "p1": {
+          "problem": "Pas de site web professionnel",
+          "solution": "Pages réservation auto-générées",
+          "impact": "Présence instantanée découvrable sur Google"
+        },
+        "p2": {
+          "problem": "Barrières linguistiques",
+          "solution": "Support 8 langues (incl. Tahitien)",
+          "impact": "Toucher visiteurs internationaux indéfinis"
+        },
+        "p3": {
+          "problem": "Pas de connaissances SEO",
+          "solution": "Listings auto-optimisés",
+          "impact": "Balises meta, données structurées, sitemap gérés automatiquement"
+        },
+        "p4": {
+          "problem": "Impossible concurrencer budgets pub OTA",
+          "solution": "Visibilité marketplace égale",
+          "impact": "Algorithme basé humeur (pas payer-pour-classer)"
+        },
+        "p5": {
+          "problem": "Opérations mobile uniquement",
+          "solution": "Design responsive",
+          "impact": "Fonctionnalité complète sur tout appareil"
+        }
+      },
+      "tourist": {
+        "title": "Problèmes expérience touriste",
+        "p1": {
+          "problem": "Fatigue recherche par mots-clés",
+          "solution": "Découverte Île & Humeur",
+          "impact": "Trouver activités par sentiment (Aventure, Détente, Culture, etc.)"
+        },
+        "p2": {
+          "problem": "Frais paiement cachés",
+          "solution": "Tarification transparente",
+          "impact": "Calcul prix temps réel, pas de surprises"
+        },
+        "p3": {
+          "problem": "Tourisme masse générique",
+          "solution": "Expériences locales authentiques",
+          "impact": "Réservation directe avec opérateurs polynésiens vérifiés"
+        },
+        "p4": {
+          "problem": "Processus réservation complexe",
+          "solution": "Assistant guidé simple 5 étapes",
+          "impact": "Objectif taux complétion élevé"
+        },
+        "p5": {
+          "problem": "Pas d'accès hors ligne",
+          "solution": "Application Web Progressive",
+          "impact": "Fonctionne sans internet (vols, îles éloignées)"
+        },
+        "p6": {
+          "problem": "Options paiement limitées",
+          "solution": "Plusieurs méthodes paiement",
+          "impact": "Cartes, Apple Pay, Google Pay, et plus"
+        },
+        "p7": {
+          "problem": "Service impersonnel",
+          "solution": "Communication directe opérateur",
+          "impact": "Chat temps réel, demandes spéciales, construction relation"
+        },
+        "p8": {
+          "problem": "Concentration touristes à Bora Bora",
+          "solution": "Algorithme dispersion tourisme",
+          "impact": "Visibilité égale pour toutes îles"
+        }
+      }
+    },
+    "diff": {
+      "title": "Différentiateurs plateforme",
+      "intro": "Voyez comment la plateforme VAI se compare aux OTA globaux sur fonctionnalités et capacités clés.",
+      "table": {
+        "feature": "Fonctionnalité",
+        "vai": "Plateforme VAI",
+        "ota": "OTA Globaux",
+        "discovery": "Méthode découverte",
+        "vai_discovery": "Basée humeur (Aventure, Détente, Culture, etc.)",
+        "ota_discovery": "Recherche mots-clés uniquement",
+        "commission": "Taux commission",
+        "vai_commission": "11% (flexible, verrouillée à confirmation)",
+        "ota_commission": "20-30% (souvent plus avec extras)",
+        "payout": "Vitesse virement",
+        "vai_payout": "48h post-activité",
+        "ota_payout": "30-60 jours standard",
+        "currency": "Devise",
+        "vai_currency": "Opérateurs reçoivent XPF (local)",
+        "ota_currency": "USD/EUR (risque conversion)",
+        "focus": "Focus plateforme",
+        "vai_focus": "Expertise Polynésie française (toutes îles)",
+        "ota_focus": "Global (générique, pas expertise locale)",
+        "language": "Support linguistique",
+        "vai_language": "8 langues dont Tahitien",
+        "ota_language": "Plusieurs langues (pas Tahitien)",
+        "empowerment": "Autonomisation opérateur",
+        "vai_empowerment": "Sans coûts, outils gratuits, channel manager",
+        "ota_empowerment": "Frais mensuels, intégrations coûteuses",
+        "dispersal": "Dispersion tourisme",
+        "vai_dispersal": "Visibilité égale toutes îles",
+        "ota_dispersal": "Concentré sur tours haute commission",
+        "culture": "Authenticité culturelle",
+        "vai_culture": "Langue tahitienne, opérateurs locaux, Learn Hub",
+        "ota_culture": "Transactionnel uniquement, faible contenu culturel",
+        "communication": "Communication directe",
+        "vai_communication": "Chat temps réel intégré",
+        "ota_communication": "Contact direct limité/inexistant",
+        "offline": "Accès hors ligne",
+        "vai_offline": "PWA (fonctionne hors ligne)",
+        "ota_offline": "En ligne uniquement (nécessite internet)",
+        "data": "Souveraineté données",
+        "vai_data": "Accès gouvernement aux données anonymisées",
+        "ota_data": "Données détenues par corporation étrangère",
+        "impact": "Impact social",
+        "vai_impact": "Fonds 5% pour projets environnementaux/culturels locaux",
+        "ota_impact": "Pas engagement responsabilité sociale locale",
+        "account": "Exigence compte",
+        "vai_account": "Optionnel (paiement invité disponible)",
+        "ota_account": "Compte requis pour réservation"
+      }
+    },
+    "moat": {
+      "title": "Fossé concurrentiel VAI",
+      "intro": "7 avantages uniques créant barrières concurrentielles durables.",
+      "m1": {
+        "title": "1. Légitimité locale",
+        "desc": "Construit en Polynésie française, pour Polynésie française d'abord, avec relations institutionnelles profondes"
+      },
+      "m2": {
+        "title": "7. Architecture template-first",
+        "desc": "Système premium compréhensible style Airbnb (modèles réutilisables → planification automatisée)"
+      },
+      "m3": {
+        "title": "4. Découverte basée humeur",
+        "desc": "Algorithme recherche émotionnel vs recherche transactionnelle mots-clés"
+      },
+      "m4": {
+        "title": "2. Intégration Channel Manager",
+        "desc": "VAI comme hub B2B (opérateurs gèrent tous canaux depuis un tableau de bord) au lieu de concurrence"
+      },
+      "m5": {
+        "title": "5. Préservation culturelle",
+        "desc": "Support langue tahitienne démontre engagement au-delà profit"
+      },
+      "m6": {
+        "title": "6. Algorithme dispersion tourisme",
+        "desc": "Promeut îles extérieures pour tourisme durable (pas maximisation profit)"
+      },
+      "m7": {
+        "title": "3. Canal marketing sans coût",
+        "desc": "Opérateurs obtiennent site web gratuit et pages réservation partageables (haute valeur pour petites entreprises avec expériences authentiques)"
+      }
+    }
+  },
+  "impact": {
+    "meta": {
+      "title": "Impact & Capacités VAI | Métriques performance plateforme"
+    },
+    "hero": {
+      "title": "Impact & Capacités",
+      "subtitle": "Métriques performance réelles - Impact mesurable pour opérateurs, touristes & Polynésie française"
+    },
+    "status": {
+      "title": "État plateforme",
+      "market_ready": "Prête pour le marché",
+      "desc": "Plateforme complètement fonctionnelle • Phase pré-lancement • Opérateurs & touristes peuvent s'inscrire maintenant"
+    },
+    "operator": {
+      "title": "Succès opérateur",
+      "subtitle": "Capacités économiques & opérationnelles",
+      "economic": {
+        "title": "Gains économiques",
+        "commission": {
+          "title": "Modèle commission équitable",
+          "desc": "11% vs 20-30% standard",
+          "impact": "+10-20% revenus par réservation"
+        },
+        "payout": {
+          "title": "Accès capital rapide",
+          "desc": "48h vs 30-60j standard",
+          "impact": "Amélioration trésorerie 93%"
+        },
+        "currency": {
+          "title": "Protection conversion XPF",
+          "desc": "Virements directs XPF",
+          "impact": "Élimination risque 2-5% forex"
+        },
+        "zero_cost": {
+          "title": "Entrée sans coût",
+          "desc": "Pas frais licence logiciel",
+          "impact": "Économies 200K-1M XPF"
+        }
+      },
+      "operational": {
+        "title": "Efficacité opérationnelle",
+        "template": {
+          "title": "Économie temps création",
+          "desc": "Architecture template-first",
+          "impact": "90% réduction temps planification"
+        },
+        "double_booking": {
+          "title": "Prévention double-réservations",
+          "desc": "Synchronisation temps réel",
+          "impact": "Objectif jusqu'à 0% (vs 15-20% typique)"
+        },
+        "automation": {
+          "title": "Automatisation paiements",
+          "desc": "Sans traitement manuel",
+          "impact": "100% virements automatisés"
+        },
+        "visibility": {
+          "title": "Présence digitale",
+          "desc": "Pages réservation auto-générées",
+          "impact": "Site web professionnel gratuit"
+        }
+      }
+    },
+    "tourist": {
+      "title": "Expérience touriste",
+      "subtitle": "Capacités découverte & engagement",
+      "discovery": {
+        "title": "Innovation découverte",
+        "mood": {
+          "title": "Recherche émotionnelle",
+          "desc": "6 catégories humeur",
+          "impact": "Découverte au-delà mots-clés"
+        },
+        "languages": {
+          "title": "Accessibilité mondiale",
+          "desc": "8+ langues dont Tahitien",
+          "impact": "Expérience vraiment multilingue"
+        },
+        "islands": {
+          "title": "Couverture archipel",
+          "desc": "Toutes 118 îles",
+          "impact": "Voyage au-delà Bora Bora"
+        },
+        "authentic": {
+          "title": "Expériences authentiques",
+          "desc": "Opérateurs polynésiens directs",
+          "impact": "Culture réelle, pas tourisme masse"
+        }
+      },
+      "engagement": {
+        "title": "Engagement utilisateur",
+        "booking": {
+          "title": "Simplicité réservation",
+          "desc": "Process guidé 5 étapes",
+          "impact": "Objectif haute conversion"
+        },
+        "communication": {
+          "title": "Chat direct",
+          "desc": "Messagerie temps réel",
+          "impact": "Connexion personnelle opérateurs"
+        },
+        "offline": {
+          "title": "Accès hors ligne",
+          "desc": "Capacités PWA",
+          "impact": "Fonctionne sans internet"
+        },
+        "learn": {
+          "title": "Éducation culturelle",
+          "desc": "Learn Hub intégré",
+          "impact": "Tourisme informé, respectueux"
+        }
+      }
+    },
+    "ecosystem": {
+      "title": "Transformation écosystème",
+      "subtitle": "Impact sur Polynésie française & tourisme durable",
+      "french_polynesia": {
+        "title": "Pour Polynésie française",
+        "dispersal": {
+          "title": "Dispersion tourisme",
+          "desc": "Algorithme visibilité équitable pour toutes îles"
+        },
+        "data": {
+          "title": "Souveraineté données",
+          "desc": "Données tourisme anonymisées disponibles gouvernement"
+        },
+        "cultural": {
+          "title": "Préservation culturelle",
+          "desc": "Langue tahitienne & contenu éducatif"
+        },
+        "economic": {
+          "title": "Croissance économique",
+          "desc": "Plus revenus restent avec opérateurs locaux"
+        },
+        "employment": {
+          "title": "Création emplois",
+          "desc": "Autonomiser nouvelles entreprises touristiques"
+        },
+        "insights": {
+          "title": "Insights planification",
+          "desc": "Données temps réel pour décisions politiques (via VAI Insights)"
+        }
+      },
+      "sustainability": {
+        "title": "Tourisme durable",
+        "education": {
+          "title": "Éducation visiteurs",
+          "desc": "Learn Hub promeut pratiques responsables"
+        },
+        "local": {
+          "title": "Économies locales prioritaires",
+          "desc": "Soutien direct petits opérateurs"
+        },
+        "authentic": {
+          "title": "Expériences authentiques",
+          "desc": "Alternative au tourisme masse"
+        },
+        "environmental": {
+          "title": "Intendance environnementale",
+          "desc": "Contenu éducatif sur protection environnement"
+        },
+        "impact_fund": {
+          "title": "Fonds impact 5%",
+          "desc": "Revenus plateforme vers projets environnementaux/culturels"
+        },
+        "balanced": {
+          "title": "Croissance équilibrée",
+          "desc": "Développement durable du tourisme"
+        }
+      }
+    },
+    "benchmarks": {
+      "title": "Benchmarks cible",
+      "subtitle": "Standards industrie vs capacités VAI",
+      "operator_revenue": {
+        "title": "Part revenus opérateurs",
+        "industry": "70-80% (après commissions 20-30%)",
+        "vai": "89% (commission 11%)"
+      },
+      "payout_speed": {
+        "title": "Vitesse virement",
+        "industry": "30-60 jours (OTA typique)",
+        "vai": "48 heures (post-achèvement)"
+      },
+      "setup_cost": {
+        "title": "Coût configuration plateforme",
+        "industry": "200K-1M XPF (systèmes traditionnels)",
+        "vai": "0 XPF (entrée sans coût)"
+      },
+      "double_booking": {
+        "title": "Taux double-réservations",
+        "industry": "15-20% (gestion multi-canaux typique)",
+        "vai": "Objectif jusqu'à 0% (synchronisation temps réel)"
+      },
+      "language_support": {
+        "title": "Support langues",
+        "industry": "1-3 langues (opérateurs typiques)",
+        "vai": "8+ langues (incl. Tahitien)"
+      },
+      "time_to_market": {
+        "title": "Temps jusqu'au marché",
+        "industry": "2-6 mois (configuration site web typique)",
+        "vai": "24-48 heures (onboarding guidé)"
+      }
+    }
+  },
+  "technical": {
+    "meta": {
+      "title": "Architecture technique VAI | Stack technologique & infrastructure"
+    },
+    "hero": {
+      "title": "Architecture technique",
+      "subtitle": "Stack technologique moderne & infrastructure évolutive"
+    },
+    "overview": {
+      "title": "Vue d'ensemble composants",
+      "operator_components": {
+        "title": "Composants VAI Operator",
+        "desc": "90+ composants React pour gestion activités, réservations, paiements, clients"
+      },
+      "tourist_components": {
+        "title": "Composants VAI Tickets",
+        "desc": "75+ composants React pour découverte, réservation, voyage, communication"
+      },
+      "shared_components": {
+        "title": "Bibliothèque composants partagés",
+        "desc": "30+ composants UI réutilisables entre applications"
+      }
+    },
+    "services": {
+      "title": "Couche services",
+      "subtitle": "15+ services pour logique métier & intégrations API",
+      "auth": "Authentification & gestion sessions",
+      "booking": "Logique création & gestion réservations",
+      "payment": "Intégration Stripe Connect",
+      "payout": "Système traitement virements",
+      "activity": "CRUD activités & modèles",
+      "schedule": "Génération & gestion instances",
+      "chat": "Messagerie temps réel",
+      "notification": "Déclenchement multi-canal notifications",
+      "translation": "Service i18n dynamique",
+      "storage": "Gestion fichiers & images",
+      "analytics": "Suivi événements & métriques",
+      "search": "Recherche activités & filtrage",
+      "calendar": "Gestion intégration calendrier",
+      "availability": "Synchronisation disponibilité temps réel",
+      "channel": "Synchronisation Channel Manager (GetYourGuide, Viator)"
+    },
+    "database": {
+      "title": "Schéma base de données",
+      "subtitle": "10+ tables & vues pour relations données complexes",
+      "profiles": "Profils utilisateurs (opérateurs & touristes)",
+      "activities": "Modèles activités",
+      "instances": "Instances activités individuelles",
+      "bookings": "Données réservations",
+      "payments": "Enregistrements transactions",
+      "payouts": "Historique virements",
+      "messages": "Conversations chat",
+      "notifications": "File notifications",
+      "reviews": "Avis & évaluations (planifié)",
+      "analytics": "Événements & métriques agrégés"
+    },
+    "edge": {
+      "title": "Edge Functions",
+      "subtitle": "12 points terminaison serverless pour opérations critiques",
+      "capture_payment": "Capture paiements post-confirmation",
+      "process_payouts": "Distribution revenus automatisée",
+      "sync_availability": "Synchronisation disponibilité cross-canal",
+      "send_notifications": "Déclenchement notifications",
+      "generate_instances": "Génération activités depuis modèles",
+      "handle_webhooks": "Traitement webhooks Stripe",
+      "update_analytics": "Calcul métriques temps réel",
+      "manage_refunds": "Logique traitement remboursements",
+      "verify_operators": "Validation opérateurs",
+      "export_data": "Export données (pour gouvernement)",
+      "cleanup_old_data": "Archivage & nettoyage données",
+      "health_check": "Monitoring système & alertes"
+    },
+    "stack": {
+      "title": "Stack technologique",
+      "subtitle": "Technologies modernes & évolutives pour performance & fiabilité",
+      "layer1": {
+        "title": "Infrastructure & Hébergement",
+        "desc": "Supabase (PostgreSQL + Auth + Realtime + Storage + Edge Functions)"
+      },
+      "layer2": {
+        "title": "Traitement paiements",
+        "desc": "Stripe Connect, Routable (virements XPF)"
+      },
+      "layer3": {
+        "title": "Automatisation & Intégrations",
+        "desc": "n8n (workflows), WhatsApp Business API"
+      },
+      "layer4": {
+        "title": "Frontend",
+        "desc": "React 19, Vite 4, Tailwind CSS 3, i18next 25, Zustand 4, Framer Motion 10"
+      },
+      "layer5": {
+        "title": "Gestion état & données",
+        "desc": "Zustand, React Query, Supabase Realtime"
+      },
+      "layer6": {
+        "title": "DevOps & Monitoring",
+        "desc": "Git, GitHub Actions, Sentry (monitoring erreurs)"
+      }
+    },
+    "security": {
+      "title": "Sécurité & Performance",
+      "pci": {
+        "title": "Conformité PCI DSS Niveau 1",
+        "desc": "Traitement paiements Stripe"
+      },
+      "rls": {
+        "title": "Sécurité niveau ligne",
+        "desc": "Isolation données base Supabase"
+      },
+      "encryption": {
+        "title": "Chiffrement bout en bout",
+        "desc": "Toutes données sensibles chiffrées"
+      },
+      "uptime": {
+        "title": "Disponibilité 99,9%",
+        "desc": "Infrastructure Supabase"
+      },
+      "performance": {
+        "title": "Performance <3s LCP",
+        "desc": "Optimisation bundle & mise en cache"
+      },
+      "realtime": {
+        "title": "Mises à jour temps réel",
+        "desc": "WebSocket pour chat & disponibilité"
+      }
+    }
+  },
+  "involved": {
+    "meta": {
+      "title": "Participer avec VAI | Pré-inscription & contact"
+    },
+    "hero": {
+      "title": "Participer",
+      "subtitle": "Rejoindre plateforme VAI - Opérateurs, Touristes, Investisseurs, Partenaires & Gouvernement"
+    },
+    "cta": {
+      "title": "Pré-inscription & Contact",
+      "operator": {
+        "title": "Rejoindre comme opérateur",
+        "benefit1": "Remplir formulaire intérêt opérateur",
+        "benefit2": "Obtenir accès anticipé plateforme (avant lancement public)",
+        "benefit3": "Bénéficier promotions lancement",
+        "benefit4": "Recevoir support onboarding",
+        "button": "Se pré-inscrire maintenant"
+      },
+      "tourist": {
+        "title": "Accès utilisateur anticipé",
+        "benefit1": "S'inscrire pour accès anticipé VAI Tickets",
+        "benefit2": "S'inscrire avant lancement officiel",
+        "benefit3": "Être informé dès lancement plateforme VAI",
+        "button": "S'inscrire pour accès anticipé"
+      },
+      "investor": {
+        "title": "Opportunités investissement",
+        "benefit1": "Demander dossier investissement",
+        "benefit2": "Planifier rencontre avec fondateur",
+        "benefit3": "Accéder finances détaillées",
+        "benefit4": "Discuter opportunités partenariat",
+        "button": "Demander dossier investissement"
+      },
+      "partnership": {
+        "title": "Partenariat avec VAI",
+        "benefit1": "Collaboration office tourisme",
+        "benefit2": "Intégration hôtel/resort",
+        "benefit3": "Partenariat DMC/opérateur entrant",
+        "benefit4": "Partenariat technologique",
+        "button": "Explorer partenariats"
+      },
+      "government": {
+        "title": "Gouvernement & Institutions",
+        "benefit1": "Demandes accès données (VAI Insights)",
+        "benefit2": "Discussions alignement politique",
+        "benefit3": "Partenariat public-privé",
+        "benefit4": "Collaboration développement tourisme",
+        "button": "Contacter VAI"
+      }
+    },
+    "founder": {
+      "title": "Contact fondateur",
+      "role": "Fondateur & Ingénieur",
+      "location": "Basé à : Moorea, Polynésie française",
+      "cv": "Parcours professionnel (CV)"
+    },
+    "social": {
+      "title": "Suivre VAI",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "instagram": "Instagram"
+    }
+  }
+}

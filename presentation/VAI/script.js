@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Skip businessplan initialization on platform page
+    if (window.isPlatformPage) {
+        console.log('Platform page detected, skipping businessplan script initialization');
+        return;
+    }
+
     const contentSectionsContainer = document.getElementById('content-sections');
     const mainNav = document.querySelector('.main-nav');
     const navLinks = document.querySelector('.nav-links');

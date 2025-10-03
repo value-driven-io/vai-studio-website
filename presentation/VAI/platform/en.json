@@ -1,0 +1,1648 @@
+{
+  "meta": {
+    "title": "VAI Platform & Features | Complete Tourism Management Platform",
+    "description": "Discover the VAI Platform: 145+ features empowering French Polynesian tourism through mood-based discovery, automated payouts, and comprehensive operator tools.",
+    "language": "en"
+  },
+  "hero": {
+    "tagline": "Complete Tourism Management Platform",
+    "subtitle": "From Activity Discovery over Automated Payouts - Empowering French Polynesian Tourism",
+    "stats": {
+      "features": "145+ Features",
+      "languages": "8 Languages",
+      "islands": "118 Islands",
+      "status": "Market-Ready, Pre-Launch"
+    },
+    "cta": {
+      "register_operator": "Register as Operator",
+      "preregister_user": "Pre-Register as User",
+      "contact": "Contact VAI"
+    }
+  },
+  "tabs": [
+    {
+      "id": "platform-overview",
+      "title": "Platform Overview",
+      "icon": "fa-house",
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Three Interconnected Applications",
+          "subtitle": "A comprehensive ecosystem for French Polynesian tourism"
+        },
+        {
+          "type": "application-cards",
+          "applications": [
+            {
+              "name": "VAI Operator",
+              "url": "operator.vai.studio",
+              "icon": "fa-briefcase",
+              "description": "Business management suite for tourism operators",
+              "features": [
+                "Complete activity, booking and channel management",
+                "Automatic payment and payout system",
+                "Template-based activity scheduling",
+                "Customer communication hub",
+                "Real-time analytics dashboard"
+              ],
+              "screenshot": "/assets/screenshots/operator-dashboard.png"
+            },
+            {
+              "name": "VAI Tickets",
+              "url": "app.vai.studio",
+              "icon": "fa-ticket",
+              "description": "Easy-accessible Web App for tourists",
+              "features": [
+                "Mood-based activity discovery (6 emotional categories)",
+                "8+ language booking interface",
+                "Secure international payments (multiple currencies)",
+                "Educational Learn Hub",
+                "Personal journey management"
+              ],
+              "screenshot": "/assets/screenshots/tickets-mobile.png"
+            },
+            {
+              "name": "VAI Insights",
+              "status": "coming-soon",
+              "icon": "fa-chart-mixed",
+              "description": "Real-time tourism analytics platform",
+              "features": [
+                "Real-time tourism analytics",
+                "Revenue tracking across operators",
+                "Booking trend analysis",
+                "Pro-active notification system",
+                "Public policy data feeds (anonymized)"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "technology-stack",
+          "title": "Technology Foundation (Business-Friendly)",
+          "stack": [
+            {
+              "name": "React 19",
+              "icon": "fa-react",
+              "description": "Fast, smooth experience on any device"
+            },
+            {
+              "name": "i18next",
+              "icon": "fa-language",
+              "description": "Serve 8 languages automatically"
+            },
+            {
+              "name": "Supabase",
+              "icon": "fa-database",
+              "description": "Secure, scalable, real-time database"
+            },
+            {
+              "name": "Stripe Connect",
+              "icon": "fa-credit-card",
+              "description": "Bank-level security, 25+ countries"
+            },
+            {
+              "name": "PWA",
+              "icon": "fa-mobile-screen-button",
+              "description": "Works offline, no app store needed"
+            }
+          ],
+          "infrastructure": [
+            "Serverless, auto-scaling (handles 10 or 10,000 bookings)",
+            "Target 99.9%+ uptime (production-grade reliability)",
+            "Cost-efficient (pay-per-use, no idle servers)",
+            "Developer-friendly (modern stack attracts talent)"
+          ],
+          "security": [
+            "PCI DSS Level 1 compliant (bank-level encryption)",
+            "<3 second load times (to keep user engaged)",
+            "Real-time updates (<500ms latency)",
+            "Offline capable (PWA Service Worker)"
+          ]
+        },
+        {
+          "type": "statistics",
+          "title": "Key Statistics",
+          "items": [
+            {
+              "value": "145+",
+              "label": "Features",
+              "detail": "86 operator + 59 tourist",
+              "icon": "fa-puzzle-piece"
+            },
+            {
+              "value": "8",
+              "label": "Languages",
+              "detail": "EN, FR, ES, DE, IT, JA, ZH, Tahitian, +",
+              "icon": "fa-globe"
+            },
+            {
+              "value": "118",
+              "label": "Islands",
+              "detail": "Complete French Polynesian coverage",
+              "icon": "fa-map-location-dot"
+            },
+            {
+              "value": "25+",
+              "label": "Payment Methods",
+              "detail": "International accessibility",
+              "icon": "fa-credit-card"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "features-capabilities",
+      "title": "Features & Capabilities",
+      "icon": "fa-gears",
+      "sections": [
+        {
+          "type": "intro",
+          "title": "145+ Features Across the Platform",
+          "subtitle": "Comprehensive capabilities for operators, tourists, and platform management"
+        },
+        {
+          "type": "filter-system",
+          "categories": [
+            {
+              "id": "discovery-booking",
+              "name": "Discovery & Booking",
+              "count": 24,
+              "icon": "fa-magnifying-glass-location"
+            },
+            {
+              "id": "payment-payouts",
+              "name": "Payment & Payouts",
+              "count": 15,
+              "icon": "fa-money-bill-transfer"
+            },
+            {
+              "id": "communication",
+              "name": "Communication & Notifications",
+              "count": 11,
+              "icon": "fa-comments"
+            },
+            {
+              "id": "multi-language",
+              "name": "Multi-Language & Accessibility",
+              "count": 15,
+              "icon": "fa-language"
+            },
+            {
+              "id": "analytics",
+              "name": "Analytics & Insights",
+              "count": 9,
+              "icon": "fa-chart-simple"
+            },
+            {
+              "id": "automation",
+              "name": "Automation & Scheduling",
+              "count": 14,
+              "icon": "fa-wand-magic-sparkles"
+            },
+            {
+              "id": "learn-hub",
+              "name": "Learn Hub & Education",
+              "count": 9,
+              "icon": "fa-graduation-cap"
+            },
+            {
+              "id": "onboarding",
+              "name": "Onboarding & Training",
+              "count": 8,
+              "icon": "fa-person-chalkboard"
+            },
+            {
+              "id": "pwa",
+              "name": "Progressive Web App",
+              "count": 8,
+              "icon": "fa-mobile-screen"
+            }
+          ]
+        },
+        {
+          "type": "feature-cards",
+          "features": [
+            {
+              "id": "discovery-booking-system",
+              "title": "Discovery & Booking System",
+              "icon": "fa-magnifying-glass-location",
+              "category": "discovery-booking",
+              "status": "live",
+              "items": [
+                "Mood-Based Discovery (Adventure, Relax, Culture, Ocean, Romance, Family)",
+                "Traditional Browse/Explore with Advanced Filtering",
+                "Smart Filters (pre-configured search profiles)",
+                "Island Selector (potential for all 118 islands)",
+                "Real-Time Availability (e.g. '3 spots left' display)",
+                "Guest Checkout (no account required)",
+                "5-Step Guided Booking Flow",
+                "Multi-Currency Support (XPF, USD, EUR)"
+              ],
+              "screenshot": "/assets/screenshots/mood-discovery.png"
+            },
+            {
+              "id": "payment-payout-system",
+              "title": "Payment & Payout System",
+              "icon": "fa-money-bill-transfer",
+              "category": "payment-payouts",
+              "status": "live",
+              "items": [
+                "Stripe Connect Integration (bank-level security)",
+                "Multiple Payment Methods (Cards, Apple Pay, Google Pay, Alipay, WeChat Pay)",
+                "Authorization-then-Capture Flow (secure for both parties)",
+                "11% Commission Rate (flexible, locked at confirmation)",
+                "48-Hour Automated Payouts (vs 30-60 day standard)",
+                "XPF-Native Operator Payouts (no currency risk)",
+                "Automated Revenue Distribution (89% operator, 11% platform)",
+                "Refund Automation"
+              ]
+            },
+            {
+              "id": "communication-platform",
+              "title": "Communication Platform",
+              "icon": "fa-comments",
+              "category": "communication",
+              "status": "live",
+              "items": [
+                "Real-Time Chat (operator ↔ tourist)",
+                "Booking-Specific Conversation Threads",
+                "Special Requests Handling (dietary, accessibility)",
+                "WhatsApp/Email Fallback Integration",
+                "Cross-Device Notification Sync",
+                "Multi-Language Notifications",
+                "Read Receipts"
+              ],
+              "screenshot": "/assets/screenshots/chat-interface.png"
+            },
+            {
+              "id": "template-automation",
+              "title": "Template & Automation System",
+              "icon": "fa-wand-magic-sparkles",
+              "category": "automation",
+              "status": "live",
+              "items": [
+                "Reusable Activity Templates",
+                "Template-to-Schedule Automation (create once, schedule many)",
+                "Recurring Patterns (daily, weekly, custom)",
+                "Exception Management (holidays, closures)",
+                "Auto-Generated Activity Instances",
+                "Bulk Schedule Editing"
+              ]
+            },
+            {
+              "id": "multi-language",
+              "title": "Multi-Language Accessibility",
+              "icon": "fa-language",
+              "category": "multi-language",
+              "status": "live",
+              "items": [
+                "8+ Language Interface (EN, FR, ES, DE, IT, JA, ZH, Tahitian)",
+                "Persistent Language Selection",
+                "Real-Time UI Updates (no reload needed)",
+                "55KB+ Translation Files per Language",
+                "Cultural Respect (Tahitian language inclusion)"
+              ]
+            },
+            {
+              "id": "learn-hub",
+              "title": "Learn Hub (Educational Content)",
+              "icon": "fa-graduation-cap",
+              "category": "learn-hub",
+              "status": "live",
+              "items": [
+                "Island Guides (Tahiti, Bora Bora, Moorea, Huahine, 118 islands)",
+                "Cultural Education (Dance, Legends, Mythology)",
+                "Sustainable Tourism Tips",
+                "Travel Tips (Respectful Tourism, Packing)",
+                "YouTube Video Integration",
+                "Bilingual Content (EN/FR expanding to 8)",
+                "'New' and 'Popular' Content Badges"
+              ],
+              "screenshot": "/assets/screenshots/learn-hub.png"
+            },
+            {
+              "id": "pwa",
+              "title": "Progressive Web App (PWA)",
+              "icon": "fa-mobile-screen",
+              "category": "pwa",
+              "status": "live",
+              "items": [
+                "Installable on Any Device (iOS, Android, Desktop)",
+                "Offline Mode (Service Worker caching)",
+                "Works Without Internet (access bookings anywhere)",
+                "Fast Loading (<3s Largest Contentful Paint)",
+                "App Shortcuts",
+                "Standalone Window Mode",
+                "No App Store Needed (save fees, reduce friction)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "how-it-works",
+      "title": "How It Works",
+      "icon": "fa-rotate",
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Core Workflows",
+          "subtitle": "Visual step-by-step guides to platform processes"
+        },
+        {
+          "type": "workflow",
+          "workflows": [
+            {
+              "id": "operator-onboarding",
+              "title": "Operator Onboarding Workflow",
+              "icon": "fa-user-plus",
+              "steps": [
+                {
+                  "number": 1,
+                  "icon": "fa-mouse-pointer",
+                  "title": "Visit vai.studio → Click 'Become Operator'",
+                  "description": "Start your journey as a VAI operator"
+                },
+                {
+                  "number": 2,
+                  "icon": "fa-file-pen",
+                  "title": "Registration form → Submit business info",
+                  "description": "Provide your business details"
+                },
+                {
+                  "number": 3,
+                  "icon": "fa-hourglass",
+                  "title": "Pending approval screen → Admin reviews",
+                  "description": "We verify your information"
+                },
+                {
+                  "number": 4,
+                  "icon": "fa-envelope",
+                  "title": "Approval granted → Welcome email + credentials",
+                  "description": "Receive your access credentials"
+                },
+                {
+                  "number": 5,
+                  "icon": "fa-right-to-bracket",
+                  "title": "First login → Onboarding tour starts",
+                  "description": "Interactive platform walkthrough"
+                },
+                {
+                  "number": 6,
+                  "icon": "fa-id-card",
+                  "title": "Complete profile → Business details",
+                  "description": "Add your business information"
+                },
+                {
+                  "number": 7,
+                  "icon": "fa-credit-card",
+                  "title": "Connect Payment account → Payment setup",
+                  "description": "Link Stripe or Routable for payouts"
+                },
+                {
+                  "number": 8,
+                  "icon": "fa-file-lines",
+                  "title": "Create first template → Activity definition",
+                  "description": "Define your first activity offering"
+                },
+                {
+                  "number": 9,
+                  "icon": "fa-calendar-check",
+                  "title": "Publish first schedule → Availability",
+                  "description": "Make your activity bookable"
+                },
+                {
+                  "number": 10,
+                  "icon": "fa-circle-check",
+                  "title": "Operator active → Ready for bookings",
+                  "description": "You're live and ready to receive bookings!"
+                }
+              ]
+            },
+            {
+              "id": "template-to-schedule",
+              "title": "Template-to-Schedule Workflow",
+              "icon": "fa-wand-magic-sparkles",
+              "steps": [
+                {
+                  "number": 1,
+                  "icon": "fa-file-lines",
+                  "title": "Create Template",
+                  "description": "Define activity (name, pricing, capacity, images, rules)"
+                },
+                {
+                  "number": 2,
+                  "icon": "fa-calendar-days",
+                  "title": "Create Schedule",
+                  "description": "Select template, set recurrence, define date range & time slots"
+                },
+                {
+                  "number": 3,
+                  "icon": "fa-gears",
+                  "title": "System Automation",
+                  "description": "Activity instances auto-generated, availability synced, bookings enabled"
+                },
+                {
+                  "number": 4,
+                  "icon": "fa-list",
+                  "title": "Ongoing Management",
+                  "description": "Modify template → affects future, pause/resume, add exceptions"
+                },
+                {
+                  "number": 5,
+                  "icon": "fa-pen-to-square",
+                  "title": "Customize Individual Activities",
+                  "description": "Modify instances for special discounts, timings and more"
+                }
+              ],
+              "screenshot": "/assets/screenshots/template-creation.png"
+            },
+            {
+              "id": "booking-lifecycle",
+              "title": "Booking Lifecycle Workflow",
+              "icon": "fa-clipboard-check",
+              "steps": [
+                {
+                  "number": 1,
+                  "title": "Tourist books activity on VAI Tickets"
+                },
+                {
+                  "number": 2,
+                  "title": "Payment authorized (funds held, not captured)"
+                },
+                {
+                  "number": 3,
+                  "title": "Operator receives notification in dashboard"
+                },
+                {
+                  "number": 4,
+                  "title": "Operator reviews booking details"
+                },
+                {
+                  "number": 5,
+                  "title": "Decision: CONFIRM | DECLINE | NO RESPONSE (24h deadline)"
+                },
+                {
+                  "number": 6,
+                  "title": "If confirmed: payment captured, commission locked at 11%"
+                },
+                {
+                  "number": 7,
+                  "title": "Activity date arrives"
+                },
+                {
+                  "number": 8,
+                  "title": "Operator marks activity completed"
+                },
+                {
+                  "number": 9,
+                  "title": "48-hour dispute protection period"
+                },
+                {
+                  "number": 10,
+                  "title": "Automated payout: Operator 89%, VAI Platform 11%"
+                }
+              ]
+            },
+            {
+              "id": "tourist-journey",
+              "title": "Tourist Journey Workflow",
+              "icon": "fa-person-hiking",
+              "phases": [
+                {
+                  "name": "PHASE 1: DISCOVERY (Pre-Trip)",
+                  "icon": "fa-magnifying-glass",
+                  "steps": [
+                    "Visit app.vai.studio (or install Web-App (PWA))",
+                    "Select preferred language",
+                    "Choose discovery method: Island & mood-based OR Browse",
+                    "View activity details (description, pricing, operator info)",
+                    "Save favorites for later consideration"
+                  ]
+                },
+                {
+                  "name": "PHASE 2: BOOKING",
+                  "icon": "fa-calendar-check",
+                  "steps": [
+                    "Select activity and click 'Book Now'",
+                    "Choose date and available time slot",
+                    "Enter participant count (auto price calculation)",
+                    "Provide contact information (email, phone)",
+                    "Select currency (XPF, USD, EUR) and pay securely",
+                    "Receive instant confirmation with booking reference",
+                    "Add activity to personal calendar"
+                  ]
+                },
+                {
+                  "name": "PHASE 3: PRE-ACTIVITY PREPARATION",
+                  "icon": "fa-clipboard-list",
+                  "steps": [
+                    "View booking in 'Journey tab' (personal dashboard)",
+                    "See countdown to next activity",
+                    "Review preparation checklist",
+                    "Message operator with special requests",
+                    "Get directions to meeting point",
+                    "Receive operator confirmation notification"
+                  ]
+                },
+                {
+                  "name": "PHASE 4: DURING TRIP",
+                  "icon": "fa-map-location-dot",
+                  "steps": [
+                    "Access booking details offline (PWA)",
+                    "Follow directions to meeting point",
+                    "Communicate with operator if needed",
+                    "Enjoy authentic local experience"
+                  ]
+                },
+                {
+                  "name": "PHASE 5: POST-ACTIVITY",
+                  "icon": "fa-star",
+                  "steps": [
+                    "View completed booking in history",
+                    "See total bookings and spending statistics",
+                    "Leave review (planned feature)",
+                    "Discover more activities for next visit",
+                    "Share experiences on social media"
+                  ]
+                }
+              ],
+              "screenshot": "/assets/screenshots/tourist-journey.png"
+            }
+          ]
+        },
+        {
+          "type": "integration-ecosystem",
+          "title": "Integration Ecosystem",
+          "current": [
+            {
+              "name": "Stripe Connect",
+              "description": "Payment income processing",
+              "status": "live"
+            },
+            {
+              "name": "Routable",
+              "description": "Fast payout in XPF",
+              "status": "live"
+            },
+            {
+              "name": "Supabase",
+              "description": "Database, auth, real-time, storage",
+              "status": "live"
+            },
+            {
+              "name": "n8n",
+              "description": "Workflow automation, booking notifications",
+              "status": "live"
+            },
+            {
+              "name": "WhatsApp Business/Email",
+              "description": "Chat fallback",
+              "status": "live"
+            },
+            {
+              "name": "Web Share API",
+              "description": "Native sharing on mobile",
+              "status": "live"
+            }
+          ],
+          "in_development": [
+            {
+              "name": "GetYourGuide API",
+              "description": "Channel Manager integration",
+              "status": "dev"
+            },
+            {
+              "name": "Viator API",
+              "description": "Channel Manager integration",
+              "status": "dev"
+            },
+            {
+              "name": "Expedia API",
+              "description": "Channel Manager integration",
+              "status": "dev"
+            }
+          ],
+          "planned": [
+            {
+              "name": "Google Maps API",
+              "description": "Location-based discovery",
+              "status": "planned"
+            },
+            {
+              "name": "Enhanced n8n",
+              "description": "Further automation",
+              "status": "planned"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "value-proposition",
+      "title": "Value Proposition",
+      "icon": "fa-lightbulb",
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Problems Solved",
+          "subtitle": "Comprehensive solutions for operators, tourists, and the tourism ecosystem"
+        },
+        {
+          "type": "problem-solution-cards",
+          "categories": [
+            {
+              "id": "financial",
+              "title": "Financial Problems → Solutions",
+              "icon": "fa-coins",
+              "problems": [
+                {
+                  "problem": "High OTA Commissions (20-30%)",
+                  "solution": "11% Fair Commission (locked at confirmation)",
+                  "impact": "10-20% more revenue per booking for operators"
+                },
+                {
+                  "problem": "Delayed Payments (30-60 days)",
+                  "solution": "48-Hour Automated Payouts",
+                  "impact": "Faster access to working capital"
+                },
+                {
+                  "problem": "Currency Conversion Losses",
+                  "solution": "XPF-Native Operator Payouts (via third-party partner)",
+                  "impact": "Tourists pay in preferred currency"
+                },
+                {
+                  "problem": "Unpredictable Rate Changes",
+                  "solution": "Commission Rate Locking (at booking confirmation)",
+                  "impact": "Transparent, predictable revenue split"
+                },
+                {
+                  "problem": "Upfront Software Costs",
+                  "solution": "Zero-Cost Entry (commission-only model)",
+                  "impact": "Eliminates 200K-1M XPF barrier"
+                },
+                {
+                  "problem": "High Website Development Costs",
+                  "solution": "Free Auto-Generated Booking Pages",
+                  "impact": "Professional online presence at zero cost"
+                }
+              ]
+            },
+            {
+              "id": "operational",
+              "title": "Operational Problems → Solutions",
+              "icon": "fa-gears",
+              "problems": [
+                {
+                  "problem": "Double-Booking Chaos",
+                  "solution": "Real-Time Availability Sync",
+                  "impact": "Target: up to 0% double-bookings (vs 15-20% typical)"
+                },
+                {
+                  "problem": "Repetitive Activity Creation",
+                  "solution": "Template-First Architecture",
+                  "impact": "90% time savings (create once, schedule unlimited)"
+                },
+                {
+                  "problem": "Manual Booking Coordination",
+                  "solution": "Centralized Dashboard",
+                  "impact": "All bookings in one place"
+                },
+                {
+                  "problem": "Time-Consuming Scheduling",
+                  "solution": "Automated Instance Generation",
+                  "impact": "Recurring patterns replace manual repetition"
+                },
+                {
+                  "problem": "Scattered Communications",
+                  "solution": "Unified Chat System",
+                  "impact": "All conversations in one platform"
+                }
+              ]
+            },
+            {
+              "id": "visibility",
+              "title": "Digital Visibility Problems → Solutions",
+              "icon": "fa-globe",
+              "problems": [
+                {
+                  "problem": "No Professional Website",
+                  "solution": "Auto-Generated Booking Pages",
+                  "impact": "Instant Google-discoverable presence"
+                },
+                {
+                  "problem": "Language Barriers",
+                  "solution": "8-Language Support (including Tahitian)",
+                  "impact": "Reach indefinite international visitors"
+                },
+                {
+                  "problem": "No SEO Knowledge",
+                  "solution": "Auto-Optimized Listings",
+                  "impact": "Meta tags, structured data handled automatically"
+                },
+                {
+                  "problem": "Cannot Compete with OTA Ad Budgets",
+                  "solution": "Equal Marketplace Visibility + Channel Manager",
+                  "impact": "Mood-based algorithm (not pay-to-rank)"
+                },
+                {
+                  "problem": "Mobile-Only Operations",
+                  "solution": "Responsive Design",
+                  "impact": "Full functionality on any device"
+                }
+              ]
+            },
+            {
+              "id": "tourist-experience",
+              "title": "Tourist Experience Problems → Solutions",
+              "icon": "fa-person-hiking",
+              "problems": [
+                {
+                  "problem": "Keyword Search Fatigue",
+                  "solution": "Island & Mood-Based Discovery",
+                  "impact": "Find activities by feeling"
+                },
+                {
+                  "problem": "Hidden Payment Fees",
+                  "solution": "Transparent Pricing",
+                  "impact": "Real-time price calculation, no surprises"
+                },
+                {
+                  "problem": "Generic Mass Tourism",
+                  "solution": "Authentic Local Experiences",
+                  "impact": "Direct booking with verified Polynesian operators"
+                },
+                {
+                  "problem": "Complex Booking Process",
+                  "solution": "5-Step Simple Guided Wizard",
+                  "impact": "Target high completion rate"
+                },
+                {
+                  "problem": "No Offline Access",
+                  "solution": "Progressive Web App",
+                  "impact": "Works without internet"
+                },
+                {
+                  "problem": "Limited Payment Options",
+                  "solution": "Multiple Payment Methods",
+                  "impact": "Cards, Apple Pay, Google Pay, and more"
+                },
+                {
+                  "problem": "Impersonal Service",
+                  "solution": "Direct Operator Communication",
+                  "impact": "Real-time chat, special requests"
+                },
+                {
+                  "problem": "Tourist Concentration in Bora Bora",
+                  "solution": "Tourism Dispersal Algorithm",
+                  "impact": "Equal visibility for all islands"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "comparison-table",
+          "title": "Platform Differentiators (VAI vs Global OTAs)",
+          "rows": [
+            {
+              "feature": "Discovery Method",
+              "vai": "Mood-based (Adventure, Relax, Culture, etc.)",
+              "ota": "Keyword search only",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Commission Rate",
+              "vai": "11% (flexible, locked at confirmation)",
+              "ota": "20-30% (often higher with add-ons)",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Payout Speed",
+              "vai": "48 hours post-activity",
+              "ota": "30-60 days standard",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Currency",
+              "vai": "Operators receive XPF (local)",
+              "ota": "USD/EUR (currency conversion risk)",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Platform Focus",
+              "vai": "French Polynesia Expertise (all islands)",
+              "ota": "Global (generic, no local expertise)",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Language Support",
+              "vai": "8 languages including Tahitian",
+              "ota": "Multiple languages (no Tahitian)",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Operator Empowerment",
+              "vai": "Zero costs, free tools, channel manager",
+              "ota": "Monthly fees, expensive integrations",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Tourism Dispersal",
+              "vai": "Equal visibility all islands",
+              "ota": "Concentrated on high-commission tours",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Cultural Authenticity",
+              "vai": "Tahitian language, local operators, Learn Hub",
+              "ota": "Transactional only, low cultural content",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Small Operator Access",
+              "vai": "Template system, no-cost visibility tools",
+              "ota": "Complex CMS, high learning curve",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Direct Communication",
+              "vai": "Real-time chat built-in",
+              "ota": "Limited/no direct contact",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Offline Access",
+              "vai": "PWA (works offline)",
+              "ota": "Online-only (requires internet)",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Data Sovereignty",
+              "vai": "Government access to anonymized data",
+              "ota": "Data owned by foreign corporation",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Social Impact",
+              "vai": "5% fund for local environmental/cultural projects",
+              "ota": "No local social responsibility commitment",
+              "advantage": "vai"
+            },
+            {
+              "feature": "Account Requirement",
+              "vai": "Optional (guest checkout available)",
+              "ota": "Account required for booking",
+              "advantage": "vai"
+            }
+          ]
+        },
+        {
+          "type": "competitive-moat",
+          "title": "VAI's Competitive Moat",
+          "advantages": [
+            {
+              "number": 1,
+              "title": "Local Legitimacy",
+              "description": "Built in French Polynesia, for French Polynesia-first, with deep institutional relationships",
+              "icon": "fa-flag"
+            },
+            {
+              "number": 2,
+              "title": "Template-First Architecture",
+              "description": "Premium easy-understandable Airbnb-style system (reusable templates → automated scheduling)",
+              "icon": "fa-layer-group"
+            },
+            {
+              "number": 3,
+              "title": "Mood-Based Discovery",
+              "description": "Emotional search algorithm vs transactional keyword search",
+              "icon": "fa-heart"
+            },
+            {
+              "number": 4,
+              "title": "Channel Manager Integration",
+              "description": "VAI as B2B hub (operators manage all channels from one dashboard) instead of competition",
+              "icon": "fa-network-wired"
+            },
+            {
+              "number": 5,
+              "title": "Cultural Preservation",
+              "description": "Tahitian language support demonstrates commitment beyond profit",
+              "icon": "fa-hand-holding-heart"
+            },
+            {
+              "number": 6,
+              "title": "Tourism Dispersal Algorithm",
+              "description": "Promotes outer islands for sustainable tourism (not profit-maximizing)",
+              "icon": "fa-map"
+            },
+            {
+              "number": 7,
+              "title": "Zero-Cost Marketing Channel",
+              "description": "Operators get free website and shareable booking pages (high value for small businesses)",
+              "icon": "fa-bullhorn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "impact-capabilities",
+      "title": "Impact & Capabilities",
+      "icon": "fa-chart-line",
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Platform Capabilities Designed to Deliver Impact",
+          "subtitle": "Market-Ready, Pre-Launch - Validated Through Testing"
+        },
+        {
+          "type": "capability-metrics",
+          "categories": [
+            {
+              "id": "operator-success",
+              "title": "Operator Success Capabilities",
+              "icon": "fa-briefcase",
+              "metrics": [
+                {
+                  "category": "Economic Empowerment",
+                  "items": [
+                    {
+                      "capability": "Fair Commission Model",
+                      "comparison": "11% vs 20-30% standard",
+                      "target": "10-20% increase in revenue per booking",
+                      "icon": "fa-percentage"
+                    },
+                    {
+                      "capability": "Fast Payout System",
+                      "comparison": "48h vs 30-60 days",
+                      "target": "85% reduction in cash flow cycle",
+                      "icon": "fa-clock-rotate-left"
+                    },
+                    {
+                      "capability": "Zero-Cost Entry",
+                      "comparison": "No upfront fees",
+                      "target": "Eliminates 200K-1M XPF barrier",
+                      "icon": "fa-dollar-sign"
+                    },
+                    {
+                      "capability": "Template Efficiency",
+                      "comparison": "Reusable templates",
+                      "target": "90% reduction in setup time",
+                      "icon": "fa-wand-magic-sparkles"
+                    }
+                  ]
+                },
+                {
+                  "category": "Operational Excellence",
+                  "items": [
+                    {
+                      "capability": "Real-Time Availability Sync",
+                      "target": "Target 0% double-bookings (vs 15-20% typical)"
+                    },
+                    {
+                      "capability": "Automated Workflows",
+                      "target": "24h confirmation deadline, faster processing"
+                    },
+                    {
+                      "capability": "Automated Payment Processing",
+                      "target": "Eliminates manual errors and reconciliation"
+                    },
+                    {
+                      "capability": "Centralized Communication Hub",
+                      "target": "All bookings in one dashboard"
+                    },
+                    {
+                      "capability": "Dynamic Pricing Tools",
+                      "target": "Optimize occupancy and revenue"
+                    }
+                  ]
+                },
+                {
+                  "category": "Digital Presence",
+                  "items": [
+                    {
+                      "capability": "Instant Online Visibility",
+                      "target": "Professional web presence at zero cost"
+                    },
+                    {
+                      "capability": "Global Market Access",
+                      "target": "8-language support, 300,000+ annual visitors addressable"
+                    },
+                    {
+                      "capability": "International Payment",
+                      "target": "25+ countries, capture international bookings"
+                    },
+                    {
+                      "capability": "SEO Optimization",
+                      "target": "Immediate Google discoverability"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tourist-experience",
+              "title": "Tourist Experience Capabilities",
+              "icon": "fa-person-hiking",
+              "metrics": [
+                {
+                  "category": "Discovery Experience",
+                  "items": [
+                    {
+                      "capability": "Mood-Based Discovery System",
+                      "target": "Reduce search fatigue, target 40%+ outer island bookings (vs 15% industry)"
+                    },
+                    {
+                      "capability": "Educational Content Integration",
+                      "target": "Transform booking into meaningful trip planning"
+                    },
+                    {
+                      "capability": "Favorites System",
+                      "target": "Support discovery process"
+                    }
+                  ]
+                },
+                {
+                  "category": "Booking Experience",
+                  "items": [
+                    {
+                      "capability": "Frictionless Guest Checkout",
+                      "target": "Target 80-85% completion rate (vs 60% industry)"
+                    },
+                    {
+                      "capability": "Multi-Currency Flexibility",
+                      "target": "Serve international tourists without barriers"
+                    },
+                    {
+                      "capability": "Mobile-First PWA",
+                      "target": "75%+ travel bookings occur on mobile"
+                    },
+                    {
+                      "capability": "5-Step Guided Wizard",
+                      "target": "Minimize complexity, maximize conversions"
+                    }
+                  ]
+                },
+                {
+                  "category": "Communication & Support",
+                  "items": [
+                    {
+                      "capability": "Direct Operator Messaging",
+                      "target": "Faster response times (vs 24h+ OTA)"
+                    },
+                    {
+                      "capability": "Special Requests Handling",
+                      "target": "Personalize experiences (dietary, accessibility)"
+                    },
+                    {
+                      "capability": "Booking-Specific Conversations",
+                      "target": "Maintain context, improve service quality"
+                    }
+                  ]
+                },
+                {
+                  "category": "PWA Technical Capabilities",
+                  "items": [
+                    {
+                      "capability": "Offline Functionality",
+                      "target": "15-20% offline usage scenarios"
+                    },
+                    {
+                      "capability": "Installation Without App Store",
+                      "target": "Higher usage/installation rate"
+                    },
+                    {
+                      "capability": "Fast Loading Performance",
+                      "target": "<3s load (meet industry standards)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "platform-performance",
+              "title": "Platform Performance Capabilities",
+              "icon": "fa-gauge-high",
+              "metrics": [
+                {
+                  "category": "Technical Reliability",
+                  "items": [
+                    {
+                      "capability": "Infrastructure Design",
+                      "comparison": "Serverless architecture",
+                      "target": "99.9%+ uptime (production-grade)"
+                    },
+                    {
+                      "capability": "Performance Optimization",
+                      "target": "<3s load times (meet industry standards)"
+                    },
+                    {
+                      "capability": "Real-Time Communication",
+                      "comparison": "WebSocket",
+                      "target": "<800ms notification delivery"
+                    },
+                    {
+                      "capability": "Payment Processing Security",
+                      "comparison": "Stripe PCI Level 1",
+                      "target": "98%+ payment success rate"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "ecosystem-transformation",
+              "title": "Ecosystem Transformation Capabilities",
+              "icon": "fa-earth-americas",
+              "metrics": [
+                {
+                  "category": "For French Polynesia",
+                  "items": [
+                    {
+                      "capability": "Revenue Repatriation",
+                      "target": "10-20% more stays local, reduced economic leakage"
+                    },
+                    {
+                      "capability": "Digital Formalization",
+                      "target": "4,500+ operators accessible, brings local businesses into digital economy"
+                    },
+                    {
+                      "capability": "Tourism & Operator Data",
+                      "target": "Government/Tourism Leaders data access for evidence-based policy"
+                    },
+                    {
+                      "capability": "Island Dispersal",
+                      "target": "Mood-based algorithm, higher outer island reach"
+                    },
+                    {
+                      "capability": "Employment",
+                      "target": "2,000+ entrepreneurs enabled, platform empowers local competition"
+                    },
+                    {
+                      "capability": "Tax Revenue",
+                      "target": "VAI and operators pay FP taxes (vs global OTAs paying outside)"
+                    }
+                  ]
+                },
+                {
+                  "category": "For Sustainable Tourism",
+                  "items": [
+                    {
+                      "capability": "5% Social Impact Fund",
+                      "target": "2.88M+ XPF annually at target scale"
+                    },
+                    {
+                      "capability": "Professionalization",
+                      "target": "Free analytics & training included"
+                    },
+                    {
+                      "capability": "Entrepreneur Empowerment",
+                      "target": "Local operators compete with global OTAs"
+                    },
+                    {
+                      "capability": "Cultural Preservation",
+                      "target": "Tahitian language, Learn Hub education"
+                    },
+                    {
+                      "capability": "Overtourism Reduction",
+                      "target": "Dispersal algorithm (Bora Bora relief)"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "benchmark-table",
+          "title": "Target Benchmarks vs Industry Standards",
+          "categories": [
+            {
+              "name": "Operator Success Metrics",
+              "icon": "fa-briefcase",
+              "benchmarks": [
+                {
+                  "metric": "Revenue Per Booking",
+                  "vai_target": "110-120%",
+                  "industry": "100%",
+                  "improvement": "10-20% increase (lower commission)",
+                  "direction": "up"
+                },
+                {
+                  "metric": "Cash Flow Cycle",
+                  "vai_target": "15%",
+                  "industry": "100%",
+                  "improvement": "85% reduction (48h vs 30-60 days)",
+                  "direction": "down"
+                },
+                {
+                  "metric": "Setup Time",
+                  "vai_target": "10%",
+                  "industry": "100%",
+                  "improvement": "90% reduction (template system)",
+                  "direction": "down"
+                },
+                {
+                  "metric": "Double-Booking Rate",
+                  "vai_target": "0%",
+                  "industry": "15-20%",
+                  "improvement": "Target 0%",
+                  "direction": "down"
+                },
+                {
+                  "metric": "Response Efficiency",
+                  "vai_target": "5%",
+                  "industry": "100%",
+                  "improvement": "95% faster (automated vs manual)",
+                  "direction": "down"
+                }
+              ]
+            },
+            {
+              "name": "Tourist Experience Metrics",
+              "icon": "fa-person-hiking",
+              "benchmarks": [
+                {
+                  "metric": "Booking Completion",
+                  "vai_target": "80-85%",
+                  "industry": "60%",
+                  "improvement": "Simplified flow, guest checkout",
+                  "direction": "up"
+                },
+                {
+                  "metric": "Return Visitor Rate",
+                  "vai_target": "30%+",
+                  "industry": "<20%",
+                  "improvement": "PWA, content, spontaneity",
+                  "direction": "up"
+                },
+                {
+                  "metric": "Customer Satisfaction",
+                  "vai_target": "4.5+",
+                  "industry": "3.8",
+                  "improvement": "Direct communication, authenticity",
+                  "direction": "up"
+                },
+                {
+                  "metric": "Tourism Dispersal",
+                  "vai_target": "40%+",
+                  "industry": "15%",
+                  "improvement": "Outer island bookings",
+                  "direction": "up"
+                }
+              ]
+            },
+            {
+              "name": "Platform Performance Metrics",
+              "icon": "fa-gauge-high",
+              "benchmarks": [
+                {
+                  "metric": "Page Load Speed",
+                  "vai_target": "<3s",
+                  "industry": "5-10s",
+                  "improvement": "40-70% faster",
+                  "direction": "down"
+                },
+                {
+                  "metric": "Real-Time Latency",
+                  "vai_target": "<800ms",
+                  "industry": "2-5s",
+                  "improvement": "Instant notification feel",
+                  "direction": "down"
+                },
+                {
+                  "metric": "Payment Success",
+                  "vai_target": "98%+",
+                  "industry": "90-95%",
+                  "improvement": "Stripe reliability",
+                  "direction": "up"
+                },
+                {
+                  "metric": "Platform Availability",
+                  "vai_target": "99.9%+",
+                  "industry": "95-98%",
+                  "improvement": "Serverless infrastructure",
+                  "direction": "up"
+                },
+                {
+                  "metric": "Mobile Usage",
+                  "vai_target": "70%+",
+                  "industry": "40-50%",
+                  "improvement": "Responsive design",
+                  "direction": "up"
+                },
+                {
+                  "metric": "Template Adoption",
+                  "vai_target": "90%+",
+                  "industry": "N/A",
+                  "improvement": "Intuitive workflow",
+                  "direction": "up"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "technical-architecture",
+      "title": "Technical Architecture",
+      "icon": "fa-code",
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Optional Deep Dive for Technical Stakeholders",
+          "subtitle": "Expandable technical details about platform architecture"
+        },
+        {
+          "type": "expandable-warning",
+          "message": "Technical content ahead - designed for developers and technical decision-makers"
+        },
+        {
+          "type": "architecture-overview",
+          "components": [
+            {
+              "title": "Component Architecture",
+              "total": "90+ Components",
+              "breakdown": [
+                {
+                  "name": "Operator Dashboard",
+                  "count": "45+",
+                  "description": "React components for operator interface"
+                },
+                {
+                  "name": "Tourist App",
+                  "count": "45+",
+                  "description": "React components for tourist interface"
+                },
+                {
+                  "name": "Shared Components",
+                  "description": "Navigation, Language, Theme"
+                },
+                {
+                  "name": "Chart Components",
+                  "description": "Bar, Line, Pie visualization"
+                },
+                {
+                  "name": "Feature Components",
+                  "description": "Booking, Template, Schedule, Payment, Chat"
+                }
+              ]
+            },
+            {
+              "title": "Service Layer",
+              "total": "15+ Services",
+              "services": [
+                "paymentService.js - Payment processing, capture, refunds, payouts",
+                "chatService.js - Real-time messaging, conversation management",
+                "notificationService.js - Cross-device notifications with i18n",
+                "templateService.js - Template CRUD operations",
+                "scheduleService.js - Schedule management, activity instance generation",
+                "stripeConnectService.js - Stripe account creation/verification",
+                "operatorRegistration.js - Onboarding workflow",
+                "bookingValidationService.js - Business rule validation",
+                "onboardingStateManager.js - Onboarding progress tracking"
+              ]
+            },
+            {
+              "title": "Database Schema",
+              "total": "10+ Tables",
+              "tables": [
+                "operators - Operator business profiles",
+                "tours - Unified template + instance system",
+                "bookings - Customer reservations",
+                "schedules - Recurring availability patterns",
+                "notifications - Cross-device notification sync",
+                "booking_conversations - Real-time chat",
+                "tourist_users - Customer profiles",
+                "Database Views: operator_booking_summary, schedule_details, pending_bookings_for_workflow"
+              ]
+            },
+            {
+              "title": "Edge Functions",
+              "total": "12 Serverless Endpoints",
+              "runtime": "Deno",
+              "functions": [
+                "create-payment-intent - Tourist booking authorization",
+                "capture-payment - Operator confirmation charge",
+                "refund-payment - Cancellation processing",
+                "create-connect-account - Operator Stripe account",
+                "create-account-link - Onboarding URL generation",
+                "check-connect-status - Account verification",
+                "mark-tour-completed - Completion tracking",
+                "process-tour-payouts - Automated transfers",
+                "get-payment-status - Payment info retrieval"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tech-stack-detailed",
+          "title": "Technology Stack Detailed",
+          "layers": [
+            {
+              "name": "Frontend",
+              "technologies": [
+                "React 19",
+                "Vite 4",
+                "Tailwind CSS 3",
+                "i18next 25",
+                "Zustand 4",
+                "Framer Motion 10"
+              ]
+            },
+            {
+              "name": "Backend",
+              "technologies": [
+                "Supabase (PostgreSQL, Auth, Realtime, Storage, Edge Functions)"
+              ]
+            },
+            {
+              "name": "Payments",
+              "technologies": [
+                "Stripe Connect",
+                "@stripe/stripe-js 7"
+              ]
+            },
+            {
+              "name": "Automation",
+              "technologies": [
+                "n8n webhooks",
+                "Serverless Edge Functions"
+              ]
+            },
+            {
+              "name": "PWA",
+              "technologies": [
+                "vite-plugin-pwa",
+                "Workbox Service Worker"
+              ]
+            },
+            {
+              "name": "Infrastructure",
+              "technologies": [
+                "Serverless",
+                "Auto-scaling",
+                "99.9%+ uptime SLA"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "get-involved",
+      "title": "Get Involved",
+      "icon": "fa-phone",
+      "sections": [
+        {
+          "type": "intro",
+          "title": "Join the VAI Platform Journey",
+          "subtitle": "Multiple ways to get involved - operators, tourists, investors, partners"
+        },
+        {
+          "type": "cta-cards",
+          "cards": [
+            {
+              "id": "operator",
+              "icon": "fa-briefcase",
+              "title": "Join as Operator",
+              "description": "Ready to transform your tourism business?",
+              "benefits": [
+                "Get early access to platform (before public launch)",
+                "Benefit from launch promotions",
+                "Receive onboarding support",
+                "Zero upfront costs"
+              ],
+              "cta_text": "Pre-Register Now",
+              "cta_link": "https://operator.vai.studio/trackingcode",
+              "gradient": "primary"
+            },
+            {
+              "id": "tourist",
+              "icon": "fa-person-hiking",
+              "title": "Early User Access",
+              "description": "Be among the first to experience VAI Tickets",
+              "benefits": [
+                "Sign up for early access to VAI Tickets",
+                "Register before official launch",
+                "Get informed once VAI platform goes live",
+                "Exclusive early-user benefits"
+              ],
+              "cta_text": "Sign Up for Early Access",
+              "cta_link": "https://app.vai.studio/early-access",
+              "gradient": "secondary"
+            },
+            {
+              "id": "investor",
+              "icon": "fa-chart-line",
+              "title": "Investment Opportunities",
+              "description": "Invest in the future of Polynesian tourism",
+              "benefits": [
+                "Request investment deck",
+                "Schedule meeting with founder",
+                "Access detailed financials",
+                "Discuss partnership opportunities"
+              ],
+              "cta_text": "Request Investment Deck",
+              "cta_link": "https://vai.studio/contact/",
+              "gradient": "professional"
+            },
+            {
+              "id": "partner",
+              "icon": "fa-handshake",
+              "title": "Partner With VAI",
+              "description": "Strategic collaboration opportunities",
+              "benefits": [
+                "Tourism board collaboration",
+                "Hotel/resort integration",
+                "DMC/inbound operator partnership",
+                "Technology partnership"
+              ],
+              "cta_text": "Explore Partnerships",
+              "cta_link": "https://vai.studio/contact/",
+              "gradient": "primary"
+            },
+            {
+              "id": "government",
+              "icon": "fa-building-columns",
+              "title": "Government & Institutions",
+              "description": "Public-private collaboration",
+              "benefits": [
+                "Data access inquiries (VAI Insights)",
+                "Policy alignment discussions",
+                "Public-private partnership",
+                "Tourism development collaboration"
+              ],
+              "cta_text": "Contact VAI",
+              "cta_link": "https://vai.studio/contact/",
+              "gradient": "professional"
+            }
+          ]
+        },
+        {
+          "type": "founder-profile",
+          "name": "Kevin De Silva",
+          "title": "Founder & Engineer",
+          "role": "Organisational Developer | AI Product Strategist",
+          "location": "Moorea, French Polynesia",
+          "photo": "/assets/images/founder-kevin.jpg",
+          "links": [
+            {
+              "type": "email",
+              "icon": "fa-envelope",
+              "label": "Email",
+              "url": "mailto:hello@kevindesilva.de"
+            },
+            {
+              "type": "linkedin",
+              "icon": "fa-linkedin",
+              "label": "LinkedIn",
+              "url": "https://www.linkedin.com/in/kevin-desilva/"
+            },
+            {
+              "type": "career",
+              "icon": "fa-file-user",
+              "label": "Career Path",
+              "url": "https://kevindesilva.de/curriculum_vitae_fr/"
+            },
+            {
+              "type": "website",
+              "icon": "fa-globe",
+              "label": "VAI Studio",
+              "url": "https://vai.studio"
+            }
+          ]
+        },
+        {
+          "type": "social-media",
+          "title": "Follow VAI",
+          "links": [
+            {
+              "platform": "facebook",
+              "icon": "fa-facebook",
+              "url": "https://facebook.com/vai.studio",
+              "color": "#1877F2"
+            },
+            {
+              "platform": "tiktok",
+              "icon": "fa-tiktok",
+              "url": "https://tiktok.com/@vai.studio",
+              "color": "#000000"
+            },
+            {
+              "platform": "instagram",
+              "icon": "fa-instagram",
+              "url": "https://instagram.com/vai.studio",
+              "color": "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
