@@ -967,6 +967,43 @@ tr:last-child td {
     border-bottom: none;
 }
 
+/* --- Table Notes --- */
+.budget-note,
+.table-note,
+.section-note {
+    margin-top: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(47, 129, 247, 0.05);
+    border-left: 3px solid var(--accent-glow);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.table-with-note {
+    margin-bottom: 2rem;
+}
+
+.table-with-note .table-note {
+    margin-top: 0.5rem;
+}
+
+/* --- Final Statement (Call to Action) --- */
+.final-statement {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, rgba(208, 19, 189, 0.1), rgba(138, 43, 226, 0.1));
+    border: 2px solid var(--accent-glow);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+    line-height: 1.6;
+}
+
 /* --- Lists (SWOT) --- */
 .list-grid {
     display: grid;

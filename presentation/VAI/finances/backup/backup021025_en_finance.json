@@ -82,9 +82,6 @@
           ["Operators acquired", "250"],
           ["Total Year 1 GMV", "364,200,000 XPF"],
           ["Total Revenue (11%)", "40,062,000 XPF"],
-          ["Cost of Revenue", "20,089,120 XPF"],
-          ["Gross Profit", "19,972,880 XPF"],
-          ["Gross Margin", "49.9%"],
           ["Average Monthly Revenue", "3,338,500 XPF"],
           ["End-of-Year Revenue (run rate)", "6,187,500 XPF/month"]
         ]
@@ -172,21 +169,23 @@
       ]
     },
     {
-      "title": "Community Investment & Projected Returns",
+      "title": "Investment vs. Return",
       "investment": {
-        "title": "Community Investment Goal",
-        "total": "Total: 47,000,000 XPF"
+        "title": "Public Investment Requested",
+        "items": [
+          "DAD: 4,000,000 XPF",
+          "AEPE: 3,000,000 XPF",
+          "PACE: 5,000,000 XPF"
+        ],
+        "total": "Total: 12,000,000 XPF"
       },
       "return": {
-        "title": "Projected Returns for Investors & Our Community",
+        "title": "Return on Investment",
         "items": [
-          "Annual Interest for Investors: 10% fixed = 4,700,000 XPF paid quarterly",
-          "Year 1 Revenue: 40,062,000 XPF",
-          "Year 1 Gross Profit: 19,972,880 XPF (49.9% margin)",
-          "Path to Profitability: Projected break-even at Month 8",
-          "Jobs Created: 3 full-time positions in Year 1",
-          "Economic Impact: 364M XPF in GMV facilitated, keeping tourism revenue local",
-          "5-Year Investor Return: 23.5M XPF in interest + equity conversion option"
+          "Year 1 ROI: 334% (40M revenue / 12M investment)",
+          "Payback period: 4 months",
+          "Jobs created: 3 direct + 10 indirect",
+          "Economic impact: 364M XPF facilitated"
         ]
       }
     },
@@ -231,12 +230,12 @@
     {
       "title": "Conclusion",
       "paragraphs": [
-        "With the endorsement from the Municipality of Moorea and ongoing dialogue with Tahiti Tourisme, the goal of 250 operators in 9 months is not only achievable but conservative.",
+        "With the support of the Municipality of Moorea and the ongoing commitment from Tahiti Tourisme, the goal of 250 operators in 9 months is not only achievable but conservative.",
         "The VAI platform, already operational and valued at 28-44 million XPF, combined with a disruptive economic model (11% vs. 20-30%), will create rapid and massive market adoption.",
-        "The community investment of 47 million XPF will fuel a comprehensive, realistic operational plan, projected to generate 40 million XPF in revenue in the first year alone and establish the foundational digital tourism infrastructure for French Polynesia.",
-        "Investors will receive a 10% annual return paid quarterly, with the opportunity to convert to equity and participate in VAI's long-term growth while supporting local economic sovereignty."
+        "The public investment of 12 million XPF (application in progress) will generate a return of 40 million XPF in the first year alone, while establishing the digital tourism infrastructure for French Polynesia."
       ],
-      "contact": "Contact: Kevin De Silva - Founder & CEO, VAI Platform | The digital infrastructure of Polynesian tourism, built by Polynesians, for Polynesians."
+      "footer": "Document prepared for the DAD, AEPE, and PACE funding applications",
+      "contact": "Contact: Kevin De Silva - Founder, VAI Platform"
     }
   ]
 }

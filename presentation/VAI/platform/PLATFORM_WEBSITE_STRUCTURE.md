@@ -313,7 +313,7 @@ FEATURED CAPABILITIES (Expandable Cards)
    ├── Multiple Payment Methods (Cards, Apple Pay, Google Pay, Alipay, WeChat Pay - possible)
    ├── Authorization-then-Capture Flow (secure for both parties)
    ├── 11% Commission Rate (flexible, locked at confirmation)
-   ├── 48-Hour Automated Payouts (vs 30-60 day standard)
+   ├── 7 Days Automated Payouts (vs 30-60 day standard)
    ├── XPF-Native Operator Payouts (no currency risk)
    ├── Automated Revenue Distribution (89% operator, 11% platform)
    └── Refund Automation
@@ -513,7 +513,7 @@ CORE WORKFLOWS (Visual Step-by-Step Diagrams)
    6. If confirmed: payment captured, commission locked at 11%
    7. Activity date arrives
    8. Operator marks activity completed
-   9. 48-hour dispute protection period
+   9. 7 days dispute protection period
    10. Automated payout: Operator 89%, VI Platform 11%
 
 4. PAYMENT PROCESSING WORKFLOW (12 steps)
@@ -536,7 +536,7 @@ CORE WORKFLOWS (Visual Step-by-Step Diagrams)
    6. Payment captured from tourist
    7. Funds transferred to VAI platform account
    8. Activity completion marked by operator
-   9. 48-hour wait period (dispute protection)
+   9. 7 days wait period (dispute protection)
    10. System calls Edge Function: process-activity-payouts
    11. Payout provider transfers revenue in preferred currency (incl. XPF) to operator (89%)
    12. VAI Platform retains commission (11%)
@@ -710,7 +710,7 @@ FINANCIAL PROBLEMS → SOLUTIONS
 │   → 10-20% more revenue per booking for operators
 │
 ├── Delayed Payments (30-60 days)
-│   → 48-Hour Automated Payouts
+│   → 7 days Automated Payouts
 │   → Faster access to working capital
 │
 ├── Currency Conversion Losses
@@ -824,7 +824,7 @@ PLATFORM DIFFERENTIATORS (VAI vs Global OTAs)
 |---------------------------|--------------------------------------------------|------------------------------------------------|
 | Discovery Method          | Mood-based (Adventure, Relax, Culture, etc.)     | Keyword search only                            |
 | Commission Rate           | 11% (flexible, locked at confirmation)           | 20-30% (often higher with add-ons)             |
-| Payout Speed              | 48 hours post-activity                           | 30-60 days standard                            |
+| Payout Speed              | 7 days post-activity                           | 30-60 days standard                            |
 | Currency                  | Operators receive XPF (local)                    | USD/EUR (currency conversion risk)             |
 | Platform Focus            | French Polynesia Expertise (all islands)              | Global (generic, no local expertise)           |
 | Language Support          | 8 languages including Tahitian                   | multiple languages (no Tahitian)                    |
@@ -915,12 +915,12 @@ Economic Empowerment
 │   ├─ Bar Chart: 11% (green) vs 30% (red)
 │   └─ Badge: "+10-20% revenue" (green)
 │
-├── Fast Payout System: 48h vs 30-60 days
+├── Fast Payout System: 7 days vs 30-60 days
 │   → Target: 85% reduction in cash flow cycle
 │
 │   [METRIC VISUAL: Payout Speed]
 │   ├─ Icon: fa-clock-rotate-left
-│   ├─ Timeline: 48h marker vs 30-60d marker
+│   ├─ Timeline: 7 days marker vs 30-60d marker
 │   └─ Badge: "-85% cash flow cycle" (green)
 │
 ├── Zero-Cost Entry: No upfront fees
@@ -1088,7 +1088,7 @@ Operator Success Metrics
 
 ├── Revenue Per Booking: 10-20% increase (lower commission)
 │   [BAR: VAI 110-120% vs Industry 100%] ↑
-├── Cash Flow Cycle: 85% reduction (48h vs 30-60 days)
+├── Cash Flow Cycle: 85% reduction (7 days vs 30-60 days)
 │   [BAR: VAI 15% vs Industry 100%] ↓
 ├── Setup Time: 90% reduction (template system)
 │   [BAR: VAI 10% vs Industry 100%] ↓
