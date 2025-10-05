@@ -1,16 +1,98 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta name=”robots” content=”noindex”>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Cabana Architecture - Architecture Tropicale à Moorea</title>
+
+    <!-- Primary Meta Tags -->
+    <title>Cabana Architecture - Architecte à Moorea, Polynésie Française | Architecture Tropicale</title>
+    <meta name="title" content="Cabana Architecture - Architecte à Moorea, Polynésie Française">
+    <meta name="description" content="Cabinet d'architecture basé à Moorea, Polynésie Française. Spécialisé en architecture tropicale durable : conception de maisons, permis de construire, suivi de chantier. Candelaria Busato, architecte diplômée depuis 2013.">
+    <meta name="keywords" content="architecte moorea, architecture polynésie française, architecture tropicale, permis de construire moorea, maison tropicale, architecte tahiti, cabana architecture, candelaria busato, construction moorea">
+    <meta name="author" content="Candelaria Busato - Cabana Architecture">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vai.studio/cabana-architecture/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vai.studio/cabana-architecture/">
+    <meta property="og:title" content="Cabana Architecture - Architecte à Moorea, Polynésie Française">
+    <meta property="og:description" content="Architecture tropicale durable à Moorea. De la conception au suivi de chantier, nous transformons vos idées en réalisations uniques.">
+    <meta property="og:image" content="https://architecturecabana.org/wp-content/uploads/2025/10/041025_CABANA-Architecture-Menu-Logo.png">
+    <meta property="og:locale" content="fr_PF">
+    <meta property="og:site_name" content="Cabana Architecture">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://vai.studio/cabana-architecture/">
+    <meta name="twitter:title" content="Cabana Architecture - Architecte à Moorea, Polynésie Française">
+    <meta name="twitter:description" content="Architecture tropicale durable à Moorea. De la conception au suivi de chantier, nous transformons vos idées en réalisations uniques.">
+    <meta name="twitter:image" content="https://architecturecabana.org/wp-content/uploads/2025/10/041025_CABANA-Architecture-Menu-Logo.png">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="PF-MO">
+    <meta name="geo.placename" content="Moorea">
+    <meta name="geo.position" content="-17.5388;-149.8294">
+    <meta name="ICBM" content="-17.5388, -149.8294">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/cabana-architecture/styles.css">
 
+    <!-- Fonts - Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://architecturecabana.org">
+    <link rel="dns-prefetch" href="https://videos.files.wordpress.com">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://architecturecabana.org/wp-content/uploads/2025/10/background-cabana.jpg" as="image">
+
+    <!-- Structured Data - LocalBusiness Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ArchitecturalService",
+        "name": "Cabana Architecture",
+        "image": "https://architecturecabana.org/wp-content/uploads/2025/10/041025_CABANA-Architecture-Menu-Logo.png",
+        "description": "Cabinet d'architecture spécialisé en architecture tropicale durable à Moorea, Polynésie Française",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Moorea",
+            "addressRegion": "Îles du Vent",
+            "addressCountry": "PF"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-17.5388",
+            "longitude": "-149.8294"
+        },
+        "url": "https://vai.studio/cabana-architecture/",
+        "email": "candelaria@architecturecabana.org",
+        "founder": {
+            "@type": "Person",
+            "name": "Candelaria Busato",
+            "jobTitle": "Architecte",
+            "description": "Architecte diplômée depuis 2013, spécialisée en architecture tropicale"
+        },
+        "areaServed": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": "-17.5388",
+                "longitude": "-149.8294"
+            },
+            "geoRadius": "50000"
+        },
+        "priceRange": "$$",
+        "serviceType": ["Architecture résidentielle", "Permis de construire", "Suivi de chantier", "Architecture tropicale", "Maîtrise d'oeuvre"],
+        "sameAs": [
+            "https://medium.com/@cabana.archi"
+        ]
+    }
+    </script>
 
 </head>
 <body>
@@ -20,9 +102,9 @@
     </div>
 
     <!-- Navigation -->
-    <div class="nav-container">
-        <nav>
-            <a href="#home" class="cabana-logo"></a>
+    <header class="nav-container">
+        <nav aria-label="Navigation principale">
+            <a href="#home" class="cabana-logo" aria-label="Cabana Architecture - Retour à l'accueil"></a>
             <ul class="nav-menu">
                 <li><a href="#agency">L'Agence</a></li>
                 <li><a href="#projects">Projets</a></li>
@@ -30,28 +112,30 @@
                 <li><a href="#ressources">Ressources</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="hamburger">
+            <button class="hamburger" aria-label="Menu de navigation mobile" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </nav>
-    </div>
+    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <video class="hero-video" autoplay loop muted playsinline preload="metadata" poster="https://architecturecabana.org/wp-content/uploads/2025/10/background-cabana.jpg">
-            <source src="https://videos.files.wordpress.com/jAXdAeD6/041025_cabana-architecture-hq.mp4" type="video/mp4">
-        </video>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">CABANA</h1>
-            <h2 class="hero-subtitle">ARCHITECTURE</h2>
-            <a href="#contact" class="cta-button hero-cta">Contactez-Nous</a>
-        </div>
-    </section>
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero" aria-label="Page d'accueil">
+            <video class="hero-video" autoplay loop muted playsinline preload="metadata" poster="https://architecturecabana.org/wp-content/uploads/2025/10/background-cabana.jpg" aria-label="Vidéo d'architecture tropicale à Moorea">
+                <source src="https://videos.files.wordpress.com/jAXdAeD6/041025_cabana-architecture-hq.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo HTML5.
+            </video>
+            <div class="hero-overlay" aria-hidden="true"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">CABANA</h1>
+                <p class="hero-subtitle">ARCHITECTURE</p>
+                <a href="#contact" class="cta-button hero-cta">Contactez-Nous</a>
+            </div>
+        </section>
 
-    <!-- Agency Section -->
+        <!-- Agency Section -->
     <section id="agency" class="section">
         <h2>L'Agence</h2>
         <div class="agency-content fade-in">
@@ -60,8 +144,8 @@
                 <p>Chaque projet est conduit avec soin et professionnalisme, pour garantir des solutions adaptées à vos besoins et un résultat à la hauteur de vos attentes.</p>
                 <p>Avec Cabana Architecture, vos projets prennent vie en toute confiance.</p>
                 <a href="#about" class="cta-button">Qui suis-je ?</a>
-        </div>
-                <img class="agency-image" src="https://architecturecabana.org/wp-content/uploads/2023/08/image.jpeg" alt="Cabana Architecture Agency">   
+            </div>
+            <img class="agency-image" src="https://architecturecabana.org/wp-content/uploads/2023/08/image.jpeg" alt="Architecture tropicale moderne à Moorea - Réalisation Cabana Architecture" loading="lazy">
         </div>
     </section>
 
@@ -226,17 +310,18 @@
         <div class="contact-notice fade-in">
             <p>Le formulaire est actuellement en cours de construction.</p>
             <p>Veuillez contacter:</p>
-            <a href="mailto:candelaria@architecturecabana.org" class="cta-button">candelaria@architecturecabana.org</a>
+            <a href="mailto:candelaria@architecturecabana.org" class="cta-button">E-Mail</a>
         </div>
     </section>
+    </main>
 
     <!-- Project Modal -->
-    <div class="project-modal" id="projectModal">
+    <div class="project-modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div class="modal-image"></div>
+            <button class="modal-close" aria-label="Fermer la fenêtre">&times;</button>
+            <div class="modal-image" role="img" aria-label="Image du projet"></div>
             <div class="modal-details">
-                <h3 class="modal-title"></h3>
+                <h3 class="modal-title" id="modal-title"></h3>
                 <p class="modal-description"></p>
             </div>
         </div>
@@ -252,6 +337,12 @@
             <a href="#missions">Missions</a>
             <a href="#ressources">Ressources</a>
             <a href="#contact">Contact</a>
+        </div>
+        <div class="vai-credit">
+            <a href="https://vai.studio" target="_blank" rel="noopener noreferrer">
+                <span>Site créé au Fenua - par</span>
+                <img src="/via-studio-images/logo/VAI - Logo White 2025.png" alt="VAI" class="vai-logo">
+            </a>
         </div>
     </footer>
 

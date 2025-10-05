@@ -1,87 +1,88 @@
 // cabana-architecture/script.js
-        // Loading screen
-        window.addEventListener('load', () => {
-            const loadingScreen = document.querySelector('.loading-screen');
-            setTimeout(() => {
-                loadingScreen.classList.add('fade-out');
-            }, 800);
-        });
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Loading screen - fires when DOM is ready, not when all media is loaded
+    const loadingScreen = document.querySelector('.loading-screen');
+    setTimeout(() => {
+        loadingScreen.classList.add('fade-out');
+    }, 600);
 
-        // Mobile menu toggle
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
 
+    if (hamburger && navMenu) {
         hamburger.addEventListener('click', () => {
+            const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+            hamburger.setAttribute('aria-expanded', !isExpanded);
             navMenu.classList.toggle('active');
         });
+    }
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (hamburger && navMenu) {
+                hamburger.setAttribute('aria-expanded', 'false');
                 navMenu.classList.remove('active');
-            });
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navContainer = document.querySelector('.nav-container');
-            if (window.scrollY > 100) {
-                navContainer.classList.add('scrolled');
-            } else {
-                navContainer.classList.remove('scrolled');
             }
         });
+    });
 
-        // Fade in animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const navContainer = document.querySelector('.nav-container');
+        if (window.scrollY > 50) {
+            navContainer.classList.add('scrolled');
+        } else {
+            navContainer.classList.remove('scrolled');
+        }
+    });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+    // Fade in animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
         });
+    }, observerOptions);
 
-        // Form submission
-        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            alert('Merci pour votre message ! Nous vous recontacterons bientôt.');
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const navHeight = document.querySelector('.nav-container').offsetHeight;
+                const targetPosition = target.offsetTop - navHeight;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
         });
+    });
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const navHeight = document.querySelector('.nav-container').offsetHeight;
-                    const targetPosition = target.offsetTop - navHeight;
+    // Project Modal
+    const modal = document.getElementById('projectModal');
+    const modalImage = document.querySelector('.modal-image');
+    const modalTitle = document.querySelector('.modal-title');
+    const modalDescription = document.querySelector('.modal-description');
+    const modalClose = document.querySelector('.modal-close');
 
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Project Modal
-        const modal = document.getElementById('projectModal');
-        const modalImage = document.querySelector('.modal-image');
-        const modalTitle = document.querySelector('.modal-title');
-        const modalDescription = document.querySelector('.modal-description');
-        const modalClose = document.querySelector('.modal-close');
-
-        // Project data mapping
-        const projectData = {
+    // Project data mapping
+    const projectData = {
             1: {
                 image: 'https://architecturecabana.org/wp-content/uploads/2025/10/3D3_page-0001-enhanced-enhanced-enhanced.png',
                 title: 'PROJET DE MAISON D\'HABITATION Á PIHAENA - MOOREA',
@@ -142,42 +143,49 @@
                 title: 'RÉNOVATION DU BEACH CLUB Á KOH TAO - TAHILANDE',
                 description: 'Bar, restaurant et beach club de 80m² - 2016'
             }
-        };
+    };
 
-        // Open modal when project card is clicked
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const projectId = this.getAttribute('data-project');
-                const project = projectData[projectId];
+    // Open modal when project card is clicked
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const projectId = this.getAttribute('data-project');
+            const project = projectData[projectId];
 
-                if (project) {
-                    modalImage.style.backgroundImage = `url('${project.image}')`;
-                    modalTitle.textContent = project.title;
-                    modalDescription.textContent = project.description;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-        });
-
-        // Close modal
-        modalClose.addEventListener('click', function() {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-
-        // Close modal when clicking outside
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
+            if (project) {
+                modalImage.style.backgroundImage = `url('${project.image}')`;
+                modalTitle.textContent = project.title;
+                modalDescription.textContent = project.description;
+                modal.classList.add('active');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                modalClose.focus(); // Set focus to close button for accessibility
             }
         });
+    });
 
-        // Close modal with ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
+    // Function to close modal
+    function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+});
