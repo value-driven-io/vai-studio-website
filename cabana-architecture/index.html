@@ -7,19 +7,27 @@
     
     <title>Cabana Architecture - Architecture Tropicale à Moorea</title>
     <link rel="stylesheet" href="/cabana-architecture/styles.css">
-    <link href='https://fonts.googleapis.com/css?family=Aboreto' rel='stylesheet'>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <img src="https://architecturecabana.org/wp-content/uploads/2025/10/041025_CABANA-Architecture-Menu-Logo.png" alt="Cabana Architecture" class="loading-logo">
+    </div>
+
     <!-- Navigation -->
     <div class="nav-container">
         <nav>
-            <a href="#home" class="logo">CABANA</a>
+            <a href="#home" class="cabana-logo"></a>
             <ul class="nav-menu">
                 <li><a href="#agency">L'Agence</a></li>
                 <li><a href="#projects">Projets</a></li>
                 <li><a href="#missions">Missions</a></li>
-                <li><a href="#news">Actualités</a></li>
+                <li><a href="#ressources">Ressources</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="hamburger">
@@ -32,10 +40,15 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="palm-logo"></div>
-        <h1>CABANA</h1>
-        <h2>ARCHITECTURE</h2>
-        <a href="#contact" class="cta-button">Contactez-Nous</a>
+        <video class="hero-video" autoplay loop muted playsinline preload="metadata" poster="https://architecturecabana.org/wp-content/uploads/2025/10/background-cabana.jpg">
+            <source src="https://videos.files.wordpress.com/jAXdAeD6/041025_cabana-architecture-hq.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">CABANA</h1>
+            <h2 class="hero-subtitle">ARCHITECTURE</h2>
+            <a href="#contact" class="cta-button hero-cta">Contactez-Nous</a>
+        </div>
     </section>
 
     <!-- Agency Section -->
@@ -43,27 +56,27 @@
         <h2>L'Agence</h2>
         <div class="agency-content fade-in">
             <div class="agency-text">
-                <h3>Qui suis-je ?</h3>
                 <p>Basé à Moorea, Cabana Architecture, transforme vos idées en réalisations uniques grâce à une approche complète et personnalisée. De la conception au suivi des travaux, nous imaginons des espaces sur-mesure, alliant créativité, rigueur et écoute attentive.</p>
                 <p>Chaque projet est conduit avec soin et professionnalisme, pour garantir des solutions adaptées à vos besoins et un résultat à la hauteur de vos attentes.</p>
                 <p>Avec Cabana Architecture, vos projets prennent vie en toute confiance.</p>
-            </div>
-            <div class="agency-image"></div>
+                <a href="#about" class="cta-button">Qui suis-je ?</a>
+        </div>
+                <img class="agency-image" src="https://architecturecabana.org/wp-content/uploads/2023/08/image.jpeg" alt="Cabana Architecture Agency">   
         </div>
     </section>
 
     <!-- About Section -->
-    <section class="about section">
+    <section id="about" class="about section">
         <div class="about-content fade-in">
             <div class="about-images">
                 <div class="about-image large"></div>
-                <div class="about-image"></div>
-                <div class="about-image"></div>
+                <div class="about-image small1"></div>
+                <div class="about-image small2"></div>
             </div>
             <div class="about-text">
                 <h3>Candelaria Busato</h3>
-                <h4>Architecte diplômée de l'Université de Buenos Aires - 2013</h4>
-                <p>Dynamique, originelle et engagée. Façonné par des voyages et des rencontres avec différentes cultures au cours des 10 dernières années, l'architecte a acquis une riche expérience et des connaissances approfondies qui sont maintenant accumulées dans son approche de la conception architecturale.</p>
+                <h4>Architecte diplômée depuis 2013</h4>
+                <p>Façonné par des voyages et des rencontres avec différentes cultures au cours des 10 dernières années, l'architecte a acquis une riche expérience et des connaissances approfondies qui sont maintenant accumulées dans son approche de la conception architecturale.</p>
                 <p>"Je suis une architecte basé sur Mo'orea, et je suis engagée à fournir des services de conception architecturale de haute qualité en mettant l'accent sur le respect et l'écoute du client. Je suis fière de fournir un service professionnel et personnalisé à mes clients.</p>
                 <p>Au plaisir de donner vie à votre projet en Polynésie Française !"</p>
             </div>
@@ -74,39 +87,88 @@
     <section id="projects" class="section">
         <h2>Projets</h2>
         <div class="projects-grid fade-in">
-            <div class="project-card">
-                <div class="project-image"></div>
+            <div class="project-card" data-project="1">
+                <div class="project-image x1"></div>
                 <div class="project-info">
-                    <h4>Maison d'habitation Pihaena - Moorea</h4>
-                    <p>Maison de 180 m² - En cours</p>
+                    <h4>PROJET DE MAISON D'HABITATION Á PIHAENA - MOOREA</h4>
+                    <p>Maison de 180 m², style moderne - En cours</p>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"></div>
+            <div class="project-card" data-project="2">
+                <div class="project-image x2"></div>
+                <div class="project-info">
+                    <h4>PROJET D'EXTENSION DE TERRASSE Á TEAVARO - MOOREA</h4>
+                    <p>Bungalow de 25m² et piscine de 40m² - En cours</p>
+                </div>
+            </div>
+            <div class="project-card" data-project="3">
+                <div class="project-image x3"></div>
+                <div class="project-info">
+                    <h4>MAISON D'HABITATION PAOPAO - MOOREA</h4>
+                    <p>Maison de 110 m² - En cours</p>
+                </div>
+            </div>
+            <div class="project-card" data-project="4">
+                <div class="project-image x4"></div>
+                <div class="project-info">
+                    <h4>PROJET DE RÉNOVATION MODELISÉ TEMAE - MOOREA</h4>
+                    <p>Bungalow de 65 m²  - modélisation 3d + accompagnement du client - 2025</p>
+                </div>
+            </div>
+            <div class="project-card" data-project="5">
+                <div class="project-image x5"></div>
+                <div class="project-info">
+                    <h4>PROJET DE MAISON PARTICULIÈRE Á MAHAREPA - MOOREA</h4>
+                    <p>Maison de 130 m²  - 2024</p>
+                </div>
+            </div>
+            <div class="project-card" data-project="6">
+                <div class="project-image x6"></div>
+                <div class="project-info">
+                    <h4>PROJET DE CAVE SOUTERRAINE EN ARGENTINE</h4>
+                    <p>Cave de 25m²  - modélisation 3D et choix des matériaux - 2024</p>
+                </div>
+            </div>
+            <div class="project-card" data-project="7">
+                <div class="project-image x7"></div>
+                <div class="project-info">
+                    <h4>EXTENSION DE BUNGALOWS ANNEXES A MAISON EXISTANTE</h4>
+                    <p>3 bungalows de 30 m² chacun  - 2024</p>
+                </div>
+            </div>
+            <div class="project-card" data-project="8">
+                <div class="project-image x8"></div>
                 <div class="project-info">
                     <h4>Maison d'habitation Paopao - Moorea</h4>
-                    <p>Projet de conception moderne intégré dans l'environnement tropical</p>
+                    <p>Maison de 113 m²  - style local avec une touche classe - 2023</p>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"></div>
+            <div class="project-card" data-project="9">
+                <div class="project-image x9"></div>
                 <div class="project-info">
-                    <h4>Projet de cave enterrée</h4>
-                    <p>Innovation architecturale adaptée au climat tropical</p>
+                    <h4>MAISON D'HABITATION PAOPAO - MOOREA</h4>
+                    <p>Maison de 125 m²  - maison "en dur", carrelé style local moderne - 2023</p>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"></div>
+            <div class="project-card" data-project="10">
+                <div class="project-image x10"></div>
                 <div class="project-info">
-                    <h4>Projets en Thaïlande</h4>
-                    <p>Architecture d'intérieur et espaces commerciaux</p>
+                    <h4>MAISON PARTICULIÈRE Á TEMAE - MOOREA</h4>
+                    <p>Maison de 113 m²  - style local avec une touche classe - 2023</p>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image"></div>
+            <div class="project-card" data-project="11">
+                <div class="project-image x11"></div>
                 <div class="project-info">
-                    <h4>Projets en Argentine</h4>
-                    <p>Développement urbain et architecture résidentielle</p>
+                    <h4>AMÉNAGEMENT EXTÉRIEUR DU JARDIN Á MAHAREPA - MOOREA </h4>
+                    <p>Piscine et plage 35 m² - 2021</p>
+                </div>
+            </div>
+            <div class="project-card" data-project="12">
+                <div class="project-image x12"></div>
+                <div class="project-info">
+                    <h4>RÉNOVATION DU BEACH CLUB Á KOH TAO - TAHILANDE</h4>
+                    <p>Bar, restaurant et beach club de 80m² - 2016</p>
                 </div>
             </div>
         </div>
@@ -134,21 +196,26 @@
         </div>
     </section>
 
-    <!-- News Section -->
-    <section id="news" class="news section">
-        <h2>Actualités</h2>
+    <!-- Ressources Section -->
+    <section id="ressources" class="news section">
+        <h2 style="color: white;">Ressources</h2>
         <div class="news-grid fade-in">
             <div class="news-card">
-                <h4>Besoin d'images 3D pour vos projets?</h4>
-                <p>Contactez-nous pour un devis :)</p>
+                <h4>5 erreurs construire en Polynésie</h4>
+                <p>Construire en Polynésie est une aventure unique, mais qui comporte des défis bien spécifiques.</p>
+                <br>
+                <a href="https://medium.com/@cabana.archi/construire-en-polyn%C3%A9sie-5-erreurs-%C3%A0-%C3%A9viter-pour-un-projet-r%C3%A9ussi-f44a4594d6ce" class="read-more-link">Lire l'article</a>
             </div>
             <div class="news-card">
                 <h4>Les Clés de l'Architecture Tropicale Durable</h4>
                 <p>Guide essentiel pour concevoir des bâtiments dans des climats tropicaux, avec un accent sur la durabilité, l'adaptation au climat et l'harmonie avec la nature.</p>
+                <a href="https://medium.com/@cabana.archi/les-cl%C3%A9s-de-larchitecture-tropicale-durable-construire-en-harmonie-avec-notre-environnement-0d6656fc945a" class="read-more-link">Lire l'article</a>
             </div>
             <div class="news-card">
                 <h4>Astuces couleurs et aménagement</h4>
                 <p>Harmonisez votre espace avec des formes douces, des couleurs apaisantes et des éléments naturels. Les textures et touches créatives éveillent vos sens pour un environnement équilibré et accueillant.</p>
+                <br>
+                <a href="https://medium.com/@cabana.archi/vivre-en-polyn%C3%A9sie-trouver-l%C3%A9quilibre-entre-int%C3%A9rieur-et-ext%C3%A9rieur-550a0cc6cfa4" class="read-more-link">▸ Lire l'article</a>
             </div>
         </div>
     </section>
@@ -156,35 +223,34 @@
     <!-- Contact Section -->
     <section id="contact" class="section">
         <h2>Contact</h2>
-        <form class="contact-form fade-in">
-            <div class="form-group">
-                <label for="name">Nom et Prénom *</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Téléphone</label>
-                <input type="tel" id="phone" name="phone">
-            </div>
-            <div class="form-group">
-                <label for="email">Mail *</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message"></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Envoyer</button>
-        </form>
+        <div class="contact-notice fade-in">
+            <p>Le formulaire est actuellement en cours de construction.</p>
+            <p>Veuillez contacter:</p>
+            <a href="mailto:candelaria@architecturecabana.org" class="cta-button">candelaria@architecturecabana.org</a>
+        </div>
     </section>
+
+    <!-- Project Modal -->
+    <div class="project-modal" id="projectModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-image"></div>
+            <div class="modal-details">
+                <h3 class="modal-title"></h3>
+                <p class="modal-description"></p>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Cabana Architecture. Tous droits réservés.</p>
+        <p>&copy; 2025 Cabana Architecture. Tous droits réservés.</p>
         <p>Architecture tropicale à Moorea, Polynésie Française</p>
         <div class="footer-links">
             <a href="#agency">L'Agence</a>
             <a href="#projects">Projets</a>
             <a href="#missions">Missions</a>
+            <a href="#ressources">Ressources</a>
             <a href="#contact">Contact</a>
         </div>
     </footer>
