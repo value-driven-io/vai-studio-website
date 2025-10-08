@@ -27,14 +27,14 @@ Core Platform Features
     - Monthly/weekly trend analysis
     - Visual charts and graphs
 
-  3. Tour Management System
+  3. Activity Management System
 
-  - Tour Creation & Publishing (CreateTab.jsx)
+  - Activity Creation & Publishing (CreateTab.jsx)
     - Comprehensive tour setup wizard
-    - Tour name, description, and media upload
+    - Activity name, description, and media upload
     - Pricing in XPF with commission structure
     - Duration and capacity settings
-    - Tour type categorization (whale watching, snorkeling, diving, etc.)
+    - Activity type categorization (whale watching, snorkeling, diving, etc.)
     - Location and meeting point specification
     - Instant publishing to marketplace
 
@@ -184,7 +184,7 @@ Core Platform Features
 
   14. Advanced Payment Operations
 
-  - Tour Completion & Payout System (TourCompletionCard.jsx)
+  - Activity Completion & Payout System (TourCompletionCard.jsx)
     - Manual tour completion marking
     - 1-week payout system
     - Payout eligibility calculations
