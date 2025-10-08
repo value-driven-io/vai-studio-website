@@ -277,6 +277,10 @@
             font-size: medium;
             margin-top: 5%;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: none;
+            cursor: pointer;
+            font-family: 'Cormorant SC', serif;
+            width: fit-content;
         }
 
         .cta-button:hover {
@@ -305,7 +309,7 @@
         .section h2::after {
             content: '';
             display: block;
-            width: 80%;
+            width: 100%;
             height: 3px;
             background: #D4A574;
             margin: 0rem;
@@ -332,6 +336,7 @@
                         box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1),
                         filter 0.6s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            justify-self:end;
         }
 
         .agency-image:hover {
@@ -383,7 +388,7 @@
         .about-text h3::after {
             content: '';
             display: block;
-            width: 70%;
+            width: 100%;
             height: 2px;
             background: #D4A574;
             margin: 0rem;
@@ -657,11 +662,20 @@
 
         /* News Section */
         .news {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                        url('/cabana-architecture/images/background2 colors CABANA.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.581), rgba(7, 6, 1, 0.37)), url('/cabana-architecture/images/background2 colors CABANA.jpg');
             background-size: cover;
             background-position: left;
+            background-attachment: fixed;
             color: white;
+            filter: saturate(1.7);
+            width: 100%;
+            padding: 5rem 0;
+        }
+
+        .news-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .news-grid {
@@ -672,8 +686,8 @@
         }
 
         .news-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
+            /*background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);*/
             padding: 2rem;
             border-radius: 0;
             border-left: 2px solid rgba(255, 255, 255, 0.2);
@@ -684,7 +698,6 @@
 
         .news-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
             border-left-color: #D4A574;
         }
 
@@ -940,7 +953,7 @@
             }
 
             .section h2::after {
-                width: 60%;
+                width: 100%;
             }
 
             .agency-content,
@@ -1154,6 +1167,19 @@
             padding: 0;
         }
 
+        /* Fixed close button for scrollable modals on mobile */
+        @media (max-width: 768px) {
+            .about-modal-content .modal-close {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+            }
+
+            .modal-content .modal-close {
+                position: fixed;
+            }
+        }
+
         .modal-close:hover {
             color: #D4A574;
             transform: rotate(90deg) scale(1.1);
@@ -1199,6 +1225,61 @@
             line-height: 1.8;
         }
 
+        /* About Modal Specific Styles */
+        .about-modal-content {
+            max-width: 1000px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-about-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 100%;
+            padding: 10%;
+            background-color: #af7153;
+        }
+
+        .about-modal-content .modal-details h3 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-modal-content .modal-details h3::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #D4A574;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-modal-content .modal-details h4 {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-dark);
+        }
+
+        .about-modal-content .modal-details p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .about-modal-content .modal-details .cta-button {
+            margin-top: 1.5rem;
+            display: inline-block;
+        }
+
         /* Mobile responsive for modal */
         @media (max-width: 768px) {
             .modal-content {
@@ -1224,9 +1305,30 @@
                 font-size: 1rem;
             }
 
-            .modal-close {
-                top: 10px;
-                right: 15px;
-                font-size: 35px;
+
+            .about-modal-content {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-about-images {
+                padding: 5%;
+                order: 1;
+            }
+
+            .about-modal-content .modal-details {
+                order: 2;
+                padding: 2rem;
+            }
+
+            .about-modal-content .modal-details h3 {
+                font-size: 1.5rem;
+            }
+
+            .about-modal-content .modal-details h4 {
+                font-size: 1rem;
+            }
+
+            .about-modal-content .modal-details p {
+                font-size: 0.95rem;
             }
         }

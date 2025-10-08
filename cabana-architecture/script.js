@@ -79,7 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalImage = document.querySelector('.modal-image');
     const modalTitle = document.querySelector('.modal-title');
     const modalDescription = document.querySelector('.modal-description');
-    const modalClose = document.querySelector('.modal-close');
+    const modalClose = document.querySelector('#projectModal .modal-close');
+
+    // About Modal
+    const aboutModal = document.getElementById('aboutModal');
+    const aboutModalBtn = document.getElementById('aboutModalBtn');
+    const aboutModalClose = document.querySelector('#aboutModal .modal-close');
 
     // Project data mapping
     const projectData = {
@@ -163,29 +168,73 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Function to close modal
+    // Function to close project modal
     function closeModal() {
         modal.classList.remove('active');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = 'auto';
     }
 
-    // Close modal
+    // Function to close about modal
+    function closeAboutModal() {
+        aboutModal.classList.remove('active');
+        aboutModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Open about modal
+    if (aboutModalBtn) {
+        aboutModalBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            aboutModal.classList.add('active');
+            aboutModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            aboutModalClose.focus(); // Set focus to close button for accessibility
+        });
+    }
+
+    // Close project modal
     if (modalClose) {
         modalClose.addEventListener('click', closeModal);
     }
 
-    // Close modal when clicking outside
+    // Close about modal
+    if (aboutModalClose) {
+        aboutModalClose.addEventListener('click', closeAboutModal);
+    }
+
+    // Close project modal when clicking outside
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             closeModal();
         }
     });
 
-    // Close modal with ESC key
+    // Close about modal when clicking outside
+    aboutModal.addEventListener('click', function(e) {
+        if (e.target === aboutModal) {
+            closeAboutModal();
+        }
+    });
+
+    // Close about modal and navigate to contact when clicking "Commencer la conversation"
+    const aboutModalContactBtn = document.querySelector('#aboutModal .cta-button');
+    if (aboutModalContactBtn) {
+        aboutModalContactBtn.addEventListener('click', function(e) {
+            closeAboutModal();
+            // Let the default anchor behavior handle scrolling to #contact
+        });
+    }
+
+    // Close modals with ESC key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
+        if (e.key === 'Escape') {
+            if (modal.classList.contains('active')) {
+                closeModal();
+            }
+            if (aboutModal.classList.contains('active')) {
+                closeAboutModal();
+            }
         }
     });
 });

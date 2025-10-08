@@ -383,17 +383,20 @@ body.loading .main-content {
     animation: float 8s ease-in-out infinite;
 }
 
+/*
+
 .shape-1 {
     top: 20%;
-    left: 10%;
-    width: 60px;
-    height: 60px;
+    left: 20%;
+    width: 160px;
+    height: 200px;
     background-image: url('./via-studio-images/icons/palm-tree-1 white.png');
     background-size: contain;
     background-repeat: no-repeat;
     animation-delay: 0s;
 }
 
+/*
 .shape-1:empty::before {
     content: '🌴';
     position: absolute;
@@ -402,6 +405,7 @@ body.loading .main-content {
     transform: translate(-50%, -50%);
     font-size: 2rem;
 }
+    */
 
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -415,6 +419,7 @@ body.loading .main-content {
     z-index: 5;
     text-align: center;
     padding: 3rem 2rem;
+    /*
     background: var(--glass-bg);
     backdrop-filter: blur(5px);
     border: 1px solid var(--glass-border);
@@ -422,6 +427,7 @@ body.loading .main-content {
     box-shadow: 
         0 25px 50px -12px rgba(0, 0, 0, 0.25),
         0 0 60px rgba(0, 212, 255, 0.1);
+    */
     animation: fadeInUp 1s ease-out;
     margin: 0 2rem;
 }
@@ -1417,12 +1423,15 @@ body.loading .main-content {
     }
     
     /* Mobile Performance Optimizations */
+    
+    /*
     .hero-content,
     .email-signup-form,
     .contact-form-container {
         backdrop-filter: blur(5px);
         background: rgba(26, 26, 46, 0.85);
     }
+    */
     
     .navbar { backdrop-filter: blur(4px); }
     .mobile-menu { backdrop-filter: blur(8px); }
