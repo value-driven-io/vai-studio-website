@@ -79,28 +79,40 @@ Building a comprehensive channel manager integration that connects VAI Studio's 
    → Operators pay higher fees for distribution access
 ```
 
-## 📊 Current Status: Phase 1B Nearly Complete ✅
+## 📊 Current Status: Phase 1B COMPLETE - Production Deployed ✅
 
 ### COMPLETED ✅
+
+#### Core Infrastructure
 - ✅ **GetYourGuide Credentials** obtained & validated
 - ✅ **n8n Automation Platform** deployed on Render.com with Docker
 - ✅ **Environment Variables** configured (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 - ✅ **Database Function** `create_booking_atomic` deployed & tested
-- ✅ **INBOUND BOOKING WORKFLOW WORKING** - GetYourGuide → VAI Studio
-- ✅ **Webhook Endpoint** operational: `https://n8n-stable-latest.onrender.com/webhook/gyg-test`
-- ✅ **Booking Creation** tested (booking_id: c107e4f8-5173-41b4-8771-82fd25dbfbe9)
 - ✅ **SUPPLIER REGISTRATION COMPLETE** - VAI Studio LLC registered with GetYourGuide
 - ✅ **Business Registration** confirmed (202 ACCEPTED response)
 
+#### Availability Sync System (October 8, 2025)
+- ✅ **Database Migrations Deployed to PRODUCTION**:
+  - ✅ `20251001000001_add_getyourguide_product_tracking.sql` - GYG tracking fields
+  - ✅ `20251001000003_add_operator_gyg_code.sql` - Auto-generation system
+  - ✅ `20251007000001_fix_get_gyg_product_id_scope_bug.sql` - Critical bug fix
+- ✅ **Database Function** `get_gyg_product_id_for_tour(UUID)` - Fixed and operational
+- ✅ **Product ID Mapping** - Template-instance pattern with automatic lookup
+- ✅ **n8n Workflow** - Availability sync fully tested and operational
+- ✅ **GetYourGuide API Integration** - Confirmed working ("1 availabilities accepted")
+- ✅ **INBOUND BOOKING WORKFLOW** - GetYourGuide → VAI Studio working
+- ✅ **OUTBOUND AVAILABILITY SYNC** - VAI Studio → GetYourGuide working
+
 ### IN PROGRESS 🔄
-- 🔄 **CURRENT**: Real-time availability updates (PUSH_AVAILABILITY)
-- 🔄 **NEXT**: Product catalog sync workflow
+- 🔄 **n8n Production Configuration** - Update workflow for production environment
+- 🔄 **Production Testing** - End-to-end verification in live environment
 
 ### PENDING ⏳
-- ⏳ **Product Catalog Sync**: Templates → GetYourGuide products
-- ⏳ **Price Management**: Channel-specific markup rules
-- ⏳ **Production Deployment**: Move from sandbox to live
+- ⏳ **Product Catalog Sync**: Templates → GetYourGuide products (registration workflow)
+- ⏳ **Booking Sync from GYG**: Receive and process bookings from GetYourGuide
+- ⏳ **Price Updates with Availability**: PUSH_AVAILABILITY_WITH_PRICE implementation
 - ⏳ **Monitoring & Analytics**: Performance tracking dashboard
+- ⏳ **Production Go-Live**: Switch from sandbox to production GetYourGuide API
 
 ## 🎯 Integration Architecture
 
@@ -150,11 +162,16 @@ Webhook: https://n8n-stable-latest.onrender.com/webhook/gyg-test
 3. ✅ **Booking Handler**: GetYourGuide → VAI Studio bookings working
 4. ✅ **Database Function**: `create_booking_atomic` tested and operational
 
-### Phase 1B: Outbound Integration ✅ COMPLETE
+### Phase 1B: Outbound Integration ✅ COMPLETE (October 8, 2025)
 1. ✅ **Supplier Registration**: VAI Studio LLC registered with GetYourGuide API
 2. ⏳ **Product Catalog Sync**: Push Templates → GetYourGuide products (PENDING)
-3. ✅ **Availability Updates**: Real-time availability sync (PUSH_AVAILABILITY) - OPERATIONAL
+3. ✅ **Availability Updates**: Real-time availability sync (PUSH_AVAILABILITY) - OPERATIONAL IN STAGING
 4. ⏳ **Price Updates**: Dynamic pricing sync (PUSH_AVAILABILITY_WITH_PRICE) - PENDING
+
+**Deployment Status**:
+- **Database**: ✅ All migrations deployed to production
+- **n8n Workflow**: ✅ Tested and working in staging
+- **Production Config**: 🔄 Ready for production environment setup (see below)
 
 ### Phase 2: Advanced Features (6 weeks)
 1. Rate management & channel markups
@@ -167,6 +184,172 @@ Webhook: https://n8n-stable-latest.onrender.com/webhook/gyg-test
 2. Inventory allocation by channel
 3. Automated overbooking protection
 4. Channel performance insights
+
+## 🚀 PRODUCTION DEPLOYMENT CONFIGURATION
+
+### Database Layer ✅ DEPLOYED TO PRODUCTION (October 8, 2025)
+
+**Production Migrations Applied**:
+1. ✅ `20251001000001_add_getyourguide_product_tracking.sql`
+2. ✅ `20251001000003_add_operator_gyg_code.sql`
+3. ✅ `20251007000001_fix_get_gyg_product_id_scope_bug.sql`
+
+**Verification**:
+```sql
+-- Test the function in production
+SELECT get_gyg_product_id_for_tour('3bdadc28-beb3-49a5-a0fb-59ef89dfee2a'::UUID);
+-- Expected: "VAI_DIVING_TAHITI_001"
+```
+
+---
+
+### n8n Workflow Production Configuration 🔄 READY FOR SETUP
+
+**Current Workflow**: `GetYourGuide-Availability-Sync_08102025.json`
+**Location**: `operator-dashboard/n8n-workflows/GetYourGuide Integration/`
+
+#### Required Changes for Production:
+
+##### 1. **Supabase RPC Endpoint Configuration**
+
+**Node**: "Lookup GYG Product ID" (HTTP Request node)
+
+**Current Configuration (Staging)**:
+```
+URL: https://[STAGING_SUPABASE_URL]/rest/v1/rpc/get_gyg_product_id_for_tour
+Headers:
+  Authorization: Bearer [STAGING_SERVICE_ROLE_KEY]
+  apikey: [STAGING_SERVICE_ROLE_KEY]
+  Content-Type: application/json
+```
+
+**⚠️ UPDATE FOR PRODUCTION**:
+```
+URL: https://[PRODUCTION_SUPABASE_URL]/rest/v1/rpc/get_gyg_product_id_for_tour
+Headers:
+  Authorization: Bearer [PRODUCTION_SERVICE_ROLE_KEY]
+  apikey: [PRODUCTION_SERVICE_ROLE_KEY]
+  Content-Type: application/json
+
+Body (keep as-is):
+  Content Type: JSON
+  JSON: { "tour_id": "{{ $json.tour_id }}" }
+```
+
+**Body Configuration Details**:
+- **Method**: POST
+- **Body Content Type**: JSON
+- **Response Format**: Text (Supabase returns plain string values)
+- **Body**: `{ "tour_id": "{{ $json.tour_id }}" }`
+
+**Critical Settings**:
+- ✅ Use Template Mode syntax: `{{ $json.tour_id }}`
+- ✅ Response Format must be "Text" (not "JSON")
+- ✅ Both Authorization and apikey headers required
+
+---
+
+##### 2. **GetYourGuide API Configuration**
+
+**Node**: "Notify GetYourGuide" (HTTP Request node)
+
+**Current Configuration (Sandbox)**:
+```
+URL: https://sandbox-api-suppliers.getyourguide.com/availabilities
+Authentication: HTTP Basic Auth
+  Username: vai_gyg_test_2025
+  Password: [sandbox_password]
+```
+
+**⚠️ UPDATE FOR PRODUCTION** (when ready to go live):
+```
+URL: https://api-suppliers.getyourguide.com/availabilities
+Authentication: HTTP Basic Auth
+  Username: VAIStudioLLC
+  Password: b2b8bcb83ada0e139228b361d891eb3d
+```
+
+**⚠️ IMPORTANT**: Keep using **sandbox** URL initially for testing, then switch to production URL after verification.
+
+**Body Configuration (keep as-is)**:
+```json
+{
+  "data": {
+    "productId": "{{ $json.product_id }}",
+    "availabilities": [{
+      "dateTime": "{{ $json.datetime }}",
+      "vacancies": {{ $json.vacancies }}
+    }]
+  }
+}
+```
+
+**Body Format Notes**:
+- String values: `"{{ $json.field }}"` (with quotes)
+- Number values: `{{ $json.field }}` (without quotes)
+
+---
+
+##### 3. **Environment-Specific Settings Summary**
+
+| Configuration | Staging | Production |
+|---|---|---|
+| **Supabase URL** | `https://[STAGING_PROJECT].supabase.co` | `https://[PRODUCTION_PROJECT].supabase.co` |
+| **Service Role Key** | Staging key | Production key |
+| **GetYourGuide API** | `sandbox-api-suppliers.getyourguide.com` | `api-suppliers.getyourguide.com` (later) |
+| **GYG Credentials** | `vai_gyg_test_2025` / sandbox password | `VAIStudioLLC` / production password |
+
+---
+
+##### 4. **Production Deployment Checklist**
+
+**Before Importing Workflow to Production n8n**:
+
+- [ ] **1. Update Supabase URLs**:
+  - [ ] Change Supabase project URL to production
+  - [ ] Update Authorization header with production service role key
+  - [ ] Update apikey header with production service role key
+
+- [ ] **2. Keep GetYourGuide on Sandbox Initially**:
+  - [ ] Keep sandbox API URL for initial testing
+  - [ ] Keep sandbox credentials
+  - [ ] Plan to switch to production API after verification
+
+- [ ] **3. Test Configuration**:
+  - [ ] Import workflow to n8n
+  - [ ] Execute "Lookup GYG Product ID" node manually
+  - [ ] Verify it returns product ID (not error)
+  - [ ] Test full workflow with availability update
+  - [ ] Verify GetYourGuide accepts update
+
+- [ ] **4. Switch to Production GetYourGuide API** (after testing):
+  - [ ] Update URL to `api-suppliers.getyourguide.com`
+  - [ ] Update credentials to `VAIStudioLLC` account
+  - [ ] Test with single tour first
+  - [ ] Monitor for successful 202 ACCEPTED responses
+
+---
+
+##### 5. **Rollback Plan**
+
+If production configuration fails:
+
+1. **Supabase Connection Issues**:
+   - Verify service role key is correct
+   - Check URL format (must include `/rest/v1/rpc/`)
+   - Verify function exists: `SELECT * FROM pg_proc WHERE proname = 'get_gyg_product_id_for_tour'`
+
+2. **GetYourGuide API Issues**:
+   - Revert to sandbox URL temporarily
+   - Check credentials are correct
+   - Verify product IDs exist in database
+
+3. **Workflow Errors**:
+   - Check n8n execution logs for specific error messages
+   - Verify all nodes use correct syntax
+   - Recreate IF nodes if type errors persist
+
+---
 
 ## 🛠️ n8n Workflows Status
 
@@ -185,12 +368,34 @@ Webhook: https://n8n-stable-latest.onrender.com/webhook/gyg-test
 **Status**: ⏳ Not implemented
 **Required**: Supplier registration first
 
-### 3. Real-time Availability Push ⏳ PENDING
+### 3. Real-time Availability Push ✅ OPERATIONAL IN STAGING
 ```
-[Database Change Trigger] → [Calculate Available Spots] → [Push to GYG] → [Update Sync Status]
+[Webhook Trigger] → [Check Availability Changed] → [Extract Tour Data] →
+[Lookup GYG Product ID] → [Edit Fields] → [Has Product ID?] →
+[Format GYG Payload] → [Notify GetYourGuide] → [Respond Success]
 ```
-**Status**: ⏳ Not implemented
-**Testing URL**: https://supplier-api.getyourguide.com/sandbox/1/notify-availability-update
+**Status**: ✅ Fully operational in staging
+**Workflow File**: `GetYourGuide-Availability-Sync_08102025.json`
+**Test Results**: GetYourGuide responds with "1 availabilities accepted for update"
+**Production**: 🔄 Ready for deployment (see Production Configuration above)
+
+**Key Nodes**:
+1. **Availability Change Webhook** - Receives tour update events
+2. **Check if Availability Changed** - Filters for availability updates only
+3. **Extract Tour Data** - Parses webhook payload
+4. **Lookup GYG Product ID** - Calls `get_gyg_product_id_for_tour()` via Supabase RPC
+5. **Edit Fields** - Combines product_id with tour data
+6. **Has Product ID & Should Notify?** - Validates before sending
+7. **Format GYG Payload** - Creates GetYourGuide API payload (datetime, vacancies)
+8. **Notify GetYourGuide** - POST to GetYourGuide `/availabilities` endpoint
+9. **Respond Success/Ignored** - Returns response to webhook caller
+
+**Critical Implementation Details**:
+- ✅ Template-instance pattern: Instances inherit parent template product IDs
+- ✅ Database function handles both templates and instances transparently
+- ✅ Timezone conversion: Pacific/Tahiti (UTC-10)
+- ✅ Payload format: ISO 8601 datetime + vacancies
+- ✅ Error handling: Only notifies if product_id exists
 
 ### 4. Rate Management ⏳ PENDING
 ```
@@ -853,7 +1058,105 @@ VALUES ('Sunset Cruise', 'Boat Tour', 'Moorea', true, 'operator-uuid');
 
 ---
 
-*Last Updated: October 1, 2025*
-*Status: Phase 1D - n8n Workflow Ready for Deployment*
-*Achievement: Complete availability sync system with auto-generated product IDs*
-*Next: Import n8n workflow → Test sync → Complete self-testing tool*
+## 📋 LATEST UPDATE: October 8, 2025
+
+### 🎉 Major Milestone Achieved: Availability Sync OPERATIONAL
+
+**Status**: ✅ **Phase 1B COMPLETE - Production Database Deployed**
+
+#### What Was Accomplished:
+
+1. **Database Migrations Deployed to Production** ✅
+   - All 3 migrations successfully applied to production Supabase
+   - Function `get_gyg_product_id_for_tour()` operational and tested
+   - Product ID tracking fully functional
+   - Auto-generation system ready for use
+
+2. **Critical Bug Fixed** ✅
+   - SQL scope bug in original migration identified and fixed
+   - Function now correctly returns product IDs for tour instances
+   - Migration `20251007000001` deployed and verified
+
+3. **n8n Workflow Tested End-to-End** ✅
+   - Availability sync workflow fully operational in staging
+   - GetYourGuide API integration confirmed working
+   - Response: "1 availabilities accepted for update"
+   - All nodes configured correctly with proper syntax
+
+4. **Comprehensive Documentation Created** ✅
+   - Deployment instructions with step-by-step guide
+   - Migration deployment log with all results
+   - Current state and insights document
+   - Production configuration requirements (this document updated)
+
+#### What's Next:
+
+**Immediate** (This Week):
+1. **Import workflow to production n8n**
+   - Update Supabase URLs to production
+   - Keep GetYourGuide on sandbox for initial testing
+   - Verify end-to-end flow in production environment
+
+2. **Test in Production**
+   - Update a tour availability and verify sync
+   - Monitor n8n execution logs
+   - Confirm GetYourGuide accepts updates
+
+3. **Switch to Production GetYourGuide API** (After Testing)
+   - Change from sandbox to production API URL
+   - Update credentials to production account
+   - Monitor for successful 202 ACCEPTED responses
+
+**Short-term** (Next 2 Weeks):
+4. **Product Catalog Sync**
+   - Create workflow to register new tours with GetYourGuide
+   - Implement product creation API calls
+   - Populate `gyg_option_id` after successful registration
+
+5. **Booking Sync Enhancement**
+   - Test inbound bookings from GetYourGuide to VAI
+   - Verify booking creation workflow
+   - Add error handling and retry logic
+
+**Medium-term** (Next Month):
+6. **Production Go-Live**
+   - Complete operator acceptance testing
+   - Switch all workflows to production APIs
+   - Enable for first operator
+
+7. **Monitoring & Analytics**
+   - Create sync status dashboard
+   - Track success/failure rates
+   - Alert on sync errors
+
+#### Key Files Reference:
+
+**Migrations** (Production):
+- `tourist-app/supabase/migrations/20251001000001_add_getyourguide_product_tracking.sql`
+- `tourist-app/supabase/migrations/20251001000003_add_operator_gyg_code.sql`
+- `tourist-app/supabase/migrations/20251007000001_fix_get_gyg_product_id_scope_bug.sql`
+
+**n8n Workflow** (Ready for Production):
+- `operator-dashboard/n8n-workflows/GetYourGuide Integration/GetYourGuide-Availability-Sync_08102025.json`
+
+**Documentation**:
+- `CHANNEL_MANAGER_IMPLEMENTATION_GUIDE.md` (this file) - Master guide
+- `DEPLOYMENT_INSTRUCTIONS_OCTOBER_7_2025.md` - Step-by-step deployment
+- `MIGRATION_DEPLOYMENT_LOG.md` - Deployment history
+- `CURRENT_STATE_AND_INSIGHTS.md` - Lessons learned and insights
+- `VAI_TO_GYG_PRODUCT_MAPPING.md` - Product mapping reference
+
+#### Production Configuration Summary:
+
+**Database**: ✅ Ready (migrations deployed)
+**n8n Workflow**: 🔄 Needs production Supabase URLs updated
+**GetYourGuide API**: ⚠️ Keep on sandbox initially, switch after testing
+
+See **"PRODUCTION DEPLOYMENT CONFIGURATION"** section above for detailed setup instructions.
+
+---
+
+*Last Updated: October 8, 2025*
+*Status: Phase 1B Complete - Availability Sync Operational*
+*Achievement: End-to-end availability sync tested and documented*
+*Next: Production n8n configuration → Testing → Go-live*
