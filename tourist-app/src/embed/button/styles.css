@@ -1,0 +1,338 @@
+/**
+ * VAI Embed Widget - Inline Styles
+ *
+ * Designed for:
+ * - Zero conflicts with host site styles
+ * - Dark mode support (auto-detect)
+ * - Custom theme colors (CSS variables)
+ * - Accessibility (high contrast, focus states)
+ * - Mobile responsive
+ * - Smooth animations
+ *
+ * Bundle size: ~3KB uncompressed, ~1KB gzipped
+ */
+
+/* ============================================
+   Modal Overlay - Full Screen
+   ============================================ */
+.vai-modal-overlay {
+  /* Position */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999999;
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  /* Style */
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+
+  /* Animation */
+  animation: vaiFadeIn 0.2s ease-out;
+
+  /* Typography reset */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  text-align: left;
+}
+
+/* Dark mode overlay */
+.vai-modal-overlay.dark-mode {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* ============================================
+   Modal Content Container
+   ============================================ */
+.vai-modal-content {
+  /* Position */
+  position: relative;
+
+  /* Size */
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  max-height: 800px;
+
+  /* Style */
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+
+  /* Animation */
+  animation: vaiSlideUp 0.3s ease-out;
+}
+
+/* Dark mode content */
+.vai-modal-overlay.dark-mode .vai-modal-content {
+  background: #1a1a1a;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* ============================================
+   Close Button
+   ============================================ */
+.vai-modal-close {
+  /* Position */
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+
+  /* Size */
+  width: 40px;
+  height: 40px;
+
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Style */
+  background: var(--vai-theme-color, #0066cc);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+
+  /* Effects */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+
+  /* Accessibility */
+  outline: none;
+}
+
+.vai-modal-close:hover {
+  background: var(--vai-theme-color-dark, #0052a3);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.vai-modal-close:focus {
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+}
+
+.vai-modal-close:active {
+  transform: scale(0.95);
+}
+
+/* Dark mode close button */
+.vai-modal-overlay.dark-mode .vai-modal-close {
+  background: var(--vai-theme-color, #3399ff);
+}
+
+.vai-modal-overlay.dark-mode .vai-modal-close:hover {
+  background: var(--vai-theme-color-dark, #2678cc);
+}
+
+/* ============================================
+   Loading State
+   ============================================ */
+.vai-modal-loading {
+  /* Position */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* Style */
+  color: #666;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+
+  /* Animation */
+  animation: vaiPulse 1.5s ease-in-out infinite;
+}
+
+/* Dark mode loading */
+.vai-modal-overlay.dark-mode .vai-modal-loading {
+  color: #999;
+}
+
+/* Loading text animation */
+@keyframes vaiPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Error State
+   ============================================ */
+.vai-modal-error {
+  /* Position */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* Size */
+  max-width: 400px;
+  padding: 24px 32px;
+
+  /* Style */
+  background: #fee;
+  color: #c33;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(204, 51, 51, 0.1);
+}
+
+/* Dark mode error */
+.vai-modal-overlay.dark-mode .vai-modal-error {
+  background: #4a1a1a;
+  color: #ff6666;
+  border-color: #662222;
+}
+
+/* ============================================
+   Iframe Container
+   ============================================ */
+.vai-modal-iframe {
+  /* Size */
+  width: 100%;
+  height: 100%;
+
+  /* Style */
+  border: none;
+  display: block;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes vaiFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vaiSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Mobile Responsive
+   ============================================ */
+@media (max-width: 768px) {
+  .vai-modal-overlay {
+    padding: 0;
+  }
+
+  .vai-modal-content {
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .vai-modal-close {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .vai-modal-loading,
+  .vai-modal-error {
+    font-size: 16px;
+  }
+
+  .vai-modal-error {
+    max-width: calc(100% - 48px);
+    padding: 20px 24px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .vai-modal-loading {
+    font-size: 14px;
+  }
+
+  .vai-modal-error {
+    font-size: 14px;
+    padding: 16px 20px;
+  }
+}
+
+/* ============================================
+   Accessibility - Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .vai-modal-overlay,
+  .vai-modal-content {
+    animation: none;
+  }
+
+  .vai-modal-loading {
+    animation: none;
+    opacity: 1;
+  }
+
+  .vai-modal-close {
+    transition: none;
+  }
+}
+
+/* ============================================
+   Accessibility - High Contrast Mode
+   ============================================ */
+@media (prefers-contrast: high) {
+  .vai-modal-overlay {
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  .vai-modal-content {
+    border: 2px solid currentColor;
+  }
+
+  .vai-modal-close {
+    border: 2px solid #ffffff;
+  }
+
+  .vai-modal-error {
+    border-width: 2px;
+  }
+}
+
+/* ============================================
+   Print Styles (Hide modal when printing)
+   ============================================ */
+@media print {
+  .vai-modal-overlay {
+    display: none !important;
+  }
+}

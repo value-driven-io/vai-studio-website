@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAI Embed Widget - Demo</title>
+  <style>
+    /* Demo page styling - NOT part of embed widget */
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --border: #e5e5e5;
+      --code-bg: #f5f5f5;
+    }
+
+    body.dark-mode {
+      --bg: #1a1a1a;
+      --text: #e5e5e5;
+      --border: #333;
+      --code-bg: #2a2a2a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      padding: 40px 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #0066cc, #00ccff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .dark-mode .subtitle {
+      color: #999;
+    }
+
+    .section {
+      margin-bottom: 60px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #0066cc;
+    }
+
+    .dark-mode h2 {
+      color: #3399ff;
+    }
+
+    .example {
+      background: var(--code-bg);
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border);
+    }
+
+    .example h3 {
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .example p {
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    .dark-mode .example p {
+      color: #999;
+    }
+
+    code {
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.9em;
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      background: var(--code-bg);
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 1px solid var(--border);
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      border: none;
+    }
+
+    button {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #0052a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .stats {
+      background: linear-gradient(135deg, #0066cc, #00ccff);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 40px;
+    }
+
+    .stats h3 {
+      margin-bottom: 15px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleDarkMode()">
+    Toggle Dark Mode
+  </button>
+
+  <div class="container">
+    <header>
+      <h1>VAI Embed Widget Demo</h1>
+      <p class="subtitle">
+        Integration examples for operators • Click buttons below to test the widget
+      </p>
+    </header>
+
+    <!-- Example 1: Data Attributes (Simple) -->
+    <section class="section">
+      <h2>Method 1: Data Attributes (Recommended)</h2>
+
+      <div class="example">
+        <h3>Basic Integration</h3>
+        <p>The simplest way to add VAI booking to your website:</p>
+
+        <pre><code>&lt;button
+  data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+  data-vai-template="db896f3d-da54-4304-bdf4-9a8499c2a7de"
+&gt;
+  Book This Tour
+&lt;/button&gt;
+
+&lt;script src="https://embed.vai.studio/button.js"&gt;&lt;/script&gt;</code></pre>
+
+        <div class="button-grid">
+          <button
+            data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+            data-vai-template="db896f3d-da54-4304-bdf4-9a8499c2a7de"
+          >
+            Book This Tour
+          </button>
+        </div>
+      </div>
+
+      <div class="example">
+        <h3>Custom Theme Color</h3>
+        <p>Match your brand with <code>data-vai-theme</code>:</p>
+
+        <pre><code>&lt;button
+  data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+  data-vai-template="e8fd6a14-953f-4f92-b64c-632fa4df6a01"
+  data-vai-theme="#FF5722"
+&gt;
+  Book Lagoon Tour
+&lt;/button&gt;</code></pre>
+
+        <div class="button-grid">
+          <button
+            data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+            data-vai-template="e8fd6a14-953f-4f92-b64c-632fa4df6a01"
+            data-vai-theme="#FF5722"
+            style="background: #FF5722;"
+          >
+            Book Lagoon Tour
+          </button>
+
+          <button
+            data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+            data-vai-template="795569b4-1921-4943-976f-4bb48fd75f28"
+            data-vai-theme="#4CAF50"
+            style="background: #4CAF50;"
+          >
+            Book Whale Watching
+          </button>
+
+          <button
+            data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+            data-vai-template="db896f3d-da54-4304-bdf4-9a8499c2a7de"
+            data-vai-theme="#9C27B0"
+            style="background: #9C27B0;"
+          >
+            Book Turtle Diving
+          </button>
+        </div>
+      </div>
+
+      <div class="example">
+        <h3>Pre-fill Participants</h3>
+        <p>Pre-fill participant count:</p>
+
+        <pre><code>&lt;button
+  data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+  data-vai-template="b8ce19ea-4361-4077-b5de-c63324e56e6a"
+  data-vai-participants="4"
+&gt;
+  Book for 4 People
+&lt;/button&gt;</code></pre>
+
+        <div class="button-grid">
+          <button
+            data-vai-operator="c78f7f64-cab8-4f48-9427-de87e12ec2b9"
+            data-vai-template="b8ce19ea-4361-4077-b5de-c63324e56e6a"
+            data-vai-participants="4"
+          >
+            Book Cooking Workshop (4 People)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example 2: Programmatic API (Advanced) -->
+    <section class="section">
+      <h2>Method 2: Programmatic API (Advanced)</h2>
+
+      <div class="example">
+        <h3>Custom Integration</h3>
+        <p>Full control with JavaScript API:</p>
+
+        <pre><code>&lt;div id="booking-container"&gt;&lt;/div&gt;
+
+&lt;script src="https://embed.vai.studio/button.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const button = VAI.createBookingButton({
+    operatorId: 'c78f7f64-cab8-4f48-9427-de87e12ec2b9',
+    templateId: 'db896f3d-da54-4304-bdf4-9a8499c2a7de',
+    buttonText: 'Reserve Your Spot',
+    themeColor: '#FF5722',
+    onBookingComplete: (data) => {
+      console.log('Booking completed!', data);
+      alert('Thank you! Booking ID: ' + data.bookingId);
+    }
+  });
+
+  document.getElementById('booking-container')
+    .appendChild(button);
+&lt;/script&gt;</code></pre>
+
+        <div id="booking-container-demo"></div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+      <h3>Why Use VAI Embed Widget?</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">&lt;12KB</div>
+          <div class="stat-label">Bundle size (gzipped)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">2 min</div>
+          <div class="stat-label">Integration time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">89%</div>
+          <div class="stat-label">You keep from sales</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Languages supported</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Load VAI Embed Widget -->
+  <script type="module" src="/src/embed/button/index.js"></script>
+
+  <!-- Demo Page Scripts -->
+  <script>
+    // Dark mode toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    // Restore dark mode preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+
+    // Programmatic API example
+    window.addEventListener('DOMContentLoaded', () => {
+      const button = window.VAI?.createBookingButton({
+        operatorId: 'c78f7f64-cab8-4f48-9427-de87e12ec2b9',
+        templateId: 'db896f3d-da54-4304-bdf4-9a8499c2a7de',
+        buttonText: 'Reserve Your Spot (Programmatic)',
+        themeColor: '#FF5722',
+        onBookingComplete: (data) => {
+          console.log('Booking completed!', data);
+          alert('Thank you! Booking ID: ' + data.bookingId);
+        }
+      });
+
+      if (button) {
+        document.getElementById('booking-container-demo').appendChild(button);
+      }
+    });
+
+    // Analytics tracking (demo)
+    console.log('%c[VAI Demo] Widget loaded successfully', 'color: #0066cc; font-weight: bold');
+    console.log('%cOpen browser console to see analytics events', 'color: #666');
+  </script>
+</body>
+</html>
