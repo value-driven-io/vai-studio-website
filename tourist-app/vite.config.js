@@ -123,7 +123,16 @@ export default defineConfig({
   // --- Development Server Settings ---
   server: {
     host: '0.0.0.0', // Accessible on your local network
-    port: 3001
+    port: 3001,
+    cors: true, // Enable CORS for embed widget
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'X-Frame-Options': 'ALLOWALL', // Allow iframe embedding
+    },
+    // Disable HTTP/2 to prevent 426 errors in iframe
+    https: false,
   },
 
   // --- Production Build Settings ---

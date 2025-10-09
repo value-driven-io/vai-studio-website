@@ -68,7 +68,12 @@ create table public.tours (
   discount_percentage_child integer null default 30,
   detached_from_schedule_id uuid null,
   template_cover_image text null,
+  gyg_product_id character varying(100) null,
+  gyg_option_id integer null,
+  gyg_sync_status character varying(50) null default 'not_synced'::character varying,
+  gyg_last_sync timestamp with time zone null,
   constraint tours_pkey primary key (id),
+  constraint uq_gyg_product_id unique (gyg_product_id),
   constraint tours_parent_schedule_id_fkey foreign KEY (parent_schedule_id) references schedules (id) on delete set null,
   constraint tours_parent_template_id_fkey foreign KEY (parent_template_id) references tours (id),
   constraint tours_detached_from_schedule_id_fkey foreign KEY (detached_from_schedule_id) references schedules (id) on delete set null,
@@ -89,15 +94,16 @@ create table public.tours (
       or (is_template = false)
     )
   ),
-  constraint tours_fitness_level_check check (
+  constraint chk_activity_type check (
     (
-      (fitness_level)::text = any (
-        array[
-          ('easy'::character varying)::text,
-          ('moderate'::character varying)::text,
-          ('challenging'::character varying)::text,
-          ('expert'::character varying)::text
-        ]
+      (activity_type)::text = any (
+        (
+          array[
+            'last_minute'::character varying,
+            'template'::character varying,
+            'scheduled'::character varying
+          ]
+        )::text[]
       )
     )
   ),
@@ -137,19 +143,6 @@ create table public.tours (
       )
     )
   ),
-  constraint chk_activity_type check (
-    (
-      (activity_type)::text = any (
-        (
-          array[
-            'last_minute'::character varying,
-            'template'::character varying,
-            'scheduled'::character varying
-          ]
-        )::text[]
-      )
-    )
-  ),
   constraint tours_tour_type_check check (
     (
       (tour_type)::text = any (
@@ -163,6 +156,18 @@ create table public.tours (
           ('Mindfulness'::character varying)::text,
           ('Culinary Experience'::character varying)::text,
           ('Diving'::character varying)::text
+        ]
+      )
+    )
+  ),
+  constraint tours_fitness_level_check check (
+    (
+      (fitness_level)::text = any (
+        array[
+          ('easy'::character varying)::text,
+          ('moderate'::character varying)::text,
+          ('challenging'::character varying)::text,
+          ('expert'::character varying)::text
         ]
       )
     )
@@ -183,6 +188,19 @@ create table public.tours (
     (
       (discount_percentage_child >= 0)
       and (discount_percentage_child <= 100)
+    )
+  ),
+  constraint chk_gyg_product_id_only_templates check (
+    (
+      (
+        (is_template = true)
+        and (gyg_product_id is not null)
+      )
+      or (
+        (is_template = false)
+        and (gyg_product_id is null)
+      )
+      or (gyg_product_id is null)
     )
   ),
   constraint chk_max_age_child check (
@@ -335,6 +353,14 @@ create index IF not exists idx_tours_template_stats on public.tours using btree 
   is_template
 ) TABLESPACE pg_default;
 
+create index IF not exists idx_tours_gyg_product_id on public.tours using btree (gyg_product_id) TABLESPACE pg_default
+where
+  (gyg_product_id is not null);
+
+create index IF not exists idx_tours_gyg_sync_status on public.tours using btree (gyg_sync_status) TABLESPACE pg_default
+where
+  ((gyg_sync_status)::text <> 'not_synced'::text);
+
 create trigger auto_populate_schedule_relationship_trigger BEFORE INSERT on tours for EACH row
 execute FUNCTION auto_populate_schedule_relationship ();
 
@@ -348,7 +374,9 @@ or
 update OF available_spots on tours for EACH row
 execute FUNCTION notify_getyourguide_availability ();
 
+create trigger trigger_auto_gyg_product_id BEFORE INSERT on tours for EACH row
+execute FUNCTION auto_assign_gyg_product_id ();
+
 create trigger update_tours_updated_at BEFORE
 update on tours for EACH row
 execute FUNCTION update_updated_at_column ();
-

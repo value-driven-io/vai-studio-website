@@ -38,6 +38,8 @@ import { useAppStore } from './stores/bookingStore'
 import TourPage from './components/tours/TourPage'
 import TemplatePage from './components/templates/TemplatePage'
 import OperatorProfilePage from './components/operator/OperatorProfilePage'
+import BookingRoute from './components/booking/BookingRoute'
+import useEmbedMode from './hooks/useEmbedMode'
 
 // 2. CHECK THE ENVIRONMENT VARIABLE
 // This variable will control whether the app is "live" or shows the "coming soon" screen.
@@ -167,7 +169,7 @@ const AppHeader = () => {
   )
 }
 
-  // Main App Component (ENHANCED - Added bookTour URL parameter handling)
+  // Main App Component (ENHANCED - Added bookTour URL parameter handling + Embed Mode)
 function AppContent() {
   const { activeTab } = useAppStore()
   const [selectedTourForBooking, setSelectedTourForBooking] = useState(null)
@@ -175,6 +177,7 @@ function AppContent() {
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(true)
 
   const { t } = useTranslation()
+  const { isEmbedMode } = useEmbedMode()
 
   // Handle auth success messages and bookTour parameter from deep links
   useEffect(() => {
@@ -297,27 +300,31 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-ui-surface-overlay text-ui-text-primary">
-      {/* Welcome Screen */}
-      {showWelcomeScreen && (
+      {/* Welcome Screen - Hidden in embed mode */}
+      {!isEmbedMode && showWelcomeScreen && (
         <WelcomeScreen onComplete={handleWelcomeComplete} />
       )}
 
-      {/* Skip Links for Accessibility */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
-      >
-        {t('accessibility.skipToMain')}
-      </a>
-      <a
-        href="#navigation"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-32 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
-      >
-        {t('accessibility.skipToNavigation')}
-      </a>
+      {/* Skip Links for Accessibility - Hidden in embed mode */}
+      {!isEmbedMode && (
+        <>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
+          >
+            {t('accessibility.skipToMain')}
+          </a>
+          <a
+            href="#navigation"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-32 bg-interactive-primary text-ui-text-primary px-4 py-2 rounded-lg z-[100001] font-medium transition-all"
+          >
+            {t('accessibility.skipToNavigation')}
+          </a>
+        </>
+      )}
 
-      {/* Header with Login */}
-      <AppHeader />
+      {/* Header with Login - Hidden in embed mode */}
+      {!isEmbedMode && <AppHeader />}
 
       {/* Main Content Area */}
       <main id="main-content" className={`pb-20 ${activeTab !== 'learn' ? 'px-4' : ''}`}> {/* pb-20 keeps space for bottom navigation */}
@@ -341,8 +348,8 @@ function AppContent() {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
-      <Navigation />
+      {/* Bottom Navigation - Hidden in embed mode */}
+      {!isEmbedMode && <Navigation />}
 
       {/* Deep-link Booking Modal */}
       {showBookingModal && selectedTourForBooking && (
@@ -385,6 +392,13 @@ function AppRouter() {
       <Routes>
         {/* Auth Callback Route */}
         <Route path="/auth/callback" element={<AuthCallback />} />
+
+        {/* Booking Route - For embed mode and direct booking */}
+        <Route path="/booking" element={
+          <CurrencyProvider>
+            <BookingRoute />
+          </CurrencyProvider>
+        } />
 
         {/* Tour/Activity Deep Link */}
         <Route path="/tour/:tourId" element={
