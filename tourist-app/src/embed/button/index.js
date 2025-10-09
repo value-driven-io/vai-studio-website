@@ -16,7 +16,7 @@ import { t, getCurrentLanguage } from './i18n.js';
 // Configuration
 const CONFIG = {
   iframeBaseUrl: import.meta.env.PROD
-    ? 'https://vai.tickets'
+    ? 'https://app.vai.studio'
     : 'http://localhost:3001',
   embedVersion: '1.0.0'
 };
@@ -109,7 +109,7 @@ function setupPostMessageHandler(overlay, config) {
   const handler = (event) => {
     // Security: Verify origin
     const allowedOrigins = [
-      'https://vai.tickets',
+      'https://app.vai.studio',
       'https://tourist.vai.studio',
       'https://vai-tickets-staging.onrender.com',
       'http://localhost:3001',
