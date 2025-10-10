@@ -1494,6 +1494,43 @@
       "copyFailed": "Échec de la copie du lien",
       "benefits": "Le partage aide les opérateurs locaux à développer leur business!",
       "whatsappMessage": "Découvre {{name}} à {{island}}! Ils offrent des tours incroyables: {{url}}"
+    },
+
+    "website": {
+      "defaultTagline": "Tours Premium en Polynésie Française",
+      "frenchPolynesia": "Polynésie Française",
+      "rating": "Note",
+      "happyGuests": "Clients Satisfaits",
+      "exploreTours": "Découvrez Nos Tours",
+      "chat": "Chat",
+      "ourTours": "Nos Tours Premium",
+      "bookInstantly": "Choisis ton aventure et réserve instantanément",
+      "whaleCertified": "Certifié Baleines",
+      "mostPopular": "Le Plus Populaire",
+      "limitedSpots": "Places Limitées",
+      "noDescription": "Les détails de l'expérience seront fournis lors de la réservation",
+      "maxPeople": "Max {{count}} personnes",
+      "from": "À partir de",
+      "perPerson": "/personne",
+      "bookNow": "Réserver Maintenant",
+      "showMoreTours": "Afficher {{count}} Tours de Plus",
+      "aboutTitle": "À Propos de {{name}}",
+      "yearsExperience": "Années d'Expérience",
+      "sharingMagic": "partageant la magie de la Polynésie Française",
+      "bookingInfo": "Réserve n'importe quel tour instantanément avec un paiement sécurisé via VAI.",
+      "uniqueTours": "Tours Uniques",
+      "averageRating": "Note Moyenne",
+      "getInTouch": "Nous Contacter",
+      "contactDescription": "Des questions ? Nous sommes là pour vous aider !",
+      "email": "Email",
+      "location": "Emplacement",
+      "poweredBy": "Propulsé par",
+      "allRightsReserved": "Tous droits réservés",
+      "footerDescription": "Créer des expériences inoubliables à {{island}}, Polynésie Française",
+      "tours": "Tours",
+      "about": "À Propos",
+      "contact": "Contact",
+      "share": "Partager"
     }
   }
 }

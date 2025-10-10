@@ -9,6 +9,15 @@ import toast from 'react-hot-toast'
 import { operatorService } from '../../services/operatorService'
 import { useOperatorDisplay } from '../../hooks/useOperatorDisplay'
 
+// Website-style components
+import WebsiteNavbar from './website/WebsiteNavbar'
+import WebsiteHero from './website/WebsiteHero'
+import WebsiteTours from './website/WebsiteTours'
+import WebsiteAbout from './website/WebsiteAbout'
+import WebsiteContact from './website/WebsiteContact'
+import WebsiteFooter from './website/WebsiteFooter'
+
+// Old app-style components (keeping as backup)
 import OperatorHero from './sections/OperatorHero'
 import OperatorTrust from './sections/OperatorTrust'
 import OperatorAbout from './sections/OperatorAbout'
@@ -169,7 +178,7 @@ const OperatorProfilePage = () => {
         {/* OpenGraph for social sharing */}
         <meta property="og:title" content={`${operator.company_name} - ${t('operatorProfile.ogTitle', { island: operator.island })}`} />
         <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={operator.operator_logo || `${window.location.origin}/images/VAI Banner Cover_Placeholder1.png`} />
+        <meta property="og:image" content={operator.operator_logo || `${window.location.origin}/images/VAI Placeholder Cover Banner.png`} />
         <meta property="og:url" content={`${window.location.origin}/profile/${operatorSlug}`} />
         <meta property="og:type" content="business.business" />
 
@@ -181,95 +190,55 @@ const OperatorProfilePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${operator.company_name} - ${operator.island}`} />
         <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={operator.operator_logo || `${window.location.origin}/images/VAI Banner Cover_Placeholder1.png`} />
+        <meta name="twitter:image" content={operator.operator_logo || `${window.location.origin}/images/VAI Placeholder Cover Banner.png`} />
 
         {/* Additional SEO */}
         <link rel="canonical" href={`${window.location.origin}/profile/${operatorSlug}`} />
         <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <div className="min-h-screen bg-ui-surface-overlay">
-        {/* Header with navigation */}
-        <div className="sticky top-0 z-50 bg-ui-surface-overlay/95 backdrop-blur-sm border-b border-ui-border-primary">
-          <div className="max-w-4xl mx-auto px-4 py-3">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => navigate(-1)}
-                className="inline-flex items-center gap-2 text-ui-text-secondary hover:text-ui-text-primary transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                <span className="hidden sm:inline">{t('common.back')}</span>
-              </button>
+      {/* NEW WEBSITE-STYLE LAYOUT */}
+      <div className="min-h-screen bg-ui-surface-primary">
+        {/* Navigation Bar */}
+        <WebsiteNavbar
+          operator={operator}
+          onShare={handleShare}
+        />
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleShare}
-                  className="p-2 text-ui-text-secondary hover:text-ui-text-primary hover:bg-ui-surface-secondary rounded-lg transition-colors"
-                  title={t('operatorProfile.shareProfile')}
-                >
-                  <Share2 className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Hero Section */}
+        <WebsiteHero
+          operator={operator}
+          isNewOperator={isNewOperator}
+          contactMethods={contactMethods}
+        />
 
-        <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
-          {/* Hero Section - Always visible */}
-          {shouldShow('hero') && (
-            <OperatorHero
-              operator={operator}
-              isNewOperator={isNewOperator}
-              contactMethods={contactMethods}
-            />
-          )}
+        {/* Tours/Activities Section */}
+        {shouldShow('activities') && operator.activities && operator.activities.length > 0 && (
+          <WebsiteTours
+            operator={operator}
+            activities={operator.activities}
+          />
+        )}
 
-          {/* Trust Indicators - Only show if operator has trust signals */}
-          {shouldShow('trust') && (
-            <OperatorTrust
-              operator={operator}
-              isNewOperator={isNewOperator}
-            />
-          )}
+        {/* About Section */}
+        {shouldShow('about') && (
+          <WebsiteAbout
+            operator={operator}
+            activityStats={activityStats}
+            isNewOperator={isNewOperator}
+          />
+        )}
 
-          {/* Statistics - Only show meaningful stats */}
-          {shouldShow('stats') && (
-            <OperatorStats
-              operator={operator}
-              activityStats={activityStats}
-            />
-          )}
+        {/* Contact Section */}
+        {shouldShow('contact') && (
+          <WebsiteContact
+            operator={operator}
+            contactMethods={contactMethods}
+          />
+        )}
 
-          {/* About Section - Only show if substantial description */}
-          {shouldShow('about') && (
-            <OperatorAbout operator={operator} />
-          )}
-
-          {/* Activities/Services - Only show if operator has activities */}
-          {shouldShow('activities') && (
-            <OperatorServices
-              operator={operator}
-              activities={operator.activities}
-            />
-          )}
-
-          {/* Contact Section - Only show if contact methods available */}
-          {shouldShow('contact') && (
-            <OperatorContact
-              operator={operator}
-              contactMethods={contactMethods}
-            />
-          )}
-
-          {/* Share Section - Always available */}
-          {shouldShow('share') && (
-            <OperatorShare
-              operator={operator}
-              operatorSlug={operatorSlug}
-              onShare={handleShare}
-            />
-          )}
-        </div>
+        {/* Footer */}
+        <WebsiteFooter operator={operator} />
       </div>
     </>
   )
