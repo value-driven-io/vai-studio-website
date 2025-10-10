@@ -1528,6 +1528,43 @@
       "copyFailed": "Failed to copy link",
       "benefits": "Sharing helps local operators grow their business!",
       "whatsappMessage": "Check out {{name}} in {{island}}! They offer amazing tours: {{url}}"
+    },
+
+    "website": {
+      "defaultTagline": "Premium Tours in French Polynesia",
+      "frenchPolynesia": "French Polynesia",
+      "rating": "Rating",
+      "happyGuests": "Happy Guests",
+      "exploreTours": "Explore Our Tours",
+      "chat": "Chat",
+      "ourTours": "Our Premium Tours",
+      "bookInstantly": "Choose your adventure and book instantly",
+      "whaleCertified": "Whale Certified",
+      "mostPopular": "Most Popular",
+      "limitedSpots": "Limited Spots",
+      "noDescription": "Experience details will be provided upon booking",
+      "maxPeople": "Max {{count}} people",
+      "from": "From",
+      "perPerson": "/person",
+      "bookNow": "Book Now",
+      "showMoreTours": "Show {{count}} More Tours",
+      "aboutTitle": "About {{name}}",
+      "yearsExperience": "Years Experience",
+      "sharingMagic": "sharing the magic of French Polynesia",
+      "bookingInfo": "Book any tour instantly with secure payment through VAI.",
+      "uniqueTours": "Unique Tours",
+      "averageRating": "Average Rating",
+      "getInTouch": "Get In Touch",
+      "contactDescription": "Have questions? We're here to help!",
+      "email": "Email",
+      "location": "Location",
+      "poweredBy": "Powered by",
+      "allRightsReserved": "All rights reserved",
+      "footerDescription": "Creating unforgettable experiences in {{island}}, French Polynesia",
+      "tours": "Tours",
+      "about": "About",
+      "contact": "Contact",
+      "share": "Share"
     }
   }
 }

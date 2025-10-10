@@ -126,21 +126,38 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
   }
 
   // Navigate to operator profile
-  const handleOperatorClick = () => {
+  const handleOperatorClick = async () => {
+    const operatorId = templateDetails.operator_id
     const operatorName = templateDetails.operator_name || templateDetails.company_name
     const operatorIsland = templateDetails.operator_island || templateDetails.island || templateDetails.location
 
-    if (!operatorName) {
+    if (!operatorId && !operatorName) {
       toast.error(t('templates.operatorNotFound', 'Operator information not available'))
       return
     }
 
-    // Generate slug for navigation
-    const slug = operatorService.generateSlug(operatorName, operatorIsland)
+    try {
+      // If we have operator_id, fetch the actual operator to get the correct slug
+      if (operatorId) {
+        const operatorData = await operatorService.getOperatorById(operatorId)
+        if (operatorData && operatorData.slug) {
+          navigate(`/profile/${operatorData.slug}`)
+          return
+        }
+      }
 
-    if (slug) {
-      navigate(`/profile/${slug}`)
-    } else {
+      // Fallback: Generate slug from name and island (ensuring we have both)
+      if (operatorName && operatorIsland) {
+        const slug = operatorService.generateSlug(operatorName, operatorIsland)
+        if (slug) {
+          navigate(`/profile/${slug}`)
+          return
+        }
+      }
+
+      toast.error(t('templates.operatorProfileUnavailable', 'Operator profile not available'))
+    } catch (error) {
+      console.error('Error navigating to operator profile:', error)
       toast.error(t('templates.operatorProfileUnavailable', 'Operator profile not available'))
     }
   }
@@ -290,13 +307,13 @@ const TemplateDetailPage = ({ template, templateWithAvailability: preloadedTempl
       <div className="relative h-48 sm:h-64 bg-gradient-to-br from-interactive-primary/20 to-mood-luxury/20 border-b rounded-xl mt-2 border-ui-border-primary overflow-hidden">
         {/* Cover Image with Fallback */}
         <img
-          src={templateDetails.template_cover_image || '/images/VAI Banner Cover_Placeholder1.png'}
+          src={templateDetails.template_cover_image || '/images/VAI Placeholder Cover Banner.png'}
           alt={templateDetails.tour_name}
           className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => {
             // Fallback to placeholder image if custom image fails to load
-            if (e.target.src !== '/images/VAI Banner Cover_Placeholder1.png') {
-              e.target.src = '/images/VAI Banner Cover_Placeholder1.png'
+            if (e.target.src !== '/images/VAI Placeholder Cover Banner.png') {
+              e.target.src = '/images/VAI Placeholder Cover Banner.png'
             }
           }}
         />
