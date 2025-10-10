@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The VAI Tourist's Customer Journey</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --background-dark: #ffffff;
+            --background-light: #f0f4f8; /* A slightly softer light background */
+            --text-primary: #010004;
+            --text-secondary: #0b0a0d;
+            --accent-glow: #d01362;
+            --accent-border: rgba(139, 148, 158, 0.2);
+            --glass-bg: rgba(242, 243, 246, 0.7);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Poppins', sans-serif;
+            --header-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--header-height) + 80px); /* Offset for sticky headers */
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--background-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .main-header {
+            background-color: var(--background-dark);
+            padding: 0 40px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .main-nav a {
+            font-family: var(--font-body);
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        .main-nav a:hover {
+            color: var(--accent-glow);
+        }
+        
+        .main-nav a.active {
+            color: var(--accent-glow);
+            font-weight: 600;
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-glow);
+        }
+
+
+        .journey-nav {
+            display: flex;
+            justify-content: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: var(--header-height);
+            z-index: 999;
+        }
+
+        .journey-nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 8px 15px;
+            margin: 0 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .journey-nav a:hover {
+            background-color: var(--accent-border);
+        }
+        
+        .journey-nav a.active {
+            color: var(--accent-glow);
+            border-color: var(--accent-glow);
+            font-weight: 600;
+            transform: scale(1.05);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--background-dark);
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        
+        /* --- JOURNEY CARDS --- */
+        .journey-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stage-number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            margin-right: 20px;
+            line-height: 1;
+        }
+
+        .stage-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-primary);
+        }
+        
+        .stage-subtitle {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-top: -5px;
+        }
+        
+        .card-description {
+            margin-bottom: 25px;
+        }
+
+        /* --- Accordion for Journey Details --- */
+        .journey-details details {
+            border-top: 1px solid var(--accent-border);
+        }
+        
+        .journey-details details:first-of-type {
+            border-top: none;
+        }
+
+        .journey-details summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 15px 5px;
+            display: flex;
+            align-items: center;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            position: relative;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+        .journey-details summary::-webkit-details-marker {
+            display: none;
+        }
+        .journey-details summary:hover {
+            color: var(--accent-glow);
+        }
+
+        .journey-details summary::after {
+            content: '+';
+            font-size: 1.8rem;
+            font-weight: 300;
+            line-height: 1;
+            color: var(--accent-glow);
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .journey-details details[open] > summary::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+        
+        .journey-details details[open] > summary {
+            color: var(--accent-glow);
+        }
+
+        .details-content {
+            padding: 0px 5px 20px 5px;
+        }
+
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .main-nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-nav a {
+                margin: 5px 10px;
+                padding-bottom: 5px;
+            }
+            .journey-nav {
+                top: 0; /* Adjust sticky position on mobile */
+                flex-wrap: wrap;
+            }
+            .journey-nav a {
+                 margin: 5px;
+            }
+             html {
+                scroll-padding-top: 150px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .stage-title { font-size: 1.8rem; }
+            .card-header { flex-direction: column; align-items: flex-start; }
+            .stage-number { margin-bottom: 10px; }
+            .journey-card { padding: 25px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">VAI Market Analysis</div>
+        <nav class="main-nav">
+            <a href="/presentation/VAI/market/intro.html">Intro</a>
+            <a href="/presentation/VAI/market/opportunity.html">Opportunity</a>
+            <a href="/presentation/VAI/market/operator_ipcs.html">Operator Profiles</a>
+            <a href="/presentation/VAI/market/operator_journey.html">Operator Journey</a>
+            <a href="/presentation/VAI/market/tourist_personas.html">Tourist Personas</a>
+            <a href="/presentation/VAI/market/tourist_journey.html" class="active">Tourist Journey</a>
+            <a href="/presentation/VAI/market/strategy.html">VAI Strategy</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>The Tourist's Journey with VAI</h1>
+        <p>The VAI ecosystem is designed to intercept and improve the tourist journey at every critical stage, creating a more satisfying and memorable trip.</p>
+    </div>
+
+    <nav class="journey-nav">
+        <a href="#stage1" class="nav-link">1. Discovery</a>
+        <a href="#stage2" class="nav-link">2. Booking</a>
+        <a href="#stage3" class="nav-link">3. Experience</a>
+        <a href="#stage4" class="nav-link">4. Advocacy</a>
+    </nav>
+
+    <main class="container">
+        
+        <section id="stage1" class="journey-card">
+            <div class="card-header">
+                <div class="stage-number">1</div>
+                <div>
+                    <h2 class="stage-title">Inspiration & Discovery</h2>
+                    <p class="stage-subtitle">Finding the Hidden Gems</p>
+                </div>
+            </div>
+            
+            <div class="journey-details">
+                <details>
+                    <summary>Current Pain Point</summary>
+                    <div class="details-content">
+                        <p>The discovery phase for French Polynesia is fragmented and overwhelming, making it difficult to distinguish authentic, locally-run experiences from mass-market tours, especially on less-visited islands.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>VAI's Solution</summary>
+                    <div class="details-content">
+                        <p>The <strong>VAI Tickets PWA</strong> serves as a single, curated gateway. Its innovative "Mood-Based Matching" engine helps travelers find unique activities by desired feeling (e.g., "Adventure," "Relax"), while the "Tourism Dispersal Algorithm" actively promotes experiences in the outer archipelagos.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section id="stage2" class="journey-card">
+            <div class="card-header">
+                <div class="stage-number">2</div>
+                <div>
+                    <h2 class="stage-title">Planning & Booking</h2>
+                    <p class="stage-subtitle">Trust and Simplicity</p>
+                </div>
+            </div>
+
+            <div class="journey-details">
+                <details>
+                    <summary>Current Pain Point</summary>
+                    <div class="details-content">
+                        <p>Booking directly with small operators can involve language barriers, insecure payments, and communication delays. Booking through large OTAs can feel impersonal and unreliable.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>VAI's Solution</summary>
+                    <div class="details-content">
+                        <p><strong>VAI Tickets</strong> combines convenience with local trust. It supports 8 languages, offers secure integrated payments via Stripe, and allows travelers to book multiple activities in a single transaction. The PWA's <strong>offline functionality</strong> is a key differentiator, ensuring access to tickets without a constant data connection.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section id="stage3" class="journey-card">
+            <div class="card-header">
+                <div class="stage-number">3</div>
+                <div>
+                    <h2 class="stage-title">The In-Destination Experience</h2>
+                    <p class="stage-subtitle">Smoother & More Authentic</p>
+                </div>
+            </div>
+
+            <div class="journey-details">
+                <details>
+                    <summary>Current Pain Point</summary>
+                    <div class="details-content">
+                        <p>The quality of the tourist experience suffers when operators are stressed and use inefficient manual systems, leading to errors like double-bookings or missed pickups.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary>VAI's Impact</summary>
+                    <div class="details-content">
+                        <p>The synergy between VAI's platforms shines here. Because the local provider uses the <strong>VAI Operator app</strong>, their business is more organized. The Channel Manager eliminates double-bookings, and financial stability from 48-hour payouts reduces stress, allowing them to focus on providing a high-quality, authentic experience.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section id="stage4" class="journey-card">
+            <div class="card-header">
+                <div class="stage-number">4</div>
+                <div>
+                    <h2 class="stage-title">Post-Trip & Advocacy</h2>
+                    <p class="stage-subtitle">Sharing and Giving Back</p>
+                </div>
+            </div>
+            
+            <div class="journey-details">
+                <details>
+                     <summary>Current Pain Point</summary>
+                     <div class="details-content">
+                        <p>Many travelers feel uneasy that a large portion of their spending benefits foreign corporations rather than the local community, leaving them feeling disconnected.</p>
+                     </div>
+                </details>
+                <details>
+                    <summary>VAI's Solution</summary>
+                    <div class="details-content">
+                        <p>VAI's <strong>"Value Retention" model</strong> provides a powerful narrative. Travelers know 89% of their payment goes directly to the operator, and the <strong>5% Social Impact Contribution</strong> links their visit to preserving local culture and environment. This compelling story transforms them into active supporters and advocates for the destination.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.journey-card');
+            const navLinks = document.querySelectorAll('.journey-nav a');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4 // When 40% of the section is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const link = document.querySelector(`.journey-nav a[href="#${entry.target.id}"]`);
+                        if (link) {
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Set initial active link on page load
+            const firstLink = document.querySelector('.journey-nav a');
+            if (firstLink) {
+                 setTimeout(() => {
+                     if (window.scrollY < 200) {
+                         firstLink.classList.add('active');
+                     }
+                 }, 100);
+            }
+        });
+    </script>
+
+</body>
+</html>

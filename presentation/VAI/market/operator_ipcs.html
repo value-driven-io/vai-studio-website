@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAI Operator ICPs</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --background-dark: #ffffff;
+            --background-light: #f0f4f8; /* A slightly softer light background */
+            --text-primary: #010004;
+            --text-secondary: #0b0a0d;
+            --accent-glow: #d01362;
+            --accent-border: rgba(139, 148, 158, 0.2);
+            --glass-bg: rgba(242, 243, 246, 0.7);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Poppins', sans-serif;
+            --header-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--background-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .main-header {
+            background-color: var(--background-dark);
+            padding: 0 40px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .main-nav a {
+            font-family: var(--font-body);
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .main-nav a:hover {
+            color: var(--accent-glow);
+        }
+
+        .main-nav a.active {
+            color: var(--accent-glow);
+            font-weight: 600;
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-glow);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--background-dark);
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* --- ICP CARDS --- */
+        .icp-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .icp-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .icp-card-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .icp-card-header .icp-letter {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        
+        .icp-card-header .icp-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-primary);
+        }
+
+        .icp-card p, .icp-card li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        
+        .jtbd-quote {
+            background: var(--background-dark);
+            border-left: 4px solid var(--accent-glow);
+            padding: 15px 20px;
+            margin: 10px 0 0 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        /* --- Accordion for ICP Details --- */
+        .icp-details details {
+            border-bottom: 1px solid var(--accent-border);
+            margin-top: 10px;
+        }
+        .icp-details details:last-of-type {
+            border-bottom: none;
+        }
+
+        .icp-details summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 15px 5px;
+            display: flex;
+            align-items: center;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            position: relative;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+        .icp-details summary::-webkit-details-marker {
+            display: none;
+        }
+        .icp-details summary:hover {
+            color: var(--accent-glow);
+        }
+
+        .icp-details summary i {
+            margin-right: 10px;
+            color: var(--accent-glow);
+            width: 20px;
+            text-align: center;
+        }
+
+        .icp-details summary::after {
+            content: '+';
+            font-size: 1.8rem;
+            font-weight: 300;
+            line-height: 1;
+            color: var(--accent-glow);
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .icp-details details[open] > summary::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+        
+        .icp-details details[open] > summary {
+            color: var(--accent-glow);
+        }
+
+        .details-content {
+            padding: 0px 5px 20px 35px; /* Aligns with text after icon */
+        }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .main-nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-nav a {
+                margin: 5px 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .icp-card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">VAI Market Analysis</div>
+        <nav class="main-nav">
+            <a href="/presentation/VAI/market/intro.html">Intro</a>
+            <a href="/presentation/VAI/market/opportunity.html">Opportunity</a>
+            <a href="/presentation/VAI/market/operator_ipcs.html" class="active">Operator Profiles</a>
+            <a href="/presentation/VAI/market/operator_journey.html">Operator Journey</a>
+            <a href="/presentation/VAI/market/tourist_personas.html">Tourist Personas</a>
+            <a href="/presentation/VAI/market/tourist_journey.html">Tourist Journey</a>
+            <a href="/presentation/VAI/market/strategy.html">VAI Strategy</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Segmentation of the Operator Market</h1>
+        <p>The French Polynesian tourism market is comprised of a diverse array of over 4,500 operators. Understanding their specific "Jobs to be Done" (JTBD) through these Ideal Customer Profiles (ICPs) is the key to unlocking VAI's market potential.</p>
+    </div>
+
+    <main class="container">
+        <div class="icp-card-grid">
+            
+            <!-- ICP-A -->
+            <div class="icp-card">
+                <div class="icp-card-header">
+                    <h2 class="icp-title">🔒</h2>
+                    <span class="icp-letter">ICP-A</span>
+                    <h2 class="icp-title">Digitally Trapped Maximizer</h2>
+                </div>
+                <div class="icp-details">
+                    <details open>
+                        <summary><i class="fas fa-user-tie"></i>Profile</summary>
+                        <div class="details-content">
+                            <p>Digitally advanced, established businesses (dive centers, safari companies) active on multiple OTAs. They are business-savvy but lack an integrated booking engine, leading to manual work.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-exclamation-triangle"></i>Core Pains</summary>
+                        <div class="details-content">
+                            <p><strong>Margin Squeeze:</strong> Losing 20-30% revenue to foreign platform commissions.<br><strong>Operational Chaos:</strong> Managing availability across multiple channels leads to constant struggle and costly double-bookings.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-bullseye"></i>Primary Job-to-be-Done</summary>
+                        <div class="details-content">
+                            <p class="jtbd-quote">"I want to centralize my bookings and increase my profit margins so that I can reinvest in my business and scale sustainably."</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-key"></i>VAI's Appeal</summary>
+                        <div class="details-content">
+                             <p>The <strong>Channel Manager</strong> is the killer feature, creating a single, unified calendar. This is complemented by the low <strong>11% commission</strong> and rapid <strong>48-hour payouts in XPF</strong>.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- ICP-B -->
+            <div class="icp-card">
+                <div class="icp-card-header">
+                    <h2 class="icp-title">💭</h2>
+                    <span class="icp-letter">ICP-B</span>
+                    <h2 class="icp-title">Wishful Digital Adopter</h2>
+                </div>
+                <div class="icp-details">
+                    <details>
+                        <summary><i class="fas fa-user-tie"></i>Profile</summary>
+                        <div class="details-content">
+                            <p>High-quality, passionate small operators (guides, artisans) who are "digitally invisible." They rely on word-of-mouth and informal channels (WhatsApp, Facebook) and are intimidated by the complexity of going online.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-exclamation-triangle"></i>Core Pains</summary>
+                        <div class="details-content">
+                             <p><strong>Lost Revenue:</strong> Potential customers can't find them or give up on a clunky booking process.<br><strong>Administrative Burden:</strong> Overwhelmed tracking inquiries and payments across non-integrated platforms.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-bullseye"></i>Primary Job-to-be-Done</summary>
+                        <div class="details-content">
+                            <p class="jtbd-quote">"I want to professionalize my business and be discoverable online so that I can attract more international clients and stop losing bookings."</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-key"></i>VAI's Appeal</summary>
+                        <div class="details-content">
+                             <p>The transformative feature is the <strong>free, one-page website with integrated booking</strong>. The simple Operator App and integrated Stripe Connect for payments remove massive friction points.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- ICP-C -->
+            <div class="icp-card">
+                <div class="icp-card-header">
+                    <h2 class="icp-title">🗿</h2>
+                    <span class="icp-letter">ICP-C</span>
+                    <h2 class="icp-title">Traditional Host</h2>
+                </div>
+                <div class="icp-details">
+                    <details>
+                        <summary><i class="fas fa-user-tie"></i>Profile</summary>
+                        <div class="details-content">
+                            <p>The heart of Polynesian hospitality, running family-owned guesthouses (pensions de famille). They are less tech-savvy and wary of platforms that might commodify their culture. Their business is highly relational.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-exclamation-triangle"></i>Core Pains</summary>
+                        <div class="details-content">
+                            <p><strong>Limited Reach:</strong> Difficulty reaching a broader international audience, especially in the off-season.<br><strong>Feeling Left Behind:</strong> A sense of being disadvantaged by the digital economy and using cumbersome, paper-based processes.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-bullseye"></i>Primary Job-to-be-Done</summary>
+                        <div class="details-content">
+                             <p class="jtbd-quote">"I want to share my home and culture with respectful guests and earn a stable income so that I can preserve my family's way of life."</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-key"></i>VAI's Appeal</summary>
+                        <div class="details-content">
+                            <p><strong>Trust and cultural alignment</strong> are paramount. VAI's local identity, full Tahitian language support, and <strong>5% Social Impact Contribution</strong> resonate deeply with their community-centric values.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- ICP-D -->
+            <div class="icp-card">
+                <div class="icp-card-header">
+                    <h2 class="icp-title">🦺</h2>
+                    <span class="icp-letter">ICP-D</span>
+                    <h2 class="icp-title">Niche Independent</h2>
+                </div>
+                <div class="icp-details">
+                    <details>
+                        <summary><i class="fas fa-user-tie"></i>Profile</summary>
+                        <div class="details-content">
+                            <p>The "one-person show" - a highly skilled sole proprietor offering a specialized, premium service (e.g., private fishing guide, surf instructor). Their business is their personal brand, managed via direct communication.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-exclamation-triangle"></i>Core Pains</summary>
+                        <div class="details-content">
+                             <p><strong>Time is their most valuable asset.</strong> Administrative tasks like scheduling, invoicing, and chasing payments are a significant drain.<br><strong>Payment Friction:</strong> Challenges with international payments (high fees, delays) are a major frustration.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-bullseye"></i>Primary Job-to-be-Done</summary>
+                        <div class="details-content">
+                            <p class="jtbd-quote">"I want to simplify my administration and get paid quickly and reliably so that I can spend more time doing what I love with my clients."</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><i class="fas fa-key"></i>VAI's Appeal</summary>
+                        <div class="details-content">
+                            <p><strong>Automation of booking and payment</strong> is the central value. The secure, automated payment system and game-changing <strong>48-hour payout in XPF</strong> provide unparalleled financial stability and convenience.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
+

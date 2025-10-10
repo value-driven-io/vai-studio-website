@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAI Tourist Personas</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --background-dark: #ffffff;
+            --background-light: #f0f4f8; /* A slightly softer light background */
+            --text-primary: #010004;
+            --text-secondary: #0b0a0d;
+            --accent-glow: #d01362;
+            --accent-border: rgba(139, 148, 158, 0.2);
+            --glass-bg: rgba(242, 243, 246, 0.7);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Poppins', sans-serif;
+            --header-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--background-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .main-header {
+            background-color: var(--background-dark);
+            padding: 0 40px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .main-nav a {
+            font-family: var(--font-body);
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .main-nav a:hover {
+            color: var(--accent-glow);
+        }
+
+        .main-nav a.active {
+            color: var(--accent-glow);
+            font-weight: 600;
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-glow);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--background-dark);
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* --- PERSONA CARDS --- */
+        .persona-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+        
+        .persona-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .persona-card-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .persona-icon {
+            font-size: 2.5rem;
+            color: var(--accent-glow);
+            margin-bottom: 15px;
+        }
+        
+        .persona-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-primary);
+        }
+        
+        .persona-subtitle {
+             font-size: 1rem;
+             font-weight: 500;
+             color: var(--text-secondary);
+             margin-top: -5px;
+        }
+
+        .persona-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            flex-grow: 1; /* Pushes keywords to the bottom */
+        }
+        
+        .keywords {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .keywords span {
+            display: inline-block;
+            background-color: var(--accent-border);
+            color: var(--text-secondary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 3px;
+        }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .main-nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-nav a {
+                margin: 5px 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .persona-card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">VAI Market Analysis</div>
+        <nav class="main-nav">
+            <a href="/presentation/VAI/market/intro.html">Intro</a>
+            <a href="/presentation/VAI/market/opportunity.html">Opportunity</a>
+            <a href="/presentation/VAI/market/operator_ipcs.html">Operator Profiles</a>
+            <a href="/presentation/VAI/market/operator_journey.html">Operator Journey</a>
+            <a href="/presentation/VAI/market/tourist_personas.html" class="active">Tourist Personas</a>
+            <a href="/presentation/VAI/market/tourist_journey.html">Tourist Journey</a>
+            <a href="/presentation/VAI/market/strategy.html">VAI Strategy</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Potential Client Segments (Tourist Personas)</h1>
+        <p>The 263,766 tourists who visited French Polynesia in 2024 arrive with diverse motivations, budgets, and planning styles. Four key personas represent the primary target segments for the VAI Tickets platform.</p>
+    </div>
+
+    <main class="container">
+        <div class="persona-card-grid">
+            
+            <!-- Persona 1 -->
+            <div class="persona-card">
+                <div class="persona-card-header">
+                    <div class="persona-icon"><i class="fas fa-compass"></i></div>
+                    <h2 class="persona-title">🔍</h2>
+                    <h2 class="persona-title">The Independent Explorer</h2>
+                    <p class="persona-subtitle">Free Independent Traveler (FIT)</p>
+                </div>
+                <p>This tech-savvy traveler avoids pre-packaged tours, preferring self-curated itineraries. They conduct extensive online research to discover unique, authentic experiences and value flexibility and direct interaction with local culture. Their primary frustration is the difficulty of finding and booking hidden gems.</p>
+                <div class="keywords">
+                    <span>Authenticity</span>
+                    <span>Flexibility</span>
+                    <span>Self-Curated</span>
+                </div>
+            </div>
+
+            <!-- Persona 2 -->
+            <div class="persona-card">
+                <div class="persona-card-header">
+                    <div class="persona-icon"><i class="fas fa-gem"></i></div>
+                    <h2 class="persona-title">💎</h2>
+                    <h2 class="persona-title">The Luxury Seeker</h2>
+                    <p class="persona-subtitle">Honeymooner / Wealthy Couple</p>
+                </div>
+                <p>Less price-sensitive, this segment prioritizes seamless, premium, and often private experiences. While staying in high-end resorts, they actively seek exclusive activities like private boat charters or personalized cultural tours. Their journey is defined by a desire for quality, privacy, and flawless execution.</p>
+                <div class="keywords">
+                    <span>Premium</span>
+                    <span>Privacy</span>
+                    <span>Exclusivity</span>
+                </div>
+            </div>
+
+            <!-- Persona 3 -->
+            <div class="persona-card">
+                <div class="persona-card-header">
+                    <div class="persona-icon"><i class="fas fa-hiking"></i></div>
+                    <h2 class="persona-title">🥾</h2>
+                    <h2 class="persona-title">The Adventure Traveler</h2>
+                    <p class="persona-subtitle">Activity-Focused</p>
+                </div>
+                <p>Motivated by specific activities like world-class diving, surfing legendary waves, or hiking volcanic peaks. They are often experienced travelers who research and book with specialized, highly-reputable operators. Their planning process is activity-centric, seeking reliable and exceptional experiences.</p>
+                 <div class="keywords">
+                    <span>Specialized</span>
+                    <span>Reputation</span>
+                    <span>Activity-Centric</span>
+                </div>
+            </div>
+
+            <!-- Persona 4 -->
+            <div class="persona-card">
+                <div class="persona-card-header">
+                    <div class="persona-icon"><i class="fas fa-wallet"></i></div>
+                    <h2 class="persona-title">🤑</h2>
+                    <h2 class="persona-title">The Budget-Conscious Traveler</h2>
+                    <p class="persona-subtitle">Families / Couples</p>
+                </div>
+                <p>This segment makes French Polynesia accessible by staying in pensions de famille, self-catering, and balancing paid excursions with free activities. They are value-driven and actively seek out local experiences that offer both authenticity and affordability through significant research and local recommendations.</p>
+                <div class="keywords">
+                    <span>Value-Driven</span>
+                    <span>Affordability</span>
+                    <span>Local</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAI Market Opportunity</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons (Corrected Link) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --background-dark: #ffffff;
+            --background-light: #f0f4f8;
+            --text-primary: #010004;
+            --text-secondary: #0b0a0d;
+            --accent-glow: #d01362;
+            --accent-border: rgba(139, 148, 158, 0.2);
+            --glass-bg: rgba(242, 243, 246, 0.7);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Poppins', sans-serif;
+            --header-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--background-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .main-header {
+            background-color: var(--background-dark);
+            padding: 0 40px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .main-nav a {
+            font-family: var(--font-body);
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .main-nav a:hover {
+            color: var(--accent-glow);
+        }
+
+        .main-nav a.active {
+            color: var(--accent-glow);
+            font-weight: 600;
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-glow);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--background-dark);
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* --- CONTENT SECTION --- */
+        .content-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            margin-bottom: 30px;
+        }
+        
+        .content-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .content-title i {
+            color: var(--accent-glow);
+            margin-right: 15px;
+            font-size: 1.8rem;
+        }
+
+        .highlight-box {
+            background-color: var(--background-dark);
+            border: 1px solid var(--accent-border);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .highlight-box h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .highlight-box .amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+        }
+        
+        /* --- ACCORDION --- */
+        .accordion-item {
+            border-bottom: 1px solid var(--accent-border);
+            padding: 15px 0;
+        }
+        
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            color: var(--text-primary);
+        }
+        
+        .accordion-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            color: var(--accent-glow);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding-left: 5px;
+        }
+        
+        .accordion-content p {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            padding-right: 20px;
+        }
+        
+        .accordion-item.active .accordion-icon {
+            transform: rotate(45deg);
+        }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-nav a {
+                margin: 5px 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .content-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">VAI Presentation</div>
+        <nav class="main-nav">
+            <a href="/presentation/VAI/market/intro.html">Intro</a>
+            <a href="/presentation/VAI/market/opportunity.html" class="active">Opportunity</a>
+            <a href="/presentation/VAI/market/operator_ipcs.html">Operator Profiles</a>
+            <a href="/presentation/VAI/market/operator_journey.html">Operator Journey</a>
+            <a href="/presentation/VAI/market/tourist_personas.html">Tourist Personas</a>
+            <a href="/presentation/VAI/market/tourist_journey.html">Tourist Journey</a>
+            <a href="/presentation/VAI/market/strategy.html">VAI Strategy</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Sizing the Opportunity</h1>
+        <p>From the massive global travel industry down to a specific, achievable target in French Polynesia, here's how we define the market for VAI.</p>
+    </div>
+
+    <main class="container">
+
+        <!-- Section 1: TAM -->
+        <section class="content-section">
+            <h2 class="content-title"><i class="fas fa-globe-americas"></i>Step 1: The Global Context (TAM)</h2>
+            <p>The big picture is clear: the world loves to travel. The global tourism market is worth trillions, and key trends perfectly match what French Polynesia offers.</p>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>Adventure & Luxury are Booming</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>The Adventure Tourism market (over $400 billion) and the Luxury Travel market (over $1.4 trillion) are growing fast. These are travelers looking for the exact kind of unique, high-quality experiences that local Polynesian operators provide.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>Travelers Want to Be Independent</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>The biggest shift in travel is the move away from pre-packaged tours. More than ever, people want to plan their own trips and find authentic, local experiences. This creates a huge demand for a platform that connects them directly with the small operators who are currently hard to find.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: SAM -->
+        <section class="content-section">
+            <h2 class="content-title"><i class="fas fa-filter"></i>Step 2: The Local Market (SAM)</h2>
+            <p>Now, let's focus on French Polynesia. It's a high-value destination where tourists stay longer and spend more, creating a rich market for activities.</p>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>High-Value Tourism</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>In 2024, over 263,000 tourists visited, with the government aiming for 600,000 soon. Each tourist spends around $3,400 during their trip (an average of 16 days), making the total economic impact massive.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h3>Total Yearly Spend on Tours & Activities</h3>
+                <p class="amount">~$180 Million</p>
+            </div>
+        </section>
+
+        <!-- Section 3: SOM -->
+        <section class="content-section">
+            <h2 class="content-title"><i class="fas fa-bullseye"></i>Step 3: VAI's Target Market (SOM)</h2>
+            <p>To get a realistic target, we focus on the right type of tourist and assume a conservative market share to start.</p>
+             <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>Focusing on the "Land-Based" Tourist</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Our primary target isn't cruise passengers, who have limited time and book through the cruise line. Our focus is on the 80% of tourists who stay on the islands. They stay longer (16 days on average) and actively plan and book their own activities, facing all the frustrations VAI is designed to solve.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h3>Initial Achievable Goal (5% of Market)</h3>
+                <p class="amount">~$7.2 Million</p>
+                <h3>in Gross Booking Value</h3>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                    const content = item.querySelector('.accordion-content');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

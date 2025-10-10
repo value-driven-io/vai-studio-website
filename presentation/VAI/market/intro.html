@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAI Introduction</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons (Corrected Link) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --background-dark: #ffffff;
+            --background-light: #f0f4f8;
+            --text-primary: #010004;
+            --text-secondary: #0b0a0d;
+            --accent-glow: #d01362;
+            --accent-border: rgba(139, 148, 158, 0.2);
+            --glass-bg: rgba(242, 243, 246, 0.7);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Poppins', sans-serif;
+            --header-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--background-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .main-header {
+            background-color: var(--background-dark);
+            padding: 0 40px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .main-nav a {
+            font-family: var(--font-body);
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .main-nav a:hover {
+            color: var(--accent-glow);
+        }
+
+        .main-nav a.active {
+            color: var(--accent-glow);
+            font-weight: 600;
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-glow);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--background-dark);
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* --- CONTENT SECTION --- */
+        .content-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--accent-border);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            margin-bottom: 30px;
+        }
+        
+        .content-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .content-title i {
+            color: var(--accent-glow);
+            margin-right: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .content-section > p {
+            margin-bottom: 20px;
+        }
+
+        /* --- ACCORDION --- */
+        .accordion-item {
+            border-bottom: 1px solid var(--accent-border);
+            padding: 15px 0;
+        }
+        
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            color: var(--text-primary);
+        }
+        
+        .accordion-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            color: var(--accent-glow);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding-left: 5px;
+        }
+        
+        .accordion-content p {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            padding-right: 20px;
+        }
+        
+        .accordion-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(45deg);
+        }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            .main-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            .main-nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-nav a {
+                margin: 5px 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .content-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">VAI Market Analysis</div>
+        <nav class="main-nav">
+            <a href="/presentation/VAI/market/intro.html" class="active">Intro</a>
+            <a href="/presentation/VAI/market/opportunity.html">Opportunity</a>
+            <a href="/presentation/VAI/market/operator_ipcs.html">Operator Profiles</a>
+            <a href="/presentation/VAI/market/operator_journey.html">Operator Journey</a>
+            <a href="/presentation/VAI/market/tourist_personas.html">Tourist Personas</a>
+            <a href="/presentation/VAI/market/tourist_journey.html">Tourist Journey</a>
+            <a href="/presentation/VAI/market/strategy.html">VAI Strategy</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>VAI Market Analysis</h1>
+        <p>To understand VAI's potential, we must first see the challenging world of French Polynesia's local tourism operators. They are the heart of the economy, but they're trapped in a system that limits their success. This page describes the target group and how VAI will bring maximum value to each of them.</p>
+    </div>
+
+    <main class="container">
+
+        <!-- Section 1: The Market -->
+        <section class="content-section">
+            <h2 class="content-title"><i class="fas fa-map-pin"></i>The Local Market Landscape</h2>
+            <p>Tourism is the engine of French Polynesia's economy. But this engine isn't run by big corporations; it's powered by over 5,000 small, local, family-run businesses. These are the people offering the authentic experiences tourists travel across the world for.</p>
+            <p>Most of these are one-person operations. The owner is also the guide, the accountant, and the marketer. They are passionate and hardworking, but they are also short on time and money, and often overwhelmed by paperwork. This is who VAI is built to help.</p>
+        </section>
+
+        <!-- Section 2: The Core Problems -->
+        <section class="content-section">
+            <h2 class="content-title"><i class="fas fa-exclamation-triangle"></i>Four Core Problems Operators Face Daily</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>1. The "Margin Squeeze"</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>To get seen by international tourists, operators are forced to use foreign-owned websites like Viator and Expedia. These platforms take huge commissions, from 20% to over 30% of the booking price. This means a massive amount of money leaves the local economy and goes straight to overseas companies.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>2. Cash Flow Instability</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>On top of high fees, operators have to wait 30 to 60 days after a tour to get paid by these big platforms. For a small business, this long wait creates huge stress and makes it hard to pay bills and invest in their business. The payments also often come in foreign currency, adding extra fees.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>3. The Booking Nightmare</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Bookings come from everywhere: multiple websites, email, WhatsApp, and phone calls. With no central system, operators have to manually update several calendars to avoid costly double-bookings. This administrative chaos wastes countless hours that could be spent with customers.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <h3>4. Digital Invisibility</h3>
+                        <i class="fas fa-plus accordion-icon"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Most small operators don't have the time or money to build a professional website that can take bookings. This "digital invisibility" makes them completely dependent on the high-commission platforms for survival. They can't compete, and they lose control over their own business.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Opportunity -->
+         <section class="content-section">
+            <h2 class="content-title"><i class="fas fa-key"></i>The Opportunity: A Better Partnership</h2>
+            <p>The relationship with big online travel agencies is a "necessary evil." Operators get visibility, but they lose a huge chunk of their profit and control. This creates a powerful need for an alternative.</p>
+            <p>VAI's mission is to solve this conflict. It offers a solution that isn't just cheaper, but is a fundamentally fair and empowering partnership, designed to keep value in the local community and give operators back control of their destiny. And all of this <strong>without creating competition for global OTA players</strong>. Instead VAIs Vision is to offer full enhancement while integrating into any existing system.</p>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    // This script allows only one accordion item to be open at a time within its section.
+                    const parentAccordion = item.closest('.accordion');
+                    parentAccordion.querySelectorAll('.accordion-item').forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                        }
+                    });
+
+                    // Toggle the clicked item
+                    item.classList.toggle('active');
+                    const content = item.querySelector('.accordion-content');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
